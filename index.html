@@ -519,7 +519,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.10.0", "b": 21, "t": "2026-11-13T06:59:50+08:00"};
+const ZC_VER={"v": "0.10.1", "b": 22, "t": "2026-11-13T07:02:02+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -1974,7 +1974,7 @@ N.K2.c.splice(3,0,{l:'在一樓的空房睡到天亮',s:'睡前最好先吃點�
 {const C=N.E2o.c;const okRes=C.find(c=>c.need==='c2341x2').ok;
  const gi=C.findIndex(c=>c.need==='c2341x2');C.splice(gi,1,{l:'轉保險箱的密碼',s:'四位數',stay:1,hide:'safeopen',ok:{t:'你蹲在保險箱前面，手指搭上轉盤。',code:{ans:'2341',ok:Object.assign({},okRes,{r:Object.assign({},okRes.r,{flag:'safeopen'})}),ng:{t:'最後一格轉完，保險箱沒有任何反應。轉盤喀喀地退回原位。',p:{alarm:1}}}}});
  const li=C.findIndex(c=>c.k==='INT');if(li>=0){C[li].hide='safeopen';C[li].ok=Object.assign({},C[li].ok,{r:Object.assign({},C[li].ok.r,{flag:'safeopen'})})}}
-N.Q4.c.splice(1,0,{l:'問他那間旅館的人送去哪裡了',s:'你看過那份名單',need:'acrulist',ok:{t:`他愣了一下，面罩後面的眼睛眨了眨。
+N.Q4.c.splice(1,0,{l:'問他那間旅館的人送去哪裡了',s:'你看過那份名單',need:'acrulist',hide:'shadow',ok:{t:`他愣了一下，面罩後面的眼睛眨了眨。
 
 「你怎麼知道那份名單？」他壓低聲音，「旅館那一批……第一批送去城東的，就是那裡的人。接送車本來是要等到天亮的，可是有人提早發病了。」
 
