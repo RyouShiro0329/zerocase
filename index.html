@@ -519,7 +519,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.9.0", "b": 20, "t": "2026-11-13T06:27:57+08:00"};
+const ZC_VER={"v": "0.10.0", "b": 21, "t": "2026-11-13T06:59:50+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -558,6 +558,7 @@ const ITEMS={
  hardhat:{n:'工地安全帽',t:'wear',slot:'head',d:'頭。白色的工地安全帽。受到的傷害 −1，耐久 10。',armor:1,dur:10},
  motohelmet:{n:'機車安全帽',t:'wear',slot:'head',d:'頭。全罩式安全帽，視線差了一點但很耐打。受到的傷害 −1，耐久 20。',armor:1,dur:20},
  riotvest:{n:'防爆背心',t:'wear',slot:'body',d:'身體。從防爆警衛身上扒下來的。受到的傷害 −2。',armor:2},
+ gasmask:{n:'防毒面具',t:'wear',slot:'head',d:'頭。全罩式防毒面具，不擋傷害，不能和安全帽一起戴。裝上濾毒罐之後，污染區的空氣就進不來；濾罐用完會自動換上背包裡的下一個。',armor:0,wd:'裝上濾毒罐就不怕污染的空氣'},
  // 彈藥
  ammo9:{n:'9×19mm 子彈',t:'ammo',d:'貝瑞塔與 MP5 用。非常稀少。'},
  ammo38:{n:'.38 特殊彈',t:'ammo',d:'Model 10 左輪用。非常稀少。'},
@@ -576,9 +577,12 @@ const ITEMS={
  // 工具
  lighter:{n:'打火機',t:'tool',d:'合成工具，不會消耗。點燃燃燒瓶、香菸也需要它。'},
  flashlight:{n:'手電筒',t:'tool',d:'在黑暗的地方，感知檢定不會受罰。'},
+ spreader:{n:'液壓破拆工具',t:'tool',d:'消防隊用的油壓擴張器，很重。撐得開卡死的鐵門和壓扁的車殼。不會消耗。'},
+ filter:{n:'濾毒罐',t:'tool',d:'防毒面具用的濾罐。在污染區裡大約撐 6 小時；只有在污染區才會消耗。'},
  pliers:{n:'鉗子',t:'tool',d:'合成工具，不會消耗。能彎鐵絲和衣架。'},
  // 材料
  cloth:{n:'布料',t:'mat',d:'床單、毛巾、制服內襯撕下來的布。'},
+ fuse:{n:'高壓保險絲',t:'mat',d:'一根手臂長的陶瓷管，配電站用的。'},
  tape:{n:'膠帶',t:'mat',d:'寬版布膠帶。綁、黏、修都靠它：鈍器與長柄武器耐久 +6。',fix:6,fixFor:'pole'},
  rope:{n:'尼龍繩',t:'mat',d:'細而結實的繩子，可以當弓弦。'},
  nails:{n:'釘子',t:'mat',d:'一小盒長鐵釘。'},
@@ -635,7 +639,7 @@ const PRICE={water:3,cola:2,coffee:3,whiskey:4,cigarette:2,bar:2,chips:2,nuts:2,
  ammo9:4,ammo38:4,shell:5,arrow:1,bolt:2,shot:1,molotov:6,extinguisher:5,
  lighter:3,flashlight:6,pliers:4,cloth:1,tape:2,rope:2,nails:2,battery:1,pipe:2,glass:1,bottle:1,sock:1,coin:1,hanger:1,magazine:1,hairspray:2,fuel:3,tourniquet:2,chopsticks:1,board:1,mop:1,pvc:2,tableleg:1,blade:3,deadlight:2,sewing:2,
  whetstone:4,superglue:3,repairkit:15,gunoil:5,
- bracer:4,jacket:15,motoarm:8,motoleg:8,hardhat:10,motohelmet:12,riotvest:30};
+ bracer:4,jacket:15,motoarm:8,motoleg:8,hardhat:10,motohelmet:12,riotvest:30,gasmask:20,filter:8,fuse:6,spreader:40};
 const SHOPS={
  jesse:{n:'便利商店・傑西',d:'傑西站在收銀機後面，把能賣的東西一樣一樣擺上櫃台。「現金就好。價錢……我也是照感覺開的，別跟我殺價。」',n0:6,n1:7,
   pool:['water','cola','coffee','bar','chips','nuts','cookie','noodle','cigarette','bandage','sbandage','painkiller','iodine','lighter','battery','tape','flashlight','ammo38','sedative','antibiotic']},
@@ -1732,12 +1736,11 @@ M5:{L:'M',n:'便利商店・出口',
   {l:'走進地鐵站',ok:{t:`你走下樓梯。下面的空氣又冷又濕。`,go:'U1'}}]},
 /* ---------- Q 封鎖線 ---------- */
 Q1:{L:'Q',n:'封鎖線外',next:'Q2',
- t:`拒馬拉了整整一條街，紅黑兩色，每隔幾公尺就掛著一面牌子：「A.C.R.U. 醫療隔離區　禁止進入　違者後果自負」。
+ tx:()=>G.flags.acru?'拒馬上的牌子全被換掉了。新的牌子是黑底白字：「A.C.R.U. 滅菌作業區　擅入者即刻處置」。角落印著一根杖、一條蛇，杖的尖端畫得像一根針。':G.flags.shadow?'有幾面市衛生局的牌子被撕了下來，丟在路邊。地上多了幾道很寬的新輪胎痕，不是國民兵卡車的紋路。':'',
+ t:`拒馬拉了整整一條街，紅黑兩色，每隔幾公尺就掛著一面牌子：「市衛生局　醫療隔離區　禁止進入　違者依法究辦」。牌子下方印著國民兵的徽章。
 
-牌子上的標誌你在旅館地下室看過：一根杖、一條蛇。只是這裡的杖被畫得更尖，更像一根矛，或是一根很大的針。
-
-拒馬後面停著兩台裝甲車，車頂上架著探照燈。沒有人。只有無人機在頭頂上嗡嗡地轉。`,
- tm:`你是律師。你知道「後果自負」這四個字在法律上是什麼意思。你也知道，它在這裡是什麼意思。`,
+拒馬後面停著兩台國民兵的裝甲車，車頂上架著探照燈。沒有人。只有無人機在頭頂上嗡嗡地轉。`,
+ tm:`你是律師。你知道「依法究辦」這四個字平常是什麼意思。你也知道，今天晚上它大概什麼意思都沒有。`,
  c:[
   {l:'觀察無人機的巡邏路線',k:'PER',d:12,s:'感知檢定',ok:{t:`你看了五分鐘。無人機每四十秒繞一圈，西邊那段拒馬有一個死角。你算準時間，從死角鑽了過去。`,r:{flag:'dronegap'}},ng:{t:`你看得太專心，忘了自己也在燈光範圍裡。探照燈一下子打在你身上。擴音器響了：「隔離區外人員，請立即離開。重複，請立即離開。」`,p:{alarm:3,fear:6}}},
   {l:'翻過拒馬',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你趁探照燈轉開的瞬間翻了過去。拒馬上的鐵絲勾破了你的外套，但沒有勾到你。`},ng:{t:`鐵絲劃開了你的手臂。你還是翻過去了，但血滴了一路。`,p:{hp:-2,bleed:1}}}]},
@@ -1746,26 +1749,28 @@ Q2:{L:'Q',n:'裝甲車',next:'Q3',
 
 地上散落著空的針筒、撕開的防護衣，還有一台平板電腦，螢幕裂了，但還亮著。
 
-裝甲車外面的地上有一個人。他穿著全套紅黑色的防護裝備，面罩破了，臉朝下趴著。他的手邊有一個彈匣。`,
+裝甲車外面的地上有一個人。他穿著國民兵的迷彩制服，外面套著一件拋棄式防護衣，面罩破了，臉朝下趴著。他的手邊有一個彈匣。`,
  c:[
-  {l:'看平板電腦',k:'INT',d:12,s:'智力檢定',ok:{t:`平板停在一份表單上：「收容對象：第二期受試者／接觸者　狀態：轉送　目的地：ARC 設施（代號已遮蔽）」。下面一長串名字，有些被打了勾，有些被畫了叉。
+  {l:'看平板電腦',k:'INT',d:12,s:'智力檢定',ok:{t:`平板停在一份表單上：「收容對象：第二期受試者／接觸者　狀態：轉送　接收單位：（權限不足，無法顯示）」。下面一長串名字，有些被打了勾，有些被畫了叉。
 
 你在名單的最後一頁，看見一個你認識的地名。是你住的那間旅館。`,r:{flag:'acrulist'},p:{fear:8}},ng:{t:`平板跳出一個視窗：「請掃描識別證」。三秒後，它自動鎖上了。`}},
-  {l:'搜那個趴著的隊員',k:'CON',d:11,s:'體質檢定：靠近他',ok:{t:`他已經死了，防護衣下面的身體腫脹發黑。他的腰包裡有一盒軍用急救包，還有幾發子彈和一捲美金。他的槍不見了。`,r:{items:{surgkit:1,ammo9:4},usd:10},p:{fear:6}},ng:{t:`你翻他的時候，他的手指動了一下。你往後退，他慢慢撐了起來，面罩裡的臉已經不是人的臉了。`,p:{fear:8},fight:{n:1,mode:'normal',names:['A.C.R.U. 隊員']}}},
+  {l:'搜那個趴著的國民兵',k:'CON',d:11,s:'體質檢定：靠近他',ok:{t:`他已經死了，防護衣下面的身體腫脹發黑。他的腰包裡有一盒軍用急救包，還有幾發子彈和一捲美金。他的槍不見了。`,r:{items:{surgkit:1,ammo9:4},usd:10},p:{fear:6}},ng:{t:`你翻他的時候，他的手指動了一下。你往後退，他慢慢撐了起來，面罩裡的臉已經不是人的臉了。`,p:{fear:8},fight:{n:1,mode:'normal',names:['穿防護衣的國民兵']}}},
   {l:'快速通過',ok:{t:`你不想知道裝甲車裡發生過什麼。你低著頭跑過去。`}}]},
 Q3:{L:'Q',ev:1,next:'Q4'},
 Q4:{L:'Q',n:'臨時檢疫站',next:'Q5',
- t:`封鎖線後面搭著幾頂白色的帳篷，帳篷上印著紅十字，還有那個像針一樣的標誌。
+ tx:()=>G.flags.acru?'帳篷被燒成了一副副鐵骨架，地上的灰還是溫的。折疊桌倒在一邊，那疊同意書一張都不剩。':G.flags.shadow?'咳嗽聲沒有了。帳篷全空了，行軍床上的束帶都被剪斷，地上留著一排很整齊的鞋印，一路走到路邊。國民兵的醫護兵也不見了。':'',
+ t:`封鎖線後面搭著幾頂白色的帳篷，帳篷上印著紅十字和「市衛生局」的字樣。
 
 帳篷裡傳來咳嗽聲。很多人在咳，此起彼落。
 
-帳篷外面有一張折疊桌，桌上放著一疊表格和一支筆。表格的標題是：「自願接受觀察同意書」。桌子旁邊站著一個穿防護衣的人，背對著你，一動也不動。`,
+帳篷外面有一張折疊桌，桌上放著一疊表格和一支筆。表格的標題是：「自願接受觀察同意書」，抬頭沒有印任何單位的名字。桌子旁邊站著一個穿防護衣的人，背對著你，一動也不動。`,
  c:[
-  {l:'走過去跟他說話',k:'CHA',d:13,s:'魅力檢定',ok:{t:`他轉過身來，面罩後面是一個疲憊的年輕人。他是活人。他看了你一眼，低聲說：「不要簽。往十字路口走，不要回頭。」然後他塞給你一支鎮定劑，又轉回去背對著你。`,r:{items:{sedative:1},flag:'medichint'},p:{fear:-6}},ng:{t:`他轉過身來。面罩裡的臉被一層灰白色的纖維組織蓋滿了，眼睛的位置只剩兩個凹陷。那層組織隨著呼吸一起一伏。`,p:{fear:12},fight:{n:1,mode:'ambush',names:['穿防護衣的東西']}}},
-  {l:'偷看帳篷裡',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你掀開帳篷的一角。裡面是一排排行軍床，每張床上都綁著一個人。有些還在咳嗽，有些已經不動了。床尾掛著牌子，寫著日期和一個字：「觀察」。
+  {l:'走過去跟他說話',hide:'shadow',k:'CHA',d:13,s:'魅力檢定',ok:{t:`他轉過身來，面罩後面是一個疲憊的年輕人，防護衣底下露出國民兵醫護兵的臂章。他是活人。他看了你一眼，低聲說：「不要簽。往十字路口走，不要回頭。」然後他塞給你一支鎮定劑，又轉回去背對著你。`,r:{items:{sedative:1},flag:'medichint'},p:{fear:-6}},ng:{t:`他轉過身來。面罩裡的臉被一層灰白色的纖維組織蓋滿了，眼睛的位置只剩兩個凹陷。那層組織隨著呼吸一起一伏。`,p:{fear:12},fight:{n:1,mode:'ambush',names:['穿防護衣的東西']}}},
+  {l:'偷看帳篷裡',hide:'shadow',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你掀開帳篷的一角。裡面是一排排行軍床，每張床上都綁著一個人。有些還在咳嗽，有些已經不動了。床尾掛著牌子，寫著日期和一個字：「觀察」。
 
 你放下帳篷，退了出來。`,p:{fear:10},r:{flag:'tentseen'}},ng:{t:`你掀開帳篷的瞬間，離你最近的那張床上的人坐了起來，束帶一條一條斷掉。`,p:{fear:10},fight:{n:2,mode:'normal',names:['帳篷裡的病人','帳篷裡的病人']}}},
-  {l:'繞過檢疫站',ok:{t:`你繞了很大一圈。咳嗽聲一直跟著你。`,p:{fear:4}}}]},
+  {l:'翻一翻空帳篷',need:'shadow',hide:'acru',k:'PER',d:12,s:'感知檢定',once:1,ok:{t:`他們搬得很急。一張行軍床底下滾著一盒沒開的藥，帳篷角落還有一個被踩扁的保溫箱，箱子上的標誌被刮掉了一半：一根杖，一條蛇。`,r:{items:{antibiotic:1,sedative:1},flag:'acruseen'},p:{fear:6}},ng:{t:`你只翻到一地被剪斷的束帶。每一條的切口都一樣整齊。`,p:{fear:6}}},
+  {l:'繞過檢疫站',ok:{t:`你繞了很大一圈，一直沒有回頭。`,p:{fear:4}}}]},
 Q5:{L:'Q',n:'封鎖線・盡頭',
  t:`封鎖線的盡頭被炸開了一個缺口。缺口外面，是一個空蕩蕩的大十字路口。
 
@@ -2077,6 +2082,101 @@ EVPOOL.push(
   {l:'不要過去',ok:{t:`你看著那台卡車關上門開走。沒有人從裡面出來過。`,p:{fear:8}}},
   {l:'看看他們把人帶去哪',k:'PER',d:14,ok:{t:`卡車往旅館的方向開。你想起旅館地下那扇白色的門。`,r:{flag:'acrutruck'},p:{fear:10}},ng:{t:`卡車轉過街角就不見了。`,p:{fear:4}}}]}
 );
+/* ================= v0.10.0 新地點：消防局、醫院、配電站 =================
+   都從街區中樞 Z0 前往。消防局拿防毒面具、濾罐、液壓破拆工具；破拆工具可以撐開路口的公車抄近路到醫院、撬開配電站的鐵門。
+   醫院地下機房有高壓保險絲；停電之後配電站出現，修好就恢復街區供電（streetpower），代價是夜裡路燈會把人照出來。 */
+Object.assign(LV,{
+ T:{n:'消防局',sub:'第 9 分隊',en:'FIRE STATION 9',rule:'紅色的車庫門，還有人在裡面。',fx:{},ch:2,indoor:1},
+ O:{n:'醫院',sub:'聖瑪莉醫院',en:'ST. MARY’S HOSPITAL',rule:'最早出事的地方。',fx:{},ch:2,indoor:1},
+ W:{n:'配電站',sub:'高壓危險',en:'SUBSTATION',rule:'鐵絲網後面，整片變壓器都安靜了。',fx:{},ch:2}
+});
+Object.assign(LV_POOL,{T:['infected'],O:['infected','incubator'],W:['infected']});
+N.Z0.c.splice(1,0,
+ {l:'去消防局',s:'第 9 分隊的車庫門還開著一半',ok:{t:`你們沿著大馬路往北邊走，那扇紅色的車庫門越來越近。`,go:'T0'}},
+ {l:'去醫院',s:'路口被一台翻倒的公車堵住，只能繞遠路',ok:{t:`你們繞過那台翻倒的公車，從後面的小路往醫院走。`,go:'O0'}},
+ {l:'抄近路到醫院',req:'spreader',t:'q',s:'用破拆工具撐開壓在路口的那台公車',ok:{t:`你把油壓擴張器塞進公車和路燈之間的縫，一下一下壓。鐵皮慢慢彎開，剛好讓一個人鑽過去。`,p:{alarm:1},go:'O0'}},
+ {l:'去配電站',need:'blackout',s:'停電之後，那片鐵絲網後面就沒有聲音了',ok:{t:`你們往街區東邊走，越走越暗。`,go:'W0'}});
+Object.assign(N,{
+/* ---------- 消防局 ---------- */
+T0:{L:'T',n:'消防局・車庫',rest:1,
+ onEnter(){if(G.flags.evacgone)G.flags.fdopen=1},
+ tx:()=>G.flags.acru?'車庫門被人從外面用鐵鍊鎖上，又被剪開了。裡面翻得亂七八糟，牆上的值班表被撕掉，地上有一排很整齊的靴印。':G.flags.evacgone?'人都走了。白板上寫著一行字：「全員隨撤離車隊護送。對不起。——歐文」雲梯車還在，鑰匙插在上面，油箱是空的。':'車庫裡有十幾個人，有消防員，也有穿著睡衣跑出來的居民。一個滿臉菸灰的中年消防員看了你們一眼，胸前的名牌寫著「歐文」。「會用斧頭嗎？」他問，「會的話，就留下來幫忙。」',
+ t:`第 9 分隊的消防局。紅色的車庫門關了一半，門上用噴漆寫著「這裡有人　沒被咬的才能進來」。車庫裡停著一台雲梯車，另一個車位空著，地上只剩一攤油漬。`,
+ c:[
+  {l:'跟歐文談',hide:'fdopen',k:'CHA',d:12,s:'魅力檢定',stay:1,once:1,ok:{t:`你說了你們從哪裡來、路上看到了什麼。他聽完，從裝備架上拿下一副防毒面具丟給你。\n\n「有些地方的空氣已經不能吸了。」他指了指後面的裝備室，「需要什麼自己拿，別拿太多。」`,r:{items:{gasmask:1,filter:1},flag:'fdopen'}},ng:{t:`「我們自己的人都不夠用了。」他轉身回去整理水帶，沒有再看你。`}},
+  {l:'跟他們出去救人',hide:'fdopen',once:1,t:'m',s:'兩條街外有一棟公寓在冒煙',ok:{t:`歐文把一副防毒面具塞進你手裡：「戴著，別走散。」\n\n你們跟著雲梯車衝到兩條街外那棟冒煙的公寓。樓梯間裡全是煙，煙裡有東西在動。`,r:{items:{gasmask:1,filter:1},flag:'fdopen',karma:1},fight:{n:2,mode:'normal'},go:'T0'}},
+  {l:'趁沒人注意，溜進裝備室',hide:'fdopen',k:'AGI',d:13,s:'敏捷檢定',ok:{t:`你等歐文轉身去接無線電，貼著雲梯車的車身溜到後面。`,r:{karma:-1},go:'T1'},ng:{t:`「喂！」歐文一把抓住你的領子，把你推出車庫門。「我們這裡不歡迎小偷。」`,p:{fear:6},go:'Z0'}},
+  {l:'去裝備室',need:'fdopen',ok:{t:`你們穿過車庫，推開後面那扇寫著「裝備室」的門。`,go:'T1'}},
+  {l:'上屋頂的瞭望台',ok:{t:`你們爬上消防局的鐵梯，推開屋頂的門。`,go:'T2'}},
+  {...restC('在消防員宿舍歇一下',6,3),need:'fdopen',hide:'acru'},
+  {...sleepC('在消防員宿舍過夜',`宿舍裡一排上下舖，被子都沒有疊。你挑了一張靠門的床躺下，車庫那邊的無線電一整晚都在沙沙地響，偶爾有人說話，聽不清楚在說什麼。\n\n天亮的時候，無線電安靜了。`),need:'fdopen',hide:'acru'},
+  {l:'回街區',ok:{t:`你們走出車庫，回到大馬路上。`,go:'Z0'}}]},
+T1:{L:'T',n:'消防局・裝備室',
+ t:`一整面牆的置物櫃，每一格都貼著名字。掛鉤上吊著消防衣和空氣呼吸器，鋼瓶全是空的。角落的工具架上放著一台黃色的油壓擴張器，旁邊是兩把消防斧。`,
+ c:[
+  {l:'拿液壓破拆工具',once:1,stay:1,s:'很重，但卡死的鐵門和壓扁的車殼都撐得開',ok:{t:`油壓擴張器比你想的重得多，背在背上像背了一個人。`,r:{items:{spreader:1}}}},
+  {l:'拿一把消防斧',once:1,stay:1,ok:{t:`斧柄上纏著膠帶，刃口磨得很亮。`,r:{gear:'fireaxe'}}},
+  {l:'翻置物櫃',once:1,stay:1,k:'PER',d:11,s:'感知檢定',ok:{t:`大部分的櫃子都是空的。最下面一格塞著一個紙箱，裡面是兩個還沒拆封的濾毒罐和一包消毒繃帶。`,r:{items:{filter:2,sbandage:1}}},ng:{t:`你翻了一排又一排，只找到別人的家庭照片和幾雙襪子。`}},
+  {l:'拿一副備用的防毒面具',once:1,stay:1,s:'牆上只剩最後一副',ok:{t:`面罩的鏡片有一道刮痕，但扣環還是好的。裡面已經裝著一個濾罐。`,r:{items:{gasmask:1,filter:1}}}},
+  {l:'回車庫',ok:{t:`你們把裝備室的門帶上。`,go:'T0'}}]},
+T2:{L:'T',n:'消防局・瞭望台',
+ tx:()=>G.flags.streetpower?'東邊的配電站有燈，街區的路燈亮了一半。':G.flags.blackout?'整座城市都是黑的。只有醫院那邊還有幾扇窗戶亮著，大概是備用發電機。東邊那片鐵絲網圍起來的地方，就是配電站。':'',
+ t:`從這裡看得到整個街區。北口的鐵絲網、購物中心那個熄了一半的招牌、西邊警察局的屋頂。東南邊那棟白色的大樓是聖瑪莉醫院，救護車道上停滿了車，一台都沒有在動。`,
+ c:[{l:'回車庫',ok:{t:`你們順著鐵梯爬下去。`,go:'T0'}}]},
+/* ---------- 醫院 ---------- */
+O0:{L:'O',n:'聖瑪莉醫院・急診入口',
+ tx:()=>G.flags.acru?'救護車道上停滿了 A.C.R.U. 的車，醫院的燈全亮著。門口站著兩個穿全套防護衣的人，背對著你們，在看平板。':G.flags.shadow?'救護車道上多了一排沒有標示的黑色廂型車，引擎都沒熄。':G.flags.streetpower?'醫院的燈亮了一半，急診室的自動門一開一關。':'',
+ t:`救護車一台接一台停在急診入口，後車門全開著，擔架床歪在地上。自動門的玻璃碎了，門框上還卡著一隻乳膠手套。急診室裡面的燈閃個不停。`,
+ c:[
+  {l:'進急診室',ok:{t:`你們踩著玻璃碎片走進去。`,go:'O1'}},
+  {l:'搭電梯上四樓',need:'streetpower',t:'q',s:'有電了，電梯會動',ok:{t:`電梯門關上的時候，你們聽到上面某一層有人在拍電梯門。`,go:'O2'}},
+  {l:'走樓梯上四樓',hide:'streetpower',k:'PER',d:12,s:'樓梯間沒有燈',t:'m',ok:{t:`你們摸著扶手一層一層往上爬。三樓的防火門開著，裡面有東西在拖著腳走，但沒有過來。`,go:'O2'},ng:{t:`二樓的轉角，你踩到一隻手。手的主人坐了起來。`,fight:{n:2,mode:'ambush'},go:'O2'}},
+  {l:'下地下室',s:'指標寫著「機房・備用發電機」',ok:{t:`你們推開往地下室的防火門，裡面的空氣又冷又悶。`,go:'O3'}},
+  {l:'回街區',ok:{t:`你們退出救護車道。`,go:'Z0'}}]},
+O1:{L:'O',n:'急診室',
+ t:`檢傷分類的桌子翻倒在地上，一張張病床用布簾隔開，大部分的簾子都拉著。護理站的電腦螢幕還亮著，滑鼠垂在桌邊晃。`,
+ c:[
+  {l:'翻藥櫃',once:1,stay:1,k:'PER',d:12,s:'感知檢定',ok:{t:`藥櫃的玻璃被打破了，常用的藥都被拿光，但最上層還塞著幾樣沒人看到的東西。`,r:{items:{sbandage:2,antibiotic:1,iodine:1}}},ng:{t:`你伸手去搆最上層，身後的簾子被拉開了。`,fight:{n:1,mode:'ambush',names:['簾子後面的病人']}}},
+  {l:'看看護理站的電腦',once:1,stay:1,k:'INT',d:11,s:'智力檢定',ok:{t:`掛號紀錄停在三天前。那一天急診收了四十幾個病人，備註欄寫的都是同一行字：「ARC 合作門診・第二期回診」。最後一筆的時間是 23:41。`,r:{flag:'erlog'},p:{fear:4}},ng:{t:`螢幕跳出登入畫面，要員工證才能進去。`}},
+  {l:'回急診入口',ok:{t:`你們退回救護車道。`,go:'O0'}}]},
+O2:{L:'O',n:'四樓・臨床合作病房',
+ tx:()=>G.flags.shadow?'病房被清空了。病床上的床墊被翻過來，抽屜全被拉出來，冰箱的門開著，裡面一格一格都是空的。':'',
+ t:`走廊盡頭的玻璃門上貼著「ARC 臨床合作病房　4 West」，讀卡機被人用東西砸爛了，門半開著。病房裡的病床一張挨著一張，每張床尾都掛著一塊寫著編號的牌子，沒有名字。`,
+ c:[
+  {l:'翻病歷',hide:'shadow',once:1,stay:1,k:'INT',d:12,s:'智力檢定',ok:{t:`病歷夾裡寫的都是編號：「第二期受試者　B-117」「B-118」……每一份的「回診後安置地點」都填著同一個地址。你認得那個地址。是那間旅館。`,r:{flag:'arcfile'},p:{fear:8}},ng:{t:`滿頁的縮寫和數字，你看不懂。只看懂一件事：每一份都蓋著同一個紅色的章，「保密」。`,p:{fear:4}}},
+  {l:'翻那些被拉開的抽屜',need:'shadow',once:1,stay:1,k:'PER',d:13,s:'感知檢定',ok:{t:`他們搬得很徹底，只漏了一張夾在抽屜縫裡的轉送單：「轉送地點：S-」，後面整行被黑筆塗掉了。`,r:{flag:'arcfile'},p:{fear:6}},ng:{t:`什麼都沒有。連一張紙都沒有留下。`,p:{fear:4}}},
+  {l:'搜病房',once:1,stay:1,t:'m',k:'PER',d:12,s:'感知檢定',ok:{t:`護理車的下層有一個沒拆封的手術包，旁邊還有一盒鎮定劑。`,r:{items:{surgkit:1,sedative:1}}},ng:{t:`你彎腰去拉護理車的時候，旁邊兩張床上的病人同時坐了起來。`,fight:{n:2,mode:'normal',names:['病床上的病人','病床上的病人']}}},
+  {l:'看看那台電梯',once:1,stay:1,s:'走廊另一頭有一台員工專用電梯',ok:{t:`電梯面板最下面有一顆沒有數字的按鈕，旁邊是讀卡機。你按了，什麼都沒有發生。`,p:{fear:2}}},
+  {l:'回樓下',ok:{t:`你們往樓下走。`,go:'O0'}}]},
+O3:{L:'O',n:'地下室・機房',
+ tx:()=>G.flags.streetpower?'天花板上的日光燈亮了，照得整條走廊發白。':'沒有燈。走廊的盡頭有一扇鐵門開著，裡面是發電機房。',
+ t:`地下室的走廊又長又窄，牆上全是管線，滴著水。空氣裡有柴油和霉的味道。`,
+ c:[
+  {l:'找備用發電機的備品',hide:'gotfuse',t:'m',k:'PER',d:12,s:'感知檢定',ok:{t:`保險絲架上還剩一根高壓保險絲，旁邊的維修櫃裡有一個沒拆封的濾毒罐。`,r:{items:{fuse:1,filter:1},flag:'gotfuse'},stay:1},ng:{t:`你摸黑走進機房，撞上一台推車。黑暗裡有東西被吵醒了。`,p:{fear:6},fight:{n:1,mode:'ambush',names:['機房裡的維修工']},go:'O3'}},
+  {l:'看看發電機',once:1,stay:1,ok:{t:`柴油發電機的外殼還有一點溫度。油箱是空的，有人把最後一點油抽走了。`}},
+  {l:'回樓上',ok:{t:`你們爬回一樓。`,go:'O0'}}]},
+/* ---------- 配電站 ---------- */
+W0:{L:'W',n:'配電站・鐵門',
+ t:`一大片鐵絲網圍起來的空地，裡面是一排排灰色的變壓器。鐵門上掛著「高壓危險　非工作人員禁止進入」的牌子，門被一條鐵鍊鎖著。以前這裡一天到晚都在嗡嗡響，現在一點聲音都沒有。`,
+ c:[
+  {l:'用工具撬開鐵門',req:['g:crowbar','g:fireaxe','spreader'],reqAny:1,hide:'wopen',t:'q',s:'需要鐵撬、消防斧或破拆工具',ok:{t:`鐵鍊斷掉的聲音在空地上傳得很遠。`,r:{flag:'wopen'},p:{alarm:1},go:'W1'}},
+  {l:'把鐵門扳開',hide:'wopen',k:'STR',d:13,s:'力量檢定',ok:{t:`你抓著鐵門用力往外扳，門框終於彎出一個縫。`,r:{flag:'wopen'},go:'W1'},ng:{t:`鐵門紋風不動，你的手倒是先磨破了。`,p:{hp:-1},stay:1}},
+  {l:'翻過鐵絲網',hide:'wopen',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你踩著鐵絲網的格子翻過去，落地的時候只擦破了一點皮。`,go:'W1'},ng:{t:`鐵絲網頂端的刺絲勾住了你的手臂。你還是翻過去了，但血滴了一路。`,p:{hp:-2,bleed:1},go:'W1'}},
+  {l:'從撬開的鐵門進去',need:'wopen',ok:{t:`鐵門還開著，跟你們上次離開的時候一樣。`,go:'W1'}},
+  {l:'回街區',ok:{t:`你們往回走。`,go:'Z0'}}]},
+W1:{L:'W',n:'配電站・變電場',
+ tx:()=>G.flags.powerfix?'變壓器在嗡嗡地響。這是你們修好的。':G.flags.acru?'有人來過了。一台漆成黑色的發電車接在配電盤上，粗粗的電纜一路拉往街區。':'',
+ t:`變電場中間有一間水泥砌的控制小屋，門開著。配電盤上的保險絲座燒得焦黑，其中一根保險絲已經碎了，陶瓷碎片散了一地。`,
+ c:[
+  {l:'換上保險絲，重新送電',req:'fuse',hide:'streetpower',k:'INT',d:12,s:'智力檢定',ok:{t:`你照著配電盤門內貼的接線圖，把燒掉的那根拔出來，換上新的，然後拉下總開關。`,r:{use:'fuse'},go:'W2'},ng:{t:`你拉下開關的瞬間，配電箱裡噴出一串火花，你整個人被彈開。保險絲還好好的，只是你接錯了。`,p:{hp:-3,fear:4},stay:1}},
+  {l:'不用保險絲，直接拉旁路',hide:'streetpower',k:'INT',d:15,s:'智力檢定：很危險',ok:{t:`你剝開兩條電纜，用鉗子把它們繞過燒掉的保險絲座接在一起，手一直在抖。`,go:'W2'},ng:{t:`電纜碰在一起的那一刻，一道白光把你整個人打飛出去。你躺在地上好一陣子，耳朵裡全是嗡嗡聲。`,p:{hp:-4,fear:8},stay:1}},
+  {l:'搜控制小屋',once:1,stay:1,t:'m',ok:{t:`小屋裡有一張值班表、一捲膠帶和兩顆電池。值班表上最後一個簽名的日期是三天前。`,r:{items:{tape:1,battery:2}}}},
+  {l:'回街區',ok:{t:`你們從鐵門出去。`,go:'Z0'}}]},
+W2:{L:'W',n:'配電站・送電',
+ onEnter(){G.flags.powerfix=1;G.flags.streetpower=1},
+ t:`一開始什麼都沒有發生。然後腳底下傳來一陣很低的震動，變壓器一台接一台響了起來。\n\n街區那邊，路燈一盞一盞亮起來，有幾棟公寓的窗戶也亮了。遠處傳來一聲歡呼，又很快被別的聲音蓋過去——警報器、狗叫，還有某種很多東西同時動起來的聲音。\n\n<b>街區恢復供電</b>：街區、消防局、醫院不再停電；醫院的電梯能用了。夜裡路燈會把你們照得一清二楚。`,
+ c:[{l:'回街區',ok:{t:`你們踩著路燈的光往回走。`,go:'Z0'}}]}
+});
 /* ================= 基礎 ================= */
 const $=s=>document.querySelector(s);
 const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
@@ -2428,6 +2528,7 @@ async function passTime(min){if(!G||G.clock==null||!min||G.over)return false;
     // 餓過頭、渴過頭：每 2 小時生命 −1
     if(p.hun<=0||p.thi<=0){p.tS=(p.tS||0)+min;const n=Math.floor(p.tS/120);if(n){p.tS-=n*120;p.hp-=n;out(`${nm(p)}${p.thi<=0?'嚴重脫水，眼前一陣陣發黑':'餓得手腳發軟'}。生命 −${n}。`,'dmg')}}else p.tS=0;
   }
+  toxTime(min);
   const p1=periodOf(hourN()),d1=dayN();
   if(d1!==d0||p1!==p0){
     if(p1==='night')out('天黑了。入夜之後很難看清楚四周，感染者也比白天更躁動。','rule',true);
@@ -2438,6 +2539,23 @@ async function passTime(min){if(!G||G.clock==null||!min||G.over)return false;
   if(await cityTick())return true;
   push();draw();
   return await deathCheck()}
+/* ================= 污染區（v0.10.0） =================
+   區域寫 fx.toxic＝每 30 分鐘感染 +幾；待在裡面越久累積越多（照時間，不照步數）。
+   防毒面具（頭部）裝著濾罐就不吸進去；濾罐 p.mf 分鐘，只在污染區裡消耗，用完自動換背包裡的下一個。濕布只擋一半。
+   目前沒有任何區域設定 fx.toxic（主人決定等全部地圖做完再指定）。 */
+const FILTER_MIN=360;
+const maskWorn=p=>!!(p.eq&&p.eq.head&&p.eq.head.k==='gasmask');
+function toxTime(min){const tox=((LV[G.lv]||{}).fx||{}).toxic;if(!tox)return;
+  for(const p of able()){let left=min;
+    if(maskWorn(p)){
+      while(left>0){if(!(p.mf>0)){if(hasI(p,'filter')){takeI(p,'filter');p.mf=FILTER_MIN;out(`${MP()?nm(p)+'：':''}濾罐用完了，換上新的濾毒罐。`,'sys',true)}else{if(p.mfWarn!==G.clock){p.mfWarn=G.clock;out(`${MP()?nm(p)+'的':''}面罩裡開始聞得到那股甜味了。<b>濾罐用完了</b>。`,'dmg',true)}break}}
+        const u=Math.min(left,p.mf);p.mf-=u;left-=u}}
+    if(left<=0){p.tX=0;continue}
+    p.tX=(p.tX||0)+left;const n=Math.floor(p.tX/30);if(!n)continue;p.tX-=n*30;
+    let v=n*tox;if(G.flags.mask)v=Math.max(1,Math.round(v/2));const b0=p.inf;addInf(p,v);
+    if(p.inf>b0)out(`${MP()?nm(p)+'：':''}空氣裡有東西，每吸一口都黏在喉嚨裡。感染 +${p.inf-b0}${G.flags.mask?'（濕布擋掉了一些）':''}。`,'dmg',true)}}
+// 濾罐狀態只講大概，不寫數字
+const mfTxt=p=>!(p.mf>0)?(hasI(p,'filter')?'沒有裝濾罐（背包裡有）':'沒有濾罐'):p.mf>FILTER_MIN*.66?'濾罐還很新':p.mf>FILTER_MIN*.33?'濾罐用了一半左右':'濾罐快用完了';
 /* ================= 城市與天數（v0.9.0） =================
    一局 7 天。G.sch：本局各事件發生的時間（G.clock 的分鐘數），開局時決定，小範圍浮動。
    事件依序觸發：停電 → 撤離廣播 → 撤離車離開 → 劫匪 → A.C.R.U. 影子 → 滅菌作戰 → 旅館開始燒 → 預警 → 燃燒彈（硬截止）。 */
@@ -2525,7 +2643,10 @@ async function enterNode(id){
   {const fx=LV[G.lv].fx||{};
    if(fx.alarmNode&&!G.flags.dooroff)addAlarm(fx.alarmNode,null);
    if(fx.infNode){for(const p of able())addInf(p,G.flags.drypath?0:fx.infNode);if(!G.flags.drypath)out(`冰冷的積水漫過腳踝。感染 +${fx.infNode}。`,'dmg',true)}
-   if(fx.spot&&!G.flags.dronegap&&Math.random()<fx.spot){out('一道白光從頭頂掃過來，停在你身上。無人機的擴音器響了。','bad');addAlarm(3,null)}}
+   if(fx.spot&&!G.flags.dronegap&&Math.random()<fx.spot){out('一道白光從頭頂掃過來，停在你身上。無人機的擴音器響了。','bad');addAlarm(3,null)}
+   // 自己修好配電站之後：夜裡路燈把人照出來
+   if(G.flags.powerfix&&!G.flags.acru&&isNight()&&(LV[G.lv].ch||1)===2&&!LV[G.lv].indoor&&Math.random()<.35){out('路燈把整條街照得一清二楚。有東西看見你們了。','bad');addAlarm(2,null)}
+   if(fx.toxic&&!G.flags['tx_'+G.lv]){G.flags['tx_'+G.lv]=1;out('這裡的空氣不對勁，帶著一股甜膩的霉味。<b>污染區</b>：待在這裡越久，感染累積越多；戴著裝了濾罐的防毒面具就不會吸進去。','rule')}}
   if(!(await tickAll()))return;
   if(await alarmCheck(null,true))return;
   if(await hazard(nd))return;
@@ -3169,7 +3290,8 @@ async function useItem(p,k,to){
 // 穿上防具：放進對應的欄位，原本那件收回背包
 async function wearItem(p,k){const it=ITEMS[k];if(!it||it.t!=='wear'||!hasI(p,k))return false;const s=it.slot||'body';
   takeI(p,k);const old=p.eq[s];if(old)addIForce(p,old.k);p.eq[s]={k,dur:it.dur||0};
-  await sndW('zipper',.8,900,.5);out(`${MP()?nm(p):'你'}穿上了${it.n}（${SLOTN[s]}）。受到的傷害 −${it.armor}${old?`；換下${ITEMS[old.k].n}`:''}。`,'good');return true}
+  if(k==='gasmask'&&!(p.mf>0)&&hasI(p,'filter')){takeI(p,'filter');p.mf=FILTER_MIN}
+  await sndW('zipper',.8,900,.5);out(`${MP()?nm(p):'你'}${k==='gasmask'?'戴上了':'穿上了'}${it.n}（${SLOTN[s]}）。${it.armor?`受到的傷害 −${it.armor}`:it.wd||''}${k==='gasmask'?`，${mfTxt(p)}`:''}${old?`；換下${ITEMS[old.k].n}`:''}。`,'good');return true}
 function unwear(p,s){const e=p.eq[s];if(!e)return false;p.eq[s]=null;addI(p,e.k);return true}
 // 被打中時，有耐久的防具隨機一件 −1，歸零就壞掉
 function wearHit(t,human){const ws=Object.keys(p_eq(t)).filter(s=>t.eq[s]&&ITEMS[t.eq[s].k].dur);if(!ws.length)return;const s=pick(ws);t.eq[s].dur--;if(t.eq[s].dur<=0){out(`${ITEMS[t.eq[s].k].n}被${human?'打':'咬'}爛了。`,'dmg',true);t.eq[s]=null}}
@@ -3729,7 +3851,7 @@ function eqCol(m,inF,can){
   let h=`<div class="cat">裝備</div>`;
   if(both)h+=wrow('雙手',R,'R');else{h+=wrow('右手',R,'R');h+=wrow('左手',L,'L')}
   for(const s of EQS){const e=m.eq&&m.eq[s];const it=e&&ITEMS[e.k];
-    h+=`<div class="erow ${e?'on':''}"><span class="sl">${SLOTN[s]}</span><div class="in"><b>${it?it.n:'—'}</b><small>${it?`減傷 ${it.armor}${it.dur?`｜耐久 ${e.dur}／${it.dur}`:''}`:'沒有穿東西'}</small></div>${e&&!inF?ibt(`data-unwear="${s}"`,'脫下',0,can):''}</div>`}
+    h+=`<div class="erow ${e?'on':''}"><span class="sl">${SLOTN[s]}</span><div class="in"><b>${it?it.n:'—'}</b><small>${it?(e.k==='gasmask'?mfTxt(m)+`｜背包濾罐 ${m.items.filter||0}`:`減傷 ${it.armor}${it.dur?`｜耐久 ${e.dur}／${it.dur}`:''}`):'沒有穿東西'}</small></div>${e&&!inF?ibt(`data-unwear="${s}"`,'脫下',0,can):''}</div>`}
   if(canDual(m))h+='<p class="note">左右手都拿著單手武器：戰鬥中可以雙持攻擊。</p>';
   return h}
 // 右欄：背包清單；點一條展開它能做的事
