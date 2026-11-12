@@ -519,7 +519,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.8.1", "b": 19, "t": "2026-11-13T05:53:50+08:00"};
+const ZC_VER={"v": "0.9.0", "b": 20, "t": "2026-11-13T06:27:57+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -1586,7 +1586,8 @@ EVPOOL.push(
   {l:'不要碰',ok:{t:`你繞過推車。餐蓋底下傳來很輕的一聲「喀」，像是什麼東西在咬。`,p:{fear:4}}}]}
 );
 /* ================= 第二章：街區 ================= */
-const CHAPTERS={1:{n:'第一章',title:'旅館',en:'CHAPTER ONE · THE HOTEL'},2:{n:'第二章',title:'街區',en:'CHAPTER TWO · THE BLOCK'}};
+// v0.9.0 拆掉章節：CHAPTERS 改成地點分區（1 旅館、2 街區），換分區時顯示地點卡
+const CHAPTERS={1:{n:'旅館',title:'23:41 的那一晚',en:'THE HOTEL'},2:{n:'街區',title:'城市的中心',en:'THE BLOCK'}};
 Object.assign(LV,{
  J:{n:'前街',sub:'斑馬線',en:'LEVEL J · THE STREET',rule:'空曠的大街：每次提高警戒時多 1。',fx:{alarmPlus:1},ch:2},
  K:{n:'後巷',sub:'防火梯',en:'LEVEL K · THE ALLEYS',rule:'屋子裡的人還活著：魅力檢定 +2。',fx:{cha:2},ch:2},
@@ -1833,11 +1834,9 @@ V3:{L:'V',n:'十字路口・抉擇',
 
 西邊，警察局的方向傳來零星的槍聲。屋頂上有人影在移動。
 
-這一次，你只能選一個方向。`,
+每個方向都有人，也都有危險。先在街區站穩腳步，再決定下一步。`,
  c:[
-  {l:'往消防局',ok:{t:`你朝那個亮著燈的車庫門走過去。`,go:'END2_fire'}},
-  {l:'往購物中心',ok:{t:`你朝那個熄了一半的招牌走過去。`,go:'END2_mall'}},
-  {l:'往警察局',ok:{t:`你朝槍聲的方向走過去。`,go:'END2_police'}}]}
+  {l:'在街區找個落腳的地方',s:'之後往哪裡走，都要先回到這裡',ok:{t:`你離開路口中間，往街區裡面走。`,go:'Z0'}}]}
 });
 /* ---------- 第二章隨機事件 ---------- */
 EVPOOL.push(
@@ -1907,7 +1906,7 @@ Object.assign(END,{
 });
 END.END_main.next='J1';END.END_alley.next='K1';END.END_lab.next='J1';
 for(const k of ['END_main','END_alley','END_lab'])END[k].ch=1;
-/* ================= 休息點、商人、人性值、定居結局 ================= */
+/* ================= 休息點、商人、人性值 ================= */
 // 二樓員工宿舍：休息
 N.H2.rest=1;
 N.H2.c.splice(2,0,{l:'把凱文的房門鎖上，躺一下',s:'休息一次；時間會過去',once:1,stay:1,ok:{t:`你把門鏈扣上，椅子頂住門把，在下舖躺下來。被子有洗衣粉的味道。
@@ -1947,7 +1946,6 @@ M2t:{L:'M',n:'員工休息室',next:'M3',trade:1,rest:1,
   {l:'在休息室裡睡一下',s:'休息一次；他們會幫忙看門',once:1,stay:1,ok:{t:`傑西說他會守著門。你靠著牆坐下，聽著冰箱的嗡嗡聲，不知不覺睡著了。
 
 醒來的時候，身上多了一件便利商店的制服外套。`,r:{rest:{hp:8,san:4}}}},
-  {l:'留下來，跟他們一起守住這裡',s:'這是一個結局；他們得先信得過你們',karma:2,ok:{t:`你說你不走了。`,go:'END_settle_store'}},
   {l:'告別，繼續往前',ok:{t:`傑西送你到倉庫門口。「如果……如果你們找到軍方，跟他們說這裡還有人。」`}}]}
 });
 // v0.8.0 過夜：只在夜晚出現，睡到清晨（生命回一半、恐懼 −35）
@@ -1966,17 +1964,7 @@ N.K2.c.splice(3,0,{l:'在一樓的空房睡到天亮',s:'睡前最好先吃點�
 半夜，小女孩的布偶掉到你旁邊。你把它放回她手裡，她沒有醒。
 
 天亮的時候，傑西坐在門邊打瞌睡，手裡還握著那根拖把柄。`,r:{sleep:1}}})}
-Object.assign(END,{
- END_settle_store:{n:'便利商店',shards:28,final:1,settle:1,t:`你們用貨架把自動門堵起來，只留員工通道。傑西把每天的物資寫在收銀機的感熱紙上，一天撕一張。
 
-白天的時候，你們輪流從倉庫的小窗看外面。晚上，小女孩會用布偶演戲給大家看，每一齣戲的結局，都是有人來救他們。
-
-第十九天，一台裝甲車停在門口。下車的人穿著全套防護衣，舉著槍，一個一個檢查你們的手臂和脖子。
-
-帶頭的那個看了很久，最後說：「上車。」
-
-（定居結局：便利商店）`}
-});
 /* ================= 保險箱：自己輸入密碼（線索要玩家自己記） ================= */
 {const C=N.E2o.c;const okRes=C.find(c=>c.need==='c2341x2').ok;
  const gi=C.findIndex(c=>c.need==='c2341x2');C.splice(gi,1,{l:'轉保險箱的密碼',s:'四位數',stay:1,hide:'safeopen',ok:{t:'你蹲在保險箱前面，手指搭上轉盤。',code:{ans:'2341',ok:Object.assign({},okRes,{r:Object.assign({},okRes.r,{flag:'safeopen'})}),ng:{t:'最後一格轉完，保險箱沒有任何反應。轉盤喀喀地退回原位。',p:{alarm:1}}}}});
@@ -2001,6 +1989,93 @@ EVPOOL.push(
  {id:'trader2',ch:2,t:`一個男人推著塞滿東西的購物車，從巷口的陰影裡走出來。購物車把手上掛著一張紙板，用麥克筆寫著：「只收現金　不賒帳　不回答問題」。\n\n他把手放在腰間，那裡鼓鼓的。「做生意而已。」他說。`,c:[
   {l:'看看他賣什麼',s:'流浪商人：只收美金',ok:{t:`他把防水布掀開一角，示意你自己看。`,r:{shop:'wander'}}},
   {l:'繞開他',ok:{t:`你換到馬路另一邊。他一直看著你，直到你轉過街角。`}}]}
+);
+/* ================= v0.9.0 城市骨架：街區中樞、回旅館、安全點、北口檢查站、天數事件 =================
+   章節拆掉了：旅館的出口照舊接到街區（J、K），十字路口 V3 之後進到街區中樞 Z0，之後在旅館、街區、安全點之間來回，直到撤離或第 7 天。
+   消防局、購物中心、警察局在 v0.9.1 之後開放；END2_fire／END2_mall／END2_police 先留著不用，之後改成這三個地點的開場文字。 */
+Object.assign(LV,{
+ Z:{n:'街區',sub:'中段',en:'THE BLOCK',rule:'這裡是街區的中心：往哪裡去，都要先經過這裡。',fx:{},ch:2},
+ Y:{n:'旅館',sub:'回到這裡',en:'THE HOTEL',rule:'走過一次的走廊，不代表裡面沒有東西了。',fx:{},ch:1},
+ X:{n:'北口',sub:'檢查站',en:'NORTH CHECKPOINT',rule:'鐵絲網、沙包、一排排等著上車的人。',fx:{},ch:2}
+});
+for(const k of ['A','B','C','E','F','G','H','I','Y','M','U'])LV[k].indoor=1;
+Object.assign(LV_POOL,{Z:['infected'],Y:['infected','incubator'],X:['infected']});
+// 中樞的描述跟著天數變
+const zTx=()=>G.flags.acru?'路口架著路障，擴音器每隔幾分鐘就重播一次「留在原地」。穿防護衣的人一排一排地搜過每一棟房子，後面跟著噴火的。':G.flags.raiders?'撤離之後，街上的人少了一半，剩下的人學會了成群行動。購物中心那邊一直在冒煙，有人在屋頂上放哨。':G.flags.evacinfo?'廣播車一遍又一遍地繞著街區，喇叭裡說的都是北口檢查站。很多人拖著行李往北走。':'街上還有零星的人在跑，商店的鐵捲門拉下一半。遠處一直有警笛聲，但從來沒有靠近過。';
+const restC=(l,hp,san)=>({l,s:'休息一次；時間會過去',stay:1,ok:{t:'你把門堵好，找個角落坐下來，閉上眼睛聽外面的聲音。',r:{rest:{hp,san}}}});
+const sleepC=(l,t)=>({l,s:'睡前最好先吃點東西、喝點水',t:'sleep',night:1,stay:1,ok:{t,r:{sleep:1}}});
+Object.assign(N,{
+Z0:{L:'Z',n:'街區',tx:zTx,
+ t:`這裡是街區的中段：紅磚公寓、便利商店、通往北口的大路，還有回旅館的那條街，全都從這裡分出去。`,
+ c:[
+  {l:'在附近的街上找找看',s:'能找到什麼、會碰到什麼都不一定',t:'m',ok:{t:`你挑了一條還沒走過的巷子，貼著牆慢慢往裡面走。`,go:'Z1'}},
+  {l:'到北口檢查站',s:'撤離車從那裡出發',need:'evacinfo',hide:'evacgone',ok:{t:`你跟著拖著行李的人群往北走。`,go:'Z3'}},
+  {l:'去便利商店找傑西',s:'休息室是安全的地方',need:'v_M2t',ok:{t:`你繞到便利商店後面的倉庫門，照上次的方式敲門。`,go:'Z2'}},
+  {l:'回紅磚公寓',s:'一樓那戶的空房還能待',need:'v_K2',ok:{t:`你穿過後巷，回到那棟紅磚公寓。`,go:'Z4'}},
+  {l:'回旅館',s:'員工宿舍可以休息；滅菌開始之後就不一定了',ok:{t:`你沿著來時的那條街往回走。旅館的招牌還在，只是不再亮了。`,go:'Y0'}}]},
+Z1:{L:'Z',ev:1,next:'Z0'},
+Z2:{L:'Z',n:'便利商店・員工休息室',rest:1,
+ tx:()=>G.flags.evacgone?'傑西沒有上撤離車。「她們走不了，」他看了那對母女一眼，「我也就不走了。」':'',
+ t:`傑西拉開門讓你進來，又馬上把門鎖上。休息室裡的冷凍餐少了一半，小女孩抱著布偶睡在折疊桌底下。`,
+ c:[
+  {l:'跟傑西買東西',s:'只收美金現鈔',stay:1,ok:{t:`傑西把貨架拉出來。「還是現金就好。」`,r:{shop:'jesse'}}},
+  restC('在休息室裡歇一下',6,3),
+  sleepC('在休息室過夜',`傑西和那位媽媽輪流守夜。你在折疊桌旁邊躺下，冰箱已經不響了，整個房間安靜得只剩呼吸聲。\n\n天亮的時候，傑西還坐在門邊，手裡握著那根拖把柄。`),
+  {l:'回街上',ok:{t:`傑西在你身後把門鎖上。`,go:'Z0'}}]},
+Z3:{L:'X',n:'北口檢查站',
+ t:`北口用鐵絲網和沙包圍了一大圈。穿國民兵制服的人在入口一個一個量體溫、看手臂和脖子，旁邊一張折疊桌上堆滿了被沒收的東西。等著上車的人排成好幾列，沒有人說話。`,
+ c:[
+  {l:'排隊等撤離車',s:'一直等到明天清晨',tf:()=>(G.sch?G.sch.evac:0)-G.clock,t:'l',hide:'evacgone',ok:{t:`你們在隊伍裡坐下來。天黑了又亮，隊伍一點一點往前移。有人在半夜被帶出隊伍，再也沒有回來。`,go:'Z3b'}},
+  {l:'先回街區',ok:{t:`你離開隊伍，往回走。`,go:'Z0'}}]},
+Z3b:{L:'X',n:'檢查站・最後一關',
+ onEnter(){const st=able().filter(p=>p.inf>=40);G.flags.evstop=st.length?1:0;G.flags.evsome=st.length&&st.length<able().length?1:0;G.flags.evnames=st.map(p=>p.name).join('、')},
+ tx:()=>G.flags.evstop?(MP()?`檢查員看了${esc(G.flags.evnames)}的手臂很久，然後搖搖頭：「這幾個不行。」`:'檢查員看了你的手臂很久，然後搖搖頭：「你不行。」'):'檢查員看完你們的手臂和脖子，在名單上打了勾，揮手要你們往前走。',
+ t:`撤離車到了。三台大巴士，車窗用鐵網封著，車頭插著國民兵的旗子。最後一道檢查就在車門前。`,
+ c:[
+  {l:'上車',t:'q',hide:'evstop',ok:{t:`你踏上車門的階梯，回頭看了這座城市最後一眼。`,go:'END_evac'}},
+  {l:'說服檢查員放行',t:'q',k:'CHA',d:14,s:'魅力檢定',need:'evstop',once:1,ok:{t:`你跟他說了很久。他看著你，又看了看後面還在排隊的人，最後把名單翻到下一頁。「上車。快點。」`,go:'END_evac'},ng:{t:`「規定就是規定。」他連看都沒有再看你一眼。`,stay:1}},
+  {l:'塞錢給檢查員',t:'q',s:'需要 $30',usd:30,need:'evstop',once:1,ok:{t:`錢塞進他口袋的時候，他的手停了一下，然後在名單上打了勾。`,r:{payUsd:30},go:'END_evac'}},
+  {l:'讓沒被攔下的人先上車',t:'q',s:'被攔下的人留在城裡',need:'evsome',ok:{t:`沒有人說話。被攔下的人把背包裡的水和吃的塞給要上車的人，然後退回鐵絲網外面。`,go:'END_evac_split'}},
+  {l:'一起留下來',need:'evstop',ok:{t:`你們退出隊伍。車門在身後關上，巴士一台接一台開走了。`,go:'Z0'}}]},
+Z4:{L:'Z',n:'紅磚公寓・一樓',rest:1,
+ t:`一樓那戶的門還是沒鎖。電視已經不亮了，牆上的時鐘還在走。`,
+ c:[restC('在空房裡歇一下',5,3),sleepC('在空房睡到天亮',`你把沙發推到門後，在黑暗裡躺下。半夜樓上傳來腳步聲，走到門口停了很久，又慢慢走遠。\n\n醒來的時候，天邊開始泛白。`),
+  {l:'回街上',ok:{t:`你推開沙發，走回街上。`,go:'Z0'}}]},
+Y0:{L:'Y',n:'旅館・大廳',rest:1,
+ tx:()=>G.flags.hotelburn?'旅館的外牆在燒，大廳裡全是煙。這裡已經不能待了。':G.flags.acru?'旅館門口停著兩台沒有標示的黑色廂型車。地下室的方向有人在搬東西。':'',
+ t:`大廳的玻璃門碎了一地。櫃台後面的鑰匙板空了一半，電梯停在三樓，門開著。`,
+ c:[
+  {l:'上樓搜一搜客房',s:'還有沒搜過的房間',t:'m',hide:'hotelburn',ok:{t:`你踩著樓梯往上走，挑了一條還沒走過的走廊。`,go:'Y1'}},
+  {...restC('到員工宿舍歇一下',6,3),hide:'hotelburn'},
+  {...sleepC('鎖上宿舍的門睡到天亮',`你把門鏈扣上，椅子頂住門把。半夜整棟樓都在響，水管、電梯、腳步聲。\n\n醒來的時候，窗簾縫透進一點灰白的光。`),hide:'hotelburn'},
+  {l:'回街區',ok:{t:`你走出大廳，回到街上。`,go:'Z0'}}]},
+Y1:{L:'Y',ev:1,next:'Y0'}
+});
+/* ---------- 結局 A：撤離 ---------- */
+Object.assign(END,{
+ END_evac:{n:'撤離',shards:35,final:1,t:`巴士開了。車窗上的鐵網把外面的城市切成一格一格的：熄了燈的大樓、燒到一半的車、站在路邊看著巴士開過去的人。\n\n車上沒有人說話。坐在你旁邊的老人一直握著一張照片。\n\n開出北口的時候，你看見路邊停著一排黑色廂型車，車上的人穿著全套防護衣，在對著巴士拍照。\n\n你不知道這座城市接下來會發生什麼事。你只知道，你沒有留下來看。\n\n（結局 A：撤離）`},
+ END_evac_split:{n:'撤離・分開',shards:30,final:1,t:`巴士開了。你從鐵網的縫隙往後看，留下來的人站在鐵絲網外面，一直看著巴士，直到轉過街角。\n\n沒有人知道他們接下來會怎麼樣。車上沒有人說話。\n\n（結局 A：撤離——有人留在城裡）`}
+});
+/* ---------- 天數事件：劫匪、A.C.R.U. 影子、滅菌巡邏 ---------- */
+for(const e of EVPOOL)if(e.id==='trader1'||e.id==='trader2')e.d1=3;
+EVPOOL.push(
+ {id:'raid1',ch:2,d0:3,need:'raiders',hide:'acru',t:`三個人從兩台車中間站起來，攔住了路。帶頭的那個拿著一把獵刀，另外兩個手上是球棒和一根鐵管。\n\n「東西放下，」他說，「我們不想動手。」`,c:[
+  {l:'把錢給他們',s:'需要 $10',usd:10,ok:{t:`帶頭的數了數，哼了一聲，讓開了路。「下次多帶一點。」`,r:{payUsd:10}}},
+  {l:'跟他們談',k:'CHA',d:13,s:'魅力檢定',ok:{t:`你說你們身上沒有他們要的東西，還告訴他們哪一條街的藥局還沒被搬空。他們互看了一眼，讓開了。`,r:{karma:-1}},ng:{t:`「說夠了沒？」他把刀舉起來。`,fight:{n:2,names:['拿獵刀的劫匪','劫匪']}}},
+  {l:'先動手',ok:{t:`你沒有等他說完。`,fight:{n:2,mode:'first',names:['拿獵刀的劫匪','劫匪']}}},
+  {l:'轉身就跑',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你鑽進旁邊的小巷，翻過一道鐵絲網。他們沒有追過來。`},ng:{t:`你跑了兩步，背後一聲槍響。`,fight:{n:2,mode:'ambush',names:['拿霰彈槍的劫匪','劫匪']}}}]},
+ {id:'raid2',ch:2,d0:3,need:'raiders',hide:'acru',t:`一棟公寓的二樓窗戶開著，有人在往下丟東西：衣服、相框、一台電視。樓下兩個人拿著袋子在撿。\n\n他們還沒看到你。`,c:[
+  {l:'等他們走',t:'m',ok:{t:`你躲在車後面等了很久。他們扛著袋子走了，留下一地被翻過的東西。`,r:{items:{cloth:2,battery:1}}}},
+  {l:'趁亂撿點東西',k:'AGI',d:13,ok:{t:`你貼著牆過去，從那堆東西裡抽出一個醫藥箱，又悄悄退回來。`,r:{items:{bandage:2,painkiller:1}}},ng:{t:`「喂！」樓上的人看見你了。`,fight:{n:2,names:['劫匪','劫匪']}}}]},
+ {id:'shadow1',ch:2,d0:5,need:'shadow',hide:'acru',t:`一台黑色廂型車停在藥局門口，引擎沒熄。兩個穿全套防護衣的人從藥局裡搬出幾個銀色的保溫箱，動作很快，一句話都沒說。\n\n車身上沒有任何標示。`,c:[
+  {l:'躲起來看清楚',k:'PER',d:13,s:'感知檢定',ok:{t:`你看清楚了：保溫箱上貼著一個標誌——一根杖，一條蛇，一根針。和旅館地下那扇門上的一模一樣。他們上車的時候，其中一個人朝你這邊看了一眼。`,r:{flag:'acruseen'},p:{fear:8}},ng:{t:`你只看到車子開走。藥局的門開著，裡面的冷藏櫃全是空的。`,p:{fear:4}}},
+  {l:'不要靠近',ok:{t:`你換了一條路走。那台車在你身後開走了，沒有開燈。`}}]},
+ {id:'acru1',ch:2,d0:6,need:'acru',t:`路口那邊傳來整齊的腳步聲。一排穿全套防護衣的人拿著槍走過來，最後面那個背著燃料罐。他們一間一間地踢開店門，往裡面噴火。`,c:[
+  {l:'躲起來，等他們過去',k:'AGI',d:13,s:'敏捷檢定',ok:{t:`你縮在一台燒過的車底下，看著他們的靴子一雙一雙走過去。有一雙在你面前停了很久，然後走開了。`,p:{fear:8}},ng:{t:`「那邊有人。」槍聲響起的時候，你已經在跑了。子彈打在牆上，碎石噴了你一身。`,p:{hp:-4,fear:12,alarm:2}}},
+  {l:'往回退，繞遠路',t:'l',ok:{t:`你們退回剛才的巷子，繞了一大圈。等你們繞過去的時候，那條街已經在燒了。`,p:{fear:4}}}]},
+ {id:'acru2',ch:2,d0:6,need:'acru',t:`一台廣播車停在路中間，喇叭朝著每一棟公寓：「請所有民眾到路口集合，接受檢查。配合的人會被送到安全的地方。」\n\n路口真的有人在排隊。排到最前面的人被帶上一台沒有窗戶的卡車。`,c:[
+  {l:'不要過去',ok:{t:`你看著那台卡車關上門開走。沒有人從裡面出來過。`,p:{fear:8}}},
+  {l:'看看他們把人帶去哪',k:'PER',d:14,ok:{t:`卡車往旅館的方向開。你想起旅館地下那扇白色的門。`,r:{flag:'acrutruck'},p:{fear:10}},ng:{t:`卡車轉過街角就不見了。`,p:{fear:4}}}]}
 );
 /* ================= 基礎 ================= */
 const $=s=>document.querySelector(s);
@@ -2086,6 +2161,8 @@ function statMod(p,st){
   if(st==='PER'){if(fx.per)m+=fx.per;if(fx.dark&&!hasI(p,'flashlight')&&!tr(p,'nightowl'))m-=2}
   if(st==='AGI'&&fx.agi)m+=fx.agi;
   if(p.hun<=0||p.thi<=0)m-=2;
+  // 停電：室內更暗（街區第 6 天 A.C.R.U. 接了臨時電之後恢復）
+  if(st==='PER'&&G.flags&&G.flags.blackout&&LV[G.lv]&&LV[G.lv].indoor&&!(G.flags.streetpower&&(LV[G.lv].ch||1)===2)&&!hasI(p,'flashlight')&&!tr(p,'nightowl'))m-=1;
   // 恐懼：驚恐以上感知 −2，崩潰邊緣魅力 −2
   if(st==='PER'&&fstg(p)>=2)m-=2;
   if(st==='CHA'&&fstg(p)>=3)m-=2;
@@ -2141,10 +2218,11 @@ const DIFF={
 };
 const DF=()=>DIFF[G&&G.opts&&DIFF[G.opts.diff]?G.opts.diff:'hard'];
 function newRun(builds,opts,mode){
-  G={v:5,rules3:1,rules5:1,rid:Math.random().toString(36).slice(2,9),mode,opts:Object.assign({cd:'off',sec:20,diff:'normal'},opts||{}),host:MYPID,
+  G={v:5,v9:1,rules3:1,rules5:1,rid:Math.random().toString(36).slice(2,9),mode,opts:Object.assign({cd:'off',sec:20,diff:'normal'},opts||{}),host:MYPID,
     lv:null,ch:1,bank:{},node:null,ev:null,alarm:0,flags:{},evSeen:[],known:[...START_KNOWN],players:[],phase:'busy',votes:{},rv:{},pc:null,cd:null,
     fight:null,after:null,uid:0,levels:0,kills:0,over:null,busy:1,pendingBurn:0,seq:0,ground:[],know:{},tactUsed:{},used:{},hint:{},hazCd:2,clock:0};
   builds.slice(0,MAXP).forEach((b,i)=>makePlayer(b,i));
+  G.sch=makeSched();G.fired={};G.xpDay=1;G.lvSeen=[];
   LOG=[];
 }
 /* ================= 音效 ================= */
@@ -2338,7 +2416,7 @@ function tKind(c){if(!c)return null;if(c.t)return c.t==='sleep'?'l':c.t;
   // 換區域：要一陣子；夜裡在街上（第二章起）移動，要很久
   if(nd&&nd.L!==G.lv)return isNight()&&(LV[nd.L].ch||1)>=2&&(LV[G.lv].ch||1)>=2?'l':'m';
   return 'q'}
-function tMin(c){const k=tKind(c);if(!k)return 0;if(c.t==='sleep')return untilDawn();const [a,b]=TCOST[k];return rnd(a,b)}
+function tMin(c){const k=tKind(c);if(!k)return 0;if(c.t==='sleep')return untilDawn();if(typeof c.tf==='function')return Math.max(10,c.tf());const [a,b]=TCOST[k];return rnd(a,b)}
 // 時間流逝：飢渴跟著時間走；跨過時段時提示。回傳 true 代表遊戲結束
 async function passTime(min){if(!G||G.clock==null||!min||G.over)return false;
   const p0=periodOf(hourN()),d0=dayN();G.clock+=min;
@@ -2354,11 +2432,46 @@ async function passTime(min){if(!G||G.clock==null||!min||G.over)return false;
   if(d1!==d0||p1!==p0){
     if(p1==='night')out('天黑了。入夜之後很難看清楚四周，感染者也比白天更躁動。','rule',true);
     else if(p1==='dusk')out('天色開始暗了下來。','rule',true);
-    else if(p1==='dawn')out(`<b>第 ${d1} 天</b>。天快亮了，窗外透進一點灰白的光。`,'rule',true);
+    else if(p1==='dawn'){out(`<b>第 ${d1} 天</b>。天快亮了，窗外透進一點灰白的光。`,'rule',true);if(d1>(G.xpDay||1)){G.xpDay=d1;teamXP(3)}}
     else if(p1==='day'&&p0!=='dawn')out(`<b>第 ${d1} 天</b>。天已經亮了。`,'rule',true);
   }
+  if(await cityTick())return true;
   push();draw();
   return await deathCheck()}
+/* ================= 城市與天數（v0.9.0） =================
+   一局 7 天。G.sch：本局各事件發生的時間（G.clock 的分鐘數），開局時決定，小範圍浮動。
+   事件依序觸發：停電 → 撤離廣播 → 撤離車離開 → 劫匪 → A.C.R.U. 影子 → 滅菌作戰 → 旅館開始燒 → 預警 → 燃燒彈（硬截止）。 */
+const DAYS=7;
+const atm=(d,h)=>(d-1)*1440+Math.round(h*60)-T0;
+function makeSched(){const df=(G.opts&&G.opts.diff)||'normal';const r=(d,a,b)=>atm(d,a)+rnd(0,Math.round((b-a)*60));
+  const s={blackout:df==='hard'||df==='real'?r(2,17,20):r(2,20,23),broadcast:r(3,8,10),evac:atm(4,6),evacgone:atm(4,7),
+    raid:df==='hard'||df==='real'?r(3,17,19):atm(4,7),shadow:r(5,5,7),sweep:r(6,5,7),hotelburn:atm(6,17),warn:atm(7,5),fire:atm(DAYS,6)};
+  return s}
+const CITY_EV=['blackout','broadcast','evacgone','raid','shadow','sweep','hotelburn','warn','fire'];
+// 事件池的條件：d0／d1 天數範圍、need 旗標
+const evOk=e=>(!e.d0||dayN()>=e.d0)&&(!e.d1||dayN()<=e.d1)&&(!e.need||flagOk(e.need))&&(!e.hide||!flagOk(e.hide));
+async function cityTick(){if(!G.sch)return false;G.fired=G.fired||{};
+  for(const k of CITY_EV){if(G.fired[k]||G.clock<G.sch[k])continue;G.fired[k]=1;if(await cityEvent(k))return true}
+  return false}
+async function cityEvent(k){const real=DF().num===0;
+  if(k==='blackout'){G.flags.blackout=1;snd('click',.6);out('啪的一聲，所有的燈同時熄了。冰箱的嗡嗡聲停了，遠處的警報器也停了。整座城市一下子安靜得可怕。<b>停電了</b>：室內更暗，沒有手電筒感知再 −1。','rule')}
+  else if(k==='broadcast'){G.flags.evacinfo=1;out(real?'街上的廣播車一遍一遍地放著同一段錄音：「國民兵將在明天一早進行最後一次撤離，請民眾前往街區北口檢查站集合。」錄音很舊，雜訊很多。':'街上的廣播車一遍一遍地放著同一段錄音：「最後一班撤離車將於<b>明天早上六點</b>從街區北口檢查站出發。請攜帶身分證件，所有人都要接受檢查。」','rule')}
+  else if(k==='evacgone'){G.flags.evacgone=1;out('北邊傳來一長串喇叭聲，然後是引擎聲，越來越遠。最後一班撤離車開走了。','rule')}
+  else if(k==='raid'){G.flags.raiders=1;out('秩序撐不住了。街上開始有人成群結隊地砸門、搶東西，有些人手上有刀，有些人有槍。從現在起，街上不只有感染者。','rule')}
+  else if(k==='shadow'){G.flags.shadow=1;out('天快亮的時候，一排沒有任何標示的黑色車輛無聲地開過街區，沒有開燈，也沒有停。車窗是黑的。','rule')}
+  else if(k==='sweep'){G.flags.acru=1;G.flags.streetpower=1;out('擴音器的聲音蓋過了整個街區：「這裡是 A.C.R.U.。本區即刻起進行滅菌作業。所有人員留在原地，等候處置。」路口架起了路障，穿全套防護衣的人拿著槍，一排一排地走過來。街區的路燈亮了——他們接了臨時電。','rule')}
+  else if(k==='hotelburn'){G.flags.hotelburn=1;out('旅館的方向冒起了黑煙。他們開始燒了。','rule')}
+  else if(k==='warn'){out('東邊的天空開始泛白。很高很高的地方，傳來飛機引擎低沉的聲音，不只一架。','rule')}
+  else if(k==='fire'){await fireEnding();return true}
+  push();draw();return false}
+// 燃燒彈：第 7 天清晨還在地面
+const FIRE_END={street:'天亮了。第一顆燃燒彈落在街區北口，接著是第二顆、第三顆。火從路口往四面八方推過來，比任何人能跑的都快。你最後看見的，是那個「……MALL」的招牌在火裡一個字母一個字母地熄掉。',
+  hotel:'天亮了。旅館的屋頂先燒起來，火順著電梯井和樓梯間往下灌。走廊上的煙霧偵測器同時尖叫，又同時安靜。23:41 那班接送車，終究沒有來。',
+  safe:'你們把門堵好，以為這裡夠安全。天亮的時候，屋頂傳來一聲悶響，接著整片天花板都紅了。門外的火聲，比任何感染者都大。'};
+async function fireEnding(){if(G.over)return;const nd=N[G.node]||{};const key=nd.rest?'safe':(LV[G.lv]||{}).ch===1?'hotel':'street';
+  G.fight=null;G.over={dead:1,fire:1,mad:0,text:FIRE_END[key]};G.phase='over';stopCd();{const d=shardCalc(null);for(const k of Object.keys(d))d[k]+=(G.bank[k]||0);G.over.sh=d}
+  for(const p of G.players)if(!p.dead){p.dead=1;p.hp=0}
+  await flush();stopBgm();snd('mimpact',1,2000);hd('第 7 天・清晨');out(G.over.text,'dmg')}
 async function tickAll(){
   for(const p of able()){
     p.nT++;
@@ -2398,15 +2511,16 @@ async function enterNode(id){
   if(END[id])return ending(id);
   const nd=N[id];if(!nd){console.error('no node',id);return}
   if(nd.L!==G.lv){
-    const first=G.lv==null;G.lv=nd.L;G.levels++;if(!first)G.alarm=Math.max(0,G.alarm-2);push();draw();await flush();
+    const first=G.lv==null;G.lv=nd.L;G.lvSeen=G.lvSeen||[];const fresh=!G.lvSeen.includes(nd.L);if(fresh){G.lvSeen.push(nd.L);G.levels++}if(!first)G.alarm=Math.max(0,G.alarm-2);push();draw();await flush();
     const nch=LV[nd.L].ch||1;if(nch!==G.ch){G.ch=nch;await chapterCard(nch)}else{if(!first)snd('stairs',.8)}await card(nd.L);
     out(`<b>${LV[nd.L].n}・${LV[nd.L].sub}</b>`,'rule',true);
-    if(!first){teamXP(1);for(const p of able()){if(p.mad)continue;if((p.fe||0)>0){out(`${MP()?nm(p)+'：':''}換了個地方，稍微喘了口氣。`,'good',true);relax(p,10,true)}}}
+    if(!first&&fresh){teamXP(1);for(const p of able()){if(p.mad)continue;if((p.fe||0)>0){out(`${MP()?nm(p)+'：':''}換了個地方，稍微喘了口氣。`,'good',true);relax(p,10,true)}}}
+    if(G.flags.hotelburn&&(LV[nd.L].ch||1)===1&&!first){out('旅館外牆整片在燒。你們從還沒燒到的側門鑽進去，濃煙嗆得人睜不開眼。','dmg');for(const p of able()){hurtP(p,3);scare(p,10,true)}if(await deathCheck())return}
     for(const p of G.players)if(p.down&&!p.dead&&DF().wake){p.down=0;if(p.mad){p.mad=0;p.fe=90}p.hp=Math.max(1,Math.ceil(p.max*.25));out(`${nm(p)}咳了幾聲，慢慢撐著牆站了起來。生命回到 ${p.hp}。`,'good')}
   }
-  G.node=id;G.ev=null;G.votes={};G.rv={};G.pc=null;if(G.ground.length){G.ground=[]}
-  if(nd.ev){const ch=LV[nd.L].ch||1;const mine=EVPOOL.map((e,i)=>i).filter(i=>(EVPOOL[i].ch||1)===ch);const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;hd('——');out(EVPOOL[i].t,'lore')}
-  else{hd(nd.n);out(nd.t,'lore');if(nd.tm&&G.players.some(p=>p.kind==='maggie'))out(nd.tm,'lore')}
+  G.node=id;G.ev=null;G.votes={};G.rv={};G.pc=null;if(G.ground.length){G.ground=[]}G.flags['v_'+id]=1;if(nd.onEnter)nd.onEnter();
+  if(nd.ev){const ch=LV[nd.L].ch||1;const mine=EVPOOL.map((e,i)=>i).filter(i=>(EVPOOL[i].ch||1)===ch&&evOk(EVPOOL[i]));const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;hd('——');out(EVPOOL[i].t,'lore')}
+  else{hd(nd.n);out(nd.t,'lore');if(nd.tx){const x=nd.tx();if(x)out(x,'lore')}if(nd.tm&&G.players.some(p=>p.kind==='maggie'))out(nd.tm,'lore')}
   if(G.lv==='G'){for(const p of able())addInf(p,G.flags.mask?1:2);out(`空氣裡飄著細細的粉末，喉嚨發癢。感染 +${G.flags.mask?1:2}${G.flags.mask?'（濕布擋掉了一些）':''}。`,'dmg',true)}
   {const fx=LV[G.lv].fx||{};
    if(fx.alarmNode&&!G.flags.dooroff)addAlarm(fx.alarmNode,null);
@@ -2551,17 +2665,16 @@ async function explode(){
 async function ending(key){
   const e=END[key];await flush();snd('dooropen');
   hd((e.final?'結局・':'')+e.n);out(e.t,'lore');
-  const sh=shardCalc(key);for(const [k,v] of Object.entries(sh))G.bank[k]=(G.bank[k]||0)+v;
+  // v0.9.0 沒有章節了：離開旅館這類出口只是換地點，不結算碎片
   if(e.next&&N[e.next]){
-    out(`${CHAPTERS[G.ch].n}結束。碎片 +${sh[MYPID]||Object.values(sh)[0]||0}（這一局累計 ${G.bank[MYPID]||Object.values(G.bank)[0]||0}）。`,'good',true);
     for(const p of G.players){
       if(p.mad&&!p.dead){p.mad=0;p.down=0;p.fe=50;p.hp=Math.max(p.hp,Math.ceil(p.max/2));out(`${nm(p)}在大家的拉扯下安靜了下來，坐在路邊看著自己的手，好像剛想起自己是誰。`,'good')}
       else if(p.down&&!p.dead){p.down=0;p.hp=Math.ceil(p.max/3);out(`${nm(p)}被大家架著走出來，慢慢醒了過來。`,'good',true)}
     }
-    teamXP(5);
-    G.kills0=G.kills;push();draw();await wait(400);
+    push();draw();await wait(400);
     return enterNode(e.next);
   }
+  const sh=shardCalc(key);for(const [k,v] of Object.entries(sh))G.bank[k]=(G.bank[k]||0)+v;
   G.over={dead:0,end:key,n:e.n,sh:{...G.bank}};G.phase='over';stopCd();
 }
 async function chapterCard(ch){const C=CHAPTERS[ch];const c=$('#lvcard');E('cc',ch);await showChapter(ch)}
@@ -2623,12 +2736,16 @@ const numbF=f=>affIs(f,'numb')||affIs(f,'drugged');
 const foeHitMod=f=>(affIs(f,'hungry')?2:0)+(affIs(f,'veteran')?1:0)-(affIs(f,'drugged')?1:0)-(f.dazzle?4:0)-(f.legW?2:0)+(G.fight&&G.fight.foes.some(x=>x!==f&&!x.dead&&affIs(x,'squad')&&FT(f).fac==='acru')?1:0);
 function newFoe(id,t,np,wet){const F=FOES[t];const hp=F.hp+(np-1);return {id,type:t,n:'',hp,max:hp,burn:0,stun:0,bleed:0,weak:0,prone:0,defDown:0,nosplash:0,dazzle:0,legW:0,wet:wet?1:0,shell:F.shell||0,loaded:t==='collector'?1:0,img:FOE_IMG[t]?pick(FOE_IMG[t]):''}}
 function giveAff(f,k){if(!k)return;f.aff=k;const d=k==='fresh'?-2:k==='wounded'?-4:k==='drugged'?3:0;if(d){f.hp=Math.max(3,f.hp+d);f.max=Math.max(3,f.max+d)}if(k==='shaken')f.shaken=1}
+// v0.9.0 隨機遭遇的敵人跟著天數變：劫匪出現前沒有人類陣營；劫匪期街上多割喉者、索命客；影子期起多巨噬者
+function dayPool(){let p=[...(LV_POOL[G.lv]||['infected'])];const F=G.flags||{};
+  if(!F.raiders)p=p.filter(t=>FOES[t].fac!=='hum');else if(!F.acru&&(LV[G.lv]||{}).ch===2)p.push('cutter','collector');
+  if(F.shadow)p.push('devourer');return p.length?p:['infected']}
 async function startFight(spec){
   // 一場戰鬥算「很快」：20 分鐘
   if(await passTime(20))return;
   const act=able();const P0=act.length;
   const n=Math.min(6,Math.max(spec.n,Math.round(spec.n*(1+(P0-1)*.3))));const names=[...(spec.names||[])];const types=names.map(typeOfName);
-  while(types.length<n){types.push(pick(LV_POOL[G.lv]||['infected']));names.push('')}
+  while(types.length<n){types.push(pick(dayPool()));names.push('')}
   const wet=['U','G'].includes(G.lv);
   const foes=types.map((t,i)=>newFoe(i,t,act.length,wet));
   // 詞綴：每隻最多一個，照陣營抽；第一章少見、越後面越常見
@@ -3482,7 +3599,7 @@ function draw(){
   let h='',T='要做什麼？',Pl='行動';const cl=cdLeft();
   if(G.over){
     creditShards();const s=G.over.sh&&G.over.sh[MYPID]||0;
-    T=G.over.dead?(MP()?'全員倒下':(G.players[0].mad?'你發瘋了':'你死了')):'結局・'+G.over.n;Pl=G.over.dead?'GAME OVER':(END[G.over.end]&&END[G.over.end].settle?'定居':'第二章完');
+    T=G.over.dead?(G.over.fire?'葬身火海':MP()?'全員倒下':(G.players[0].mad?'你發瘋了':'你死了')):'結局・'+G.over.n;Pl=G.over.dead?'GAME OVER':'結局';
     h=`<p class="note">擊倒 ${G.kills}　通過 ${G.levels} 個區域　${m?`等級 ${m.lv}`:''}</p>${G.players.map(q=>`<div class="sumc" style="${MP()?`border-color:${q.col}`:''}"><b>${esc(q.name)}</b><em>${runTitle(q)}</em><small>${q.dead?(q.mad?'發瘋':'死亡'):q.down?'倒地':q.mad?'發瘋':'活著'}　擊倒 ${q.kills||0}　受傷 ${q.taken||0}　治療 ${q.heal||0}${q.revives?`　救起隊友 ${q.revives}`:''}　等級 ${q.lv}</small></div>`).join('')}<p class="note" style="color:#d9c38f">獲得碎片 ${s}　（目前共 ${META.shards}）</p>`+chBtn('data-menu','回到選單','用碎片解鎖角色與背景','','')+(ROLE==='solo'?chBtn('data-again','再來一局','重新建立角色','',''):'');
   }else if(!m||m.dead){T=m&&m.dead?'你已經死了':'觀戰中';Pl='觀戰';h=`<p class="note">你可以繼續看隊友行動。</p>`}
   else if(F){
@@ -3771,7 +3888,7 @@ function showMenu(){
   scr(`<div class="home"><div class="hhead"><div class="ttl"><span class="k">ZeroCase · 2038</span><h1>零號病例</h1></div><div class="hinfo"><span class="shard">碎片 ${META.shards}</span><span class="note">遊玩 ${META.runs} 次　通關 ${META.clears} 次</span><span class="note ver">v${ZC_VER.v}・Build ${ZC_VER.b}</span></div></div>
   <div class="hcats">${CATS.map(([k,n,d])=>`<button class="hcat" data-cat="${k}"><span class="hico" data-icon="${k}"></span><b>${n}</b><small>${d}</small></button>`).join('')}</div>
   <div class="hfoot"><span class="avrow">${avH(MYPID,'玩家','#c8ad70','')}<button class="btn" data-m="avpick">頭像</button>${avOk(AVS[MYPID])?'<button class="btn" data-m="avdel">移除</button>':''}<input type="file" id="avfile" accept="image/*" hidden></span>
-  ${saved&&saved.G&&!saved.G.over?`<button class="btn" data-m="resume">讀取存檔<small>${esc(saved.G.players[0].name)}・${LV[saved.G.lv]?LV[saved.G.lv].n:''}</small></button>`:''}<button class="btn" data-m="unlock">收藏與解鎖</button><button class="btn" data-m="settings">設定</button></div></div>`);
+  ${saved&&saved.G&&!saved.G.over?(saved.G.v9?`<button class="btn" data-m="resume">讀取存檔<small>${esc(saved.G.players[0].name)}・${LV[saved.G.lv]?LV[saved.G.lv].n:''}</small></button>`:`<button class="btn" disabled>讀取存檔<small>舊版本的存檔，沒辦法接著玩</small></button>`):''}<button class="btn" data-m="unlock">收藏與解鎖</button><button class="btn" data-m="settings">設定</button></div></div>`);
   bindAvatar()}
 function bindAvatar(){const af=$('#avfile');if(af)af.addEventListener('change',()=>{const f=af.files&&af.files[0];if(f)loadAvatar(f)})}
 // 劇情角色、訪客的選角頁
@@ -3895,7 +4012,7 @@ function showDiff(){SCR='diff';
   scr(`<div class="sh"><h2>選擇難度</h2><span class="shard">進去之後就不能改</span><button class="btn" data-m="playback">返回</button></div><div class="sbody"><div class="cards dcards">${diffCards(UI.diff,'dif')}</div><p class="note">碎片倍率：困難 ×1.3、真實 ×1.7。</p><div class="seg" style="justify-content:center"><button class="btn big" data-m="go">開始調查（${DIFF[UI.diff].n}）</button></div></div>`)}
 function diffCards(cur,attr,dis){return Object.entries(DIFF).map(([k,d])=>`<button class="card ${cur===k?'on':''}" data-${attr}="${k}" ${dis?'disabled':''}><b>${d.n}</b><small>${d.d}</small></button>`).join('')}
 function startSolo(){ROLE='solo';newRun([buildOut()],{diff:UI.diff},'solo');showGame();run(()=>enterNode('A1'))}
-function resumeSolo(){const d=LS.get('zc7-save',null);if(!d||!d.G)return showMenu();ROLE='solo';G=migrateG(d.G);LOG=d.LOG||[];G.busy=0;G.cd=null;busy=false;showGame();
+function resumeSolo(){const d=LS.get('zc7-save',null);if(!d||!d.G)return showMenu();if(!d.G.v9){toast('這是舊版本（還有章節時）的存檔，沒辦法接著玩，請重新開始。');return showMenu()}ROLE='solo';G=migrateG(d.G);LOG=d.LOG||[];G.busy=0;G.cd=null;busy=false;showGame();
   out('—— 冒險繼續 ——','hd',true);if(G.fight&&!G.fight.group)run(advance);}
 function onScr(b,d){
   sfx('click',.5);
@@ -3918,7 +4035,7 @@ function onScr(b,d){
   else if(d.m==='leave'){leaveRoom();showMenu()}
   else if(d.m==='editc'){CMODE=ROLE==='host'?'host':'client';CTAB='who';showCreate()}
   else if(d.m==='start'){if(ROLE==='host'){enterFull(true);startMP()}}
-  else if(d.m==='loadmp'){LOBBY.load=LOBBY.load?null:LS.get('zc7-mpsave',null);setPres();showLobby()}
+  else if(d.m==='loadmp'){const sv=LS.get('zc7-mpsave',null);if(!LOBBY.load&&sv&&sv.G&&!sv.G.v9){toast('這是舊版本（還有章節時）的多人存檔，沒辦法接著玩，請重新開始。');return}LOBBY.load=LOBBY.load?null:sv;setPres();showLobby()}
   else if(d.m==='go'){enterFull(true);startSolo()}
   else if(d.dif){UI.diff=d.dif;saveUI();showDiff()}
   else if(d.ldif){LOBBY.opts.diff=d.ldif;UI.diff=d.ldif;saveUI();setPres();showLobby()}
