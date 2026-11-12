@@ -465,6 +465,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 #stage.short .fmenu .ch{min-height:0;padding:4px 8px;row-gap:0}
 #stage.short .fmenu .ch .cs{line-height:1.3}
 #stage.short .fmenu{gap:4px}
+#stage.short #ov .seg{margin:2px 0 5px}#stage.short #ov .seg .btn{min-height:30px;padding:4px 12px}#stage.short #ov p.note{margin:2px 0}
 </style>
 
 <div id="stage">
@@ -495,7 +496,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.7.0", "b": 13, "t": "2026-11-12T14:56:27+08:00"};
+const ZC_VER={"v": "0.7.1", "b": 14, "t": "2026-11-12T16:40:58+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3542,8 +3543,11 @@ function panel(k){
   }else if(k==='settings'){
     const seg=(key,opts)=>`<div class="seg">${opts.map(([v,l])=>`<button class="btn ${UI[key]===v?'on':''}" data-ui="${key}" data-v="${v}">${l}</button>`).join('')}</div>`;
     const hostOpt=ROLE==='host'&&G&&!G.over?`<p class="note">倒數（房主）</p><div class="seg">${[['off','關閉'],['host','房主按下才倒數'],['force','強制倒數']].map(([v,l])=>`<button class="btn ${G.opts.cd===v?'on':''}" data-gcd="${v}">${l}</button>`).join('')}</div><div class="seg">${[15,20,30].map(v=>`<button class="btn ${G.opts.sec===v?'on':''}" data-gsec="${v}">${v} 秒</button>`).join('')}</div>`:'';
-    openOv(`<div class="boxhead"><b>設定</b>${X}</div>${hostOpt}<p class="note">音效</p>${seg('snd',[[1,'開'],[0,'關']])}<p class="note">背景音樂</p>${seg('bgm',[[1,'開'],[0,'關']])}<p class="note">擲骰與文字速度</p>${seg('spd',[[1,'完整'],[.55,'快速'],[.3,'極快']])}<p class="note">畫面方向（手機直拿時）</p>${seg('orient',[['auto','自動轉成橫向'],['off','不旋轉']])}<div class="seg"><button class="btn" data-full>全螢幕</button>${G?`<button class="btn" data-quit>${ROLE==='solo'?'回到選單（沒存檔的進度會消失）':'離開房間'}</button>`:''}</div>
-    <p class="note">檢定擲一顆二十面骰加上能力值，達到難度就成功；擲出 20 必定大成功，擲出 1 必定大失敗。攻擊也一樣：二十面骰＋命中，達到對方的防禦就打中（你的防禦＝10＋敏捷）。傷害是武器的傷害骰加上能力÷2 與等級加成，打在弱點 ×1.5、打在抗性 ÷2，大成功加倍。戰鬥中可以格擋（近戰傷害減半）、閃躲（比較難被打中）或掩蔽（擋遠程攻擊）。連線時理智歸零會發瘋，單人時理智歸零這一局就結束；感染到 100 會死。</p><p class="note">${CREDITS}</p>`);
+    openOv(`<div class="boxhead"><b>設定</b>${X}</div>${hostOpt}<p class="note">音效</p>${seg('snd',[[1,'開'],[0,'關']])}<p class="note">背景音樂</p>${seg('bgm',[[1,'開'],[0,'關']])}<p class="note">擲骰與文字速度</p>${seg('spd',[[1,'完整'],[.55,'快速'],[.3,'極快']])}<p class="note">畫面方向（手機直拿時）</p>${seg('orient',[['auto','自動轉成橫向'],['off','不旋轉']])}<div class="seg"><button class="btn" data-full>全螢幕</button><button class="btn" data-open="rules">規則說明</button><button class="btn" data-open="credits">製作與授權</button>${G?`<button class="btn" data-quit>${ROLE==='solo'?'回到選單（沒存檔的進度會消失）':'離開房間'}</button>`:''}</div>`);
+  }else if(k==='rules'){
+    openOv(`<div class="boxhead"><b>規則說明</b><span class="hbtns"><button class="btn" data-open="settings">← 回設定</button>${X}</span></div><p class="note">檢定擲一顆二十面骰加上能力值，達到難度就成功；擲出 20 必定大成功，擲出 1 必定大失敗。攻擊也一樣：二十面骰＋命中，達到對方的防禦就打中（你的防禦＝10＋敏捷）。傷害是武器的傷害骰加上能力÷2 與等級加成，打在弱點 ×1.5、打在抗性 ÷2，大成功加倍。戰鬥中可以格擋（近戰傷害減半）、閃躲（比較難被打中）或掩蔽（擋遠程攻擊）。連線時理智歸零會發瘋，單人時理智歸零這一局就結束；感染到 100 會死。</p>`);
+  }else if(k==='credits'){
+    openOv(`<div class="boxhead"><b>製作與授權</b><span class="hbtns"><button class="btn" data-open="settings">← 回設定</button>${X}</span></div><p class="note">${CREDITS}</p>`);
   }
 }
 function saveGame(){if(!G||G.over)return;if(busy||G.busy){toast('等這段結束再存檔。');return}
