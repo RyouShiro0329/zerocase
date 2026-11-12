@@ -458,6 +458,10 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 .hcat:active,.hcat:focus-visible{border-color:var(--gold)}
 #stage.short .hcat{padding:8px 10px}
 #stage.tall .hcat{min-height:150px}
+/* 卡片不會比寬還高：電腦大螢幕上卡片維持正方形、垂直置中，圖片不被左右裁掉 */
+.hcats{container-type:size}
+.hcats .hcat{height:min(100%,calc((100cqw - 20px)/3));align-self:center}
+#stage.tall .hcats{container-type:normal}#stage.tall .hcats .hcat{height:auto}
 
 #order{display:flex;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:4px;padding:2px 4px;background:rgba(10,11,10,.75);border:1px solid var(--line);border-radius:14px}
 #order span{flex:none;display:flex;align-items:center;gap:7px;padding:1px 9px;border:1px solid #5a574e;border-radius:12px;background:rgba(30,29,25,.95);font-size:.74rem;line-height:1.5;color:#d9d3c2;white-space:nowrap}
@@ -510,7 +514,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.7.3", "b": 16, "t": "2026-11-13T00:13:48+08:00"};
+const ZC_VER={"v": "0.7.4", "b": 17, "t": "2026-11-13T00:27:58+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3657,11 +3661,11 @@ function scr(h){const s=$('#scr');const keep=SCR_LAST===SCR+'|'+(typeof CTAB!=='
 function onNetReady(){if(SCR==='menu')showMenu()}
 function roomNote(){return NET.room?'':NET.fbErr?'<p class="note">連不上連線服務。請確認網路，重新整理頁面再試一次。</p>':'<p class="note">連線功能要在 claude.ai 上開啟這個頁面才能用：房主需要登入，並把這個頁面分享給隊友（同組織成員或受邀訪客）。用公開連結進來的人連不上房間。</p>'}
 // 主頁：先選角色種類（倖存者／劇情角色／訪客），選好角色才選單人或連線
-const CATS=[['custom','倖存者','自己決定名字、屬性、天賦、技能和帶什麼東西。','免費'],['story','劇情角色','固定的職業與人物。在某些地方，會有只屬於他們的劇情和選項。',`各 ${JOB_COST} 碎片解鎖`],['guest','訪客','朋友自己創造的角色，有獨立的天賦與技能。',`各 ${GUEST_COST} 碎片解鎖`]];
+const CATS=[['custom','倖存者','自己決定名字、屬性、天賦、技能和帶什麼東西。'],['story','劇情角色','固定的職業與人物。在某些地方，會有只屬於他們的劇情和選項。'],['guest','訪客','故事外的獨立角色，有專屬的天賦與技能。']];
 function showMenu(){
   SCR='menu';const saved=LS.get('zc7-save',null);
   scr(`<div class="home"><div class="hhead"><div class="ttl"><span class="k">ZeroCase · 2038</span><h1>零號病例</h1></div><div class="hinfo"><span class="shard">碎片 ${META.shards}</span><span class="note">遊玩 ${META.runs} 次　通關 ${META.clears} 次</span><span class="note ver">v${ZC_VER.v}・Build ${ZC_VER.b}</span></div></div>
-  <div class="hcats">${CATS.map(([k,n,d,c])=>`<button class="hcat" data-cat="${k}"><span class="hico" data-icon="${k}"></span><b>${n}</b><small>${d}</small><em>${c}</em></button>`).join('')}</div>
+  <div class="hcats">${CATS.map(([k,n,d])=>`<button class="hcat" data-cat="${k}"><span class="hico" data-icon="${k}"></span><b>${n}</b><small>${d}</small></button>`).join('')}</div>
   <div class="hfoot"><span class="avrow">${avH(MYPID,'玩家','#c8ad70','')}<button class="btn" data-m="avpick">頭像</button>${avOk(AVS[MYPID])?'<button class="btn" data-m="avdel">移除</button>':''}<input type="file" id="avfile" accept="image/*" hidden></span>
   ${saved&&saved.G&&!saved.G.over?`<button class="btn" data-m="resume">讀取存檔<small>${esc(saved.G.players[0].name)}・${LV[saved.G.lv]?LV[saved.G.lv].n:''}</small></button>`:''}<button class="btn" data-m="unlock">收藏與解鎖</button><button class="btn" data-m="settings">設定</button></div></div>`);
   bindAvatar()}
@@ -3704,7 +3708,7 @@ function showCreate(){
     if(pr)body=(J?`<p class="note">名字（劇情角色用你自己的名字）</p><input class="inp" id="cname" maxlength="10" placeholder="輸入名字（不填就叫${J.n}）" value="${esc(CB.name)}">`:'')+charDetail(CB.kind);
     else body=`<p class="note">名字</p><input class="inp" id="cname" maxlength="10" placeholder="輸入角色名字" value="${esc(CB.name)}"><p class="note">接下來依序分配屬性、選一個天賦、選一個技能、挑選帶進旅館的物品。</p>`;
   }else if(CTAB==='st'){
-    const bg=TALENT[CB.tal];
+    const bg=TALENT[CB.tal]||{st:{}};
     body=`<p class="note">分配 ${STAT_PTS} 點，每項 0～${STAT_MAX}（天賦加成另計）。生命＝10＋體質×3，防禦＝10＋敏捷，理智＝10＋智力，背包＝8＋力量格。每升一級生命、理智、命中、傷害各 +1，另給 1 點能力點：能力未滿 5 花 1 點 +1，5 以上花 2 點 +1。</p>`+Object.keys(STN).map(s=>{const b=bg.st[s]||0;return `<div class="cstat"><b>${STN[s]}</b><span>${boxes(CB.st[s],STAT_CAP,b)}　${CB.st[s]}${b?` +${b}＝${CB.st[s]+b}`:''}</span><div class="pm"><button class="btn" data-st="${s}" data-d="-1" ${CB.st[s]<=0?'disabled':''}>−</button><button class="btn" data-st="${s}" data-d="1" ${CB.st[s]>=STAT_MAX||statUsed()>=STAT_PTS?'disabled':''}>＋</button></div><small>${STD[s]}</small></div>`}).join('');
   }else if(CTAB==='tal'){
     body=`<p class="note">天賦：選一個，能力 +1，並帶一個被動效果。</p><div class="cards">${Object.entries(TALENT).map(([k,a])=>`<button class="card ${CB.tal===k?'on':''}" data-tal="${k}"><b>${a.n}</b><em>${Object.entries(a.st).map(([s,v])=>STN[s]+' +'+v).join('　')}</em><small>${a.d}</small></button>`).join('')}</div>`;
