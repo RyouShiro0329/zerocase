@@ -158,7 +158,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 #stage.short .me{padding:4px 10px 5px}
 #stage.short .drow{height:80px}
 #stage.short .die{width:66px;height:66px}
-#stage.narrow .mid small{display:none}
+#stage.narrow .mid small .nz{display:none}
 #stage.tall .cols{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr) minmax(0,auto)}
 #stage.tall #chp{max-height:58%}
 #stage.tall .topbar{flex-wrap:wrap}
@@ -484,6 +484,10 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 #stage.short .fmenu .ch .cs{line-height:1.3}
 #stage.short .fmenu{gap:4px}
 #stage.short #ov .seg{margin:2px 0 5px}#stage.short #ov .seg .btn{min-height:30px;padding:4px 12px}#stage.short #ov p.note{margin:2px 0}
+/* v0.8.0 時間 */
+.mid small b.clk{color:#c9c2a8;font-weight:600;letter-spacing:.04em}.mid small b.clk.nt{color:#9fb3d6}
+.ch .tmc{font:12px var(--label);color:var(--muted);margin-left:4px;white-space:nowrap}.ch .tmc.l{color:#d4b27a}
+#stage.short .ch .tmc{font-size:11px}
 </style>
 
 <div id="stage">
@@ -514,7 +518,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.7.4", "b": 17, "t": "2026-11-13T00:27:58+08:00"};
+const ZC_VER={"v": "0.8.0", "b": 18, "t": "2026-11-13T05:20:56+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -1945,6 +1949,22 @@ M2t:{L:'M',n:'員工休息室',next:'M3',trade:1,rest:1,
   {l:'留下來，跟他們一起守住這裡',s:'這是一個結局；他們得先信得過你們',karma:2,ok:{t:`你說你不走了。`,go:'END_settle_store'}},
   {l:'告別，繼續往前',ok:{t:`傑西送你到倉庫門口。「如果……如果你們找到軍方，跟他們說這裡還有人。」`}}]}
 });
+// v0.8.0 過夜：只在夜晚出現，睡到清晨（生命回一半、理智 +2）
+N.H2.c.splice(3,0,{l:'鎖上門，在下舖睡到天亮',s:'睡前最好先吃點東西、喝點水',t:'sleep',night:1,stay:1,ok:{t:`你把門鏈扣上，椅子頂住門把，鞋子沒脫就躺下了。
+
+半夜醒來過一次。走廊上有拖行的聲音，從這一頭慢慢拖到另一頭，又拖回來。你屏住呼吸數到三百，它才停下。
+
+再睜開眼睛的時候，窗簾縫透進一點灰白的光。`,r:{sleep:1}}});
+N.K2.c.splice(3,0,{l:'在一樓的空房睡到天亮',s:'睡前最好先吃點東西、喝點水',t:'sleep',night:1,stay:1,ok:{t:`你把沙發推到門後，關掉那台靜音的電視，在黑暗裡躺下。
+
+樓上有人在哭，哭了很久，後來停了。你不知道是哭累了，還是別的原因。
+
+醒來的時候，街上很安靜，天邊開始泛白。`,r:{sleep:1}}});
+{const i=N.M2t.c.findIndex(c=>c.l==='在休息室裡睡一下');N.M2t.c.splice(i+1,0,{l:'在休息室過夜',s:'傑西說他們會輪流看門',t:'sleep',night:1,stay:1,ok:{t:`傑西和那位媽媽說好輪流守夜。你在折疊桌底下鋪了兩塊紙箱板，躺下去，冰箱的嗡嗡聲一直沒停。
+
+半夜，小女孩的布偶掉到你旁邊。你把它放回她手裡，她沒有醒。
+
+天亮的時候，傑西坐在門邊打瞌睡，手裡還握著那根拖把柄。`,r:{sleep:1}}})}
 Object.assign(END,{
  END_settle_store:{n:'便利商店',shards:28,final:1,settle:1,t:`你們用貨架把自動門堵起來，只留員工通道。傑西把每天的物資寫在收銀機的感熱紙上，一天撕一張。
 
@@ -2057,7 +2077,9 @@ function armorOf(p){let a=0;for(const s of EQS){const e=p.eq&&p.eq[s];if(e&&ITEM
 function statMod(p,st){
   let m=p.st[st]||0;
   if(st==='AGI'){if(p.frac&&!p.pk)m-=3;if(G.lv==='C')m-=2}
-  if(st==='PER'){if(G.lv==='E'&&!hasI(p,'flashlight')&&!tr(p,'nightowl'))m-=2}
+  if(st==='PER'){if(G.lv==='E'&&!hasI(p,'flashlight')&&!tr(p,'nightowl'))m-=2;
+    // 夜晚看不清：感知 −2（手電筒、夜貓子不受影響）
+    if(isNight()&&!hasI(p,'flashlight')&&!tr(p,'nightowl'))m-=2}
   const fx=G.lv&&LV[G.lv]&&LV[G.lv].fx||{};
   if(st==='PER'){if(fx.per)m+=fx.per;if(fx.dark&&!hasI(p,'flashlight')&&!tr(p,'nightowl'))m-=2}
   if(st==='AGI'&&fx.agi)m+=fx.agi;
@@ -2116,7 +2138,7 @@ const DF=()=>DIFF[G&&G.opts&&DIFF[G.opts.diff]?G.opts.diff:'hard'];
 function newRun(builds,opts,mode){
   G={v:5,rules3:1,rules5:1,rid:Math.random().toString(36).slice(2,9),mode,opts:Object.assign({cd:'off',sec:20,diff:'normal'},opts||{}),host:MYPID,
     lv:null,ch:1,bank:{},node:null,ev:null,alarm:0,flags:{},evSeen:[],known:[...START_KNOWN],players:[],phase:'busy',votes:{},rv:{},pc:null,cd:null,
-    fight:null,after:null,uid:0,levels:0,kills:0,over:null,busy:1,pendingBurn:0,seq:0,ground:[],know:{},tactUsed:{},used:{},hint:{},hazCd:2};
+    fight:null,after:null,uid:0,levels:0,kills:0,over:null,busy:1,pendingBurn:0,seq:0,ground:[],know:{},tactUsed:{},used:{},hint:{},hazCd:2,clock:0};
   builds.slice(0,MAXP).forEach((b,i)=>makePlayer(b,i));
   LOG=[];
 }
@@ -2269,13 +2291,55 @@ async function gameOver(){
   out(G.over.text,'dmg');
 }
 function shardCalc(endKey){const o={};const mul=DF().shard;for(const p of G.players){const alive=!p.dead&&!p.down;o[p.pid]=endKey&&alive?END[endKey].shards+p.kills+2*G.levels:endKey?Math.ceil((END[endKey].shards+p.kills+2*G.levels)/2):3+2*G.levels+p.kills;o[p.pid]=Math.round(o[p.pid]*mul)}return o}
+/* ================= 時間（v0.8.0） =================
+   G.clock：從第 1 天 06:00 起算的分鐘數。玩家只看到「第 N 天・時段」，不顯示幾點幾分。
+   選項的時間：很快（10～30 分）、要一陣子（1～2 小時）、要很久（3 小時以上）。 */
+const T0=360;
+const TCOST={q:[10,30],m:[60,120],l:[180,180]};
+const TLAB={q:'很快',m:'要一陣子',l:'要很久'};
+const PERN={dawn:'清晨',day:'白天',dusk:'傍晚',night:'夜晚'};
+const absMin=()=>T0+((G&&G.clock)||0);
+const dayN=()=>Math.floor(absMin()/1440)+1;
+const hourN=()=>(absMin()%1440)/60;
+const periodOf=h=>h>=5&&h<8?'dawn':h>=8&&h<17?'day':h>=17&&h<20?'dusk':'night';
+const isNight=()=>!!G&&G.clock!=null&&periodOf(hourN())==='night';
+const timeTxt=()=>`第 ${dayN()} 天・${PERN[periodOf(hourN())]}`;
+// 到下一個清晨 05:00 還有幾分鐘（過夜用）
+const untilDawn=()=>{const m=absMin()%1440;return (300-m+1440)%1440||1440};
+// 選項要花多少時間：資料可以直接寫 t:'q'|'m'|'l'；沒寫的照內容判斷
+function tKind(c){if(!c)return null;if(c.t)return c.t==='sleep'?'l':c.t;
+  const ok=c.ok||{};const r=ok.r||{};
+  if(r.rest||r.sleep)return 'l';if(r.shop)return 'm';
+  if(/翻|搜|找|檢查|櫃|抽屜|箱子|紙箱|袋|架上|仔細|^等/.test(c.l))return 'm';
+  const dest=c.go||ok.go||(N[G.node]||{}).next;const nd=dest&&N[dest];
+  // 換區域：要一陣子；夜裡在街上（第二章起）移動，要很久
+  if(nd&&nd.L!==G.lv)return isNight()&&(LV[nd.L].ch||1)>=2&&(LV[G.lv].ch||1)>=2?'l':'m';
+  return 'q'}
+function tMin(c){const k=tKind(c);if(!k)return 0;if(c.t==='sleep')return untilDawn();const [a,b]=TCOST[k];return rnd(a,b)}
+// 時間流逝：飢渴跟著時間走；跨過時段時提示。回傳 true 代表遊戲結束
+async function passTime(min){if(!G||G.clock==null||!min||G.over)return false;
+  const p0=periodOf(hourN()),d0=dayN();G.clock+=min;
+  const fs=1+.25*DF().food;const ti=Math.round(240*fs),hi=Math.round(360*fs);
+  for(const p of able()){
+    p.tT=(p.tT||0)+min;p.tH=(p.tH||0)+min;
+    while(p.tT>=ti){p.tT-=ti;p.thi=Math.max(0,p.thi-1);if(p.thi===2)out(`${MP()?nm(p)+'的':''}喉嚨乾得發痛。需要喝水。`,'sys')}
+    while(p.tH>=hi){p.tH-=hi;p.hun=Math.max(0,p.hun-1);if(p.hun===2)out(`${MP()?nm(p)+'的':''}胃在抽痛。需要吃點東西。`,'sys')}
+    // 餓過頭、渴過頭：每 2 小時生命 −1
+    if(p.hun<=0||p.thi<=0){p.tS=(p.tS||0)+min;const n=Math.floor(p.tS/120);if(n){p.tS-=n*120;p.hp-=n;out(`${nm(p)}${p.thi<=0?'嚴重脫水，眼前一陣陣發黑':'餓得手腳發軟'}。生命 −${n}。`,'dmg')}}else p.tS=0;
+  }
+  const p1=periodOf(hourN()),d1=dayN();
+  if(d1!==d0||p1!==p0){
+    if(p1==='night')out('天黑了。入夜之後很難看清楚四周，感染者也比白天更躁動。','rule',true);
+    else if(p1==='dusk')out('天色開始暗了下來。','rule',true);
+    else if(p1==='dawn')out(`<b>第 ${d1} 天</b>。天快亮了，窗外透進一點灰白的光。`,'rule',true);
+    else if(p1==='day'&&p0!=='dawn')out(`<b>第 ${d1} 天</b>。天已經亮了。`,'rule',true);
+  }
+  push();draw();
+  return await deathCheck()}
 async function tickAll(){
   for(const p of able()){
     p.nT++;
-    if(p.nT%(2+DF().food)===0){p.thi=Math.max(0,p.thi-1);if(p.thi===2)out(`${MP()?nm(p)+'的':''}喉嚨乾得發痛。需要喝水。`,'sys')}
-    if(p.nT%(3+DF().food)===0){p.hun=Math.max(0,p.hun-1);if(p.hun===2)out(`${MP()?nm(p)+'的':''}胃在抽痛。需要吃點東西。`,'sys')}
     if(p.pk>0)p.pk--;
-    if(p.hun<=0||p.thi<=0){p.hp-=1;out(`${nm(p)}${p.thi<=0?'嚴重脫水，眼前一陣陣發黑':'餓得手腳發軟'}。生命 −1。`,'dmg')}
     if(p.inf>=40&&Math.random()<.25)out((MP()?nm(p)+'：':'')+pick(['額頭燙得嚇人。','傷口周圍的皮膚開始發黑。','手指不聽使喚地抽動了一下。','突然很想咬點什麼。這個念頭讓人自己都嚇了一跳。']),'dmg');
     if(p.bleed>0){p.hp-=1;out(`${MP()?nm(p)+'的':''}傷口還在流血。生命 −1。`,'dmg');if(Math.random()<.35){p.bleed--;out(p.bleed?'流血稍微緩和了一些。':'傷口的血自己慢慢止住了。','sys')}}
   }
@@ -2305,7 +2369,7 @@ function choiceOk(c){
   const rs=reqList(c);if(rs.length&&!(c.reqAny?rs.some(tHas):rs.every(tHas)))return false;
   if(c.karma&&able().some(p=>(p.karma||0)<c.karma))return false;
   if(c.need&&!flagOk(c.need))return false;return true}
-function visible(c){if(c.once&&G.used&&G.used[usedKey(c)])return false;if(c.job&&!G.players.some(p=>!p.dead&&!p.away&&[].concat(c.job).includes(p.kind)))return false;if(c.hide&&flagOk(c.hide))return false;if(c.need&&!flagOk(c.need)&&!c.req)return false;return true}
+function visible(c){if(c.night&&!isNight())return false;if(c.once&&G.used&&G.used[usedKey(c)])return false;if(c.job&&!G.players.some(p=>!p.dead&&!p.away&&[].concat(c.job).includes(p.kind)))return false;if(c.hide&&flagOk(c.hide))return false;if(c.need&&!flagOk(c.need)&&!c.req)return false;return true}
 function nameOf(k){return k==='gun'?'槍械':k.startsWith('g:')?WEAP[k.slice(2)].n:ITEMS[k].n}
 async function enterNode(id){
   if(END[id])return ending(id);
@@ -2390,6 +2454,7 @@ async function doChoice(i,actor){
     return doCheck(i,el[0]);
   }
   snd(/翻|櫃|抽屜|箱|袋|架|找|搜/.test(c.l)?'drawer':'rummage',.6,1800);
+  if(await passTime(tMin(c)))return;
   await applyRes(c,c.ok,actor);
 }
 async function doCheck(i,roller){
@@ -2397,6 +2462,7 @@ async function doCheck(i,roller){
   if(c.bonusFlag&&G.flags[c.bonusFlag]){extra+=3;notes.push('先前的觀察 +3')}
   if(MP()&&ctl().filter(p=>p!==roller).length){extra+=2;notes.push('隊友協助 +2')}
   if(MP())out(`由${nm(roller)}來。${notes.length?notes.join('，')+'。':''}`,'sys',true);else if(notes.length)out(notes.join('，')+'。','sys',true);
+  if(await passTime(tMin(c)))return;
   const r=await check(roller,c.k,c.d,c.l,extra);
   const res=r.ok?c.ok:c.ng;
   await applyRes(c,res,roller,!r.ok);
@@ -2435,6 +2501,8 @@ async function outcome(o,actor){
   if(got.length){await flush();await sndW('pickup',.8,700,.6);out(`${MP()?nm(actor):''}取得　${got.join('')}`,'good',true)}
   if(r.flag)G.flags[r.flag]=(G.flags[r.flag]||0)+1;
   if(r.pay)for(const [k,q] of Object.entries(r.pay)){let left=q;for(const ow of able()){const n=Math.min(left,ow.items[k]||0);if(n){takeI(ow,k,n);left-=n}if(!left)break}}
+  // 過夜：睡到清晨（時間已在選項扣掉），生命回 50%、理智 +2，發瘋的人恢復
+  if(r.sleep){for(const q of G.players){if(q.dead)continue;if(q.mad){q.mad=0;q.san=Math.max(q.san,2);out(`${nm(q)}睡了一覺，醒來時眼神終於對得上焦了。`,'good',true)}if(q.down){q.down=0;q.hp=Math.max(q.hp,1)}const hp=Math.min(q.max-q.hp,Math.ceil(q.max*.5)),sn=Math.min(msan(q)-q.san,2);q.hp+=hp;q.san+=sn;out(`${MP()?nm(q)+'：':''}生命 +${hp}，理智 +${sn}。`,'good',true)}}
   if(r.rest){for(const q of able()){const hp=Math.min(q.max-q.hp,r.rest.hp||0),sn=Math.min(msan(q)-q.san,r.rest.san||0);q.hp+=hp;q.san+=sn;out(`${MP()?nm(q)+'：':''}生命 +${hp}，理智 +${sn}。`,'good',true)}}
   if(r.karma)for(const q of able())q.karma=(q.karma||0)+r.karma;
   if(r.use){const keys=r.use==='$req'?reqList(CURC||{}):[r.use];for(const k of keys){const ow=owner(k,actor);if(ow){if(k.startsWith('g:')){const g=ow.gear.find(x=>x.id===k.slice(2));if(g&&WEAP[g.id].kind==='spray'){g.dur--;if(g.dur<=0)rmGear(ow,g.u)}}else takeI(ow,k);break}}}
@@ -2513,6 +2581,8 @@ function migrateG(g){if(!g)return g;if(g.fight&&g.fight.foes){for(const f of g.f
   // v0.5.0 天賦與技能：舊的職業背景與帶入能力換成一個天賦；舊角色沒有角色技能
   if(!g.rules5&&g.players){for(const p of g.players){if(p.kind==='custom'){const o=(p.traits||[]).find(t=>OLD_TAL[t])||p.bg;p.traits=[OLD_TAL[o]||(TALENT[o]?o:'keen')]}else p.traits=[];p.skill=p.skill||null;p.skArea=null;p.covering=0;p.grit=0;delete p.bg}g.rules5=1}
   if(g.fight&&g.fight.site===undefined)g.fight.site=null;
+  // v0.8.0 時間：舊存檔從第 1 天清晨開始算
+  if(g.clock==null)g.clock=0;
   return g}
 const OLD_BGST={office:{INT:1},guard:{STR:1},nurse:{INT:1},cook:{AGI:1},student:{PER:1},courier:{CON:1},sales:{CHA:1},veteran:{STR:1,PER:1},doctor:{INT:2}};
 // 對策是場地事件：條件符合的地方，大約一半的戰鬥會出現一個，一場最多一個、用一次
@@ -2529,6 +2599,8 @@ const foeHitMod=f=>(affIs(f,'hungry')?2:0)+(affIs(f,'veteran')?1:0)-(affIs(f,'dr
 function newFoe(id,t,np,wet){const F=FOES[t];const hp=F.hp+(np-1);return {id,type:t,n:'',hp,max:hp,burn:0,stun:0,bleed:0,weak:0,prone:0,defDown:0,nosplash:0,dazzle:0,legW:0,wet:wet?1:0,shell:F.shell||0,loaded:t==='collector'?1:0,img:FOE_IMG[t]?pick(FOE_IMG[t]):''}}
 function giveAff(f,k){if(!k)return;f.aff=k;const d=k==='fresh'?-2:k==='wounded'?-4:k==='drugged'?3:0;if(d){f.hp=Math.max(3,f.hp+d);f.max=Math.max(3,f.max+d)}if(k==='shaken')f.shaken=1}
 async function startFight(spec){
+  // 一場戰鬥算「很快」：20 分鐘
+  if(await passTime(20))return;
   const act=able();const P0=act.length;
   const n=Math.min(6,Math.max(spec.n,Math.round(spec.n*(1+(P0-1)*.3))));const names=[...(spec.names||[])];const types=names.map(typeOfName);
   while(types.length<n){types.push(pick(LV_POOL[G.lv]||['infected']));names.push('')}
@@ -2547,6 +2619,7 @@ async function startFight(spec){
   for(const f of foes)if(f.aff)out(`<b>${f.n}</b>：${AFF[f.aff].d}`,'bad',true);
   {const cand=Object.keys(TACT).filter(siteOk);G.fight.site=cand.length&&Math.random()<.5?pick(cand):null;if(G.fight.site)out(`${TACT_ENV[G.fight.site]}（對策：${TACT[G.fight.site].n}）`,'rule',true)}
   if(wet)out('地上全是積水，牠們身上都濕透了：電擊傷害加倍，火焰減半。','sys',true);
+  if(isNight()&&foes.some(f=>FT(f).fac==='inf'))out('入夜之後，牠們比白天更躁動：感染者陣營先攻 +2。','sys',true);
   // 恐懼檢定
   const tdc=Math.max(...foes.map(f=>FT(f).tdc)),ter=Math.max(...foes.map(f=>FT(f).ter));
   const ts=act.map(p=>{const R=r2(),m=statMod(p,'INT')+(tr(p,'calm')?3:0);const j=judge(R,R.s+m,tdc);return {p,R,m,j,ok:j==='ok'||j==='crit'}});
@@ -2558,7 +2631,7 @@ async function startFight(spec){
   let mode=spec.mode;
   if(mode==='ambush'&&!spec.noQte){if(await ambushQte())mode='normal';if(G.over||await deathCheck())return}
   const ps=able().map(p=>({p,r:rnd(1,20),m:statMod(p,'AGI')+(mode==='first'?4:0)}));
-  const fs=aliveF().map(f=>({f,r:rnd(1,20),m:FT(f).init+(affIs(f,'lame')?-4:0)+(affIs(f,'veteran')?2:0)-(affIs(f,'heavy')?2:0)+(mode==='ambush'?4:0)}));
+  const fs=aliveF().map(f=>({f,r:rnd(1,20),m:FT(f).init+(isNight()&&FT(f).fac==='inf'?2:0)+(affIs(f,'lame')?-4:0)+(affIs(f,'veteran')?2:0)-(affIs(f,'heavy')?2:0)+(mode==='ambush'?4:0)}));
   if(!fs.length){await endFight();return}
   await dice({label:'擲先攻',sub:`敏捷 d20${mode==='first'?'　（先手 +4）':mode==='ambush'?'　（被偷襲，敵人 +4）':''}`,quick:true,
     dice:[...ps.map(x=>({sides:20,val:x.r,cap:esc(x.p.name).slice(0,4),cls:'ok'})),...fs.map(x=>({sides:20,val:x.r,foe:1,cap:x.f.n.slice(0,6)}))],
@@ -3362,7 +3435,7 @@ function draw(){
   $('#lvN').textContent=G.ev!=null?'意外':(N[G.node]||{}).n||'';
   $('#lvS').textContent=`${(CHAPTERS[Lv.ch||1]||CHAPTERS[1]).n}　${Lv.n}・${Lv.sub}　｜${DF().n}`;
   $('#prog').style.width=Math.min(100,G.levels/10*100)+'%';
-  $('#mids').innerHTML=`<b class="nz">警戒 ${G.alarm}／10</b>`;
+  $('#mids').innerHTML=`<b class="clk ${isNight()?'nt':''}">${timeTxt()}</b><b class="nz">　警戒 ${G.alarm}／10</b>`;
   if(!G.fight){FTAB=null;PEND=null}
   const F=G.fight,cb=$('#cbar');
   if(F){cb.hidden=false;const pend=PEND&&myTurn();
@@ -3407,7 +3480,8 @@ function draw(){
       const why=!ok&&c.req?('需要'+reqList(c).map(nameOf).join(c.reqAny?'或':'、')):'';
       const vts=MP()?voters().filter(q=>G.votes[q.pid]===i).map(q=>av(q)).join(''):'';
       const hn=G.hint&&G.hint[MYPID]&&G.hint[MYPID][i];const why2=!ok&&c.usd&&teamUsd()<c.usd?`需要 $${c.usd}（全隊有 $${teamUsd()}）`:!ok&&c.karma&&!c.reqN&&!c.req?'他們還不夠信任你們。':!ok&&c.reqN?'需要'+Object.entries(c.reqN).map(([k,q])=>ITEMS[k].n+' ×'+q).join('、'):'';
-      return chBtn(`data-ch="${i}"`,c.l,(why||why2||c.s||'')+(hn?`<em class="hint">你察覺：${hn}</em>`:''),tag,tag?'t-ck':'',!ok||G.busy,vts?`<span class="vts">${vts}</span>`:'',G.votes[MYPID]===i?'mine':'')}).join('')+(MP()?`<p class="note">多數決，同票隨機。</p>`+hostCdBtn():'')+(G.ground.length?`<p class="note">地上有東西，打開背包可以撿。</p>`:'');
+      const tk=tKind(c);
+      return chBtn(`data-ch="${i}"`,c.l+(tk?`<small class="tmc ${tk}">（${TLAB[tk]}）</small>`:''),(why||why2||c.s||'')+(hn?`<em class="hint">你察覺：${hn}</em>`:''),tag,tag?'t-ck':'',!ok||G.busy,vts?`<span class="vts">${vts}</span>`:'',G.votes[MYPID]===i?'mine':'')}).join('')+(MP()?`<p class="note">多數決，同票隨機。</p>`+hostCdBtn():'')+(G.ground.length?`<p class="note">地上有東西，打開背包可以撿。</p>`:'');
   }else if(G.phase==='shop'&&G.shop){const S=G.shop,sh=SHOPS[S.id];if(S.key!==SHOPKEY){SHOPKEY=S.key;SHOPSHUT=false;SHOPSEL=0;SHOPMODE='buy'}if(OVK==='shop')setTimeout(()=>{if(OVK==='shop')panel('shop')},0);const rd=ctl().filter(q=>S.ready[q.pid]).length;T=sh.n;Pl=`$${m.usd||0}`;
     h=chBtn('data-openshop','回到商店','看看商品、買東西、賣東西','','')+chBtn('data-shopdone',S.ready[MYPID]?'已經準備好，等其他人':'買好了，繼續',`${rd}／${ctl().length} 人準備好`,'','',!!S.ready[MYPID]);
     if(OVK==null&&!SHOPSHUT)setTimeout(()=>{if(G&&G.phase==='shop'&&OVK==null)panel('shop')},0)
