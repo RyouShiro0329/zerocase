@@ -269,6 +269,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .strow{display:grid;grid-template-columns:minmax(8em,auto) 1fr auto;align-items:center;gap:10px;padding:5px 0;border-bottom:1px solid #2a2925}
 .strow b{font-size:1rem}.strow small{color:var(--muted);font-size:.74rem}
 .wtag{color:var(--gold,#c9a96b);margin-right:.5em;white-space:nowrap}
+.tellb{display:block;margin:-2px 0 6px auto;padding:2px 12px;min-height:28px;font-size:.78rem}
 .hint{display:block;font-style:normal;color:#9fc3b0;font-size:.74rem;margin-top:2px}.hint::before{content:"◆ ";color:#6f9a84}
 .sumc{border-left:3px solid #6b5a3a;padding:4px 10px;margin:6px 0;background:#1a1916}.sumc b{margin-right:.6em}.sumc em{color:#d9c38f;font-style:normal}.sumc small{display:block;color:var(--muted);font-size:.74rem}
 .pm{display:flex;align-items:center;gap:8px}.pm .btn{width:38px;height:36px;padding:0;font-size:1.1rem}.pm span{min-width:1.6em;text-align:center;font:900 1.1rem var(--serif)}
@@ -300,7 +301,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .sheet .hd{display:flex;gap:10px;align-items:center}.sheet .hd b{font-size:1.1rem}
 .sheet .kv{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font:12px/1.5 var(--label);color:var(--muted)}.sheet .kv b{color:var(--ink);font-weight:500}
 .boxes{display:inline-flex;gap:2px;vertical-align:middle}.boxes i{width:10px;height:10px;border:1px solid #6b675c;display:inline-block}.boxes i.on{background:var(--gold);border-color:var(--gold)}.boxes i.bn{background:#8fbf98;border-color:#8fbf98}
-.attr{display:grid;grid-template-columns:3em auto auto 1fr;gap:8px;align-items:center;font:13px var(--label)}
+.attr{display:grid;grid-template-columns:3em minmax(70px,1fr) auto auto;gap:8px;align-items:center;font:13px var(--label)}
 .attr .btn{padding:0 8px;min-height:24px;font-size:.8rem}
 .ab{font:12px/1.5 var(--serif);color:var(--muted)}.ab b{color:var(--gold);font-weight:700}
 .irow{display:flex;align-items:center;gap:8px;padding:5px 8px;border:1px solid #3d3b35;border-radius:3px;background:rgba(20,20,18,.9);margin-bottom:4px}
@@ -314,6 +315,10 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .cstat small{grid-column:1/-1;color:var(--muted);font:11px var(--label);margin-top:-4px}
 .cstat .pm{display:flex;align-items:center;gap:6px}.cstat .pm .btn{width:36px;height:34px;padding:0}
 .cstat .boxes i{width:14px;height:14px}
+.rl{position:relative;display:block;min-width:70px;height:16px;--tk:#6b675c;background:linear-gradient(var(--tk),var(--tk)) 0 11px/100% 1px no-repeat,repeating-linear-gradient(90deg,var(--tk) 0 1px,transparent 1px calc(100%/var(--r))) 0 8px/100% 4px no-repeat,repeating-linear-gradient(90deg,#a8a28f 0 1px,transparent 1px calc(500%/var(--r))) 0 5px/100% 7px no-repeat}
+.rl i{position:absolute;display:block}.rl .f{left:0;top:10px;height:3px;background:var(--gold)}.rl .fb{top:10px;height:3px;background:#8fbf98}
+.rl .mk{top:0;width:0;height:0;border:5px solid transparent;border-top:7px solid #d0503c;border-bottom:0;transform:translateX(-50%)}
+.rlw{display:flex;align-items:center;gap:10px}.rlw .rl{flex:1}.rlw em{font-style:normal;white-space:nowrap}
 
 .box.wide:has(.bagwrap){height:100%;display:flex;flex-direction:column}
 .box.wide .bagwrap{flex:1;min-height:0}
@@ -519,7 +524,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.12.0", "b": 25, "t": "2026-11-13T18:42:36+08:00"};
+const ZC_VER={"v": "0.13.0", "b": 26, "t": "2026-11-13T19:19:16+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -799,7 +804,7 @@ const CSKILL={
  flank:{n:'繞到背後',per:'fight',atk:1,hit:3,dmg:2,d:'這一擊命中 +3、傷害 +2。'},
  patch:{n:'臨時修補',per:'fight',free:1,d:'不用掉回合。手上一把有耐久的武器耐久 +5。'},
  awe:{n:'震懾',per:'fight',ctl:1,d:'控制。魅力檢定難度 13：一名敵人跳過下次行動；對痛覺喪失的、嗑藥的無效。'},
- sense:{n:'先察覺',per:'area',auto:1,d:'每到一個區域：這一區的私人提示一定會出現，而且多一條。'},
+ sense:{n:'先察覺',per:'area',auto:1,d:'比別人更容易察覺周圍的徵兆：聲音、氣味、被翻動過的東西。'},
  search:{n:'仔細搜',per:'area',auto:1,d:'每到一個區域：第一次找到東西時，多一樣隨機材料或 $1～3。'},
  brew:{n:'臨時調配',per:'area',d:'每區域一次：把一份外用酒精、威士忌或燃料做成一個燃燒瓶（在背包使用）。'},
  soothe:{n:'冷靜下來',per:'area',d:'每區域一次：讓一名隊友明顯平靜下來；發瘋的人直接恢復，但仍在崩潰邊緣（戰鬥中會用掉回合）。'}
@@ -807,17 +812,17 @@ const CSKILL={
 // 舊存檔：舊背景與舊能力換成新天賦
 const OLD_TAL={keen:'keen',firstaid:'firstaid',legs:'legs',nightvision:'nightowl',bigstomach:'tough',handy:'handy',tough:'tough',quiet:'nightowl',packrat:'scav',ambi:'blade',brave:'calm',scavenger:'scav',boxer:'boxer',hunter:'archer',immune:'immune',
  office:'calm',guard:'tough',nurse:'firstaid',cook:'blade',student:'keen',courier:'legs',sales:'talker',veteran:'gunner',doctor:'medic'};
-/* ============ 初始物品（10 點，每件 1～4 點，不能帶槍） ============ */
-// c 點數、q 一次買到的數量；同一項最多買 3 次
+/* ============ 初始物品（10 點，每件 1～3 點，不能帶槍） ============ */
+// c 點數、q 一次拿到的數量；同一項最多選 3 次。v0.12.1 起每次只給 1 個（主人 2026-11-13），箭、鋼珠維持一捆
 const LOADOUT={
- water:{c:1,q:2},bar:{c:1,q:2},bandage:{c:1,q:2},cloth:{c:1,q:3},tape:{c:1,q:1},lighter:{c:1,q:1},arrow:{c:1,q:6},shot:{c:1,q:10},cigarette:{c:1,q:2},coffee:{c:1,q:2},painkiller:{c:1,q:1},
- 'g:knife':{c:2,q:1},'g:screwdriver':{c:2,q:1},'g:baton':{c:2,q:1},'g:pipeclub':{c:2,q:1},'g:slingshot':{c:2,q:1},med:{c:2,q:1},flashlight:{c:2,q:1},sedative:{c:2,q:1},bracer:{c:2,q:1},
- 'g:pvcbow':{c:3,q:1},'g:hammer':{c:3,q:1},'g:kitchenknife':{c:3,q:1},sbandage:{c:3,q:3},jacket:{c:3,q:1},
- 'g:bat':{c:4,q:1},antibiotic:{c:4,q:1},surgkit:{c:4,q:1}
+ water:{c:1,q:1},bar:{c:1,q:1},bandage:{c:1,q:1},cloth:{c:1,q:1},tape:{c:1,q:1},lighter:{c:1,q:1},arrow:{c:1,q:6},shot:{c:1,q:10},cigarette:{c:1,q:1},coffee:{c:1,q:1},painkiller:{c:1,q:1},
+ 'g:knife':{c:2,q:1},'g:screwdriver':{c:2,q:1},'g:baton':{c:2,q:1},'g:pipeclub':{c:2,q:1},'g:slingshot':{c:2,q:1},med:{c:2,q:1},flashlight:{c:2,q:1},sedative:{c:2,q:1},bracer:{c:2,q:1},sbandage:{c:2,q:1},
+ 'g:pvcbow':{c:3,q:1},'g:hammer':{c:3,q:1},'g:kitchenknife':{c:3,q:1},jacket:{c:3,q:1},
+ 'g:bat':{c:3,q:1},antibiotic:{c:3,q:1},surgkit:{c:3,q:1}
 };
 const LOADOUT_PTS=10;
-// 建角 12 點、每項 0～5；升級時能力未滿 5 花 1 點 +1，5 以上花 2 點 +1（STAT_CAP 只是畫面格數）
-const STAT_PTS=12,STAT_MAX=5,STAT_CAP=8;
+// 建角 12 點、每項 0～5；升級沒有上限：自己配的點數 0～4 每 +1 花 1 點、5～9 花 2 點、10～14 花 3 點，依此類推
+const STAT_PTS=12,STAT_MAX=5;
 // 升級門檻（累計）：20、50、90、140、200……每級多 10
 const XPT=[20,50,90,140,200,270,350,440,540];
 /* ============ 預設角色 ============ */
@@ -883,10 +888,10 @@ const AFF={
    dm 傷害加減、hits 連續次數、bleed 流血機率、stun 讓人暈眩、all 全體、inf/san 全體招式的感染與恐懼（san 為舊理智點數，1 約等於恐懼 8）、
    grab 抓住目標（不能逃跑、命中 −2，直到掙脫或隊友打中這隻）、humus 讓目標沾上腐殖物（每回合感染 +2）、heal 打中後自己回血、need/pref 需要／優先流血的目標、hit 命中加減 */
 const MOVES={
- infected:[{n:'撲咬',w:5},{n:'亂抓',w:3,dm:-1,bleed:.5,t:'牠的指甲抓過皮膚，留下幾道火辣辣的傷口。'},{n:'抓住',w:2,dm:-1,grab:1,t:'牠一把抓住手臂，指頭陷進肉裡，怎麼甩都甩不掉。'},{n:'撲倒',w:2,tele:1,dm:3,warn:'弓起背，喉嚨裡發出咕嚕聲，盯著',t:'牠整個撲了上來，把人壓倒在地上亂咬。'}],
- incubator:[{n:'丟擲囊泡',w:4,tele:1,rng:1,humus:3,hit:1,warn:'從背上扯下一顆鼓脹的囊泡，高高舉起，對準',t:'囊泡砸在身上破開，黏稠的腐殖物糊了一片，又熱又癢。'},{n:'噴吐',w:2,tele:1,all:1,rng:1,inf:4,san:1,warn:'的肚子一陣一陣鼓起來，嘴巴慢慢張大，對著',t:'一大口黃綠色的液體噴了出來，濺得所有人滿身都是。'},{n:'推撞',w:3,dm:-1,t:'牠用整個身體撞過來，濕黏的皮膚貼在臉上。'}],
- devourer:[{n:'揮擊',w:4,t:'那隻腫大的手臂橫掃過來，砸在肋骨上。'},{n:'震盪重擊',w:2,tele:1,dm:3,stun:1,warn:'把那隻腫大的手臂往後拉，整個身體跟著擰過去，對準',t:'整隻手臂砸下來，人被打得撞上牆，眼前一黑。'},{n:'吞咬',w:2,heal:3,bleed:.6,t:'牠一把抓住，把人往嘴邊拉，咬下一塊肉。'}],
- cutter:[{n:'刺擊',w:4,t:'獵刀從下往上捅過來。'},{n:'劃開',w:3,dm:-1,bleed:1,t:'刀鋒一掠而過，傷口過了一秒才開始冒血。'},{n:'割喉',w:4,dm:4,need:'bleed',pref:'bleed',t:'他看準了那道還在流血的傷口，貼上來，刀子往脖子上抹。'}],
+ infected:[{n:'撲咬',w:5,hs:'bite'},{n:'亂抓',w:3,hs:'claw',dm:-1,bleed:.5,t:'牠的指甲抓過皮膚，留下幾道火辣辣的傷口。'},{n:'抓住',w:2,hs:'claw',dm:-1,grab:1,t:'牠一把抓住手臂，指頭陷進肉裡，怎麼甩都甩不掉。'},{n:'撲倒',w:2,hs:'thud',tele:1,dm:3,warn:'弓起背，喉嚨裡發出咕嚕聲，盯著',t:'牠整個撲了上來，把人壓倒在地上亂咬。'}],
+ incubator:[{n:'丟擲囊泡',w:4,hs:'splat',tele:1,rng:1,humus:3,hit:1,warn:'從背上扯下一顆鼓脹的囊泡，高高舉起，對準',t:'囊泡砸在身上破開，黏稠的腐殖物糊了一片，又熱又癢。'},{n:'噴吐',w:2,hs:'spit',tele:1,all:1,rng:1,inf:4,san:1,warn:'的肚子一陣一陣鼓起來，嘴巴慢慢張大，對著',t:'一大口黃綠色的液體噴了出來，濺得所有人滿身都是。'},{n:'推撞',w:3,hs:'squish',dm:-1,t:'牠用整個身體撞過來，濕黏的皮膚貼在臉上。'}],
+ devourer:[{n:'揮擊',w:4,hs:'smash',t:'那隻腫大的手臂橫掃過來，砸在肋骨上。'},{n:'震盪重擊',w:2,hs:'smash',tele:1,dm:3,stun:1,warn:'把那隻腫大的手臂往後拉，整個身體跟著擰過去，對準',t:'整隻手臂砸下來，人被打得撞上牆，眼前一黑。'},{n:'吞咬',w:2,hs:'bite',heal:3,bleed:.6,t:'牠一把抓住，把人往嘴邊拉，咬下一塊肉。'}],
+ cutter:[{n:'刺擊',w:4,hs:'knife',t:'獵刀從下往上捅過來。'},{n:'劃開',w:3,hs:'knife',dm:-1,bleed:1,t:'刀鋒一掠而過，傷口過了一秒才開始冒血。'},{n:'割喉',w:4,hs:'knife',dm:4,need:'bleed',pref:'bleed',t:'他看準了那道還在流血的傷口，貼上來，刀子往脖子上抹。'}],
  collector:[{n:'開火',w:1,tele:1,dm:5,hit:2,shot:1,rng:1,warn:'把霰彈槍抵在肩上，槍口對準',t:'槍口噴出一團火，彈丸打得人往後一仰。'}],
  // 滅菌部隊：gun 開槍（吃彈匣、算同時開火上限）、ap 穿甲、nododge 閃躲無效、snipe 挑狀態最差的人、order 集火命令、each 每發都播槍聲
  acru_trooper:[{n:'點射',w:4,tele:1,rng:1,gun:1,hits:5,snd:'mp5',warn:'舉槍抵肩，紅色的鏡片轉向',t:'MP5 短促地吼了一串，子彈打在身上。'},{n:'掃射',w:2,tele:1,rng:1,gun:1,all:1,hits:3,snd:'mp5',warn:'把槍口壓低，準備掃向',t:'槍口橫著掃過來，子彈在牆上、地上、人身上濺開。'}],
@@ -894,8 +899,8 @@ const MOVES={
  acru_flamer:[{n:'噴火',w:1,all:1,flame:1,t:'一道火舌橫掃過來，整片空氣都燒了起來。'}],
  acru_sniper:[{n:'狙擊',w:1,tele:1,rng:1,gun:1,ap:1,nododge:1,snipe:1,snd:'rifle',warn:'在遠處瞄準。一點紅光落在',t:'遠處傳來一聲悶響，子彈幾乎同時就到了。'}]
 };
-const BUTT={n:'槍托',dm:-1,t:'他倒轉槍身，用槍托砸過來。'};
-/* rng：遠程攻擊（掩蔽有效、格擋無效） */
+const BUTT={n:'槍托',hs:'fist',dm:-1,t:'他倒轉槍身，用槍托砸過來。'};
+/* rng：遠程攻擊（掩蔽有效、格擋無效）；hs：被打中時的音效（v0.12.1 每種敵人各自的聲音；槍擊命中是 bhit） */
 /* 狀態（敵人卡上的標籤）：蓄力、燃燒、暈眩、倒地、流血、失衡、致盲、腿傷、濕透、鎖定、硬化層、動搖、未裝填；玩家另有「腐殖」 */
 /* 敵人立繪（原專案美術）；沒有對應立繪的類型只顯示文字 */
 const FOE_IMG={infected:['inf_m','inf_f'],incubator:['bloat'],devourer:['riot'],cutter:['loot_a'],collector:['loot_b'],acru_trooper:['acru_trp'],acru_captain:['acru_cap'],acru_flamer:['acru_flm'],acru_sniper:['acru_snp']};
@@ -2359,7 +2364,7 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const COLS=['#c8ad70','#8fb0d4','#8fbf98','#c88a9e','#d49a6a','#a99bd6','#7fc4c0','#c9c27a'];
 const MAXP=8;
-const CREDITS=`音效沿用《零號病例》原專案素材。其中：“Headshot 2” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；“GROSS IMPACT” by magnuswaker（Freesound，CC0）；裝備切換音效取自 Ryan Conway “putting coat on and off with zippers”（Freesound，CC BY 4.0）。以上音效作者與本作品無關，也未替本作品背書。骰子音效為程式即時合成。`;
+const CREDITS=`音效沿用《零號病例》原專案素材。其中：“Headshot 2” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；“GROSS IMPACT” by magnuswaker（Freesound，CC0）；“Monster Bite on Armor WAV” by OGsoundFX（Freesound，CC BY 4.0）；“Acid Breath Attack” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；裝備切換音效取自 Ryan Conway “putting coat on and off with zippers”（Freesound，CC BY 4.0）。以上音效作者與本作品無關，也未替本作品背書。骰子音效為程式即時合成。`;
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
 let UI=Object.assign({snd:1,bgm:1,spd:1,orient:'auto',diff:'normal'},LS.get('zc5-ui',{}));
 const saveUI=()=>LS.set('zc5-ui',UI);
@@ -2479,7 +2484,7 @@ function maxHp(p){return 10+Math.max(0,p.st.CON)*3+((p.lv||1)-1)+(tr(p,'tough')?
 const baseDef=p=>10+statMod(p,'AGI')-(p.defPen||0)+(tr(p,'boxer')&&!handW(p,'R').g?1:0);
 // 能力的「自己配的點數」與「職業等加成」分開記：bon 是加成
 const stBase=(p,s)=>(p.st[s]||0)-((p.bon&&p.bon[s])||0);
-const lvCost=(p,s)=>stBase(p,s)>=STAT_MAX?2:1;
+const lvCost=(p,s)=>Math.floor(Math.max(0,stBase(p,s))/5)+1;
 /* ================= 難度 =================
    hit 敵人命中、dmg 敵人傷害倍率、inf 感染倍率、food 飢渴變慢幾拍、hp 生命加成、
    qte 反應時間（毫秒）、haz 每到一個地方發生意外的機率、wake 倒下的人到新區域會不會自己醒、
@@ -2500,7 +2505,7 @@ function newRun(builds,opts,mode){
 }
 /* ================= 音效 ================= */
 let AC=null,NB=null;const BUF={};
-const SFILES=['heal','pill','rummage','stairs','zipper','step','drawer','pickup','dooropen','doorclose','beretta','berettaReload','revolver','revolverCock','casing','fist','claw','knife','zstep','headshot','mthrow','mimpact','death','click','equip','fal','falReload','mp5','mp5Reload','rifle','bolt'];
+const SFILES=['heal','pill','rummage','stairs','zipper','step','drawer','pickup','dooropen','doorclose','beretta','berettaReload','revolver','revolverCock','casing','fist','claw','knife','zstep','headshot','mthrow','mimpact','death','click','equip','fal','falReload','mp5','mp5Reload','rifle','bolt','bite','smash','splat','spit','thud','squish','bhit','shotgun'];
 function audio(){if(!UI.snd)return null;try{if(!AC){AC=new (window.AudioContext||window.webkitAudioContext)();const len=AC.sampleRate;NB=AC.createBuffer(1,len,AC.sampleRate);const d=NB.getChannelData(0);for(let i=0;i<len;i++)d[i]=Math.random()*2-1}if(AC.state==='suspended')AC.resume();return AC}catch(e){return null}}
 let loading=null;
 function loadSounds(){if(loading)return loading;const a=audio();if(!a)return Promise.resolve();loading=Promise.all(SFILES.map(async n=>{try{const r=await fetch('sfx/'+n+'.mp3');if(!r.ok)return;const ab=await r.arrayBuffer();BUF[n]=await new Promise((ok,ng)=>a.decodeAudioData(ab,ok,ng))}catch(e){}}));return loading}
@@ -2527,9 +2532,12 @@ const SYN={
  eat(){noise(0,.08,1800,2,.15);noise(.18,.08,1500,2,.15);noise(.36,.08,1700,2,.12);return 450},
  gulp(){tone(0,180,.12,.12,'sine',120);tone(.2,170,.12,.1,'sine',110);return 350},
  ext(){noise(0,.8,2500,.5,.4,'highpass');return 800},
+ zap(){noise(0,.35,4200,.8,.35,'highpass');tone(0,60,.3,.14,'square',55);tone(.05,1800,.12,.06,'sawtooth',900);return 360},
  level(){tone(0,55,2.2,.16,'sawtooth',48);tone(0,82,2.2,.08,'sine',77);noise(0,2,180,2,.08,'lowpass');return 2200}
 };
-const FALL={heal:'craft',pill:'craft',rummage:'craft',stairs:'land',zipper:'craft',step:'land',drawer:'craft',pickup:'ok',dooropen:'land',doorclose:'land',beretta:'fumble',berettaReload:'dry',revolver:'fumble',revolverCock:'dry',casing:'dry',fist:'hurt',claw:'hurt',knife:'hurt',zstep:'land',headshot:'fumble',mthrow:'whoosh',mimpact:'fumble',death:'fumble',click:'dry',equip:'dry'};
+const FALL={heal:'craft',pill:'craft',rummage:'craft',stairs:'land',zipper:'craft',step:'land',drawer:'craft',pickup:'ok',dooropen:'land',doorclose:'land',beretta:'fumble',berettaReload:'dry',revolver:'fumble',revolverCock:'dry',casing:'dry',fist:'hurt',claw:'hurt',knife:'hurt',zstep:'land',headshot:'fumble',mthrow:'whoosh',mimpact:'fumble',death:'fumble',click:'dry',equip:'dry',bite:'hurt',smash:'fumble',splat:'hurt',spit:'whoosh',thud:'land',squish:'hurt',bhit:'dry',shotgun:'fumble'};
+// 劇情裡受傷的聲音：照文字判斷是什麼弄傷的（電、刀刃玻璃、槍、火、撞擊），都不是就用程式合成的悶哼
+function hurtSnd(t){t=String(t||'');if(/電|火花|觸電/.test(t))return 'zap';if(/玻璃|割|刺絲|刀|劃/.test(t))return 'knife';if(/子彈|槍|彈丸/.test(t))return 'bhit';if(/火|燒|燙/.test(t))return 'mimpact';if(/咬|抓|爪|指甲|撲/.test(t))return 'claw';if(/摔|砸|撞|掉|壓|踢|打/.test(t))return 'thud';return 'hurt'}
 // sfx 回傳毫秒長度；await sfxW 會等到聲音播完
 function sfx(k,v,max){if(!UI.snd)return 0;try{if(SYN[k]&&!FALL[k])return SYN[k](v)||0;const ms=play(k,v||1,max);if(ms!=null)return ms;if(FALL[k])return SYN[FALL[k]]()||0}catch(e){}return 0}
 async function sfxW(k,v,max,ratio=1){const ms=sfx(k,v,max);if(ms)await wait(ms*ratio*Math.max(.4,UI.spd))}
@@ -2825,19 +2833,31 @@ async function enterNode(id){
   if(await hazard(nd))return;
   makeHints();G.phase='node';startCd();
 }
-/* ---- 私人提示：感知夠的人會察覺某條路的徵兆（只有自己看得到） ---- */
-const HINT={fight:['那個方向有拖行的痕跡，地上的血還沒乾。','那邊太安靜了，安靜得不對勁。','你聞到一股腥甜的味道，胃一陣發緊。'],loot:['那裡好像有能用的東西。','角落有東西反了一下光。'],hurt:['失手的話，大概會受傷。','這件事不太好做，手要穩。'],exit:['那是出去的路。'],area:['穿過去，就到另一個地方了。'],rest:['那邊很安靜，可以喘口氣。'],trade:['那邊有人壓低聲音在說話。']};
-function hintFor(c){const rs=[c.ok,c.ng].filter(Boolean);const dest=c.go||(rs.find(r=>r.go)||{}).go||(N[G.node]||{}).next;
-  if(rs.some(r=>r.fight))return pick(HINT.fight);
-  if(c.ok&&c.ok.r&&(c.ok.r.items||c.ok.r.gear)&&!c.stay)return pick(HINT.loot);
-  if(c.ng&&c.ng.p&&((c.ng.p.hp||0)<0||(c.ng.p.inf||0)>0))return pick(HINT.hurt);
-  if(dest&&END[dest])return END[dest].settle?'也許可以在這裡停下來。':pick(HINT.exit);
-  const nd=dest&&N[dest];if(nd&&nd.trade)return pick(HINT.trade);if(nd&&nd.rest)return pick(HINT.rest);
-  if(nd&&nd.L!==G.lv)return pick(HINT.area);return null}
-function makeHints(){G.hint={};const cs=choices();const cand=cs.map((c,i)=>i).filter(i=>visible(cs[i]));
-  for(const p of able()){if(fstg(p)>=2)continue;const R=r2();const t=R.s+statMod(p,'PER')+(tr(p,'keen')?2:0);const se=hasSk(p,'sense');if(t<13&&!se)continue;
-    const pool=cand.map(i=>[i,hintFor(cs[i])]).filter(x=>x[1]);const n=se?2:1;const h={};
-    for(let k=0;k<n&&pool.length;k++){const x=pool.splice(rnd(0,pool.length-1),1)[0];h[x[0]]=x[1]}if(Object.keys(h).length)G.hint[p.pid]=h}}
+/* ---- 察覺（v0.12.1，主人 2026-11-13）：不是每個地方、每個選項都有徵兆；每個徵兆有自己的門檻（被動感知＝10＋感知），
+   只有感知夠的人看得到，內容刻意模糊（交談聲可能是商人、事件，也可能是衝突）。看到的人可以按「告知」讓隊友也看到。
+   劇情或職業專屬的選項可以寫 sign:{t:'文字',dc:門檻}，那一條一定會有徵兆。 ---- */
+const HINT={beast:['那個方向有拖行的聲音。','那邊太安靜了。','空氣裡有一股說不上來的味道。','地上有一道拖過的痕跡。'],
+ voice:['那邊傳來交談的聲音。','那邊好像有人。','有腳步聲，停了一下，又走遠了。'],
+ quiet:['那邊很安靜。','那邊太安靜了。'],
+ thing:['那邊好像有什麼東西。','角落有東西反了一下光。','那邊的東西被翻動過。'],
+ risk:['這件事好像沒有看起來那麼簡單。','那邊的地面看起來不太穩。']};
+const SIGN_DC={beast:14,voice:13,quiet:12,thing:12,risk:13};
+function signFor(c){if(c.sign)return {t:c.sign.t,dc:c.sign.dc||12,fixed:1};
+  const rs=[c.ok,c.ng].filter(Boolean);const dest=c.go||(rs.find(r=>r.go)||{}).go;const nd=dest&&N[dest];
+  let k=null;const f=rs.map(r=>r.fight).find(Boolean);
+  if(f)k=(f.names||[]).some(n=>FOES[typeOfName(n)].human)?'voice':'beast';
+  else if(nd&&nd.trade)k='voice';
+  else if(c.ok&&c.ok.r&&(c.ok.r.items||c.ok.r.gear)&&!c.stay)k='thing';
+  else if(c.ng&&c.ng.p&&((c.ng.p.hp||0)<0||(c.ng.p.inf||0)>0))k='risk';
+  else if(nd&&nd.rest)k='quiet';
+  if(!k)return null;return {t:pick(HINT[k]),dc:SIGN_DC[k]+rnd(-1,2)}}
+// 被動感知：10＋感知（含夜晚、恐懼等修正）＋觀察入微 2＋先察覺 3
+const passPer=p=>10+statMod(p,'PER')+(tr(p,'keen')?2:0)+(hasSk(p,'sense')?3:0);
+function makeHints(){G.hint={};G.told={};const cs=choices();const sg={};
+  cs.forEach((c,i)=>{if(!visible(c))return;const s=signFor(c);if(s&&(s.fixed||Math.random()<.35))sg[i]=s});
+  for(const p of able()){if(fstg(p)>=2)continue;const v=passPer(p);const h={};for(const [i,s] of Object.entries(sg))if(v>=s.dc)h[i]=s.t;if(Object.keys(h).length)G.hint[p.pid]=h}}
+// 告知：把自己察覺到的徵兆說給隊友聽
+function tell(p,i){const h=G.hint&&G.hint[p.pid]&&G.hint[p.pid][i];if(!h||G.phase!=='node')return false;G.told=G.told||{};if(G.told[i])return false;G.told[i]={pid:p.pid,t:h};out(`${nm(p)}：「${h}」`,'sys');push();draw();return true}
 /* ---- 投票 ---- */
 function voters(){return live().filter(p=>!p.mad)}
 function vote(pid,i){
@@ -2943,7 +2963,7 @@ async function outcome(o,actor){
     if(G.lv==='F'&&!G.flags.gasoff){await explode();}}
   if(r.gasboom){skipHp=true;if(G.flags.gasoff)out('……什麼都沒有發生。瓦斯總閥剛才已經被關掉了。槍聲在廚房裡迴盪。','good');else await explode()}
   if(p.fear){const n=p.fear;for(const q of able()){if(n>0)scare(q,n);else relax(q,Math.round(-n*1.5))}}
-  if(p.hp&&!skipHp){await flush();if(p.hp<0){snd('claw',.5);hurtP(actor,-p.hp)}else actor.hp=Math.min(actor.max,actor.hp+p.hp)}
+  if(p.hp&&!skipHp){await flush();if(p.hp<0){snd(hurtSnd(o.t),.6);hurtP(actor,-p.hp)}else actor.hp=Math.min(actor.max,actor.hp+p.hp)}
   if(p.inf)addInf(actor,p.inf);
   if(p.hun)actor.hun=clamp(actor.hun+p.hun,0,10);if(p.thi)actor.thi=clamp(actor.thi+p.thi,0,10);
   if(p.bleed){actor.bleed=Math.min(2,actor.bleed+p.bleed);out(`${MP()?nm(actor)+'的':''}傷口開始流血。`,'dmg',true)}
@@ -3154,7 +3174,7 @@ async function acruPre(f){const T=FT(f);
     if(f.cool){f.cool=0;f.streak=0;out(`${f.n}的噴火器發出一陣嘶嘶聲，正在重新加壓。`,'sys');push();draw();return true}}
   return false}
 // 一次攻擊打一個目標：hits 發，每發各自判定
-async function foeHit(f,mv,t,hits){const F=G.fight,T=FT(f);
+async function foeHit(f,mv,t,hits){const F=G.fight,T=FT(f);let firstHit=1;
   for(let k=0;k<hits;k++){if(t.dead||t.down||t.hp<=0)break;
   const far=f.type==='incubator'&&f.away?3:0;
   const focus=F.focus&&F.focus.pid===t.pid&&F.round<=F.focus.r&&!T.lead&&T.fac==='acru'?2:0;
@@ -3163,10 +3183,10 @@ async function foeHit(f,mv,t,hits){const F=G.fight,T=FT(f);
   await dice({label:`${f.n}・${mv.n}${hits>1?`（${k+1}／${hits}）`:''}　→　${esc(t.name)}`,dice:pairDice(R,'',1),quick:true,
     result:`<span class="${hit?'f':'s'}">${j==='crit'?'重擊':hit?'命中':'落空'}</span>`,cls:hit?'ng':'ok'});
   out(`擲骰｜${f.n}・${mv.n} d20(<b>${R.a}</b>)${m>=0?'+':'−'}${Math.abs(m)}＝<b>${tot}</b>　<span class="${hit?'f':'s'}">${j==='crit'?'重擊':hit?'命中':'落空'}</span>`,'roll',true);
-  if(mv.shot){f.loaded=0;snd('revolver',1,1200);addAlarm(2,null)}
+  if(mv.shot){f.loaded=0;snd('shotgun',1,1600);addAlarm(2,null)}
   if(hit){let d=Math.max(1,Math.round((T.dmg+(mv.dm||0))*DF().dmg));if(j==='crit')d*=2;if(SB.half)d=Math.ceil(d/2);d=Math.max(1,d-SB.cut);const ar=mv.ap?0:armorOf(t);d=Math.max(1,d-ar);if(t.grit)d=Math.max(1,d-3);
     if(ar)wearHit(t,T.human);
-    const ms=(mv.shot||mv.gun||mv.flame)?0:snd('claw',.9,1500);
+    const ms=mv.flame?0:(mv.gun||mv.shot)?(firstHit?snd('bhit',.8,600):0):snd(mv.hs||'claw',.9,1500);firstHit=0;
     t.hp-=d;t.taken=(t.taken||0)+d;out(`${MP()?nm(t)+'：':''}${mv.t||pick(BITE)}${SB.half?SB.txt:''}生命 −${d}${ar?`（護甲擋掉 ${ar}）`:''}${mv.ap&&armorOf(t)?'（穿透了護甲）':''}，剩 ${Math.max(0,t.hp)}。`,'dmg');
     if(mv.flame&&t.hp>0){t.burn=2;out(`${nm(t)}身上著火了：接下來 2 回合，每回合生命 −5。`,'dmg',true)}
     if(T.inf[1]>0){const b0=t.inf;addInf(t,rnd(T.inf[0],T.inf[1])*(affIs(f,'carrier')?2:1));if(t.inf>b0)out(`傷口沾到了牠的體液。感染 +${t.inf-b0}。`,'dmg',true)}
@@ -3217,7 +3237,7 @@ async function foeAct(f){
   if(mv.all&&(mv.gun||mv.flame)){out(`${f.n}：<b>${mv.n}</b>`,'act',true);if(mv.flame)snd('mimpact',.9,1500);
     for(const q of able()){if(!G.fight)break;let h=mv.hits||1;if(mv.gun&&T.mag){h=Math.min(h,f.mag);f.mag-=h;if(h<=0){out(`${f.n}的彈匣打空了。`,'sys',true);break}}await foeHit(f,mv,q,h);if(G.over)return}
     tick();F.cur=null;push();draw();await deathCheck();return}
-  if(mv.all){out(`${f.n}：<b>${mv.n}</b>`,'act',true);out(mv.t,'dmg');
+  if(mv.all){out(`${f.n}：<b>${mv.n}</b>`,'act',true);if(mv.hs)snd(mv.hs,.9,1800);out(mv.t,'dmg');
     for(const q of able()){const half=!affIs(f,'blind')&&(q.stance==='block'||(q.stance==='cover'&&mv.rng));const inf=Math.round((mv.inf||0)*(half?.5:1));if(inf)addInf(q,inf);out(`${MP()?nm(q)+'：':''}${half?'及時用手臂護住臉，':''}感染 +${inf}。`,'dmg',true);if(mv.san)loseSan(q,mv.san,true)}
     tick();F.cur=null;push();draw();await deathCheck();return}
   if(t.counter&&!mv.tele){t.counter=0;if(Math.random()<.7){snd('whoosh');out(`${f.n}撲向${nm(t)}——身體比腦袋先動，側身讓開，順勢反擊。`,'good');await attack(t,'R',null,f.id,true);F.cur=null;return}
@@ -3571,8 +3591,8 @@ function give(p,to,k,u){const t=P(to);if(!t||t.dead||t===p)return false;
 function pickGround(p,i){const x=G.ground[i];if(!x)return false;
   if(x.g){const need=WEAP[x.g.id].hands===2?2:1;const handFree=p.hand.R==null;if(!handFree&&cap(p)-used(p)<need){msgTo(p,'背包放不下。');return false}G.ground.splice(i,1);p.gear.push(x.g);autoEquip(p,x.g);snd('pickup',.6);return true}
   const fit=Math.min(x.q,roomFor(p,x.k));if(!fit){msgTo(p,'背包放不下。');return false}p.items[x.k]=(p.items[x.k]||0)+fit;x.q-=fit;if(!x.q)G.ground.splice(i,1);snd('pickup',.6);return true}
-// 能力未滿 5 花 1 點 +1；5 以上花 2 點 +1（只算自己配的點數，職業加成另計）
-function levelUp(p,st){if(!STN[st])return false;const c=lvCost(p,st);if((p.pts||0)<c||p.st[st]>=STAT_CAP)return false;p.pts-=c;p.st[st]++;if(st==='CON'){p.max=maxHp(p);p.hp+=3}out(`${MP()?nm(p)+'的':'你的'}${STN[st]}提升到 ${p.st[st]}${c>1?`（花了 ${c} 點）`:''}。`,'good',true);return true}
+// 每 +1 的花費：0～4 是 1 點、5～9 是 2 點、10～14 是 3 點，依此類推；沒有上限（只算自己配的點數，職業加成另計）
+function levelUp(p,st){if(!STN[st])return false;const c=lvCost(p,st);if((p.pts||0)<c)return false;p.pts-=c;p.st[st]++;if(st==='CON'){p.max=maxHp(p);p.hp+=3}out(`${MP()?nm(p)+'的':'你的'}${STN[st]}提升到 ${p.st[st]}${c>1?`（花了 ${c} 點）`:''}。`,'good',true);return true}
 /* ================= 合成 ================= */
 function matchRecipe(keys){
   keys=[...keys].sort();
@@ -3616,6 +3636,7 @@ function handle(pid,a){
   if(!p||p.dead)return;
   if(G.over)return;
   if(a.a==='lvl')return run(async()=>{levelUp(p,a.st)});
+  if(a.a==='tell')return run(async()=>{tell(p,a.i)});
   if(G.phase==='shop'&&G.shop&&!p.down&&!p.mad){if(a.a==='buy')return run(async()=>{shopBuy(p,a.i)});if(a.a==='sell')return run(async()=>{shopSell(p,a.k)});if(a.a==='shopdone')return run(()=>shopReady(p))}
   if(G.fight&&['atk','tact','reload','unjam','cock','pickup','kick','counter','brace','molotov','ext','flee','use','revive','equip','guard','free','block','dodge','cover','dual','calm','subdue','csk','spot'].includes(a.a))return run(()=>fightAct(pid,a));
   if(G.fight)return;
@@ -3729,7 +3750,7 @@ async function hazard(nd){
 async function applyHaz(p,H,ok){
   if(ok){out(H.ok,'good');await deathCheck();return}
   out(`${MP()?nm(p)+'：':''}${H.ng}`,'dmg');
-  const d=Math.max(1,Math.round(H.hp*DF().dmg));snd('claw',.7);hurtP(p,d);p.taken=(p.taken||0)+d;
+  const d=Math.max(1,Math.round(H.hp*DF().dmg));snd(hurtSnd(H.ng),.7);hurtP(p,d);p.taken=(p.taken||0)+d;
   if(H.inf){const b=p.inf;addInf(p,H.inf);if(p.inf>b)out(`感染 +${p.inf-b}。`,'dmg',true)}
   if(H.bleed&&Math.random()<H.bleed){p.bleed=Math.min(2,p.bleed+1);out('傷口開始流血。','dmg',true)}
   if(H.frac&&!p.frac&&Math.random()<H.frac){p.frac=1;out(`<b>骨折</b>：${MP()?nm(p)+'的':''}腿使不上力。敏捷檢定與防禦 −3，直到用夾板固定。`,'dmg',true)}
@@ -3743,7 +3764,7 @@ async function ambushQte(){
   const ok=await qte(p,{t,w:['閃避','格擋','推開','後退']});
   if(ok){out(`${MP()?nm(p):'你'}在最後一刻側身讓開。牠撲了個空，偷襲落空了。`,'good');return true}
   const T=FT(f);const d=Math.max(1,Math.round(T.dmg*DF().dmg))-armorOf(p);const dd=Math.max(1,d);
-  snd('claw',.9);p.hp-=dd;p.taken=(p.taken||0)+dd;out(`${MP()?nm(p)+'：':''}${pick(BITE)}生命 −${dd}，剩 ${Math.max(0,p.hp)}。`,'dmg');
+  snd(((MOVES[f.type]||[])[0]||{}).hs||'claw',.9);p.hp-=dd;p.taken=(p.taken||0)+dd;out(`${MP()?nm(p)+'：':''}${pick(BITE)}生命 −${dd}，剩 ${Math.max(0,p.hp)}。`,'dmg');
   if(T.inf[1]>0){const b=p.inf;addInf(p,rnd(T.inf[0],T.inf[1]));if(p.inf>b)out(`傷口沾到了牠的體液。感染 +${p.inf-b}。`,'dmg',true)}
   push();draw();await deathCheck();return false}
 /* ---- 劇情裡寫好的 QTE：結果裡放 qte:{t,lab,ok:{...},ng:{...}} ---- */
@@ -3908,6 +3929,9 @@ function bar(cls,name,v,max,txt){return `<div class="stb ${cls}"><span>${name}<b
 const chBtn=(attr,l,s,tag,tc,dis,extra,cls)=>`<button class="ch ${cls||''}" ${attr} ${dis?'disabled':''}><span class="cl">${l}</span>${extra||''}${tag?`<span class="tag ${tc}">${tag}</span>`:''}${s?`<span class="cs">${s}</span>`:''}</button>`;
 const avH=(pid,name,col,cls)=>avOk(AVS[pid])?`<span class="av pic ${cls||''}" title="${esc(name)}"><img src="${AVS[pid]}" alt=""></span>`:`<span class="av ${cls||''}" style="background:${col}" title="${esc(name)}">${esc([...name][0]||'?')}</span>`;
 const av=(p,big)=>avH(p.pid,p.name,p.col,big?'big':'');
+// v0.12.1 屬性刻度尺（檢驗報告風格）：不畫上限，刻度範圍至少 0～10，數值超過時跟著放大；每 5 一條長刻度（升級花費變貴的地方）
+const rulerR=vals=>Math.max(10,Math.ceil((Math.max(0,...vals)+1)/5)*5);
+const ruler=(v,bonus,R)=>{const b=bonus||0,pc=x=>Math.min(100,Math.max(0,x/R*100));return `<span class="rl" style="--r:${R}"><i class="f" style="width:${pc(v)}%"></i>${b?`<i class="fb" style="left:${pc(v)}%;width:${pc(b)}%"></i>`:''}<i class="mk" style="left:${pc(v+b)}%"></i></span>`};
 const boxes=(v,max,bonus)=>`<span class="boxes">${Array.from({length:max},(_,i)=>`<i class="${i<v?'on':i<v+(bonus||0)?'bn':''}"></i>`).join('')}</span>`;
 let PEND=null,FTAB=null,DD=false;
 function cdLeft(){if(!G||!G.cd)return 0;return ROLE==='client'?Math.max(0,(G.cd.left||0)-(Date.now()-cdAt)):Math.max(0,G.cd.end-Date.now())}
@@ -3985,15 +4009,15 @@ function draw(){
       const tag=c.k?(DF().num?`需要${STN[c.k]} ${c.d}`:/檢定/.test(c.s||'')?'':`${STN[c.k]}檢定`):'';
       const why=!ok&&c.req?('需要'+reqList(c).map(nameOf).join(c.reqAny?'或':'、')):'';
       const vts=MP()?voters().filter(q=>G.votes[q.pid]===i).map(q=>av(q)).join(''):'';
-      const hn=G.hint&&G.hint[MYPID]&&G.hint[MYPID][i];const why2=!ok&&c.usd&&teamUsd()<c.usd?`需要 $${c.usd}（全隊有 $${teamUsd()}）`:!ok&&c.karma&&!c.reqN&&!c.req?'他們還不夠信任你們。':!ok&&c.reqN?'需要'+Object.entries(c.reqN).map(([k,q])=>ITEMS[k].n+' ×'+q).join('、'):'';
+      const hn=G.hint&&G.hint[MYPID]&&G.hint[MYPID][i];const tl=G.told&&G.told[i];const hs=hn?`<em class="hint">你察覺：${hn}</em>`:tl?`<em class="hint">${esc(P(tl.pid).name)}說：${tl.t}</em>`:'';const why2=!ok&&c.usd&&teamUsd()<c.usd?`需要 $${c.usd}（全隊有 $${teamUsd()}）`:!ok&&c.karma&&!c.reqN&&!c.req?'他們還不夠信任你們。':!ok&&c.reqN?'需要'+Object.entries(c.reqN).map(([k,q])=>ITEMS[k].n+' ×'+q).join('、'):'';
       const tk=tKind(c);
-      return chBtn(`data-ch="${i}"`,c.l+(tk?`<small class="tmc ${tk}">（${TLAB[tk]}）</small>`:''),(why||why2||c.s||'')+(hn?`<em class="hint">你察覺：${hn}</em>`:''),tag,tag?'t-ck':'',!ok||G.busy,vts?`<span class="vts">${vts}</span>`:'',G.votes[MYPID]===i?'mine':'')}).join('')+(MP()?`<p class="note">多數決，同票隨機。</p>`+hostCdBtn():'')+(G.ground.length?`<p class="note">地上有東西，打開背包可以撿。</p>`:'');
+      return chBtn(`data-ch="${i}"`,c.l+(tk?`<small class="tmc ${tk}">（${TLAB[tk]}）</small>`:''),(why||why2||c.s||'')+hs,tag,tag?'t-ck':'',!ok||G.busy,vts?`<span class="vts">${vts}</span>`:'',G.votes[MYPID]===i?'mine':'')+(hn&&MP()&&!tl?`<button class="btn tellb" data-tell="${i}">告知隊友</button>`:'')}).join('')+(MP()?`<p class="note">多數決，同票隨機。</p>`+hostCdBtn():'')+(G.ground.length?`<p class="note">地上有東西，打開背包可以撿。</p>`:'');
   }else if(G.phase==='shop'&&G.shop){const S=G.shop,sh=SHOPS[S.id];if(S.key!==SHOPKEY){SHOPKEY=S.key;SHOPSHUT=false;SHOPSEL=0;SHOPMODE='buy'}if(OVK==='shop')setTimeout(()=>{if(OVK==='shop')panel('shop')},0);const rd=ctl().filter(q=>S.ready[q.pid]).length;T=sh.n;Pl=`$${m.usd||0}`;
     h=chBtn('data-openshop','回到商店','看看商品、買東西、賣東西','','')+chBtn('data-shopdone',S.ready[MYPID]?'已經準備好，等其他人':'買好了，繼續',`${rd}／${ctl().length} 人準備好`,'','',!!S.ready[MYPID]);
     if(OVK==null&&!SHOPSHUT)setTimeout(()=>{if(G&&G.phase==='shop'&&OVK==null)panel('shop')},0)
   }else{T='……';Pl='';h=''}
   if(OVK==='shop'&&!(G.phase==='shop'&&G.shop))closeOv();
-  $('#chTitle').innerHTML=T;$('#chPill').textContent=Pl;$('#choices').innerHTML=h;if(!matchMedia('(pointer:coarse)').matches){let k=0;for(const b of document.querySelectorAll('#choices button')){if(b.disabled)continue;if(k<10){const s=document.createElement('kbd');s.className='kn2';s.textContent='1234567890'[k];b.prepend(s)}k++}}
+  $('#chTitle').innerHTML=T;$('#chPill').textContent=Pl;$('#choices').innerHTML=h;if(!matchMedia('(pointer:coarse)').matches){let k=0;const bs=[...document.querySelectorAll('#choices button.ch')].filter(b=>!b.disabled);document.querySelectorAll('#choices .tellb').forEach(t=>{const ch=t.previousElementSibling;const k=bs.indexOf(ch);if(k>=0&&k<10)t.textContent=`告知隊友（Shift＋${'1234567890'[k]}）`});for(const b of bs){if(k<10){const s=document.createElement('kbd');s.className='kn2';s.textContent='1234567890'[k];b.prepend(s)}k++}}
   $('#chp').classList.toggle('typing',!!G.busy);
 }
 function hostCdBtn(){return ROLE==='host'&&G.opts.cd==='host'&&!G.cd?chBtn('data-cdgo','開始倒數',`${G.opts.sec} 秒後以目前的票數決定`,'','t-x'):''}
@@ -4079,7 +4103,7 @@ function sheet(m){
   <div class="kv"><span>等級</span><b>${m.lv}　<small>經驗 ${m.xp}${nx?'／'+nx:''}</small>${m.pts?`　<b style="color:var(--gold)">可分配 ${m.pts} 點</b>`:''}</b>
   <span>生命</span><b>${Math.max(0,m.hp)}／${m.max}</b><span>恐懼</span><b>${fstgN(m)}</b><span>感染</span><b>${m.inf}／100</b><span>飢餓／口渴</span><b>${m.hun}／10　${m.thi}／10</b>
   <span>防禦</span><b>${baseDef(m)}（10＋敏捷）</b><span>減傷</span><b>${armorOf(m)}</b>${m.lv>1?`<span>等級加成</span><b>命中 +${m.lv-1}、傷害 +${m.lv-1}</b>`:''}<span>美金</span><b>$${m.usd||0}</b></div>
-  <div>${Object.keys(STN).map(s=>{const b=statMod(m,s)-m.st[s],bo=(m.bon&&m.bon[s])||0,c=lvCost(m,s);return `<div class="attr"><span>${STN[s]}</span>${boxes(Math.min(m.st[s],STAT_CAP),STAT_CAP)}<span>${bo?`${stBase(m,s)}＋${bo}＝${m.st[s]}`:m.st[s]}${b?(b>0?' +':' ')+b+'＝'+statMod(m,s):''}</span>${m.pts&&m.st[s]<STAT_CAP?`<button class="btn" data-lvl="${s}" ${m.pts<c?'disabled':''}>＋${c>1?c:''}</button>`:'<span></span>'}</div>`}).join('')}${m.pts?'<p class="note">能力未滿 5 花 1 點 +1；5 以上花 2 點 +1。</p>':''}</div>
+  <div>${(()=>{const R=rulerR(Object.keys(STN).map(s=>m.st[s]));return Object.keys(STN).map(s=>{const b=statMod(m,s)-m.st[s],bo=(m.bon&&m.bon[s])||0,c=lvCost(m,s);return `<div class="attr"><span>${STN[s]}</span>${ruler(stBase(m,s),bo,R)}<span>${bo?`${stBase(m,s)}＋${bo}＝${m.st[s]}`:m.st[s]}${b?(b>0?' +':' ')+b+'＝'+statMod(m,s):''}</span>${m.pts?`<button class="btn" data-lvl="${s}" ${m.pts<c?'disabled':''}>＋${c>1?c:''}</button>`:'<span></span>'}</div>`}).join('')})()}${m.pts?'<p class="note">每 +1：0～4 花 1 點、5～9 花 2 點、10～14 花 3 點，依此類推。</p>':''}</div>
   <div class="ab">${ab.join('<br>')}</div></div>`}
 const ibt=(attr,l,dis,can)=>`<button class="btn" ${attr} ${dis||!can?'disabled':''}>${l}</button>`;
 // 中欄：裝備欄（右手、左手、頭、身體、手臂、腿），一條一條列
@@ -4157,7 +4181,8 @@ document.addEventListener('click',e=>{
   if(b.closest('#scr'))return onScr(b,d);
   if(b.hasAttribute('data-save')){saveGame();return}
   if(b.hasAttribute('data-dd')){DD=!DD;if(DD)drawDD();else $('#tdd').hidden=true;sfx('click',.5);return}
-  if(d.ch!=null)act({a:'vote',i:+d.ch});
+  if(d.tell!=null)act({a:'tell',i:+d.tell});
+  else if(d.ch!=null)act({a:'vote',i:+d.ch});
   else if(d.rv)act({a:'rv',t:d.rv});
   else if(b.hasAttribute('data-cdgo'))act({a:'cdgo'});
   else if(d.ftab!=null){FTAB=d.ftab||null;sfx('click',.4);draw()}
@@ -4229,9 +4254,9 @@ document.addEventListener('keydown',e=>{
   if(!scrOn&&!$('#lvcard').hidden&&(e.key===' '||e.key==='Enter')){$('#lvcard').click();e.preventDefault();return}
   if(scrOn||!$('#ov').hidden||!G)return;
   if(e.key===' '||e.key==='Enter'){if(G.busy){skipType=true;e.preventDefault()}return}
-  const n='1234567890'.indexOf(e.key);if(n<0)return;
-  const bs=[...document.querySelectorAll('#choices button')].filter(b=>!b.disabled&&b.offsetParent);
-  if(bs[n]){bs[n].click();e.preventDefault()}
+  const n=/^Digit\d$/.test(e.code||'')?'1234567890'.indexOf(e.code.slice(5)):'1234567890'.indexOf(e.key);if(n<0)return;
+  const bs=[...document.querySelectorAll('#choices button.ch')].filter(b=>!b.disabled&&b.offsetParent);
+  if(bs[n]){const t=bs[n].nextElementSibling;if(e.shiftKey&&t&&t.classList.contains('tellb'))t.click();else if(!e.shiftKey)bs[n].click();e.preventDefault()}
 });
 /* ================= 選單、建立角色、房間 ================= */
 let SCR=null,CMODE='solo',CTAB='who',JOIN='';
@@ -4255,7 +4280,7 @@ function bindAvatar(){const af=$('#avfile');if(af)af.addEventListener('change',(
 let RCAT='story';
 function rosterOf(cat){return cat==='guest'?Object.entries(GUESTS).map(([k,g])=>({k,n:g.n,role:g.role,d:g.d,cost:GUEST_COST})):[...Object.entries(JOBS).map(([k,j])=>({k,n:j.n,role:'職業',d:j.d,cost:JOB_COST})),...Object.entries(PRESETS).map(([k,p])=>({k,n:p.n,role:p.role,d:p.d,cost:p.lock}))]}
 function charDetail(k){const J=JOBS[k],pr=PRESETS[k]||GUESTS[k];const st=J?Object.assign({},J.st):pr.st;const tb=J?TALENT[J.tal].st:{};
-  const rows=Object.keys(STN).map(s=>`<div class="cstat"><b>${STN[s]}</b>${boxes(st[s],STAT_CAP,tb[s]||0)}<span>${st[s]}${tb[s]?` +${tb[s]}＝${st[s]+tb[s]}`:''}</span></div>`).join('');
+  const R=rulerR(Object.keys(STN).map(s=>st[s]+(tb[s]||0)));const rows=Object.keys(STN).map(s=>`<div class="cstat"><b>${STN[s]}</b>${ruler(st[s],tb[s]||0,R)}<span>${st[s]}${tb[s]?` +${tb[s]}＝${st[s]+tb[s]}`:''}</span></div>`).join('');
   const gear=(J?J.gear:pr.gear).map(([id])=>WEAP[id].n),items=Object.entries((J?J.items:pr.items)||{}).map(([i,q])=>ITEMS[i].n+(q>1?'×'+q:''));
   const ab=J?`<b>天賦・${TALENT[J.tal].n}</b>：${TALENT[J.tal].d}<br><b>技能・${CSKILL[J.sk].n}</b>：${CSKILL[J.sk].d}`:`<b>${pr.p}</b>：${pr.pd}<br><b>${pr.actn}</b>：${pr.actd}`;
   return `<div class="det"><b>${J?J.n:pr.n+'・'+pr.role}</b><small>${J?J.d+'名字用你自己的。':pr.d}</small>${rows}<small>${ab}<br>初始物品：${[...gear,...items].join('、')||'無'}${J&&J.usd?`；現金 $${J.usd}`:''}。另外可以帶 ${FIXED_LOAD+packs()} 點物品。</small></div>`}
@@ -4290,14 +4315,14 @@ function showCreate(){
     else body=`<p class="note">名字</p><input class="inp" id="cname" maxlength="10" placeholder="輸入角色名字" value="${esc(CB.name)}"><p class="note">接下來依序分配屬性、選一個天賦、選一個技能、挑選帶進旅館的物品。</p>`;
   }else if(CTAB==='st'){
     const bg=TALENT[CB.tal]||{st:{}};
-    body=`<p class="note">分配 ${STAT_PTS} 點，每項 0～${STAT_MAX}（天賦加成另計）。生命＝10＋體質×3，防禦＝10＋敏捷，背包＝8＋力量格；智力越高，恐懼累積得越慢。每升一級生命、命中、傷害各 +1、恐懼稍退，另給 1 點能力點：能力未滿 5 花 1 點 +1，5 以上花 2 點 +1。</p>`+Object.keys(STN).map(s=>{const b=bg.st[s]||0;return `<div class="cstat"><b>${STN[s]}</b><span>${boxes(CB.st[s],STAT_CAP,b)}　${CB.st[s]}${b?` +${b}＝${CB.st[s]+b}`:''}</span><div class="pm"><button class="btn" data-st="${s}" data-d="-1" ${CB.st[s]<=0?'disabled':''}>−</button><button class="btn" data-st="${s}" data-d="1" ${CB.st[s]>=STAT_MAX||statUsed()>=STAT_PTS?'disabled':''}>＋</button></div><small>${STD[s]}</small></div>`}).join('');
+    body=`<p class="note">分配 ${STAT_PTS} 點，每項 0～${STAT_MAX}（天賦加成另計）。生命＝10＋體質×3，防禦＝10＋敏捷，背包＝8＋力量格；智力越高，恐懼累積得越慢。每升一級生命、命中、傷害各 +1、恐懼稍退，另給 1 點能力點：自己配的點數 0～4 每 +1 花 1 點、5～9 花 2 點、10～14 花 3 點，依此類推，沒有上限。</p>`+(()=>{const R=rulerR(Object.keys(STN).map(s=>CB.st[s]+(bg.st[s]||0)));return Object.keys(STN).map(s=>{const b=bg.st[s]||0;return `<div class="cstat"><b>${STN[s]}</b><span class="rlw">${ruler(CB.st[s],b,R)}<em>${CB.st[s]}${b?` +${b}＝${CB.st[s]+b}`:''}</em></span><div class="pm"><button class="btn" data-st="${s}" data-d="-1" ${CB.st[s]<=0?'disabled':''}>−</button><button class="btn" data-st="${s}" data-d="1" ${CB.st[s]>=STAT_MAX||statUsed()>=STAT_PTS?'disabled':''}>＋</button></div><small>${STD[s]}</small></div>`}).join('')})();
   }else if(CTAB==='tal'){
     body=`<p class="note">天賦：選一個，能力 +1，並帶一個被動效果。</p><div class="cards">${Object.entries(TALENT).map(([k,a])=>`<button class="card ${CB.tal===k?'on':''}" data-tal="${k}"><b>${a.n}</b><em>${Object.entries(a.st).map(([s,v])=>STN[s]+' +'+v).join('　')}</em><small>${a.d}</small></button>`).join('')}</div>`;
   }else if(CTAB==='sk'){
     const PERN={fight:'每場一次',area:'每區域一次',free:'不限次數'};
     body=`<p class="note">技能：選一個，戰鬥或探索時主動使用。</p><div class="cards">${Object.entries(CSKILL).map(([k,a])=>`<button class="card ${CB.sk===k?'on':''}" data-csk="${k}"><b>${a.n}</b><em>${PERN[a.per]}${a.ctl?'　控制':''}</em><small>${a.d}</small></button>`).join('')}</div>`;
   }else if(CTAB==='ld'){
-    body=`<div class="ldleft">物品點數　剩 <b>${loadPts()}</b>／${loadMax()}　<small>每件標示要花幾點，同一項最多 3 次；槍只能在遊戲裡找到</small></div>`+[1,2,3,4].map(c=>`<div class="cat">每件 ${c} 點</div>`+Object.entries(LOADOUT).filter(([k,L])=>L.c===c).map(([k,L])=>{const q=CB.load[k]||0;const g=k.startsWith('g:');const n=g?WEAP[k.slice(2)].n:ITEMS[k].n;const W=g&&WEAP[k.slice(2)];const d=g?`<span class="wtag">${W.hands===2?'雙手・':''}${W.st.map(x=>STN[x]).join('／')}・${W.dt.map(x=>DT[x]).join('／')}${W.kind==='ranged'?'・遠程':''}</span>${W.d}`:ITEMS[k].d;return `<div class="strow"><div><b>${n}${L.q>1?' ×'+L.q:''}</b><span class="cost">${L.c} 點</span></div><small>${d}</small><div class="pm"><button class="btn" data-ld="${k}" data-d="-1" ${q<=0?'disabled':''}>−</button><span>${q}</span><button class="btn" data-ld="${k}" data-d="1" ${loadPts()<L.c||q>=3?'disabled':''}>＋</button></div></div>`}).join('')).join('');
+    body=`<div class="ldleft">物品點數　剩 <b>${loadPts()}</b>／${loadMax()}　<small>每件標示要花幾點，同一項最多 3 次；槍只能在遊戲裡找到</small></div>`+[1,2,3].map(c=>`<div class="cat">每件 ${c} 點</div>`+Object.entries(LOADOUT).filter(([k,L])=>L.c===c).map(([k,L])=>{const q=CB.load[k]||0;const g=k.startsWith('g:');const n=g?WEAP[k.slice(2)].n:ITEMS[k].n;const W=g&&WEAP[k.slice(2)];const d=g?`<span class="wtag">${W.hands===2?'雙手・':''}${W.st.map(x=>STN[x]).join('／')}・${W.dt.map(x=>DT[x]).join('／')}${W.kind==='ranged'?'・遠程':''}</span>${W.d}`:ITEMS[k].d;return `<div class="strow"><div><b>${n}${L.q>1?' ×'+L.q:''}</b><span class="cost">${L.c} 點</span></div><small>${d}</small><div class="pm"><button class="btn" data-ld="${k}" data-d="-1" ${q<=0?'disabled':''}>−</button><span>${q}</span><button class="btn" data-ld="${k}" data-d="1" ${loadPts()<L.c||q>=3?'disabled':''}>＋</button></div></div>`}).join('')).join('');
   }
   const TB=TALENT[CB.tal]||{n:'',st:{}};const need=!pr&&(!TALENT[CB.tal]||!CSKILL[CB.sk]);const pst=J?{CON:J.st.CON+(TALENT[J.tal].st.CON||0),INT:J.st.INT+(TALENT[J.tal].st.INT||0)}:pr?pr.st:null;const hp=pr?10+pst.CON*3+(J&&J.tal==='tough'?4:0):10+(CB.st.CON+(TB.st.CON||0))*3+(CB.tal==='tough'?4:0);const sanv=pr?10+pst.INT+(J&&J.tal==='calm'?2:0)-(J&&J.tal==='immune'?1:0):10+CB.st.INT+(TB.st.INT||0)+(CB.tal==='calm'?2:0)-(CB.tal==='immune'?1:0);
   const foot=pr?`<span>${esc(J?J.n:pr.n)}</span><span>物品點數 剩 <b>${loadPts()}</b>／${loadMax()}</span><span>生命 <b>${hp}</b></span>`:`<span>屬性點 剩 <b>${STAT_PTS-statUsed()}</b>／${STAT_PTS}</span><span>天賦 ${TALENT[CB.tal]?`<b>${TB.n}</b>`:'<b class="miss">未選</b>'}</span><span>技能 ${CSKILL[CB.sk]?`<b>${CSKILL[CB.sk].n}</b>`:'<b class="miss">未選</b>'}</span><span>物品點數 剩 <b>${loadPts()}</b>／${loadMax()}</span><span>生命 <b>${hp}</b></span>`;
