@@ -546,7 +546,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.16.0", "b": 33, "t": "2026-11-14T01:49:23+08:00"};
+const ZC_VER={"v": "0.17.0", "b": 34, "t": "2026-11-14T02:34:48+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -778,7 +778,7 @@ const FOES={
 };
 const FAC_N={inf:'感染者',hum:'人類',acru:'滅菌部隊'};
 // 劇情裡寫的描述名只用來判斷類型；畫面上一律顯示類型名稱
-const FOE_BY_NAME=[[/索命客|霰彈槍/,'collector'],[/割喉者|獵刀|劫匪|掠奪者/,'cutter'],[/冷凍庫|沙發|廚師|網裡|帳篷裡/,'incubator'],[/滅菌隊長|紅色貝雷/,'acru_captain'],[/噴火|燃料罐/,'acru_flamer'],[/狙擊/,'acru_sniper'],[/A\.C\.R\.U|滅菌部隊|滅菌隊員/,'acru_trooper'],[/警衛|防爆|防護衣/,'devourer']];
+const FOE_BY_NAME=[[/索命客|霰彈槍/,'collector'],[/割喉者|獵刀|劫匪|掠奪者/,'cutter'],[/冷凍庫|沙發|廚師|網裡|帳篷裡|水裡/,'incubator'],[/滅菌隊長|紅色貝雷/,'acru_captain'],[/噴火|燃料罐/,'acru_flamer'],[/狙擊/,'acru_sniper'],[/A\.C\.R\.U|滅菌部隊|滅菌隊員/,'acru_trooper'],[/警衛|防爆|防護衣/,'devourer']];
 const LV_POOL={A:['infected'],B:['infected'],C:['infected'],D:['infected'],E:['infected','devourer'],F:['incubator','infected'],G:['incubator','infected'],I:['devourer','infected'],R:['infected'],H:['infected','incubator'],P:['infected'],J:['infected'],K:['infected','cutter'],M:['infected','cutter','collector'],Q:['devourer','infected'],U:['incubator','infected'],V:['infected','devourer','collector']};
 /* ============ 對策 ============ */
 const TACT={
@@ -2575,7 +2575,7 @@ PP1:{L:'PP',n:'南岸電廠・汽機廠房',
   {l:'去主控室',need:'pp1ok',ok:{t:`你們爬上鐵梯，走向那扇寫著「主控室　非值班人員禁止進入」的門。`,go:'PP2'}},
   {l:'去柴油發電機房',need:'pp1ok',ok:{t:`你們沿著走道往廠房後面走，空氣裡開始有柴油的味道。`,go:'PP3'}},
   {l:'去鍋爐間',need:'ppaux',hide:'citypower',ok:{t:`鍋爐間的門很重。門後是一座比廠房還高的鋼鐵爐子，管線像藤蔓一樣爬滿了它。`,go:'PP4'}},
-  {l:'去開關場',need:'ppboil',hide:'citypower',ok:{t:`你們推開廠房側門。外面是一大片圍起來的空地，一排排高壓設備立在碎石地上。`,go:'PP5'}},
+  {l:'去開關場',need:'ppboil',ok:{t:`你們推開廠房側門。外面是一大片圍起來的空地，一排排高壓設備立在碎石地上。`,go:'PP5'}},
   {l:'回大門',ok:{t:`你們順著原路回到大門。`,go:'PP0'}}]},
 PP2:{L:'PP',n:'南岸電廠・主控室',
  onEnter(){const F=G.flags;F.ppguard=F.acru&&!F.citypower&&!F.ppa2?1:0;F.ppnog=F.ppguard?0:1;F.ppeng=!F.acru&&!F.ppgrant?1:0;F.ppengno=F.ppeng?0:1;F.ppgo=F.ppgen&&!F.ppaux&&!F.ppguard?1:0;F.ppgg=F.ppgo&&F.ppgrant&&!F.acru?1:0;F.ppgb=F.ppgo&&!F.ppgg&&F.ppbook?1:0;F.ppgn=F.ppgo&&!F.ppgg&&!F.ppbook?1:0},
@@ -2597,6 +2597,7 @@ PP3:{L:'PP',n:'南岸電廠・柴油發電機房',
  c:[
   {l:'換上保險絲，接通輸油泵',req:'fuse',hide:'ppfuelno',k:'INT',d:12,s:'智力檢定',ok:{t:`你換上保險絲，按下輸油泵的啟動鈕。管子裡傳來咕嚕咕嚕的聲音，日用油槽的指針慢慢爬上來。\n\n你拉下發電機的啟動桿。機器咳了兩聲，然後轟地一聲轉了起來，整個房間都在震。這個聲音，整座廠區都聽得到。`,r:{use:'fuse',flag:'ppgen'},p:{alarm:3},get fight(){return ppFt(2)},stay:1},ng:{t:`保險絲裝上去的瞬間，控制箱裡噴出一串火花。你接錯了相位。`,p:{hp:-2,fear:4},stay:1}},
   {l:'用手搖泵一桶一桶打',need:'ppfuelok',k:'STR',d:12,t:'l',s:'力量檢定：要很久',ok:{t:`你們輪流搖那支手搖泵，一桶一桶把柴油從主油槽打過來，手臂酸得抬不起來。日用油槽終於滿了。\n\n你拉下發電機的啟動桿。機器咳了兩聲，然後轟地一聲轉了起來。這個聲音，整座廠區都聽得到。`,r:{flag:'ppgen'},p:{alarm:3},get fight(){return ppFt(2)},stay:1},ng:{t:`搖到一半，手搖泵的握柄斷了。你們得另外想辦法。`,p:{hp:-1},stay:1}},
+  {l:'從日用油槽放一桶柴油',need:'ppgen',once:1,stay:1,t:'m',s:'淨水廠的備用發電機用得到',ok:{t:`你們找到一個空的鐵桶，從日用油槽的洩油閥放了滿滿一桶柴油。很重，要兩隻手提。`,r:{items:{diesel:1}}}},
   {l:'去油槽看看',need:'pprdblk',ok:{t:`你們從後門出去，往油槽走。`,go:'PP6'}},
   {l:'回汽機廠房',ok:{t:`你們回到汽機廠房。`,go:'PP1'}}]},
 PP4:{L:'PP',n:'南岸電廠・鍋爐間',
@@ -2626,19 +2627,20 @@ PP4c:{L:'PP',n:'南岸電廠・升壓',
   {l:'去開關場',hide:'ppfail',ok:{t:`你們推開廠房側門。`,go:'PP5'}},
   {l:'回去重新點火',need:'ppfail',ok:{t:`一切都要重來。`,go:'PP4'}}]},
 PP5:{L:'PP',n:'南岸電廠・開關場',
- tx:()=>G.flags.ppgrant&&!G.flags.acru?'葛蘭特在對講機裡說：「一台機組撐不起整座城市。一區一區送，先送北區。全部一起送，負載一下子太大，機組會跳脫，就要全部重來。」':'',
+ tx:()=>G.flags.citypower?(G.flags.eastpower?'北區和東區的燈都亮著。':'北區的燈亮著。控制箱上還有一條東區的饋線，接的是淨水廠。'):G.flags.ppgrant&&!G.flags.acru?'葛蘭特在對講機裡說：「一台機組撐不起整座城市。一區一區送，先送北區。全部一起送，負載一下子太大，機組會跳脫，就要全部重來。」':'',
  t:`開關場是一大片碎石地，一排排高壓斷路器和隔離開關立在鐵架上，絕緣子像一串一串白色的念珠。控制箱上貼著饋線的名牌：北區（旅館、醫院、第 4 分局）、東區、河景、南岸工業區。\n\n空氣裡有一種很細的嗡嗡聲。有東西帶電了。`,
  c:[
-  {l:'戴上絕緣手套，合上北區的斷路器',req:'gloves',ok:{t:`你戴上手套，握住操作桿，用力往下一推。鐵架上傳來一聲沉重的金屬撞擊聲。`,go:'PP5w'}},
-  {l:'徒手合上北區的斷路器',s:'很危險',ok:{t:`你深吸一口氣，握住操作桿。`,qte:{t:'操作桿往下推到一半，旁邊的隔離開關「啪」地爆出一道電弧——',w:['放手','往後跳','趴下','滾開'],ok:{t:'你在電弧打過來之前鬆手往後一跳。操作桿自己落了下去，卡進了定位。'},ng:{t:'電弧擦過你的手臂。你整個人被彈出去，摔在碎石地上，手臂一片焦黑。',p:{hp:-5,fear:10}}},go:'PP5w'}},
-  {l:'全部一起送',k:'INT',d:13,s:'智力檢定',ok:{t:`你的手停在總開關上。一台機組，四條饋線，整座城市的冷氣、冰箱、路燈、醫院的機器全部一起接上來——你想起控制室那些燈號的上限，把手收了回來。\n\n一區一區送才對。`,stay:1},ng:{t:`你把四條饋線一起合上。一瞬間，整座城市的燈都亮了。`,go:'PP5t'}},
+  {l:'戴上絕緣手套，合上北區的斷路器',req:'gloves',hide:'citypower',ok:{t:`你戴上手套，握住操作桿，用力往下一推。鐵架上傳來一聲沉重的金屬撞擊聲。`,go:'PP5w'}},
+  {l:'徒手合上北區的斷路器',hide:'citypower',s:'很危險',ok:{t:`你深吸一口氣，握住操作桿。`,qte:{t:'操作桿往下推到一半，旁邊的隔離開關「啪」地爆出一道電弧——',w:['放手','往後跳','趴下','滾開'],ok:{t:'你在電弧打過來之前鬆手往後一跳。操作桿自己落了下去，卡進了定位。'},ng:{t:'電弧擦過你的手臂。你整個人被彈出去，摔在碎石地上，手臂一片焦黑。',p:{hp:-5,fear:10}}},go:'PP5w'}},
+  {l:'合上東區（淨水廠）的斷路器',need:'citypower',hide:'eastpower',k:'INT',d:13,s:'智力檢定：機組已經帶著北區，再加一區',ok:{t:`你盯著控制箱上的負載表，等指針穩下來，才把東區的操作桿推下去。汽輪機的聲音沉了一下，又慢慢回到原來的音調。\n\n河的東岸，淨水廠那一片也亮了。`,r:{flag:'eastpower'},stay:1},ng:{t:`你推得太快了。負載表的指針一下子打到底。`,go:'PP5t'}},
+  {l:'全部一起送',hide:'citypower',k:'INT',d:13,s:'智力檢定',ok:{t:`你的手停在總開關上。一台機組，四條饋線，整座城市的冷氣、冰箱、路燈、醫院的機器全部一起接上來——你想起控制室那些燈號的上限，把手收了回來。\n\n一區一區送才對。`,stay:1},ng:{t:`你把四條饋線一起合上。一瞬間，整座城市的燈都亮了。`,go:'PP5t'}},
   {l:'回汽機廠房',ok:{t:`你們回到廠房。`,go:'PP1'}}]},
 PP5t:{L:'PP',n:'南岸電廠・跳脫',
- onEnter(){const F=G.flags;F.ppboil=0;F.ppw1=0;F.ppw2=0},
+ onEnter(){const F=G.flags;F.ppboil=0;F.ppw1=0;F.ppw2=0;F.citypower=0;F.eastpower=0;F.streetpower=F.powerfix?1:0},
  t:`然後全部熄了。\n\n廠房裡的嗡嗡聲變成一聲很長的、往下掉的哀鳴，汽輪機慢慢停了下來。控制箱上的燈號一個接一個變紅：「負載過大　機組跳脫」。\n\n鍋爐的火也熄了。一切都要重來。`,
  c:[{l:'回廠房',ok:{t:`你們拖著腳步回到廠房。`,go:'PP1'}}]},
 PP5w:{L:'PP',n:'南岸電廠・送電',
- onEnter(){G.flags.citypower=1;G.flags.streetpower=1},
+ onEnter(){G.flags.citypower=1;G.flags.streetpower=1;G.flags.wpknown=1},
  t:`一開始什麼都沒有發生。\n\n然後，河的對岸，一條街的路燈亮了起來。接著是另一條，再另一條，一路往北延伸。醫院的窗戶一層一層亮起來，警察局門口的燈亮了，旅館的招牌閃了兩下，也亮了。\n\n整座城市的北半邊，在黑暗裡亮了起來。\n\n<b>北區恢復市電</b>：醫院、警察局、購物中心、旅館都有電了。代價是，夜裡整片街區都照得清清楚楚，城市裡所有的東西都看得到——包括那些不想讓電回來的人。`,
  c:[{l:'回廠房',ok:{t:`汽輪機在你們身後穩穩地轉著。`,go:'PP1'}},{l:'回街區',t:'l',ok:{t:`你們沿著河岸往北走，路燈一盞一盞從頭頂掠過。`,go:'Z0'}}]},
 PP6:{L:'PP',n:'南岸電廠・油槽',
@@ -2650,6 +2652,95 @@ PP6:{L:'PP',n:'南岸電廠・油槽',
   {l:'幫他們把油罐車灌滿',hide:'pprd',t:'l',s:'要很久；油槽剩下的歸你們',ok:{t:`你們跟著瑪拉的人一起扛管子、開閥門、守著油罐車的油位計。中間有兩隻感染者從煤場晃過來，被瑪拉一槍一個打倒。\n\n天色變了的時候，三台油罐車都灌滿了。瑪拉把一盒霰彈和一包吃的塞給你：「謝了。我們今晚就走。」她看著你們，「你們也該走了，這座城市不會再好了。」`,r:{flag:'pprd',karma:1,items:{shell:4,bar:2}},go:'PP3'}},
   {l:'動手',hide:'pprd',s:'車裡有小孩',ok:{t:`你先舉起了武器。瑪拉嘆了一口氣，把霰彈槍抵上肩膀。`,fight:{n:3,mode:'first',names:['拿霰彈槍的瑪拉','拿獵刀的劫匪','劫匪']},win:{r:{flag:'pprd',karma:-2},t:'剩下的人把小孩塞進油罐車，開著車衝出了廠區。沒有人回頭。油槽是你們的了。'},go:'PP3'}},
   {l:'回大門',ok:{t:`你們退回大門那邊。瑪拉的人一直看著你們走遠。`,go:'PP0'}}]}
+});
+/* ================= v0.17.0 淨水廠（東岸淨水廠） =================
+   主人 2026-11-14 02:25 的決定：電從電廠送東區，或淨水廠自己的柴油發電機（兩條都做）；加氯可以跳過，但送出去的是沒消毒的水，
+   裝來喝感染會上升；國民兵不在城裡，第 1～7 天淨水廠被劫匪（杜克）佔著，拿清水池的水賣；防守一波；水龍頭有水之後裝水不限次數。
+   流程：知道淨水廠（wpknown）→ 進門（wpopen）→ 有電（wppow＝eastpower 或 wpgen）→ 清攔汙柵（wpscreen）→（可略過）加氯（wpcl）→ 開泵、守一波 → citywater。 */
+Object.assign(LV,{
+ WP:{n:'淨水廠',sub:'東岸',en:'EAST BANK WATER TREATMENT PLANT',rule:'一池一池的水，聲音貼著水面傳得很遠。',fx:{},ch:2,fire:'wp'}
+});
+Object.assign(LV_POOL,{WP:['infected','incubator']});
+ITEMS.diesel={n:'柴油桶',t:'mat',d:'二十公升的鐵桶，裝滿柴油，很重。'};PRICE.diesel=10;
+ITEMS.tapraw={n:'沒消毒的自來水',t:'food',thi:4,inf:4,d:'口渴 +4。從水龍頭裝的，淨水廠沒有加氯，是直接從河裡打上來的水。喝下去感染 +4。'};PRICE.tapraw=0;
+const wpGang=()=>{const F=G.flags;return !F.acru&&!F.wpclr};
+// 線索：消防局（停電之後消防栓沒水壓）、街上賣水的人、電廠送電之後的饋線牌
+N.T0.c.splice(N.T0.c.findIndex(c=>c.l==='跟歐文談')+1,0,{l:'問歐文消防栓的事',need:'blackout',hide:'wpknown',stay:1,ok:{t:`「停電之後，消防栓的水壓一天比一天低。」歐文把一根消防水帶甩上肩膀，「東岸的淨水廠停了。備用發電機的油大概用完了吧。聽說現在是一群拿槍的人佔著那裡，把清水池的水裝瓶拿出來賣。」\n\n他看了一眼雲梯車：「水箱只剩一半了。再燒起來，我們就只能看著。」`,r:{flag:'wpknown'}}});
+EVPOOL.push({id:'water1',ch:2,d0:3,need:'blackout',hide:'citywater',t:`街角排了一條隊。一個頭上綁著頭巾的年輕人站在一台推車後面，推車上疊滿了裝著水的牛奶罐。他身後站著兩個拿球棒的人。\n\n「一罐三塊，」他喊，「乾淨的，淨水廠的水！」`,c:[
+  {l:'買一罐',usd:3,s:'需要 $3',ok:{t:`他收了錢，遞給你一罐水。水很清，有一點漂白水的味道。`,r:{payUsd:3,items:{water:1}}}},
+  {l:'問他水是哪裡來的',k:'CHA',d:11,s:'魅力檢定',ok:{t:`「東岸淨水廠，」他壓低聲音，「杜克的人佔著，清水池裡還剩很多。水泵沒電，水送不出去，所以我們用桶子一桶一桶舀。」他瞄了一眼身後的人，「你要做生意，去找杜克。」`,r:{flag:'wpknown'}},ng:{t:`「買就買，不買就滾。」後面那兩個人把球棒往肩上一扛。`}},
+  {l:'不理他',ok:{t:`你繞過那條隊伍。排在最後面的女人懷裡抱著一個空瓶子，一直在發抖。`}}]});
+{const i=N.Z0.c.findIndex(c=>c.l==='回旅館');N.Z0.c.splice(i,0,
+ {l:'去東岸的淨水廠',s:'整座城市的水從那裡來',need:'wpknown',t:'l',ok:{t:`你們沿著河岸往東走。遠遠就看得到淨水廠那一排一排的沉澱池，水面反著灰白的天光。`,go:'WP0'}})}
+// 水龍頭有水：可以休息的地方都能裝水，不限次數（主人決定）
+{const tapC=[{l:'用水龍頭裝水',need:'tapok',stay:1,t:'q',s:'水龍頭又有水了',ok:{t:`你轉開水龍頭。水嘩啦啦地流出來，有一點漂白水的味道。你把空瓶裝滿。`,r:{items:{water:1}}}},
+  {l:'用水龍頭裝水',need:'tapraw',stay:1,t:'q',s:'水有一點黃，聞得到河泥味',ok:{t:`你轉開水龍頭。水有一點黃，聞得到河泥的味道。淨水廠沒有加氯。你還是把空瓶裝滿了。`,r:{items:{tapraw:1}}}}];
+ for(const k of ['M2t','Z2','Z4','T0'])N[k].c.splice(N[k].c.length-1,0,...tapC.map(c=>Object.assign({},c)));
+ const y=N.Y0;const o=y.onEnter;y.onEnter=function(){if(o)o.call(this);const F=G.flags;F.tapY=F.tapok&&!F.acru?1:0;F.taprY=F.tapraw&&!F.acru?1:0};
+ y.c.splice(y.c.length-1,0,Object.assign({},tapC[0],{need:'tapY'}),Object.assign({},tapC[1],{need:'taprY'}))}
+const wpTap=()=>{const F=G.flags;if(!F.citywater)return;F.wpraw=F.wpcl?0:1;F.tapok=F.wpcl?1:0;F.tapraw=F.wpcl?0:1};
+Object.assign(N,{
+WP0:{L:'WP',n:'東岸淨水廠・大門',
+ onEnter(){const F=G.flags;F.wpgang=wpGang()?1:0;F.wpopen=(F.wpgang?F.wpin:F.acru?F.wpa:1)?1:0},
+ tx:()=>G.flags.acru?'大門口停著兩台沒有標示的黑色車輛，閘門後面站著穿黑色制服的人。圍牆外的路邊，那台賣水的推車翻倒在水溝裡。':G.flags.wpgang?'閘門後面用貨櫃和車子堵起來，上面站著幾個拿槍的人。門口排著一小群人，手上都提著空桶。一個人在收錢，收了錢就從門縫遞一桶水出來。':G.flags.citywater?'告示牌底下有人用噴漆補了一行字：「有水了」。':'',
+ t:`淨水廠的圍牆沿著河岸拉了好長一段。牆裡面是一排一排的沉澱池和過濾池，遠處是取水站和幾棟方方正正的廠房。閘門旁邊的告示牌上貼著一張被雨淋皺的公告：「本廠供水暫停，請民眾自行煮沸飲用水」。`,
+ c:[
+  {l:'從大門走進去',need:'wpopen',ok:{t:`你們從閘門的縫走進去。`,go:'WP1'}},
+  {l:'跟門口收錢的人說要進去',need:'wpgang',hide:'wpin',k:'CHA',d:12,s:'魅力檢定：說你們要找杜克',ok:{t:`收錢的人打量了你們很久，回頭喊了一聲。過了一會兒，一個穿著工作背心、手上拿著霰彈槍的大個子走出來。\n\n「我是杜克。」他說，「要進來可以。不准碰清水池，不准帶走任何東西。」他讓開了路。`,r:{flag:'wpin'},go:'WP0'},ng:{t:`「要水排隊，要進去一個人十五塊。」他把手伸出來。`,stay:1}},
+  {l:'付錢進去',need:'wpgang',hide:'wpin',usd:15,s:'需要 $15',ok:{t:`收錢的人數了數，揮手讓你們進去。「別亂碰東西。」`,r:{payUsd:15,flag:'wpin'},go:'WP1'}},
+  {l:'從取水口的管線摸進去',hide:'wpopen',k:'AGI',d:14,t:'m',s:'敏捷檢定：沿著河岸，從取水站爬進去',ok:{t:`你們沿著河岸的消波塊一路摸過去，從取水站的檢修梯爬上去，翻進了廠區。沒有人發現。`,go:'WP2'},ng:{t:`你的腳踩滑了，整個人半截泡進河裡。上面有人聽到了。`,get fight(){return G.flags.acru?{n:2,mode:'ambush',names:['A.C.R.U. 隊員','A.C.R.U. 隊員']}:{n:2,mode:'ambush',names:['拿獵刀的劫匪','劫匪']}},go:'WP2'}},
+  {l:'強攻',need:'wpgang',s:'貨櫃上的人有槍',ok:{t:`你們從排隊的人群後面衝出去。人群尖叫著散開。`,fight:{n:3,mode:'first',names:['拿霰彈槍的杜克','拿獵刀的劫匪','劫匪']},win:{r:{flag:'wpclr',karma:-1},t:'剩下的人丟下槍跑了。清水池旁邊的水桶倒了一地。'},go:'WP0'}},
+  {l:'正面衝過閘門',need:'acru',hide:'wpopen',s:'閘門後面有人，硬來',ok:{t:`你們從路邊的水溝裡衝出去。`,fight:{n:3,mode:'first',names:['A.C.R.U. 隊員','A.C.R.U. 隊員','背燃料罐的 A.C.R.U.']},win:{r:{flag:'wpa'}},go:'WP0'}},
+  {l:'回街區',t:'l',ok:{t:`你們沿著河岸往回走。`,go:'Z0'}}]},
+WP1:{L:'WP',n:'東岸淨水廠・沉澱池區',
+ onEnter(){G.flags.wpgang=wpGang()?1:0},
+ tx:()=>G.flags.acru?'池邊有幾條防水布蓋著的東西。清水池那邊的水桶全被踢翻了，劫匪不見了。':G.flags.wpgang?'清水池那邊有人在舀水，裝桶，扛去大門。兩個拿槍的人坐在池邊抽菸，一直看著你們。':'',
+ t:`一排一排長方形的沉澱池，水面上漂著一層灰綠色的浮渣。有些池子的角落卡著東西，像是一捆一捆的衣服。\n\n不是衣服。\n\n取水站在河邊，加氯室在池子另一頭，門口貼著黃黑色的警告標示。中央控制室在管理大樓二樓，旁邊是送水泵房。`,
+ c:[
+  {l:'撬開加氯室門口的緊急防護櫃',hide:'wpcab',req:['g:crowbar','g:fireaxe','spreader'],reqAny:1,t:'q',s:'需要鐵撬、消防斧或破拆工具',ok:{t:`櫃子裡掛著兩套防護衣，已經被拿走了一套。剩下一副防毒面具，和兩個還沒拆封的濾毒罐。`,r:{flag:'wpcab',items:{gasmask:1,filter:2}},stay:1}},
+  {l:'把緊急防護櫃扳開',hide:'wpcab',k:'STR',d:13,s:'力量檢定',ok:{t:`櫃門的鉸鍊終於斷了。裡面剩下一副防毒面具，和兩個還沒拆封的濾毒罐。`,r:{flag:'wpcab',items:{gasmask:1,filter:2}},stay:1},ng:{t:`櫃門紋風不動，你的手指倒是先夾到了。`,p:{hp:-1},stay:1}},
+  {l:'去取水站',ok:{t:`你們沿著池邊的走道往河邊走。`,go:'WP2'}},
+  {l:'去加氯室',s:'沒戴防毒面具，每進去一次都會受傷',ok:{t:`你們推開加氯室的鐵門。一股刺鼻的味道衝出來，眼睛立刻開始流淚。`,go:'WP3'}},
+  {l:'去中央控制室',ok:{t:`你們爬上管理大樓的樓梯。`,go:'WP4'}},
+  {l:'回大門',ok:{t:`你們往大門走回去。`,go:'WP0'}}]},
+WP2:{L:'WP',n:'東岸淨水廠・取水站',
+ tx:()=>G.flags.wpscreen?'攔汙柵乾淨了，河水穩穩地往裡面流。':'',
+ t:`取水站蓋在河面上，底下是一整排鐵柵欄，河水應該從這裡被抽進廠裡。現在柵欄前面堆滿了漂流木、垃圾袋、塑膠桶，還有很多很多泡得發白的東西，全卡在一起。\n\n抽不進水，就什麼都不用談。`,
+ c:[
+  {l:'把攔汙柵前面的東西拖開',hide:'wpscreen',k:'STR',d:13,t:'l',s:'力量檢定：要很久',ok:{t:`你們用鐵鉤一樣一樣往上拖：木頭、垃圾、還有人。拖到一半，水底下有一團東西自己動了起來，整個脹成一顆球，朝你們浮過來。`,fight:{n:1,mode:'ambush',names:['泡在水裡的孵化者']},win:{r:{flag:'wpscreen'},t:'最後一團東西被拖上來的時候，河水嘩地一聲灌進了取水口。'},stay:1},ng:{t:`鐵鉤勾到一半斷了，你整個人往後摔在鐵板上。`,p:{hp:-2},stay:1}},
+  {l:'回沉澱池區',ok:{t:`你們沿著池邊的走道走回去。`,go:'WP1'}}]},
+WP3:{L:'WP',n:'東岸淨水廠・加氯室',
+ onEnter(){const F=G.flags;if(!F.wpcl){for(const p of able()){if(maskWorn(p))continue;p.hp=Math.max(1,p.hp-3);out(`${MP()?nm(p)+'：':''}氯氣刮著喉嚨和眼睛，每吸一口都像吞了一把碎玻璃。生命 −3。`,'dmg',true)}}wpTap()},
+ tx:()=>G.flags.wpcl?'新的鋼瓶接上了，加氯機的指示燈亮著。空氣裡只剩一點點漂白水的味道。':'',
+ t:`加氯室裡排著一列綠色的氯氣鋼瓶，每一支都有一個人那麼高。其中一支的閥門在嘶嘶地漏，地上那一圈的油漆都褪成了白色，空氣裡有一層看得見的黃綠色。\n\n加氯機的面板上寫著：「鋼瓶更換程序：關閉主閥 → 拆下接頭 → 更換鋼瓶 → 檢漏」。`,
+ c:[
+  {l:'關掉漏氣的鋼瓶，換上新的',hide:'wpcl',t:'m',s:'閥門隨時會噴氣',ok:{t:`你蹲下去握住主閥，往順時針一點一點轉。`,qte:{t:'閥門卡住了。你用力一扳——接頭「噗」地噴出一大團黃綠色的氣——',w:['閉氣','別開臉','關緊','退開'],ok:{t:'你別開臉、閉住氣，把閥門轉到底。嘶嘶聲停了。你們把漏氣的那支推開，接上新的鋼瓶，檢漏，加氯機的燈亮了。'},ng:{t:'那團氣直接噴在你臉上。你跪在地上咳到眼前發黑，好不容易才把閥門轉緊，接上新的鋼瓶。',p:{hp:-4,fear:6}}},r:{flag:'wpcl'},go:'WP3'}},
+  {l:'退出去',ok:{t:`你們退出加氯室，把鐵門關上，靠在牆上咳了很久。`,go:'WP1'}}]},
+WP4:{L:'WP',n:'東岸淨水廠・中央控制室',
+ onEnter(){const F=G.flags;F.wpgang=wpGang()?1:0;F.wppow=F.eastpower||F.wpgen?1:0;F.wpguard=F.acru&&!F.wpa2&&!F.citywater?1:0;
+  F.wperin=!F.acru&&(!F.wpgang||F.wpdeal)?1:0;F.wpready=F.wppow&&F.wpscreen&&!F.citywater&&!F.wpguard?1:0;F.wpgoE=F.wpready&&F.wperin?1:0;F.wpgoS=F.wpready&&!F.wperin?1:0;F.wpdealok=F.wpgang&&!F.wpdeal?1:0;wpTap()},
+ tx:()=>{const F=G.flags;return F.wpguard?'控制室裡有三個穿黑色制服的人，正在把操作紀錄一本一本丟進一個鐵桶裡燒。其中一個戴著紅色的貝雷帽。':F.acru?'控制室的地上有一灘乾掉的血。椅背上掛著一件淨水廠的工作外套，口袋上繡著「艾琳」。':(F.wpgang&&!F.wpdeal?'杜克靠在窗邊，看著底下的清水池。一個穿淨水廠工作外套的女人坐在控制台前，手被膠帶綁在椅子扶手上。「她叫艾琳，」杜克說，「水池的閥門只有她會開。」':'艾琳坐在控制台前，手腕上還留著膠帶的痕跡。')+(F.citywater?'':F.wppow?'控制台的燈亮著，有電了。':'控制台一片黑。沒有電，送水泵一台都動不了。')},
+ t:`中央控制室的窗戶正對著沉澱池。牆上是一大張流程圖：取水、沉澱、過濾、加氯、清水池、送水泵，最後一格是整座城市的配水管網，畫成一片密密麻麻的藍線。`,
+ c:[
+  {l:'動手',need:'wpguard',s:'三個人，其中一個是隊長',ok:{t:`你們趁他們彎腰燒紀錄的時候衝了進去。`,fight:{n:3,mode:'first',names:['滅菌隊長','A.C.R.U. 隊員','A.C.R.U. 隊員']},win:{r:{flag:'wpa2'}},stay:1}},
+  {l:'跟杜克談恢復供水',need:'wpdealok',k:'CHA',d:15,s:'魅力檢定：水送出去，他就沒生意做了',ok:{t:`你跟他說：再過幾天，城裡的人渴死了，他的水也賣不出去；撤離車走了，外面的路被封了，他和他的人也一樣出不去。水送出去，至少大家都活得久一點。\n\n杜克盯著清水池看了很久。「清水池那一池歸我們，」他終於說，「其他的，你們愛怎麼送就怎麼送。」他割開了艾琳手上的膠帶。`,r:{flag:'wpdeal',karma:1},go:'WP4'},ng:{t:`「你送你的水，我賣我的水？」杜克笑了一聲，把霰彈槍上了膛，「你敢碰那些水泵，我就讓你們泡在池子裡。」`,stay:1}},
+  {l:'把柴油倒進備用發電機',req:'diesel',hide:'wppow',t:'m',s:'需要一桶柴油',ok:{t:`你們把柴油倒進管理大樓後面那台備用發電機，拉了三次啟動繩。機器轟地一聲轉了起來，控制台的燈一排一排亮了。`,r:{use:'diesel',flag:'wpgen'},p:{alarm:2},go:'WP4'}},
+  {l:'讓艾琳啟動送水泵',need:'wpgoE',s:'加氯室沒處理的話，送出去的是沒消毒的河水',ok:{t:`艾琳的手指在控制台上飛快地按了一串鍵，抬頭看著流程圖上的燈一格一格變綠。「泵一轉起來，整個東岸都聽得到。」她說，「我開了。你們下去守著。」`,go:'WP5'}},
+  {l:'照程序啟動送水泵',need:'wpgoS',k:'INT',d:13,s:'智力檢定；加氯室沒處理的話，送出去的是沒消毒的河水',ok:{t:`你照著牆上的流程圖，一個一個開閥門、按啟動鈕。樓下傳來一聲很重的金屬撞擊聲，送水泵開始轉了。`,go:'WP5'},ng:{t:`你按錯了順序，送水泵空轉了幾秒，自己跳停了。`,p:{alarm:2},stay:1}},
+  {l:'回沉澱池區',ok:{t:`你們走下樓梯。`,go:'WP1'}}]},
+WP5:{L:'WP',n:'東岸淨水廠・送水泵房',
+ onEnter(){G.flags.wpw=0;G.flags.wpgang=wpGang()?1:0},
+ t:`送水泵一台接一台轉起來，聲音大得整棟廠房都在震，水管裡傳出轟隆轟隆的水聲。這個聲音，整個東岸都聽得到。\n\n要撐到水壓上來。`,
+ tx:()=>{const F=G.flags;return F.acru?'閘門那邊亮起一排手電筒。':F.wpgang&&!F.wpdeal?'樓下傳來杜克的吼聲：「誰准你們碰水泵的！」':'沉澱池那邊的水面在動。'},
+ c:[{l:'守住',ok:{t:`你們退到泵房門口，背靠著還在轟轟作響的水泵。`,get fight(){const F=G.flags;return F.acru?{n:3,mode:'normal',names:['A.C.R.U. 隊員','A.C.R.U. 隊員','背燃料罐的 A.C.R.U.']}:F.wpgang&&!F.wpdeal?{n:3,mode:'normal',names:['拿霰彈槍的杜克','拿獵刀的劫匪','劫匪']}:{n:3,mode:'normal',names:['泡過水的感染者','泡過水的感染者','泡在水裡的孵化者']}},get win(){const F=G.flags;return {r:{flag:F.wpgang&&!F.wpdeal?['wpw','wpclr']:'wpw'}}},go:'WP5b'}}]},
+WP5b:{L:'WP',n:'東岸淨水廠・送水',
+ onEnter(){const F=G.flags;if(F.wpw){F.citywater=1;wpTap()}F.wpfail=F.wpw?0:1},
+ tx:()=>{const F=G.flags;return F.wpfail?'你們退開了。沒有人看著，送水泵一台接一台跳停，水管裡的聲音慢慢安靜下來。':F.wpraw?'<b>城市恢復供水</b>。但加氯室沒有處理：送出去的是直接從河裡打上來的水。從水龍頭裝的水喝下去，感染會上升。':'<b>城市恢復供水</b>：可以休息的地方，水龍頭都能裝水了。'},
+ t:`壓力錶的指針慢慢爬上去，停在綠色的區域。\n\n管理大樓的窗戶外面，遠遠的，一棟公寓的頂樓水塔開始溢水，水沿著外牆流下來，在路燈下閃閃發亮。`,
+ c:[
+  {l:'回控制室',hide:'citywater',ok:{t:`一切都要重來。`,go:'WP4'}},
+  {l:'回沉澱池區',need:'citywater',ok:{t:`送水泵在你們身後穩穩地轉著。`,go:'WP1'}},
+  {l:'回街區',need:'citywater',t:'l',ok:{t:`你們沿著河岸往回走。消防栓旁邊有人在接水，接了一桶又一桶。`,go:'Z0'}}]}
 });
 /* ================= 基礎 ================= */
 const $=s=>document.querySelector(s);
@@ -3075,7 +3166,7 @@ async function cityEvent(k){const real=DF().num===0;
   else if(k==='fire'){await fireEnding();return true}
   push();draw();return false}
 // 燃燒彈：第 7 天清晨還在地面
-const FIRE_END={pp:'天亮了。南岸的兩根煙囪是整座城市最高的東西，第一波燃燒彈就是對著它們落下來的。廠房的鐵皮屋頂一片一片掀開，裡面的機器還在轉。',camp:'天亮了。營地的帳篷早就拆光了，只剩那根煙囪還立在空地中間。第一顆燃燒彈落下來的時候，你們正站在它的影子裡。',
+const FIRE_END={wp:'天亮了。淨水廠的沉澱池映著天上的火光，一池一池亮起來，像一排鏡子。燃燒彈落在管理大樓上，玻璃全碎了，水面上漂滿了灰。',pp:'天亮了。南岸的兩根煙囪是整座城市最高的東西，第一波燃燒彈就是對著它們落下來的。廠房的鐵皮屋頂一片一片掀開，裡面的機器還在轉。',camp:'天亮了。營地的帳篷早就拆光了，只剩那根煙囪還立在空地中間。第一顆燃燒彈落下來的時候，你們正站在它的影子裡。',
   base:'天亮了。基地早就撤空了，閘門開著，停機坪上只剩一台油罐車。第一團火落在油罐車旁邊，整片水泥地一下子變成白色的。',
   street:'天亮了。第一顆燃燒彈落在街區北口，接著是第二顆、第三顆。火從路口往四面八方推過來，比任何人能跑的都快。你最後看見的，是那個「……MALL」的招牌在火裡一個字母一個字母地熄掉。',
   hotel:'天亮了。旅館的屋頂先燒起來，火順著電梯井和樓梯間往下灌。走廊上的煙霧偵測器同時尖叫，又同時安靜。23:41 那班接送車，終究沒有來。',
@@ -3372,13 +3463,16 @@ function giveAff(f,k){if(!k)return;f.aff=k;const d=k==='fresh'?-2:k==='wounded'?
 function dayPool(){let p=[...(LV_POOL[G.lv]||['infected'])];const F=G.flags||{};
   if(!F.raiders)p=p.filter(t=>FOES[t].fac!=='hum');else if(!F.acru&&(LV[G.lv]||{}).ch===2)p.push('cutter','collector');
   if(F.shadow)p.push('devourer');return p.length?p:['infected']}
+function fillFoes(types,names,n,squad){const pool=dayPool();let fac=types.length?FOES[types[0]].fac:null;
+  while(types.length<n){let t;if(squad)t='acru_trooper';else{const pp=fac?pool.filter(x=>FOES[x].fac===fac):pool;t=pp.length?pick(pp):(fac==='inf'?'infected':pick(pool))}if(!fac)fac=FOES[t].fac;types.push(t);names.push('')}}
 async function startFight(spec){
   // 一場戰鬥算「很快」：20 分鐘
   if(await passTime(20))return;
   const act=able();const P0=act.length;
   const n=Math.min(6,Math.max(spec.n,Math.round(spec.n*(1+(P0-1)*.3))));const names=[...(spec.names||[])];const types=names.map(typeOfName);
   const squad=types.length&&types.every(t=>FOES[t].fac==='acru');
-  while(types.length<n){types.push(squad?'acru_trooper':pick(dayPool()));names.push('')}
+  // v0.17.0 主人：不同陣營不會一起出現。補位的敵人跟第一隻同陣營（沒有指定名字時，先抽一隻決定陣營）
+  fillFoes(types,names,n,squad);
   const wet=['U','G'].includes(G.lv);
   const foes=types.map((t,i)=>newFoe(i,t,act.length,wet));
   // 詞綴：每隻最多一個，照陣營抽；第一章少見、越後面越常見
@@ -3843,7 +3937,7 @@ async function useItem(p,k,to){
   const who=MP()?nm(p):'你',tw=other?nm(T):who;const pre=other?`${who}替${nm(T)}`:who;
   if(k==='photo'){if(p.photoLv===G.levels){out(`${who}看著照片。這次沒能讓心情好一點。`,'sys');return false}p.photoLv=G.levels}
   else takeI(p,k);
-  if(it.t==='food'||it.t==='misc'){await sndW(it.thi>0&&!it.hun?'gulp':'eat',1,800,.8);{const bs=tr(T,'bigstomach')?1.5:1;T.hun=clamp(T.hun+Math.ceil((it.hun||0)*(it.hun>0?bs:1)),0,10);T.thi=clamp(T.thi+Math.ceil((it.thi||0)*(it.thi>0?bs:1)),0,10)}if(it.leaves)addI(p,it.leaves);
+  if(it.t==='food'||it.t==='misc'){await sndW(it.thi>0&&!it.hun?'gulp':'eat',1,800,.8);{const bs=tr(T,'bigstomach')?1.5:1;T.hun=clamp(T.hun+Math.ceil((it.hun||0)*(it.hun>0?bs:1)),0,10);T.thi=clamp(T.thi+Math.ceil((it.thi||0)*(it.thi>0?bs:1)),0,10)}if(it.leaves)addI(p,it.leaves);if(it.inf){const b0=T.inf;addInf(T,it.inf);if(T.inf>b0)out(`${MP()?nm(T)+'：':''}水裡有一股河泥的腥味。感染 +${T.inf-b0}。`,'dmg',true)}
     out(`${other?`${who}把${it.n}給${nm(T)}，${nm(T)}`:who}${it.verb||(it.thi>0&&!it.hun?'喝了':'吃了')}${other?'':it.n}。${it.hun?`飢餓 ${it.hun>0?'+':''}${it.hun}　`:''}${it.thi?`口渴 ${it.thi>0?'+':''}${it.thi}　`:''}${it.leaves?`　留下一個${ITEMS[it.leaves].n}。`:''}`,'good');if(it.san)relax(T,S2F(it.san))}
   else{
     const k2=tr(p,'firstaid')?1.5:1,k3=tr(p,'medic')&&(k==='surgkit'||k==='antibiotic')?1.5:1;
