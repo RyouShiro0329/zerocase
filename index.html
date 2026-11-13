@@ -546,7 +546,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.17.0", "b": 34, "t": "2026-11-14T02:34:48+08:00"};
+const ZC_VER={"v": "0.18.0", "b": 35, "t": "2026-11-14T03:10:42+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -980,7 +980,7 @@ A1:{L:'A',n:'301 號房',next:'A2',
 窗外又是一串槍響，接著是很多人的尖叫聲。樓下傳來玻璃碎掉的聲音，很大一片。`,
  tm:`你的外套口袋裡還塞著那份案件資料。你來這座城市，是為了一宗「曾接受治療的患者攻擊他人」的傷人案。案子的證人就住在這間旅館。`,
  c:[
- {l:'掀開窗簾往外看',s:'槍聲是從街上傳來的',ok:{t:`街口的拒馬旁邊，幾個穿迷彩服的國民兵對著人群開槍。被打中的人倒下去，又爬起來，繼續往前撲。一台公車橫在路中間，車門開著，有人從車裡爬出來，又被後面的人拖了回去。
+ {l:'掀開窗簾往外看',s:'槍聲是從街上傳來的',ok:{t:`街口的警車後面，幾個穿防彈背心的警察對著人群開槍。被打中的人倒下去，又爬起來，繼續往前撲。一台公車橫在路中間，車門開著，有人從車裡爬出來，又被後面的人拖了回去。
 
 正下方，旅館大廳的落地窗破了一個大洞。有人從洞裡爬進去，一個接一個。他們的動作不對，像是感覺不到玻璃在割他們。
 
@@ -1393,7 +1393,7 @@ const EVPOOL=[
 const END={
  END_main:{n:'南門',shards:30,t:`你推開大門。冷風灌進來，帶著焦味和遠處的警報聲。
 
-街上沒有接送車。不會有接送車了。路口的國民兵已經不見了，拒馬倒在地上，探照燈還在空轉。
+街上沒有接送車。不會有接送車了。路口的警察已經不見了，警車的門開著，車頂的警示燈還在空轉。
 
 你把領子拉高，握緊手上的武器。這座城市正在一點一點地死去，而你還不知道為什麼。你只知道一件事：23:41 那班接送車要接的那幾間房，就在你房間的隔壁。`},
  END_alley:{n:'後巷',shards:22,t:`你走出後巷，混進大街上逃難的人潮裡。沒有人看你一眼，每個人都在跑，往同一個方向，那個方向只有更多的車和更多的封鎖線。
@@ -1787,10 +1787,10 @@ M5:{L:'M',n:'便利商店・出口',
   {l:'走進地鐵站',ok:{t:`你走下樓梯。下面的空氣又冷又濕。`,go:'U1'}}]},
 /* ---------- Q 封鎖線 ---------- */
 Q1:{L:'Q',n:'封鎖線外',next:'Q2',
- tx:()=>G.flags.acru?'拒馬還在，牌子也還是市衛生局的，但守在後面的人換了：穿黑色制服、戴著紅色鏡片的防毒面具，胸前沒有名牌，也沒有國民兵的徽章。他們不喊話，看到人就舉槍。':G.flags.shadow?'有幾面市衛生局的牌子被撕了下來，丟在路邊。地上多了幾道很寬的新輪胎痕，不是國民兵卡車的紋路。':'',
- t:`拒馬拉了整整一條街，紅黑兩色，每隔幾公尺就掛著一面牌子：「市衛生局　醫療隔離區　禁止進入　違者依法究辦」。牌子下方印著國民兵的徽章。
+ tx:()=>G.flags.acru?'拒馬還在，牌子也還是市衛生局的，但守在後面的人換了：穿黑色制服、戴著紅色鏡片的防毒面具，胸前沒有名牌，也沒有警徽。他們不喊話，看到人就舉槍。':G.flags.shadow?'有幾面市衛生局的牌子被撕了下來，丟在路邊。地上多了幾道很寬的新輪胎痕，不是警車的胎紋。':'',
+ t:`拒馬拉了整整一條街，紅黑兩色，每隔幾公尺就掛著一面牌子：「市衛生局　醫療隔離區　禁止進入　違者依法究辦」。牌子下方印著市警局的徽章。
 
-拒馬後面停著兩台國民兵的裝甲車，車頂上架著探照燈。沒有人。只有無人機在頭頂上嗡嗡地轉。`,
+拒馬後面停著兩台警方特勤隊的裝甲車，車頂上架著探照燈。沒有人。只有無人機在頭頂上嗡嗡地轉。`,
  tm:`你是律師。你知道「依法究辦」這四個字平常是什麼意思。你也知道，今天晚上它大概什麼意思都沒有。`,
  c:[
   {l:'觀察無人機的巡邏路線',k:'PER',d:12,s:'感知檢定',ok:{t:`你看了五分鐘。無人機每四十秒繞一圈，西邊那段拒馬有一個死角。你算準時間，從死角鑽了過去。`,r:{flag:'dronegap'}},ng:{t:`你看得太專心，忘了自己也在燈光範圍裡。探照燈一下子打在你身上。擴音器響了：「隔離區外人員，請立即離開。重複，請立即離開。」`,p:{alarm:3,fear:6}}},
@@ -1800,23 +1800,23 @@ Q2:{L:'Q',n:'裝甲車',next:'Q3',
 
 地上散落著空的針筒、撕開的防護衣，還有一台平板電腦，螢幕裂了，但還亮著。
 
-裝甲車外面的地上有一個人。他穿著國民兵的迷彩制服，外面套著一件拋棄式防護衣，面罩破了，臉朝下趴著。他的手邊有一個彈匣。`,
+裝甲車外面的地上有一個人。他穿著警方特勤隊的黑色戰術背心，外面套著一件拋棄式防護衣，面罩破了，臉朝下趴著。他的手邊有一個彈匣。`,
  c:[
   {l:'看平板電腦',k:'INT',d:12,s:'智力檢定',ok:{t:`平板停在一份表單上：「收容對象：第二期受試者／接觸者　狀態：轉送　接收單位：（權限不足，無法顯示）」。下面一長串名字，有些被打了勾，有些被畫了叉。
 
 你在名單的最後一頁，看見一個你認識的地名。是你住的那間旅館。`,r:{flag:'acrulist'},p:{fear:8}},ng:{t:`平板跳出一個視窗：「請掃描識別證」。三秒後，它自動鎖上了。`}},
-  {l:'搜那個趴著的國民兵',k:'CON',d:11,s:'體質檢定：靠近他',ok:{t:`他已經死了，防護衣下面的身體腫脹發黑。他的腰包裡有一盒軍用急救包，還有幾發子彈和一捲美金。他的槍不見了。`,r:{items:{surgkit:1,ammo9:4},usd:10},p:{fear:6}},ng:{t:`你翻他的時候，他的手指動了一下。你往後退，他慢慢撐了起來，面罩裡的臉已經不是人的臉了。`,p:{fear:8},fight:{n:1,mode:'normal',names:['穿防護衣的國民兵']}}},
+  {l:'搜那個趴著的警察',k:'CON',d:11,s:'體質檢定：靠近他',ok:{t:`他已經死了，防護衣下面的身體腫脹發黑。他的腰包裡有一盒軍用急救包，還有幾發子彈和一捲美金。他的槍不見了。`,r:{items:{surgkit:1,ammo9:4},usd:10},p:{fear:6}},ng:{t:`你翻他的時候，他的手指動了一下。你往後退，他慢慢撐了起來，面罩裡的臉已經不是人的臉了。`,p:{fear:8},fight:{n:1,mode:'normal',names:['穿防護衣的特勤隊員']}}},
   {l:'快速通過',ok:{t:`你不想知道裝甲車裡發生過什麼。你低著頭跑過去。`}}]},
 Q3:{L:'Q',ev:1,next:'Q4'},
 Q4:{L:'Q',n:'臨時檢疫站',next:'Q5',
- tx:()=>G.flags.acru?'帳篷被燒成了一副副鐵骨架，地上的灰還是溫的。折疊桌倒在一邊，那疊同意書一張都不剩。':G.flags.shadow?'咳嗽聲沒有了。帳篷全空了，行軍床上的束帶都被剪斷，地上留著一排很整齊的鞋印，一路走到路邊。國民兵的醫護兵也不見了。':'',
+ tx:()=>G.flags.acru?'帳篷被燒成了一副副鐵骨架，地上的灰還是溫的。折疊桌倒在一邊，那疊同意書一張都不剩。':G.flags.shadow?'咳嗽聲沒有了。帳篷全空了，行軍床上的束帶都被剪斷，地上留著一排很整齊的鞋印，一路走到路邊。衛生局的醫護人員也不見了。':'',
  t:`封鎖線後面搭著幾頂白色的帳篷，帳篷上印著紅十字和「市衛生局」的字樣。
 
 帳篷裡傳來咳嗽聲。很多人在咳，此起彼落。
 
 帳篷外面有一張折疊桌，桌上放著一疊表格和一支筆。表格的標題是：「自願接受觀察同意書」，抬頭沒有印任何單位的名字。桌子旁邊站著一個穿防護衣的人，背對著你，一動也不動。`,
  c:[
-  {l:'走過去跟他說話',hide:'shadow',k:'CHA',d:13,s:'魅力檢定',ok:{t:`他轉過身來，面罩後面是一個疲憊的年輕人，防護衣底下露出國民兵醫護兵的臂章。他是活人。他看了你一眼，低聲說：「不要簽。往十字路口走，不要回頭。」然後他塞給你一支鎮定劑，又轉回去背對著你。`,r:{items:{sedative:1},flag:'medichint'},p:{fear:-6}},ng:{t:`他轉過身來。面罩裡的臉被一層灰白色的纖維組織蓋滿了，眼睛的位置只剩兩個凹陷。那層組織隨著呼吸一起一伏。`,p:{fear:12},fight:{n:1,mode:'ambush',names:['穿防護衣的東西']}}},
+  {l:'走過去跟他說話',hide:'shadow',k:'CHA',d:13,s:'魅力檢定',ok:{t:`他轉過身來，面罩後面是一個疲憊的年輕人，防護衣底下露出市立醫院緊急醫療隊的臂章。他是活人。他看了你一眼，低聲說：「不要簽。往十字路口走，不要回頭。」然後他塞給你一支鎮定劑，又轉回去背對著你。`,r:{items:{sedative:1},flag:'medichint'},p:{fear:-6}},ng:{t:`他轉過身來。面罩裡的臉被一層灰白色的纖維組織蓋滿了，眼睛的位置只剩兩個凹陷。那層組織隨著呼吸一起一伏。`,p:{fear:12},fight:{n:1,mode:'ambush',names:['穿防護衣的東西']}}},
   {l:'偷看帳篷裡',hide:'shadow',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你掀開帳篷的一角。裡面是一排排行軍床，每張床上都綁著一個人。有些還在咳嗽，有些已經不動了。床尾掛著牌子，寫著日期和一個字：「觀察」。
 
 你放下帳篷，退了出來。`,p:{fear:10},r:{flag:'tentseen'}},ng:{t:`你掀開帳篷的瞬間，離你最近的那張床上的人坐了起來，束帶一條一條斷掉。`,p:{fear:10},fight:{n:2,mode:'normal',names:['帳篷裡的病人','帳篷裡的病人']}}},
@@ -2057,7 +2057,7 @@ Object.assign(LV,{
 for(const k of ['A','B','C','E','F','G','H','I','Y','M','U'])LV[k].indoor=1;
 Object.assign(LV_POOL,{Z:['infected'],Y:['infected','incubator'],X:['infected']});
 // 中樞的描述跟著天數變
-const zTx=()=>G.flags.acru?'街上安靜得不正常。沒有標示的黑色車輛停在幾個路口，引擎都沒熄。偶爾有一棟樓裡響起幾聲槍響，然後就沒有了。有人說國民兵來救人了，但沒有人看過那些車上的人把誰送回來。':G.flags.raiders?'撤離之後，街上的人少了一半，剩下的人學會了成群行動。購物中心那邊一直在冒煙，有人在屋頂上放哨。':G.flags.evacinfo?'廣播車一遍又一遍地繞著街區，喇叭裡說的都是北口檢查站。很多人拖著行李往北走。':'街上還有零星的人在跑，商店的鐵捲門拉下一半。遠處一直有警笛聲，但從來沒有靠近過。';
+const zTx=()=>G.flags.acru?'街上安靜得不正常。沒有標示的黑色車輛停在幾個路口，引擎都沒熄。偶爾有一棟樓裡響起幾聲槍響，然後就沒有了。有人說衛生局的醫療隊來救人了，但沒有人看過那些車上的人把誰送回來。':G.flags.raiders?'撤離之後，街上的人少了一半，剩下的人學會了成群行動。購物中心那邊一直在冒煙，有人在屋頂上放哨。':G.flags.evacinfo?'廣播車一遍又一遍地繞著街區，喇叭裡說的都是北口檢查站。很多人拖著行李往北走。':'街上還有零星的人在跑，商店的鐵捲門拉下一半。遠處一直有警笛聲，但從來沒有靠近過。';
 const restC=(l,hp,san)=>({l,s:'休息一次；時間會過去',stay:1,ok:{t:'你把門堵好，找個角落坐下來，閉上眼睛聽外面的聲音。',r:{rest:{hp,san}}}});
 const sleepC=(l,t)=>({l,s:'睡前最好先吃點東西、喝點水',t:'sleep',night:1,stay:1,ok:{t,r:{sleep:1}}});
 Object.assign(N,{
@@ -2139,7 +2139,7 @@ EVPOOL.push(
 診所的醫生被他們押在牆邊。槍響了一聲。`,c:[
   {l:'躲起來，等他們過去',k:'AGI',d:13,s:'敏捷檢定',ok:{t:`你縮在一台燒過的車底下，看著他們的靴子一雙一雙走過去。有一雙在你面前停了很久，然後走開了。`,p:{fear:8}},ng:{t:`你踩到一片碎玻璃。整排人同時停下來，紅色的鏡片一起轉向你藏身的地方。`,p:{fear:8},go:'ZA'}},
   {l:'往回退，繞遠路',t:'l',ok:{t:`你們退回剛才的巷子，繞了一大圈。等你們繞過去的時候，那條街已經在燒了。`,p:{fear:4}}}]},
- {id:'acru2',ch:2,d0:8,need:'acru',t:`一台漆著國民兵標誌的廣播車停在路中間，喇叭朝著每一棟公寓：「這裡是國民兵救援小組。請所有民眾到路口集合，接受檢查。配合的人會被送到安全的地方。」\n\n路口真的有人在排隊。排在前面的人被帶上一台沒有窗戶的卡車。押車的人穿的不是國民兵的迷彩服，是黑色的制服。`,c:[
+ {id:'acru2',ch:2,d0:8,need:'acru',t:`一台漆著市衛生局標誌的廣播車停在路中間，喇叭朝著每一棟公寓：「這裡是市衛生局緊急醫療隊。請所有民眾到路口集合，接受檢查。配合的人會被送到安全的地方。」\n\n路口真的有人在排隊。排在前面的人被帶上一台沒有窗戶的卡車。押車的人穿的不是醫護人員的衣服，是黑色的制服。`,c:[
   {l:'不要過去',ok:{t:`你看著那台卡車關上門開走。沒有人從裡面出來過。`,p:{fear:8}}},
   {l:'看看他們把人帶去哪',k:'PER',d:14,ok:{t:`卡車往旅館的方向開。你想起旅館地下那扇白色的門。`,r:{flag:'acrutruck'},p:{fear:10}},ng:{t:`卡車轉過街角就不見了。`,p:{fear:4}}}]}
 );
@@ -2506,7 +2506,7 @@ BA3:{L:'BA',n:'基地・指揮中心',
  tx:()=>G.flags.warn?'碎紙機還在轉，地上全是紙屑。他們走得很急。':'',
  t:`指揮大樓二樓是一間大會議室，牆上掛滿螢幕，一半已經黑了。長桌上散著文件，最裡面有一個嵌在牆裡的保險櫃。`,
  c:[
-  {l:'讀作戰紀錄',hide:'opslog',stay:1,k:'INT',d:12,s:'智力檢定',t:'m',ok:{get t(){const real=DF().num===0;return `一份裝訂好的作戰命令，封面只有一個代號：「牧杖」。\n\n「階段一（D−3 起）：控制。回收第二期受試者、病歷與冷藏檢體。地方單位不得知情。」\n「階段二（D+7 起）：滅菌。不公開；對外以國民兵、市衛生局名義行動。集合、分類、處置。知情者轉送本基地，等待問訊。證據所在地點清除。」\n「階段三（D+9　${real?'清晨':'0600'}）：空軍執行燃燒作業。地面單位${real?'於天亮前':'於 0500 前'}撤離。」\n\n最後一頁是一張附表：\n「S 區回收目標：B 系列受試者、ARC 研究人員、所有持有 S 區資料者。」\n「S 區入口：A（旅館地下）／B（——）。S 區維生系統依賴市電與市水，兩者中斷期間入口自動封閉。開啟需 S 區門禁。」\n\n入口 B 後面那一格，被黑筆塗掉了。`},r:{flag:'opslog'},p:{fear:12}},ng:{t:`文件太多，代號太多。你需要再多一點時間。`}},
+  {l:'讀作戰紀錄',hide:'opslog',stay:1,k:'INT',d:12,s:'智力檢定',t:'m',ok:{get t(){const real=DF().num===0;return `一份裝訂好的作戰命令，封面只有一個代號：「牧杖」。\n\n「階段一（D−3 起）：控制。回收第二期受試者、病歷與冷藏檢體。地方單位不得知情。」\n「階段二（D+7 起）：滅菌。不公開；對外以市衛生局、緊急醫療隊名義行動。集合、分類、處置。知情者轉送本基地，等待問訊。證據所在地點清除。」\n「階段三（D+9　${real?'清晨':'0600'}）：空軍執行燃燒作業。地面單位${real?'於天亮前':'於 0500 前'}撤離。」\n\n最後一頁是一張附表：\n「S 區回收目標：B 系列受試者、ARC 研究人員、所有持有 S 區資料者。」\n「S 區入口：A（旅館地下）／B（——）。S 區維生系統依賴市電與市水，兩者中斷期間入口自動封閉。開啟需 S 區門禁。」\n\n入口 B 後面那一格，被黑筆塗掉了。`},r:{flag:'opslog'},p:{fear:12}},ng:{t:`文件太多，代號太多。你需要再多一點時間。`}},
   {l:'用隊長的門禁卡打開保險櫃',need:'acrucard',hide:'labcard',stay:1,t:'q',ok:{t:`保險櫃的面板亮起綠燈。裡面只有一個資料夾和一張白色的門禁卡。卡片上沒有名字，只印著一個字母「S」，還有一根杖、一條蛇、一根針。`,r:{flag:'labcard'}}},
   {l:'用破拆工具撬開保險櫃',hide:'labcard',req:'spreader',stay:1,t:'q',s:'會很吵',ok:{t:`保險櫃的門被一點一點撐開。裡面只有一個資料夾和一張白色的門禁卡。卡片上沒有名字，只印著一個字母「S」，還有一根杖、一條蛇、一根針。`,r:{flag:'labcard'},p:{alarm:3}}},
   {l:'回車道',ok:{t:`你們走下樓。`,go:'BA1'}}]},
@@ -3156,7 +3156,7 @@ async function cityTick(){if(!G.sch)return false;G.fired=G.fired||{};
   return false}
 async function cityEvent(k){const real=DF().num===0;
   if(k==='blackout'){G.flags.blackout=1;snd('click',.6);out('啪的一聲，所有的燈同時熄了。冰箱的嗡嗡聲停了，遠處的警報器也停了。整座城市一下子安靜得可怕。<b>停電了</b>：室內更暗，沒有手電筒感知再 −1。','rule')}
-  else if(k==='broadcast'){G.flags.evacinfo=1;out(real?'街上的廣播車一遍一遍地放著同一段錄音：「國民兵將在明天一早進行最後一次撤離，請民眾前往街區北口檢查站集合。」錄音很舊，雜訊很多。':'街上的廣播車一遍一遍地放著同一段錄音：「最後一班撤離車將於<b>明天早上六點</b>從街區北口檢查站出發。請攜帶身分證件，所有人都要接受檢查。」','rule')}
+  else if(k==='broadcast'){G.flags.evacinfo=1;out(real?'街上的廣播車一遍一遍地放著同一段錄音：「市政府將在明天一早進行最後一次撤離，請民眾前往街區北口檢查站集合，由國民兵護送出城。」錄音很舊，雜訊很多。':'街上的廣播車一遍一遍地放著同一段錄音：「最後一班撤離車將於<b>明天早上六點</b>從街區北口檢查站出發。請攜帶身分證件，所有人都要接受檢查。」','rule')}
   else if(k==='evacgone'){G.flags.evacgone=1;out('北邊傳來一長串喇叭聲，然後是引擎聲，越來越遠。最後一班撤離車開走了。','rule')}
   else if(k==='raid'){G.flags.raiders=1;out('秩序撐不住了。街上開始有人成群結隊地砸門、搶東西，有些人手上有刀，有些人有槍。從現在起，街上不只有感染者。','rule')}
   else if(k==='shadow'){G.flags.shadow=1;out('天快亮的時候，一排沒有任何標示的黑色車輛無聲地開過街區，沒有開燈，也沒有停。車窗是黑的。','rule')}
@@ -3463,7 +3463,12 @@ function giveAff(f,k){if(!k)return;f.aff=k;const d=k==='fresh'?-2:k==='wounded'?
 function dayPool(){let p=[...(LV_POOL[G.lv]||['infected'])];const F=G.flags||{};
   if(!F.raiders)p=p.filter(t=>FOES[t].fac!=='hum');else if(!F.acru&&(LV[G.lv]||{}).ch===2)p.push('cutter','collector');
   if(F.shadow)p.push('devourer');return p.length?p:['infected']}
+// v0.18.0 主人：不同陣營偶爾會撞在一起（小機率），撞在一起時會互打。只發生在完全隨機的遭遇
+const MIXP=.1;
 function fillFoes(types,names,n,squad){const pool=dayPool();let fac=types.length?FOES[types[0]].fac:null;
+  const facs=[...new Set(pool.map(t=>FOES[t].fac))];
+  if(!squad&&!types.length&&n>=2&&facs.length>=2&&Math.random()<MIXP){const [a,b]=[...facs].sort(()=>Math.random()-.5);
+    for(let i=0;i<n;i++){const fc=i%2?b:a;types.push(pick(pool.filter(x=>FOES[x].fac===fc)));names.push('')}return}
   while(types.length<n){let t;if(squad)t='acru_trooper';else{const pp=fac?pool.filter(x=>FOES[x].fac===fac):pool;t=pp.length?pick(pp):(fac==='inf'?'infected':pick(pool))}if(!fac)fac=FOES[t].fac;types.push(t);names.push('')}}
 async function startFight(spec){
   // 一場戰鬥算「很快」：20 分鐘
@@ -3475,6 +3480,7 @@ async function startFight(spec){
   fillFoes(types,names,n,squad);
   const wet=['U','G'].includes(G.lv);
   const foes=types.map((t,i)=>newFoe(i,t,act.length,wet));
+  const mixed=new Set(types.map(t=>FOES[t].fac)).size>1;
   // 詞綴：每隻最多一個，照陣營抽；第一章少見、越後面越常見
   const mch=G.ch>=2?.3:.15;
   for(const f of foes){if(spec.noMut||FT(f).fac==='acru'||Math.random()>=mch)continue;giveAff(f,pick(Object.keys(AFF).filter(k=>AFF[k].fac===FT(f).fac)))}
@@ -3486,6 +3492,7 @@ async function startFight(spec){
   if(n>spec.n)out(`不只一個。陰影裡還有${n-spec.n===1?'另一個':'更多'}。`,'bad',true);
   await encounter(foes);
   for(const f of foes)if(f.aff)out(`<b>${f.n}</b>：${AFF[f.aff].d}`,'bad',true);
+  if(mixed)out('他們不是一夥的。兩邊也互相看到了對方：他們會打你們，也會打彼此。想打誰，由你們自己挑。','rule',true);
   if(foes.some(f=>FT(f).fac==='acru')){out('他們沒有說話。紅色的鏡片同時轉向你們，槍口跟著對了過來。','bad');if(foes.some(f=>f.hid))out('遠處的高樓上，好像有什麼東西反了一下光。','sys');out(`滅菌部隊：同一時間最多 ${fireCap()} 名開火，其他人會包抄、換位置。看到預告就要掩蔽。`,'rule',true)}
   {const cand=Object.keys(TACT).filter(siteOk);G.fight.site=cand.length&&Math.random()<.5?pick(cand):null;if(G.fight.site)out(`${TACT_ENV[G.fight.site]}（對策：${TACT[G.fight.site].n}）`,'rule',true)}
   if(wet)out('地上全是積水，牠們身上都濕透了：電擊傷害加倍，火焰減半。','sys',true);
@@ -3632,6 +3639,8 @@ async function foeAct(f){
   let mv,t;
   if(f.charge){mv=f.charge.m;t=mv.all?null:P(f.charge.to);f.charge=null;if(!mv.all&&(!t||t.dead||t.down))t=foeTarget(f,mv)}
   else{mv=f.type==='collector'&&!f.loaded?BUTT:pickMove(f);t=foeTarget(f,mv);if(!t)return;
+    // v0.18.0 不同陣營互打：別的陣營的敵人和玩家一樣是目標
+    {const rv=aliveF().filter(x=>x!==f&&FT(x).fac!==T.fac);if(rv.length&&!mv.all&&!mv.order&&!mv.snipe&&Math.random()<rv.length/(rv.length+able().length)){await foeVsFoe(f,mv,pick(rv));tick();await deathCheck();return}}
     const fires=T.shooter&&(mv.gun||mv.flame||mv.shot||(f.type==='collector'&&f.loaded&&mv!==BUTT));
     if(fires&&!canFire(f)){const alt=(MOVES[f.type]||[]).find(m=>m.order);if(alt&&T.lead&&aliveF().some(x=>x!==f&&FT(x).fac==='acru')&&!(F.focus&&F.round<=F.focus.r)){queue(f);mv=alt}else{tick();flank(f);return}}
     if(mv.order){const q=foeTarget(f,mv);if(!q)return;F.focus={pid:q.pid,r:F.round+1};tick();out(`<b>${f.n}</b>：<b>${mv.n}</b>　舉起手，直直指向${nm(q)}。其他隊員的槍口跟著轉了過去。<span class="f">接下來一回合，其他隊員打${MP()?'他':'你'}命中 +2。</span>`,'bad');push();draw();return}
@@ -3657,11 +3666,21 @@ async function foeAct(f){
   await foeHit(f,mv,t,hits);
   tick();F.cur=null;push();draw();await deathCheck();
 }
-async function kill(f,p,melee){if(f.dead)return;
+async function foeVsFoe(f,mv,x){const F=G.fight,T=FT(f),X=FT(x);F.cur='f'+f.id;push();draw();
+  if(mv.gun&&mv.snd)snd(mv.snd,1,1400);if(mv.shot){f.loaded=0;snd('shotgun',1,1600)}if(mv.pre)await sndW(mv.pre,.9,1800,.65);
+  const R=r2(),m=T.hit+(mv.hit||0),tot=R.s+m,def=(X.def||10)+(x.defDown?-2:0);const j=judge(R,tot,def);const hit=j==='ok'||j==='crit';
+  await dice({label:`${f.n}・${mv.n}　→　${x.n}`,dice:pairDice(R,'',1),quick:true,result:`<span class="${hit?'s':'f'}">${j==='crit'?'重擊':hit?'命中':'落空'}</span>`,cls:hit?'ok':'ng'});
+  out(`擲骰｜${f.n}・${mv.n}　→　${x.n}　d20(<b>${R.a}</b>)${m>=0?'+':'−'}${Math.abs(m)}＝<b>${tot}</b>　${j==='crit'?'重擊':hit?'命中':'落空'}`,'roll',true);
+  if(hit){let d=Math.max(1,T.dmg+(mv.dm||0));if(j==='crit')d*=2;snd(mv.gun||mv.shot?'bhit':(mv.hs||'claw'),.9,1500);
+    const dd=applyDmg(x,d,[mv.flame?'fire':mv.gun||mv.shot?'ballistic':T.human?'slash':'blunt'],null,true);
+    out(`${f.n}${T.human?'轉向':'撲向'}${x.n}。${x.n}生命 −${dd}，剩 ${Math.max(0,x.hp)}。`,'sys');if(x.hp<=0)await kill(x,null,false,1)}
+  else out(`${f.n}${T.human?'朝':'撲向'}${x.n}，沒有打中。`,'sys',true);
+  F.cur=null;push();draw()}
+async function kill(f,p,melee,nox){if(f.dead)return;
   for(const q of G.players)if(q.held===f.id+1)releaseHold(q);
   f.dead=1;f.hp=0;f.charge=null;G.kills++;
   if(p)p.kills++;
-  teamXP(1);
+  if(!nox)teamXP(1);
   await flush();await sndW('death',.9,2600,.75);
   out(`${f.n}倒了下去，不再動彈。`,'good');
   if(affIs(f,'squad'))for(const x of aliveF())if(FT(x).fac==='acru')x.shaken=1;
