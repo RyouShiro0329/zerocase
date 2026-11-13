@@ -546,7 +546,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.19.0", "b": 36, "t": "2026-11-14T04:18:01+08:00"};
+const ZC_VER={"v": "0.19.1", "b": 37, "t": "2026-11-14T04:25:11+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -729,7 +729,7 @@ const WEAP={
  r870:{n:'雷明頓 870',hands:2,dt:['ballistic'],st:['PER'],hit:2,dd:[2,12],kind:'gun',ammo:'shell',mag:8,load:2,noise:4,snd:'beretta',rl:'revolverCock',sk:['scatter'],d:'泵動霰彈槍。一次只裝 2 發。'},
  fal:{n:'FN FAL',hands:2,dt:['ballistic'],st:['PER'],hit:-1,dd:[2,12],ap:1,kind:'gun',ammo:'ammo762',mag:20,noise:4,snd:'fal',rl:'falReload',sk:['burst3','precise'],d:'戰鬥步槍。穿甲：不吃槍擊抗性。'},
  model70:{n:'溫徹斯特 Model 70',hands:2,dt:['ballistic'],st:['PER'],hit:-2,dd:[6,10],ap:1,kind:'gun',ammo:'ammo308',mag:5,load:1,noise:4,snd:'rifle',rl:'bolt',sk:['aim'],d:'栓動步槍。穿甲；一次只裝 1 發。'},
- r700:{n:'雷明頓 700',hands:2,dt:['ballistic'],st:['PER'],hit:-1,dd:[6,10],ap:1,kind:'gun',ammo:'ammo308',mag:5,load:1,noise:4,snd:'rifle',rl:'bolt',sk:['aim'],d:'滅菌部隊狙擊手的栓動步槍，裝著瞄準鏡和消音器。穿甲；一次只裝 1 發。'}
+ r700:{n:'雷明頓 700',hands:2,dt:['ballistic'],st:['PER'],hit:-1,dd:[6,10],ap:1,kind:'gun',ammo:'ammo308',mag:5,load:1,noise:4,snd:'rifle',rl:'bolt',sk:['aim'],d:'那支部隊的狙擊手用的栓動步槍，裝著瞄準鏡和消音器。穿甲；一次只裝 1 發。'}
 };
 const KINDN={melee:'近戰',ranged:'遠程',gun:'槍械',spray:'噴射'};
 /* ============ 技能 ============
@@ -771,12 +771,12 @@ const FOES={
  cutter:{n:'割喉者',fac:'hum',hp:11,def:12,hit:5,dmg:3,san:0,tdc:0,ter:0,init:4,weak:[],res:[],inf:[0,0],human:1,d:'拿獵刀的劫匪。動作快，專挑流血的人下手。'},
  collector:{n:'索命客',fac:'hum',hp:13,def:10,hit:4,dmg:3,san:0,tdc:0,ter:0,init:1,weak:[],res:[],inf:[0,0],human:1,shooter:1,d:'扛著單管霰彈槍的劫匪。開一槍就要重裝一次；他舉槍瞄準的時候，是最危險、也最該防禦的時候。'},
  // 滅菌部隊（v0.12.0，主人 2026-11-13 定的數值）：shooter 共用同時開火上限；mag 彈匣；bres 防彈背心減槍擊；loot 打倒後的裝備
- acru_trooper:{n:'滅菌隊員',fac:'acru',hp:14,def:13,hit:6,dmg:3,san:0,tdc:0,ter:0,init:3,weak:[],res:[],inf:[0,0],human:1,shooter:1,mag:30,rl:'mp5Reload',bres:1,loot:{gear:'mp5',items:{ammo9:[4,8]}},d:'A.C.R.U. 的一般隊員，HK MP5A5。不說話、不談條件，兩三人一組同步行動。防彈背心讓槍擊傷害 −1；30 發打完才換彈匣。'},
- acru_captain:{n:'滅菌隊長',fac:'acru',hp:28,def:14,hit:7,dmg:7,san:0,tdc:0,ter:0,init:4,weak:[],res:[],inf:[0,0],human:1,shooter:1,lead:1,boss:1,mag:20,rl:'falReload',bres:1,loot:{gear:'fal',items:{ammo762:6}},d:'戴紅色貝雷帽的帶隊者，FN FAL。在場時其他滅菌部隊命中 +1；會下令集火、一槍精準射擊就能要人命。20 發打完才換彈匣。'},
+ acru_trooper:{n:'隊員',fac:'acru',hp:14,def:13,hit:6,dmg:3,san:0,tdc:0,ter:0,init:3,weak:[],res:[],inf:[0,0],human:1,shooter:1,mag:30,rl:'mp5Reload',bres:1,loot:{gear:'mp5',items:{ammo9:[4,8]}},d:'A.C.R.U. 的一般隊員，HK MP5A5。不說話、不談條件，兩三人一組同步行動。防彈背心讓槍擊傷害 −1；30 發打完才換彈匣。'},
+ acru_captain:{n:'隊長',fac:'acru',hp:28,def:14,hit:7,dmg:7,san:0,tdc:0,ter:0,init:4,weak:[],res:[],inf:[0,0],human:1,shooter:1,lead:1,boss:1,mag:20,rl:'falReload',bres:1,loot:{gear:'fal',items:{ammo762:6}},d:'戴紅色貝雷帽的帶隊者，FN FAL。在場時其他隊員命中 +1；會下令集火、一槍精準射擊就能要人命。20 發打完才換彈匣。'},
  acru_flamer:{n:'噴火兵',fac:'acru',hp:18,def:11,hit:4,dmg:5,san:0,tdc:0,ter:0,init:0,weak:[],res:[],inf:[0,0],human:1,shooter:1,flame:1,loot:{items:{gasmask:1,filter:1}},d:'背著三瓶式噴火器的隊員，沒有副武器。先推進，才噴得到人；噴火打全體、掩蔽擋不住，連噴兩次要加壓一回合。被槍打死時燃料罐會爆炸，炸傷他的同伴。'},
  acru_sniper:{n:'狙擊手',fac:'acru',hp:12,def:12,hit:9,dmg:30,san:0,tdc:0,ter:0,init:2,weak:[],res:[],inf:[0,0],human:1,shooter:1,hide:1,mag:5,rl:'bolt',loot:{gear:'r700',items:{ammo308:3}},d:'雷明頓 700。躲在遠處，沒被找到之前打不到他。先用紅點鎖定狀態最差的人，下一次才開槍；穿甲、閃躲沒用。'}
 };
-const FAC_N={inf:'感染者',hum:'人類',acru:'滅菌部隊'};
+const FAC_N={inf:'感染者',hum:'人類',acru:'A.C.R.U.'};
 // 劇情裡寫的描述名只用來判斷類型；畫面上一律顯示類型名稱
 const FOE_BY_NAME=[[/索命客|霰彈槍/,'collector'],[/割喉者|獵刀|劫匪|掠奪者/,'cutter'],[/冷凍庫|沙發|廚師|網裡|帳篷裡|水裡|培養槽/,'incubator'],[/滅菌隊長|紅色貝雷/,'acru_captain'],[/噴火|燃料罐/,'acru_flamer'],[/狙擊/,'acru_sniper'],[/A\.C\.R\.U|滅菌部隊|滅菌隊員/,'acru_trooper'],[/警衛|防爆|防護衣|大個子/,'devourer']];
 const LV_POOL={A:['infected'],B:['infected'],C:['infected'],D:['infected'],E:['infected','devourer'],F:['incubator','infected'],G:['incubator','infected'],I:['devourer','infected'],R:['infected'],H:['infected','incubator'],P:['infected'],J:['infected'],K:['infected','cutter'],M:['infected','cutter','collector'],Q:['devourer','infected'],U:['incubator','infected'],V:['infected','devourer','collector']};
@@ -885,7 +885,7 @@ const UNLOCKS=[
 ];
 /* ============ 詞綴（每隻敵人最多一個，加在名字前面；每個都有實際效果，卡片上用紫色標籤顯示） ============
    fac：哪個陣營會出現。acru（滅菌部隊）目前還沒有敵人，先把詞綴定好，之後加敵人時直接用。 */
-const FOE_SHORT={infected:'感染者',incubator:'孵化者',devourer:'巨噬者',cutter:'割喉者',collector:'索命客',acru_trooper:'滅菌隊員',acru_captain:'滅菌隊長',acru_flamer:'噴火兵',acru_sniper:'狙擊手'};
+const FOE_SHORT={infected:'感染者',incubator:'孵化者',devourer:'巨噬者',cutter:'割喉者',collector:'索命客',acru_trooper:'隊員',acru_captain:'隊長',acru_flamer:'噴火兵',acru_sniper:'狙擊手'};
 const AFF={
  // 感染者陣營：宿主經歷了什麼，EDEN 就把牠修成什麼樣子
  hard:{n:'硬化的',fac:'inf',d:'纖維化組織像一層殼：鈍擊以外的傷害 −2；被鈍擊打中 3 次後硬殼碎掉，詞綴消失。'},
@@ -905,7 +905,7 @@ const AFF={
  shaken:{n:'慌張的',fac:'hum',d:'一開始就在動搖：「跟對方談」難度 −4；生命剩一半以下就會逃走。'},
  // 滅菌部隊陣營（未來的敵人用）
  heavy:{n:'重裝的',fac:'acru',d:'全套防護與防彈板：受到的傷害 −2，先攻 −2。'},
- squad:{n:'帶隊的',fac:'acru',d:'其他滅菌部隊命中 +1；牠倒下時，其他人動搖一回合。'},
+ squad:{n:'帶隊的',fac:'acru',d:'其他隊員命中 +1；牠倒下時，其他人動搖一回合。'},
  burner:{n:'噴火的',fac:'acru',d:'背著燃料罐：攻擊會讓人燃燒；被火焰或槍擊打中時可能爆炸。'}
 };
 /* ============ 敵人招式（tele：先蓄力一回合，下一次輪到牠才出手；蓄力時防禦可以減半傷害）============
@@ -944,8 +944,8 @@ const ROSTER={
  oldhunter:{n:'老獵人',fac:'hum',img:['oldh'],d:'原專案：老練的獵槍手。遠距離命中率更高，射擊後有機率立即完成下一發裝填。'},
  owlchief:{n:'梟首',fac:'hum',img:['owl'],boss:1,d:'原專案：首領。發現玩家後以對講機通報全地圖劫匪，組織火力與側翼；每次射擊兩發，登場時召來三名劫匪。'},
  // 滅菌部隊（v0.11.1 建檔、v0.12.0 登場；立繪由主人用 GPT 生成，數值與招式在 FOES、MOVES）
- acru_trooper:{n:'滅菌隊員',fac:'acru',live:1,img:['acru_trp'],d:'A.C.R.U. 的一般隊員。黑色鋼盔、透出紅光的防毒面具、防彈背心，HK MP5A5。不說話、不談條件，兩三人一組同步行動。'},
- acru_captain:{n:'滅菌隊長',fac:'acru',live:1,img:['acru_cap'],boss:1,d:'戴紅色貝雷帽的帶隊者，長皮大衣罩在戰術背心外，FN FAL。下令集火、精準射擊；他倒下時，整隊會亂一拍。'},
+ acru_trooper:{n:'隊員',fac:'acru',live:1,img:['acru_trp'],d:'A.C.R.U. 的一般隊員。黑色鋼盔、透出紅光的防毒面具、防彈背心，HK MP5A5。不說話、不談條件，兩三人一組同步行動。'},
+ acru_captain:{n:'隊長',fac:'acru',live:1,img:['acru_cap'],boss:1,d:'戴紅色貝雷帽的帶隊者，長皮大衣罩在戰術背心外，FN FAL。下令集火、精準射擊；他倒下時，整隊會亂一拍。'},
  acru_flamer:{n:'噴火兵',fac:'acru',live:1,img:['acru_flm'],d:'背著三瓶式背負噴火器的隊員，沒有帶副武器。噴出的火會越過掩體；背上的燃料罐被打穿時會爆炸。'},
  acru_sniper:{n:'狙擊手',fac:'acru',live:1,img:['acru_snp'],d:'披著迷彩披肩、拿雷明頓 700 的狙擊手。待在打不到的遠處，開槍前會先有一點紅光落在目標身上。'}
 };
@@ -2068,7 +2068,7 @@ Z0:{L:'Z',n:'街區',tx:zTx,
   {l:'到北口檢查站',s:'撤離車從那裡出發',need:'evacinfo',hide:'evacgone',ok:{t:`你跟著拖著行李的人群往北走。`,go:'Z3'}},
   {l:'去便利商店找傑西',s:'休息室是安全的地方',need:'v_M2t',ok:{t:`你繞到便利商店後面的倉庫門，照上次的方式敲門。`,go:'Z2'}},
   {l:'回紅磚公寓',s:'一樓那戶的空房還能待',need:'v_K2',ok:{t:`你穿過後巷，回到那棟紅磚公寓。`,go:'Z4'}},
-  {l:'回旅館',s:'員工宿舍可以休息；滅菌開始之後就不一定了',ok:{t:`你沿著來時的那條街往回走。旅館的招牌還在，只是不再亮了。`,go:'Y0'}}]},
+  {l:'回旅館',s:'員工宿舍可以休息',ok:{t:`你沿著來時的那條街往回走。旅館的招牌還在，只是不再亮了。`,go:'Y0'}}]},
 Z1:{L:'Z',ev:1,next:'Z0'},
 Z2:{L:'Z',n:'便利商店・員工休息室',rest:1,
  tx:()=>G.flags.evacgone?'傑西沒有上撤離車。「她們走不了，」他看了那對母女一眼，「我也就不走了。」':'',
@@ -2847,7 +2847,6 @@ SC3:{L:'SC',n:'S3・核心之門',
  t:`「S4　核心」的門有兩個人那麼高，門縫裡長出了灰白色的纖維，像樹根一樣把門框撐死了。纖維在一下一下地搏動，跟著門後某個很慢、很深的呼吸。\n\n門旁的面板亮著：「Z-0　維生系統：運轉中　供電：正常　供水：正常　鎮靜劑注入：中斷」。\n\n<b>門後面的路，這一版還沒有開放。</b>`,
  c:[
   {l:'把手貼在門上',once:1,stay:1,ok:{t:`門是溫的。手掌底下，那個呼吸停了一下。\n\n然後，從門的另一邊，傳來一聲很輕的敲擊。`,p:{fear:12}}},
-  {l:'「中士。」',job:'liao',once:1,stay:1,ok:{t:`你的聲音比你想的還要啞。\n\n門後的呼吸停住了。很久、很久。\n\n然後，三下敲擊。停頓。再兩下。\n\n那是你們以前在無線電裡用的暗號：「收到。」`,p:{fear:14}}},
   {l:'回環形走廊',ok:{t:`你們離開那扇門。身後的纖維又開始搏動了。`,go:'SC0'}}]}
 });
 /* ================= 基礎 ================= */
@@ -3601,7 +3600,7 @@ async function startFight(spec){
   await encounter(foes);
   for(const f of foes)if(f.aff)out(`<b>${f.n}</b>：${AFF[f.aff].d}`,'bad',true);
   if(mixed)out('他們不是一夥的。兩邊也互相看到了對方：他們會打你們，也會打彼此。想打誰，由你們自己挑。','rule',true);
-  if(foes.some(f=>FT(f).fac==='acru')){out('他們沒有說話。紅色的鏡片同時轉向你們，槍口跟著對了過來。','bad');if(foes.some(f=>f.hid))out('遠處的高樓上，好像有什麼東西反了一下光。','sys');out(`滅菌部隊：同一時間最多 ${fireCap()} 名開火，其他人會包抄、換位置。看到預告就要掩蔽。`,'rule',true)}
+  if(foes.some(f=>FT(f).fac==='acru')){out('他們沒有說話。紅色的鏡片同時轉向你們，槍口跟著對了過來。','bad');if(foes.some(f=>f.hid))out('遠處的高樓上，好像有什麼東西反了一下光。','sys');out(`他們是受過訓練的部隊：同一時間最多 ${fireCap()} 名開火，其他人會包抄、換位置。看到預告就要掩蔽。`,'rule',true)}
   {const cand=Object.keys(TACT).filter(siteOk);G.fight.site=cand.length&&Math.random()<.5?pick(cand):null;if(G.fight.site)out(`${TACT_ENV[G.fight.site]}（對策：${TACT[G.fight.site].n}）`,'rule',true)}
   if(wet)out('地上全是積水，牠們身上都濕透了：電擊傷害加倍，火焰減半。','sys',true);
   if(isNight()&&foes.some(f=>FT(f).fac==='inf'))out('入夜之後，牠們比白天更躁動：感染者陣營先攻 +2。','sys',true);
@@ -4046,7 +4045,7 @@ function acruLoot(L){const got=[];
   for(const x of L){const T=FOES[x.t],D=T.loot;let q=x.by!=null&&P(x.by);if(!q||q.dead||q.down)q=able()[0];if(!q)return;
     if(D.gear){const m=Math.max(0,x.mag||0);addGear(q,D.gear,m);got.push(`${MP()?esc(q.name)+'：':''}${WEAP[D.gear].n}（${m}／${WEAP[D.gear].mag}）`)}
     for(const [k,v] of Object.entries(D.items||{})){const n=Array.isArray(v)?rnd(v[0],v[1]):v;addI(q,k,n);got.push(`${MP()?esc(q.name)+'：':''}${ITEMS[k].n}${n>1?' ×'+n:''}`)}}
-  if(got.length){snd('pickup',.8);out(`從滅菌部隊身上搜到：${got.map(itemTag).join('、')}`,'good')}}
+  if(got.length){snd('pickup',.8);out(`從他們身上搜到：${got.map(itemTag).join('、')}`,'good')}}
 /* ================= 物品 ================= */
 function doEquip(p,a){
   if(a.u==null){if(a.h){const u=p.hand[a.h];if(u!=null){if(p.hand.R===u)p.hand.R=null;if(p.hand.L===u)p.hand.L=null}}return true}
