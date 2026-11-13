@@ -526,7 +526,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.13.3", "b": 29, "t": "2026-11-13T21:17:49+08:00"};
+const ZC_VER={"v": "0.14.0", "b": 30, "t": "2026-11-13T23:34:11+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -549,6 +549,7 @@ const ITEMS={
  whiskey:{n:'迷你瓶威士忌',t:'food',d:'壓下恐懼，口渴 −1，喝完留下空瓶。也能拿來消毒布條。',san:3,thi:-1,leaves:'bottle'},
  cigarette:{n:'香菸',t:'food',d:'需要打火機。壓下恐懼。',san:3,needs:'lighter',verb:'抽了一根'},
  bar:{n:'能量棒',t:'food',d:'飢餓 +3。',hun:3},
+ mre:{n:'軍糧',t:'food',d:'飢餓 +5。鋁箔袋裝的一餐，有主菜、餅乾和一包即溶飲料粉。',hun:5},
  chips:{n:'洋芋片',t:'food',d:'飢餓 +2，口渴 −1。',hun:2,thi:-1},
  nuts:{n:'綜合堅果',t:'food',d:'飢餓 +2。',hun:2},
  cookie:{n:'蘇打餅乾',t:'food',d:'飢餓 +2，口渴 −1。',hun:2,thi:-1},
@@ -565,6 +566,7 @@ const ITEMS={
  hardhat:{n:'工地安全帽',t:'wear',slot:'head',d:'頭。白色的工地安全帽。受到的傷害 −1，耐久 10。',armor:1,dur:10},
  motohelmet:{n:'機車安全帽',t:'wear',slot:'head',d:'頭。全罩式安全帽，視線差了一點但很耐打。受到的傷害 −1，耐久 20。',armor:1,dur:20},
  riotvest:{n:'防爆背心',t:'wear',slot:'body',d:'身體。從防爆警衛身上扒下來的。受到的傷害 −2。',armor:2},
+ acruuni:{n:'A.C.R.U. 制服',t:'wear',slot:'body',d:'身體。黑色的戰術服，右上臂縫著一圈紅底的徽章。受到的傷害 −1。全隊都穿上它、戴上防毒面具，遠遠看起來就跟他們一樣。',armor:1},
  gasmask:{n:'防毒面具',t:'wear',slot:'head',d:'頭。全罩式防毒面具，不擋傷害，不能和安全帽一起戴。裝上濾毒罐之後，污染區的空氣就進不來；濾罐用完會自動換上背包裡的下一個。',armor:0,wd:'裝上濾毒罐就不怕污染的空氣'},
  // 彈藥
  ammo9:{n:'9×19mm 子彈',t:'ammo',d:'貝瑞塔與 MP5 用。非常稀少。'},
@@ -641,7 +643,7 @@ const RECIPES=[
 /* ============ 商店 ============
  PRICE 基準價（美金）；商店每次出現從自己的商品池抽 6～8 樣，價格在基準價 ±30% 之間浮動。
  賣東西給商店：基準價的 1/3，無條件捨去，最少 $1。沒有砍價（之後由「談判」類初始能力處理）。 */
-const PRICE={water:3,cola:2,coffee:3,whiskey:4,cigarette:2,bar:2,chips:2,nuts:2,cookie:2,noodle:2,
+const PRICE={mre:4,acruuni:6,water:3,cola:2,coffee:3,whiskey:4,cigarette:2,bar:2,chips:2,nuts:2,cookie:2,noodle:2,
  bandage:3,sbandage:5,med:8,iodine:4,alcohol:3,painkiller:4,antibiotic:25,sedative:6,splint:6,suture:8,surgkit:30,
  ammo9:4,ammo38:4,shell:5,arrow:1,bolt:2,shot:1,molotov:6,extinguisher:5,
  lighter:3,flashlight:6,pliers:4,cloth:1,tape:2,rope:2,nails:2,battery:1,pipe:2,glass:1,bottle:1,sock:1,coin:1,hanger:1,magazine:1,hairspray:2,fuel:3,tourniquet:2,chopsticks:1,board:1,mop:1,pvc:2,tableleg:1,blade:3,deadlight:2,sewing:2,
@@ -1763,7 +1765,7 @@ M5:{L:'M',n:'便利商店・出口',
   {l:'走進地鐵站',ok:{t:`你走下樓梯。下面的空氣又冷又濕。`,go:'U1'}}]},
 /* ---------- Q 封鎖線 ---------- */
 Q1:{L:'Q',n:'封鎖線外',next:'Q2',
- tx:()=>G.flags.acru?'拒馬上的牌子全被換掉了。新的牌子是黑底白字：「A.C.R.U. 滅菌作業區　擅入者即刻處置」。角落印著一根杖、一條蛇，杖的尖端畫得像一根針。':G.flags.shadow?'有幾面市衛生局的牌子被撕了下來，丟在路邊。地上多了幾道很寬的新輪胎痕，不是國民兵卡車的紋路。':'',
+ tx:()=>G.flags.acru?'拒馬上的牌子全被換掉了。新的牌子是黑底白字：「A.C.R.U. 滅菌作業區　擅入者即刻處置」。角落印著一個紅底的徽章：生物危害標誌的正中央，插著一把雙刃劍。':G.flags.shadow?'有幾面市衛生局的牌子被撕了下來，丟在路邊。地上多了幾道很寬的新輪胎痕，不是國民兵卡車的紋路。':'',
  t:`拒馬拉了整整一條街，紅黑兩色，每隔幾公尺就掛著一面牌子：「市衛生局　醫療隔離區　禁止進入　違者依法究辦」。牌子下方印著國民兵的徽章。
 
 拒馬後面停著兩台國民兵的裝甲車，車頂上架著探照燈。沒有人。只有無人機在頭頂上嗡嗡地轉。`,
@@ -2357,6 +2359,155 @@ N2:{L:'N',n:'卡特槍械・後場工作區',
   {l:'找工作台下面的暗格',job:'veteran',need:'nok',once:1,stay:1,s:'退伍軍人：這種店一定會藏一點',ok:{t:`你在工作台下面敲了敲，有一塊板子的聲音不一樣。撬開來，裡面是一盒霰彈和一盒 9mm。`,r:{items:{shell:4,ammo9:8}}}},
   {l:'回店面',ok:{t:`你們退回店面。`,go:'N1'}}]}
 });
+/* ================= v0.14.0 滅菌部隊營地與基地（主人 2026-11-13 定案） =================
+   營地（城北的舊貨運場，LV CA，節點 CA0～CA5）：第 5 天影子期起才有，掛「ARC 醫療物流站」的牌子；第 6 天起公開營運。
+     找到營地（campknown）：藥局的黑色廂型車、集合檢查的卡車、配電站的黑色發電車、警察局被搬剩的紙箱。
+     通訊帳篷聽無線電 → 基地（baseknown）；指揮帳篷 → 隊長的門禁卡（acrucard）。
+   基地（北郊的陸軍後備中心，LV BA，節點 BA0～BA5、BA1a）：潛入（門禁卡、制服＋防毒面具、躲補給車）或強攻（哨塔狙擊手可以先處理）都能走。
+     指揮中心：作戰紀錄（opslog）、S 區門禁卡（labcard）。研究所入口照主人的規則：所有條件＋市電＋供水＋S 區門禁，回旅館那扇門（v1.0.0 再做）。
+     停機坪：第 6 天起有直升機 → 結局 B「搶直升機逃出城」。
+   G.flags.warn＝第 7 天 05:00 預警之後。 */
+Object.assign(LV,{
+ CA:{n:'舊貨運場',sub:'A.C.R.U. 前進營地',en:'FORWARD CAMP',rule:'鐵絲網、探照燈，還有一根一直在冒煙的煙囪。',fx:{},ch:2,fire:'camp'},
+ BA:{n:'陸軍後備中心',sub:'北郊',en:'ARMY RESERVE CENTER',rule:'門口的國旗被換成了一面紅底的旗子。',fx:{},ch:2,fire:'base'}
+});
+Object.assign(LV_POOL,{CA:['infected'],BA:['infected']});
+// 全隊都穿制服、戴防毒面具
+const acruDisg=()=>{const a=able();return a.length&&a.every(p=>p.eq&&p.eq.body&&p.eq.body.k==='acruuni'&&maskWorn(p))?1:0};
+const campFt=()=>G.flags.acru?{n:3,names:['A.C.R.U. 隊員','A.C.R.U. 隊員','背燃料罐的 A.C.R.U.']}:{n:2,names:['A.C.R.U. 隊員','A.C.R.U. 隊員']};
+const gateFt=()=>G.flags.towerdown?{n:2,names:['A.C.R.U. 隊員','A.C.R.U. 隊員']}:{n:3,names:['A.C.R.U. 隊員','A.C.R.U. 隊員','哨塔上的狙擊手']};
+{const i=N.Z0.c.findIndex(c=>c.l==='回旅館');N.Z0.c.splice(i,0,
+ {l:'去城北的舊貨運場',s:'A.C.R.U. 的車都往那裡開',need:'campknown',ok:{t:`你們避開大路，沿著鐵軌往城北走。`,go:'CA0'}},
+ {l:'去北郊的陸軍後備中心',s:'出了城區還有一段公路',need:'baseknown',t:'l',ok:{t:`你們沿著北郊公路的路肩走，一有車燈就趴進路邊的排水溝。`,go:'BA0'}})}
+// 找到營地的線索
+{const e=EVPOOL.find(x=>x.id==='shadow1');e.c.splice(1,0,{l:'跟著那台車',k:'AGI',d:13,s:'敏捷檢定：不能被看到',t:'m',ok:{t:`你隔著兩條街跟在後面。廂型車沒有開燈，一路往城北開，最後開進一片用新鐵絲網圍起來的空地——城北的舊貨運場。門口掛著一面牌子：「ARC 醫療物流站」。`,r:{flag:'campknown'},p:{fear:6}},ng:{t:`轉過第三個路口，車子就不見了。`,p:{fear:4}}})}
+{const e=EVPOOL.find(x=>x.id==='acru2');const c=e.c.find(x=>x.l==='看看他們把人帶去哪');c.ok={t:`卡車先在旅館門口停了一下，下來兩個人，往地下室的方向走。然後卡車繼續往城北開，開進舊貨運場那片新拉的鐵絲網裡。那裡有一根煙囪在冒煙。`,r:{flag:['acrutruck','campknown']},p:{fear:10}}}
+N.W1.c.splice(N.W1.c.length-1,0,{l:'順著那條電纜走',need:'acru',once:1,stay:1,k:'PER',d:12,s:'感知檢定',t:'m',ok:{t:`電纜沿著人行道拉了好幾條街，最後穿過一道鐵絲網，接進城北舊貨運場裡的一排發電機。鐵絲網後面是一整片灰色的帳篷，還有一根冒著煙的煙囪。`,r:{flag:'campknown'},p:{fear:6}},ng:{t:`電纜在一個路口分成好幾條，你跟丟了。`}});
+N.L2.c.splice(N.L2.c.length-2,0,{l:'看看那些被搬剩的紙箱',need:'acru',once:1,stay:1,k:'PER',d:12,s:'感知檢定',ok:{t:`紙箱上貼著列印的標籤：「轉送：前進營地（城北貨運場）　保管：A.C.R.U.」箱子裡是空的資料夾，夾子上還寫著嫌犯的名字。`,r:{flag:'campknown'}},ng:{t:`紙箱都是空的，標籤被撕掉了。`}});
+Object.assign(N,{
+/* ---------- 營地 ---------- */
+CA0:{L:'CA',n:'舊貨運場・營地外圍',
+ onEnter(){G.flags.disg=acruDisg()},
+ tx:()=>G.flags.warn?'營地在拆。帳篷一頂一頂倒下來，卡車排成一列往北開。門口沒有人在看了。':G.flags.acru?'煙囪整天都在冒煙。卡車一台接一台開進去，車斗的帆布放下來，看不到裡面。門口站著四個 A.C.R.U.，每一台車都要停下來查。':'門口掛著一面牌子：「ARC 醫療物流站　生物檢體處理中　非相關人員禁止進入」。只有兩個人在門口站崗，穿的是黑色制服，不是醫護人員的衣服。',
+ t:`城北的舊貨運場。一整片空地用新拉的鐵絲網圍起來，四個角各有一座鷹架搭的哨塔，探照燈在空地上慢慢掃。鐵絲網裡面是一排一排灰色的帳篷，最裡面那一頭，立著一根臨時的煙囪。`,
+ c:[
+  {l:'剪開鐵絲網鑽進去',hide:'warn',req:['pliers','spreader'],reqAny:1,k:'AGI',d:12,s:'需要鉗子或破拆工具；探照燈掃過來之前要鑽過去',ok:{t:`你們等探照燈掃過去，剪開最下面的幾格，一個接一個鑽過去。`,p:{alarm:1},go:'CA1'},ng:{t:`探照燈停在你們身上。哨塔上有人在對講機裡說了一句話。`,get fight(){return campFt()},go:'CA1'}},
+  {l:'等換哨的空檔溜進去',hide:'acru',k:'PER',d:13,s:'感知檢定：看準時間',t:'m',ok:{t:`你們趴在對面的貨櫃後面看了很久。他們每兩個小時換一次哨，交接的時候兩個人都背對著門。你們就是在那時候溜進去的。`,go:'CA1'},ng:{t:`你們算錯了時間。剛走到門口，換哨的人從帳篷後面轉出來。`,get fight(){return campFt()},go:'CA1'}},
+  {l:'躲在卡車底下混進去',need:'acru',hide:'warn',k:'AGI',d:14,s:'敏捷檢定：卡車進門要停下來檢查',ok:{t:`你們趁卡車在路口減速時鑽到車底，抓著底盤上的橫桿。卡車在門口停了一下，有手電筒往車底照了一圈，照到你們旁邊的輪胎就移開了。`,go:'CA1'},ng:{t:`手電筒照到了你的鞋子。「車底有人。」`,get fight(){return campFt()},go:'CA1'}},
+  {l:'穿著 A.C.R.U. 的制服走進去',need:'disg',hide:'warn',k:'CHA',d:12,s:'魅力檢定：走路要像他們',ok:{t:`你們排成一列走向門口，誰也沒有說話。門口的人看了你們一眼，揮手讓你們過去。紅色的鏡片後面，看不出他在想什麼。`,go:'CA1'},ng:{t:`門口的人伸手攔住你：「編號。」你答不出來。`,get fight(){return campFt()},go:'CA1'}},
+  {l:'硬闖',hide:'warn',s:'他們不會問你是誰',ok:{t:`你們搶在探照燈掃過來之前衝向門口。`,get fight(){return Object.assign({mode:'first'},campFt())},go:'CA1'}},
+  {l:'從開著的門走進去',need:'warn',ok:{t:`你們從一台正要開走的卡車旁邊走進去，沒有人回頭。`,go:'CA1'}},
+  {l:'回街區',ok:{t:`你們沿著鐵軌往回走。`,go:'Z0'}}]},
+CA1:{L:'CA',n:'營地・隔離區',
+ tx:()=>G.flags.warn?'籠子的門都開著，裡面沒有人了。':G.flags.cfreed?'籠子的門被剪開了，裡面空了一半。':G.flags.acru?'籠子裡擠滿了人。有人在哭，有人一直用額頭撞鐵絲網，有人只是坐著，盯著煙囪。':'籠子裡只關了幾個人，都穿著醫院的病人服。',
+ t:`帳篷之間用鐵絲網隔成一格一格的籠子。每一格前面插著一塊白板，用黑筆寫著：「陰性・觀察」「陽性・處置」「知情・轉送」。\n\n「陽性・處置」那一格是空的。地上有拖過的痕跡，一路拖向煙囪那邊。`,
+ c:[
+  {l:'跟籠子裡的人說話',hide:'warn',once:1,stay:1,ok:{get t(){return G.flags.acru?`一個穿睡衣的男人抓著鐵絲網：「他們說只是檢查。量完體溫就把人分開。」他指著那一格空掉的「陽性・處置」：「我太太被分到那一格。她只是發燒。」`:`一個穿病人服的女人靠到鐵絲網邊，手腕上戴著一圈塑膠手環，上面印著「B-」開頭的編號。「我只是去回診，」她小聲說，「回診完，他們就把我們送來這裡。」`},p:{fear:8}}},
+  {l:'剪開籠子，放他們出去',hide:'cfreed',req:['pliers','spreader'],reqAny:1,s:'需要鉗子或破拆工具；會很吵',ok:{t:`鐵絲一根一根斷開。籠子裡的人愣了一下，接著全部往外擠，往鐵絲網的破口跑。哨塔上的探照燈轉了過來。`,r:{flag:'cfreed',karma:1},p:{alarm:3},stay:1}},
+  {l:'撬開籠子的鎖',hide:'cfreed',k:'INT',d:13,s:'智力檢定',ok:{t:`掛鎖是便宜貨。你用一根鐵絲撥了幾下就開了。籠子裡的人一個接一個溜出去，誰也沒有出聲。`,r:{flag:'cfreed',karma:1},p:{alarm:1},stay:1},ng:{t:`鐵絲斷在鎖孔裡。`,stay:1}},
+  {l:'去煙囪那邊',ok:{t:`你們順著地上拖過的痕跡走。`,go:'CA2'}},
+  {l:'去掛紅十字的帳篷',ok:{t:`你們貼著帳篷的影子走過去。`,go:'CA3'}},
+  {l:'去天線最多的帳篷',ok:{t:`無線電的沙沙聲從那頂帳篷裡傳出來。`,go:'CA4'}},
+  {l:'去最大的那頂帳篷',ok:{t:`門口拉著兩道防水布。`,go:'CA5'}},
+  {l:'從原路溜出去',ok:{t:`你們從進來的地方溜回鐵絲網外面。`,go:'Z0'}}]},
+CA2:{L:'CA',n:'營地・焚化區',
+ t:`煙囪底下是一台用拖車改裝的焚化爐，爐門關著，還在發燙。旁邊的棧板上堆著一排黑色的屍袋，每一個都綁著標籤。\n\n空氣裡全是燒焦的味道。`,
+ c:[
+  {l:'看屍袋上的標籤',once:1,stay:1,k:'CON',d:11,s:'體質檢定：靠近它們',ok:{get t(){return G.flags.arcfile?`標籤上寫著日期、時間和一行編號，沒有名字。其中一個寫著「B-118」。你在醫院的病歷裡看過這個號碼。`:`標籤上寫著日期、時間和一行編號，像是「B-118」「C-0042」。沒有名字。`},p:{fear:10}},ng:{t:`你走到一半就停下來了。腳不聽使喚。`,p:{fear:6}}},
+  {l:'回隔離區',ok:{t:`你們離開那根煙囪。`,go:'CA1'}}]},
+CA3:{L:'CA',n:'營地・軍醫帳篷',
+ tx:()=>G.flags.warn?'大部分的藥品箱已經搬走了，地上只剩被拆開的紙盒。':'',
+ t:`帳篷裡擺著兩張行軍床和一排鋁製的藥品箱，箱子上印著 A.C.R.U. 的徽章：紅底的生物危害標誌，正中央插著一把雙刃劍。角落的衣架上掛著幾套折好的黑色制服。`,
+ c:[
+  {l:'翻藥品箱',once:1,stay:1,t:'m',ok:{t:`軍用的東西，包裝都比醫院的厚。`,r:{items:{surgkit:1,antibiotic:1,sedative:1,sbandage:2}}}},
+  {l:'拿幾包軍糧',once:1,stay:1,ok:{t:`行軍床底下有一整箱鋁箔袋裝的軍糧。`,r:{items:{mre:3}}}},
+  {l:'拿走衣架上的制服',once:1,stay:1,ok:{t:`黑色的戰術服，右上臂縫著一圈紅底的徽章。穿上這個，再戴上防毒面具，遠遠看起來就跟他們一樣。`,r:{items:{acruuni:4}}}},
+  {l:'回隔離區',ok:{t:`你們走出帳篷。`,go:'CA1'}}]},
+CA4:{L:'CA',n:'營地・通訊帳篷',
+ t:`折疊桌上擺著一台軍用無線電和一本攤開的值勤日誌，旁邊還有一壺冷掉的咖啡。無線電的喇叭一直在沙沙地響。`,
+ c:[
+  {l:'讀值勤日誌',hide:'opsnote',stay:1,k:'INT',d:12,s:'智力檢定',ok:{get t(){return G.flags.acru?`日誌裡寫的都是代號和數字，一行一行，沒有任何原因：\n\n「D+4　0540　藥局三處　回收　冷藏檢體 14」\n「D+5　0610　北區集合點　接收 212　陰性 31　陽性 168　知情 13」\n「D+5　1100　處置 168」\n「知情 13　轉送　牧杖」`:`日誌裡寫的都是代號和數字，一行一行，沒有任何原因：\n\n「D+3　2300　聖瑪莉醫院四樓　回收　病歷　全數」\n「D+4　0540　藥局三處　回收　冷藏檢體 14」\n「D+4　——　北區集合點　準備中」`},r:{flag:'opsnote'},p:{fear:10}},ng:{t:`代號太多了，你看不懂。`}},
+  {l:'聽無線電',hide:'baseknown',stay:1,k:'PER',d:13,s:'感知檢定',t:'m',ok:{t:`雜訊裡夾著一段很短的對話：「前進營地呼叫牧杖，今晚的轉送車隊十八點出發，走北郊公路。」另一頭回答：「牧杖收到。後備中心的門會開著。」\n\n北郊公路上只有一個後備中心：陸軍後備中心。`,r:{flag:'baseknown'}},ng:{t:`只有雜訊。`}},
+  {l:'回隔離區',ok:{t:`你們走出帳篷。`,go:'CA1'}}]},
+CA5:{L:'CA',n:'營地・指揮帳篷',
+ onEnter(){const F=G.flags;F.capin=F.acru&&!F.capdown&&!F.warn?1:0;F.capout=F.capin?0:1},
+ tx:()=>G.flags.capin?'長桌旁邊站著一個戴紅色貝雷帽的人，正在地圖上畫線。門口的兩個隊員轉過頭來，紅色的鏡片對著你們。':G.flags.capdown?'帳篷裡只剩倒在地上的人，和那張畫滿線的地圖。':G.flags.warn?'長桌上的地圖被捲走了，只剩幾張忘了收的紙。':'帳篷裡沒有人。長桌上的檯燈還亮著。',
+ t:`指揮帳篷比其他的大，門口拉著兩道防水布。裡面有一張鋪滿地圖的長桌、一張行軍床，床尾整整齊齊地放著一件長皮大衣。`,
+ c:[
+  {l:'動手',need:'capin',ok:{t:`你們搶在他們開口之前動手。`,fight:{n:3,names:['滅菌隊長','A.C.R.U. 隊員','A.C.R.U. 隊員']},win:{t:`隊長的胸前口袋裡有一張黑色的門禁卡。長桌上的地圖用紅筆圈著北郊公路的盡頭，旁邊寫著兩個字：「牧杖」。`,r:{flag:['capdown','acrucard','baseknown']}},go:'CA5'}},
+  {l:'退出去',need:'capin',ok:{t:`你們退出帳篷。背後沒有腳步聲，只有對講機響了一下。`,p:{alarm:2},go:'CA1'}},
+  {l:'翻長桌上的東西',need:'capout',hide:'acrucard',stay:1,k:'AGI',d:13,s:'敏捷檢定：動作要快，外面有人巡邏',ok:{t:`地圖用紅筆圈著北郊公路的盡頭，旁邊寫著兩個字：「牧杖」。行軍床的枕頭底下壓著一張黑色的門禁卡，背面印著一個編號。`,r:{flag:['acrucard','baseknown']}},ng:{t:`防水布被掀開了。「你們在這裡做什麼？」`,fight:{n:2,names:['A.C.R.U. 隊員','A.C.R.U. 隊員']}}},
+  {l:'回隔離區',ok:{t:`你們走出帳篷。`,go:'CA1'}}]},
+/* ---------- 基地 ---------- */
+BA0:{L:'BA',n:'陸軍後備中心・大門',
+ onEnter(){G.flags.disg=acruDisg()},
+ tx:()=>(G.flags.warn?'直升機一架接一架從基地裡飛起來，往北邊去。閘門開著，卡車擠成一團，沒有人在查。':G.flags.acru?'補給卡車在閘門前排成一列，每一台都要刷卡、掀開車斗檢查。':'門口很安靜。偶爾有一台黑色廂型車開進去，閘門升起、放下。')+(G.flags.towerdown?'哨塔的窗口裡沒有人了。':''),
+ t:`北郊公路的盡頭，一整片低矮的水泥建築，外面圍著兩層鐵絲網。門口的崗哨有一道升降閘門和讀卡機，旁邊是一座水泥哨塔，塔頂的窗口黑漆漆的。\n\n旗桿上掛著一面紅底的旗子：生物危害標誌，正中央插著一把雙刃劍。`,
+ c:[
+  {l:'刷隊長的門禁卡',need:'acrucard',hide:'warn',t:'q',ok:{t:`讀卡機亮起綠燈，閘門升了起來。崗哨裡的人低頭看著螢幕，沒有抬頭。`,go:'BA1'}},
+  {l:'穿著制服，跟在補給車後面走進去',need:'disg',hide:'warn',k:'AGI',d:12,s:'敏捷檢定：跟緊一點',ok:{t:`你們貼著卡車的車尾走，閘門升起來的時候，跟著車一起過去。`,go:'BA1'},ng:{t:`閘門落得比你想的快。你們被攔在外面，崗哨裡的人站了起來。`,r:{flag:'bloud'},get fight(){return gateFt()},go:'BA1a'}},
+  {l:'躲進補給車的車斗',need:'acru',hide:'warn',k:'AGI',d:14,s:'敏捷檢定：卡車在門口會被掀開檢查',ok:{t:`你們縮在幾個大木箱後面。帆布被掀開，手電筒的光從箱子上掃過去，帆布又放下了。`,go:'BA1'},ng:{t:`手電筒停在你的臉上。`,r:{flag:'bloud'},get fight(){return gateFt()},go:'BA1a'}},
+  {l:'用步槍打掉哨塔上的人',hide:'towerdown',req:['g:r700','g:model70','g:fal'],reqAny:1,stay:1,k:'PER',d:14,s:'需要步槍；感知檢定',ok:{t:`你趴在公路對面的土堤上，等了很久。塔頂的窗口裡有一點紅光閃了一下。你扣下扳機，那點紅光就再也沒有亮過。`,r:{flag:'towerdown'},p:{alarm:2}},ng:{t:`子彈打在窗框上。下一秒，一發子彈從塔頂回敬過來，打碎了你旁邊的石頭，碎片劃開你的臉。`,p:{hp:-5,fear:10,alarm:2}}},
+  {l:'摸上哨塔',hide:'towerdown',k:'AGI',d:14,s:'敏捷檢定',ok:{t:`你們繞到哨塔背後，順著水管爬上去。塔頂的人趴在步槍後面，一直盯著公路，到最後都沒有回頭。`,r:{flag:'towerdown'},stay:1},ng:{t:`爬到一半，水管的固定環斷了，整條水管撞在牆上。`,r:{flag:'bloud'},get fight(){return gateFt()},go:'BA1a'}},
+  {l:'正面強攻',hide:'warn',s:'閘門、崗哨，還有那座哨塔',ok:{t:`你們從路邊的排水溝裡衝出去。`,r:{flag:'bloud'},get fight(){return Object.assign({mode:'first'},gateFt())},go:'BA1a'}},
+  {l:'趁亂走進去',need:'warn',ok:{t:`你們混在擠成一團的卡車中間走進閘門，沒有人看你們一眼。`,go:'BA1'}},
+  {l:'回街區',t:'l',ok:{t:`你們沿著北郊公路往回走。`,go:'Z0'}}]},
+BA1a:{L:'BA',n:'基地・警報',
+ t:`警報響了。營舍那邊的門被撞開，又有人衝出來，其中一個背著燃料罐。`,
+ c:[
+  {l:'找掩體，迎戰',ok:{t:`你們躲到崗哨的水泥牆後面。`,fight:{n:2,names:['A.C.R.U. 隊員','背燃料罐的 A.C.R.U.']},win:{t:`警報還在響，但車道上沒有人再跑出來了。`,r:{flag:'bclear'}},go:'BA1'}},
+  {l:'退回公路上',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你們翻過路邊的護欄，滾進排水溝，一路爬到他們看不到的地方。`,go:'Z0'},ng:{t:`他們追出來了。`,fight:{n:2,names:['A.C.R.U. 隊員','背燃料罐的 A.C.R.U.']},win:{r:{flag:'bclear'}},go:'BA1'}}]},
+BA1:{L:'BA',n:'基地・車道',
+ onEnter(){const F=G.flags;F.bopen=F.acrucard||F.bclear||F.warn?1:0},
+ tx:()=>G.flags.warn?'人都在往停機坪跑，沒有人管你們。':G.flags.bloud&&!G.flags.bclear?'警報還在響，遠處有腳步聲在找你們。':G.flags.acru?'停機坪那邊傳來旋翼的聲音。':'',
+ t:`基地裡面比外面看起來大。一條水泥車道串起好幾棟建築：營舍、一棟掛著「軍械」牌子的倉庫、一棟屋頂插滿天線的指揮大樓，還有後面的一片停機坪。車道上每隔一段就有一支監視器。`,
+ c:[
+  {l:'進軍械庫',need:'bopen',ok:{t:`軍械庫的門開了。`,go:'BA2'}},
+  {l:'用破拆工具撐開軍械庫的門',hide:'bopen',req:'spreader',t:'q',s:'會很吵',ok:{t:`鐵門被撐開了。金屬撕開的聲音在車道上迴盪，營舍那邊有人在喊。`,fight:{n:2,names:['A.C.R.U. 隊員','A.C.R.U. 隊員']},go:'BA2'}},
+  {l:'進指揮大樓',need:'bopen',ok:{t:`你們推開指揮大樓的玻璃門，走上二樓。`,go:'BA3'}},
+  {l:'破解指揮大樓的門禁',hide:'bopen',k:'INT',d:14,s:'智力檢定',ok:{t:`你撬開讀卡機的外殼，把兩條線接在一起。門鎖喀的一聲彈開了。`,go:'BA3'},ng:{t:`讀卡機發出一長串嗶聲。走廊盡頭的門開了。`,fight:{n:2,names:['A.C.R.U. 隊員','A.C.R.U. 隊員']},go:'BA1'}},
+  {l:'去營舍後面的拘留區',ok:{t:`你們繞到營舍後面。`,go:'BA4'}},
+  {l:'去停機坪',ok:{t:`你們貼著倉庫的牆往後面走。`,go:'BA5'}},
+  {l:'離開基地',t:'l',ok:{t:`你們從進來的路出去，沿著北郊公路往回走。`,go:'Z0'}}]},
+BA2:{L:'BA',n:'基地・軍械庫',
+ t:`一排一排的鐵架，大部分都空了，地上全是撕開的木箱。靠牆的槍架上只剩兩把槍：一把 MP5、一把 FAL。角落還疊著幾個彈藥箱。`,
+ c:[
+  {l:'拿那把 MP5',once:1,stay:1,ok:{t:`彈匣是滿的。`,r:{gear:'mp5',mag:30}}},
+  {l:'拿那把 FAL',once:1,stay:1,ok:{t:`彈匣是滿的。`,r:{gear:'fal',mag:20}}},
+  {l:'開彈藥箱',once:1,stay:1,t:'m',ok:{t:`9mm、7.62、.308，各剩一點。`,r:{items:{ammo9:30,ammo762:20,ammo308:5}}}},
+  {l:'翻鐵架最下層',once:1,stay:1,ok:{t:`一件被丟下的防爆背心，還有一副防毒面具和兩個濾罐。`,r:{items:{riotvest:1,gasmask:1,filter:2}}}},
+  {l:'回車道',ok:{t:`你們退回車道。`,go:'BA1'}}]},
+BA3:{L:'BA',n:'基地・指揮中心',
+ tx:()=>G.flags.warn?'碎紙機還在轉，地上全是紙屑。他們走得很急。':'',
+ t:`指揮大樓二樓是一間大會議室，牆上掛滿螢幕，一半已經黑了。長桌上散著文件，最裡面有一個嵌在牆裡的保險櫃。`,
+ c:[
+  {l:'讀作戰紀錄',hide:'opslog',stay:1,k:'INT',d:12,s:'智力檢定',t:'m',ok:{get t(){const real=DF().num===0;return `一份裝訂好的作戰命令，封面只有一個代號：「牧杖」。\n\n「階段一（D−3 起）：控制。回收第二期受試者、病歷與冷藏檢體。地方單位不得知情。」\n「階段二（D+5 起）：滅菌。集合、分類、處置。知情者轉送本基地，等待問訊。」\n「階段三（D+6　${real?'清晨':'0600'}）：空軍執行燃燒作業。地面單位${real?'於天亮前':'於 0500 前'}撤離。」\n\n最後一頁是一張附表：\n「S 區回收目標：B 系列受試者、ARC 研究人員、所有持有 S 區資料者。」\n「S 區入口：A（旅館地下）／B（——）。S 區維生系統依賴市電與市水，兩者中斷期間入口自動封閉。開啟需 S 區門禁。」\n\n入口 B 後面那一格，被黑筆塗掉了。`},r:{flag:'opslog'},p:{fear:12}},ng:{t:`文件太多，代號太多。你需要再多一點時間。`}},
+  {l:'用隊長的門禁卡打開保險櫃',need:'acrucard',hide:'labcard',stay:1,t:'q',ok:{t:`保險櫃的面板亮起綠燈。裡面只有一個資料夾和一張白色的門禁卡。卡片上沒有名字，只印著一個字母「S」，還有一根杖、一條蛇、一根針。`,r:{flag:'labcard'}}},
+  {l:'用破拆工具撬開保險櫃',hide:'labcard',req:'spreader',stay:1,t:'q',s:'會很吵',ok:{t:`保險櫃的門被一點一點撐開。裡面只有一個資料夾和一張白色的門禁卡。卡片上沒有名字，只印著一個字母「S」，還有一根杖、一條蛇、一根針。`,r:{flag:'labcard'},p:{alarm:3}}},
+  {l:'回車道',ok:{t:`你們走下樓。`,go:'BA1'}}]},
+BA4:{L:'BA',n:'基地・拘留區',
+ tx:()=>G.flags.warn?'拘留室的門都開著。走廊盡頭有一灘還沒乾的血。':G.flags.bfreed?'拘留室的門都開著，裡面沒有人了。':'小窗後面有人在看你們。',
+ t:`營舍後面的一排拘留室，每一扇鐵門上都有一個小窗。門上貼著同一張表單：「知情・待問訊」。`,
+ c:[
+  {l:'隔著小窗說話',hide:'warn',once:1,stay:1,ok:{t:`「你們是從外面來的？」一個穿旅館員工制服的年輕人貼著小窗，「我在旅館櫃台上班。他們說我看到了不該看的東西。地下室那扇白色的門，我只是幫他們開過一次。」`,p:{fear:6}}},
+  {l:'用門禁卡打開拘留室',need:'acrucard',hide:'bfreed',t:'q',ok:{t:`門一扇一扇打開。裡面的人沒有道謝，只是看了你們一眼，就往圍牆那邊跑。`,r:{flag:'bfreed',karma:1},p:{alarm:2},stay:1}},
+  {l:'撬開拘留室的門',hide:'bfreed',k:'INT',d:14,s:'智力檢定',ok:{t:`門鎖是電子的，但旁邊有一個手動解鎖的鑰匙孔。你花了很久才撥開第一扇，後面的就快了。裡面的人一個接一個溜出去。`,r:{flag:'bfreed',karma:1},p:{alarm:2},stay:1},ng:{t:`撥不開。`,stay:1}},
+  {l:'回車道',ok:{t:`你們繞回車道。`,go:'BA1'}}]},
+BA5:{L:'BA',n:'基地・停機坪',
+ onEnter(){const F=G.flags;F.disgw=F.warn&&acruDisg()?1:0;F.hcan=F.acru&&!F.warn&&!F.hguard?1:0;F.hlast=F.warn&&!F.hguard?1:0},
+ tx:()=>{const F=G.flags;return !F.acru?'停機坪上什麼都沒有。':F.hguard?'守衛倒在油罐車旁邊。飛行員縮在駕駛座裡，雙手舉著。':F.warn?'最後一架直升機的旋翼已經在轉了。人一個接一個往機艙裡擠，一個戴紅色貝雷帽的人站在艙門口點人數。':'一架黑色的直升機停在中間，油罐車正在幫它加油。飛行員坐在駕駛座裡看平板，機身旁邊站著兩個隊員。'},
+ t:`基地後面的一片水泥地，畫著好幾個白色的 H。旁邊是一台油罐車和一排貨櫃。`,
+ c:[
+  {l:'搶下那架直升機',need:'hcan',s:'先解決旁邊的兩個人',ok:{t:`你們從貨櫃後面衝出去。`,fight:{n:2,mode:'first',names:['A.C.R.U. 隊員','A.C.R.U. 隊員']},win:{r:{flag:'hguard'}},go:'BA5'}},
+  {l:'衝上最後一架直升機',need:'hlast',s:'艙門口有人在點人數',ok:{t:`你們推開擠在艙門口的人。`,fight:{n:2,names:['滅菌隊長','A.C.R.U. 隊員']},win:{t:`艙門口的人倒下了。其他人都在往後退，沒有人再擋在你們和直升機中間。`,r:{flag:'hguard'}},go:'BA5'}},
+  {l:'混在隊伍裡上機',need:'disgw',k:'CHA',d:12,s:'魅力檢定：全隊穿著他們的制服',ok:{t:`艙門口的人看了你們胸前的徽章一眼，在名單上打了勾。你們坐進機艙最後一排，誰也沒有說話。`,go:'END_heli'},ng:{t:`「編號？」你答不出來。艙門口的人把手伸向槍套。`,fight:{n:2,names:['滅菌隊長','A.C.R.U. 隊員']},win:{r:{flag:'hguard'}},go:'BA5'}},
+  {l:'逼飛行員起飛',need:'hguard',k:'CHA',d:13,s:'魅力檢定：槍口對著他',t:'q',ok:{t:`他看了你很久，最後把平板丟到一邊，伸手去扳頭頂的開關。旋翼開始轉了。`,go:'END_heli'},ng:{t:`「沒有塔台許可，飛出去會被打下來的！」他抱著頭不肯動。`,stay:1}},
+  {l:'回車道',ok:{t:`你們退回車道。`,go:'BA1'}}]}
+});
+/* ---------- 結局 B：搶直升機逃出城 ---------- */
+Object.assign(END,{
+ END_heli:{n:'搶直升機逃出城',shards:40,final:1,get t(){return `旋翼的聲音蓋過了一切。直升機斜斜地拉起來，基地、公路、整座城市一下子變得很小。\n\n`+(G.flags.warn?`往南看，天邊有幾個亮點排成一列，很慢，很穩。第一團火在城市中央開出來的時候，沒有聲音。接著是第二團、第三團，一路連成一條線。`:`往南看，城市在燒。不是燃燒彈，是 A.C.R.U. 一條街一條街點起來的火。明天一早，整座城會一起燒。`)+`\n\n飛行員的耳機裡一直有人在呼叫機號，一遍又一遍。他沒有回答。你也沒有叫他回答。\n\n他們會找你們的。你們看過那些籠子、那根煙囪。但至少現在，你們在火的上面。\n\n（結局 B：搶直升機逃出城）`}}
+});
 /* ================= 基礎 ================= */
 const $=s=>document.querySelector(s);
 const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
@@ -2762,14 +2913,16 @@ async function cityEvent(k){const real=DF().num===0;
   else if(k==='shadow'){G.flags.shadow=1;out('天快亮的時候，一排沒有任何標示的黑色車輛無聲地開過街區，沒有開燈，也沒有停。車窗是黑的。','rule')}
   else if(k==='sweep'){G.flags.acru=1;G.flags.streetpower=1;out('擴音器的聲音蓋過了整個街區：「這裡是 A.C.R.U.。本區即刻起進行滅菌作業。所有人員留在原地，等候處置。」路口架起了路障，穿全套防護衣的人拿著槍，一排一排地走過來。街區的路燈亮了——他們接了臨時電。','rule')}
   else if(k==='hotelburn'){G.flags.hotelburn=1;out('旅館的方向冒起了黑煙。他們開始燒了。','rule')}
-  else if(k==='warn'){out('東邊的天空開始泛白。很高很高的地方，傳來飛機引擎低沉的聲音，不只一架。','rule')}
+  else if(k==='warn'){G.flags.warn=1;out('東邊的天空開始泛白。很高很高的地方，傳來飛機引擎低沉的聲音，不只一架。','rule')}
   else if(k==='fire'){await fireEnding();return true}
   push();draw();return false}
 // 燃燒彈：第 7 天清晨還在地面
-const FIRE_END={street:'天亮了。第一顆燃燒彈落在街區北口，接著是第二顆、第三顆。火從路口往四面八方推過來，比任何人能跑的都快。你最後看見的，是那個「……MALL」的招牌在火裡一個字母一個字母地熄掉。',
+const FIRE_END={camp:'天亮了。營地的帳篷早就拆光了，只剩那根煙囪還立在空地中間。第一顆燃燒彈落下來的時候，你們正站在它的影子裡。',
+  base:'天亮了。基地早就撤空了，閘門開著，停機坪上只剩一台油罐車。第一團火落在油罐車旁邊，整片水泥地一下子變成白色的。',
+  street:'天亮了。第一顆燃燒彈落在街區北口，接著是第二顆、第三顆。火從路口往四面八方推過來，比任何人能跑的都快。你最後看見的，是那個「……MALL」的招牌在火裡一個字母一個字母地熄掉。',
   hotel:'天亮了。旅館的屋頂先燒起來，火順著電梯井和樓梯間往下灌。走廊上的煙霧偵測器同時尖叫，又同時安靜。23:41 那班接送車，終究沒有來。',
   safe:'你們把門堵好，以為這裡夠安全。天亮的時候，屋頂傳來一聲悶響，接著整片天花板都紅了。門外的火聲，比任何感染者都大。'};
-async function fireEnding(){if(G.over)return;const nd=N[G.node]||{};const key=nd.rest?'safe':(LV[G.lv]||{}).ch===1?'hotel':'street';
+async function fireEnding(){if(G.over)return;const nd=N[G.node]||{};const key=(LV[G.lv]||{}).fire||(nd.rest?'safe':(LV[G.lv]||{}).ch===1?'hotel':'street');
   G.fight=null;G.over={dead:1,fire:1,mad:0,text:FIRE_END[key]};G.phase='over';stopCd();{const d=shardCalc(null);for(const k of Object.keys(d))d[k]+=(G.bank[k]||0);G.over.sh=d}
   for(const p of G.players)if(!p.dead){p.dead=1;p.hp=0}
   await flush();stopBgm();snd('mimpact',1,2000);hd('第 7 天・清晨');out(G.over.text,'dmg')}
@@ -2935,7 +3088,8 @@ async function applyRes(c,res,actor,bad){CURC=c;
   const stayHere=res.stay||c.stay;
   if(stayHere&&!res.fight){G.votes={};G.rv={};G.pc=null;makeHints();G.phase='node';startCd();return}
   const target=res.go||(stayHere?G.node:nextId);
-  if(res.fight){G.after=target;await startFight(res.fight);return}
+  // v0.14.0 win：打贏（不是逃跑）才給的獎勵，在 endFight 結算
+  if(res.fight){G.after=target;G.winR=res.win||null;await startFight(res.fight);return}
   if(await alarmCheck(target))return;
   await enterNode(target);
 }
@@ -2954,7 +3108,7 @@ async function outcome(o,actor){
   if(r.usdAll){for(const q of able())q.usd=(q.usd||0)+r.usdAll;got.push(itemTag(`${MP()?'每人 ':''}$${r.usdAll}`))}
   if(r.payUsd)payUsd(r.payUsd,actor);
   if(got.length){await flush();await sndW('pickup',.8,700,.6);out(`${MP()?nm(actor):''}取得　${got.join('')}`,'good',true)}
-  if(r.flag)G.flags[r.flag]=(G.flags[r.flag]||0)+1;
+  if(r.flag)for(const f of [].concat(r.flag))G.flags[f]=(G.flags[f]||0)+1;
   if(r.pay)for(const [k,q] of Object.entries(r.pay)){let left=q;for(const ow of able()){const n=Math.min(left,ow.items[k]||0);if(n){takeI(ow,k,n);left-=n}if(!left)break}}
   // 過夜：睡到清晨（時間已在選項扣掉），生命回 50%、恐懼 −35，發瘋的人恢復
   if(r.sleep){for(const q of G.players){if(q.dead)continue;if(q.mad){q.mad=0;q.fe=Math.min(q.fe||100,85);out(`${nm(q)}睡了一覺，醒來時眼神終於對得上焦了。`,'good',true)}if(q.down){q.down=0;q.hp=Math.max(q.hp,1)}const hp=Math.min(q.max-q.hp,Math.ceil(q.max*.5));q.hp+=hp;out(`${MP()?nm(q)+'：':''}生命 +${hp}。`,'good',true);relax(q,35)}}
@@ -3465,7 +3619,7 @@ async function execAct(p,a){
   else if(a.a==='ext'){if(!hasI(p,'extinguisher'))return false;const t=F.foes[ti];takeI(p,'extinguisher');snd('ext');t.dazzle=1;out(`一團白色的乾粉噴在${t.n}臉上，${pn(t)}嗆得直往後退，眼睛睜不開。下一次攻擊命中 −4。`,'good')}
   else if(a.a==='flee'){if(F.noflee){out('懸在外牆上，無處可逃。','sys');return}if(able().some(q=>q.held)){out(`${able().filter(q=>q.held).map(q=>nm(q)).join('、')}被抓住了，現在跑不掉。`,'sys');return false}
     const rt=a.csk==='retreat'&&skLeft(p,'retreat');if(rt){skUse(p,'retreat');out(`${nm(p)}：<b>緊急撤退</b>`,'act',true)}
-    const c=await check(p,'AGI',12,'逃跑',(rt?5:0)+(tr(p,'legs')?4:0)+(aliveF().every(f=>affIs(f,'lame')||f.legW)?4:0));if(c.ok){out(MP()?`${nm(p)}大喊一聲，所有人轉身就跑，一路跑到轉角才敢回頭。`:'你轉身就跑，一路跑到轉角才敢回頭。牠沒有追上來。','good');for(const q of able())loseSan(q,1,true);recoverDrops(true);G.fight=null;snd('doorclose');if(G.alarmFt){G.alarmFt=0;G.alarm=Math.min(G.alarm,3)}addAlarm(1,p);const go=G.after;G.after=null;if(!go){G.phase='node';startCd();return true}G.phase='busy';if(await alarmCheck(go))return true;await enterNode(go);return true}
+    const c=await check(p,'AGI',12,'逃跑',(rt?5:0)+(tr(p,'legs')?4:0)+(aliveF().every(f=>affIs(f,'lame')||f.legW)?4:0));if(c.ok){out(MP()?`${nm(p)}大喊一聲，所有人轉身就跑，一路跑到轉角才敢回頭。`:'你轉身就跑，一路跑到轉角才敢回頭。牠沒有追上來。','good');for(const q of able())loseSan(q,1,true);recoverDrops(true);G.fight=null;G.winR=null;snd('doorclose');if(G.alarmFt){G.alarmFt=0;G.alarm=Math.min(G.alarm,3)}addAlarm(1,p);const go=G.after;G.after=null;if(!go){G.phase='node';startCd();return true}G.phase='busy';if(await alarmCheck(go))return true;await enterNode(go);return true}
     out('想跑，但牠抓住了外套，把人拽了回去。','dmg')}
   else if(a.a==='free'){if(!p.held)return false;const st=statMod(p,'STR')>=statMod(p,'AGI')?'STR':'AGI';const c=await check(p,st,12,'掙脫');if(c.ok){releaseHold(p);out(`${nm(p)}用力一扭，掙脫了。`,'good')}else out(`${nm(p)}掙不開，牠抓得更緊了。`,'dmg')}
   else if(a.a==='guard'||a.a==='block'){p.stance='block';out(`${nm(p)}舉起手上的東西擋在身前，準備硬接下一擊。`,'sys')}
@@ -3500,6 +3654,7 @@ async function endFight(){
   // 被警戒引來的那一場打完：這附近暫時沒有東西了，警戒歸零（不再連續引怪）
   if(G.alarmFt){G.alarmFt=0;if(G.alarm){G.alarm=0;out('循聲而來的東西都解決了，附近暫時沒有動靜。警戒 0／10','rule',true)}}
   G.phase='busy';push();draw();
+  if(G.winR){const w=G.winR;G.winR=null;if(!G.over&&able().length){if(w.t)out(w.t,'good');await outcome(w,able()[0]);push();draw()}}
   const go=G.after;G.after=null;
   if(!go){G.phase='node';startCd();return}
   if(await alarmCheck(go))return;
@@ -3547,8 +3702,9 @@ async function useItem(p,k,to){
 async function wearItem(p,k){const it=ITEMS[k];if(!it||it.t!=='wear'||!hasI(p,k))return false;const s=it.slot||'body';
   takeI(p,k);const old=p.eq[s];if(old)addIForce(p,old.k);p.eq[s]={k,dur:it.dur||0};
   if(k==='gasmask'&&!(p.mf>0)&&hasI(p,'filter')){takeI(p,'filter');p.mf=FILTER_MIN}
+  G.flags.disg=acruDisg();G.flags.disgw=G.flags.warn&&G.flags.disg?1:0;
   await sndW('zipper',.8,900,.5);out(`${MP()?nm(p):'你'}${k==='gasmask'?'戴上了':'穿上了'}${it.n}（${SLOTN[s]}）。${it.armor?`受到的傷害 −${it.armor}`:it.wd||''}${k==='gasmask'?`，${mfTxt(p)}`:''}${old?`；換下${ITEMS[old.k].n}`:''}。`,'good');return true}
-function unwear(p,s){const e=p.eq[s];if(!e)return false;p.eq[s]=null;addI(p,e.k);return true}
+function unwear(p,s){const e=p.eq[s];if(!e)return false;p.eq[s]=null;addI(p,e.k);G.flags.disg=acruDisg();G.flags.disgw=G.flags.warn&&G.flags.disg?1:0;return true}
 // 被打中時，有耐久的防具隨機一件 −1，歸零就壞掉
 function wearHit(t,human){const ws=Object.keys(p_eq(t)).filter(s=>t.eq[s]&&ITEMS[t.eq[s].k].dur);if(!ws.length)return;const s=pick(ws);t.eq[s].dur--;if(t.eq[s].dur<=0){out(`${ITEMS[t.eq[s].k].n}被${human?'打':'咬'}爛了。`,'dmg',true);t.eq[s]=null}}
 const p_eq=t=>t.eq||{};
