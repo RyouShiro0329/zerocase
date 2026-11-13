@@ -212,6 +212,25 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 #lvcard p{color:#b9a7d6;font-size:.95rem;margin:10px 0 0;max-width:520px}
 #lvcard.go b,#lvcard.go em{animation:flick 1.6s steps(1) 1}
 #lvcard.go{animation:lvout 2.4s forwards}
+/* v0.16.0 時段過場：每個時段一種底色 */
+#lvcard.tod{transition:none}
+#lvcard.tod.dawn{background:radial-gradient(ellipse at 50% 120%,#5b6474 0%,#262c38 45%,#0b0d12 100%)}
+#lvcard.tod.day{background:radial-gradient(ellipse at 50% -20%,#6b6150 0%,#2b2720 50%,#0d0c0a 100%)}
+#lvcard.tod.dusk{background:radial-gradient(ellipse at 50% 120%,#8a4a24 0%,#3a1d14 45%,#0e0807 100%)}
+#lvcard.tod.night{background:radial-gradient(ellipse at 50% -10%,#1b2340 0%,#0a0d1a 55%,#020308 100%)}
+#lvcard.tod b{font-size:2rem}
+#lvcard.tod p{color:#d6cdb8;max-width:560px;line-height:1.7}
+#lvcard.tod.go{animation:todout 3s forwards}
+@keyframes todout{0%{opacity:0}12%{opacity:1}82%{opacity:1}100%{opacity:0}}
+/* v0.16.0 休息、過夜的確認框 */
+#cfm{position:absolute;inset:0;z-index:55;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.72);padding:16px}
+#cfm[hidden]{display:none}
+#cfm .cf{max-width:420px;width:100%;background:#15110d;border:1px solid #5a4a30;border-radius:8px;padding:18px 18px 14px;box-shadow:0 10px 40px rgba(0,0,0,.6)}
+#cfm b{display:block;font-size:1.15rem;color:var(--gold);margin-bottom:8px}
+#cfm p{margin:0 0 14px;color:var(--ink);line-height:1.7;font-size:.95rem}
+#cfm .f{color:#e0a07a}
+#cfm .cfb{display:flex;gap:10px;justify-content:flex-end}
+#cfm .cfb .btn{min-width:96px;min-height:40px}
 @keyframes flick{0%{opacity:1}8%{opacity:.15}14%{opacity:1}22%{opacity:.35}30%{opacity:1}}
 @keyframes lvout{0%{opacity:0}10%{opacity:1}85%{opacity:1}100%{opacity:0}}
 
@@ -423,7 +442,8 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 /* v0.0.2：敵人卡（立繪固定在最左欄，文字不壓到圖）、行動順序條（敵我分色） */
 .foe{--fw:206px;--fh:64px;--pw:50px;flex:0 0 var(--fw);width:var(--fw);min-height:var(--fh);box-sizing:border-box;display:grid;grid-template-columns:var(--pw) minmax(0,1fr);overflow:hidden;background:linear-gradient(145deg,rgba(60,22,22,.55),rgba(14,8,8,.92));border:1px solid #5a3632;border-radius:5px;box-shadow:inset 0 0 14px #000,0 2px 8px #000;transition:filter .4s,opacity .4s,border-color .2s}
 .foe .fpic{position:relative;background:#120a09;border-right:1px solid #3d2624;overflow:hidden}
-.foe .fpic img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 6%;pointer-events:none}
+/* v0.16.0 立繪一律照高度縮放（原圖都是 560 高），寬的圖裁兩側，人物大小才會一致 */
+.foe .fpic img{position:absolute;left:50%;top:-2px;height:calc(var(--pw) * 2.05);width:auto;max-width:none;transform:translateX(-50%);pointer-events:none}
 .foe .fpic i{position:absolute;inset:0;display:grid;place-items:center;font:700 1.1rem var(--label);font-style:normal;color:#5a3632}
 .foe .fin{min-width:0;padding:3px 7px;display:flex;flex-direction:column;justify-content:space-between;gap:2px}
 .foe .fst{display:flex;flex-wrap:wrap;gap:2px 0}
@@ -522,11 +542,11 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="scr" hidden></div>
 <div id="ov" class="ov" hidden></div>
 <div id="toast" hidden></div>
-<div id="lvcard" hidden></div><div id="enc" hidden></div><div id="vig"></div><div id="vig2"></div>
+<div id="lvcard" hidden></div><div id="cfm" hidden></div><div id="enc" hidden></div><div id="vig"></div><div id="vig2"></div>
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.15.1", "b": 32, "t": "2026-11-14T00:59:18+08:00"};
+const ZC_VER={"v": "0.16.0", "b": 33, "t": "2026-11-14T01:49:23+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -893,7 +913,7 @@ const AFF={
    grab 抓住目標（不能逃跑、命中 −2，直到掙脫或隊友打中這隻）、humus 讓目標沾上腐殖物（每回合感染 +2）、heal 打中後自己回血、need/pref 需要／優先流血的目標、hit 命中加減 */
 const MOVES={
  infected:[{n:'撲咬',w:5,hs:'bite'},{n:'亂抓',w:3,hs:'claw',dm:-1,bleed:.5,t:'牠的指甲抓過皮膚，留下幾道火辣辣的傷口。'},{n:'抓住',w:2,hs:'claw',dm:-1,grab:1,t:'牠一把抓住手臂，指頭陷進肉裡，怎麼甩都甩不掉。'},{n:'撲倒',w:2,hs:'thud',tele:1,dm:3,warn:'弓起背，喉嚨裡發出咕嚕聲，盯著',t:'牠整個撲了上來，把人壓倒在地上亂咬。'}],
- incubator:[{n:'丟擲囊泡',w:4,hs:'splat',tele:1,rng:1,humus:3,hit:1,warn:'從背上扯下一顆鼓脹的囊泡，高高舉起，對準',t:'囊泡砸在身上破開，黏稠的腐殖物糊了一片，又熱又癢。'},{n:'噴吐',w:2,hs:'spit',tele:1,all:1,rng:1,inf:4,san:1,warn:'的肚子一陣一陣鼓起來，嘴巴慢慢張大，對著',t:'一大口黃綠色的液體噴了出來，濺得所有人滿身都是。'},{n:'推撞',w:3,hs:'squish',dm:-1,t:'牠用整個身體撞過來，濕黏的皮膚貼在臉上。'}],
+ incubator:[{n:'丟擲囊泡',w:4,hs:'splat',pre:'spit',ws:'squish',tele:1,rng:1,humus:3,hit:1,warn:'從背上扯下一顆鼓脹的囊泡，高高舉起，對準',t:'囊泡砸在身上破開，黏稠的腐殖物糊了一片，又熱又癢。'},{n:'噴吐',w:2,hs:'splat',pre:'spit',ws:'squish',tele:1,all:1,rng:1,inf:4,san:1,warn:'的肚子一陣一陣鼓起來，嘴巴慢慢張大，對著',t:'一大口黃綠色的液體噴了出來，濺得所有人滿身都是。'},{n:'推撞',w:3,hs:'squish',dm:-1,t:'牠用整個身體撞過來，濕黏的皮膚貼在臉上。'}],
  devourer:[{n:'揮擊',w:4,hs:'smash',t:'那隻腫大的手臂橫掃過來，砸在肋骨上。'},{n:'震盪重擊',w:2,hs:'smash',tele:1,dm:3,stun:1,warn:'把那隻腫大的手臂往後拉，整個身體跟著擰過去，對準',t:'整隻手臂砸下來，人被打得撞上牆，眼前一黑。'},{n:'吞咬',w:2,hs:'bite',heal:3,bleed:.6,t:'牠一把抓住，把人往嘴邊拉，咬下一塊肉。'}],
  cutter:[{n:'刺擊',w:4,hs:'knife',t:'獵刀從下往上捅過來。'},{n:'劃開',w:3,hs:'knife',dm:-1,bleed:1,t:'刀鋒一掠而過，傷口過了一秒才開始冒血。'},{n:'割喉',w:4,hs:'knife',dm:4,need:'bleed',pref:'bleed',t:'他看準了那道還在流血的傷口，貼上來，刀子往脖子上抹。'}],
  collector:[{n:'開火',w:1,tele:1,dm:5,hit:2,shot:1,rng:1,warn:'把霰彈槍抵在肩上，槍口對準',t:'槍口噴出一團火，彈丸打得人往後一仰。'}],
@@ -905,6 +925,7 @@ const MOVES={
 };
 const BUTT={n:'槍托',hs:'fist',dm:-1,t:'他倒轉槍身，用槍托砸過來。'};
 /* rng：遠程攻擊（掩蔽有效、格擋無效）；hs：被打中時的音效（v0.12.1 每種敵人各自的聲音；槍擊命中是 bhit） */
+/* v0.16.0：pre＝出手時先播的蓄力聲（播完約三分之二才擲骰）；ws＝準備（蓄力）時的聲音，沒寫就是 zstep */
 /* 狀態（敵人卡上的標籤）：蓄力、燃燒、暈眩、倒地、流血、失衡、致盲、腿傷、濕透、鎖定、硬化層、動搖、未裝填；玩家另有「腐殖」 */
 /* 敵人立繪（原專案美術）；沒有對應立繪的類型只顯示文字 */
 const FOE_IMG={infected:['inf_m','inf_f'],incubator:['bloat'],devourer:['riot'],cutter:['loot_a'],collector:['loot_b'],acru_trooper:['acru_trp'],acru_captain:['acru_cap'],acru_flamer:['acru_flm'],acru_sniper:['acru_snp']};
@@ -2222,7 +2243,7 @@ W2:{L:'W',n:'配電站・送電',
    購物中心：撤離前是蘿絲和倖存者的據點（商店、安全點、送抗生素換防毒面具）；劫匪期被劫匪占據（談、付錢、溜進去、硬闖）；滅菌期燒掉。
    武器店：要先在警察局查到位置；鑰匙、有電時短路捲門、破拆三種進法。後場槍架上有一把 MP5（30 發，不附備彈）。
    有沒有電：pw＝還沒停電，或配電站修好了（onEnter 時算）。 */
-const pwNow=()=>(!G.flags.blackout||G.flags.streetpower)?1:0;
+const pwNow=()=>(!G.flags.blackout||G.flags.streetpower||G.flags.citypower)?1:0;
 Object.assign(LV,{
  L:{n:'警察局',sub:'第 4 分局',en:'4TH PRECINCT',rule:'門口的沙包後面，有人一直看著街上。',fx:{},ch:2,indoor:1},
  S:{n:'購物中心',sub:'河景廣場',en:'RIVERVIEW PLAZA',rule:'吃的、用的、穿的，什麼都有。所以什麼人都想要。',fx:{},ch:2,indoor:1},
@@ -2512,6 +2533,124 @@ BA5:{L:'BA',n:'基地・停機坪',
 Object.assign(END,{
  END_heli:{n:'搶直升機逃出城',shards:40,final:1,get t(){return `旋翼的聲音蓋過了一切。直升機斜斜地拉起來，基地、公路、整座城市一下子變得很小。\n\n`+(G.flags.warn?`往南看，天邊有幾個亮點排成一列，很慢，很穩。第一團火在城市中央開出來的時候，沒有聲音。接著是第二團、第三團，一路連成一條線。`:`往南看，城市在燒。不是燃燒彈，是 A.C.R.U. 一條街一條街點起來的火。明天一早，整座城會一起燒。`)+`\n\n飛行員的耳機裡一直有人在呼叫機號，一遍又一遍。他沒有回答。你也沒有叫他回答。\n\n他們會找你們的。你們看過那些籠子、那根煙囪。但至少現在，你們在火的上面。\n\n（結局 B：搶直升機逃出城）`}}
 });
+/* ================= v0.16.0 火力發電廠（南岸電廠） =================
+   主人 2026-11-14 01:31 的決定：流程長沒關係（慢慢玩）；第 8 天起被 A.C.R.U. 佔領（難度大幅上升，但不會把電關掉）；
+   劫匪佔油槽要做，讓劫匪更立體；一區一區送電，點火前提醒玩家整備；之後做港口時再加一條運柴油的路。
+   流程：知道電廠（ppknown）→ 汽機廠房（pp1ok）→ 柴油發電機（ppgen）→ 主控室送廠用電（ppaux）→ 鍋爐點火、守兩波（ppw1、ppw2 → ppboil）→ 開關場送北區（citypower）。
+   citypower：pwNow() 成立；旅館地下那扇門的讀卡機有電（G4 用 labpw）；停電的室內感知懲罰取消。 */
+Object.assign(LV,{
+ PP:{n:'火力發電廠',sub:'南岸',en:'SOUTH BANK POWER STATION',rule:'廠房很大，一點聲音都會迴盪很久。',fx:{},ch:2,indoor:1,fire:'pp'}
+});
+Object.assign(LV_POOL,{PP:['infected','devourer']});
+const ppFt=(n,inf)=>G.flags.acru?{n,names:n>=3?['A.C.R.U. 隊員','A.C.R.U. 隊員','背燃料罐的 A.C.R.U.']:['A.C.R.U. 隊員','A.C.R.U. 隊員'].slice(0,n)}:{n,names:Array(n).fill(inf||'穿工作服的感染者')};
+// 知道電廠的線索：配電站送電之後的面板、控制小屋的值班表
+{const w2=N.W2;const o=w2.onEnter;w2.onEnter=function(){o.call(this);if(G.flags.blackout)G.flags.ppknown=1};
+ w2.t+=`\n\n控制小屋的面板上，有一行紅字一直在閃：「主饋線　來源：南岸電廠　狀態：跳脫」。這裡接回來的只是街區的臨時電。整座城市的電，要去南岸的電廠才救得回來。`;
+ const i=N.W1.c.findIndex(c=>c.l==='回街區');N.W1.c.splice(i,0,{l:'看配電盤上的饋線標示',need:'blackout',hide:'ppknown',stay:1,ok:{t:`配電盤最上面那一排燈號全是紅的。旁邊貼著一張護貝的單線圖：這座配電站的電，是從南岸電廠的主饋線來的。燈號底下的小螢幕還靠電池亮著：「主饋線　狀態：跳脫」。\n\n整座城市的電，要去南岸的電廠才救得回來。`,r:{flag:'ppknown'}}})}
+{const i=N.Z0.c.findIndex(c=>c.l==='回旅館');N.Z0.c.splice(i,0,
+ {l:'去南岸的火力發電廠',s:'整座城市的電要從那裡救回來',need:'ppknown',t:'l',ok:{t:`你們沿著河岸往南走，那兩根不再冒煙的煙囪越來越近。`,go:'PP0'}})}
+// 旅館地下那扇門：地下室發電機（power）或市電（citypower）都能讓讀卡機亮
+N.G4.onEnter=function(){G.flags.labpw=G.flags.power||G.flags.citypower?1:0};
+{const c=N.G4.c.find(c=>c.l==='看看那扇鐵門');c.need='labpw';c.s='讀卡機要有電'}
+ITEMS.gloves={n:'絕緣手套',t:'mat',d:'橡膠做的長手套，袖口印著耐壓等級。碰帶電的東西時，有它和沒它差很多。'};PRICE.gloves=8;
+Object.assign(N,{
+PP0:{L:'PP',n:'南岸電廠・大門',
+ tx:()=>G.flags.acru?(G.flags.citypower?'大門口停著三台沒有標示的黑色車輛。穿黑色制服的人守著閘門和警衛室，廠房的燈全亮著。他們沒有把電關掉，只是把這裡佔了下來。':'大門口停著三台沒有標示的黑色車輛，閘門後面站著兩個穿黑色制服的人。油槽旁邊有兩台燒黑的油罐車，地上蓋著幾條防水布，底下是人的形狀。'):G.flags.raiders&&!G.flags.pprd?'油槽那邊停著三台油罐車，引擎都沒熄。幾個拿著槍的人在車頂上站崗，一直盯著大門這邊。':G.flags.citypower?'兩根煙囪又開始冒白煙了。整座廠房在嗡嗡地響。':'',
+ t:`南岸電廠的圍牆有三公尺高，上面拉著刺絲網。兩根煙囪立在廠區中間，一點煙都沒有。圍牆裡面是一座堆成小山的煤場，輸煤皮帶從煤堆一路架到廠房的半腰。\n\n閘門關著，旁邊的警衛室窗戶破了。`,
+ c:[
+  {l:'從警衛室的破窗翻進去',hide:'acru',k:'AGI',d:11,s:'敏捷檢定',ok:{t:`你們踩著窗台翻進警衛室。桌上的監視螢幕全黑，椅子倒在地上，牆上的鑰匙板空了一半。`,go:'PP1'},ng:{t:`你的手撐在窗框上，碎玻璃扎進掌心。警衛室裡有東西聽到了。`,p:{hp:-1},get fight(){return ppFt(1,'穿警衛制服的感染者')},go:'PP1'}},
+  {l:'沿著輸煤皮帶的通道爬進去',t:'m',k:'AGI',d:13,s:'敏捷檢定：從煤場繞，不經過大門',ok:{t:`你們從煤堆後面爬上輸煤皮帶，彎著腰在黑漆漆的通道裡一路往上，最後從廠房半腰的檢修口鑽了進去。滿身都是煤灰。`,go:'PP1'},ng:{t:`皮帶的鐵架被你們踩得嘎嘎響。`,get fight(){return ppFt(2)},go:'PP1'}},
+  {l:'正面衝過閘門',need:'acru',s:'閘門後面有人，硬來',ok:{t:`你們從煤場的陰影裡衝出去。`,get fight(){return Object.assign({mode:'first'},ppFt(3))},go:'PP1'}},
+  {l:'去油槽那邊',need:'raiders',hide:'acru',s:'油罐車和那些拿槍的人',ok:{t:`你們繞過煤場，往油槽走過去。車頂上的人看見你們了，舉起手要你們停下。`,go:'PP6'}},
+  {l:'回街區',t:'l',ok:{t:`你們沿著河岸往回走。`,go:'Z0'}}]},
+PP1:{L:'PP',n:'南岸電廠・汽機廠房',
+ onEnter(){const F=G.flags;F.pp1ok=(F.acru&&!F.citypower?F.ppa1:F.ppc1)?1:0;F.pp1inf=!F.pp1ok&&!F.acru?1:0;F.pp1acru=!F.pp1ok&&F.acru?1:0},
+ tx:()=>G.flags.citypower?'汽輪機在轉。整座廠房都在一個很低的頻率上震動，震得你的牙齒發酸。':G.flags.acru&&!G.flags.ppa1?'兩個穿黑色制服的人沿著機組旁邊的走道在巡邏，手電筒的光一下一下掃過那些機器。':!G.flags.ppc1?'機組旁邊有兩個穿工作服的人，一個在撞牆，一個站著不動。安全帽還戴在頭上。':'',
+ t:`汽機廠房有三層樓高。三台汽輪機和發電機一字排開，像三頭睡著的巨獸。天窗透進來一點光，照著空中飄的灰。走道的盡頭分別通往主控室、柴油發電機房、鍋爐間，還有外面的開關場。`,
+ c:[
+  {l:'解決掉那兩個',need:'pp1inf',s:'穿工作服的感染者',ok:{t:`你們從機組的另一頭繞過去。`,fight:{n:2,mode:'normal',names:['穿工作服的感染者','穿工作服的感染者']},win:{r:{flag:['ppc1','pp1ok']}},stay:1}},
+  {l:'貼著機組溜過去',hide:'pp1ok',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你們貼著機組的外殼移動，等手電筒的光掃過去、等那個撞牆的轉過身。走道另一頭的門就在那裡。`,r:{flag:['ppc1','ppa1','pp1ok']},stay:1},ng:{t:`你的鞋底踩到一顆螺帽，叮的一聲在整座廠房裡迴盪。`,get fight(){return G.flags.acru?{n:2,mode:'ambush',names:['A.C.R.U. 隊員','A.C.R.U. 隊員']}:{n:2,mode:'ambush',names:['穿工作服的感染者','穿工作服的感染者']}},get win(){return {r:{flag:G.flags.acru?['ppa1','pp1ok']:['ppc1','pp1ok']}}},stay:1}},
+  {l:'對付巡邏的人',need:'pp1acru',s:'兩個穿黑色制服的人',ok:{t:`你們等他們走到機組中間，從兩側同時出手。`,fight:{n:2,mode:'first',names:['A.C.R.U. 隊員','A.C.R.U. 隊員']},win:{r:{flag:['ppa1','pp1ok']}},stay:1}},
+  {l:'搜工具間',need:'pp1ok',once:1,stay:1,t:'m',ok:{t:`工具間的鐵櫃沒鎖。裡面有一副絕緣手套、一捲電工膠帶，還有一根用報紙包著的高壓保險絲，上面寫著「備品」。`,r:{items:{gloves:1,tape:1,fuse:1}}}},
+  {l:'去主控室',need:'pp1ok',ok:{t:`你們爬上鐵梯，走向那扇寫著「主控室　非值班人員禁止進入」的門。`,go:'PP2'}},
+  {l:'去柴油發電機房',need:'pp1ok',ok:{t:`你們沿著走道往廠房後面走，空氣裡開始有柴油的味道。`,go:'PP3'}},
+  {l:'去鍋爐間',need:'ppaux',hide:'citypower',ok:{t:`鍋爐間的門很重。門後是一座比廠房還高的鋼鐵爐子，管線像藤蔓一樣爬滿了它。`,go:'PP4'}},
+  {l:'去開關場',need:'ppboil',hide:'citypower',ok:{t:`你們推開廠房側門。外面是一大片圍起來的空地，一排排高壓設備立在碎石地上。`,go:'PP5'}},
+  {l:'回大門',ok:{t:`你們順著原路回到大門。`,go:'PP0'}}]},
+PP2:{L:'PP',n:'南岸電廠・主控室',
+ onEnter(){const F=G.flags;F.ppguard=F.acru&&!F.citypower&&!F.ppa2?1:0;F.ppnog=F.ppguard?0:1;F.ppeng=!F.acru&&!F.ppgrant?1:0;F.ppengno=F.ppeng?0:1;F.ppgo=F.ppgen&&!F.ppaux&&!F.ppguard?1:0;F.ppgg=F.ppgo&&F.ppgrant&&!F.acru?1:0;F.ppgb=F.ppgo&&!F.ppgg&&F.ppbook?1:0;F.ppgn=F.ppgo&&!F.ppgg&&!F.ppbook?1:0},
+ tx:()=>G.flags.ppguard?'主控室裡有三個穿黑色制服的人，正在把電腦主機一台一台拆下來裝箱。其中一個戴著紅色的貝雷帽。':G.flags.acru?'主控室的地上有一灘乾掉的血，椅背上掛著一件工程師的外套。人不在了。':G.flags.ppgrant?'葛蘭特坐在控制台前，一直盯著那些不會亮的儀表。':'控制台底下傳來很輕的呼吸聲。有人躲在那裡。',
+ t:`主控室整面牆都是儀表板和燈號，現在全是黑的。只有緊急照明在天花板上亮著一圈慘白的光。牆上的書架擺著一排厚厚的資料夾。`,
+ c:[
+  {l:'動手',need:'ppguard',s:'三個人，其中一個是隊長',ok:{t:`你們趁他們彎腰裝箱的時候衝了進去。`,fight:{n:3,mode:'first',names:['滅菌隊長','A.C.R.U. 隊員','A.C.R.U. 隊員']},win:{r:{flag:'ppa2'},t:'主控室安靜下來了。那幾箱拆下來的主機，你們沒有時間去管。'},stay:1}},
+  {l:'跟躲在控制台底下的人說話',need:'ppeng',k:'CHA',d:11,s:'魅力檢定',ok:{t:`「我們不是來搶東西的。」過了很久，一個穿工程師外套的中年男人慢慢爬出來，眼鏡缺了一角。\n\n「葛蘭特，值班工程師。」他說，「停電那天，整座電網垮了，保護電驛跳脫，全廠停機。我一個人沒辦法重新開機，要有人去把柴油發電機發動，還要有人守著。」他看著你們手上的武器，「你們……看起來守得住。」`,r:{flag:'ppgrant'},go:'PP2'},ng:{t:`「走開！」控制台底下的人拿一根扳手對著你們，「我看過外面那些人，我不會開門的！」`,stay:1}},
+  {l:'把水從控制台底下推過去',hide:'ppengno',req:'water',s:'需要礦泉水',ok:{t:`你把一瓶水放在地上，輕輕推過去。一隻手伸出來把它拿走了。過了一會兒，一個穿工程師外套的中年男人爬了出來，一口氣喝掉半瓶。\n\n「葛蘭特，值班工程師。」他說，「你們想讓電廠重新轉起來？那要先把柴油發電機發動。我一個人做不到。」`,r:{use:'water',flag:'ppgrant',karma:1},go:'PP2'}},
+  {l:'拿書架上的操作程序書',need:'ppnog',hide:'ppbook',t:'m',ok:{t:`你翻了好幾本，終於找到一本封面寫著「黑啟動操作程序」的資料夾。裡面一步一步寫著：柴油發電機啟動、廠用電恢復、給水泵、送風機、點火、升溫升壓、併聯。每一頁的邊緣都是手寫的筆記。`,r:{flag:'ppbook'},go:'PP2'}},
+  {l:'讓葛蘭特照程序送廠用電',need:'ppgg',hide:'ppaux',ok:{t:`葛蘭特一個一個扳動開關，嘴裡唸著程序書上的步驟。天花板的燈管閃了兩下，亮了。控制台上的燈號一排一排亮起來，有紅的，有綠的。\n\n「給水泵、送風機都有電了。」他轉過頭來，臉色很難看，「接下來要點火。升溫升壓要好幾個小時，燈一亮、機器一響，方圓幾條街的東西都會往這裡來。你們要守得住才行。」\n\n他看著你們：「點火之前，先去把該補的補好。」`,r:{flag:'ppaux'},stay:1}},
+  {l:'照著程序書送廠用電',need:'ppgb',hide:'ppaux',k:'INT',d:12,s:'智力檢定',ok:{t:`你照著程序書一頁一頁做。最後一個開關扳下去的時候，天花板的燈管閃了兩下，亮了。控制台上的燈號一排一排亮起來。\n\n程序書的下一頁，有人用紅筆寫著：「點火後升溫升壓約 4～6 小時。期間廠區照明全開，注意安全。」旁邊又補了一行很潦草的字：「守不住就不要點。」`,r:{flag:'ppaux'},stay:1},ng:{t:`你扳錯了一個開關。控制台後面爆出一串火花，整排燈號又熄了。`,p:{hp:-2,fear:4,alarm:2},stay:1}},
+  {l:'憑感覺試著送廠用電',need:'ppgn',hide:'ppaux',k:'INT',d:16,s:'智力檢定：沒有程序書，很難',ok:{t:`你看著控制台上的標示，一個一個推敲。最後一個開關扳下去的時候，天花板的燈管閃了兩下，亮了。\n\n你不知道接下來要等多久，只知道燈一亮，外面的東西就看得到了。`,r:{flag:'ppaux'},stay:1},ng:{t:`控制台後面爆出一串火花，你被電得整條手臂發麻。`,p:{hp:-3,fear:6,alarm:2},stay:1}},
+  {l:'回汽機廠房',ok:{t:`你們爬下鐵梯。`,go:'PP1'}}]},
+PP3:{L:'PP',n:'南岸電廠・柴油發電機房',
+ onEnter(){const F=G.flags;F.pprdblk=F.raiders&&!F.acru&&!F.pprd?1:0;F.ppfuelok=!F.ppgen&&!F.pprdblk?1:0;F.ppfuelno=F.ppfuelok?0:1},
+ tx:()=>G.flags.ppgen?'柴油發電機在轟轟地響，整個房間都在震。':G.flags.pprdblk?'輸油管一路接到外面的主油槽。窗外看得到，油槽旁邊停著三台油罐車，有人拿著槍在車頂上站崗。不先跟他們打交道，油是送不過來的。':'',
+ t:`一台貨櫃那麼大的柴油發電機佔了整個房間，側面印著「黑啟動用　禁止移作他用」。旁邊的日用油槽是空的，油位計的指針貼在最底下。\n\n輸油泵的控制箱開著，裡面的保險絲燒得焦黑。`,
+ c:[
+  {l:'換上保險絲，接通輸油泵',req:'fuse',hide:'ppfuelno',k:'INT',d:12,s:'智力檢定',ok:{t:`你換上保險絲，按下輸油泵的啟動鈕。管子裡傳來咕嚕咕嚕的聲音，日用油槽的指針慢慢爬上來。\n\n你拉下發電機的啟動桿。機器咳了兩聲，然後轟地一聲轉了起來，整個房間都在震。這個聲音，整座廠區都聽得到。`,r:{use:'fuse',flag:'ppgen'},p:{alarm:3},get fight(){return ppFt(2)},stay:1},ng:{t:`保險絲裝上去的瞬間，控制箱裡噴出一串火花。你接錯了相位。`,p:{hp:-2,fear:4},stay:1}},
+  {l:'用手搖泵一桶一桶打',need:'ppfuelok',k:'STR',d:12,t:'l',s:'力量檢定：要很久',ok:{t:`你們輪流搖那支手搖泵，一桶一桶把柴油從主油槽打過來，手臂酸得抬不起來。日用油槽終於滿了。\n\n你拉下發電機的啟動桿。機器咳了兩聲，然後轟地一聲轉了起來。這個聲音，整座廠區都聽得到。`,r:{flag:'ppgen'},p:{alarm:3},get fight(){return ppFt(2)},stay:1},ng:{t:`搖到一半，手搖泵的握柄斷了。你們得另外想辦法。`,p:{hp:-1},stay:1}},
+  {l:'去油槽看看',need:'pprdblk',ok:{t:`你們從後門出去，往油槽走。`,go:'PP6'}},
+  {l:'回汽機廠房',ok:{t:`你們回到汽機廠房。`,go:'PP1'}}]},
+PP4:{L:'PP',n:'南岸電廠・鍋爐間',
+ tx:()=>G.flags.ppbar?'廠房大門已經用堆高機和鐵板堵住了。':'',
+ t:`鍋爐有十幾層樓高，裡面燒的是整座煤場的煤。控制台的燈號都亮了，就差點火。\n\n<b>點火之後要等好幾個小時</b>，燈一亮、機器一響，附近的東西都會往這裡來。這會是一場硬仗：點火之前，先把傷治好、把彈藥和吃的補好。`,
+ c:[
+  {l:'先把廠房大門堵起來',hide:'ppbar',k:'STR',d:12,t:'m',s:'力量檢定：用堆高機和鐵板',ok:{t:`你們把一台堆高機開到大門後面，又拖了幾塊鐵板卡在門縫裡。至少不會一次全部擠進來。`,r:{flag:'ppbar'},stay:1},ng:{t:`鐵板太重了，你們只堵住了一半。`,p:{hp:-1},stay:1}},
+  {l:'點火，開始升溫升壓',hide:'ppboil',t:'l',s:'準備好再點：要很久，而且一定會有東西找上門',ok:{t:`你按下點火鈕。爐膛深處傳來一聲悶響，接著是火焰被吸進去的呼嘯聲。廠區的照明一盞一盞全亮了，整座電廠像一座燈塔一樣立在黑暗的河岸上。\n\n然後，外面開始有聲音了。`,r:{flag:'ppfire'},go:'PP4a'}},
+  {l:'先回去整備',ok:{t:`你們離開鍋爐間。`,go:'PP1'}}]},
+PP4a:{L:'PP',n:'南岸電廠・第一波',
+ onEnter(){G.flags.ppw1=0;G.flags.ppw2=0},
+ t:`第一批是從煤場那邊來的。牠們踩著煤堆衝下來，撞上廠房的鐵皮牆，一下、兩下，然後找到了門。`,
+ tx:()=>G.flags.acru?'不對。來的不只是感染者。閘門那邊亮起一排手電筒，穿黑色制服的人也來了。':'',
+ c:[{l:'守住',ok:{t:`你們退到鍋爐控制台前面，背靠著背。`,get fight(){return G.flags.acru?{n:2,mode:'normal',names:['A.C.R.U. 隊員','A.C.R.U. 隊員']}:{n:3,mode:'normal',names:['穿工作服的感染者','煤場來的感染者','煤場來的感染者']}},win:{r:{flag:'ppw1'}},go:'PP4b'}}]},
+PP4b:{L:'PP',n:'南岸電廠・第二波',
+ onEnter(){G.flags.ppfail=G.flags.ppw1?0:1},
+ tx:()=>G.flags.ppfail?'你們躲進了旁邊的儲藏室，等到外面安靜下來才敢出來。鍋爐沒人看著，火已經熄了。':'',
+ t:`壓力錶的指針爬到一半。廠房外面又是一陣騷動，這一次的腳步聲很重。`,
+ c:[
+  {l:'守住',hide:'ppfail',ok:{t:'大門那邊傳來一聲巨響，有東西正在把門撞開。',get fight(){return G.flags.acru?{n:3,mode:'normal',names:['A.C.R.U. 隊員','背燃料罐的 A.C.R.U.','A.C.R.U. 隊員']}:G.flags.ppbar?{n:1,mode:'normal',names:['穿防護衣的大個子']}:{n:3,mode:'ambush',names:['穿防護衣的大個子','煤場來的感染者','煤場來的感染者']}},win:{r:{flag:'ppw2'}},go:'PP4c'}},
+  {l:'回去重新點火',need:'ppfail',ok:{t:`你們回到鍋爐控制台前。一切都要重來。`,go:'PP4'}}]},
+PP4c:{L:'PP',n:'南岸電廠・升壓',
+ onEnter(){const F=G.flags;if(F.ppw2)F.ppboil=1;F.ppfail=F.ppw2?0:1},
+ tx:()=>G.flags.ppfail?'你們退開了。等你們回來的時候，鍋爐的火已經熄了。':'',
+ t:`天窗外的天色變了好幾次。壓力錶的指針終於爬到了綠色的區域，汽輪機開始慢慢轉起來，越轉越快，最後變成一種很低的、穩定的嗡嗡聲。\n\n只差最後一步：去開關場，把電送出去。`,
+ c:[
+  {l:'去開關場',hide:'ppfail',ok:{t:`你們推開廠房側門。`,go:'PP5'}},
+  {l:'回去重新點火',need:'ppfail',ok:{t:`一切都要重來。`,go:'PP4'}}]},
+PP5:{L:'PP',n:'南岸電廠・開關場',
+ tx:()=>G.flags.ppgrant&&!G.flags.acru?'葛蘭特在對講機裡說：「一台機組撐不起整座城市。一區一區送，先送北區。全部一起送，負載一下子太大，機組會跳脫，就要全部重來。」':'',
+ t:`開關場是一大片碎石地，一排排高壓斷路器和隔離開關立在鐵架上，絕緣子像一串一串白色的念珠。控制箱上貼著饋線的名牌：北區（旅館、醫院、第 4 分局）、東區、河景、南岸工業區。\n\n空氣裡有一種很細的嗡嗡聲。有東西帶電了。`,
+ c:[
+  {l:'戴上絕緣手套，合上北區的斷路器',req:'gloves',ok:{t:`你戴上手套，握住操作桿，用力往下一推。鐵架上傳來一聲沉重的金屬撞擊聲。`,go:'PP5w'}},
+  {l:'徒手合上北區的斷路器',s:'很危險',ok:{t:`你深吸一口氣，握住操作桿。`,qte:{t:'操作桿往下推到一半，旁邊的隔離開關「啪」地爆出一道電弧——',w:['放手','往後跳','趴下','滾開'],ok:{t:'你在電弧打過來之前鬆手往後一跳。操作桿自己落了下去，卡進了定位。'},ng:{t:'電弧擦過你的手臂。你整個人被彈出去，摔在碎石地上，手臂一片焦黑。',p:{hp:-5,fear:10}}},go:'PP5w'}},
+  {l:'全部一起送',k:'INT',d:13,s:'智力檢定',ok:{t:`你的手停在總開關上。一台機組，四條饋線，整座城市的冷氣、冰箱、路燈、醫院的機器全部一起接上來——你想起控制室那些燈號的上限，把手收了回來。\n\n一區一區送才對。`,stay:1},ng:{t:`你把四條饋線一起合上。一瞬間，整座城市的燈都亮了。`,go:'PP5t'}},
+  {l:'回汽機廠房',ok:{t:`你們回到廠房。`,go:'PP1'}}]},
+PP5t:{L:'PP',n:'南岸電廠・跳脫',
+ onEnter(){const F=G.flags;F.ppboil=0;F.ppw1=0;F.ppw2=0},
+ t:`然後全部熄了。\n\n廠房裡的嗡嗡聲變成一聲很長的、往下掉的哀鳴，汽輪機慢慢停了下來。控制箱上的燈號一個接一個變紅：「負載過大　機組跳脫」。\n\n鍋爐的火也熄了。一切都要重來。`,
+ c:[{l:'回廠房',ok:{t:`你們拖著腳步回到廠房。`,go:'PP1'}}]},
+PP5w:{L:'PP',n:'南岸電廠・送電',
+ onEnter(){G.flags.citypower=1;G.flags.streetpower=1},
+ t:`一開始什麼都沒有發生。\n\n然後，河的對岸，一條街的路燈亮了起來。接著是另一條，再另一條，一路往北延伸。醫院的窗戶一層一層亮起來，警察局門口的燈亮了，旅館的招牌閃了兩下，也亮了。\n\n整座城市的北半邊，在黑暗裡亮了起來。\n\n<b>北區恢復市電</b>：醫院、警察局、購物中心、旅館都有電了。代價是，夜裡整片街區都照得清清楚楚，城市裡所有的東西都看得到——包括那些不想讓電回來的人。`,
+ c:[{l:'回廠房',ok:{t:`汽輪機在你們身後穩穩地轉著。`,go:'PP1'}},{l:'回街區',t:'l',ok:{t:`你們沿著河岸往北走，路燈一盞一盞從頭頂掠過。`,go:'Z0'}}]},
+PP6:{L:'PP',n:'南岸電廠・油槽',
+ tx:()=>G.flags.pprd?'油罐車已經開走了，地上只剩幾灘油漬。':'',
+ t:`帶頭的是一個四十多歲的女人，頭髮剪得很短，手上握著一把霰彈槍，槍口朝下。她身後的油罐車車身漆著一家貨運公司的名字，車窗裡有小孩在看。\n\n「我叫瑪拉，」她說，「以前開這種車的。」她朝油槽抬了抬下巴，「北口的撤離車不載我們這種外地來的，我們二十幾個人，有一半是小孩。南橋還沒封死，只要有油，我們就衝得出去。」\n\n「所以，」她說，「你們是來跟我們搶油的嗎？」`,
+ c:[
+  {l:'跟她談，油分一半',hide:'pprd',k:'CHA',d:13,s:'魅力檢定：發電機用不了多少',ok:{t:`你跟她說，你們只要把發電機旁邊那個小油槽灌滿，剩下的都是她的。電廠的電如果送得出去，對留在城裡的人都有好處。\n\n瑪拉看了你很久，然後點點頭：「一半。我讓人幫你們接管子。」她轉身之前又說了一句：「南橋那邊，最近有穿黑衣服的人在架東西。你們如果也想走那條路，動作要快。」`,r:{flag:'pprd'},go:'PP3'},ng:{t:`「說得真好聽。」瑪拉身後的人把槍舉了起來，「油我們全要。你們要的話，拿東西來換。」`,stay:1}},
+  {l:'拿錢換',hide:'pprd',usd:20,s:'需要 $20',ok:{t:`瑪拉數了數錢，塞進口袋。「夠了。」她讓人把管子接到你們的油槽，「別說我們搶人。」`,r:{payUsd:20,flag:'pprd'},go:'PP3'}},
+  {l:'幫他們把油罐車灌滿',hide:'pprd',t:'l',s:'要很久；油槽剩下的歸你們',ok:{t:`你們跟著瑪拉的人一起扛管子、開閥門、守著油罐車的油位計。中間有兩隻感染者從煤場晃過來，被瑪拉一槍一個打倒。\n\n天色變了的時候，三台油罐車都灌滿了。瑪拉把一盒霰彈和一包吃的塞給你：「謝了。我們今晚就走。」她看著你們，「你們也該走了，這座城市不會再好了。」`,r:{flag:'pprd',karma:1,items:{shell:4,bar:2}},go:'PP3'}},
+  {l:'動手',hide:'pprd',s:'車裡有小孩',ok:{t:`你先舉起了武器。瑪拉嘆了一口氣，把霰彈槍抵上肩膀。`,fight:{n:3,mode:'first',names:['拿霰彈槍的瑪拉','拿獵刀的劫匪','劫匪']},win:{r:{flag:'pprd',karma:-2},t:'剩下的人把小孩塞進油罐車，開著車衝出了廠區。沒有人回頭。油槽是你們的了。'},go:'PP3'}},
+  {l:'回大門',ok:{t:`你們退回大門那邊。瑪拉的人一直看著你們走遠。`,go:'PP0'}}]}
+});
 /* ================= 基礎 ================= */
 const $=s=>document.querySelector(s);
 const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
@@ -2597,7 +2736,7 @@ function statMod(p,st){
   if(st==='AGI'&&fx.agi)m+=fx.agi;
   if(p.hun<=0||p.thi<=0)m-=2;
   // 停電：室內更暗（街區第 6 天 A.C.R.U. 接了臨時電之後恢復）
-  if(st==='PER'&&G.flags&&G.flags.blackout&&LV[G.lv]&&LV[G.lv].indoor&&!(G.flags.streetpower&&(LV[G.lv].ch||1)===2)&&!hasI(p,'flashlight')&&!tr(p,'nightowl'))m-=1;
+  if(st==='PER'&&G.flags&&G.flags.blackout&&LV[G.lv]&&LV[G.lv].indoor&&!(G.flags.citypower||(G.flags.streetpower&&(LV[G.lv].ch||1)===2))&&!hasI(p,'flashlight')&&!tr(p,'nightowl'))m-=1;
   // 恐懼：驚恐以上感知 −2，崩潰邊緣魅力 −2
   if(st==='PER'&&fstg(p)>=2)m-=2;
   if(st==='CHA'&&fstg(p)>=3)m-=2;
@@ -2775,8 +2914,16 @@ async function flush(){await typing;skipType=false}
 function hd(t){out(esc(t),'hd',true)}
 function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2400)}
 async function card(L){E('c',L);await levelCard(L)}
+/* v0.16.0 時段過場：跨過時段、換天、休息、過夜時出現。k＝sleep／rest 時換一句話 */
+const TOD_LINE={dawn:'天快亮了，窗外透進一點灰白的光。',day:'天已經亮了。',dusk:'天色開始暗了下來。',night:'天黑了。入夜之後很難看清楚四周，感染者也比白天更躁動。'};
+const TOD_K={sleep:'你們輪流守夜，睡了一覺。',rest:'你們找了個角落停下來。外面的光線一點一點變了。'};
+async function timeCard(o){E('tc',o);await showTime(o)}
+async function showTime(o){const c=$('#lvcard');
+  c.innerHTML=`<span class="k">DAY ${o.d}</span><b>第 ${o.d} 天</b><em>${PERN[o.p]}</em><p>${o.k?TOD_K[o.k]+'<br>':''}${o.ch?TOD_LINE[o.p]:''}</p>`;
+  c.className='tod '+o.p;c.hidden=false;void c.offsetWidth;c.classList.add('go');sfx('level',.5);
+  await Promise.race([wait(FAST?400:3000*Math.max(.6,UI.spd)),new Promise(r=>{c.onclick=r})]);c.hidden=true;c.className=''}
 async function levelCard(L){
-  const v=LV[L],c=$('#lvcard');c.innerHTML=`<span class="k">${v.en}</span><b>${v.n}</b><em>${v.sub}</em>`;c.hidden=false;c.classList.remove('go');void c.offsetWidth;c.classList.add('go');
+  const v=LV[L],c=$('#lvcard');c.className='';c.innerHTML=`<span class="k">${v.en}</span><b>${v.n}</b><em>${v.sub}</em>`;c.hidden=false;c.classList.remove('go');void c.offsetWidth;c.classList.add('go');
   sfx('level');await Promise.race([wait((FAST?900:2400)*Math.max(.5,UI.spd)),new Promise(r=>{c.onclick=r})]);c.hidden=true;
 }
 /* ================= 生存值 ================= */
@@ -2858,8 +3005,9 @@ function tKind(c){if(!c)return null;if(c.t)return c.t==='sleep'?'l':c.t;
   return 'q'}
 function tMin(c){const k=tKind(c);if(!k)return 0;if(c.t==='sleep')return untilDawn();if(typeof c.tf==='function')return Math.max(10,c.tf());const [a,b]=TCOST[k];return rnd(a,b)}
 // 時間流逝：飢渴跟著時間走；跨過時段時提示。回傳 true 代表遊戲結束
+let TKIND=null;
 async function passTime(min){if(!G||G.clock==null||!min||G.over)return false;
-  const p0=periodOf(hourN()),d0=dayN();G.clock+=min;
+  const p0=periodOf(hourN()),d0=dayN();G.clock+=min;const tk=TKIND;TKIND=null;
   const fs=1+.25*DF().food;const ti=Math.round(240*fs),hi=Math.round(360*fs);
   for(const p of able()){
     p.tT=(p.tT||0)+min;p.tH=(p.tH||0)+min;
@@ -2876,6 +3024,9 @@ async function passTime(min){if(!G||G.clock==null||!min||G.over)return false;
     else if(p1==='dawn'){out(`<b>第 ${d1} 天</b>。天快亮了，窗外透進一點灰白的光。`,'rule',true);if(d1>(G.xpDay||1)){G.xpDay=d1;teamXP(3)}}
     else if(p1==='day'&&p0!=='dawn')out(`<b>第 ${d1} 天</b>。天已經亮了。`,'rule',true);
   }
+  // v0.16.0 過場：休息、過夜一定有；其他時候跨過時段才有（戰鬥中不打斷）
+  const chg=d1!==d0||p1!==p0;
+  if((tk||chg)&&!G.fight&&!G.over)await timeCard({d:d1,p:p1,k:tk,ch:chg?1:0});
   if(await cityTick())return true;
   push();draw();
   return await deathCheck()}
@@ -2924,7 +3075,7 @@ async function cityEvent(k){const real=DF().num===0;
   else if(k==='fire'){await fireEnding();return true}
   push();draw();return false}
 // 燃燒彈：第 7 天清晨還在地面
-const FIRE_END={camp:'天亮了。營地的帳篷早就拆光了，只剩那根煙囪還立在空地中間。第一顆燃燒彈落下來的時候，你們正站在它的影子裡。',
+const FIRE_END={pp:'天亮了。南岸的兩根煙囪是整座城市最高的東西，第一波燃燒彈就是對著它們落下來的。廠房的鐵皮屋頂一片一片掀開，裡面的機器還在轉。',camp:'天亮了。營地的帳篷早就拆光了，只剩那根煙囪還立在空地中間。第一顆燃燒彈落下來的時候，你們正站在它的影子裡。',
   base:'天亮了。基地早就撤空了，閘門開著，停機坪上只剩一台油罐車。第一團火落在油罐車旁邊，整片水泥地一下子變成白色的。',
   street:'天亮了。第一顆燃燒彈落在街區北口，接著是第二顆、第三顆。火從路口往四面八方推過來，比任何人能跑的都快。你最後看見的，是那個「……MALL」的招牌在火裡一個字母一個字母地熄掉。',
   hotel:'天亮了。旅館的屋頂先燒起來，火順著電梯井和樓梯間往下灌。走廊上的煙霧偵測器同時尖叫，又同時安靜。23:41 那班接送車，終究沒有來。',
@@ -3067,6 +3218,7 @@ async function doChoice(i,actor){
     return doCheck(i,el[0]);
   }
   snd(/翻|櫃|抽屜|箱|袋|架|找|搜/.test(c.l)?'drawer':'rummage',.6,1800);
+  {const r=(c.ok&&c.ok.r)||{};TKIND=c.t==='sleep'||r.sleep?'sleep':r.rest?'rest':null}
   if(await passTime(tMin(c)))return;
   await applyRes(c,c.ok,actor);
 }
@@ -3389,7 +3541,7 @@ async function foeAct(f){
     const fires=T.shooter&&(mv.gun||mv.flame||mv.shot||(f.type==='collector'&&f.loaded&&mv!==BUTT));
     if(fires&&!canFire(f)){const alt=(MOVES[f.type]||[]).find(m=>m.order);if(alt&&T.lead&&aliveF().some(x=>x!==f&&FT(x).fac==='acru')&&!(F.focus&&F.round<=F.focus.r)){queue(f);mv=alt}else{tick();flank(f);return}}
     if(mv.order){const q=foeTarget(f,mv);if(!q)return;F.focus={pid:q.pid,r:F.round+1};tick();out(`<b>${f.n}</b>：<b>${mv.n}</b>　舉起手，直直指向${nm(q)}。其他隊員的槍口跟著轉了過去。<span class="f">接下來一回合，其他隊員打${MP()?'他':'你'}命中 +2。</span>`,'bad');push();draw();return}
-    if(mv.tele){f.charge={m:mv,to:t.pid};if(mv.gun){f.wait=0;f.justFired=0}tick();snd('zstep',.7);out(`<b>${f.n}</b>${mv.warn}${mv.all?'你們所有人':nm(t)}。<span class="f">${pn(f)}在準備什麼。</span>`,'bad');push();draw();return}}
+    if(mv.tele){f.charge={m:mv,to:t.pid};if(mv.gun){f.wait=0;f.justFired=0}tick();snd(mv.ws||'zstep',mv.ws?.5:.7);out(`<b>${f.n}</b>${mv.warn}${mv.all?'你們所有人':nm(t)}。<span class="f">${pn(f)}在準備什麼。</span>`,'bad');push();draw();return}}
   if(!mv.all&&!t)return;
   if(T.shooter&&(mv.gun||mv.flame))markShot(f);
   if(mv.flame){f.streak=(f.streak||0)+1;if(f.streak>=2)f.cool=1}
@@ -3400,12 +3552,14 @@ async function foeAct(f){
   if(mv.all&&(mv.gun||mv.flame)){out(`${f.n}：<b>${mv.n}</b>`,'act',true);if(mv.flame)snd('mimpact',.9,1500);
     for(const q of able()){if(!G.fight)break;let h=mv.hits||1;if(mv.gun&&T.mag){h=Math.min(h,f.mag);f.mag-=h;if(h<=0){out(`${f.n}的彈匣打空了。`,'sys',true);break}}await foeHit(f,mv,q,h);if(G.over)return}
     tick();F.cur=null;push();draw();await deathCheck();return}
-  if(mv.all){out(`${f.n}：<b>${mv.n}</b>`,'act',true);if(mv.hs)snd(mv.hs,.9,1800);out(mv.t,'dmg');
+  if(mv.all){out(`${f.n}：<b>${mv.n}</b>`,'act',true);if(mv.pre)await sndW(mv.pre,.9,1800,.65);if(mv.hs)snd(mv.hs,.9,1800);out(mv.t,'dmg');
     for(const q of able()){const half=!affIs(f,'blind')&&(q.stance==='block'||(q.stance==='cover'&&mv.rng));const inf=Math.round((mv.inf||0)*(half?.5:1));if(inf)addInf(q,inf);out(`${MP()?nm(q)+'：':''}${half?'及時用手臂護住臉，':''}感染 +${inf}。`,'dmg',true);if(mv.san)loseSan(q,mv.san,true)}
     tick();F.cur=null;push();draw();await deathCheck();return}
   if(t.counter&&!mv.tele){t.counter=0;if(Math.random()<.7){snd('whoosh');out(`${f.n}撲向${nm(t)}——身體比腦袋先動，側身讓開，順勢反擊。`,'good');await attack(t,'R',null,f.id,true);F.cur=null;return}
     out(`${nm(t)}想要反制，但慢了半拍。`,'sys',true)}
   let hits=mv.hits||1;if(mv.gun&&T.mag){hits=Math.min(hits,f.mag);f.mag-=hits}
+  // v0.16.0 有 pre 的招式（孵化者）：先播蓄力的聲音，命中時再播砸下來的聲音
+  if(mv.pre)await sndW(mv.pre,.9,1800,.65);
   await foeHit(f,mv,t,hits);
   tick();F.cur=null;push();draw();await deathCheck();
 }
@@ -4079,6 +4233,7 @@ async function pump(){qRun=true;
       else if(o.t==='c'){await flush();await levelCard(o.d)}
       else if(o.t==='enc'){await flush();await showEnc(o.d)}
       else if(o.t==='cc'){await flush();await showChapter(o.d)}
+      else if(o.t==='tc'){await flush();await showTime(o.d)}
       else if(o.t==='st'){setG(o.d)}
       else if(o.t==='full'){LOG=o.d.log||[];setG(o.d.G);renderLog();if(typeof showGame==='function')showGame();if(!NET.avSent){NET.avSent=1;sendAv()}}
       else if(o.t==='q'){if(o.d.to===MYPID)(o.d.kind==='code'?codeLocal(o.d):qteLocal(o.d)).then(r=>act({a:'qte',id:o.d.id,r}))}
@@ -4347,6 +4502,11 @@ function panel(k){
 function saveGame(){if(!G||G.over)return;if(busy||G.busy){toast('等這段結束再存檔。');return}
   const k=ROLE==='host'?'zc7-mpsave':'zc7-save';const d={v:7,t:Date.now(),G:JSON.parse(JSON.stringify(G)),LOG:LOG.slice(-80)};if(d.G.cd)d.G.cd=null;
   LS.set(k,d);const ok=LS.get(k,null);toast(ok?'已存檔。':'存檔失敗：瀏覽器不允許儲存。');sfx('ok',.6)}
+// v0.16.0 休息、過夜要先確認（只在自己的畫面，不影響別人投票）
+function longAsk(i){const c=G&&choices()[i];if(!c||!visible(c)||!choiceOk(c))return false;const r=(c.ok&&c.ok.r)||{};const sl=c.t==='sleep'||!!r.sleep;if(!sl&&!r.rest)return false;
+  const low=live().some(p=>p.hun<=3||p.thi<=3);sfx('click',.4);
+  $('#cfm').innerHTML=`<div class="cf"><b>${sl?'要睡到天亮嗎？':'要停下來休息嗎？'}</b><p>${sl?'會一直睡到明天清晨。這段時間城市裡發生的事，你們都不會知道。':'休息要很久。外面的時間照樣在走。'}${low?'<br><span class="f">有人肚子餓或口渴，最好先吃點東西、喝點水。</span>':''}</p><div class="cfb"><button class="btn" data-cfno>先不要</button><button class="btn on" data-cfok="${i}">${sl?'睡吧':'休息'}</button></div></div>`;
+  $('#cfm').hidden=false;return true}
 document.addEventListener('click',e=>{
   if(!e.target.closest('button')){const r=e.target.closest('[data-sel]');if(r){SEL=SEL===r.dataset.sel?null:r.dataset.sel;FIXK=null;sfx('click',.4);panel('bag');return}}
   if(!e.target.closest('button')){const sc=e.target.closest('[data-shopsel]');if(sc){SHOPSEL=+sc.dataset.shopsel;panel('shop');return}}
@@ -4354,8 +4514,10 @@ document.addEventListener('click',e=>{
   if(b.closest('#scr'))return onScr(b,d);
   if(b.hasAttribute('data-save')){saveGame();return}
   if(b.hasAttribute('data-dd')){DD=!DD;if(DD)drawDD();else $('#tdd').hidden=true;sfx('click',.5);return}
+  if(d.cfok!=null){$('#cfm').hidden=true;act({a:'vote',i:+d.cfok});return}
+  if(b.hasAttribute('data-cfno')){$('#cfm').hidden=true;sfx('click',.4);return}
   if(d.tell!=null)act({a:'tell',i:+d.tell});
-  else if(d.ch!=null)act({a:'vote',i:+d.ch});
+  else if(d.ch!=null){if(!longAsk(+d.ch))act({a:'vote',i:+d.ch})}
   else if(d.rv)act({a:'rv',t:d.rv});
   else if(b.hasAttribute('data-cdgo'))act({a:'cdgo'});
   else if(d.ftab!=null){FTAB=d.ftab||null;sfx('click',.4);draw()}
@@ -4421,6 +4583,7 @@ function runTitle(q){const ps=G.players;const top=(k)=>ps.length>1&&ps.every(x=>
 document.addEventListener('keydown',e=>{
   if(e.ctrlKey||e.metaKey||e.altKey)return;const tg=e.target;if(tg&&(tg.tagName==='INPUT'||tg.tagName==='TEXTAREA'))return;
   if(document.getElementById('qte'))return;
+  if(!$('#cfm').hidden){if(e.key==='Escape'){$('#cfm').hidden=true;e.preventDefault()}else if(e.key==='Enter'){$('#cfm [data-cfok]').click();e.preventDefault()}return}
   if(e.key==='Escape'){if(!$('#ov').hidden){closeOv();SEL=null;FIXK=null;e.preventDefault()}return}
   const scrOn=!$('#scr').hidden;
   if(!$('#dice').hidden&&(e.key===' '||e.key==='Enter')){if(skipDice)skipDice();e.preventDefault();return}
