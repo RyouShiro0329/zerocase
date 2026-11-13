@@ -318,6 +318,8 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .rl{position:relative;display:block;min-width:70px;height:16px;--tk:#6b675c;background:linear-gradient(var(--tk),var(--tk)) 0 11px/100% 1px no-repeat,repeating-linear-gradient(90deg,var(--tk) 0 1px,transparent 1px calc(100%/var(--r))) 0 8px/100% 4px no-repeat,repeating-linear-gradient(90deg,#a8a28f 0 1px,transparent 1px calc(500%/var(--r))) 0 5px/100% 7px no-repeat}
 .rl i{position:absolute;display:block}.rl .f{left:0;top:10px;height:3px;background:var(--gold)}.rl .fb{top:10px;height:3px;background:#8fbf98}
 .rl .mk{top:0;width:0;height:0;border:5px solid transparent;border-top:7px solid #d0503c;border-bottom:0;transform:translateX(-50%)}
+.tly{display:inline-block;width:78px;height:21px;vertical-align:middle;overflow:visible}.tly line{stroke-linecap:round}.tly .on{stroke:#d9d5ca;stroke-width:2.2}.tly .off{stroke:#4c4a43;stroke-width:1.3;stroke-dasharray:2 3}.tly.sm{width:52px;height:14px}.tly.sm .on{stroke-width:2.6}
+.lvt{display:inline-flex!important;align-items:center;gap:6px}
 .rlw{display:flex;align-items:center;gap:10px}.rlw .rl{flex:1}.rlw em{font-style:normal;white-space:nowrap}
 
 .box.wide:has(.bagwrap){height:100%;display:flex;flex-direction:column}
@@ -524,7 +526,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.13.0", "b": 26, "t": "2026-11-13T19:19:16+08:00"};
+const ZC_VER={"v": "0.13.1", "b": 27, "t": "2026-11-13T20:56:05+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3932,6 +3934,13 @@ const av=(p,big)=>avH(p.pid,p.name,p.col,big?'big':'');
 // v0.12.1 屬性刻度尺（檢驗報告風格）：不畫上限，刻度範圍至少 0～10，數值超過時跟著放大；每 5 一條長刻度（升級花費變貴的地方）
 const rulerR=vals=>Math.max(10,Math.ceil((Math.max(0,...vals)+1)/5)*5);
 const ruler=(v,bonus,R)=>{const b=bonus||0,pc=x=>Math.min(100,Math.max(0,x/R*100));return `<span class="rl" style="--r:${R}"><i class="f" style="width:${pc(v)}%"></i>${b?`<i class="fb" style="left:${pc(v)}%;width:${pc(b)}%"></i>`:''}<i class="mk" style="left:${pc(v+b)}%"></i></span>`};
+// v0.13.1 經驗：牆上的刻痕（主人選方案 J）。每一級 10 道，四直一斜為一組；不寫數字。抖動是固定的，重畫時不會亂跳
+const TJ=[[1,-1,0],[0,1,-1],[-1,0,1],[0,-1,1],[1,0,-1],[-1,1,0],[0,0,1],[1,-1,-1],[-1,1,1],[0,1,0]];
+function tallyN(p){const lv=p.lv||1,nx=XPT[lv-1];if(!nx)return 10;const pv=lv>1?XPT[lv-2]:0;return clamp(Math.floor((p.xp-pv)/(nx-pv)*10),0,9)}
+function tallyMk(p,cls){const n=tallyN(p);let h='';
+  for(let i=0;i<10;i++){const g=Math.floor(i/5),k=i%5,x0=g*48+4,j=TJ[i],on=i<n;const a=on?'class="on"':'class="off"';
+    h+=k<4?`<line ${a} x1="${x0+k*8+j[0]}" y1="${3+j[1]}" x2="${x0+k*8+j[2]}" y2="${23+j[0]}"/>`:`<line ${a} x1="${x0-4}" y1="${18+j[1]}" x2="${x0+29}" y2="${6+j[2]}"/>`}
+  return `<svg class="tly ${cls||''}" viewBox="0 0 98 26" role="img" aria-label="經驗刻痕 ${n}／10">${h}</svg>`}
 const boxes=(v,max,bonus)=>`<span class="boxes">${Array.from({length:max},(_,i)=>`<i class="${i<v?'on':i<v+(bonus||0)?'bn':''}"></i>`).join('')}</span>`;
 let PEND=null,FTAB=null,DD=false;
 function cdLeft(){if(!G||!G.cd)return 0;return ROLE==='client'?Math.max(0,(G.cd.left||0)-(Date.now()-cdAt)):Math.max(0,G.cd.end-Date.now())}
@@ -4082,7 +4091,7 @@ function needTarget(a){if(a.a==='atk'){const sk=a.sk;if(sk&&SKILL[sk].all)return
   return (a.a==='atk'||a.a==='ext'||a.a==='dual')&&aliveF().length>1}
 /* ---- 小隊下拉 ---- */
 function drawDD(){const d=$('#tdd');if(!G){d.hidden=true;return}
-  d.innerHTML=[...G.players].sort((a,b)=>(b.pid===MYPID)-(a.pid===MYPID)).map(p=>`<div class="tcard ${p.down?'dn':''} ${p.dead?'dd':''}">${av(p,1)}<div><div class="nm2"><b>${esc(p.name)}</b><small>Lv${p.lv}　${roleN(p)}${MP()&&p.pid===MYPID?'（你）':''}　${p.dead?'死亡':p.down?'倒地':p.mad?'<span class="bad">發瘋</span>':''}</small></div>
+  d.innerHTML=[...G.players].sort((a,b)=>(b.pid===MYPID)-(a.pid===MYPID)).map(p=>`<div class="tcard ${p.down?'dn':''} ${p.dead?'dd':''}">${av(p,1)}<div><div class="nm2"><b>${esc(p.name)}</b>${tallyMk(p,'sm')}<small>Lv${p.lv}　${roleN(p)}${MP()&&p.pid===MYPID?'（你）':''}　${p.dead?'死亡':p.down?'倒地':p.mad?'<span class="bad">發瘋</span>':''}</small></div>
    <div class="b2">${bar('hp','生命',Math.max(0,p.hp),p.max,` ${Math.max(0,p.hp)}`)}${bar('fe fs'+fstg(p),'恐懼',fstg(p),4,` ${fstgN(p)}`)}${bar('in','感染',p.inf,100,` ${p.inf}`)}${bar('hu','飢餓',p.hun,10,` ${p.hun}`)}${bar('th','口渴',p.thi,10,` ${p.thi}`)}</div>
    <div class="chips"><span>${handTxt(p)}</span>${p.bleed?'<span class="bad">流血</span>':''}${p.frac?'<span class="bad">骨折</span>':''}${p.humus?`<span class="bad">腐殖 ${p.humus}</span>`:''}${p.burn?`<span class="bad">燃燒 ${p.burn}</span>`:''}${p.held?'<span class="bad">被抓住</span>':''}${G.alarm&&p.pid===MYPID?`<span>警戒 ${G.alarm}／10</span>`:''}${p.pts&&p.pid===MYPID?`<span style="color:var(--gold)">可加點 ${p.pts}</span>`:''}</div></div></div>`).join('');d.hidden=false}
 /* ---- 面板 ---- */
@@ -4100,7 +4109,7 @@ function sheet(m){
   if(m.skill&&CSKILL[m.skill]){const C=CSKILL[m.skill];const left=skLeft(m,m.skill);ab.push(`<b>技能・${C.n}</b>　${C.d}${C.per!=='free'?`　<small>${{fight:'每場一次',area:'每區域一次'}[C.per]}${left?'':'（已使用）'}</small>`:''}`);
     const can=G.phase!=='fight'&&!G.busy&&!m.down&&!m.dead;if(!G.fight&&m.skill==='brew')ab.push(ibt('data-brew','臨時調配：做一個燃燒瓶',!left,can));if(!G.fight&&m.skill==='soothe')ab.push(able().filter(q=>q!==m).map(q=>ibt(`data-soothe="${q.pid}"`,'讓'+esc(q.name)+'冷靜下來',!left,can)).join(''))}
   return `<div class="sheet"><div class="hd">${av(m,1)}<div><b>${esc(m.name)}</b><div class="ab">${roleN(m)}</div></div></div>
-  <div class="kv"><span>等級</span><b>${m.lv}　<small>經驗 ${m.xp}${nx?'／'+nx:''}</small>${m.pts?`　<b style="color:var(--gold)">可分配 ${m.pts} 點</b>`:''}</b>
+  <div class="kv"><span>等級</span><b class="lvt">${m.lv}　${tallyMk(m)}${m.pts?`　<b style="color:var(--gold)">可分配 ${m.pts} 點</b>`:''}</b>
   <span>生命</span><b>${Math.max(0,m.hp)}／${m.max}</b><span>恐懼</span><b>${fstgN(m)}</b><span>感染</span><b>${m.inf}／100</b><span>飢餓／口渴</span><b>${m.hun}／10　${m.thi}／10</b>
   <span>防禦</span><b>${baseDef(m)}（10＋敏捷）</b><span>減傷</span><b>${armorOf(m)}</b>${m.lv>1?`<span>等級加成</span><b>命中 +${m.lv-1}、傷害 +${m.lv-1}</b>`:''}<span>美金</span><b>$${m.usd||0}</b></div>
   <div>${(()=>{const R=rulerR(Object.keys(STN).map(s=>m.st[s]));return Object.keys(STN).map(s=>{const b=statMod(m,s)-m.st[s],bo=(m.bon&&m.bon[s])||0,c=lvCost(m,s);return `<div class="attr"><span>${STN[s]}</span>${ruler(stBase(m,s),bo,R)}<span>${bo?`${stBase(m,s)}＋${bo}＝${m.st[s]}`:m.st[s]}${b?(b>0?' +':' ')+b+'＝'+statMod(m,s):''}</span>${m.pts?`<button class="btn" data-lvl="${s}" ${m.pts<c?'disabled':''}>＋${c>1?c:''}</button>`:'<span></span>'}</div>`}).join('')})()}${m.pts?'<p class="note">每 +1：0～4 花 1 點、5～9 花 2 點、10～14 花 3 點，依此類推。</p>':''}</div>
