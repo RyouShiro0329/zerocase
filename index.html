@@ -526,7 +526,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.13.1", "b": 27, "t": "2026-11-13T20:56:05+08:00"};
+const ZC_VER={"v": "0.13.2", "b": 28, "t": "2026-11-13T21:05:18+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -2492,7 +2492,7 @@ const lvCost=(p,s)=>Math.floor(Math.max(0,stBase(p,s))/5)+1;
    qte 反應時間（毫秒）、haz 每到一個地方發生意外的機率、wake 倒下的人到新區域會不會自己醒、
    num 顯示難度數字與命中率、shard 碎片倍率 */
 const DIFF={
- normal:{n:'普通',d:'第一次玩選這個。敵人比較容易躲開，感染和飢餓來得比較慢，意外的反應時間比較長。',hit:-1,dmg:.8,inf:.7,food:1,hp:4,qte:2100,haz:.08,wake:1,num:1,shard:1},
+ normal:{n:'普通',d:'第一次玩選這個。敵人比較容易躲開，感染和飢餓來得比較慢。',hit:-1,dmg:.8,inf:.7,food:1,hp:4,qte:2100,haz:.08,wake:1,num:1,shard:1},
  hard:{n:'困難',d:'原本的平衡。物資吃緊，每一場戰鬥都要想清楚。',hit:0,dmg:1,inf:1,food:0,hp:0,qte:1550,haz:.12,wake:1,num:1,shard:1.3},
  real:{n:'真實',d:'敵人更狠、感染更快、意外更常發生，反應時間很短。不顯示檢定難度和命中率；倒下的人不會自己醒來，只能靠隊友救。',hit:1,dmg:1.25,inf:1.25,food:0,hp:0,qte:1150,haz:.16,wake:0,num:0,shard:1.7}
 };
@@ -3670,8 +3670,9 @@ async function showEnc(d){const c=$('#enc');if(!c)return;
    所以網路延遲不會吃掉反應時間。 */
 const QTE_WAIT={};let QSEQ=0;
 // 每一格分到的反應時間（毫秒）與格數；整組 QTE 的總時間＝每格時間×格數（加上換組的空檔），從第一組出現開始算，中途不會重置
-const QTE_D={normal:{per:1150,n:4},hard:{per:880,n:5},real:{per:680,n:6}};
-function qtePer(p){const D=QTE_D[G.opts.diff]||QTE_D.hard;let ms=D.per+statMod(p,'AGI')*40+statMod(p,'PER')*20;if(p.dazed)ms-=150;if(p.frac)ms-=100;if(tr(p,'athletic'))ms+=60;return clamp(Math.round(ms),450,1600)}
+// v0.13.2 依主人錄影對齊：三格約 1.8 秒（每格約 0.6 秒）。普通、困難格數與時間相同（3～4 格），困難只差在受到的傷害；真實 4～6 格、每格更短
+const QTE_D={normal:{per:560,n:[3,4]},hard:{per:560,n:[3,4]},real:{per:480,n:[4,6]}};
+function qtePer(p){const D=QTE_D[G.opts.diff]||QTE_D.hard;let ms=D.per+statMod(p,'AGI')*20+statMod(p,'PER')*10;if(p.dazed)ms-=90;if(p.frac)ms-=60;if(tr(p,'athletic'))ms+=40;return clamp(Math.round(ms),360,760)}
 const QZ={A:{x:[.05,.3],y:[.3,.82]},D:{x:[.7,.95],y:[.3,.82]},W:{x:[.36,.64],y:[.2,.36]},S:{x:[.36,.64],y:[.7,.86]}};
 function qteSeq(n,words){const seq=[];let last=null;
   for(let i=0;i<n;i++){const pool=i%2===1?['A','D','W','S'].filter(z=>z!==last):['A','D','A','D','W','S'];
@@ -3682,7 +3683,7 @@ function qteSeq(n,words){const seq=[];let last=null;
 // 回傳 true＝反應過來了
 async function qte(p,o){
   await flush();
-  const D=QTE_D[G.opts.diff]||QTE_D.hard;const n=clamp((o.n||D.n),3,8);
+  const D=QTE_D[G.opts.diff]||QTE_D.hard;const n=clamp((o.n||rnd(D.n[0],D.n[1])),3,D.n[1]);
   const words=o.w&&o.w.length?o.w:['閃避','後退','站穩','閃避'];
   const id=G.rid+'-'+(++QSEQ);const spec={id,to:p.pid,per:qtePer(p),t:o.t,seq:qteSeq(n,words)};
   let r;
