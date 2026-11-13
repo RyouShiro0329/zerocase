@@ -526,7 +526,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.13.2", "b": 28, "t": "2026-11-13T21:05:18+08:00"};
+const ZC_VER={"v": "0.13.3", "b": 29, "t": "2026-11-13T21:17:49+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -2539,7 +2539,7 @@ const SYN={
 };
 const FALL={heal:'craft',pill:'craft',rummage:'craft',stairs:'land',zipper:'craft',step:'land',drawer:'craft',pickup:'ok',dooropen:'land',doorclose:'land',beretta:'fumble',berettaReload:'dry',revolver:'fumble',revolverCock:'dry',casing:'dry',fist:'hurt',claw:'hurt',knife:'hurt',zstep:'land',headshot:'fumble',mthrow:'whoosh',mimpact:'fumble',death:'fumble',click:'dry',equip:'dry',bite:'hurt',smash:'fumble',splat:'hurt',spit:'whoosh',thud:'land',squish:'hurt',bhit:'dry',shotgun:'fumble'};
 // 劇情裡受傷的聲音：照文字判斷是什麼弄傷的（電、刀刃玻璃、槍、火、撞擊），都不是就用程式合成的悶哼
-function hurtSnd(t){t=String(t||'');if(/電|火花|觸電/.test(t))return 'zap';if(/玻璃|割|刺絲|刀|劃/.test(t))return 'knife';if(/子彈|槍|彈丸/.test(t))return 'bhit';if(/火|燒|燙/.test(t))return 'mimpact';if(/咬|抓|爪|指甲|撲/.test(t))return 'claw';if(/摔|砸|撞|掉|壓|踢|打/.test(t))return 'thud';return 'hurt'}
+function hurtSnd(t){t=String(t||'');if(/電|火花|觸電/.test(t))return 'zap';if(/玻璃|割|刺絲|刀|劃/.test(t))return 'knife';if(/子彈|槍|彈丸/.test(t))return 'bhit';/* v0.13.3 燒燙傷不再用燃燒瓶的爆炸聲，改用一般受傷聲 */if(/咬|抓|爪|指甲|撲/.test(t))return 'claw';if(/摔|砸|撞|掉|壓|踢|打/.test(t))return 'thud';return 'hurt'}
 // sfx 回傳毫秒長度；await sfxW 會等到聲音播完
 function sfx(k,v,max){if(!UI.snd)return 0;try{if(SYN[k]&&!FALL[k])return SYN[k](v)||0;const ms=play(k,v||1,max);if(ms!=null)return ms;if(FALL[k])return SYN[FALL[k]]()||0}catch(e){}return 0}
 async function sfxW(k,v,max,ratio=1){const ms=sfx(k,v,max);if(ms)await wait(ms*ratio*Math.max(.4,UI.spd))}
@@ -3702,7 +3702,7 @@ function qteLocal(s){
     st.appendChild(el);sfx('zstep',1);
     const bar=el.querySelector('.qbar u');let live=false,fin=false,tm=null,cur=0;let boxes=[];
     const end=r=>{if(fin)return;fin=true;clearTimeout(tm);document.removeEventListener('keydown',kd,true);
-      el.classList.add(r==='ok'?'okk':'bad');if(r==='ok')sfx('whoosh',.9);else sfx('mimpact',.8);
+      el.classList.add(r==='ok'?'okk':'bad');if(r==='ok')sfx('whoosh',.9);/* v0.13.3 失敗不另外播聲音，只留之後的受傷聲（主人選） */
       setTimeout(()=>{el.remove();done(r)},r==='ok'?420:620)};
     const total=s.per*s.seq.length+120*(Math.ceil(s.seq.length/2)-1);let started=false;
     const timer=()=>{if(started)return;started=true;bar.style.transition='none';bar.style.width='100%';void bar.offsetWidth;bar.style.transition=`width ${total}ms linear`;bar.style.width='0%';tm=setTimeout(()=>end('ng'),total)};
