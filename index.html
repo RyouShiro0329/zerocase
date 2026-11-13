@@ -519,7 +519,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.10.1", "b": 22, "t": "2026-11-13T07:02:02+08:00"};
+const ZC_VER={"v": "0.11.0", "b": 23, "t": "2026-11-13T11:12:42+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -644,7 +644,11 @@ const SHOPS={
  jesse:{n:'便利商店・傑西',d:'傑西站在收銀機後面，把能賣的東西一樣一樣擺上櫃台。「現金就好。價錢……我也是照感覺開的，別跟我殺價。」',n0:6,n1:7,
   pool:['water','cola','coffee','bar','chips','nuts','cookie','noodle','cigarette','bandage','sbandage','painkiller','iodine','lighter','battery','tape','flashlight','ammo38','sedative','antibiotic']},
  wander:{n:'流浪商人',d:'一個推著購物車的男人攔住你。車上用防水布蓋著一大堆東西，車把上掛著一面寫著「只收現金」的紙牌。「別問我這些是從哪裡來的，」他說，「要不要看看？」',n0:6,n1:8,
-  pool:['water','bar','noodle','whiskey','bandage','sbandage','med','iodine','painkiller','antibiotic','splint','suture','ammo9','ammo38','shell','arrow','molotov','lighter','flashlight','rope','nails','tape','whetstone','superglue','gunoil','repairkit','bracer','motoarm','motoleg','hardhat','motohelmet','jacket']}
+  pool:['water','bar','noodle','whiskey','bandage','sbandage','med','iodine','painkiller','antibiotic','splint','suture','ammo9','ammo38','shell','arrow','molotov','lighter','flashlight','rope','nails','tape','whetstone','superglue','gunoil','repairkit','bracer','motoarm','motoleg','hardhat','motohelmet','jacket','filter']},
+ mall:{n:'美食街・蘿絲',d:'蘿絲把能賣的東西擺在一張折疊桌上，每一樣都用奇異筆寫了價錢。「現金就好。這些錢是要拿去跟外面的人換藥的。」',n0:6,n1:8,
+  pool:['water','cola','coffee','bar','noodle','cookie','nuts','bandage','sbandage','iodine','painkiller','filter','battery','flashlight','lighter','tape','rope']},
+ raider:{n:'劫匪・德克',d:'德克把搶來的東西攤在桌上，旁邊站著兩個拿槍的人。「看上什麼就付錢。價錢我說了算。」',n0:5,n1:7,
+  pool:['ammo9','ammo38','shell','molotov','whiskey','cigarette','med','antibiotic','sedative','painkiller','filter','bracer','jacket','motohelmet','fuel']}
 };
 const sellPrice=k=>PRICE[k]?Math.max(1,Math.floor(PRICE[k]/3)):0;
 const CRAFT_SLOTS=4;
@@ -2177,6 +2181,152 @@ W2:{L:'W',n:'配電站・送電',
  t:`一開始什麼都沒有發生。然後腳底下傳來一陣很低的震動，變壓器一台接一台響了起來。\n\n街區那邊，路燈一盞一盞亮起來，有幾棟公寓的窗戶也亮了。遠處傳來一聲歡呼，又很快被別的聲音蓋過去——警報器、狗叫，還有某種很多東西同時動起來的聲音。\n\n<b>街區恢復供電</b>：街區、消防局、醫院不再停電；醫院的電梯能用了。夜裡路燈會把你們照得一清二楚。`,
  c:[{l:'回街區',ok:{t:`你們踩著路燈的光往回走。`,go:'Z0'}}]}
 });
+/* ================= v0.11.0 新地點：警察局、購物中心、武器店 =================
+   警察局：撤離前有羅培茲警佐和一群避難的人；紀錄室找到「卡特槍械」的位置（gunshop）與案件紀錄；證物室有店主被扣押的鑰匙（gunkey）。
+   購物中心：撤離前是蘿絲和倖存者的據點（商店、安全點、送抗生素換防毒面具）；劫匪期被劫匪占據（談、付錢、溜進去、硬闖）；滅菌期燒掉。
+   武器店：要先在警察局查到位置；鑰匙、有電時短路捲門、破拆三種進法。後場槍架上有一把 MP5（30 發，不附備彈）。
+   有沒有電：pw＝還沒停電，或配電站修好了（onEnter 時算）。 */
+const pwNow=()=>(!G.flags.blackout||G.flags.streetpower)?1:0;
+Object.assign(LV,{
+ L:{n:'警察局',sub:'第 4 分局',en:'4TH PRECINCT',rule:'門口的沙包後面，有人一直看著街上。',fx:{},ch:2,indoor:1},
+ S:{n:'購物中心',sub:'河景廣場',en:'RIVERVIEW PLAZA',rule:'吃的、用的、穿的，什麼都有。所以什麼人都想要。',fx:{},ch:2,indoor:1},
+ N:{n:'武器店',sub:'卡特槍械',en:'CARTER FIREARMS',rule:'鐵捲門拉到底，招牌上的步槍剪影少了一半燈管。',fx:{},ch:2,indoor:1}
+});
+Object.assign(LV_POOL,{L:['infected'],S:['infected','incubator'],N:['infected']});
+N.Z0.c.splice(5,0,
+ {l:'去警察局',s:'第 4 分局就在醫院隔壁',ok:{t:`你們往西邊走，遠遠就看到警察局門口那排沙包。`,go:'L0'}},
+ {l:'去購物中心',s:'河景廣場，消防局再過去一點',ok:{t:`你們沿著大馬路往購物中心走，那塊熄了一半的招牌越來越大。`,go:'S0'}},
+ {l:'去卡特槍械',need:'gunshop',s:'警察局的登記資料上寫著地址',ok:{t:`你們照著登記資料上的地址，拐進兩條街外的一條小路。`,go:'N0'}});
+// 相鄰的地點之間走路很快
+N.O0.c.splice(N.O0.c.length-1,0,{l:'走到隔壁的警察局',t:'q',ok:{t:`你們穿過醫院的停車場，警察局就在對面。`,go:'L0'}});
+N.T0.c.splice(N.T0.c.length-1,0,{l:'走到購物中心',t:'q',ok:{t:`購物中心就在消防局的斜對面。`,go:'S0'}});
+N.W2.t=N.W2.t.replace('街區、消防局、醫院不再停電','街區一帶（消防局、醫院、警察局、購物中心）不再停電');
+Object.assign(N,{
+/* ---------- 警察局 ---------- */
+L0:{L:'L',n:'第 4 分局・門口',
+ onEnter(){const F=G.flags;if(F.evacgone)F.pdok=1;F.l0lock=(!F.evacgone||F.acru)?1:0},
+ tx:()=>G.flags.acru?'門口停著三台沒有標示的黑色車輛，大廳的燈全亮著。玻璃門後面有人穿著全套防護衣走來走去，在搬一箱一箱的資料。':G.flags.evacgone?'沙包後面沒有人了。玻璃門用一條鐵鍊從裡面鎖上，門上貼著一張紙：「本分局人員已隨撤離車隊撤離」。':'沙包後面有人朝你們舉槍。「站住！手舉起來！」',
+ t:`第 4 分局的門口用沙包堆了半人高的一道牆，牆上架著兩支長槍。停車場裡的警車有一半被翻倒，一台的車頂上還閃著警示燈，沒有聲音。`,
+ c:[
+  {l:'舉起手走過去',hide:'evacgone',ok:{t:`你們舉著手慢慢走近。一個穿防彈背心的女警從沙包後面走出來，先看你們的手臂，再看脖子，最後才揮手要你們進去。她的名牌寫著「羅培茲」。`,go:'L1'}},
+  {l:'用工具剪開鐵鍊',hide:'l0lock',req:['pliers','g:crowbar','g:fireaxe','spreader'],reqAny:1,t:'q',s:'需要鉗子、鐵撬、消防斧或破拆工具',ok:{t:`鐵鍊斷了，嘩啦一聲掉在地上。`,p:{alarm:1},go:'L1'}},
+  {l:'從破掉的窗戶爬進去',need:'evacgone',hide:'acru',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你從一扇被打破的側窗翻進去，落在一張辦公桌上。`,go:'L1'},ng:{t:`窗框上的碎玻璃割開了你的手掌。`,p:{hp:-2,bleed:1},go:'L1'}},
+  {l:'從後門溜進去',need:'acru',k:'AGI',d:13,s:'敏捷檢定：大廳裡都是 A.C.R.U.',ok:{t:`你們繞到後面的停車場，從沒人看守的後門溜進去，貼著走廊摸到紀錄室。`,go:'L2'},ng:{t:`「後門有人。」槍聲在走廊裡炸開。你們拚命往外跑，子彈打碎了停車場的每一片車窗。`,p:{hp:-4,fear:12,alarm:2},go:'Z0'}},
+  {l:'走到醫院',t:'q',ok:{t:`你們穿過馬路，往醫院的救護車道走。`,go:'O0'}},
+  {l:'回街區',ok:{t:`你們離開警察局。`,go:'Z0'}}]},
+L1:{L:'L',n:'第 4 分局・大廳',
+ tx:()=>G.flags.evacgone?'大廳空了。那幾張椅子上只剩被剪斷的手銬，白板上的字被人擦掉一半。':'大廳裡擠滿了人，有警察、有平民。角落有幾個人被銬在椅子上，一直在扭、一直在流口水，每隔一陣子就有人過去檢查他們的手銬。牆上的白板寫著：「國民兵聯絡中斷　第 14 小時」。',
+ t:`值班台後面的無線電一直在沙沙作響。牆上掛著轄區地圖，上面用紅筆圈了好幾個地方：醫院、旅館、北口。`,
+ c:[
+  {l:'跟羅培茲警佐談',hide:'evacgone',once:1,stay:1,k:'CHA',d:12,s:'魅力檢定',ok:{t:`她聽你們說完，沉默了一下。「我們也聯絡不上任何人。」她從腰上解下一根伸縮警棍丟給你，「拿著。槍我不能給你。想休息的話，拘留室後面那間是空的。」`,r:{gear:'baton',flag:'pdok'}},ng:{t:`「我現在沒空聽故事。」她轉身去接無線電。`}},
+  {l:'幫她把一個掙脫手銬的人押回去',hide:'evacgone',once:1,s:'角落那張椅子上的人把手銬扯斷了',ok:{t:`那個人撲向離他最近的警察。你們衝了過去。`,r:{flag:'pdok',karma:1},fight:{n:1,mode:'normal',names:['銬在椅子上的人']},go:'L1'}},
+  {l:'去紀錄室',need:'pdok',ok:{t:`你們穿過辦公區，推開走廊盡頭那扇寫著「紀錄室」的門。`,go:'L2'}},
+  {l:'趁亂溜進紀錄室',hide:'pdok',k:'AGI',d:13,s:'敏捷檢定',ok:{t:`你趁大家都在看角落那幾個人，貼著牆溜進走廊。`,r:{karma:-1},go:'L2'},ng:{t:`「你要去哪裡？」一個年輕警員擋在走廊口，手按在槍套上。你只好退回來。`,p:{fear:4},stay:1}},
+  {l:'翻值班台',need:'evacgone',once:1,stay:1,k:'PER',d:11,s:'感知檢定',ok:{t:`抽屜裡有一張掛著繩子的門禁卡，上面寫著「證物室」，還有兩顆電池。`,r:{flag:'pdcard',items:{battery:2}}},ng:{t:`抽屜裡只有一堆罰單和一個咬了一半的甜甜圈。`}},
+  {l:'搜更衣室和軍械櫃',need:'evacgone',once:1,stay:1,t:'m',k:'PER',d:12,s:'感知檢定',ok:{t:`軍械櫃被搬空了，只剩最底層一盒霰彈。更衣室的置物櫃裡掛著一件防彈背心，背後印著「POLICE」。`,r:{items:{riotvest:1,shell:4}}},ng:{t:`更衣室裡有一個人背對著你們坐在長椅上，穿著警察制服。他慢慢轉過頭來。`,p:{fear:8},fight:{n:1,mode:'ambush',names:['穿制服的警員']}}},
+  {...restC('在拘留室後面歇一下',6,3),need:'pdok',hide:'acru'},
+  {...sleepC('在拘留室後面過夜',`拘留室後面那間空房只有一張鐵床。你把門鎖上，聽著外面的無線電一直沙沙地響。半夜有人在拘留室那邊拍鐵欄杆，拍了很久。\n\n天亮的時候，聲音停了。`),need:'pdok',hide:'acru'},
+  {l:'回門口',ok:{t:`你們走回沙包後面。`,go:'L0'}}]},
+L2:{L:'L',n:'第 4 分局・紀錄室',
+ onEnter(){G.flags.pw=pwNow();G.flags.pwcard=G.flags.pw&&G.flags.pdcard?1:0},
+ tx:()=>G.flags.acru?'檔案櫃全被拉開了，一半的資料夾不見了。地上有一台碎紙機，旁邊的紙屑堆得像雪。':pwNow()?'':'沒有電。最裡面那扇證物室的門是電子鎖，面板一點光都沒有。',
+ tm:`最上面那疊報案紀錄裡，有一份你很熟的案號。你進城，就是為了這個案子。`,
+ t:`一整排鐵製檔案櫃，幾張堆滿紙的辦公桌。最裡面有一扇灰色的鐵門，門上寫著「證物室　限授權人員」，旁邊是讀卡機。`,
+ c:[
+  {l:'翻案件紀錄',once:1,stay:1,k:'INT',d:12,s:'智力檢定',ok:{t:`過去一個月的傷害案多得不正常。好幾份筆錄的嫌犯欄都寫著同一句話：「曾在聖瑪莉醫院 ARC 合作門診就診」。有一份的備註是：「嫌犯遭制伏後仍持續攻擊，對疼痛無反應。」`,r:{flag:'caselog'},p:{fear:6}},ng:{t:`報案紀錄一疊比一疊高，你翻了半天，只看出一件事：最近每天都有人被咬。`,p:{fear:4}}},
+  {l:'翻商家登記',once:1,stay:1,k:'PER',d:11,s:'感知檢定',ok:{t:`槍械商的登記表裡夾著一張調查報告：「卡特槍械　店主涉嫌非法改裝，店門鑰匙已扣押，存放於證物室」。上面有地址，就在兩條街外。`,r:{flag:'gunshop'}},ng:{t:`登記表按照字母排，你翻到一半就被走廊裡的聲音嚇了一跳，弄亂了順序。`}},
+  {l:'刷門禁卡進證物室',need:'pwcard',ok:{t:`讀卡機嗶了一聲，亮起綠燈。`,go:'L3'}},
+  {l:'用破拆工具撐開證物室的門',req:'spreader',t:'q',s:'很吵',ok:{t:`油壓擴張器一點一點把門框撐開，金屬發出很難聽的聲音，整條走廊都聽得到。`,p:{alarm:2},go:'L3'}},
+  {l:'打開門禁面板的維修模式',job:'guard',need:'pw',t:'q',s:'夜班保全：你認得這一套門禁',ok:{t:`你掀開面板的蓋子，按住重設鍵，輸入這個牌子預設的維修碼。門鎖喀的一聲彈開了。`,go:'L3'}},
+  {l:'回大廳',hide:'acru',ok:{t:`你們走回大廳。`,go:'L1'}},
+  {l:'從後門出去',need:'acru',ok:{t:`你們從後門溜回停車場。`,go:'Z0'}}]},
+L3:{L:'L',n:'第 4 分局・證物室',
+ t:`一排排鐵架，架上是編了號的證物袋和紙箱。最裡面有一個上鎖的槍櫃，玻璃門已經被人敲破了。`,
+ c:[
+  {l:'翻槍櫃',once:1,stay:1,s:'玻璃門破了，裡面還剩一把',ok:{t:`架上只剩一把大得誇張的左輪，證物標籤寫著「.500 S&W　改裝」。旁邊的盒子裡還有幾發子彈。`,r:{gear:'model500',mag:5}}},
+  {l:'找卡特槍械的鑰匙',once:1,stay:1,k:'PER',d:11,s:'感知檢定',ok:{t:`證物袋上寫著「卡特槍械　店門鑰匙　2 支」。袋子裡只剩一支。`,r:{flag:'gunkey'}},ng:{t:`證物袋太多了，編號又亂。你找了很久，只找到一盒被扣押的止痛藥。`,r:{items:{painkiller:1}}}},
+  {l:'翻其他證物',once:1,stay:1,t:'m',ok:{t:`大部分是毒品、刀和手機。有一個箱子裡是醫院的東西：沒拆封的鎮定劑，還有一份被撕掉抬頭的同意書。`,r:{items:{sedative:1}},p:{fear:2}}},
+  {l:'回紀錄室',ok:{t:`你們退回紀錄室。`,go:'L2'}}]},
+/* ---------- 購物中心 ---------- */
+S0:{L:'S',n:'河景廣場・入口',
+ onEnter(){const F=G.flags;F.pw=pwNow();F.min=(!F.raiders||F.acru||F.mpass||F.mclear)?1:0;F.mraid=F.min?0:1},
+ tx:()=>G.flags.acru?'入口那道購物車牆被燒成一堆扭曲的鐵架。大門整個燒穿了，裡面還在冒煙。':G.flags.mclear?'入口沒有人守了。地上有幾灘乾掉的血，和一頂被踩扁的鴨舌帽。':G.flags.raiders?(G.flags.mpass?'哨兵認得你們，抬了抬下巴讓你們進去。':'購物車牆上多了一面用床單畫的旗子。牆後面站著兩個拿球棒的人，屋頂上還有一個拿霰彈槍的。「繳過路費，還是滾？」'):'牆後面有人在看。一個小孩的頭探出來又縮回去，接著是一個女人的聲音：「沒被咬的就進來，動作快。」',
+ t:`購物中心的入口用購物車堆成了一道牆，只留一條側著身子才過得去的縫。大門上方的招牌「河景廣場」熄了一半。`,
+ c:[
+  {l:'從縫裡鑽進去',need:'min',hide:'acru',ok:{t:`你們側著身子鑽過購物車之間的縫。`,go:'S1'}},
+  {l:'從燒穿的大門走進去',need:'acru',ok:{t:`你們踩著還在發燙的灰走進去。`,go:'S1'}},
+  {l:'跟哨兵談',need:'mraid',k:'CHA',d:13,s:'魅力檢定',ok:{t:`你說你們只是來找藥，不搶他們的地盤，出去的時候還能告訴他們哪裡有東西。屋頂上那個人想了很久，揮了揮手。`,r:{flag:'mpass'},go:'S1'},ng:{t:`「說得好聽。」球棒朝你揮了過來。`,r:{flag:'mclear'},fight:{n:2,names:['劫匪','拿獵刀的劫匪']},go:'S1'}},
+  {l:'繳過路費',need:'mraid',usd:15,s:'需要 $15',ok:{t:`錢遞過去，他們數了兩遍，讓開一條縫。`,r:{payUsd:15,flag:'mpass'},go:'S1'}},
+  {l:'從後面的卸貨區溜進去',need:'mraid',k:'AGI',d:13,s:'敏捷檢定',ok:{t:`你們繞到購物中心後面，從一台卸貨卡車底下鑽進去。`,go:'S1'},ng:{t:`卸貨區的鐵門被你們碰得嘩啦一聲。三個人從裡面衝出來。`,r:{flag:'mclear'},fight:{n:2,mode:'ambush',names:['劫匪','拿霰彈槍的劫匪']},go:'S1'}},
+  {l:'硬闖',need:'mraid',ok:{t:`你們沒有等他們說完。`,r:{flag:'mclear'},fight:{n:3,mode:'first',names:['劫匪','拿獵刀的劫匪','拿霰彈槍的劫匪']},go:'S1'}},
+  {l:'從地下停車場的鐵捲門進去',need:'pw',hide:'acru',t:'q',s:'有電的話捲門能開，但會很吵',ok:{t:`你們按下停車場入口的開關，鐵捲門嘎啦嘎啦地往上捲，整個停車場都在回音。`,p:{alarm:2},go:'S3'}},
+  {l:'走到消防局',t:'q',ok:{t:`你們穿過馬路，往那扇紅色的車庫門走。`,go:'T0'}},
+  {l:'回街區',ok:{t:`你們離開購物中心。`,go:'Z0'}}]},
+S1:{L:'S',n:'河景廣場・一樓中庭',
+ tx:()=>G.flags.acru?'中庭的天窗被燒穿了，灰從上面一直飄下來。一半的店都燒過了。':G.flags.raiders?'每一家店的鐵捲門都被撬開過，地上全是被拆開的包裝。':'中庭的噴水池乾了，裡面堆滿了被搬出來的紙箱。手扶梯停著，緊急照明一路亮到二樓。',
+ t:`一樓的店一家挨著一家：藥妝店、運動用品店、服飾店。往下的指標寫著「維修區・員工專用」，手扶梯通往二樓的美食街。`,
+ c:[
+  {l:'搜藥妝店',once:1,stay:1,t:'m',k:'PER',d:12,s:'感知檢定',ok:{t:`架上的藥幾乎被拿光了，但收銀台後面的櫃子還鎖著。你撬開它，裡面是幾樣處方藥和一包繃帶。`,r:{items:{painkiller:1,iodine:1,alcohol:1,bandage:2}}},ng:{t:`你只找到一堆過期的維他命和一瓶洗髮精。`}},
+  {l:'搜運動用品店',once:1,stay:1,t:'m',k:'PER',d:12,s:'感知檢定',ok:{t:`倉庫最裡面的架子上，有一把還裝在盒子裡的複合弓，旁邊是一打箭。`,r:{gear:'compbow',items:{arrow:6}}},ng:{t:`倉庫的門一推開，一個穿著店員背心的人從紙箱堆後面爬了出來。`,p:{fear:6},fight:{n:1,mode:'ambush',names:['穿店員背心的人']}}},
+  {l:'搜服飾店',once:1,stay:1,ok:{t:`衣架倒了一地。你從試衣間裡翻出一件皮外套，尺寸剛好，還有幾件能撕成布條的襯衫。`,r:{items:{jacket:1,cloth:3}}}},
+  {l:'上二樓美食街',ok:{t:`你們踩著停住的手扶梯往上走。`,go:'S2'}},
+  {l:'下維修區',ok:{t:`你們推開寫著「員工專用」的門，順著樓梯往下走。`,go:'S3'}},
+  {l:'回入口',ok:{t:`你們走回購物車牆那邊。`,go:'S0'}}]},
+S2:{L:'S',n:'河景廣場・二樓美食街',
+ onEnter(){const F=G.flags;F.mrose=F.raiders?0:1;F.mboss=F.raiders&&!F.acru&&!F.mclear?1:0;F.mloot=F.raiders&&!F.acru&&F.mclear?1:0},
+ tx:()=>G.flags.acru?'美食街燒得只剩骨架，桌椅熔成一團。牆上那面倖存者名單被燒掉了一半。':G.flags.mclear&&G.flags.raiders?'劫匪的據點沒人了。睡袋、空罐頭和彈殼散了一地，牆角還堆著他們沒來得及帶走的東西。':G.flags.raiders?'倖存者不見了。美食街變成劫匪的據點，桌子拼成一排，上面堆滿搶來的東西。帶頭的是一個光頭的男人，大家叫他德克。他看了你一眼：「要交易就快點。」':'',
+ t:`美食街的桌子被拼成一張張床，幾十個人或坐或躺。一個繫著圍裙的中年女人在發罐頭，她是一家墨西哥餐廳的老闆，大家叫她蘿絲。牆上貼著一張手寫的名單，標題是「我們在這裡」。`,
+ c:[
+  {l:'跟蘿絲買東西',need:'mrose',stay:1,s:'只收美金現鈔',ok:{t:`蘿絲把幾個紙箱推到你面前。「我們也要活下去，所以要收錢。」`,r:{shop:'mall'}}},
+  {l:'把抗生素給蘿絲',hide:'raiders',req:'antibiotic',once:1,stay:1,s:'她說有個孩子的傷口一直在發炎',ok:{t:`蘿絲接過抗生素，眼眶一下子紅了。她從櫃台下面拿出一副防毒面具塞給你。「之前一個消防員留下來的。地下室那邊的空氣不對勁，你們拿去用。」\n\n「以後想睡覺，這裡給你們留一張桌子。」`,r:{use:'antibiotic',items:{gasmask:1,filter:1},flag:'mallok',karma:1}}},
+  {l:'問蘿絲外面的事',need:'mrose',once:1,stay:1,t:'q',ok:{t:`「警察局那邊還有人守著，可是不收人了。北口好像在搭什麼東西。」她壓低聲音，「還有，最近夜裡有幾台車在附近繞，車上的人會拿東西出來比對這裡的人。我不喜歡。」`}},
+  {...restC('在美食街的角落歇一下',6,3),need:'mallok',hide:'raiders'},
+  {...sleepC('在蘿絲留的桌子上過夜',`蘿絲把一張桌子推到柱子後面，給你們一條毯子。半夜有人在哭，有人在打呼，有人一直在小聲地數數。\n\n天亮的時候，蘿絲已經在發早餐了。`),need:'mallok',hide:'raiders'},
+  {l:'跟德克交易',need:'mboss',stay:1,s:'劫匪的貨，價錢照他們的心情',ok:{t:`德克把桌上的東西往你這邊推了推。「付現金。別想耍花樣。」`,r:{shop:'raider'}}},
+  {l:'偷劫匪的物資',need:'mboss',once:1,k:'AGI',d:14,s:'敏捷檢定：被抓到就得動手',ok:{t:`你趁德克在罵人，從桌子底下拖走一個背包，若無其事地走開。`,r:{items:{ammo9:6,water:2,bar:2},karma:-1},stay:1},ng:{t:`「小偷！」德克一腳踢翻桌子。`,r:{flag:'mclear',karma:-1},fight:{n:3,mode:'normal',names:['拿獵刀的劫匪','拿霰彈槍的劫匪','劫匪']},go:'S2'}},
+  {l:'翻劫匪留下的東西',need:'mloot',once:1,stay:1,t:'m',ok:{t:`他們搶來的東西還剩不少。你挑了能帶走的：子彈、水、幾條能量棒，還有一卷捆好的美金。`,r:{items:{ammo9:8,shell:3,water:2,bar:2},usd:15}}},
+  {l:'在燒過的美食街裡找找',need:'acru',once:1,stay:1,t:'m',ok:{t:`大部分的東西都燒掉了。你在一台被燻黑的冰箱裡找到兩瓶水。`,r:{items:{water:2}}}},
+  {l:'回一樓',ok:{t:`你們順著手扶梯走下去。`,go:'S1'}}]},
+S3:{L:'S',n:'河景廣場・地下維修區',
+ tx:()=>pwNow()?'天花板的燈管亮著，嗡嗡地響。':'沒有燈。走廊的盡頭有東西在滴水，一滴、一滴。',
+ t:`維修區的走廊又窄又長，兩邊是機電室和倉庫。牆上的管線上長了一層灰白色的東西，摸起來軟軟的。通往停車場的鐵門開著。`,
+ c:[
+  {l:'翻機電室',hide:'gotfuse2',t:'m',k:'PER',d:12,dark:1,s:'感知檢定',ok:{t:`配電櫃旁邊的備品箱裡有一根高壓保險絲，還有一把鉗子和一卷膠帶。`,r:{items:{fuse:1,pliers:1,tape:1},flag:'gotfuse2'},stay:1},ng:{t:`你伸手去摸備品箱，摸到的是一團溫溫的、會動的東西。`,p:{fear:8},fight:{n:1,mode:'ambush',names:['機電室裡的東西']},go:'S3'}},
+  {l:'看看管線上那層東西',once:1,stay:1,t:'q',ok:{t:`那層灰白色的東西像黴，又像很細的根，沿著管線一路往停車場那邊長過去。你湊近一點，聞到一股甜甜的爛水果味。`,p:{fear:4}}},
+  {l:'回一樓',ok:{t:`你們爬回一樓。`,go:'S1'}},
+  {l:'從停車場出去',ok:{t:`你們從停車場的斜坡走出去，回到街上。`,go:'Z0'}}]},
+/* ---------- 武器店 ---------- */
+N0:{L:'N',n:'卡特槍械・店門',
+ onEnter(){G.flags.pw=pwNow()},
+ tx:()=>G.flags.acru?'鐵捲門上噴了一個大大的橘色叉，旁邊寫著「已清查」。':G.flags.raiders?'鐵捲門被人用車撞開了一半，底下還卡著一截保險桿。':'',
+ t:`一間不大的店面，鐵捲門拉到底，上面貼著「本店配合市府命令暫停營業」。招牌上的步槍剪影少了一半的燈管。旁邊有一扇鐵製的側門，門鎖很新。`,
+ c:[
+  {l:'用店主的鑰匙開側門',need:'gunkey',hide:'raiders',ok:{t:`鑰匙轉了兩圈，側門開了。很安靜。`,go:'N1'}},
+  {l:'短路捲門的馬達',need:'pw',hide:'raiders',k:'INT',d:13,s:'智力檢定：後巷有捲門的控制箱',ok:{t:`你撬開後巷的控制箱，把兩條線碰在一起。鐵捲門抖了一下，嘎啦嘎啦地捲了上去。`,p:{alarm:1},go:'N1'},ng:{t:`控制箱裡噴出一串火花，你的手麻了好一陣子。`,p:{hp:-2},stay:1}},
+  {l:'用破拆工具撐開捲門',req:'spreader',hide:'raiders',t:'q',s:'會很吵',ok:{t:`捲門被一點一點撐出一個洞，金屬撕開的聲音整條街都聽得到。`,p:{alarm:3},go:'N1'}},
+  {l:'從撞開的地方鑽進去',need:'raiders',ok:{t:`你們從那半扇捲門底下鑽進去。`,go:'N1'}},
+  {l:'回街區',ok:{t:`你們離開那條小路。`,go:'Z0'}}]},
+N1:{L:'N',n:'卡特槍械・店面',
+ tx:()=>G.flags.raiders?'展示櫃全被砸了，牆上的槍架一把都不剩。地上全是玻璃和空盒子。':'展示櫃裡空空的，牆上的槍架也空了，只剩價格牌。看樣子封城之前就被收走了。',
+ t:`店面很窄，一邊是玻璃展示櫃，一邊是掛滿空槍架的牆。櫃台後面有一扇門，上面寫著「工作區　閒人勿進」。`,
+ c:[
+  {l:'翻展示櫃下面的抽屜',once:1,stay:1,k:'PER',d:11,s:'感知檢定',ok:{t:`抽屜裡有幾盒散裝的子彈和一瓶槍油。`,r:{items:{ammo9:6,ammo38:4,gunoil:1}}},ng:{t:`抽屜都被拉出來過了，只剩收據。`}},
+  {l:'看看最底層的展示櫃',once:1,stay:1,k:'PER',d:13,s:'感知檢定',ok:{t:`最底層的櫃子有一塊活動的底板。底板下面藏著一把手弩和一捆弩箭。`,r:{gear:'handxbow',items:{bolt:6}}},ng:{t:`櫃子是空的。`}},
+  {l:'進工作區',ok:{t:`你推開櫃台後面那扇門。`,go:'N2'}},
+  {l:'回店門',ok:{t:`你們走回門口。`,go:'N0'}}]},
+N2:{L:'N',n:'卡特槍械・後場工作區',
+ onEnter(){const F=G.flags;F.nok=(!F.raiders||F.acru||F.nclear)?1:0;F.nraid=F.nok?0:1;F.mp5lock=(F.nraid||F.gotmp5)?1:0},
+ tx:()=>G.flags.nraid?'工作區裡有兩個人在把一箱一箱的東西往外搬，背對著你們。其中一個背著霰彈槍。':G.flags.acru?'有人來搜過了，地上全是靴印。槍架的位置空了一塊。':'',
+ t:`後場比店面大，一張長長的工作台上擺滿了零件和工具，牆上有一個上了大鎖的槍架。角落的折疊椅上坐著一個穿格子襯衫的老人，頭垂著，一動也不動。`,
+ c:[
+  {l:'先處理那兩個劫匪',need:'nraid',ok:{t:`你們從門後衝出去。`,r:{flag:'nclear'},fight:{n:2,mode:'first',names:['拿霰彈槍的劫匪','劫匪']},go:'N2'}},
+  {l:'看看椅子上的老人',need:'nok',once:1,stay:1,t:'q',ok:{t:`你走近一點，老人的頭突然抬了起來。他的眼睛是灰白的。`,p:{fear:8},fight:{n:1,mode:'ambush',names:['穿格子襯衫的老人']}}},
+  {l:'撬開槍架的鎖',hide:'mp5lock',req:['g:crowbar','g:fireaxe','spreader'],reqAny:1,t:'q',s:'需要鐵撬、消防斧或破拆工具',ok:{t:`大鎖崩開了。槍架上只剩一把黑色的衝鋒槍，彈匣插在上面，是滿的。`,r:{gear:'mp5',mag:30,flag:'gotmp5'},go:'N2'}},
+  {l:'用工作台上的工具撥開槍架的鎖',hide:'mp5lock',k:'INT',d:13,s:'智力檢定',ok:{t:`你用工作台上的細鐵絲和起子撥了很久，鎖終於開了。槍架上只剩一把衝鋒槍，彈匣是滿的。`,r:{gear:'mp5',mag:30,flag:'gotmp5'},go:'N2'},ng:{t:`鐵絲斷在鎖孔裡。`,stay:1}},
+  {l:'翻工作台',need:'nok',once:1,stay:1,t:'m',ok:{t:`工作台上的東西大多是零件，你挑了一套修理工具、一塊磨刀石。`,r:{items:{repairkit:1,whetstone:1}}}},
+  {l:'找工作台下面的暗格',job:'veteran',need:'nok',once:1,stay:1,s:'退伍軍人：這種店一定會藏一點',ok:{t:`你在工作台下面敲了敲，有一塊板子的聲音不一樣。撬開來，裡面是一盒霰彈和一盒 9mm。`,r:{items:{shell:4,ammo9:8}}}},
+  {l:'回店面',ok:{t:`你們退回店面。`,go:'N1'}}]}
+});
 /* ================= 基礎 ================= */
 const $=s=>document.querySelector(s);
 const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
@@ -2736,8 +2886,10 @@ async function applyRes(c,res,actor,bad){CURC=c;
   if(res.code){await storyCode(res,actor);if(G.over)return}
   if(c.once){G.used=G.used||{};G.used[usedKey(c)]=1}
   if(res.r&&res.r.shop){openShop(res.r.shop,res.stay||c.stay?null:(res.go||nextId));return}
-  if(res.stay||c.stay){G.votes={};G.rv={};G.pc=null;makeHints();G.phase='node';startCd();return}
-  const target=res.go||nextId;
+  // 留在原地的選項如果打起來，打完回到這個節點（v0.11.0 修正：之前會直接略過戰鬥）
+  const stayHere=res.stay||c.stay;
+  if(stayHere&&!res.fight){G.votes={};G.rv={};G.pc=null;makeHints();G.phase='node';startCd();return}
+  const target=res.go||(stayHere?G.node:nextId);
   if(res.fight){G.after=target;await startFight(res.fight);return}
   if(await alarmCheck(target))return;
   await enterNode(target);
