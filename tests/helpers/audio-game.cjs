@@ -1,0 +1,14 @@
+const vm=require('node:vm'),fs=require('node:fs'),path=require('node:path');
+const html=fs.readFileSync(path.join(__dirname,'../../index.html'),'utf8');
+function game(){
+ const sources=[],gains=[],requests=[],events=[],warnings=[],listeners={};
+ const param=()=>({value:0,samples:[],setValueAtTime(v){this.value=v;this.samples.push(v)},linearRampToValueAtTime(v){this.value=v;this.samples.push(v)},exponentialRampToValueAtTime(v){this.value=v;this.samples.push(v)}});
+ const output=()=>({connect(){},disconnect(){}});
+ class Context{constructor(){this.currentTime=0;this.sampleRate=1000;this.state='running';this.destination={}}resume(){return Promise.resolve()}createBuffer(){return {duration:.1,getChannelData:()=>new Float32Array(1000)}}createGain(){const x={...output(),gain:param()};gains.push(x);return x}createDynamicsCompressor(){return {...output(),threshold:param(),knee:param(),ratio:param(),attack:param(),release:param()}}createBufferSource(){const x={...output(),start(){this.started=true},stop(at){this.stopAt=at;if(at==null)this.stopped=true}};sources.push(x);return x}createOscillator(){const o=this.createBufferSource();o.frequency=param();return o}createBiquadFilter(){return {...output(),type:'',frequency:param(),Q:param()}}decodeAudioData(ab,ok){ok({duration:ab.byteLength===2?18:.2})}}
+ const node={addEventListener(){},classList:{add(){},remove(){},toggle(){}},style:{setProperty(){}},appendChild(){},querySelector(){return null}};
+ const c=vm.createContext({console:{...console,warn:(...x)=>warnings.push(x)},setTimeout:(f,t)=>{const x=setTimeout(f,t);x.unref();return x},clearTimeout,setInterval:()=>0,clearInterval,Date,Math,Promise,Audio:class{canPlayType(){return ''}play(){return Promise.resolve()}pause(){}},location:{protocol:'https:'},localStorage:{getItem(){return null},setItem(){},removeItem(){}},window:{AudioContext:Context,addEventListener:(k,f)=>listeners[k]=f},document:{hidden:false,querySelector:s=>s==='#log'?null:node,querySelectorAll:()=>[],addEventListener:(k,f)=>listeners[k]=f,createElement:()=>({...node})},fetch:async url=>{requests.push(url);if(requests.fail&&url.includes(requests.fail))return {ok:false,status:404};return {ok:true,arrayBuffer:async()=>new ArrayBuffer(url.endsWith('.ogg')?2:1)}}});
+ let s=html.match(/<script>([\s\S]*?)<\/script>/)[1].replace(/let netReady=\(async\(\)=>\{[\s\S]*?\}\)\(\);/,'let netReady=Promise.resolve();').replace(/\nlayout\(\);\s*$/,'');s=s.replace('const wait=ms=>new Promise(r=>setTimeout(r,ms));','const wait=ms=>Promise.resolve();');vm.runInContext(s,c);
+ vm.runInContext("UI.snd=1;UI.bgm=0;UI.spd=.3;ROLE='solo';MYPID='p1';G={rid:'audio-test',players:[],flags:{},node:'PP3',lv:'PP',ev:null,audioVisit:1,audioEnteredAt:Date.now(),opts:{diff:'normal'},ground:[],seq:0};draw=()=>{};flush=async()=>{};E=(t,d)=>events.push({t,d});",Object.assign(c,{events}));
+ return {c,sources,gains,requests,events,warnings,listeners,run:s=>vm.runInContext(s,c)};
+}
+module.exports={game};
