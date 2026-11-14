@@ -1,24 +1,28 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;900&display=swap">
+<link rel="preload" href="fonts/tw-kai-game.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+/* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
    擲骰在舞台中央以 d20／d6 動畫呈現，聲音以 Web Audio 即時合成。刻意只做單一暗色主題。 */
 :root{
   --bg:#060605; --ink:#d9d5ca; --muted:#89877f; --line:#4c4a43;
   --gold:#c8ad70; --red:#9d3f3b; --redhi:#c86a63; --ok:#8fbf98; --blue:#8fb0d4;
-  --serif:Georgia,"Noto Serif TC","Songti TC","PMingLiU",serif;
-  --label:Arial,"Helvetica Neue",sans-serif;
+  --serif:"ZC Latin","ZC Kai","BiauKai","DFKai-SB",serif;
+  --label:var(--serif);
   --fs:16px;
   --sl:env(safe-area-inset-left,0px); --sr:env(safe-area-inset-right,0px); --st:env(safe-area-inset-top,0px); --sb:env(safe-area-inset-bottom,0px);
   color-scheme:dark;
 }
 [hidden]{display:none!important}
 html,body{height:100%;overflow:hidden;overscroll-behavior:none}
+html{font-variant-numeric:lining-nums tabular-nums}
+input,textarea,select{font-family:var(--serif)}
 /* v0.21.0 朋友回饋：畫面上的字不能被選取（輸入框除外） */
 body{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}input,textarea,[contenteditable]{user-select:text;-webkit-user-select:text}
 body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-size:var(--fs);line-height:1.65;-webkit-text-size-adjust:100%;touch-action:manipulation;-webkit-tap-highlight-color:transparent;
@@ -548,7 +552,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.21.4", "b": 43, "t": "2026-11-14T18:51:28+08:00"};
+const ZC_VER={"v": "0.21.5", "b": 44, "t": "2026-11-14T20:07:48+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -2877,7 +2881,7 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const COLS=['#c8ad70','#8fb0d4','#8fbf98','#c88a9e','#d49a6a','#a99bd6','#7fc4c0','#c9c27a'];
 const MAXP=8;
-const CREDITS=`音效沿用《零號病例》原專案素材。其中：“Headshot 2” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；“GROSS IMPACT” by magnuswaker（Freesound，CC0）；“Monster Bite on Armor WAV” by OGsoundFX（Freesound，CC BY 4.0）；“Acid Breath Attack” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；裝備切換音效取自 Ryan Conway “putting coat on and off with zippers”（Freesound，CC BY 4.0）。以上音效作者與本作品無關，也未替本作品背書。骰子音效為程式即時合成。`;
+const CREDITS=`音效沿用《零號病例》原專案素材。其中：“Headshot 2” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；“GROSS IMPACT” by magnuswaker（Freesound，CC0）；“Monster Bite on Armor WAV” by OGsoundFX（Freesound，CC BY 4.0）；“Acid Breath Attack” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；裝備切換音效取自 Ryan Conway “putting coat on and off with zippers”（Freesound，CC BY 4.0）。以上音效作者與本作品無關，也未替本作品背書。骰子音效為程式即時合成。<br><br>中文字型：全字庫正楷體（國家發展委員會，2018）；英文字型：Source Serif 4。<a href="fonts/SOURCES.md" target="_blank" rel="noopener">字型來源與授權</a>。`;
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
 let UI=Object.assign({snd:1,bgm:1,spd:1,orient:'auto',diff:'normal'},LS.get('zc5-ui',{}));
 const saveUI=()=>LS.set('zc5-ui',UI);
