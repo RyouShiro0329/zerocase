@@ -350,6 +350,15 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .box.wide:has(.bagwrap){height:100%;display:flex;flex-direction:column}
 .box.wide .bagwrap{flex:1;min-height:0}
 .scr2{overflow-y:auto;min-height:0;overscroll-behavior:contain;padding-right:4px}
+/* 背包與地面各自捲動，物品再多也不會把地面入口擠出畫面。 */
+.bagstore{display:grid;grid-template-rows:auto minmax(0,3fr) minmax(0,2fr);min-height:0;gap:6px}
+.bagcap .slots{margin:0}.bagcap .note{margin:3px 0;font-size:.75rem}
+.groundarea{display:flex;flex-direction:column;min-height:0;border-top:1px solid var(--gold);padding-top:3px}
+.groundarea>.cat{flex:none;margin:0 0 4px}.grounditems{flex:1}
+.bagitems .irow{flex-wrap:wrap}.bagitems .irow>.in{flex-basis:100%}
+.iops,.eacts{display:flex;flex-wrap:wrap;gap:4px}.eacts{grid-column:2/-1}
+#stage .iops .btn,#stage .eacts .btn,#stage .grounditems .btn,#stage.short .iops .btn,#stage.short .eacts .btn,#stage.short .grounditems .btn{min-height:32px}
+#stage.tall .bagstore{grid-template-rows:auto minmax(100px,1fr) minmax(100px,1fr);height:380px}
 #stage.tall .box.wide:has(.bagwrap){height:auto;display:block}
 /* v0.4.0 商店 */
 .sintro{margin:2px 0 6px}
@@ -552,7 +561,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.21.7", "b": 46, "t": "2026-11-14T21:16:47+08:00"};
+const ZC_VER={"v": "0.21.8", "b": 47, "t": "2026-11-14T21:43:51+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -4837,7 +4846,7 @@ const ibt=(attr,l,dis,can)=>`<button class="btn" ${attr} ${dis||!can?'disabled':
 // 中欄：裝備欄（右手、左手、頭、身體、手臂、腿），一條一條列
 function eqCol(m,inF,can){
   const hs=handsOf(m);const R=handW(m,'R'),L=handW(m,'L');const both=R.g&&L.g&&R.g.u===L.g.u;
-  const wrow=(lab,x,h)=>{const g=x.g;return `<div class="erow ${g?'on':''}"><span class="sl">${lab}</span><div class="in"><b>${g?x.w.n:'空手'}</b><small>${g?wLine(m,x.w,g,h):'拳頭　'+ddTxt(m,WEAP.fist,null)}</small></div>${g&&!g.drop?ibt(`data-uneq="${g.u}"`,'收起',0,can):''}</div>`};
+  const wrow=(lab,x,h)=>{const g=x.g;return `<div class="erow ${g?'on':''}"><span class="sl">${lab}</span><div class="in"><b>${g?x.w.n:'空手'}</b><small>${g?wLine(m,x.w,g,h):'拳頭　'+ddTxt(m,WEAP.fist,null)}</small></div>${g&&!g.drop?`<div class="eacts">${ibt(`data-uneq="${g.u}"`,'收起',0,can)}${!inF?ibt(`data-dropg="${g.u}"`,'放到地上',0,can):''}</div>`:''}</div>`};
   let h=`<div class="cat">裝備</div>`;
   if(both)h+=wrow('雙手',R,'R');else{h+=wrow('右手',R,'R');h+=wrow('左手',L,'L')}
   for(const s of EQS){const e=m.eq&&m.eq[s];const it=e&&ITEMS[e.k];
@@ -4848,22 +4857,21 @@ function eqCol(m,inF,can){
 function itemCol(m,inF,can){
   const mates=G.players.filter(p=>p!==m&&!p.dead&&!p.down&&!p.away);const giveTo=G.players.filter(p=>p!==m&&!p.dead);
   let h=`<div class="usdrow"><b>$${m.usd||0}</b><span>美金</span>${!inF&&(m.usd||0)>0?giveTo.map(t=>ibt(`data-giveusd="${Math.min(10,m.usd)}" data-to="${t.pid}"`,`給${esc(t.name)} $${Math.min(10,m.usd)}`,0,can)).join(''):''}</div>`;
-  h+=`<p class="slots">背包 <b>${used(m)}／${cap(m)}</b> 格　<small>同種 5 個疊 1 格；拿在手上、穿著的不佔格</small>${inF?'<br><b>戰鬥中使用物品或換武器會用掉回合。</b>':''}</p>`;
   const spare=m.gear.filter(g=>m.hand.R!==g.u&&m.hand.L!==g.u||g.drop);
   if(spare.length)h+='<div class="cat">武器</div>';
   for(const g of spare){const w=WEAP[g.id];const sel=SEL==='g'+g.u;
-    h+=`<div class="irow ${sel?'sel':''}" data-sel="g${g.u}"><div class="in"><b>${w.n}</b>${g.drop?`<small style="display:inline">　${g.drop==='far'?'飛遠了（戰後撿回）':'掉在腳邊'}</small>`:''}<small>${wLine(m,w,g,'R')}　技能：${w.sk.map(s=>SKILL[s].n+(SKILL[s].per?'（每場一次）':'')).join('、')||'無'}</small></div></div>`;
+    h+=`<div class="irow ${sel?'sel':''}" data-sel="g${g.u}"><div class="in"><b>${w.n}</b>${g.drop?`<small style="display:inline">　${g.drop==='far'?'飛遠了（戰後撿回）':'掉在腳邊'}</small>`:''}<small>${wLine(m,w,g,'R')}　技能：${w.sk.map(s=>SKILL[s].n+(SKILL[s].per?'（每場一次）':'')).join('、')||'無'}</small></div>${!inF&&!g.drop?`<div class="iops">${ibt(`data-dropg="${g.u}"`,'放到地上',0,can)}</div>`:''}</div>`;
     if(sel&&!g.drop){let a='';if(w.hands===2){a+=ibt(`data-eq="${g.u}" data-h="R"`,'雙手拿',0,can);if(w.one)a+=ibt(`data-eq="${g.u}" data-h="R" data-one="1"`,'單手拿（右手）',0,can)+ibt(`data-eq="${g.u}" data-h="L" data-one="1"`,'單手拿（左手）',0,can)}else a+=ibt(`data-eq="${g.u}" data-h="R"`,'拿在右手',0,can)+ibt(`data-eq="${g.u}" data-h="L"`,'拿在左手',0,can);
-      if(!inF)a+=ibt(`data-dropg="${g.u}"`,'丟掉',0,can)+giveTo.map(t=>ibt(`data-giveg="${g.u}" data-to="${t.pid}"`,'給'+esc(t.name),0,can)).join('');h+=`<div class="acts">${a}</div>`}}
+      if(!inF)a+=giveTo.map(t=>ibt(`data-giveg="${g.u}" data-to="${t.pid}"`,'給'+esc(t.name),0,can)).join('');h+=`<div class="acts">${a}</div>`}}
   for(const c of Object.keys(CATN)){const ks=Object.keys(m.items).filter(k=>m.items[k]>0&&ITEMS[k]&&ITEMS[k].t===c);if(!ks.length)continue;h+=`<div class="cat">${CATN[c]}</div>`;
     for(const k of ks){const it=ITEMS[k];const sel=SEL===k;const usable=['med','food','wear','misc'].includes(it.t)&&!it.revive;
       const main=usable?ibt(`data-use="${k}"`,it.t==='wear'?'穿上':it.t==='food'?(it.verb?'用':'吃／喝'):'使用',0,can):'';
-      h+=`<div class="irow ${sel?'sel':''}" data-sel="${k}"><div class="in"><b>${it.n}　×${m.items[k]}</b><small>${it.d}</small></div>${main}</div>`;
+      h+=`<div class="irow ${sel?'sel':''}" data-sel="${k}"><div class="in"><b>${it.n}　×${m.items[k]}</b><small>${it.d}</small></div><div class="iops">${main}${!inF?ibt(`data-drop="${k}"`,m.items[k]>1?'放一個到地上':'放到地上',0,can):''}</div></div>`;
       if(sel){let a='';
         if(usable&&it.t!=='wear'&&it.t!=='misc')a+=mates.map(t=>ibt(`data-useon="${k}" data-to="${t.pid}"`,'替'+esc(t.name)+(it.t==='food'?'吃':'使用'),0,can)).join('');
         if(it.revive)a+=G.players.filter(p=>p.down&&!p.dead).map(t=>ibt(`data-rev="${k}" data-to="${t.pid}"`,'救'+esc(t.name),0,can)).join('');
         if(it.fixFor&&!inF)a+=ibt(`data-fix="${k}"`,'修理',0,can);
-        if(!inF)a+=giveTo.map(t=>ibt(`data-give="${k}" data-to="${t.pid}"`,'給'+esc(t.name),0,can)).join('')+ibt(`data-drop="${k}"`,'丟一個',0,can);
+        if(!inF)a+=giveTo.map(t=>ibt(`data-give="${k}" data-to="${t.pid}"`,'給'+esc(t.name),0,can)).join('');
         if(a)h+=`<div class="acts">${a}</div>`;
         if(FIXK===k&&!inF)h+=`<div class="acts"><small>要修哪一把？</small>${m.gear.filter(g=>g.dur!=null||WEAP[g.id].kind==='gun').map(g=>ibt(`data-fixu="${g.u}" data-k="${k}"`,WEAP[g.id].n,0,can)).join('')||'<small>沒有能修的武器。</small>'}</div>`}}}
   if(!spare.length&&!Object.keys(m.items).some(k=>m.items[k]>0))h+='<p class="note">背包是空的。</p>';
@@ -4874,8 +4882,9 @@ function panel(k){
   if((k==='bag'||k==='craft')&&!m){toast('觀戰中沒有背包。');OVK=null;return}
   const inF=!!(G&&G.fight),can=G&&!G.busy&&!m.dead&&(!inF||myTurn())&&!m.down;
   if(k==='bag'){
-    const gr=G.ground.length?`<div class="cat">地上</div>${G.ground.map((x,i)=>`<div class="irow"><div class="in"><b>${x.g?WEAP[x.g.id].n:ITEMS[x.k].n+(x.q>1?' ×'+x.q:'')}</b><small>放在這個地方，回來還撿得到。</small></div><button class="btn" data-pick="${i}" ${can&&!inF?'':'disabled'}>撿起</button></div>`).join('')}`:'';
-    openOv(`<div class="boxhead"><b>背包與裝備</b><span class="hbtns">${inF?'':'<button class="btn" data-open="craft">合成</button>'}${X}</span></div><div class="bagwrap b3"><div class="scr2">${sheet(m)}</div><div class="scr2">${eqCol(m,inF,can)}</div><div class="scr2">${itemCol(m,inF,can)}${gr}</div></div>`);
+    const gr=G.ground.length?G.ground.map((x,i)=>`<div class="irow"><div class="in"><b>${groundName(x)}</b></div><button class="btn" data-pick="${i}" ${can&&!inF?'':'disabled'}>撿起</button></div>`).join(''):'<p class="note">目前地上沒有物品。</p>';
+    const space=`<p class="slots">背包 <b>${used(m)}／${cap(m)}</b> 格　<small>同種 5 個疊 1 格；拿在手上、穿著的不佔格</small></p><p class="note">${inF?'戰鬥中不能丟棄或撿取地面物品；使用物品、換武器會用掉回合。':used(m)>=cap(m)?'背包已滿；可先放下物品。相同物品未滿 5 個仍可堆疊。':'點選物品可展開轉交、修理等操作；放下的物品可從地面區撿回。'}</p>`;
+    openOv(`<div class="boxhead"><b>背包與裝備</b><span class="hbtns">${inF?'':'<button class="btn" data-open="craft">合成</button>'}${X}</span></div><div class="bagwrap b3"><div class="scr2">${sheet(m)}</div><div class="scr2">${eqCol(m,inF,can)}</div><div class="bagstore"><div class="bagcap">${space}</div><div class="scr2 bagitems">${itemCol(m,inF,can)}</div><section class="groundarea"><div class="cat">地面物品（${G.ground.length}）</div><div class="scr2 grounditems">${gr}</div></section></div></div>`);
   }else if(k==='craft'){
     if(inF){toast('戰鬥中不能合成。');OVK=null;return}
     const slotName=s=>s.u!=null?(gearOf(m,s.u)?WEAP[gearOf(m,s.u).id].n:'?'):ITEMS[s.k].n;
