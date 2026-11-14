@@ -548,7 +548,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.21.3", "b": 42, "t": "2026-11-14T18:40:31+08:00"};
+const ZC_VER={"v": "0.21.4", "b": 43, "t": "2026-11-14T18:51:28+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -862,7 +862,7 @@ const PRESETS={
   gear:[['beretta','R',8],['armyknife','L']],items:{med:1,cigarette:1,lighter:1},
   d:'退伍之後自己接案的調查員，習慣先確認出口、距離和視線，再決定要不要靠近。這一次沒有人委託他。他循著一批互相矛盾的失蹤紀錄，一個人查到這座城市，住進了好幾個失蹤者最後登記入住的那間旅館。那批紀錄裡，有一個名字是他在部隊時的中士。'}
 };
-/* ============ 劇情角色：7 個職業（沒有名字，用玩家的名字）============
+/* ============ 劇情角色：5 個職業＋麥琪、了白，共 7 人============
    能力點、天賦、技能、初始物品固定，另外可帶 3 點物品。之後在特定地方會有專屬劇情與選項（劇情選項寫 job:'職業鍵' 就只有這個職業在場才看得到）。 */
 const JOBS={
  nurse:{n:'急診護理師',st:{STR:1,AGI:2,CON:2,PER:2,INT:3,CHA:2},tal:'firstaid',sk:'soothe',gear:[],items:{med:2},d:'市立醫院急診室的護理師。這幾天送進來的病人，一個比一個不對勁。連值三班之後，在醫院附近的旅館開了一間房補眠。'},
@@ -877,10 +877,18 @@ const JOBS={
    格式和 PRESETS 一樣（n 名字、role、st、gear、items、p/pd 被動、act/actn/actd 招牌技能、d 介紹）；專屬效果要另外寫進程式。目前還沒有。 */
 const GUESTS={};
 const JOB_COST=75,GUEST_COST=100;
+// 廢案資料只供舊遊戲存檔辨識，不再出現在選角與解鎖目錄。
+const RETIRED_JOBS=new Set(['courier','sales']);
+const selectableJobs=()=>Object.entries(JOBS).filter(([k])=>!RETIRED_JOBS.has(k));
+function normalizeBuild(b){
+  if(!b||!RETIRED_JOBS.has(b.kind))return b;
+  const j=JOBS[b.kind];
+  return {...b,kind:'custom',st:{...j.st},tal:j.tal,sk:j.sk};
+}
 // 角色鍵 → 解鎖用的 id
-const lockId=k=>PRESETS[k]?k:JOBS[k]?'job_'+k:GUESTS[k]?'guest_'+k:null;
+const lockId=k=>RETIRED_JOBS.has(k)?null:PRESETS[k]?k:JOBS[k]?'job_'+k:GUESTS[k]?'guest_'+k:null;
 const UNLOCKS=[
- ...Object.entries(JOBS).map(([k,j])=>({id:'job_'+k,n:'劇情角色：'+j.n,cost:JOB_COST})),
+ ...selectableJobs().map(([k,j])=>({id:'job_'+k,n:'劇情角色：'+j.n,cost:JOB_COST})),
  {id:'maggie',n:'劇情角色：麥琪',cost:75},{id:'liao',n:'劇情角色：了白',cost:75},
  ...Object.entries(GUESTS).map(([k,g])=>({id:'guest_'+k,n:'訪客：'+g.n,cost:GUEST_COST})),
  {id:'pack1',n:'初始物品點數 +1',cost:30},{id:'pack2',n:'初始物品點數 +1（第二級）',cost:60,need:'pack1'}
@@ -2956,6 +2964,7 @@ const pct=(p,st,dc,mod)=>{const need=dc-(statMod(p,st)+checkBonus(p,st)+(mod||0)
 const hitPct=(tot,def)=>Math.round(clamp((21-(def-tot))/20*100,5,95));
 /* ================= 建立角色 ================= */
 function makePlayer(b,i){
+  b=normalizeBuild(b);
   const p={pid:b.pid,name:String(b.name||'無名').slice(0,10),col:COLS[i%COLS.length],kind:'custom',bg:null,traits:[],st:{STR:0,AGI:0,CON:0,PER:0,INT:0,CHA:0},
     hp:0,max:0,fe:0,inf:0,hun:8,thi:8,nT:0,bleed:0,frac:0,pk:0,items:{},gear:[],hand:{R:null,L:null},eq:{head:null,body:null,arm:null,leg:null},usd:0,down:0,dead:0,lost:0,mad:0,bon:{},kills:0,defPen:0,combo:0,counter:0,brace:0,actUsed:0,aimed:0,lv:1,xp:0,pts:0,photoLv:null,jamGuard:0};
   G.players.push(p);
@@ -4959,7 +4968,7 @@ document.addEventListener('keydown',e=>{
 /* ================= 選單、建立角色、房間 ================= */
 let SCR=null,CMODE='solo',CTAB='who',JOIN='';
 // 建角預設：屬性全部 0、什麼都沒帶（v0.5.1 起換新的儲存位置，舊的預設值不沿用）
-let CB=LS.get('zc9-build',null)||{kind:'custom',name:'',st:{STR:0,AGI:0,CON:0,PER:0,INT:0,CHA:0},tal:null,sk:null,load:{}};
+let CB=normalizeBuild(LS.get('zc9-build',null))||{kind:'custom',name:'',st:{STR:0,AGI:0,CON:0,PER:0,INT:0,CHA:0},tal:null,sk:null,load:{}};
 let SCR_LAST=null;
 function scr(h){const s=$('#scr');const keep=SCR_LAST===SCR+'|'+(typeof CTAB!=='undefined'?CTAB:'');const b=s.querySelector('.sbody');const st=b?b.scrollTop:0;s.innerHTML=h;s.hidden=false;const nb=s.querySelector('.sbody');if(keep&&nb)nb.scrollTop=st;SCR_LAST=SCR+'|'+(typeof CTAB!=='undefined'?CTAB:'')}
 function onNetReady(){if(SCR==='menu')showMenu()}
@@ -4976,7 +4985,7 @@ function showMenu(){
 function bindAvatar(){const af=$('#avfile');if(af)af.addEventListener('change',()=>{const f=af.files&&af.files[0];if(f)loadAvatar(f)})}
 // 劇情角色、訪客的選角頁
 let RCAT='story';
-function rosterOf(cat){return cat==='guest'?Object.entries(GUESTS).map(([k,g])=>({k,n:g.n,role:g.role,d:g.d,cost:GUEST_COST})):[...Object.entries(JOBS).map(([k,j])=>({k,n:j.n,role:'職業',d:j.d,cost:JOB_COST})),...Object.entries(PRESETS).map(([k,p])=>({k,n:p.n,role:p.role,d:p.d,cost:p.lock}))]}
+function rosterOf(cat){return cat==='guest'?Object.entries(GUESTS).map(([k,g])=>({k,n:g.n,role:g.role,d:g.d,cost:GUEST_COST})):[...selectableJobs().map(([k,j])=>({k,n:j.n,role:'職業',d:j.d,cost:JOB_COST})),...Object.entries(PRESETS).map(([k,p])=>({k,n:p.n,role:p.role,d:p.d,cost:p.lock}))]}
 function charDetail(k){const J=JOBS[k],pr=PRESETS[k]||GUESTS[k];const st=J?Object.assign({},J.st):pr.st;const tb=J?TALENT[J.tal].st:{};
   const R=rulerR(Object.keys(STN).map(s=>st[s]+(tb[s]||0)));const rows=Object.keys(STN).map(s=>`<div class="cstat"><b>${STN[s]}</b>${ruler(st[s],tb[s]||0,R)}<span>${st[s]}${tb[s]?` +${tb[s]}＝${st[s]+tb[s]}`:''}</span></div>`).join('');
   const gear=(J?J.gear:pr.gear).map(([id])=>WEAP[id].n),items=Object.entries((J?J.items:pr.items)||{}).map(([i,q])=>ITEMS[i].n+(q>1?'×'+q:''));
@@ -5035,7 +5044,7 @@ function loadAvatar(file){if(!/^image\//.test(file.type||'')){toast('請選擇�
   const S=80,c=document.createElement('canvas');c.width=c.height=S;const x=c.getContext('2d');const m=Math.min(im.width,im.height);x.fillStyle='#111';x.fillRect(0,0,S,S);x.drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,S,S);
   let q=.8,u=c.toDataURL('image/jpeg',q);while(u.length>9000&&q>.3){q-=.1;u=c.toDataURL('image/jpeg',q)}
   if(!avOk(u)){toast('這張圖片沒辦法用，換一張試試。');return}LS.set('zc8-avatar',u);AVS[MYPID]=u;if(NET.r&&ROLE==='client'&&NET.ready)sendAv();if(ROLE==='host')send({t:'av',d:{pid:MYPID,d:u}});if(SCR==='menu')showMenu();else showCreate()};im.onerror=()=>toast('讀不到這張圖片。');im.src=rd.result};rd.readAsDataURL(file)}
-function buildOut(){const b=JSON.parse(JSON.stringify(CB));b.pid=MYPID;b.packs=packs();if(b.kind==='custom'&&!b.name.trim())b.name='倖存者';if(JOBS[b.kind]&&!b.name.trim())b.name=JOBS[b.kind].n;LS.set('zc9-build',CB);return b}
+function buildOut(){CB=normalizeBuild(CB);const b=JSON.parse(JSON.stringify(CB));b.pid=MYPID;b.packs=packs();if(b.kind==='custom'&&!b.name.trim())b.name='倖存者';if(JOBS[b.kind]&&!b.name.trim())b.name=JOBS[b.kind].n;LS.set('zc9-build',CB);return b}
 /* ---- 房間 ---- */
 const bName=b=>b?((PRESETS[b.kind]||GUESTS[b.kind])?(PRESETS[b.kind]||GUESTS[b.kind]).n:b.name||'無名'):'';
 function showJoin(){SCR='join';
