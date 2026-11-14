@@ -552,7 +552,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.21.6", "b": 45, "t": "2026-11-14T20:42:39+08:00"};
+const ZC_VER={"v": "0.21.7", "b": 46, "t": "2026-11-14T21:16:47+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -4536,17 +4536,17 @@ function setPres(extra){if(!NET.r)return;const pr={pid:MYPID,name:NET.build?bNam
 // v0.21.0 朋友回饋：晚到的人在隊伍下次換區域時跟上
 function lateJoin(){if(ROLE==='solo'||!NET.late)return;for(const [pid,b] of Object.entries(NET.late)){if(G.players.some(p=>p.pid===pid)){delete NET.late[pid];continue}if(G.players.length>=MAXP)break;
   const lv=Math.max(1,Math.min(...G.players.filter(p=>!p.dead).map(p=>p.lv||1)));const np=makePlayer(Object.assign({},b,{pid}),G.players.length);np.lv=1;while(np.lv<lv){np.lv++;np.pts=(np.pts||0)+1}np.max=maxHp(np);np.hp=np.max;np.xp=lv>1?XPT[lv-2]:0;
-  delete NET.late[pid];out(`<b>${nm(np)}</b>追上了你們。`,'good')}}
+  delete NET.late[pid];out(`【連線通知】<b>${nm(np)}</b>已加入隊伍，從目前區域開始參與。`,'good')}}
 // v0.21.0 朋友回饋：房主斷線時，由還在線上、pid 最小的隊友接手當房主
 function hostLost(peers){if(!G||G.over){if(typeof hostGone==='function')hostGone();return}
   const here=new Set(peers.filter(x=>x.presence&&x.presence.pid&&!x.presence.host).map(x=>x.presence.pid));here.add(MYPID);
   const cand=G.players.filter(p=>!p.dead&&here.has(p.pid)).map(p=>p.pid).sort();
   if(cand[0]===MYPID){becomeHost(peers);return}
-  clearTimeout(NET.hgT);NET.hgT=setTimeout(()=>{if(!NET.hostPeer&&ROLE==='client'&&typeof hostGone==='function')hostGone()},10000);toast('房主斷線了，等待其他隊友接手……')}
+  clearTimeout(NET.hgT);NET.hgT=setTimeout(()=>{if(!NET.hostPeer&&ROLE==='client'&&typeof hostGone==='function')hostGone()},10000);toast('房主連線中斷，正在等待其他玩家接任……')}
 function becomeHost(peers){const old=G.host;ROLE='host';NET.started=1;NET.late={};G.host=MYPID;LOBBY.opts=Object.assign({},LOBBY.opts,G.opts||{});
   for(const x of peers){const pr=x.presence;if(!pr||!pr.pid)continue;if(Array.isArray(pr.acts))NET.seen[pr.pid]=Math.max(0,...pr.acts.map(a=>a.n||0));NET.need[pr.pid]=pr.need||0}
-  const op=G.players.find(p=>p.pid===old);if(op&&!op.away){op.away=1;out(`${nm(op)}的身影消失在黑暗裡。（斷線）`,'sys',true)}
-  out(`房主斷線了，由<b>${nm(me())}</b>接手。`,'rule',true);setPres();
+  const op=G.players.find(p=>p.pid===old);if(op&&!op.away){op.away=1;out(`【連線通知】${nm(op)}連線中斷，暫停參與行動。`,'sys',true)}
+  out(`【連線通知】原房主連線中斷，已由<b>${nm(me())}</b>接任房主。`,'rule',true);setPres();
   // 修復交接時正在進行的流程
   busy=false;RQ.length=0;G.busy=0;
   if(G.fight){const F=G.fight;F.resolving=0;F.cur=null;F.group=null;F.pend={};run(advance)}
@@ -4572,12 +4572,12 @@ function onPeers(ch){
       if(Array.isArray(pr.acts)&&G&&NET.started){const last=NET.seen[pid]||0;for(const a of pr.acts){if(typeof a.n==='number'&&a.n>last){NET.seen[pid]=a.n;if(G.players.some(p=>p.pid===pid))handle(pid,a)}}}
       else if(Array.isArray(pr.acts)){for(const a of pr.acts)if(a.n>(NET.seen[pid]||0))NET.seen[pid]=a.n}
       if((pr.need||0)>(NET.need[pid]||0)){NET.need[pid]=pr.need;if(NET.started)setTimeout(fullSync,150)}
-      if(G&&NET.started&&!G.over&&pr.ready&&pr.build&&pr.build.kind!=='saved'&&!G.players.some(p=>p.pid===pid)&&!NET.late[pid]){NET.late[pid]=pr.build;out(`${esc(bName(pr.build))}在附近。等你們離開這個區域，他就會跟上。`,'sys',true);push();draw()}}
+      if(G&&NET.started&&!G.over&&pr.ready&&pr.build&&pr.build.kind!=='saved'&&!G.players.some(p=>p.pid===pid)&&!NET.late[pid]){NET.late[pid]=pr.build;out(`【連線通知】${esc(bName(pr.build))}已連上房間，等待隊伍下次切換區域後加入。`,'sys',true);push();draw()}}
     if(G&&NET.started&&!G.over){let ch2=false;
       const here=new Set(peers.filter(x=>x.presence&&x.presence.pid).map(x=>x.presence.pid));here.add(MYPID);
       for(const p of G.players){if(p.dead)continue;
-        if(p.away&&here.has(p.pid)){p.away=0;ch2=true;out(`${nm(p)}的身影又出現在閃爍的燈光裡。（重新連線）`,'good',true)}
-        else if(!p.away&&!here.has(p.pid)){p.away=1;ch2=true;out(`${nm(p)}的身影消失在黑暗裡。（斷線）`,'sys',true)}}
+        if(p.away&&here.has(p.pid)){p.away=0;ch2=true;out(`【連線通知】${nm(p)}已重新連線，恢復參與行動。`,'good',true)}
+        else if(!p.away&&!here.has(p.pid)){p.away=1;ch2=true;out(`【連線通知】${nm(p)}連線中斷，暫停參與行動。`,'sys',true)}}
       if(ch2){push();draw();setTimeout(fullSync,300);
         if(!busy&&G.phase==='node'&&voters().length&&voters().every(p=>G.votes[p.pid]!=null))resolveVote();
         if(!busy&&G.phase==='roller'&&voters().length&&voters().every(p=>G.rv[p.pid]!=null))resolveRoller();
@@ -4635,6 +4635,9 @@ function requestSync(){NET.needN++;setPres()}
 /* ================= 遊戲畫面 ================= */
 function bar(cls,name,v,max,txt){return `<div class="stb ${cls}"><span>${name}<b>${txt}</b></span><i><u style="width:${clamp(v/max*100,0,100)}%"></u></i></div>`}
 const chBtn=(attr,l,s,tag,tc,dis,extra,cls)=>`<button class="ch ${cls||''}" ${attr} ${dis?'disabled':''}><span class="cl">${l}</span>${extra||''}${tag?`<span class="tag ${tc}">${tag}</span>`:''}${s?`<span class="cs">${s}</span>`:''}</button>`;
+// 屬性需求統一放在標籤；真實模式保留標籤，只隱藏判定數字。
+function checkTag(st,dc){return STN[st]?`需要${STN[st]}${DF().num?' '+dc:''}`:''}
+function choiceNote(c){const text=c.s||'';return c.k&&STN[c.k]?text.replace(new RegExp('^'+STN[c.k]+'檢定\\s*[：:，,；;]?\\s*'),'').replace(new RegExp('\\s*[；;，,]\\s*'+STN[c.k]+'檢定\\s*$'),'').trim():text}
 const avH=(pid,name,col,cls)=>avOk(AVS[pid])?`<span class="av pic ${cls||''}" title="${esc(name)}"><img src="${AVS[pid]}" alt=""></span>`:`<span class="av ${cls||''}" style="background:${col}" title="${esc(name)}">${esc([...name][0]||'?')}</span>`;
 const av=(p,big)=>avH(p.pid,p.name,p.col,big?'big':'');
 // v0.12.1 屬性刻度尺（檢驗報告風格）：不畫上限，刻度範圍至少 0～10，數值超過時跟著放大；每 5 一條長刻度（升級花費變貴的地方）
@@ -4712,21 +4715,21 @@ function draw(){
     else h=(mp?`<p class="note">你選了：${actLabel(m,mp)}。${MP()&&waitN.length?`還在等 ${waitN.join('、')}。`:''}想改的話直接重選。</p>`:'')+fightMenu(m);
   }else if((G.phase==='roller'||G.phase==='node')&&m&&m.mad&&!m.dead){T='你發瘋了';Pl='失控';h='<p class="note">你發瘋了，身體不聽使喚，只聽得到自己的笑聲。等隊友用鎮定劑、安撫，或把你制伏再救起來。</p>'
   }else if(G.phase==='roller'){
-    const c=choices()[G.pc];T=`由誰來？　${c.l}`;Pl=cl?`${Math.ceil(cl/1000)} 秒`:DF().num?`需要${STN[c.k]} ${c.d}`:`${STN[c.k]}檢定`;
+    const c=choices()[G.pc];T=`由誰來？　${c.l}`;Pl=cl?`${Math.ceil(cl/1000)} 秒`:checkTag(c.k,c.d);
     const el=ctl();const assist=el.length>1?2:0;const bf=c.bonusFlag&&G.flags[c.bonusFlag]?3:0;
     h=el.map(p=>{const rel=relItems(p,c);const vts=voters().filter(q=>G.rv[q.pid]===p.pid).map(q=>av(q)).join('');
-      return chBtn(`data-rv="${p.pid}"`,`${av(p)} ${esc(p.name)}`,rel||'',`${STN[c.k]} ${statMod(p,c.k)+checkBonus(p,c.k)}`,'t-ck',G.busy,`<span class="vts">${vts}</span>`,G.rv[MYPID]===p.pid?'mine':'')}).join('')+
+      return chBtn(`data-rv="${p.pid}"`,`${av(p)} ${esc(p.name)}`,rel||'',STN[c.k]+(DF().num?` ${statMod(p,c.k)+checkBonus(p,c.k)}`:''),'t-ck',G.busy,`<span class="vts">${vts}</span>`,G.rv[MYPID]===p.pid?'mine':'')}).join('')+
       `<p class="note">被選中的人擲骰，其他人在旁邊協助 +2。</p>`+hostCdBtn();
   }else if(G.phase==='node'){
     T='要做什麼？';Pl=cl?`${Math.ceil(cl/1000)} 秒`:MP()?'投票':'行動';
     h=choices().map((c,i)=>({c,i})).sort((a,b)=>(a.c._searchBase??a.i)-(b.c._searchBase??b.i)||(a.c._searchMode==='quick'?-1:0)-(b.c._searchMode==='quick'?-1:0)).map(({c,i})=>{if(!visible(c))return '';const ok=choiceOk(c);const sm=ctl().length?ctl().reduce((a,b)=>c.k&&statMod(b,c.k)+checkBonus(b,c.k)>statMod(a,c.k)+checkBonus(a,c.k)?b:a):m;
       const bf=c.bonusFlag&&G.flags[c.bonusFlag]?3:0;const assist=MP()&&ctl().length>1?2:0;
-      const tag=c.k?(DF().num?`需要${STN[c.k]} ${c.d}`:/檢定/.test(c.s||'')?'':`${STN[c.k]}檢定`):'';
+      const tag=checkTag(c.k,c.d);
       const why=!ok&&c.req?('需要'+reqList(c).map(nameOf).join(c.reqAny?'或':'、')):'';
       const vts=MP()?voters().filter(q=>G.votes[q.pid]===i).map(q=>av(q)).join(''):'';
       const hn=G.hint&&G.hint[MYPID]&&G.hint[MYPID][i];const tl=G.told&&G.told[i];const hs=hn?`<em class="hint">你察覺：${hn}</em>`:tl?`<em class="hint">${esc(P(tl.pid).name)}說：${tl.t}</em>`:'';const why2=!ok&&c.usd&&teamUsd()<c.usd?`需要 $${c.usd}（全隊有 $${teamUsd()}）`:!ok&&c.karma&&!c.reqN&&!c.req?'他們還不夠信任你們。':!ok&&c.reqN?'需要'+Object.entries(c.reqN).map(([k,q])=>ITEMS[k].n+' ×'+q).join('、'):'';
       const tk=tKind(c);
-      return chBtn(`data-ch="${i}"`,c.l+(tk?`<small class="tmc ${tk}">（${TLAB[tk]}）</small>`:''),(why||why2||c.s||'')+hs,tag,tag?'t-ck':'',!ok||G.busy,vts?`<span class="vts">${vts}</span>`:'',G.votes[MYPID]===i?'mine':'')+(hn&&MP()&&!tl?`<button class="btn tellb" data-tell="${i}">告知隊友</button>`:'')}).join('')+(MP()?`<p class="note">多數決，同票隨機。</p>`+hostCdBtn():'')+(G.ground.length?`<p class="note">地上有東西，打開背包可以撿。</p>`:'');
+      return chBtn(`data-ch="${i}"`,c.l+(tk?`<small class="tmc ${tk}">（${TLAB[tk]}）</small>`:''),(why||why2||choiceNote(c))+hs,tag,tag?'t-ck':'',!ok||G.busy,vts?`<span class="vts">${vts}</span>`:'',G.votes[MYPID]===i?'mine':'')+(hn&&MP()&&!tl?`<button class="btn tellb" data-tell="${i}">告知隊友</button>`:'')}).join('')+(MP()?`<p class="note">多數決，同票隨機。</p>`+hostCdBtn():'')+(G.ground.length?`<p class="note">地上有東西，打開背包可以撿。</p>`:'');
   }else if(G.phase==='shop'&&G.shop){const S=G.shop,sh=SHOPS[S.id];if(S.key!==SHOPKEY){SHOPKEY=S.key;SHOPSHUT=false;SHOPSEL=0;SHOPMODE='buy'}if(OVK==='shop')setTimeout(()=>{if(OVK==='shop')panel('shop')},0);const rd=ctl().filter(q=>S.ready[q.pid]).length;T=sh.n;Pl=`$${m.usd||0}`;
     h=chBtn('data-openshop','回到商店','看看商品、買東西、賣東西','','')+chBtn('data-shopdone',S.ready[MYPID]?'已經準備好，等其他人':'買好了，繼續',`${rd}／${ctl().length} 人準備好`,'','',!!S.ready[MYPID]);
     if(OVK==null&&!SHOPSHUT)setTimeout(()=>{if(G&&G.phase==='shop'&&OVK==null)panel('shop')},0)
@@ -4768,7 +4771,7 @@ function fightMenu(m){
     if(it)h+='<p class="note">道具技能</p>'+it;
     return h+backBtn()}
   if(FTAB==='tact'){const ts=Object.keys(TACT).filter(id=>tactAvail(id,m));
-    return (ts.length?ts.map(id=>{const T=TACT[id];const miss=T.item&&!hasI(m,T.item);return chBtn(`data-fa="tact" data-id="${id}"`,T.n,T.d,DF().num?`需要${STN[T.st]} ${T.dc}`:`${STN[T.st]}檢定`,'t-ck',miss)}).join('')+'<p class="note">對策要看現場有什麼可以利用：一場戰鬥最多出現一個，用過就沒了，會用掉回合。</p>':G.fight.tUsed[G.fight.site]?'<p class="note">這裡能利用的東西已經用掉了。</p>':'<p class="note">這裡沒有可以利用的東西。</p>')+backBtn()}
+    return (ts.length?ts.map(id=>{const T=TACT[id];const miss=T.item&&!hasI(m,T.item);return chBtn(`data-fa="tact" data-id="${id}"`,T.n,T.d,checkTag(T.st,T.dc),'t-ck',miss)}).join('')+'<p class="note">對策要看現場有什麼可以利用：一場戰鬥最多出現一個，用過就沒了，會用掉回合。</p>':G.fight.tUsed[G.fight.site]?'<p class="note">這裡能利用的東西已經用掉了。</p>':'<p class="note">這裡沒有可以利用的東西。</p>')+backBtn()}
   if(FTAB==='other'){let h='';
     for(const x of handsOf(m)){const {g,w}=x;if(!g)continue;
       if(w.kind==='gun'&&g.jam)h+=chBtn(`data-fa="unjam" data-h="${x.h}"`,`${x.lab}・排除卡彈`,`${w.n}：拉動滑套退出彈殼`,'','t-x');
@@ -4776,12 +4779,12 @@ function fightMenu(m){
       if(w.cock&&!g.cocked)h+=chBtn(`data-fa="cock" data-h="${x.h}"`,`${x.lab}・上弦`,w.n,'','t-x')}
     for(const g of m.gear.filter(g=>g.drop==='feet'))h+=chBtn(`data-fa="pickup" data-u="${g.u}"`,`撿起${WEAP[g.id].n}`,'掉在腳邊，花一回合撿回來','','t-x');
     for(const t of G.players.filter(p=>p!==m&&!p.dead))for(const g of t.gear.filter(g=>g.drop==='feet'))h+=chBtn(`data-fa="kick" data-to="${t.pid}" data-u="${g.u}"`,`把${WEAP[g.id].n}踢回給${esc(t.name)}`,'花一回合','','t-x');
-    if(G.fight.foes.some(f=>f.hid&&f.hp>0&&!f.dead))h+=chBtn('data-fa="spot"','搜尋',`感知檢定${DF().num?'（難度 12）':''}：找出一名躲起來的敵人，找到之後才能攻擊他；用掉這個回合`,'','t-x');
+    if(G.fight.foes.some(f=>f.hid&&f.hp>0&&!f.dead))h+=chBtn('data-fa="spot"','搜尋','找出一名躲起來的敵人，找到之後才能攻擊他；用掉這個回合',checkTag('PER',12),'t-ck');
     if(m.burn>0)h+=chBtn('data-fa="pat"','拍熄身上的火',`還會燒 ${m.burn} 次，每次生命 −2；用掉這個回合`,'','t-dg');
     if(m.held)h+=chBtn('data-fa="free"','掙脫',`被${(G.fight.foes[m.held-1]||{}).n||'感染者'}抓住了（防禦 −2、不能逃跑）：花掉這個回合就能掙脫`,'','t-dg');
     h+='<p class="note">防守（維持到你下次行動）</p>'+chBtn('data-fa="block"','格擋',`擋下近戰攻擊：防禦 +2，近戰傷害減半${handsOf(m).some(x=>x.w.pole)?'，長柄再減 1':''}；對遠程無效`,'','t-x')+chBtn('data-fa="dodge"','閃躲','專心閃避：防禦 +5，被打中時傷害照算','','t-x')+chBtn('data-fa="cover"','掩蔽',G.fight.nocover?'這裡沒有可以躲的地方':'躲到掩體後面：對槍、弓、丟擲物防禦 +5、傷害減半；對近戰無效','','t-x',G.fight.nocover);
-    for(const t of able().filter(q=>q!==m&&q.mad)){h+=chBtn(`data-fa="calm" data-to="${t.pid}"`,`安撫${esc(t.name)}`,`魅力檢定${DF().num?'（難度 14）':''}：成功就讓他恢復意識。每場戰鬥只能試一次`,m.calmUsed?'已使用':'每場一次','t-x',m.calmUsed);h+=chBtn(`data-fa="subdue" data-to="${t.pid}"`,`制伏${esc(t.name)}`,'用手上的武器打他；打倒之後救起來就會清醒，但仍在崩潰邊緣','','t-dg')}
-    if(!G.fight.noflee){const hd=able().some(q=>q.held);h+=chBtn('data-fa="flee"','逃跑',hd?'有人被抓住了，現在跑不掉':MP()?'成功的話全隊一起脫離戰鬥':'成功就脫離戰鬥，失敗會浪費回合',`需要敏捷 12`,'t-dg',hd)}
+    for(const t of able().filter(q=>q!==m&&q.mad)){h+=chBtn(`data-fa="calm" data-to="${t.pid}"`,`安撫${esc(t.name)}`,'成功就讓他恢復意識。每場戰鬥只能試一次',checkTag('CHA',14)+(m.calmUsed?'・已使用':''),'t-ck',m.calmUsed);h+=chBtn(`data-fa="subdue" data-to="${t.pid}"`,`制伏${esc(t.name)}`,'用手上的武器打他；打倒之後救起來就會清醒，但仍在崩潰邊緣','','t-dg')}
+    if(!G.fight.noflee){const hd=able().some(q=>q.held);h+=chBtn('data-fa="flee"','逃跑',hd?'有人被抓住了，現在跑不掉':MP()?'成功的話全隊一起脫離戰鬥':'成功就脫離戰鬥，失敗會浪費回合',checkTag('AGI',12),'t-dg',hd)}
     else h+='<p class="note">懸在外牆上，無處可逃。</p>';
     return h+backBtn()}
   const nt=Object.keys(TACT).filter(id=>tactAvail(id,m)).length;
@@ -4968,7 +4971,7 @@ setInterval(()=>{if(G&&G.cd&&$('#scr').hidden){const l=cdLeft();const pl=$('#chP
 function creditShards(){if(!G||!G.over||!G.over.sh||META.got.includes(G.rid))return;const s=G.over.sh[MYPID];if(s==null)return;META.shards+=s;META.runs++;if(!G.over.dead)META.clears++;META.got.push(G.rid);META.got=META.got.slice(-30);saveMeta()}
 function showGame(){SCR='game';$('#scr').hidden=true;closeOv();renderLog();draw()}
 async function quitGame(){stopCd();if(ROLE!=='solo')await leaveRoom();G=null;LOG=[];busy=false;RQ.length=0;PEND=null;FTAB=null;SLOTS=[];SEL=null;DD=false;$('#tdd').hidden=true;$('#log').innerHTML='';if(UI.bgm)startBgm();showMenu()}
-function hostGone(){if(!G||G.over)return;toast('房主離線了。');openOv(`<div class="boxhead"><b>房主離線</b></div><p class="note">房主的畫面關掉或斷線了。這局沒辦法繼續。</p><div class="seg"><button class="btn" data-quit>回到選單</button></div>`)}
+function hostGone(){if(!G||G.over)return;toast('與房主的連線中斷。');openOv(`<div class="boxhead"><b>連線中斷</b></div><p class="note">與房主的連線中斷，且未能完成房主交接，目前無法繼續同步本局進度。請回到選單重新建立或加入房間。</p><div class="seg"><button class="btn" data-quit>回到選單</button></div>`)}
 
 function runTitle(q){const ps=G.players;const top=(k)=>ps.length>1&&ps.every(x=>(x[k]||0)<=(q[k]||0))&&(q[k]||0)>0;
   if(q.mad)return '發瘋的人';if(q.dead)return '沒能走出去的人';
@@ -5094,7 +5097,7 @@ function showLobby(){
    ${host?`<div class="seg">${Object.entries(cdn).map(([v,l])=>`<button class="btn ${o.cd===v?'on':''}" data-lcd="${v}">${l}</button>`).join('')}</div><div class="seg">${[15,20,30].map(v=>`<button class="btn ${o.sec===v?'on':''}" data-lsec="${v}">${v} 秒</button>`).join('')}</div><p class="note">關閉：等所有人都投票。房主按下才倒數：房主可以隨時催促。強制倒數：每個選擇和每個回合都有時間限制，時間到了自動決定。</p>`:''}
   </div><div><div class="plist">${ps.map((p,i)=>`<div class="prow">${avH(p.pid,p.name,COLS[i%COLS.length],'big')}<b>${esc(p.name)}${p.pid===MYPID?'（你）':''}</b><small class="${p.ready?'ok':''}">${i>=MAXP?'觀戰':p.host?'房主':p.ready?'準備好了':'還沒好'}</small></div>`).join('')}</div>
    <p class="note">最多 ${MAXP} 人；超過的人只能觀戰。</p>
-   ${host&&LS.get('zc7-mpsave',null)?`<div class="seg"><button class="btn ${LOBBY.load?'on':''}" data-m="loadmp">${LOBBY.load?'已載入多人存檔（點一下取消）':'讀取多人存檔'}</button></div>${LOBBY.load?`<p class="note">存檔裡的角色：${LOBBY.load.G.players.map(p=>esc(p.name)).join('、')}。他們加入房間就會自動接回；沒回來的角色會留在原地，等之後重新連線。</p>`:''}`:''}
+   ${host&&LS.get('zc7-mpsave',null)?`<div class="seg"><button class="btn ${LOBBY.load?'on':''}" data-m="loadmp">${LOBBY.load?'已載入多人存檔（點一下取消）':'讀取多人存檔'}</button></div>${LOBBY.load?`<p class="note">存檔裡的角色：${LOBBY.load.G.players.map(p=>esc(p.name)).join('、')}。他們加入房間就會自動接回；尚未連線的玩家暫停參與行動，重新連線後即可接回角色。</p>`:''}`:''}
    <div class="seg">${host&&LOBBY.load&&LOBBY.load.G.players.some(p=>p.pid===MYPID)?'':`<button class="btn" data-m="editc">${myb?'修改角色':'建立角色'}</button>`}${host?`<button class="btn" data-m="start" ${(LOBBY.load||myb)&&readyN>=Math.min(ps.length,MAXP)?'':'disabled'}>開始（${Math.min(readyN,MAXP)} 人）</button>`:''}</div></div></div></div>`)}
 async function hostRoom(){LOBBY.load=null;LOBBY.opts.diff=UI.diff||'normal';
   const code=String(rnd(1000,9999));
@@ -5118,7 +5121,7 @@ function startMP(){
     for(const p of ps)if(!p.saved&&p.build&&!G.players.some(q=>q.pid===p.pid)&&G.players.length<MAXP){const np=makePlayer(Object.assign({},p.build,{pid:p.pid}),G.players.length);np.lv=1}
     NET.started=1;setPres();
     out('—— 冒險繼續 ——','hd',true);out('上一次的調查中斷了。大家回到中斷前的那個地方，接著走。','sys',true);
-    for(const p of G.players)out(p.away?`${nm(p)}還沒有回來。`:`${nm(p)}（生命 ${Math.max(0,p.hp)}／${p.max}、${fstgN(p)}）`,'sys',true);
+    for(const p of G.players)out(p.away?`【連線通知】${nm(p)}尚未連線，暫停參與行動。`:`${nm(p)}（生命 ${Math.max(0,p.hp)}／${p.max}、${fstgN(p)}）`,'sys',true);
     reportEffects(true);reportGround();fullSync();showGame();if(G.fight&&!G.fight.group)run(advance);else{startCd();push();draw()}
     return}
   newRun(ps.map(p=>Object.assign({},p.build,{pid:p.pid})),LOBBY.opts,'mp');
