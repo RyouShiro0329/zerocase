@@ -548,7 +548,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.21.0", "b": 39, "t": "2026-11-14T17:08:04+08:00"};
+const ZC_VER={"v": "0.21.1", "b": 40, "t": "2026-11-14T17:22:32+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3199,7 +3199,8 @@ const PERN={dawn:'清晨',day:'白天',dusk:'傍晚',night:'夜晚'};
 // v0.15.0：開局時刻記在 G.t0（新局 23:41＝1421）；舊存檔沒有 t0，照舊用 06:00
 const T0N=1421;const t0=()=>(G&&G.t0!=null)?G.t0:T0;
 const absMin=()=>t0()+((G&&G.clock)||0);
-const dayN=()=>Math.floor(absMin()/1440)+1;
+// v0.21.1 主人：天數在清晨 05:00 才換（半夜還算前一天的夜晚），開局 23:41 走幾步不會突然變第 2 天
+const dayN=()=>Math.max(1,Math.floor((absMin()-300)/1440)+1);
 const hourN=()=>(absMin()%1440)/60;
 const periodOf=h=>h>=5&&h<8?'dawn':h>=8&&h<17?'day':h>=17&&h<20?'dusk':'night';
 const isNight=()=>!!G&&G.clock!=null&&periodOf(hourN())==='night';
