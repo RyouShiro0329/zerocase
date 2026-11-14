@@ -548,7 +548,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.21.1", "b": 40, "t": "2026-11-14T17:22:32+08:00"};
+const ZC_VER={"v":"0.21.2","b":41,"t":"2026-11-14T18:18:54+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -767,16 +767,16 @@ const SKILL={
 /* ============ 敵人 ============ */
 // fac：陣營（inf 感染者、hum 人類、acru 滅菌部隊）。立繪與名稱照原專案設定；招式是為文字戰鬥重新設計的
 const FOES={
- infected:{n:'感染者',fac:'inf',hp:20,def:10,hit:4,dmg:5,xp:3,rd:{blunt:1.5,slash:1,pierce:.5,ballistic:1,fire:1.5},san:1,tdc:11,ter:1,init:2,weak:['fire'],res:[],inf:[3,3],hear:1,d:'感染初期、還沒有太多變異的感染者。身體還活著，但已經不能算是人了。聽到槍聲會撲向開槍的人；不會逃跑，也不會防禦。'},
+ infected:{n:'感染者',fac:'inf',hp:10,def:10,hit:4,dmg:5,xp:3,rd:{blunt:1.5,slash:1,pierce:.5,ballistic:1,fire:1.5},san:1,tdc:11,ter:1,init:2,weak:['fire'],res:[],inf:[3,3],hear:1,d:'感染初期、還沒有太多變異的感染者。身體還活著，但已經不能算是人了。聽到槍聲會撲向開槍的人；不會逃跑，也不會防禦。'},
  incubator:{n:'孵化者',fac:'inf',hp:12,def:9,hit:3,dmg:2,xp:4,rd:{blunt:.5,slash:1,pierce:1.5,ballistic:1,fire:1.5},san:1,tdc:12,ter:2,init:0,weak:['fire','pierce'],res:['blunt'],inf:[3,6],splash:4,d:'全身長滿囊泡。牠不急著撲上來，而是把囊泡扯下來丟向你；被沾到的地方會一直發癢、發燙。近身打死會噴濺。'},
- devourer:{n:'巨噬者',fac:'inf',hp:20,def:11,hit:4,dmg:4,xp:8,rd:{blunt:1,slash:.5,pierce:1,ballistic:1,fire:1.5},san:2,tdc:13,ter:2,init:0,weak:['fire'],res:[],inf:[2,5],shell:2,big:1,d:'血肉一層層堆上去的龐大感染者。身上有兩層硬化組織：打在上面的傷害最多只剩一半，每打中一下少一層；火焰不受硬化影響，還會燒掉一層。'},
- cutter:{n:'割喉者',fac:'hum',hp:18,def:12,hit:5,dmg:4,xp:4,rd:{blunt:1.5,slash:.5,pierce:1,ballistic:1,fire:1},san:0,tdc:0,ter:0,init:4,weak:[],res:[],inf:[0,0],human:1,d:'拿獵刀的劫匪。動作快，專挑流血的人下手。打不過就會逃，不會死戰。'},
- collector:{n:'索命客',fac:'hum',hp:20,def:10,hit:4,dmg:5,xp:5,rd:{blunt:.5,slash:1,pierce:1.5,ballistic:1,fire:1},san:0,tdc:0,ter:0,init:1,weak:[],res:[],inf:[0,0],human:1,shooter:1,d:'扛著單管霰彈槍的劫匪。先舉槍瞄準，下一次才開火，開一槍就要重裝一次。貼上去打他能打斷瞄準。'},
+ devourer:{n:'巨噬者',fac:'inf',hp:22,def:11,hit:4,dmg:4,xp:8,rd:{blunt:1,slash:.5,pierce:1,ballistic:1,fire:1.5},san:2,tdc:13,ter:2,init:0,weak:['fire'],res:[],inf:[2,5],shell:2,big:1,d:'血肉一層層堆上去的龐大感染者。身上有兩層硬化組織：打在上面的傷害最多只剩一半，每打中一下少一層；火焰不受硬化影響，還會燒掉一層。'},
+ cutter:{n:'割喉者',fac:'hum',hp:11,def:12,hit:5,dmg:4,xp:4,rd:{blunt:1.5,slash:.5,pierce:1,ballistic:1,fire:1},san:0,tdc:0,ter:0,init:4,weak:[],res:[],inf:[0,0],human:1,d:'拿獵刀的劫匪。動作快，專挑流血的人下手。打不過就會逃，不會死戰。'},
+ collector:{n:'索命客',fac:'hum',hp:13,def:10,hit:4,dmg:5,xp:5,rd:{blunt:.5,slash:1,pierce:1.5,ballistic:1,fire:1},san:0,tdc:0,ter:0,init:1,weak:[],res:[],inf:[0,0],human:1,shooter:1,d:'扛著單管霰彈槍的劫匪。先舉槍瞄準，下一次才開火，開一槍就要重裝一次。貼上去打他能打斷瞄準。'},
  // 滅菌部隊（v0.12.0，主人 2026-11-13 定的數值）：shooter 共用同時開火上限；mag 彈匣；bres 防彈背心減槍擊；loot 打倒後的裝備
- acru_trooper:{n:'隊員',fac:'acru',hp:24,def:12,hit:6,dmg:4,xp:6,rd:{blunt:1.5,slash:1,pierce:1,ballistic:.5,fire:1},san:0,tdc:0,ter:0,init:3,weak:[],res:[],inf:[0,0],human:1,shooter:1,mag:30,rl:'mp5Reload',loot:{gear:'mp5',items:{ammo9:[4,8]}},d:'A.C.R.U. 的一般隊員，HK MP5A5。不說話、不談條件，兩三人一組同步行動。防彈背心擋得住大部分子彈（槍擊只有一半效果），但被重物砸中容易失去平衡。30 發打完才換彈匣。'},
- acru_captain:{n:'隊長',fac:'acru',hp:40,hpT:[40,50,60,70,80,90,100,110],def:13,hit:7,dmg:6,xp:14,rd:{blunt:1,slash:1.5,pierce:1,ballistic:.5,fire:1},san:0,tdc:0,ter:0,init:4,weak:[],res:[],inf:[0,0],human:1,shooter:1,lead:1,boss:1,mag:20,rl:'falReload',loot:{gear:'fal',items:{ammo762:6}},d:'戴紅色貝雷帽的帶隊者，FN FAL。在場時其他隊員命中 +1；會下令集火、一槍精準射擊就能要人命。20 發打完才換彈匣。'},
- acru_flamer:{n:'噴火兵',fac:'acru',hp:28,def:11,hit:4,dmg:5,xp:9,rd:{blunt:1,slash:1,pierce:1.5,ballistic:.5,fire:.5},san:0,tdc:0,ter:0,init:0,weak:[],res:[],inf:[0,0],human:1,shooter:1,flame:1,loot:{items:{gasmask:1,filter:1}},d:'背著三瓶式噴火器的隊員，沒有副武器。先推進，才噴得到人；噴火打全體、掩蔽擋不住，連噴兩次要加壓一回合。被槍打死時燃料罐會爆炸，炸傷他的同伴。'},
- acru_sniper:{n:'狙擊手',fac:'acru',hp:20,def:12,hit:9,dmg:22,xp:10,rd:{blunt:1,slash:1.5,pierce:1,ballistic:.5,fire:1},san:0,tdc:0,ter:0,init:2,weak:[],res:[],inf:[0,0],human:1,shooter:1,hide:1,mag:5,rl:'bolt',loot:{gear:'r700',items:{ammo308:3}},d:'雷明頓 700。躲在遠處，沒被找到之前打不到他。先用紅點鎖定狀態最差的人，下一次才開槍；穿甲、閃躲沒用。'}
+ acru_trooper:{n:'隊員',fac:'acru',hp:14,def:12,hit:6,dmg:4,xp:6,rd:{blunt:1.5,slash:1,pierce:1,ballistic:.5,fire:1},san:0,tdc:0,ter:0,init:3,weak:[],res:[],inf:[0,0],human:1,shooter:1,mag:30,rl:'mp5Reload',loot:{gear:'mp5',items:{ammo9:[4,8]}},d:'A.C.R.U. 的一般隊員，HK MP5A5。不說話、不談條件，兩三人一組同步行動。防彈背心擋得住大部分子彈（槍擊只有一半效果），但被重物砸中容易失去平衡。30 發打完才換彈匣。'},
+ acru_captain:{n:'隊長',fac:'acru',hp:28,def:13,hit:7,dmg:6,xp:14,rd:{blunt:1,slash:1.5,pierce:1,ballistic:.5,fire:1},san:0,tdc:0,ter:0,init:4,weak:[],res:[],inf:[0,0],human:1,shooter:1,lead:1,boss:1,mag:20,rl:'falReload',loot:{gear:'fal',items:{ammo762:6}},d:'戴紅色貝雷帽的帶隊者，FN FAL。在場時其他隊員命中 +1；會下令集火、一槍精準射擊就能要人命。20 發打完才換彈匣。'},
+ acru_flamer:{n:'噴火兵',fac:'acru',hp:18,def:11,hit:4,dmg:5,xp:9,rd:{blunt:1,slash:1,pierce:1.5,ballistic:.5,fire:.5},san:0,tdc:0,ter:0,init:0,weak:[],res:[],inf:[0,0],human:1,shooter:1,flame:1,loot:{items:{gasmask:1,filter:1}},d:'背著三瓶式噴火器的隊員，沒有副武器。先推進，才噴得到人；噴火打全體、掩蔽擋不住，連噴兩次要加壓一回合。被槍打死時燃料罐會爆炸，炸傷他的同伴。'},
+ acru_sniper:{n:'狙擊手',fac:'acru',hp:12,def:12,hit:9,dmg:22,xp:10,rd:{blunt:1,slash:1.5,pierce:1,ballistic:.5,fire:1},san:0,tdc:0,ter:0,init:2,weak:[],res:[],inf:[0,0],human:1,shooter:1,hide:1,mag:5,rl:'bolt',loot:{gear:'r700',items:{ammo308:3}},d:'雷明頓 700。躲在遠處，沒被找到之前打不到他。先用紅點鎖定狀態最差的人，下一次才開槍；穿甲、閃躲沒用。'}
 };
 const FAC_N={inf:'感染者',hum:'人類',acru:'A.C.R.U.'};
 // 劇情裡寫的描述名只用來判斷類型；畫面上一律顯示類型名稱
@@ -931,7 +931,6 @@ const BUTT4={n:'槍托',hs:'fist',d:4,h:5,melee:1,t:'他倒轉槍身，用槍托
 const SHOVE={n:'推撞',hs:'fist',d:3,h:4,melee:1,t:'他用肩膀和噴火器的鋼瓶把人撞開。'};
 // v0.20.0：弱點／抗性名單由承傷倍率 rd 推出（>1 弱點、<1 抗性），畫面與圖鑑照舊使用
 for(const k in FOES){const F=FOES[k];if(F.rd){F.weak=Object.keys(F.rd).filter(t=>F.rd[t]>1);F.res=Object.keys(F.rd).filter(t=>F.rd[t]<1)}}
-const INF_HPX=[1,1.6,2.2,2.8,3.4,4,4.6,5.2];
 const INF_N=[[1,1],[1,2],[2,2],[2,2],[2,3],[2,3],[3,3],[3,3]],INF_CAP=[2,2,3,3,4,4,5,5];
 const ELITE=['devourer'];
 /* rng：遠程攻擊（掩蔽有效、格擋無效）；hs：被打中時的音效（v0.12.1 每種敵人各自的聲音；槍擊命中是 bhit） */
@@ -3581,7 +3580,7 @@ const fDef=f=>Math.max(5,FT(f).def-(f.defDown||0)+(f.cov?2:0)-(f.open?2:0));
 const affIs=(f,k)=>!!f&&f.aff===k;
 const numbF=f=>affIs(f,'numb')||affIs(f,'drugged');
 const foeHitMod=f=>(affIs(f,'hungry')?2:0)+(affIs(f,'veteran')?1:0)-(affIs(f,'drugged')?1:0)-(f.dazzle?4:0)-(f.legW?2:0)+(f.atkB&&G.fight&&G.fight.round<=f.atkB?2:0)+(G.fight&&G.fight.foes.some(x=>x!==f&&!x.dead&&(affIs(x,'squad')||FT(x).lead)&&FT(f).fac==='acru')?1:0);
-function foeHp(t,np){const F=FOES[t];np=clamp(np||1,1,8);return F.hpT?F.hpT[np-1]:F.fac==='inf'?Math.ceil(F.hp*INF_HPX[np-1]-1e-9):F.hp}
+function foeHp(t,np){const F=FOES[t];np=clamp(np||1,1,8);return F.hp+(np-1)}
 function newFoe(id,t,np,wet){const F=FOES[t];const hp=foeHp(t,np);return {id,type:t,n:'',hp,max:hp,mag:F.mag||0,hid:F.hide?1:0,near:0,cool:0,streak:0,burn:0,stun:0,bleed:0,weak:0,prone:0,defDown:0,nosplash:0,dazzle:0,legW:0,wet:wet?1:0,shell:F.shell||0,loaded:t==='collector'?1:0,img:FOE_IMG[t]?pick(FOE_IMG[t]):''}}
 function giveAff(f,k){if(!k)return;f.aff=k;const d=k==='fresh'?-2:k==='wounded'?-4:k==='drugged'?3:0;if(d){f.hp=Math.max(3,f.hp+d);f.max=Math.max(3,f.max+d)}if(k==='shaken')f.shaken=1}
 // v0.9.0 隨機遭遇的敵人跟著天數變：劫匪出現前沒有人類陣營；劫匪期街上多割喉者、索命客；影子期起多巨噬者
@@ -5141,3 +5140,4 @@ $('#gateNo').addEventListener('click',()=>boot(false));
 layout();
 </script>
 </body></html>
+
