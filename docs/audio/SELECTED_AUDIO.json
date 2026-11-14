@@ -1,0 +1,178 @@
+[
+  {
+    "number": "01",
+    "id": "glassbreak",
+    "description": "玻璃碎裂",
+    "original": "613879__rangoanimations__window-breaking.mp3",
+    "original_meta": {
+      "duration_s": 2.299,
+      "bytes": 73698,
+      "codec": "mp3",
+      "channels": 2,
+      "sample_rate": 44100
+    },
+    "ready_files": {
+      "glassbreak.mp3": {
+        "duration_s": 2.325,
+        "bytes": 22693,
+        "codec": "mp3",
+        "channels": 2,
+        "sample_rate": 44100
+      }
+    },
+    "author": "RangoAnimations",
+    "source_id": "613879",
+    "source_url": "https://freesound.org/people/RangoAnimations/sounds/613879/",
+    "license": "CC0 (Freesound page confirmed 2026-11-14)",
+    "status": "candidate, not yet inserted into game"
+  },
+  {
+    "number": "02",
+    "id": "firealarm",
+    "description": "消防警報",
+    "original": "792484__simonjeffery13__fire-alarm.wav",
+    "original_meta": {
+      "duration_s": 9.2,
+      "bytes": 1778458,
+      "codec": "pcm_s16le",
+      "channels": 2,
+      "sample_rate": 48000
+    },
+    "ready_files": {
+      "firealarm.mp3": {
+        "duration_s": 9.247,
+        "bytes": 190494,
+        "codec": "mp3",
+        "channels": 2,
+        "sample_rate": 44100
+      }
+    },
+    "author": "simonjeffery13",
+    "source_id": "792484",
+    "source_url": "https://freesound.org/people/simonjeffery13/sounds/792484/",
+    "license": "CC0 (Freesound page confirmed 2026-11-14)",
+    "status": "candidate, not yet inserted into game"
+  },
+  {
+    "number": "03",
+    "id": "generator",
+    "description": "柴油發電機",
+    "original": "516759__jameswrowles__small-diesel-generator.wav",
+    "original_meta": {
+      "duration_s": 178.628,
+      "bytes": 31510344,
+      "codec": "pcm_s16le",
+      "channels": 2,
+      "sample_rate": 44100
+    },
+    "ready_files": {
+      "genstart.mp3": {
+        "duration_s": 7.549,
+        "bytes": 160786,
+        "codec": "mp3",
+        "channels": 2,
+        "sample_rate": 44100
+      },
+      "genloop.mp3": {
+        "duration_s": 18.051,
+        "bytes": 379677,
+        "codec": "mp3",
+        "channels": 2,
+        "sample_rate": 44100
+      },
+      "genloop.ogg": {
+        "duration_s": 18.0,
+        "bytes": 336183,
+        "codec": "vorbis",
+        "channels": 2,
+        "sample_rate": 44100
+      }
+    },
+    "author": "jameswrowles",
+    "source_id": "516759",
+    "source_url": "https://freesound.org/people/jameswrowles/sounds/516759/",
+    "license": "CC0 (Freesound page confirmed 2026-11-14)",
+    "status": "candidate, not yet inserted into game"
+  },
+  {
+    "number": "04",
+    "id": "dryfire",
+    "description": "空槍擊發",
+    "original": "674568__serutonin-deprivd__9mm-handgun-being-dry-fired.wav",
+    "original_meta": {
+      "duration_s": 0.287,
+      "bytes": 25690,
+      "codec": "pcm_s16le",
+      "channels": 1,
+      "sample_rate": 44100
+    },
+    "ready_files": {
+      "dryfire.mp3": {
+        "duration_s": 0.313,
+        "bytes": 4522,
+        "codec": "mp3",
+        "channels": 1,
+        "sample_rate": 44100
+      }
+    },
+    "author": "serøutōnin--deprivəd",
+    "source_id": "674568",
+    "source_url": "https://freesound.org/people/ser%C3%B8ut%C5%8Dnin--depriv%C9%99d/sounds/674568/",
+    "license": "CC0 (Freesound page confirmed 2026-11-14)",
+    "status": "candidate, not yet inserted into game"
+  },
+  {
+    "number": "05",
+    "id": "woodknock",
+    "description": "木門連續敲擊",
+    "original": "560295__royalrose__echo-bang.m4a",
+    "original_meta": {
+      "duration_s": 2.299,
+      "bytes": 69074,
+      "codec": "aac",
+      "channels": 1,
+      "sample_rate": 44100
+    },
+    "ready_files": {
+      "woodknock.mp3": {
+        "duration_s": 2.325,
+        "bytes": 20788,
+        "codec": "mp3",
+        "channels": 1,
+        "sample_rate": 44100
+      }
+    },
+    "author": "RoyalRose",
+    "source_id": "560295",
+    "source_url": "https://freesound.org/people/RoyalRose/sounds/560295/",
+    "license": "CC0 (Freesound page confirmed 2026-11-14)",
+    "status": "candidate, not yet inserted into game"
+  },
+  {
+    "number": "06",
+    "id": "woodimpact",
+    "description": "木門破門／重擊候選",
+    "original": "160213__qubodup__kickingforcingbreaking-wooden-door.flac",
+    "original_meta": {
+      "duration_s": 1.0,
+      "bytes": 87346,
+      "codec": "flac",
+      "channels": 1,
+      "sample_rate": 44100
+    },
+    "ready_files": {
+      "woodimpact.mp3": {
+        "duration_s": 1.045,
+        "bytes": 11234,
+        "codec": "mp3",
+        "channels": 1,
+        "sample_rate": 44100
+      }
+    },
+    "author": "qubodup",
+    "source_id": "160213",
+    "source_url": "https://freesound.org/people/qubodup/sounds/160213/",
+    "license": "CC0 (Freesound page confirmed 2026-11-14)",
+    "status": "candidate, not yet inserted into game"
+  }
+]
