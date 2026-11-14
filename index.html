@@ -561,7 +561,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.21.8", "b": 47, "t": "2026-11-14T21:43:51+08:00"};
+const ZC_VER={"v": "0.21.9", "b": 48, "t": "2026-11-15T01:21:30+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -2890,7 +2890,15 @@ const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const COLS=['#c8ad70','#8fb0d4','#8fbf98','#c88a9e','#d49a6a','#a99bd6','#7fc4c0','#c9c27a'];
 const MAXP=8;
-const CREDITS=`音效沿用《零號病例》原專案素材。其中：“Headshot 2” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；“GROSS IMPACT” by magnuswaker（Freesound，CC0）；“Monster Bite on Armor WAV” by OGsoundFX（Freesound，CC BY 4.0）；“Acid Breath Attack” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；裝備切換音效取自 Ryan Conway “putting coat on and off with zippers”（Freesound，CC BY 4.0）。以上音效作者與本作品無關，也未替本作品背書。骰子音效為程式即時合成。<br><br>中文字型：全字庫正楷體（國家發展委員會，2018）；英文字型：Source Serif 4。<a href="fonts/SOURCES.md" target="_blank" rel="noopener">字型來源與授權</a>。`;
+// 音效 v4：只標註已核對的劇情結果，不變更遊戲結果。
+N.A3x.c.find(c=>c.l==='撬開販賣機').ok.audio='glassbreak';
+{const c=N.A4.c.find(c=>c.l.includes('消防栓箱'));c.ok.audio=c.ng.audio='glassbreak'}
+for(const label of ['用身體抵住門','從貓眼看清楚外面'])N.A2.c.find(c=>c.l===label).ng.audio='woodimpact';
+N.A2.c.find(c=>c.l==='躲進浴室，鎖上門').ok.audio='woodimpact';
+N.G2.c.find(c=>c.l==='啟動發電機').ok.audio='genstart';N.G2.c[0].ok.audioFlag='power';
+for(const c of N.PP3.c.filter(c=>c.ok&&c.ok.r&&c.ok.r.flag==='ppgen')){c.ok.audio='genstart';c.ok.audioFlag='ppgen'}
+EVPOOL.find(e=>e.id==='smoke').c[0].ok.audioStop='firealarm';
+const CREDITS=`音效沿用《零號病例》原專案素材。其中：“Headshot 2” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；“GROSS IMPACT” by magnuswaker（Freesound，CC0）；“Monster Bite on Armor WAV” by OGsoundFX（Freesound，CC BY 4.0）；“Acid Breath Attack” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；裝備切換音效取自 Ryan Conway “putting coat on and off with zippers”（Freesound，CC BY 4.0）。新增音效（CC0）：glassbreak—RangoAnimations（613879）、firealarm—simonjeffery13（792484）、genstart／genloop—jameswrowles（516759）、dryfire—serøutōnin--deprivəd（674568）、woodknock—RoyalRose（560295）、woodimpact—qubodup（160213）。<a href="docs/audio/LICENSES_AND_ORIGINS.md" target="_blank" rel="noopener">作者、Freesound 原始網址與授權紀錄</a>。以上音效作者與本作品無關，也未替本作品背書。骰子音效為程式即時合成。<br><br>中文字型：全字庫正楷體（國家發展委員會，2018）；英文字型：Source Serif 4。<a href="fonts/SOURCES.md" target="_blank" rel="noopener">字型來源與授權</a>。`;
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
 let UI=Object.assign({snd:1,bgm:1,spd:1,orient:'auto',diff:'normal'},LS.get('zc5-ui',{}));
 const saveUI=()=>LS.set('zc5-ui',UI);
@@ -3048,19 +3056,90 @@ function newRun(builds,opts,mode){
   LOG=[];
 }
 /* ================= 音效 ================= */
-let AC=null,NB=null;const BUF={};
-const SFILES=['heal','pill','rummage','stairs','zipper','step','drawer','pickup','dooropen','doorclose','beretta','berettaReload','revolver','revolverCock','casing','fist','claw','knife','zstep','headshot','mthrow','mimpact','death','click','equip','fal','falReload','mp5','mp5Reload','rifle','bolt','bite','smash','splat','spit','thud','squish','bhit','shotgun'];
-function audio(){if(!UI.snd)return null;try{if(!AC){AC=new (window.AudioContext||window.webkitAudioContext)();const len=AC.sampleRate;NB=AC.createBuffer(1,len,AC.sampleRate);const d=NB.getChannelData(0);for(let i=0;i<len;i++)d[i]=Math.random()*2-1}if(AC.state==='suspended')AC.resume();return AC}catch(e){return null}}
-let loading=null;
-function loadSounds(){if(loading)return loading;const a=audio();if(!a)return Promise.resolve();loading=Promise.all(SFILES.map(async n=>{try{const r=await fetch('sfx/'+n+'.mp3');if(!r.ok)return;const ab=await r.arrayBuffer();BUF[n]=await new Promise((ok,ng)=>a.decodeAudioData(ab,ok,ng))}catch(e){}}));return loading}
+let AC=null,NB=null,SFX_MASTER=null;const BUF={};
+/* ZeroCase Audio Mix v2 / 2026-11-14：依事件分類統一短音效增益；不改動原始檔名與 BGM。 */
+const SFX_TYPES={
+  ui:['click','ok','ng','crit','fumble','rattle','land','dry'],
+  movement:['stairs','step','zstep','dooropen','doorclose'],
+  foley:['heal','pill','rummage','zipper','drawer','pickup','equip','craft','eat','gulp'],
+  combat:['beretta','berettaReload','revolver','revolverCock','casing','fist','claw','knife','headshot','mthrow','mimpact','death','fal','falReload','mp5','mp5Reload','rifle','bolt','bite','smash','splat','spit','thud','squish','bhit','shotgun','whoosh','groan','hurt','ext','zap'],
+  system:['level'],
+  environment:['glassbreak','woodknock','woodimpact','genstart','genloop','firealarm','dryfire']
+};
+// 初始音量級距：待桌機與手機試聽後再微調；不是已完成 LUFS 實測的數據。
+const SFX_CATEGORY_GAIN={ui:.56,movement:.65,foley:.78,combat:.92,system:.8,environment:.6};
+// 解碼峰值接近滿刻度的素材另外衰減；實際聽感仍待手機／耳機驗收。
+const SFX_TRIM={beretta:.72,revolver:.72,fal:.65,mp5:.65,rifle:.7,shotgun:.65,headshot:.4,dryfire:.55,glassbreak:.65,woodknock:.55,woodimpact:.45,firealarm:.28,genstart:.5,genloop:.3};
+const SFX_CATEGORY=Object.fromEntries(Object.entries(SFX_TYPES).flatMap(([cat,names])=>names.map(n=>[n,cat])));
+function sfxLevel(k,v){const raw=Number(v??1);return Math.max(0,Math.min(1.5,Number.isFinite(raw)?raw:1))*(SFX_CATEGORY_GAIN[SFX_CATEGORY[k]]??.85)*(SFX_TRIM[k]??1)}
+// Web Audio 合成聲原本忽略音量參數；僅在同步排程 SYN 期間設定縮放倍率。
+let SFX_SYN_SCALE=1;
+function synthAtVolume(k,v,scale){const previous=SFX_SYN_SCALE;SFX_SYN_SCALE=scale;try{return SYN[k](v)||0}finally{SFX_SYN_SCALE=previous}}
+
+const SFILES=['heal','pill','rummage','stairs','zipper','step','drawer','pickup','dooropen','doorclose','beretta','berettaReload','revolver','revolverCock','casing','fist','claw','knife','zstep','headshot','mthrow','mimpact','death','click','equip','fal','falReload','mp5','mp5Reload','rifle','bolt','bite','smash','splat','spit','thud','squish','bhit','shotgun','glassbreak','firealarm','genstart','genloop','dryfire','woodknock','woodimpact'];
+function audio(){if(!UI.snd)return null;try{if(!AC){AC=new (window.AudioContext||window.webkitAudioContext)();SFX_MASTER=AC.createGain();SFX_MASTER.gain.value=.86;const limiter=AC.createDynamicsCompressor();limiter.threshold.value=-5;limiter.knee.value=3;limiter.ratio.value=10;limiter.attack.value=.004;limiter.release.value=.16;SFX_MASTER.connect(limiter);limiter.connect(AC.destination);const len=AC.sampleRate;NB=AC.createBuffer(1,len,AC.sampleRate);const d=NB.getChannelData(0);for(let i=0;i<len;i++)d[i]=Math.random()*2-1}if(AC.state==='suspended'){const r=AC.resume();if(r&&r.catch)r.catch(()=>{})}return AC}catch(e){return null}}
+let loading=null;const AUDIO_LOAD_STATUS={failed:new Set()};
+function loadSounds(){
+  if(loading)return loading;const a=audio();if(!a)return Promise.resolve();
+  loading=Promise.all(SFILES.map(async n=>{
+    if(BUF[n])return;
+    const formats=n==='genloop'?['ogg','mp3']:['mp3'];let error;
+    for(const ext of formats){try{const r=await fetch('sfx/'+n+'.'+ext);if(!r.ok)throw new Error('HTTP '+r.status);const ab=await r.arrayBuffer();BUF[n]=await new Promise((ok,ng)=>a.decodeAudioData(ab,ok,ng));AUDIO_LOAD_STATUS.failed.delete(n);return}catch(e){error=e}}
+    AUDIO_LOAD_STATUS.failed.add(n);console.warn('[ZeroCase audio] 素材載入失敗，可用備援將自動播放，持續聲將暫停：'+n,error);
+  }));return loading;
+}
+function soundStatus(){return {expected:SFILES.length,loaded:Object.keys(BUF).length,failed:[...AUDIO_LOAD_STATUS.failed],ambient:AMBIENT?AMBIENT.id:null,active:ACTIVE_SFX.size}}
+// 所有短音效及合成排程均可停止；不影響獨立的背景音樂。
+const ACTIVE_SFX=new Set();
+function trackSfx(source,gain){ACTIVE_SFX.add(source);source.onended=()=>{ACTIVE_SFX.delete(source);if(AMBIENT&&AMBIENT.source===source)AMBIENT=null;try{source.disconnect();gain.disconnect()}catch(e){}};return source}
+function stopSfx(){GEN_SFX_UNTIL=0;for(const source of ACTIVE_SFX){try{source.stop()}catch(e){}}ACTIVE_SFX.clear()}
+let AMBIENT=null,AMBIENT_KEY='',AMBIENT_TOKEN=0,AMBIENT_TIMER=null,AUDIO_MOVING=false,GEN_SFX_UNTIL=0;
+const ALARM_PLAYED=new Set();
+function stopAmbience(){AMBIENT_TOKEN++;clearTimeout(AMBIENT_TIMER);AMBIENT_TIMER=null;if(AMBIENT){try{AMBIENT.source.stop()}catch(e){}AMBIENT=null}AMBIENT_KEY=''}
+function ambientSpec(){
+  if(!UI.snd||!G||G.over||AUDIO_MOVING||document.hidden)return null;
+  if(N[G.node]&&N[G.node].L!==G.lv)return null;
+  const visit=G.audioVisit||0,base=G.rid+':'+G.node+':'+visit;
+  if(G.ev!=null&&EVPOOL[G.ev]&&EVPOOL[G.ev].id==='smoke'&&G.audioAlarmOff!==visit){
+    const remaining=9000-(G.audioEnteredAt?Math.max(0,Date.now()-G.audioEnteredAt):0);
+    if(remaining>0)return {id:'firealarm',key:base+':alarm',ms:remaining,loop:false};return null;
+  }
+  if((G.node==='G2'&&G.flags.power)||(G.node==='PP3'&&G.flags.ppgen))return {id:'genloop',key:base+':generator',loop:true,delay:Math.max(0,GEN_SFX_UNTIL-Date.now(),ROLE==='client'?0:G.audioGenNode===G.node?Math.min(7500,(G.audioGenAt||0)+7500-Date.now()):0)};
+  return null;
+}
+function syncAmbience(){
+  const spec=ambientSpec();if(!spec){if(AMBIENT_KEY)stopAmbience();return}
+  if(AMBIENT_KEY===spec.key)return;
+  stopAmbience();AMBIENT_KEY=spec.key;const token=AMBIENT_TOKEN;
+  const start=()=>{
+    if(token!==AMBIENT_TOKEN||!UI.snd)return;
+    const now=ambientSpec();if(!now||now.key!==spec.key)return;
+    if(!now.loop&&ALARM_PLAYED.has(now.key))return;
+    const a=audio(),buffer=BUF[now.id];if(!a||!buffer){AMBIENT_KEY='';return}
+    const source=a.createBufferSource(),gain=a.createGain();source.buffer=buffer;source.loop=now.loop;gain.gain.value=sfxLevel(now.id,1);source.connect(gain);gain.connect(SFX_MASTER||a.destination);trackSfx(source,gain);
+    AMBIENT={id:now.id,source};source.start();
+    if(!now.loop){ALARM_PLAYED.add(now.key);if(ALARM_PLAYED.size>100)ALARM_PLAYED.delete(ALARM_PLAYED.values().next().value);source.stop(a.currentTime+Math.min(buffer.duration,now.ms/1000))}
+  };
+  const ready=()=>{if(token!==AMBIENT_TOKEN)return;const now=ambientSpec();if(!now||now.key!==spec.key)return;if(now.delay>0)AMBIENT_TIMER=setTimeout(start,now.delay);else start()};
+  if(BUF[spec.id])ready();else loadSounds().then(ready).catch(()=>{});
+}
+function setSoundEnabled(on){UI.snd=on?1:0;if(!on){stopAmbience();stopSfx();if(SFX_MASTER)SFX_MASTER.gain.value=0}else{audio();if(SFX_MASTER)SFX_MASTER.gain.value=.86;syncAmbience();loading=null;loadSounds().then(syncAmbience)}}
+function resultAudio(o){
+  if(!o)return;
+  if(o.audioStop==='firealarm'){G.audioAlarmOff=G.audioVisit||0;syncAmbience()}
+  if(o.audio==='genstart'){if(G.flags[o.audioFlag])return;G.audioGenAt=Date.now();G.audioGenNode=G.node;snd('genstart',1,7500)}
+  else if(o.audio)snd(o.audio,1);
+}
+function movementSound(from,to){const floors={A:3,B:2,E:1,F:1,G:-1,I:1};return floors[from]!=null&&floors[to]!=null&&floors[from]!==floors[to]?'stairs':'step'}
+function headshotHit(w,aimed,crit,shot,spread,target,primary){return w.kind==='gun'&&aimed>0&&crit&&shot===0&&!spread&&target===primary}
 const BGM=new Audio();BGM.loop=true;BGM.preload='auto';BGM.volume=.55;
 try{BGM.src=(BGM.canPlayType('audio/ogg; codecs="vorbis"')?'sfx/bgm.ogg':'sfx/bgm.mp3')}catch(e){}
 function startBgm(){if(!UI.bgm)return;try{const p=BGM.play();if(p&&p.catch)p.catch(()=>{})}catch(e){}}
 function stopBgm(){try{BGM.pause()}catch(e){}}
 // 播放並回傳「播完」的 Promise（max 為最長等待）
-function play(n,vol=1,max=4000){const a=audio();if(!a||!BUF[n])return null;const s=a.createBufferSource();s.buffer=BUF[n];const g=a.createGain();g.gain.value=vol;s.connect(g);g.connect(a.destination);s.start();return Math.min(max,BUF[n].duration*1000)}
-function noise(t,dur,f,q,vol,type){const a=audio();if(!a)return;const s=a.createBufferSource();s.buffer=NB;const fl=a.createBiquadFilter();fl.type=type||'bandpass';fl.frequency.value=f;fl.Q.value=q||1;const g=a.createGain();g.gain.setValueAtTime(vol,a.currentTime+t);g.gain.exponentialRampToValueAtTime(.0005,a.currentTime+t+dur);s.connect(fl);fl.connect(g);g.connect(a.destination);s.start(a.currentTime+t,Math.random()*.5);s.stop(a.currentTime+t+dur+.02)}
-function tone(t,f,dur,vol,type,f2){const a=audio();if(!a)return;const o=a.createOscillator();o.type=type||'sine';o.frequency.setValueAtTime(f,a.currentTime+t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,a.currentTime+t+dur);const g=a.createGain();g.gain.setValueAtTime(.0001,a.currentTime+t);g.gain.linearRampToValueAtTime(vol,a.currentTime+t+.008);g.gain.exponentialRampToValueAtTime(.0005,a.currentTime+t+dur);o.connect(g);g.connect(a.destination);o.start(a.currentTime+t);o.stop(a.currentTime+t+dur+.03)}
+function play(n,vol=1,max=4000){const a=audio();if(!a||!BUF[n])return null;const s=a.createBufferSource();s.buffer=BUF[n];const g=a.createGain();g.gain.value=vol;s.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(s,g);const ms=Math.min(max,BUF[n].duration*1000);s.start();s.stop(a.currentTime+ms/1000);return ms}
+function noise(t,dur,f,q,vol,type){const a=audio();if(!a)return;const s=a.createBufferSource();s.buffer=NB;const fl=a.createBiquadFilter();fl.type=type||'bandpass';fl.frequency.value=f;fl.Q.value=q||1;const g=a.createGain();g.gain.setValueAtTime(Math.max(.0005,vol*SFX_SYN_SCALE),a.currentTime+t);g.gain.exponentialRampToValueAtTime(.0005,a.currentTime+t+dur);s.connect(fl);fl.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(s,g);s.start(a.currentTime+t,Math.random()*.5);s.stop(a.currentTime+t+dur+.02)}
+function tone(t,f,dur,vol,type,f2){const a=audio();if(!a)return;const o=a.createOscillator();o.type=type||'sine';o.frequency.setValueAtTime(f,a.currentTime+t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,a.currentTime+t+dur);const g=a.createGain();g.gain.setValueAtTime(.0001,a.currentTime+t);g.gain.linearRampToValueAtTime(Math.max(.0005,vol*SFX_SYN_SCALE),a.currentTime+t+.008);g.gain.exponentialRampToValueAtTime(.0005,a.currentTime+t+dur);o.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(o,g);o.start(a.currentTime+t);o.stop(a.currentTime+t+dur+.03)}
 const SYN={
  rattle(len){let t=0;const n=Math.round(9*len);for(let i=0;i<n;i++){const k=i/n;t+=.035+k*k*.09+Math.random()*.02;noise(t,.028,2400+Math.random()*2200,6,.32*(1-k*.5));if(Math.random()<.4)tone(t,900+Math.random()*700,.03,.05,'triangle')}return t*1000},
  land(){noise(0,.09,320,.8,.5,'lowpass');tone(0,140,.14,.28,'sine',70);noise(.01,.03,3200,5,.18);return 150},
@@ -3079,11 +3158,24 @@ const SYN={
  zap(){noise(0,.35,4200,.8,.35,'highpass');tone(0,60,.3,.14,'square',55);tone(.05,1800,.12,.06,'sawtooth',900);return 360},
  level(){tone(0,55,2.2,.16,'sawtooth',48);tone(0,82,2.2,.08,'sine',77);noise(0,2,180,2,.08,'lowpass');return 2200}
 };
-const FALL={heal:'craft',pill:'craft',rummage:'craft',stairs:'land',zipper:'craft',step:'land',drawer:'craft',pickup:'ok',dooropen:'land',doorclose:'land',beretta:'fumble',berettaReload:'dry',revolver:'fumble',revolverCock:'dry',casing:'dry',fist:'hurt',claw:'hurt',knife:'hurt',zstep:'land',headshot:'fumble',mthrow:'whoosh',mimpact:'fumble',death:'fumble',click:'dry',equip:'dry',bite:'hurt',smash:'fumble',splat:'hurt',spit:'whoosh',thud:'land',squish:'hurt',bhit:'dry',shotgun:'fumble'};
+const FALL={heal:'craft',pill:'craft',rummage:'craft',stairs:'land',zipper:'craft',step:'land',drawer:'craft',pickup:'ok',dooropen:'land',doorclose:'land',beretta:'fumble',berettaReload:'dry',revolver:'fumble',revolverCock:'dry',casing:'dry',fist:'hurt',claw:'hurt',knife:'hurt',zstep:'land',headshot:'fumble',mthrow:'whoosh',mimpact:'fumble',death:'fumble',click:'dry',equip:'dry',bite:'hurt',smash:'fumble',splat:'hurt',spit:'whoosh',thud:'land',squish:'hurt',bhit:'dry',shotgun:'fumble',fal:'fumble',falReload:'dry',mp5:'fumble',mp5Reload:'dry',rifle:'fumble',bolt:'dry',dryfire:'dry',glassbreak:'craft',woodknock:'land',woodimpact:'fumble',genstart:'groan'};
 // 劇情裡受傷的聲音：照文字判斷是什麼弄傷的（電、刀刃玻璃、槍、火、撞擊），都不是就用程式合成的悶哼
 function hurtSnd(t){t=String(t||'');if(/電|火花|觸電/.test(t))return 'zap';if(/玻璃|割|刺絲|刀|劃/.test(t))return 'knife';if(/子彈|槍|彈丸/.test(t))return 'bhit';/* v0.13.3 燒燙傷不再用燃燒瓶的爆炸聲，改用一般受傷聲 */if(/咬|抓|爪|指甲|撲/.test(t))return 'claw';if(/摔|砸|撞|掉|壓|踢|打/.test(t))return 'thud';return 'hurt'}
 // sfx 回傳毫秒長度；await sfxW 會等到聲音播完
-function sfx(k,v,max){if(!UI.snd)return 0;try{if(SYN[k]&&!FALL[k])return SYN[k](v)||0;const ms=play(k,v||1,max);if(ms!=null)return ms;if(FALL[k])return SYN[FALL[k]]()||0}catch(e){}return 0}
+function sfx(k,v,max){
+  if(!UI.snd||document.hidden)return 0;
+  try{
+    const gain=sfxLevel(k,v);
+    if(gain<=0)return 0;
+    // 優先使用 Web Audio 合成音；其 tone/noise 已使用 SFX_SYN_SCALE。
+    if(SYN[k]&&!FALL[k])return synthAtVolume(k,v,gain);
+    const ms=play(k,gain,max);
+    if(ms!=null){if(k==='genstart')GEN_SFX_UNTIL=Date.now()+ms;return ms;}
+    // 網路／解碼失敗時仍有退路；fallback 使用「原事件」音量類別。
+    if(FALL[k]&&SYN[FALL[k]]){const ms=synthAtVolume(FALL[k],v,gain);if(k==='genstart')GEN_SFX_UNTIL=Date.now()+ms;return ms}
+  }catch(e){console.warn('[ZeroCase audio] 音效播放失敗',k,e)}
+  return 0;
+}
 async function sfxW(k,v,max,ratio=1){const ms=sfx(k,v,max);if(ms)await wait(ms*ratio*Math.max(.4,UI.spd))}
 /* ================= 擲骰（本機演出） ================= */
 /* ============ 擲骰 ============ */
@@ -3112,7 +3204,7 @@ async function showDice(spec){
 }
 $('#dice').addEventListener('click',()=>{if(skipDice)skipDice()});
 /* 會同步給隊友的演出：snd 音效、dice 擲骰、out 文字、card 關卡卡 */
-function snd(k,v,max){E('s',[k,v||1,max||0]);return sfx(k,v,max||undefined)}
+function snd(k,v,max){E('s',[k,v??1,max??0]);return sfx(k,v,max??undefined)}
 async function sndW(k,v,max,ratio=1){const ms=snd(k,v,max);if(ms)await wait(ms*ratio*Math.max(.4,UI.spd))}
 async function dice(spec){reportEffects();E('d',spec);await showDice(spec)}
 // 一顆二十面骰：骰面＋能力值達到難度就成功（等於也算）；擲出 20 必定大成功、擲出 1 必定大失敗
@@ -3403,20 +3495,26 @@ function choiceOk(c){
 function visible(c){if(c.night&&!isNight())return false;if(c.once&&G.used&&G.used[usedKey(c)])return false;if(c.job&&!G.players.some(p=>!p.dead&&!p.away&&[].concat(c.job).includes(p.kind)))return false;if(c.hide&&flagOk(c.hide))return false;if(c.need&&!flagOk(c.need)&&!c.req)return false;return true}
 function nameOf(k){return k==='gun'?'槍械':k.startsWith('g:')?WEAP[k.slice(2)].n:ITEMS[k].n}
 async function enterNode(id){
+  AUDIO_MOVING=true;stopAmbience();
   if(END[id])return ending(id);
   const nd=N[id];if(!nd){console.error('no node',id);return}
   if(nd.L!==G.lv){
-    const first=G.lv==null;G.lv=nd.L;G.lvSeen=G.lvSeen||[];const fresh=!G.lvSeen.includes(nd.L);if(fresh){G.lvSeen.push(nd.L);G.levels++}if(!first)G.alarm=Math.max(0,G.alarm-2);push();draw();await flush();
-    const nch=LV[nd.L].ch||1;if(nch!==G.ch){G.ch=nch;await chapterCard(nch)}else{if(!first)snd('stairs',.8)}await card(nd.L);
+    const first=G.lv==null;const prevLv=G.lv;G.lv=nd.L;G.lvSeen=G.lvSeen||[];const fresh=!G.lvSeen.includes(nd.L);if(fresh){G.lvSeen.push(nd.L);G.levels++}if(!first)G.alarm=Math.max(0,G.alarm-2);push();draw();await flush();
+    const nch=LV[nd.L].ch||1;if(nch!==G.ch){G.ch=nch;await chapterCard(nch)}else{
+      if(!first){
+        const cue=movementSound(prevLv,nd.L);snd(cue,cue==='stairs'?.8:.55);
+      }
+    }await card(nd.L);
     out(`<b>${LV[nd.L].n}・${LV[nd.L].sub}</b>`,'rule',true);if(LV[nd.L].rule)out(`環境：${esc(LV[nd.L].rule)}`,'rule',true);
     if(!first&&fresh){teamXP(1);for(const p of able()){if(p.mad)continue;if((p.fe||0)>0){out(`${MP()?nm(p)+'：':''}換了個地方，稍微喘了口氣。`,'good',true);relax(p,10,true)}}}
     if(G.flags.hotelburn&&(LV[nd.L].ch||1)===1&&!first){out('旅館外牆整片在燒。你們從還沒燒到的側門鑽進去，濃煙嗆得人睜不開眼。','dmg');for(const p of able()){hurtP(p,3);scare(p,10,true)}if(await deathCheck())return}
     if(typeof lateJoin==='function')lateJoin();
     for(const p of G.players)if(p.down&&!p.dead&&DF().wake){p.down=0;if(p.mad){p.mad=0;p.fe=90}p.hp=Math.max(1,Math.ceil(p.max*.25));out(`${nm(p)}咳了幾聲，慢慢撐著牆站了起來。生命回到 ${p.hp}。`,'good')}
   }
-  G.node=id;G.ev=null;G.votes={};G.rv={};G.pc=null;/* v0.21.0：地上的東西留在原地，回來還撿得到 */G.grounds=G.grounds||{};if(G.gnode&&G.gnode!==id)G.grounds[G.gnode]=G.ground.length?G.ground:undefined;if(G.gnode!==id)G.ground=G.grounds[id]||[];G.gnode=id;G.flags['v_'+id]=1;if(nd.onEnter)nd.onEnter();
+  G.node=id;G.ev=null;G.audioVisit=(G.audioVisit||0)+1;G.audioEnteredAt=Date.now();G.votes={};G.rv={};G.pc=null;/* v0.21.0：地上的東西留在原地，回來還撿得到 */G.grounds=G.grounds||{};if(G.gnode&&G.gnode!==id)G.grounds[G.gnode]=G.ground.length?G.ground:undefined;if(G.gnode!==id)G.ground=G.grounds[id]||[];G.gnode=id;G.flags['v_'+id]=1;if(nd.onEnter)nd.onEnter();
   if(nd.ev){const ch=LV[nd.L].ch||1;const mine=EVPOOL.map((e,i)=>i).filter(i=>(EVPOOL[i].ch||1)===ch&&evOk(EVPOOL[i]));const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;hd('——');out(EVPOOL[i].t,'lore')}
   else{hd(nd.n);out(nd.t,'lore');if(nd.tx){const x=nd.tx();if(x)out(x,'lore')}if(nd.tm&&G.players.some(p=>p.kind==='maggie'))out(nd.tm,'lore')}
+  AUDIO_MOVING=false;syncAmbience();if(id==='A2')snd('woodknock',1,2400);
   reportEffects();reportGround();
   if(G.lv==='G'){for(const p of able())addInf(p,G.flags.mask?1:2);out(`空氣裡飄著細細的粉末，喉嚨發癢。感染 +${G.flags.mask?1:2}${G.flags.mask?'（濕布擋掉了一些）':''}。`,'dmg',true)}
   {const fx=LV[G.lv].fx||{};
@@ -3522,6 +3620,7 @@ async function applyRes(c,res,actor,bad){CURC=c;
   if(res&&!bad&&c._searchMode==='quick')res=quickSearchRes(res);
   const nextId=c.go||N[G.node].next;
   if(!res){if(await alarmCheck(nextId))return;return enterNode(nextId)}
+  resultAudio(res);
   if(res.t)out(res.t,bad?'bad':'');
   await outcome(res,actor);
   if(G.over)return;
@@ -3554,6 +3653,7 @@ async function outcome(o,actor){
   if(r.payUsd)payUsd(r.payUsd,actor);
   if(got.length){await flush();await sndW('pickup',.8,700,.6);out(`${MP()?nm(actor):''}取得　${got.join('')}`,'good',true)}
   if(r.flag)for(const f of [].concat(r.flag))G.flags[f]=(G.flags[f]||0)+1;
+  syncAmbience();
   if(r.pay)for(const [k,q] of Object.entries(r.pay)){let left=q;for(const ow of able()){const n=Math.min(left,ow.items[k]||0);if(n){takeI(ow,k,n);left-=n}if(!left)break}}
   // 過夜：睡到清晨（時間已在選項扣掉），生命回 50%、恐懼 −35，發瘋的人恢復
   if(r.sleep){for(const q of G.players){if(q.dead)continue;if(q.mad){q.mad=0;q.fe=Math.min(q.fe||100,85);out(`${nm(q)}睡了一覺，醒來時眼神終於對得上焦了。`,'good',true)}if(q.down){q.down=0;q.hp=Math.max(q.hp,1)}const hp=Math.min(q.max-q.hp,Math.ceil(q.max*.5));q.hp+=hp;out(`${MP()?nm(q)+'：':''}生命 +${hp}。`,'good',true);relax(q,35)}}
@@ -4011,7 +4111,7 @@ async function attack(p,h,sk,ti,counter,csk){
   let t=F.foes[ti];
   for(let s=0;s<shots;s++){
     if(!t||t.dead||t.hp<=0)t=aliveF()[0];if(!t)break;
-    if(w.kind==='gun'&&!g.mag){out('扳機扣下去，只剩空響。彈匣空了。','sys');break}
+    if(w.kind==='gun'&&!g.mag){snd('dryfire',1,350);out('扳機扣下去，只剩空響。彈匣空了。','sys');break}
     if(w.kind==='ranged'&&!hasI(p,w.ammo))break;
     const targets=spread?aliveF():[t];
     const R=r2(),tot=R.s+sm+hb;const j0=judge(R,tot,fDef(t));const crit=j0==='crit',fum=j0==='fumble';
@@ -4038,7 +4138,9 @@ async function attack(p,h,sk,ti,counter,csk){
         if(melee&&affIs(x,'spiked')){hurtP(p,1,'骨刺扎進手裡：')}
         const RD=rollDmg(p,w,sk);let d=RD.d+(C&&C.dmg||0);if(brace)d=Math.floor(d*1.5);if(crit)d*=2;
         out(`擲骰｜傷害 ${ddTxt(p,w,sk)}(<b>${RD.r}</b>)${C&&C.dmg?'+'+C.dmg:''}${brace?'×1.5':''}${crit?'×2':''}＝<b>${d}</b>`,'roll',true);
-        out(pick(HITTXT[w.dt[0]]||HITTXT.blunt)+(crit?'抓準了破綻，這一下特別重。':''),'');
+        const headHit=headshotHit(w,aimed,crit,s,spread,x,t);
+        if(headHit)snd('headshot',.6,900);
+        out(headHit?`子彈正中${x.n}的額頭。`:pick(HITTXT[w.dt[0]]||HITTXT.blunt)+(crit?'抓準了破綻，這一下特別重。':''),'');
         const dd=applyDmg(x,d,w.dt,p,false,(S&&sk==='pierce')||w.ap);if(melee&&FT(x).human){x.contact=1;if(x.charge&&['collector','hunter'].includes(x.type)){x.charge=null;out(`${x.n}被貼身打中，瞄準被打斷了。`,'good',true)}}
         if(sk==='scatter'){const o=aliveF().find(y=>y!==x);if(o){applyDmg(o,Math.ceil(d/2),w.dt,p,true);out(`散開的彈丸也打中了${o.n}。`,'good',true);if(o.hp<=0)await kill(o,p)}}
         if(sk==='pierce'&&(w.kind==='gun'||w.kind==='ranged')){const o=aliveF().find(y=>y!==x);if(o){applyDmg(o,d,w.dt,p,true,true);out(`貫穿過去，連後面的${o.n}也一起打中。`,'good',true);if(o.hp<=0)await kill(o,p)}}
@@ -4639,7 +4741,7 @@ async function pump(){qRun=true;
   }
   FAST=0;qRun=false}
 let cdAt=0;
-function setG(g){const first=!G||G.rid!==g.rid;G=g;cdAt=Date.now();if(first&&typeof showGame==='function')showGame();if(G.over)creditShards();draw()}
+function setG(g){AUDIO_MOVING=false;const first=!G||G.rid!==g.rid;G=g;syncAmbience();cdAt=Date.now();if(first&&typeof showGame==='function')showGame();if(G.over)creditShards();draw()}
 function requestSync(){NET.needN++;setPres()}
 /* ================= 遊戲畫面 ================= */
 function bar(cls,name,v,max,txt){return `<div class="stb ${cls}"><span>${name}<b>${txt}</b></span><i><u style="width:${clamp(v/max*100,0,100)}%"></u></i></div>`}
@@ -4687,6 +4789,7 @@ function foeBadges(f){const b=(t,c)=>`<span class="bd ${c||''}">${t}</span>`;con
   return a}
 function myTurn(){const F=G&&G.fight;if(!F||!F.group||F.resolving)return false;return F.group.includes(MYPID)&&!G.busy}
 function draw(){
+  syncAmbience();
   if(!G||!$('#app'))return;
   const m=me(),Lv=LV[G.lv]||LV.A;
   $('#lvN').textContent=G.ev!=null?'意外':(N[G.node]||{}).n||'';
@@ -4966,7 +5069,7 @@ document.addEventListener('click',e=>{
   else if(d.drop){act({a:'drop',k:d.drop});later()}
   else if(d.gcd){G.opts.cd=d.gcd;if(d.gcd!=='force'&&G.phase!=='fight')stopCd();else if(G.phase==='node'||G.phase==='roller')startCd();push();draw();panel('settings')}
   else if(d.gsec){G.opts.sec=+d.gsec;push();panel('settings')}
-  else if(d.ui){const k=d.ui;UI[k]=k==='orient'?d.v:+d.v;saveUI();if(k==='snd'&&UI.snd){loading=null;loadSounds()}if(k==='bgm'){if(UI.bgm)startBgm();else stopBgm()}sfx('click',.6);panel('settings');layout()}
+  else if(d.ui){const k=d.ui;UI[k]=k==='orient'?d.v:+d.v;saveUI();if(k==='snd')setSoundEnabled(UI.snd);if(k==='bgm'){if(UI.bgm)startBgm();else stopBgm()}sfx('click',.6);panel('settings');layout()}
   else if(b.hasAttribute('data-full'))enterFull();
   else if(b.hasAttribute('data-quit')){closeOv();quitGame()}
   else if(b.hasAttribute('data-menu')){quitGame()}
@@ -4979,8 +5082,8 @@ $('#logp').addEventListener('click',()=>{skipType=true});
 setInterval(()=>{if(G&&G.cd&&$('#scr').hidden){const l=cdLeft();const pl=$('#chPill');if(pl)pl.textContent=`${Math.ceil(l/1000)} 秒`}},300);
 function creditShards(){if(!G||!G.over||!G.over.sh||META.got.includes(G.rid))return;const s=G.over.sh[MYPID];if(s==null)return;META.shards+=s;META.runs++;if(!G.over.dead)META.clears++;META.got.push(G.rid);META.got=META.got.slice(-30);saveMeta()}
 function showGame(){SCR='game';$('#scr').hidden=true;closeOv();renderLog();draw()}
-async function quitGame(){stopCd();if(ROLE!=='solo')await leaveRoom();G=null;LOG=[];busy=false;RQ.length=0;PEND=null;FTAB=null;SLOTS=[];SEL=null;DD=false;$('#tdd').hidden=true;$('#log').innerHTML='';if(UI.bgm)startBgm();showMenu()}
-function hostGone(){if(!G||G.over)return;toast('與房主的連線中斷。');openOv(`<div class="boxhead"><b>連線中斷</b></div><p class="note">與房主的連線中斷，且未能完成房主交接，目前無法繼續同步本局進度。請回到選單重新建立或加入房間。</p><div class="seg"><button class="btn" data-quit>回到選單</button></div>`)}
+async function quitGame(){stopAmbience();stopSfx();stopCd();if(ROLE!=='solo')await leaveRoom();G=null;LOG=[];busy=false;RQ.length=0;PEND=null;FTAB=null;SLOTS=[];SEL=null;DD=false;$('#tdd').hidden=true;$('#log').innerHTML='';if(UI.bgm)startBgm();showMenu()}
+function hostGone(){if(!G||G.over)return;stopAmbience();stopSfx();toast('與房主的連線中斷。');openOv(`<div class="boxhead"><b>連線中斷</b></div><p class="note">與房主的連線中斷，且未能完成房主交接，目前無法繼續同步本局進度。請回到選單重新建立或加入房間。</p><div class="seg"><button class="btn" data-quit>回到選單</button></div>`)}
 
 function runTitle(q){const ps=G.players;const top=(k)=>ps.length>1&&ps.every(x=>(x[k]||0)<=(q[k]||0))&&(q[k]||0)>0;
   if(q.mad)return '發瘋的人';if(q.dead)return '沒能走出去的人';
@@ -5210,6 +5313,8 @@ async function enterFull(quiet){
 }
 let BOOTED=false;
 function boot(full){BOOTED=true;$('#gate').hidden=true;audio();startBgm();if(full)enterFull();else layout();loadSounds();showMenu()}
+document.addEventListener('visibilitychange',()=>{if(document.hidden){stopAmbience();stopSfx();stopBgm()}else{if(UI.snd){audio();syncAmbience()}if(UI.bgm)startBgm()}});
+window.addEventListener('pagehide',()=>{stopAmbience();stopSfx();stopBgm()});
 $('#gateGo').addEventListener('click',()=>boot(true));
 $('#gateNo').addEventListener('click',()=>boot(false));
 layout();
