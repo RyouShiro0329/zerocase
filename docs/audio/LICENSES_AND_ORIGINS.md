@@ -1,4 +1,20 @@
-# 來源及授權（2026-11-14 查核）
+# 來源及授權（2026-11-15 更新）
+
+## 第二批素材
+
+| 素材 | 作者 | 來源頁 | 授權及處理 |
+|---|---|---|---|
+| glassstep | LukaCafuka | https://freesound.org/people/LukaCafuka/sounds/757830/ | CC0；裁切、音量調整 |
+| waterpipe | HenKonen | https://freesound.org/people/HenKonen/sounds/797674/ | CC0；裁切、循環交疊、音量調整 |
+| waterpump／pumpmix／pumpstop | unfa | https://freesound.org/people/unfa/sounds/221551/ | CC0；裁切、循環交疊、與上述管線混合、音量調整 |
+| radiostatic | harrisonlace | https://freesound.org/people/harrisonlace/sounds/812929/ | CC0；裁切、淡入淡出、音量調整 |
+| radio01–radio27 | VoiceBosch | https://voicebosch.itch.io/radio-soldier-announcer-audio-pack | CC BY-SA 4.0；由主人提供的同名 27 句 MP3 切段，降低一個半音、保留原速與共振峰、調整音量；本次衍生音檔同採 CC BY-SA 4.0 |
+
+人聲授權連結：https://creativecommons.org/licenses/by-sa/4.0/ 。作者同時於 Pixabay 提供同名合輯：https://pixabay.com/sound-effects/film-special-effects-radio-soldier-announcer-pack-197724/ 。本次以作者官方音效包的 CC BY-SA 4.0 條件標示衍生錄音，保留作者與來源，未宣稱對錄音擁有原創權。作者未替遊戲背書。未使用聲音複製或模型訓練。
+
+`D_GACHA.WAV` 僅有使用者提供的檔名，尚未確認可公開使用之授權；不放入 GitHub 或交付發布素材。遊戲改用自行程式合成的鎖門卡榫聲。之後取得可核對來源再替換。
+
+## 第一批素材
 
 六個素材上傳的原始檔名已包含 Freesound ID 和部分作者資訊；以下逐一核對來源頁面標示。下列是來源頁面授權紀錄，**不是對音訊內容著作權真實來源的法律保證**。建議在遊戲 Credits 中一併保留作者及來源。
 

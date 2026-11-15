@@ -1,0 +1,299 @@
+[
+  {
+    "id": "glassstep",
+    "source": "757830__lukacafuka__stepping-on-broken-glass.wav",
+    "start": 1,
+    "duration": 2.5,
+    "filter": "afade=t=in:d=0.01,afade=t=out:st=2.3:d=0.2",
+    "gain_db": 1.2,
+    "sha256": "cc8a6a0bf5135b846bc6cf99f8ce8976e71e3b1350a6bbe0df72467207996314"
+  },
+  {
+    "id": "radiostatic",
+    "source": "812929__harrisonlace__comradio_static-am-transmission.wav",
+    "start": 0,
+    "duration": 1.5,
+    "filter": "afade=t=in:d=0.02,afade=t=out:st=1.3:d=0.2",
+    "gain_db": -5.4,
+    "sha256": "d2b2e31f81ccb98c9b45c6886e070798c8c19a27281d296e80a73ac0d323133a"
+  },
+  {
+    "id": "waterpipe",
+    "source": "waterpipe-loop.wav",
+    "start": 0,
+    "duration": null,
+    "filter": "anull",
+    "gain_db": 22.5,
+    "sha256": "d80fed255f3c49b59075c0adcbffac8ea8a1f6990680894064ab865af24dd2e3"
+  },
+  {
+    "id": "waterpump",
+    "source": "waterpump-loop.wav",
+    "start": 0,
+    "duration": null,
+    "filter": "anull",
+    "gain_db": 15.8,
+    "sha256": "6ec84429335fbf346749047f9e65a700cfc8b91eea80785156620fb194eef2bf"
+  },
+  {
+    "id": "pumpmix",
+    "source": "pumpmix-source.wav",
+    "start": 0,
+    "duration": null,
+    "filter": "anull",
+    "gain_db": 1.6,
+    "sha256": "67cb67a9429612d8a180c3e66bde192f0d0c6ee5d60100eae97700024177a2bb"
+  },
+  {
+    "id": "pumpstop",
+    "source": "221551__unfa__industrial-water-machine-noise-with-switch-off.flac",
+    "start": 83,
+    "duration": 5.5,
+    "filter": "afade=t=in:d=0.05,afade=t=out:st=5.0:d=0.5",
+    "gain_db": 15.2,
+    "sha256": "2a8660e3481166ecf0944d26de1cb7b7ec88139cfe91883430df26a8e9685f89"
+  },
+  {
+    "id": "radio01",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 0,
+    "duration": 2.096,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -4.8,
+    "sha256": "6ca527b7fc83adcac15ed711df802999e320ddd4ece2c7abe0089d623f1d00fd"
+  },
+  {
+    "id": "radio02",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 3.34,
+    "duration": 2.061,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -4.8,
+    "sha256": "3555f22c8c764d2eb0de0d62db5aee85f7e8521b1557bbc683f67bfb608e37d4"
+  },
+  {
+    "id": "radio03",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 6.736,
+    "duration": 2.1369999999999996,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -4.1,
+    "sha256": "b0e9f52c4697a4b7b92bf5e2ca9adeed5959647824e3a722afcf3eb04a489ca0"
+  },
+  {
+    "id": "radio04",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 10.118,
+    "duration": 1.8970000000000002,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -4.7,
+    "sha256": "d5205236986ebda3028402cc0b89d9b4e6a027f0477ba86e7089ca315caf0588"
+  },
+  {
+    "id": "radio05",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 13.345,
+    "duration": 1.725999999999999,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -4.9,
+    "sha256": "353a36dad329359ec3e7886f84acbb43ace27be497707ac1a3ec1560ecca23e4"
+  },
+  {
+    "id": "radio06",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 16.428,
+    "duration": 2.475999999999999,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -5.1,
+    "sha256": "c8b21c0a4353c9b82c8cf82da376fd8ba6ea50d23ebcebfd51e6b153602455b3"
+  },
+  {
+    "id": "radio07",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 20.092,
+    "duration": 2.4840000000000018,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -6.6,
+    "sha256": "232f2722c9bc9b92dac1dcb460e1574be562ad78098f5fcfe8c74c2c405c4574"
+  },
+  {
+    "id": "radio08",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 23.824,
+    "duration": 2.201999999999998,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -5.0,
+    "sha256": "d9e942cddc10b26f0e520382b7ec075eb1392bdc4bfe0d3176fc3bca62fdd7b8"
+  },
+  {
+    "id": "radio09",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 27.198,
+    "duration": 2.5,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -6.2,
+    "sha256": "5497d15cac32aea2d30594eaee1960690a4529d1f897da2bacabd732717a6893"
+  },
+  {
+    "id": "radio10",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 30.944,
+    "duration": 2.355999999999998,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -6.5,
+    "sha256": "7eaee7bd49a9f08a6fecbc12f6d2d59a334fc9c4d40379386de0488443c67021"
+  },
+  {
+    "id": "radio11",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 34.499,
+    "duration": 1.7909999999999968,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -6.0,
+    "sha256": "2e822b4f72add1b7033a4f2c9ef93ed467ef08a213c00ad1838e48ba099a178f"
+  },
+  {
+    "id": "radio12",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 37.453,
+    "duration": 2.1099999999999994,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -5.9,
+    "sha256": "e4f6815d3d7cd960fc8d02647c0e33c1e40b84679e7e200b7a84ec03253881ee"
+  },
+  {
+    "id": "radio13",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 40.717,
+    "duration": 1.884999999999998,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -4.5,
+    "sha256": "d4c5a5d75464da5f8d00f600c084ec3a3dd5140bc3234f72a5a6733b4a48ddc2"
+  },
+  {
+    "id": "radio14",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 43.778,
+    "duration": 1.8250000000000028,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -4.4,
+    "sha256": "9fb529ffa48196d51219ff2ad46eacbe1279ebfe7d0ac3ae794510d23c0d32d3"
+  },
+  {
+    "id": "radio15",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 46.785,
+    "duration": 1.9620000000000033,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -7.5,
+    "sha256": "965a4389fd8de235587e90af0c589f291f750159b7ddcb09fa2d908c922ad5e2"
+  },
+  {
+    "id": "radio16",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 49.869,
+    "duration": 1.9540000000000006,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -4.5,
+    "sha256": "9fc88bc0e9034d55f89ebdff36c8a8208236a356ed48dc2c34de8c3427c35fb0"
+  },
+  {
+    "id": "radio17",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 53.004,
+    "duration": 2.1580000000000013,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -5.7,
+    "sha256": "fe910fa634b2c77dfc5c394de081b7eaf6c6417686ec5ff2bca322258cfe3374"
+  },
+  {
+    "id": "radio18",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 56.428,
+    "duration": 2.103999999999999,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -4.9,
+    "sha256": "e79e4cadbd9fdc90356caa1b3808b1184ae11a9996243e7520eae308ebc7c823"
+  },
+  {
+    "id": "radio19",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 59.778,
+    "duration": 2.1330000000000027,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -5.7,
+    "sha256": "aafa6c984f9d434d8e54625332d5aea2dee3d3039a1f0b3e358a140448e3bcd6"
+  },
+  {
+    "id": "radio20",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 63.109,
+    "duration": 2.050999999999995,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -5.7,
+    "sha256": "a7b31be04bbea86b29e5637060e05687c70fafa765af8dbdf9929fe1c7ef4a5e"
+  },
+  {
+    "id": "radio21",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 66.406,
+    "duration": 2.1089999999999947,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -5.5,
+    "sha256": "fd13cecbf65a75bf7f85bad0a7e995c546f7d632bf35d461fec8d2e4ba3e430d"
+  },
+  {
+    "id": "radio22",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 69.705,
+    "duration": 2.0660000000000025,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -5.4,
+    "sha256": "e2d24277f6974a03558cec8acc066dff852334bba97ac2af696101409a280f87"
+  },
+  {
+    "id": "radio23",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 72.947,
+    "duration": 1.9809999999999945,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -5.3,
+    "sha256": "919b33e2c4380ad1b14a7ef7a6be163b5aba75744944353db48624bf53704348"
+  },
+  {
+    "id": "radio24",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 76.065,
+    "duration": 1.9200000000000017,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -6.9,
+    "sha256": "69a8591a9189c49035f30fb0f9cf76ccdcada95444d7cca68cfa710b601ed706"
+  },
+  {
+    "id": "radio25",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 79.187,
+    "duration": 2.0079999999999956,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -7.6,
+    "sha256": "6795c93dda69892b1ad71d976e80bb88fa487d0b7da2b0b46a2aa57c9dd5c235"
+  },
+  {
+    "id": "radio26",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 82.48,
+    "duration": 2.453000000000003,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -5.8,
+    "sha256": "9bd92fee53904eeb5dcbe001f9c624934211c7eead09ad64ad00bfb010344290"
+  },
+  {
+    "id": "radio27",
+    "source": "voicebosch-radio-soldier-announcer-pack-197724.mp3",
+    "start": 86.052,
+    "duration": 3.712999999999994,
+    "filter": "rubberband=tempo=1:pitch=0.9438743127:formant=preserved",
+    "gain_db": -3.8,
+    "sha256": "62a208da56b6ec8cc8a2f2d6277cdd2bd0e93460ceb0b7ca1f52355844915403"
+  }
+]
