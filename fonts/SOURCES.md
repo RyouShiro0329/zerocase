@@ -18,5 +18,6 @@ Copyright 2014 The Source Serif 4 Project Authors.
 作者專案：https://github.com/adobe-fonts/source-serif
 授權：SIL Open Font License 1.1，全文隨附於 SourceSerif4-OFL.txt。
 修改：保留拉丁字元、常用標點及數字功能，轉為 WOFF2；保留可變字重。
+改名：原字型保留字型名稱「Source」（Reserved Font Name）。依 SIL OFL 1.1 第 3 條，修改版不得沿用，因此 source-serif-4-latin.woff2 內部字型名稱改為「ZC Latin」（PostScript 名稱 ZCLatin-*）；版權聲明欄保留原文。字形與字距未修改。（2026-11-16）
 
 中文字型與英文字型皆隨遊戲提供；字型作者未替遊戲背書。
