@@ -596,7 +596,7 @@ function stopSfx(){RADIO_UNTIL=0;GEN_SFX_UNTIL=0;for(const source of ACTIVE_SFX)
 let AMBIENT=null,AMBIENT_KEY='',AMBIENT_TOKEN=0,AMBIENT_TIMER=null,AUDIO_MOVING=false,GEN_SFX_UNTIL=0;
 const ALARM_PLAYED=new Set(),THUNDER_PLAYED=new Set();let THUNDER_SOURCE=null;
 function rainSpec(){
-  if(!weatherState().rain||['C','G','P','SA','SB','SC'].includes(G.lv))return null;
+  if(!weatherState().rain||['C','G','P','U','SA','SB','SC'].includes(G.lv))return null;
   const indoor=!!(LV[G.lv]||{}).indoor;
   return {id:indoor?'rain_indoor_loop':'rain_outdoor_loop',loop:true};
 }
