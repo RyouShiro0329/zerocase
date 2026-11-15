@@ -39,15 +39,15 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .btn:disabled{opacity:.38;cursor:not-allowed}
 
 .topbar{display:flex;align-items:center;gap:12px;min-height:44px;padding-bottom:4px;border-bottom:1px solid rgba(85,82,72,.6);flex:none}
-.lvl{flex:none;min-width:0;max-width:34%}
+.lvl{flex:0 1 240px;min-width:0;max-width:34%}
 .lvl b{display:block;font-weight:900;font-size:1.25rem;line-height:1.15;color:var(--gold);letter-spacing:.06em;text-shadow:0 2px 6px #000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lvl small{display:block;font-size:.7rem;color:var(--muted);letter-spacing:.08em;white-space:nowrap;font-variant-numeric:tabular-nums}
-.mid{flex:1;min-width:60px;display:flex;flex-direction:column;gap:2px}
+.time-weather{position:relative;flex:1;min-width:240px;display:flex;align-items:center;justify-content:center;gap:10px}.mid{flex:0 0 164px;min-width:164px;display:flex;flex-direction:column;align-items:center;gap:2px}.sky-clock{width:100%}.weather{position:absolute;left:calc(50% + 86px);width:34px;display:flex;flex-direction:column;align-items:center;gap:1px;color:#b9b5a6;font-size:.7rem;white-space:nowrap}.weather svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
 .sky-clock{height:22px;max-width:240px;color:#c7c3b2;opacity:.9}
 .sky-clock svg{display:block;width:100%;height:100%;overflow:visible}
 .sky-clock .chalk{fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
 .sky-clock .sky-track{stroke-dasharray:2 5;opacity:.32}
-.sky-clock .sky-cloud{opacity:.6}
+.sky-clock .sky-dawn-mark,.sky-clock .sky-stars{opacity:.55}.sky-clock .sky-sunset{stroke:#c8ad7a}
 #stage.short .sky-clock{height:18px}
 .mid small{color:var(--muted);font-size:.74rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tools{flex:none;display:flex;gap:6px}
@@ -554,10 +554,11 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 .codex-entry h3 small{font-size:.72em;white-space:nowrap}.codex-entry p{margin:6px 0}.codex-entry .codex-place,.codex-entry li>small{color:var(--muted);font-size:.78em}
 .codex-entry>summary{display:flex;justify-content:space-between;gap:12px;align-items:center;min-height:36px;padding:0}.codex-entry>summary::before{content:"▸";flex:none}.codex-entry[open]>summary::before{content:"▾"}.codex-entry>summary b{flex:1}.codex-entry>summary small{font-size:.74em;color:var(--muted);white-space:nowrap}.codex-detail{border-top:1px solid var(--line);margin-top:8px;padding-top:5px}.codex-entry ol{padding-left:22px}.codex-entry li{margin:8px 0}.codex-entry li p{font-size:.9em}
 #stage.compact-tools .topbar{display:flex;flex-wrap:nowrap;gap:8px}
-#stage.compact-tools .lvl{flex:1 1 0;max-width:none;min-width:0;overflow:hidden}#stage.compact-tools .lvl small{overflow:hidden;text-overflow:ellipsis}
+#stage.compact-tools .lvl{flex:0 1 140px;max-width:none;min-width:0;overflow:hidden}#stage.compact-tools .lvl small{overflow:hidden;text-overflow:ellipsis}
 #stage.compact-tools .mid{flex:0 0 164px;min-width:164px;max-width:164px}
 #stage.compact-tools .mid small{font-size:.68rem}
 #stage.compact-tools .tools{display:flex;flex:0 0 auto;flex-wrap:nowrap;gap:4px}#stage.compact-tools .tools .btn{min-height:30px;font-size:.76rem;padding:3px 6px}
+#stage.narrow .tools{gap:3px}#stage.narrow .tools .btn{font-size:.65rem;padding:3px 3px}
 
 </style>
 
@@ -565,7 +566,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="app">
   <header class="topbar">
     <div class="lvl"><b id="lvN"></b><small id="lvS"></small></div>
-    <div class="mid"><div class="sky-clock" id="skyClock"></div><small id="mids"></small></div>
+    <div class="time-weather"><div class="mid"><div class="sky-clock" id="skyClock"></div><small id="mids"></small></div><div class="weather" id="weather" role="status" aria-label="目前天氣"></div></div>
     <nav class="tools" aria-label="遊戲工具">
       <button class="btn" data-open="map" id="tMap">地圖</button><button class="btn" data-open="tasks" id="tTasks">任務</button><button class="btn" data-open="memo" id="tMemo">備忘錄</button>
       <button class="btn" data-save id="tSave">存檔</button><button class="btn" data-dd id="tTeam">隊伍 ▾</button><button class="btn" data-open="bag">背包</button><button class="btn" data-open="craft">合成</button><button class="btn" data-open="settings">設定</button>
@@ -590,7 +591,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.22.4", "b": 56, "t": "2026-11-15T23:00:13+08:00"};
+const ZC_VER={"v": "0.23.0", "b": 57, "t": "2026-11-15T23:39:50+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3101,28 +3102,28 @@ const SFX_TYPES={
   ui:['click','ok','ng','crit','fumble','rattle','land','dry'],
   movement:['stairs','step','zstep','dooropen','doorclose'],
   foley:['heal','pill','rummage','zipper','drawer','pickup','equip','craft','eat','gulp'],
-  combat:['beretta','berettaReload','revolver','revolverCock','casing','fist','claw','knife','headshot','mthrow','mimpact','death','fal','falReload','mp5','mp5Reload','rifle','bolt','bite','smash','splat','spit','thud','squish','bhit','shotgun','whoosh','groan','hurt','ext','zap'],
+  combat:['bowdraw','bowimpact','beretta','berettaReload','revolver','revolverCock','casing','fist','claw','knife','headshot','mthrow','mimpact','death','fal','falReload','mp5','mp5Reload','rifle','bolt','bite','smash','splat','spit','thud','squish','bhit','shotgun','whoosh','groan','hurt','ext','zap'],
   system:['level'],
-  environment:['glassbreak','woodknock','woodimpact','genstart','genloop','firealarm','dryfire','glassstep','waterpipe','pumpmix','pumpstop','radiostatic','radio02','radio23','radio24','doorlocked']
+  environment:['rain_indoor_loop','rain_outdoor_loop','thunder_distant_01','thunder_distant_02','glassbreak','woodknock','woodimpact','genstart','genloop','firealarm','dryfire','glassstep','waterpipe','pumpmix','pumpstop','radiostatic','radio02','radio23','radio24','doorlocked']
 };
 // 初始音量級距：待桌機與手機試聽後再微調；不是已完成 LUFS 實測的數據。
 const SFX_CATEGORY_GAIN={ui:.56,movement:.65,foley:.78,combat:.92,system:.8,environment:.6};
 // 解碼峰值接近滿刻度的素材另外衰減；實際聽感仍待手機／耳機驗收。
-const SFX_TRIM={beretta:.72,revolver:.72,fal:.65,mp5:.65,rifle:.7,shotgun:.65,headshot:.4,dryfire:.55,glassbreak:.65,woodknock:.55,woodimpact:.45,firealarm:.28,genstart:.5,genloop:.3,glassstep:.7,waterpipe:.35,pumpmix:.45,pumpstop:.45,radiostatic:.5,radio02:1,radio23:1,radio24:1};
+const SFX_TRIM={bowdraw:.85,bowimpact:.8,rain_indoor_loop:.8,rain_outdoor_loop:.8,thunder_distant_01:.45,thunder_distant_02:.45,beretta:.72,revolver:.72,fal:.65,mp5:.65,rifle:.7,shotgun:.65,headshot:.4,dryfire:.55,glassbreak:.65,woodknock:.55,woodimpact:.45,firealarm:.28,genstart:.5,genloop:.3,glassstep:.7,waterpipe:.35,pumpmix:.45,pumpstop:.45,radiostatic:.5,radio02:1,radio23:1,radio24:1};
 const SFX_CATEGORY=Object.fromEntries(Object.entries(SFX_TYPES).flatMap(([cat,names])=>names.map(n=>[n,cat])));
 function sfxLevel(k,v){const raw=Number(v??1);return Math.max(0,Math.min(1.5,Number.isFinite(raw)?raw:1))*(SFX_CATEGORY_GAIN[SFX_CATEGORY[k]]??.85)*(SFX_TRIM[k]??1)}
 // Web Audio 合成聲原本忽略音量參數；僅在同步排程 SYN 期間設定縮放倍率。
 let SFX_SYN_SCALE=1;
 function synthAtVolume(k,v,scale){const previous=SFX_SYN_SCALE;SFX_SYN_SCALE=scale;try{return SYN[k](v)||0}finally{SFX_SYN_SCALE=previous}}
 
-const SFILES=['heal','pill','rummage','stairs','zipper','step','drawer','pickup','dooropen','doorclose','beretta','berettaReload','revolver','revolverCock','casing','fist','claw','knife','zstep','headshot','mthrow','mimpact','death','click','equip','fal','falReload','mp5','mp5Reload','rifle','bolt','bite','smash','splat','spit','thud','squish','bhit','shotgun','glassbreak','firealarm','genstart','genloop','dryfire','woodknock','woodimpact','glassstep','waterpipe','pumpmix','pumpstop','radiostatic','radio02','radio23','radio24'];
+const SFILES=['bowdraw','bowimpact','rain_indoor_loop','rain_outdoor_loop','thunder_distant_01','thunder_distant_02','heal','pill','rummage','stairs','zipper','step','drawer','pickup','dooropen','doorclose','beretta','berettaReload','revolver','revolverCock','casing','fist','claw','knife','zstep','headshot','mthrow','mimpact','death','click','equip','fal','falReload','mp5','mp5Reload','rifle','bolt','bite','smash','splat','spit','thud','squish','bhit','shotgun','glassbreak','firealarm','genstart','genloop','dryfire','woodknock','woodimpact','glassstep','waterpipe','pumpmix','pumpstop','radiostatic','radio02','radio23','radio24'];
 function audio(){if(!UI.snd)return null;try{if(!AC){AC=new (window.AudioContext||window.webkitAudioContext)();SFX_MASTER=AC.createGain();SFX_MASTER.gain.value=.86;const limiter=AC.createDynamicsCompressor();limiter.threshold.value=-5;limiter.knee.value=3;limiter.ratio.value=10;limiter.attack.value=.004;limiter.release.value=.16;SFX_MASTER.connect(limiter);limiter.connect(AC.destination);const len=AC.sampleRate;NB=AC.createBuffer(1,len,AC.sampleRate);const d=NB.getChannelData(0);for(let i=0;i<len;i++)d[i]=Math.random()*2-1}if(AC.state==='suspended'){const r=AC.resume();if(r&&r.catch)r.catch(()=>{})}return AC}catch(e){return null}}
 let loading=null;const AUDIO_LOAD_STATUS={failed:new Set()};
 function loadSounds(){
   if(loading)return loading;const a=audio();if(!a)return Promise.resolve();
   loading=Promise.all(SFILES.map(async n=>{
     if(BUF[n])return;
-    const formats=n==='genloop'?['ogg','mp3']:['mp3'];let error;
+    const formats=n==='genloop'||n.startsWith('rain_')?['ogg','mp3']:['mp3'];let error;
     for(const ext of formats){try{const r=await fetch('sfx/'+n+'.'+ext);if(!r.ok)throw new Error('HTTP '+r.status);const ab=await r.arrayBuffer();BUF[n]=await new Promise((ok,ng)=>a.decodeAudioData(ab,ok,ng));AUDIO_LOAD_STATUS.failed.delete(n);return}catch(e){error=e}}
     AUDIO_LOAD_STATUS.failed.add(n);console.warn('[ZeroCase audio] 素材載入失敗，可用備援將自動播放，持續聲將暫停：'+n,error);
   }));return loading;
@@ -3134,8 +3135,21 @@ const ACTIVE_SFX=new Set();
 function trackSfx(source,gain){ACTIVE_SFX.add(source);source.onended=()=>{ACTIVE_SFX.delete(source);if(AMBIENT&&AMBIENT.source===source)AMBIENT=null;try{source.disconnect();gain.disconnect()}catch(e){}};return source}
 function stopSfx(){RADIO_UNTIL=0;GEN_SFX_UNTIL=0;for(const source of ACTIVE_SFX){try{source.stop()}catch(e){}}ACTIVE_SFX.clear()}
 let AMBIENT=null,AMBIENT_KEY='',AMBIENT_TOKEN=0,AMBIENT_TIMER=null,AUDIO_MOVING=false,GEN_SFX_UNTIL=0;
-const ALARM_PLAYED=new Set();
-function stopAmbience(){AMBIENT_TOKEN++;clearTimeout(AMBIENT_TIMER);AMBIENT_TIMER=null;if(AMBIENT){try{AMBIENT.source.stop()}catch(e){}AMBIENT=null}AMBIENT_KEY=''}
+const ALARM_PLAYED=new Set(),THUNDER_PLAYED=new Set();let THUNDER_SOURCE=null;
+function rainSpec(){
+  if(!weatherState().rain||['C','G','P','U','SA','SB','SC'].includes(G.lv))return null;
+  const indoor=!!(LV[G.lv]||{}).indoor;
+  return {id:indoor?'rain_indoor_loop':'rain_outdoor_loop',loop:true};
+}
+function beginRainAudio(){G.weatherOverride={kind:'rain',until:absMin()+90}}
+function syncThunder(){
+  if(!UI.snd||!G||G.over||AUDIO_MOVING||document.hidden||!rainSpec())return;
+  const w=weatherState();if(w.kind!=='thunder'||THUNDER_PLAYED.has(w.key))return;
+  const id=w.key.length%2?'thunder_distant_01':'thunder_distant_02';
+  if(!BUF[id])return;THUNDER_PLAYED.add(w.key);if(THUNDER_PLAYED.size>100)THUNDER_PLAYED.delete(THUNDER_PLAYED.values().next().value);
+  const ms=play(id,sfxLevel(id,(LV[G.lv]||{}).indoor?.45:1),18000);if(ms)THUNDER_SOURCE=[...ACTIVE_SFX].at(-1);
+}
+function stopAmbience(){if(THUNDER_SOURCE){try{THUNDER_SOURCE.stop()}catch(e){}THUNDER_SOURCE=null}AMBIENT_TOKEN++;clearTimeout(AMBIENT_TIMER);AMBIENT_TIMER=null;if(AMBIENT){try{AMBIENT.source.stop()}catch(e){}AMBIENT=null}AMBIENT_KEY=''}
 function ambientSpec(){
   if(!UI.snd||!G||G.over||AUDIO_MOVING||document.hidden)return null;
   if(N[G.node]&&N[G.node].L!==G.lv)return null;
@@ -3147,11 +3161,11 @@ function ambientSpec(){
   if((G.node==='G2'&&G.flags.power)||(G.node==='PP3'&&G.flags.ppgen))return {id:'genloop',key:base+':generator',loop:true,delay:Math.max(0,GEN_SFX_UNTIL-Date.now(),ROLE==='client'?0:G.audioGenNode===G.node?Math.min(7500,(G.audioGenAt||0)+7500-Date.now()):0)};
   if(G.lv==='WP'&&PUMP_STOP_VISIT!==base&&(G.node==='WP5'||G.node==='WP5b'&&!G.flags.wpfail&&G.flags.citywater))return {id:'pumpmix',key:base+':pump',loop:true};
   if(G.node==='WP4'&&G.flags.citywater)return {id:'waterpipe',key:base+':pipes',loop:true};
-  return null;
+  const rain=rainSpec();return rain?{...rain,key:base+':'+rain.id}:null;
 }
 function syncAmbience(){
   const spec=ambientSpec();if(!spec){if(AMBIENT_KEY)stopAmbience();return}
-  if(AMBIENT_KEY===spec.key)return;
+  if(AMBIENT_KEY===spec.key){syncThunder();return;}
   stopAmbience();AMBIENT_KEY=spec.key;const token=AMBIENT_TOKEN;
   const start=()=>{
     if(token!==AMBIENT_TOKEN||!UI.snd)return;
@@ -3159,7 +3173,7 @@ function syncAmbience(){
     if(!now.loop&&ALARM_PLAYED.has(now.key))return;
     const a=audio(),buffer=BUF[now.id];if(!a||!buffer){AMBIENT_KEY='';return}
     const source=a.createBufferSource(),gain=a.createGain();source.buffer=buffer;source.loop=now.loop;gain.gain.value=sfxLevel(now.id,1);source.connect(gain);gain.connect(SFX_MASTER||a.destination);trackSfx(source,gain);
-    AMBIENT={id:now.id,source};source.start();
+    AMBIENT={id:now.id,source};source.start();syncThunder();
     if(!now.loop){ALARM_PLAYED.add(now.key);if(ALARM_PLAYED.size>100)ALARM_PLAYED.delete(ALARM_PLAYED.values().next().value);source.stop(a.currentTime+Math.min(buffer.duration,now.ms/1000))}
   };
   const ready=()=>{if(token!==AMBIENT_TOKEN)return;const now=ambientSpec();if(!now||now.key!==spec.key)return;if(now.delay>0)AMBIENT_TIMER=setTimeout(start,now.delay);else start()};
@@ -3182,7 +3196,7 @@ try{BGM.src=(BGM.canPlayType('audio/ogg; codecs="vorbis"')?'sfx/bgm.ogg':'sfx/bg
 function startBgm(){if(!UI.bgm)return;try{const p=BGM.play();if(p&&p.catch)p.catch(()=>{})}catch(e){}}
 function stopBgm(){try{BGM.pause()}catch(e){}}
 // 播放並回傳「播完」的 Promise（max 為最長等待）
-function play(n,vol=1,max=4000){const a=audio();if(!a||!BUF[n])return null;const s=a.createBufferSource();s.buffer=BUF[n];const g=a.createGain();g.gain.value=vol;s.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(s,g);const ms=Math.min(max,BUF[n].duration*1000);s.start();s.stop(a.currentTime+ms/1000);return ms}
+function play(n,vol=1,max=4000,delay=0){const a=audio();if(!a||!BUF[n])return null;const s=a.createBufferSource();s.buffer=BUF[n];const g=a.createGain();g.gain.value=vol;s.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(s,g);const ms=Math.min(max,BUF[n].duration*1000);s.start(a.currentTime+delay);s.stop(a.currentTime+delay+ms/1000);return ms}
 function noise(t,dur,f,q,vol,type){const a=audio();if(!a)return;const s=a.createBufferSource();s.buffer=NB;const fl=a.createBiquadFilter();fl.type=type||'bandpass';fl.frequency.value=f;fl.Q.value=q||1;const g=a.createGain();g.gain.setValueAtTime(Math.max(.0005,vol*SFX_SYN_SCALE),a.currentTime+t);g.gain.exponentialRampToValueAtTime(.0005,a.currentTime+t+dur);s.connect(fl);fl.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(s,g);s.start(a.currentTime+t,Math.random()*.5);s.stop(a.currentTime+t+dur+.02)}
 function tone(t,f,dur,vol,type,f2){const a=audio();if(!a)return;const o=a.createOscillator();o.type=type||'sine';o.frequency.setValueAtTime(f,a.currentTime+t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,a.currentTime+t+dur);const g=a.createGain();g.gain.setValueAtTime(.0001,a.currentTime+t);g.gain.linearRampToValueAtTime(Math.max(.0005,vol*SFX_SYN_SCALE),a.currentTime+t+.008);g.gain.exponentialRampToValueAtTime(.0005,a.currentTime+t+dur);o.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(o,g);o.start(a.currentTime+t);o.stop(a.currentTime+t+dur+.03)}
 const SYN={
@@ -3206,7 +3220,7 @@ const SYN={
  zap(){noise(0,.35,4200,.8,.35,'highpass');tone(0,60,.3,.14,'square',55);tone(.05,1800,.12,.06,'sawtooth',900);return 360},
  level(){tone(0,55,2.2,.16,'sawtooth',48);tone(0,82,2.2,.08,'sine',77);noise(0,2,180,2,.08,'lowpass');return 2200}
 };
-const FALL={heal:'craft',pill:'craft',rummage:'craft',stairs:'land',zipper:'craft',step:'humanstep',drawer:'craft',pickup:'ok',dooropen:'land',doorclose:'land',beretta:'fumble',berettaReload:'dry',revolver:'fumble',revolverCock:'dry',casing:'dry',fist:'hurt',claw:'hurt',knife:'hurt',zstep:'infectedstep',headshot:'fumble',mthrow:'whoosh',mimpact:'fumble',death:'fumble',click:'dry',equip:'dry',bite:'hurt',smash:'fumble',splat:'hurt',spit:'whoosh',thud:'land',squish:'hurt',bhit:'dry',shotgun:'fumble',fal:'fumble',falReload:'dry',mp5:'fumble',mp5Reload:'dry',rifle:'fumble',bolt:'dry',dryfire:'dry'};
+const FALL={bowdraw:'whoosh',bowimpact:'hurt',heal:'craft',pill:'craft',rummage:'craft',stairs:'land',zipper:'craft',step:'humanstep',drawer:'craft',pickup:'ok',dooropen:'land',doorclose:'land',beretta:'fumble',berettaReload:'dry',revolver:'fumble',revolverCock:'dry',casing:'dry',fist:'hurt',claw:'hurt',knife:'hurt',zstep:'infectedstep',headshot:'fumble',mthrow:'whoosh',mimpact:'fumble',death:'fumble',click:'dry',equip:'dry',bite:'hurt',smash:'fumble',splat:'hurt',spit:'whoosh',thud:'land',squish:'hurt',bhit:'dry',shotgun:'fumble',fal:'fumble',falReload:'dry',mp5:'fumble',mp5Reload:'dry',rifle:'fumble',bolt:'dry',dryfire:'dry'};
 // 劇情裡受傷的聲音：照文字判斷是什麼弄傷的（電、刀刃玻璃、槍、火、撞擊），都不是就用程式合成的悶哼
 function hurtSnd(t){t=String(t||'');if(/電|火花|觸電/.test(t))return 'zap';if(/玻璃|割|刺絲|刀|劃/.test(t))return 'knife';if(/子彈|槍|彈丸/.test(t))return 'bhit';/* v0.13.3 燒燙傷不再用燃燒瓶的爆炸聲，改用一般受傷聲 */if(/咬|抓|爪|指甲|撲/.test(t))return 'claw';if(/摔|砸|撞|掉|壓|踢|打/.test(t))return 'thud';return 'hurt'}
 // sfx 回傳毫秒長度；await sfxW 會等到聲音播完
@@ -3214,6 +3228,7 @@ function sfx(k,v,max){
   // 隊友會先收到停機演出、再收到新狀態；立即停掉舊節點的循環直到下一次進入。
   if(k==='pumpstop'&&G){PUMP_STOP_VISIT=G.rid+':'+G.node+':'+(G.audioVisit||0);if(AMBIENT&&AMBIENT.id==='pumpmix')stopAmbience()}
   if(!UI.snd||document.hidden)return 0;
+  if(k==='bowhit'||k==='bowmiss')return playBowShot(k==='bowhit',v);
   try{
     if(/^radio\d{2}$/.test(k)&&Date.now()<RADIO_UNTIL)return 0;
     const gain=sfxLevel(k,v);
@@ -3227,6 +3242,14 @@ function sfx(k,v,max){
   }catch(e){console.warn('[ZeroCase audio] 音效播放失敗',k,e)}
   return 0;
 }
+// 同一個同步事件在每台裝置排程兩段音源，命中固定接在拉弓起始後 1.18 秒。
+function playBowShot(hit,v=1){
+  if(!UI.snd||document.hidden||Number(v)===0)return 0;
+  const shot=sfx('bowdraw',v)||sfx('whoosh',v);
+  const impact=hit?play('bowimpact',sfxLevel('bowimpact',v),2000,1.18):0;
+  return Math.max(shot||0,impact?1180+impact:0);
+}
+async function bowAttackAudio(hit){const ms=snd(hit?'bowhit':'bowmiss',1);await wait(ms||1500)}
 async function sfxW(k,v,max,ratio=1){const ms=sfx(k,v,max);if(ms)await wait(ms*ratio*Math.max(.4,UI.spd))}
 /* ================= 擲骰（本機演出） ================= */
 /* ============ 擲骰 ============ */
@@ -3382,6 +3405,16 @@ const periodOf=h=>h>=5&&h<8?'dawn':h>=8&&h<17?'day':h>=17&&h<20?'dusk':'night';
 const isNight=()=>!!G&&G.clock!=null&&periodOf(hourN())==='night';
 const timeTxt=()=>`第 ${dayN()} 天・${PERN[periodOf(hourN())]}`;
 // 粉筆天象：只讀遊戲時間，與地圖、章節、探索區域數無關。
+const WEATHER_LABEL={clear:'晴朗',cloudy:'多雲',rain:'下雨',thunder:'雷雨'};
+function weatherState(){
+  const slot=Math.floor(((G&&G.clock)||0)/180),override=G&&G.weatherOverride;
+  let kind='cloudy';
+  if(override&&override.until>absMin()&&WEATHER_LABEL[override.kind])kind=override.kind;
+  else if(G&&G.ev!=null&&EVPOOL[G.ev]&&EVPOOL[G.ev].id==='rain')kind='rain';
+  else if(slot>0){let seed=2166136261;for(const c of String(G&&G.rid||'zerocase')+':'+slot)seed=Math.imul(seed^c.charCodeAt(0),16777619)>>>0;kind=['clear','cloudy','cloudy','rain','rain','thunder'][seed%6]}
+  return {kind,label:WEATHER_LABEL[kind],rain:kind==='rain'||kind==='thunder',key:(G&&G.rid||'')+':'+slot+':'+kind+':'+(override&&override.until||0)};
+}
+function weatherMarkup(){const w=weatherState(),paths={clear:'<circle cx="12" cy="10" r="4"/><path d="M12 2v2 M12 16v2 M4 10H2 M20 10h2 M5 3l2 2 M17 15l2 2 M5 17l2-2 M17 5l2-2"/>',cloudy:'<path d="M5 15h14a4 4 0 0 0 0-8 6 6 0 0 0-11-2 5 5 0 0 0-3 10Z"/>',rain:'<path d="M4 12h16a3 3 0 0 0 0-6 6 6 0 0 0-11-2 4 4 0 0 0-5 8Z M7 16l-2 4 M13 16l-2 4 M19 16l-2 4"/>',thunder:'<path d="M4 11h16a3 3 0 0 0 0-6 6 6 0 0 0-11-2 4 4 0 0 0-5 8Z M13 12l-4 6h4l-2 5 7-8h-5Z"/>'};return `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[w.kind]}</svg><span>${w.label}</span>`}
 function skyClockState(){
   const h=hourN(),period=periodOf(h),night=period==='night';
   // 全天共用 24 小時刻度：清晨在左側、12:00 在弧頂、接近 24:00 時在最右。
@@ -3394,9 +3427,9 @@ function skyClockMarkup(){
   const x=posX.toFixed(1),y=posY.toFixed(1);
   const sun='<circle r="4"/><path d="M0-7v-2 M0 7v2 M-7 0h-2 M7 0h2 M-5-5l-1.5-1.5 M5 5l1.5 1.5 M5-5l1.5-1.5 M-5 5l-1.5 1.5"/>';
   const moon='<path d="M3-7a7 7 0 1 0 3 11A7 7 0 0 1 3-7Z"/><path d="M10-7v3 M8.5-5.5h3"/>';
-  const cloud='<path d="M-10 4h18a3 3 0 0 0 0-6 5 5 0 0 0-9-3 4 4 0 0 0-7 4 2.5 2.5 0 0 0-2 5Z"/>';
-  const icon=night?moon:period==='dawn'?sun+'<g transform="translate(1 2)" class="sky-cloud">'+cloud+'</g>':sun;
-  return `<svg viewBox="0 0 240 34" role="img" aria-label="${timeTxt()}"><title>${timeTxt()}・全天由左至右表示時間推移：清晨在左側、正午在中央、接近午夜在最右側</title><g class="chalk"><path class="sky-track" d="M12 27 Q120-5 228 27"/><path opacity=".18" d="M10 29 Q121-3 230 28"/><g class="sky-cloud" transform="translate(24 24) scale(.65)">${cloud}</g><g class="sky-cloud" transform="translate(215 25) scale(.8)">${cloud}</g><g transform="translate(${x} ${y})">${icon}</g></g></svg>`;
+  const sunrise='<g class="sky-sunrise"><path d="M-5 3a5 5 0 0 1 10 0 M-7 3H7 M0-5v-2 M-6-2l-2-2 M6-2l2-2"/></g>';
+  const icon=night?moon:period==='dawn'?sunrise:period==='dusk'?'<g class="sky-sunset">'+sun+'</g>':sun;
+  return `<svg viewBox="0 0 240 34" role="img" aria-label="${timeTxt()}"><title>${timeTxt()}・全天由左至右表示時間推移：清晨在左側、正午在中央、接近午夜在最右側</title><g class="chalk"><path class="sky-track" d="M12 27 Q120-5 228 27"/><path opacity=".18" d="M10 29 Q121-3 230 28"/><g class="sky-dawn-mark"><path d="M12 29h13 M15 25h8 M18 21h3"/></g><g class="sky-stars"><path d="M224 22v5 M221.5 24.5h5 M232 28v3 M230.5 29.5h3"/><circle cx="234" cy="21" r=".6"/></g><g transform="translate(${x} ${y})">${icon}</g></g></svg>`;
 }
 // 到下一個清晨 05:00 還有幾分鐘（過夜用）
 const untilDawn=()=>{const m=absMin()%1440;return (300-m+1440)%1440||1440};
@@ -3571,7 +3604,7 @@ async function enterNode(id){
     for(const p of G.players)if(p.down&&!p.dead&&DF().wake){p.down=0;if(p.mad){p.mad=0;setFear(p,90)}p.hp=Math.max(1,Math.ceil(p.max*.25));out(`${nm(p)}咳了幾聲，慢慢撐著牆站了起來。生命回到 ${p.hp}。`,'good')}
   }
   G.node=id;G.ev=null;G.audioVisit=(G.audioVisit||0)+1;G.audioEnteredAt=Date.now();G.votes={};G.rv={};G.pc=null;/* v0.21.0：地上的東西留在原地，回來還撿得到 */G.grounds=G.grounds||{};if(G.gnode&&G.gnode!==id)G.grounds[G.gnode]=G.ground.length?G.ground:undefined;if(G.gnode!==id)G.ground=G.grounds[id]||[];G.gnode=id;G.flags['v_'+id]=1;if(nd.onEnter)nd.onEnter();
-  if(nd.ev){const ch=LV[nd.L].ch||1;const mine=EVPOOL.map((e,i)=>i).filter(i=>(EVPOOL[i].ch||1)===ch&&evOk(EVPOOL[i]));const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
+  if(nd.ev){const ch=LV[nd.L].ch||1;const mine=EVPOOL.map((e,i)=>i).filter(i=>(EVPOOL[i].ch||1)===ch&&evOk(EVPOOL[i]));const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;if(EVPOOL[i].id==='rain')beginRainAudio();out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
   else{hd(nd.n);out(nd.t,'lore');if(nd.tx){const x=nd.tx();if(x)out(x,'lore')}if(nd.tm&&G.players.some(p=>p.kind==='maggie'))out(nd.tm,'lore')}
   if(id==='WP5')G.flags.wpfail=0;AUDIO_MOVING=false;syncAmbience();if(id==='A2')snd('woodimpact',1,2400);
   syncCodex(G,true);reportEffects();reportGround();
@@ -4182,13 +4215,13 @@ async function attack(p,h,sk,ti,counter,csk){
     out(`擲骰｜${MP()?esc(p.name)+' ':''}${w.n} d20(<b>${R.a}</b>)${sm+hb>=0?'+':'−'}${Math.abs(sm+hb)}＝<b>${tot}</b>　<span class="${anyH?'s':'f'}">${crit?'大成功':fum?'大失敗':anyH?'命中':'落空'}</span>`,'roll',true);
     if(w.kind==='gun'){g.mag--;if(G.lv==='F'&&!G.flags.gasoff){await explode();if(G.over||!G.fight)return true}
       const ms=snd(w.snd,1,1600);await wait(Math.min(ms||300,420));if(g.id==='beretta')setTimeout(()=>snd('casing',.5),300)}
-    else if(w.kind==='ranged'){takeI(p,w.ammo);snd('whoosh');if(w.cock)g.cocked=0}
+    else if(w.kind==='ranged'){takeI(p,w.ammo);if(w.ammo==='arrow')await bowAttackAudio(anyH&&!fum);else snd('whoosh');if(w.cock)g.cocked=0}
     else if(w.kind==='spray'){g.dur--;snd('mimpact',.6,900)}
     if(fum){
       if(w.kind==='gun'){if(!w.nojam&&!(p.jamGuard>0)&&!(tr(p,'gunner')&&Math.random()<.5)){g.jam=1;out('槍響之後，滑套卡在半途。卡彈了。','dmg')}else out('擊錘落下，只聽到一聲空響。是啞彈。','sys')}
       else if(melee&&g&&!w.bash&&Math.random()<.3){const far=Math.random()<.4;g.drop=far?'far':'feet';if(p.hand.R===g.u)p.hand.R=null;if(p.hand.L===g.u)p.hand.L=null;snd('fumble');
         out(far?`${nm(p)}的${w.n}脫手飛了出去，撞在走廊另一頭。只能等打完再去撿。`:`${nm(p)}的${w.n}從${h==='L'?'左手':'右手'}滑了出去，掉在腳邊。`,'dmg')}
-      else{snd('whoosh');out('揮空了，整個人被自己的力道帶得失去平衡。','sys')}
+      else{if(w.ammo!=='arrow')snd('whoosh');out('揮空了，整個人被自己的力道帶得失去平衡。','sys')}
       if(g&&g.dur!=null&&melee)g.dur-=2;
     }else{
       let anyHit=false;
@@ -4221,7 +4254,7 @@ async function attack(p,h,sk,ti,counter,csk){
         if(x.hp<=0)await kill(x,p,melee);
       }
       if(anyHit){if(sk==='cleave'||sk==='swing')p.defPen=2;if(melee&&p.kind==='maggie')p.combo=1}
-      else{if(w.kind!=='gun')snd('whoosh');out(w.kind==='gun'?'子彈擦過牠的耳邊，打進後面的牆裡。':w.kind==='ranged'?'射偏了，釘在牆上。':'牠偏了一下頭，打了個空。','sys')}
+      else{if(w.kind!=='gun'&&w.ammo!=='arrow')snd('whoosh');out(w.kind==='gun'?'子彈擦過牠的耳邊，打進後面的牆裡。':w.kind==='ranged'?'射偏了，釘在牆上。':'牠偏了一下頭，打了個空。','sys')}
     }
     if(g&&g.dur!=null&&melee&&!w.bash)g.dur-=1+(S&&S.dur||0);
     if(g&&g.dur!=null&&g.dur<=0){out(`<b>${WEAP[g.id].n}</b>壞了。`,'dmg',true);rmGear(p,g.u);snd('fumble');break}
@@ -4426,10 +4459,11 @@ async function hitAlly(p,t,lab){const A=handAtk(p,'R');const {g,w}=A;const st=be
   if(w.kind==='gun'&&g&&!A.bash){g.mag--;addAlarm(w.noise||2,p);snd(w.snd,1,1600)}else if(w.kind==='ranged'&&!A.bash)takeI(p,w.ammo);
   await dice({label:`${lab||''}${esc(p.name)}・${w.n}　→　${esc(t.name)}`,sub:`${STN[st]}　d20 ${sgn(sm)}${DF().num?`　防禦 ${def}`:''}`,dice:pairDice(R,'',1),quick:true,result:`<span class="${hit?'f':'s'}">${hit?'命中':'落空'}</span>`,cls:hit?'ng':'ok'});
   out(`擲骰｜${esc(p.name)}・${w.n} d20(<b>${R.a}</b>)${sm>=0?'+':'−'}${Math.abs(sm)}＝<b>${tot}</b>　<span class="${hit?'f':'s'}">${hit?'命中':'落空'}</span>`,'roll',true);
+  if(w.ammo==='arrow'&&!A.bash)await bowAttackAudio(hit);
   if(g&&g.dur!=null&&w.kind==='melee'&&!A.bash){g.dur--;if(g.dur<=0){out(`<b>${WEAP[g.id].n}</b>壞了。`,'dmg',true);rmGear(p,g.u)}}
-  if(!hit){snd('whoosh');out(`${nm(t)}${S0.miss||'往旁邊一閃，躲開了。'}`,'sys');return true}
+  if(!hit){if(w.ammo!=='arrow')snd('whoosh');out(`${nm(t)}${S0.miss||'往旁邊一閃，躲開了。'}`,'sys');return true}
   const RD=rollDmg(p,w,null);let d=RD.d;if(j==='crit')d*=2;if(S0.half)d=Math.ceil(d/2);d=Math.max(1,d-S0.cut-armorOf(t));
-  snd(rng?'whoosh':'fist',.9,900);t.hp-=d;t.taken=(t.taken||0)+d;out(`${nm(t)}被打中了。${S0.half?S0.txt:''}生命 −${d}，剩 ${Math.max(0,t.hp)}。`,'dmg');push();draw();return true}
+  if(w.ammo!=='arrow')snd(rng?'whoosh':'fist',.9,900);t.hp-=d;t.taken=(t.taken||0)+d;out(`${nm(t)}被打中了。${S0.half?S0.txt:''}生命 −${d}，剩 ${Math.max(0,t.hp)}。`,'dmg');push();draw();return true}
 // 制伏：把發瘋的隊友打倒，救起來之後恐懼回到 90（崩潰邊緣）
 async function subdue(p,t){out(`${nm(p)}：<b>制伏</b>${nm(t)}`,'act',true);await hitAlly(p,t,'制伏・');await deathCheck();return true}
 async function revive(p,to,k){
@@ -4790,7 +4824,7 @@ async function pump(){qRun=true;
     try{
       if(o.t==='o'){L_out(o.d[0],o.d[1],o.d[2]);if(!FAST)await typing}
       else if(o.t==='d'){await showDice(o.d)}
-      else if(o.t==='s'){sfx(o.d[0],o.d[1],o.d[2]||undefined)}
+      else if(o.t==='s'){const ms=sfx(o.d[0],o.d[1],o.d[2]||undefined);if(o.d[0]==='bowhit'||o.d[0]==='bowmiss')await wait(ms||1500)}
       else if(o.t==='c'){await flush();await levelCard(o.d)}
       else if(o.t==='enc'){await flush();await showEnc(o.d)}
       else if(o.t==='cc'){await flush();await showChapter(o.d)}
@@ -5014,7 +5048,7 @@ function draw(){
   const m=me(),Lv=LV[G.lv]||LV.A;
   $('#lvN').textContent=G.ev!=null?'意外':(N[G.node]||{}).n||'';
   $('#lvS').textContent=`${(CHAPTERS[Lv.ch||1]||CHAPTERS[1]).n}　${Lv.n}・${Lv.sub}　｜${DF().n}`;
-  $('#skyClock').innerHTML=skyClockMarkup();
+  $('#skyClock').innerHTML=skyClockMarkup();$('#weather').innerHTML=weatherMarkup();
   $('#mids').innerHTML=`<b class="clk ${isNight()?'nt':''}">${timeTxt()}</b><b class="nz">　警戒 ${G.alarm}／10</b>`;
   if(!G.fight){FTAB=null;PEND=null}
   const F=G.fight,cb=$('#cbar');
