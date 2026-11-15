@@ -1,7 +1,7 @@
 {
-  "version": "0.23.2",
-  "build": 59,
-  "created_at": "2026-11-16T04:05:53+08:00",
+  "version": "0.23.3",
+  "build": 60,
+  "created_at": "2026-11-16T04:24:59+08:00",
   "deployment": "GitHub Pages；雲端瀏覽器上傳",
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -81,7 +81,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "251e51509ae2b18f0be5caf4e99a3c3abd5d2beeeafe478c646e8d683fe4db10",
+    "index.html": "0e44377fab09f7e63686816c21507f4fcbd6c88d06cd976b06e037b4462f183f",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -179,19 +179,19 @@
     "tests/audio-weather-preview.html": "b3aba702edfa51e1cd931dc6958d98739d2ae1d766b03241dec38cc664ba8ae9",
     "tests/audio.test.cjs": "8bae07886bb5f93e6612e55cead3c03a5944572c5595e8f10adedbb44af26291",
     "tests/baseline-v0.21.5.html": "4f47274b315bc592d54966ce6acc734c3c8c725bfb71b2abae1cbe527371073e",
-    "tests/bow-rain.test.cjs": "cf25d0efc9065de79a5fc48feda6509c7144df8dc69d3de22e0fd53a6e8e140c",
+    "tests/bow-rain.test.cjs": "c9f48c77d458085655a5b97318116fdeaa128fab9df58cb33b5ca10f7f417adf",
     "tests/clock-preview.html": "f9703c4004d36292d3ebe6bbf73a2b9edbca0ec39bf5b6ad5ee259dd31ec8136",
     "tests/events.test.cjs": "9f57c0dbe76c395c749d60c2e79b05aefb29c99ec8271963cde08b5fc0a753e4",
     "tests/exploration.test.cjs": "b52b35dfbbe9cf1de80eae94d44b80e7a1ef5bfbd277a136fd7d60546635b8b3",
     "tests/feedback.test.cjs": "cd77678f8cac0dce74c920181554a4607862732ed8e2421094bedc0ef7163537",
     "tests/helpers/audio-game.cjs": "cf75b33a1f7f51cdd9d1898f0cf3f373436fdfe7e85492fca3e8b61fe5c7df6e",
-    "tests/opening-clock.test.cjs": "06110e60e589ea22d807b06baf4de930b326ed34305a3195b1c4fc762eb646f9",
+    "tests/opening-clock.test.cjs": "fff00eff0bccd85f1638e3d4c18917613c713de730bf56c9a908888a238d1c6d",
     "tests/scene-time.test.cjs": "fe4e249942deb406f52fc256ecddffb392780344c95cc6d411e5931d56d04861",
     "tests/topbar-preview.html": "149b060b6e02b8ee522605a093cb9ca2a2d80bd59ec2505beaf6e1fc34640ca5",
     "tests/topbar.test.cjs": "1e37cfd82aac530ab4d5bbacf8e35a177ba06013433230402ae343c27a6e644a",
     "tests/weather.test.cjs": "cc75b126841c5a07a695b7f77d132e30eae97cc3ca4772a0e01e2852011c88ef",
     "tools/make_font_subset.py": "3eb79719caa2f2863185cb10c9b1e32cc96017b10f03284bcb6fb4ac831c1094",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "9e8f5dd8ccccb186ccc1a77b02b317bda4ba27153792494792059e3ca5b25864"
+    "更新說明.txt": "bb1ee0c7f87864589c7a5f6a272603faed73e074b1e125968407cb0f8f8de1b7"
   }
 }

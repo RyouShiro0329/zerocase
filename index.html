@@ -592,7 +592,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.23.2", "b": 59, "t": "2026-11-16T04:05:53+08:00"};
+const ZC_VER={"v": "0.23.3", "b": 60, "t": "2026-11-16T04:24:59+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3415,12 +3415,12 @@ function weatherState(){
   else if(slot>0){let seed=2166136261;for(const c of String(G&&G.rid||'zerocase')+':'+slot)seed=Math.imul(seed^c.charCodeAt(0),16777619)>>>0;kind=['clear','cloudy','cloudy','rain','rain','thunder'][seed%6]}
   return {kind,label:WEATHER_LABEL[kind],rain:kind==='rain'||kind==='thunder',key:(G&&G.rid||'')+':'+slot+':'+kind+':'+(override&&override.until||0)};
 }
-function weatherMarkup(){const w=weatherState(),paths={clear:'<circle cx="12" cy="10" r="4"/><path d="M12 2v2 M12 16v2 M4 10H2 M20 10h2 M5 3l2 2 M17 15l2 2 M5 17l2-2 M17 5l2-2"/>',cloudy:'<path d="M5 15h14a4 4 0 0 0 0-8 6 6 0 0 0-11-2 5 5 0 0 0-3 10Z"/>',rain:'<path d="M4 12h16a3 3 0 0 0 0-6 6 6 0 0 0-11-2 4 4 0 0 0-5 8Z M7 16l-2 4 M13 16l-2 4 M19 16l-2 4"/>',thunder:'<path d="M4 11h16a3 3 0 0 0 0-6 6 6 0 0 0-11-2 4 4 0 0 0-5 8Z M13 12l-4 6h4l-2 5 7-8h-5Z"/>'};return `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[w.kind]}</svg><span>${w.label}</span>`}
+function weatherMarkup(){const w=weatherState(),night=!!G&&periodOf(hourN())==='night',paths={moon:'<path d="M14 4a7.5 7.5 0 1 0 6 11A7.5 7.5 0 0 1 14 4Z"/><path d="M5 4v3 M3.5 5.5h3"/>',clear:'<circle cx="12" cy="10" r="4"/><path d="M12 2v2 M12 16v2 M4 10H2 M20 10h2 M5 3l2 2 M17 15l2 2 M5 17l2-2 M17 5l2-2"/>',cloudy:'<path d="M5 15h14a4 4 0 0 0 0-8 6 6 0 0 0-11-2 5 5 0 0 0-3 10Z"/>',rain:'<path d="M4 12h16a3 3 0 0 0 0-6 6 6 0 0 0-11-2 4 4 0 0 0-5 8Z M7 16l-2 4 M13 16l-2 4 M19 16l-2 4"/>',thunder:'<path d="M4 11h16a3 3 0 0 0 0-6 6 6 0 0 0-11-2 4 4 0 0 0-5 8Z M13 12l-4 6h4l-2 5 7-8h-5Z"/>'};return `<svg viewBox="0 0 24 24" aria-hidden="true">${paths[w.kind==='clear'&&night?'moon':w.kind]}</svg><span>${w.label}</span>`}
 function skyClockState(){
   const h=hourN(),period=periodOf(h),night=period==='night';
-  // 全天共用 24 小時刻度：清晨在左側、12:00 在弧頂、接近 24:00 時在最右。
-  // 圖示依時段換成太陽／月亮，入夜時位置不重設；只有跨午夜才回到左端。
-  const phase=h/24;
+  // v0.23.3 主人：清晨 05:00（換天）在最左、12:00 在弧頂、入夜往右；
+  // 午夜到天亮前月亮停在最右，05:00 換天時才回到左端換成太陽（原本跨午夜就回左端，清晨前看起來像月亮在左邊）。
+  const phase=h<5?1:h<12?(h-5)/14:.5+(h-12)/24;
   return {h,period,night,phase,x:12+216*phase,y:27-64*phase*(1-phase)};
 }
 function skyClockMarkup(){
@@ -3429,7 +3429,7 @@ function skyClockMarkup(){
   const sun='<circle r="4"/><path d="M0-7v-2 M0 7v2 M-7 0h-2 M7 0h2 M-5-5l-1.5-1.5 M5 5l1.5 1.5 M5-5l1.5-1.5 M-5 5l-1.5 1.5"/>';
   const moon='<path d="M3-7a7 7 0 1 0 3 11A7 7 0 0 1 3-7Z"/><path d="M10-7v3 M8.5-5.5h3"/>';
   const icon=night?moon:period==='dusk'?'<g class="sky-sunset">'+sun+'</g>':sun;
-  return `<svg viewBox="0 0 240 34" role="img" aria-label="${timeTxt()}"><title>${timeTxt()}・全天由左至右表示時間推移：清晨在左側、正午在中央、接近午夜在最右側</title><g class="chalk"><path class="sky-track" d="M12 27 Q120-5 228 27"/><path opacity=".18" d="M10 29 Q121-3 230 28"/><g class="sky-cloud" transform="translate(24 24) scale(.65)"><path d="M-10 4h18a3 3 0 0 0 0-6 5 5 0 0 0-9-3 4 4 0 0 0-7 4 2.5 2.5 0 0 0-2 5Z"/></g><g class="sky-stars"><path d="M224 22v5 M221.5 24.5h5 M232 28v3 M230.5 29.5h3"/><circle cx="234" cy="21" r=".6"/></g><g transform="translate(${x} ${y})">${icon}</g></g></svg>`;
+  return `<svg viewBox="0 0 240 34" role="img" aria-label="${timeTxt()}"><title>${timeTxt()}・全天由左至右表示時間推移：清晨五點在最左、正午在中央、午夜到天亮前在最右側</title><g class="chalk"><path class="sky-track" d="M12 27 Q120-5 228 27"/><path opacity=".18" d="M10 29 Q121-3 230 28"/><g class="sky-cloud" transform="translate(24 24) scale(.65)"><path d="M-10 4h18a3 3 0 0 0 0-6 5 5 0 0 0-9-3 4 4 0 0 0-7 4 2.5 2.5 0 0 0-2 5Z"/></g><g class="sky-stars"><path d="M224 22v5 M221.5 24.5h5 M232 28v3 M230.5 29.5h3"/><circle cx="234" cy="21" r=".6"/></g><g transform="translate(${x} ${y})">${icon}</g></g></svg>`;
 }
 // 到下一個清晨 05:00 還有幾分鐘（過夜用）
 const untilDawn=()=>{const m=absMin()%1440;return (300-m+1440)%1440||1440};
