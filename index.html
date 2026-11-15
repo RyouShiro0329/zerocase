@@ -43,8 +43,12 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .lvl b{display:block;font-weight:900;font-size:1.25rem;line-height:1.15;color:var(--gold);letter-spacing:.06em;text-shadow:0 2px 6px #000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lvl small{display:block;font-size:.7rem;color:var(--muted);letter-spacing:.08em;white-space:nowrap;font-variant-numeric:tabular-nums}
 .mid{flex:1;min-width:60px;display:flex;flex-direction:column;gap:2px}
-.prog{height:8px;background:#181916;border:1px solid #3d3c36;border-radius:6px;overflow:hidden;max-width:240px}
-.prog u{display:block;height:100%;background:linear-gradient(90deg,#8d7748,var(--gold));text-decoration:none;transition:width .4s}
+.sky-clock{height:22px;max-width:240px;color:#c7c3b2;opacity:.9}
+.sky-clock svg{display:block;width:100%;height:100%;overflow:visible}
+.sky-clock .chalk{fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.sky-clock .sky-track{stroke-dasharray:2 5;opacity:.32}
+.sky-clock .sky-cloud{opacity:.6}
+#stage.short .sky-clock{height:18px}
 .mid small{color:var(--muted);font-size:.74rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tools{flex:none;display:flex;gap:6px}
 .tools .btn{padding:6px 11px;font-size:.84rem;white-space:nowrap;min-height:36px}
@@ -539,7 +543,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="app">
   <header class="topbar">
     <div class="lvl"><b id="lvN"></b><small id="lvS"></small></div>
-    <div class="mid"><div class="prog"><u id="prog" style="width:0"></u></div><small id="mids"></small></div>
+    <div class="mid"><div class="sky-clock" id="skyClock"></div><small id="mids"></small></div>
     <nav class="tools">
       <button class="btn" data-save id="tSave">存檔</button><button class="btn" data-dd id="tTeam">隊伍 ▾</button><button class="btn" data-open="bag">背包</button><button class="btn" data-open="craft">合成</button><button class="btn" data-open="settings">設定</button>
     </nav>
@@ -563,7 +567,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.21.11", "b": 50, "t": "2026-11-15T09:42:50+08:00"};
+const ZC_VER={"v": "0.21.12", "b": 51, "t": "2026-11-15T10:21:36+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -1175,7 +1179,7 @@ B4:{L:'B',n:'二樓・出口',
  {l:'員工專用門',s:'那股甜甜的臭味 → 員工廚房',ok:{t:`門後是一道狹窄的員工樓梯，牆上的油漆被蒸氣燻得發黃。越往下，那股甜甜的臭味越重。你認得這個味道。是瓦斯。`,go:'F1'}}
  ]},
 /* ---------- C 電梯井 ---------- */
-C1:{L:'C',n:'電梯井',next:'C2',
+C1:{L:'C',env:'shaft',n:'電梯井',next:'C2',
  t:`你攀上纜繩。鋼索冰冷油膩，在你手裡輕輕晃動。往下看，只有黑暗；往上看，三樓的電梯門縫透著一線紅光，越來越遠。
 
 井道裡的回音很怪。你每喘一口氣，都會從很深的地方傳回來兩次。`,
@@ -1196,7 +1200,7 @@ C2:{L:'C',n:'電梯車廂頂',next:'C3',
  {l:'不管車廂，繼續往下爬',s:'敏捷檢定',k:'AGI',d:12,ok:{t:`你繞過車廂邊緣，沿著另一側的鋼索往下爬。車廂裡的撞擊聲一直跟著你。`},
   ng:{t:`你的腳踩空，整個人從車廂邊緣滑下去，膝蓋重重撞在導軌上。底下的撞擊聲停了。`,p:{hp:-3,frac:1}}}
  ]},
-C3:{L:'C',ev:1,next:'C4'},
+C3:{L:'C',env:'shaft',ev:1,next:'C4'},
 C4:{L:'C',n:'電梯井底',
  t:`你的腳終於踩到了地面。井底積著一層黑色的水，水面上浮著一層油膜。空氣又悶又甜，帶著一股你說不出來的、像是爛掉的植物的味道。
 
@@ -2986,7 +2990,7 @@ function armorOf(p){let a=0;for(const s of EQS){const e=p.eq&&p.eq[s];if(e&&ITEM
 function statEffects(p){const a=[],L=G&&LV[G.lv]||{},fx=L.fx||{},dark=!hasI(p,'flashlight')&&!tr(p,'nightowl');
   const add=(id,label,why,mods,check)=>a.push({id,label,why,mods,check:!!check});
   if(p.frac&&!p.pk)add('fracture','骨折','骨折尚未固定，且止痛藥未生效',{AGI:-3});
-  if(G&&G.lv==='C')add('shaft','電梯井','電梯井：懸在纜繩上',{AGI:-2});
+  if(G&&G.lv==='C'&&(N[G.node]||{}).env==='shaft')add('shaft','電梯井','電梯井：懸在纜繩上',{AGI:-2});
   if(G&&G.lv==='E'&&dark)add('ground-dark','黑暗','一樓熄燈，未持有手電筒且沒有夜行者天賦',{PER:-2});
   if(fx.per)add('env-per',L.n,L.n+'：'+(G.lv==='R'?'強風吹拂，聽不清四周':'環境影響'),{PER:fx.per});
   if(fx.dark&&dark)add('env-dark','黑暗',L.n+'：環境黑暗，未持有手電筒且沒有夜行者天賦',{PER:-2});
@@ -3003,7 +3007,7 @@ function statMod(p,st){return (p.st[st]||0)+statEffects(p).filter(e=>!e.check).r
 const EFFECT_LOG=new WeakMap();
 function reportEffects(force){if(!G||ROLE==='client')return;const old=force?{}:EFFECT_LOG.get(G)||{},next={};
   for(const p of G.players){if(p.dead||p.away)continue;const effects=statEffects(p);next[p.pid]=effects;const prev=old[p.pid]||[];
-    for(const e of prev)if(!effects.some(x=>x.id===e.id&&effectText(x)===effectText(e)))out(`${nm(p)}：${effectText(e)}的影響已解除。`,'good',true);
+    for(const e of prev)if(!effects.some(x=>x.id===e.id&&effectText(x)===effectText(e)))out(`${nm(p)}：${e.id==='shaft'?'已離開懸吊纜繩的位置，敏捷 −2 的環境影響已解除':effectText(e)+'的影響已解除'}。`,'good',true);
     for(const e of effects)if(!prev.some(x=>x.id===e.id&&effectText(x)===effectText(e)))out(`${nm(p)}：${effectText(e)}。`,'rule',true)}
   EFFECT_LOG.set(G,next)}
 // 檢定專用的額外加值
@@ -3276,17 +3280,9 @@ async function typeInto(p,html){
   p.style.whiteSpace='';p.innerHTML=html;scrollLog();
 }
 async function flush(){await typing;skipType=false}
-function hd(t){out(esc(t),'hd',true)}
+function hd(t){if(t&&!/^[\s—─–-]+$/.test(t))out(esc(t),'hd',true)}
 function toast(t){const e=$('#toast');e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,2400)}
 async function card(L){E('c',L);await levelCard(L)}
-/* v0.16.0 時段過場：跨過時段、換天、休息、過夜時出現。k＝sleep／rest 時換一句話 */
-const TOD_LINE={dawn:'天快亮了，窗外透進一點灰白的光。',day:'天已經亮了。',dusk:'天色開始暗了下來。',night:'天黑了。入夜之後很難看清楚四周，感染者也比白天更躁動。'};
-const TOD_K={sleep:'你們輪流守夜，睡了一覺。',rest:'你們找了個角落停下來。外面的光線一點一點變了。'};
-async function timeCard(o){E('tc',o);await showTime(o)}
-async function showTime(o){const c=$('#lvcard');
-  c.innerHTML=`<span class="k">DAY ${o.d}</span><b>第 ${o.d} 天</b><em>${PERN[o.p]}</em><p>${o.k?TOD_K[o.k]+'<br>':''}${o.ch?TOD_LINE[o.p]:''}</p>`;
-  c.className='tod '+o.p;c.hidden=false;void c.offsetWidth;c.classList.add('go');sfx('level',.5);
-  await Promise.race([wait(FAST?400:3000*Math.max(.6,UI.spd)),new Promise(r=>{c.onclick=r})]);c.hidden=true;c.className=''}
 async function levelCard(L){
   const v=LV[L],c=$('#lvcard');c.className='';c.innerHTML=`<span class="k">${v.en}</span><b>${v.n}</b><em>${v.sub}</em>`;c.hidden=false;c.classList.remove('go');void c.offsetWidth;c.classList.add('go');
   sfx('level');await Promise.race([wait((FAST?900:2400)*Math.max(.5,UI.spd)),new Promise(r=>{c.onclick=r})]);c.hidden=true;
@@ -3360,6 +3356,17 @@ const hourN=()=>(absMin()%1440)/60;
 const periodOf=h=>h>=5&&h<8?'dawn':h>=8&&h<17?'day':h>=17&&h<20?'dusk':'night';
 const isNight=()=>!!G&&G.clock!=null&&periodOf(hourN())==='night';
 const timeTxt=()=>`第 ${dayN()} 天・${PERN[periodOf(hourN())]}`;
+// 粉筆天象：只讀遊戲時間，與地圖、章節、探索區域數無關。
+function skyClockMarkup(){
+  const h=hourN(),period=periodOf(h),night=period==='night';
+  const phase=night?((h-20+24)%24)/9:clamp((h-5)/15,0,1);
+  const x=(12+216*phase).toFixed(1),y=(21-12*Math.sin(Math.PI*phase)).toFixed(1);
+  const sun='<circle r="4"/><path d="M0-7v-2 M0 7v2 M-7 0h-2 M7 0h2 M-5-5l-1.5-1.5 M5 5l1.5 1.5 M5-5l1.5-1.5 M-5 5l-1.5 1.5"/>';
+  const moon='<path d="M3-7a7 7 0 1 0 3 11A7 7 0 0 1 3-7Z"/><path d="M10-7v3 M8.5-5.5h3"/>';
+  const cloud='<path d="M-10 4h18a3 3 0 0 0 0-6 5 5 0 0 0-9-3 4 4 0 0 0-7 4 2.5 2.5 0 0 0-2 5Z"/>';
+  const icon=night?moon:period==='dawn'?sun+'<g transform="translate(1 2)" class="sky-cloud">'+cloud+'</g>':sun;
+  return `<svg viewBox="0 0 240 34" role="img" aria-label="${timeTxt()}"><title>${timeTxt()}・天色隨時間推移</title><g class="chalk"><path class="sky-track" d="M12 27 Q120-5 228 27"/><path opacity=".18" d="M10 29 Q121-3 230 28"/><g class="sky-cloud" transform="translate(24 24) scale(.65)">${cloud}</g><g class="sky-cloud" transform="translate(215 25) scale(.8)">${cloud}</g><g transform="translate(${x} ${y})">${icon}</g></g></svg>`;
+}
 // 到下一個清晨 05:00 還有幾分鐘（過夜用）
 const untilDawn=()=>{const m=absMin()%1440;return (300-m+1440)%1440||1440};
 // 選項要花多少時間：資料可以直接寫 t:'q'|'m'|'l'；沒寫的照內容判斷
@@ -3373,9 +3380,8 @@ function tKind(c){if(!c)return null;if(c._searchMode)return c._searchMode==='qui
   return 'q'}
 function tMin(c){const k=tKind(c);if(!k)return 0;if(c.t==='sleep')return untilDawn();if(typeof c.tf==='function')return Math.max(10,c.tf());const [a,b]=TCOST[k];return rnd(a,b)}
 // 時間流逝：飢渴跟著時間走；跨過時段時提示。回傳 true 代表遊戲結束
-let TKIND=null;
 async function passTime(min){if(!G||G.clock==null||!min||G.over)return false;
-  const p0=periodOf(hourN()),d0=dayN();G.clock+=min;const tk=TKIND;TKIND=null;
+  const p0=periodOf(hourN()),d0=dayN();G.clock+=min;draw();
   const fs=1+.25*DF().food;const ti=Math.round(240*fs),hi=Math.round(360*fs);
   for(const p of able()){
     p.tT=(p.tT||0)+min;p.tH=(p.tH||0)+min;
@@ -3392,9 +3398,7 @@ async function passTime(min){if(!G||G.clock==null||!min||G.over)return false;
     else if(p1==='dawn'){out(`<b>第 ${d1} 天</b>。天快亮了，窗外透進一點灰白的光。`,'rule',true);if(d1>(G.xpDay||1)){G.xpDay=d1;teamXP(3)}}
     else if(p1==='day'&&p0!=='dawn')out(`<b>第 ${d1} 天</b>。天已經亮了。`,'rule',true);
   }
-  // v0.16.0 過場：休息、過夜一定有；其他時候跨過時段才有（戰鬥中不打斷）
-  const chg=d1!==d0||p1!==p0;
-  if((tk||chg)&&!G.fight&&!G.over)await timeCard({d:d1,p:p1,k:tk,ch:chg?1:0});
+  // v0.21.12：時間只更新頂端天象與文字，不再插入時間過場。
   if(await cityTick())return true;
   push();draw();
   return await deathCheck()}
@@ -3536,7 +3540,7 @@ async function enterNode(id){
     for(const p of G.players)if(p.down&&!p.dead&&DF().wake){p.down=0;if(p.mad){p.mad=0;setFear(p,90)}p.hp=Math.max(1,Math.ceil(p.max*.25));out(`${nm(p)}咳了幾聲，慢慢撐著牆站了起來。生命回到 ${p.hp}。`,'good')}
   }
   G.node=id;G.ev=null;G.audioVisit=(G.audioVisit||0)+1;G.audioEnteredAt=Date.now();G.votes={};G.rv={};G.pc=null;/* v0.21.0：地上的東西留在原地，回來還撿得到 */G.grounds=G.grounds||{};if(G.gnode&&G.gnode!==id)G.grounds[G.gnode]=G.ground.length?G.ground:undefined;if(G.gnode!==id)G.ground=G.grounds[id]||[];G.gnode=id;G.flags['v_'+id]=1;if(nd.onEnter)nd.onEnter();
-  if(nd.ev){const ch=LV[nd.L].ch||1;const mine=EVPOOL.map((e,i)=>i).filter(i=>(EVPOOL[i].ch||1)===ch&&evOk(EVPOOL[i]));const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;hd('——');out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
+  if(nd.ev){const ch=LV[nd.L].ch||1;const mine=EVPOOL.map((e,i)=>i).filter(i=>(EVPOOL[i].ch||1)===ch&&evOk(EVPOOL[i]));const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
   else{hd(nd.n);out(nd.t,'lore');if(nd.tx){const x=nd.tx();if(x)out(x,'lore')}if(nd.tm&&G.players.some(p=>p.kind==='maggie'))out(nd.tm,'lore')}
   if(id==='WP5')G.flags.wpfail=0;AUDIO_MOVING=false;syncAmbience();if(id==='A2')snd('woodimpact',1,2400);
   reportEffects();reportGround();
@@ -3625,7 +3629,6 @@ async function doChoice(i,actor){
     return doCheck(i,el[0]);
   }
   snd(/翻|櫃|抽屜|箱|袋|架|找|搜/.test(c.l)?'drawer':'rummage',.6,1800);
-  {const r=(c.ok&&c.ok.r)||{};TKIND=c.t==='sleep'||r.sleep?'sleep':r.rest?'rest':null}
   if(await passTime(tMin(c)))return;
   await applyRes(c,c.ok,actor);
 }
@@ -4757,7 +4760,7 @@ async function pump(){qRun=true;
       else if(o.t==='c'){await flush();await levelCard(o.d)}
       else if(o.t==='enc'){await flush();await showEnc(o.d)}
       else if(o.t==='cc'){await flush();await showChapter(o.d)}
-      else if(o.t==='tc'){await flush();await showTime(o.d)}
+      else if(o.t==='tc'){/* 相容舊房主：忽略舊版時間過場，時間依 full 狀態重繪。 */}
       else if(o.t==='st'){setG(o.d)}
       else if(o.t==='full'){LOG=o.d.log||[];setG(o.d.G);renderLog();if(typeof showGame==='function')showGame();if(!NET.avSent){NET.avSent=1;sendAv()}}
       else if(o.t==='q'){if(o.d.to===MYPID)(o.d.kind==='code'?codeLocal(o.d):qteLocal(o.d)).then(r=>act({a:'qte',id:o.d.id,r}))}
@@ -4820,7 +4823,7 @@ function draw(){
   const m=me(),Lv=LV[G.lv]||LV.A;
   $('#lvN').textContent=G.ev!=null?'意外':(N[G.node]||{}).n||'';
   $('#lvS').textContent=`${(CHAPTERS[Lv.ch||1]||CHAPTERS[1]).n}　${Lv.n}・${Lv.sub}　｜${DF().n}`;
-  $('#prog').style.width=Math.min(100,G.levels/10*100)+'%';
+  $('#skyClock').innerHTML=skyClockMarkup();
   $('#mids').innerHTML=`<b class="clk ${isNight()?'nt':''}">${timeTxt()}</b><b class="nz">　警戒 ${G.alarm}／10</b>`;
   if(!G.fight){FTAB=null;PEND=null}
   const F=G.fight,cb=$('#cbar');
@@ -4952,7 +4955,7 @@ function drawDD(){const d=$('#tdd');if(!G){d.hidden=true;return}
    <div class="b2">${bar('hp','生命',Math.max(0,p.hp),p.max,` ${Math.max(0,p.hp)}`)}${bar('fe fs'+fstg(p),'恐懼',fstg(p),4,` ${fstgN(p)}`)}${bar('in','感染',p.inf,100,` ${p.inf}`)}${bar('hu','飢餓',p.hun,10,` ${p.hun}`)}${bar('th','口渴',p.thi,10,` ${p.thi}`)}</div>
    <div class="chips"><span>${handTxt(p)}</span>${p.bleed?`<span class="bad">${p.bleed>1?'重度流血':'流血'}</span>`:''}${p.unbal?'<span class="bad">失衡</span>':''}${p.frac?'<span class="bad">骨折</span>':''}${p.humus?`<span class="bad">腐殖 ${p.humus}</span>`:''}${p.burn?`<span class="bad">燃燒 ${p.burn}</span>`:''}${p.held?'<span class="bad">被抓住</span>':''}${G.alarm&&p.pid===MYPID?`<span>警戒 ${G.alarm}／10</span>`:''}${p.pts&&p.pid===MYPID?`<span style="color:var(--gold)">可加點 ${p.pts}</span>`:''}</div>${teamExtra(p)}</div></div>`).join('');d.hidden=false}
 /* ---- 面板 ---- */
-function renderLog(){const l=$('#log');if(!l)return;l.innerHTML=LOG.map(([h,c])=>`<p class="${c}">${h}</p>`).join('');scrollLog()}
+function renderLog(){const l=$('#log');if(!l)return;l.innerHTML=LOG.filter(([h,c])=>c!=='hd'||h&&!/^[\s—─–-]+$/.test(h)).map(([h,c])=>`<p class="${c}">${h}</p>`).join('');scrollLog()}
 function openOv(h){const box=$('#ov .box');const st=box?box.scrollTop:0;const lists=[...document.querySelectorAll('#ov .scr2')].map(e=>e.scrollTop);
   $('#ov').innerHTML=`<div class="box wide">${h}</div>`;$('#ov').hidden=false;
   if(OVK===OVK_LAST){const nb=$('#ov .box');if(nb)nb.scrollTop=st;[...document.querySelectorAll('#ov .scr2')].forEach((e,i)=>{if(lists[i]!=null)e.scrollTop=lists[i]})}OVK_LAST=OVK}
@@ -5346,4 +5349,3 @@ $('#gateNo').addEventListener('click',()=>boot(false));
 layout();
 </script>
 </body></html>
-
