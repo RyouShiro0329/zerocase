@@ -81,6 +81,8 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .ch:active:not(:disabled){border-color:var(--gold)}
 .ch:disabled{opacity:.36;cursor:not-allowed}
 .ch.done{opacity:.42}
+.ch.locked{opacity:.5;border-style:dashed}
+.ch .zst{display:block;flex-basis:100%;font-weight:400;color:var(--gold);font-size:.8em;line-height:1.4;order:5}
 .ch .cl{font-weight:900;color:#e6e0d1}
 .ch .cs{flex:1 1 10em;min-width:0;color:var(--muted);font-size:.82em;line-height:1.45}
 .tag{margin-left:auto;flex:none;font:600 10px/1.6 var(--label);letter-spacing:1px;padding:0 6px;border-radius:2px;border:1px solid var(--line);color:var(--muted)}
@@ -592,7 +594,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.23.3", "b": 60, "t": "2026-11-16T04:24:59+08:00"};
+const ZC_VER={"v": "0.24.0", "b": 61, "t": "2026-11-16T05:14:30+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -2914,6 +2916,30 @@ SC3:{L:'SC',n:'S3・核心之門',
   {l:'把手貼在門上',once:1,stay:1,ok:{t:`門是溫的。手掌底下，那個呼吸停了一下。\n\n然後，從門的另一邊，傳來一聲很輕的敲擊。`,p:{fear:12}}},
   {l:'回環形走廊',ok:{t:`你們離開那扇門。身後的纖維又開始搏動了。`,go:'SC0'}}]}
 });
+/* ================= v0.24.0 地圖重構：區域＋點位（zerocase/PROPOSAL_MAP.md） =================
+   一個 LV（樓層、區塊）＝一個區域。第一次走進區域時照原本的劇情一路走（被撞門、走廊遇敵都照留），
+   走到 join 節點（原本的「房間清單」「出口」節點）就換成區域畫面 hub：之後所有點位都能自己選，每個動作花時間、會出聲。
+   d：深度 0 外圍／1 內部／2 深處／3 最深處（深度 2 以上，會出聲的動作警戒多 1）。
+   rooms：可以重回的房間（選過的選項標成「已搜過」，不會消失）。join 節點的選項自動變成點位：去房間、就地搜尋、出口。
+   ex：其他節點裡要放到 hub 的出口。bk：回到已經去過的區域（還沒去過的不顯示）。
+   lock：條件不夠時不藏起來，變灰、點了播鎖門聲並寫明缺什麼（nomemo：已有備忘錄的就不重複記）。door：點了播鎖門聲。 */
+const ZONES={
+ A:{loc:'旅館',d:1,hub:'Ah',n:'三樓走廊',join:['A4','A6'],ev:'A5',rooms:['A1','A3x','A4b','A4c'],hideL:{A1:['貼著門聽外面']},door:['A6|撬開電梯門，爬電梯井'],
+  lock:{'A6|從 301 的窗戶爬到消防梯':{t:'301 號房的窗戶',why:'不確定窗外有沒有消防梯。301 號房的門背後應該貼著逃生路線圖。'}}},
+ B:{loc:'旅館',d:1,hub:'Bh',n:'二樓走廊',join:['B2','B4'],ev:'B3',rooms:['B2x'],bk:[['A','東側樓梯上三樓'],['D','從開著的窗戶爬到消防梯']]},
+ C:{loc:'旅館',d:2,hub:'Ch',n:'電梯井底',join:['C4'],rooms:['C2','C2x'],hideL:{C2:['不管車廂，繼續往下爬'],C2x:[]}},
+ D:{loc:'旅館',d:1,hub:'Dh',n:'消防梯',join:['D4'],ex:[['D2x','往上爬到頂樓'],['D2','從開著的窗戶進二樓']],bk:[['A','從 301 的窗戶爬回三樓']],tj:['D2x','D4']},
+ E:{loc:'旅館',d:1,hub:'Eh',n:'一樓走廊',join:['E2','E4'],ev:'E3',rooms:['E2o','E2s','E2x'],bk:[['B','西側樓梯上二樓'],['H','走員工通道']]},
+ F:{loc:'旅館',d:2,hub:'Fh',n:'員工廚房',join:['F4'],rooms:['F1','F2x'],bk:[['B','員工專用門回二樓']]},
+ G:{loc:'旅館',d:3,hub:'Gh',n:'地下設備層',join:['G4'],rooms:['G2','G2x'],bk:[['E','地下室樓梯回一樓']],
+  lock:{'G4|看看那扇鐵門':{t:'地下室的厚重鐵門',why:'讀卡器是熄著的，這扇門現在沒有電。',nomemo:1}}},
+ H:{loc:'旅館',d:2,hub:'Hh',n:'員工通道',join:['H4'],rooms:['H1','H2'],bk:[['B','員工通道回二樓'],['R','維修樓梯上頂樓']],
+  lock:{'H1|在布巾架翻找':{t:'洗衣房的布巾架',why:'布巾架的櫃門上了鎖，要找到鑰匙。'}}},
+ I:{loc:'旅館',d:0,hub:'Ih',n:'接待大廳',join:['I2'],bk:[['E','一樓走廊'],['F','雙開門回員工廚房'],['G','貨梯下地下室']]},
+ P:{loc:'旅館',d:2,hub:'Ph',n:'地下停車場',join:['P4'],rooms:['P2'],bk:[['E','回一樓'],['H','員工通道'],['G','車道連通門回地下室']],
+  lock:{'P4|開車衝出去':{t:'B2-17 的銀色轎車',why:'車門鎖著，沒有車鑰匙。'}}},
+ R:{loc:'旅館',d:2,hub:'Rh',n:'頂樓',join:['R4'],rooms:['R1','R2'],bk:[['D','從消防梯爬下去']],door:['R4|撬開機房，走維修樓梯']}
+};
 /* ================= 基礎 ================= */
 const $=s=>document.querySelector(s);
 const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
@@ -3093,7 +3119,7 @@ function newRun(builds,opts,mode){
     lv:null,ch:1,bank:{},node:null,ev:null,alarm:0,flags:{},evSeen:[],known:[...START_KNOWN],players:[],phase:'busy',votes:{},rv:{},pc:null,cd:null,
     fight:null,after:null,uid:0,levels:0,kills:0,over:null,busy:1,pendingBurn:0,seq:0,ground:[],know:{},tactUsed:{},used:{},hint:{},hazCd:2,clock:0};
   builds.slice(0,MAXP).forEach((b,i)=>makePlayer(b,i));
-  G.t0=T0N;G.sch=makeSched();G.fired={};G.xpDay=1;G.lvSeen=[];
+  G.t0=T0N;G.sch=makeSched();G.fired={};G.xpDay=1;G.lvSeen=[];G.zv=1;G.zd={};G.zal={};G.zc={};
   LOG=[];
 }
 /* ================= 音效 ================= */
@@ -3363,7 +3389,12 @@ function gainXP(p,n){if(!n||p.dead)return;p.xp+=n;while(p.lv-1<XPT.length&&p.xp>
 function teamXP(n){for(const p of able())if(!p.mad)gainXP(p,n)}
 function addInf(p,n){if(n>0){n=Math.round(n*DF().inf);if(tr(p,'immune'))n=Math.round(n*.7);if(tr(p,'sickly'))n=Math.round(n*1.3)}p.inf=clamp(p.inf+n,0,100)}
 function hurtP(p,d,why){p.hp-=d;out(`${why||''}${nm(p)}生命 −${d}。`,'dmg')}
-function addAlarm(n,p){const fx=G.lv&&LV[G.lv]&&LV[G.lv].fx||{};if(n>0){if(fx.noAlarm)return;n-=(fx.alarmMinus||0);n+=(fx.alarmPlus||0);if(p&&tr(p,'nightowl'))n--;if(n<=0)return}if(!n)return;G.alarm=clamp(G.alarm+n,0,10);out(`警戒 ${G.alarm}／10${G.alarm>=6?'　有東西被引過來了':''}`,'rule',true)}
+function addAlarm(n,p){const fx=G.lv&&LV[G.lv]&&LV[G.lv].fx||{};if(n>0){if(fx.noAlarm)return;n-=(fx.alarmMinus||0);n+=(fx.alarmPlus||0);if(p&&tr(p,'nightowl'))n--;if(n<=0)return;if(zDepth()>=2)n++}if(!n)return;
+  // v0.24.0：警戒每個區域各自計算，三個階段（3 有動靜／6 被盯上／10 驚動）
+  const a=ALV();if(n>0&&a.roused){if(!a.rn){a.rn=1;out('這一帶剛被驚動過，附近的東西都已經找上門了。要離開一段時間，這裡才會再有動靜。','rule',true)}return}
+  const b=G.alarm||0;G.alarm=clamp(b+n,0,10);if(G.alarm<3)a.w3=0;if(G.alarm<6)a.w6=0;
+  out(`警戒 ${G.alarm}／10${G.alarm>=10?'　驚動':G.alarm>=6?'　被盯上了':G.alarm>=3?'　有動靜':''}`,'rule',true);
+  if(G.alarm>=3&&b<3&&!a.w3&&!G.fight){a.w3=1;out(pick(ZWARN),'bad');snd('zstep',.5)}}
 async function deathCheck(){
   if(G.over)return true;
   for(const p of G.players){
@@ -3540,7 +3571,7 @@ async function run(fn){
   finally{busy=false;if(G)G.busy=0;reportEffects();await flush();push();draw();if(RQ.length)run(RQ.shift())}
 }
 const curNode=()=>G.ev!=null?EVPOOL[G.ev]:N[G.node];
-const choices=()=>searchChoices(curNode());
+const choices=()=>zView(searchChoices(curNode()));
 // 不搬動原選項索引：仔細搜查留在原位置，簡單尋找附加在陣列尾端。
 const SEARCH_CACHE=new WeakMap();
 function canSearch(c){
@@ -3579,20 +3610,25 @@ const teamUsd=()=>able().reduce((a,p)=>a+(p.usd||0),0);
 function payUsd(n,first){for(const p of [first,...able().filter(q=>q!==first)]){if(!p||n<=0)continue;const x=Math.min(n,p.usd||0);p.usd-=x;n-=x}}
 function usedKey(c){const i=c._searchBase!=null?c._searchBase:choices().indexOf(c);return G.node+(G.ev!=null?'e'+G.ev:'')+'|'+i}
 function choiceOk(c){
+  if(c._hid||c._dup||zUsed(c))return false;
   if(c.reqN&&Object.entries(c.reqN).some(([k,q])=>teamCount(k)<q))return false;
   if(c.usd&&teamUsd()<c.usd)return false;
   const rs=reqList(c);if(rs.length&&!(c.reqAny?rs.some(tHas):rs.every(tHas)))return false;
   if(c.karma&&able().some(p=>(p.karma||0)<c.karma))return false;
   if(c.need&&!flagOk(c.need))return false;return true}
-function visible(c){if(c.night&&!isNight())return false;if(c.once&&G.used&&G.used[usedKey(c)])return false;if(c.job&&!G.players.some(p=>!p.dead&&!p.away&&[].concat(c.job).includes(p.kind)))return false;if(c.hide&&flagOk(c.hide))return false;if(c.need&&!flagOk(c.need)&&!c.req)return false;return true}
+function visible(c){if(c._hid||c._dup)return false;if(c.night&&!isNight())return false;if(c.once&&G.used&&G.used[usedKey(c)])return !!c.keep;if(c.job&&!G.players.some(p=>!p.dead&&!p.away&&[].concat(c.job).includes(p.kind)))return false;if(c.hide&&flagOk(c.hide))return false;if(c.need&&!flagOk(c.need)&&!c.req&&!c.lock)return false;return true}
 function nameOf(k){return k==='gun'?'槍械':k.startsWith('g:')?WEAP[k.slice(2)].n:ITEMS[k].n}
 async function enterNode(id){
   AUDIO_MOVING=true;stopAmbience();
   if(END[id])return ending(id);
+  const from=G.node;id=zRoute(id);
   const nd=N[id];if(!nd){console.error('no node',id);return}
   const afterScene=[];
+  // v0.24.0：區域畫面。走到 hub 就算走過這個區域；同一個區域裡回到 hub 不算往前走（不再扣流血、吸入粉末）
+  const zr=ZN[id],seen=!!G.flags['v_'+id];const soft=!!zr&&zr.role==='hub'&&seen&&!!ZN[from]&&ZN[from].z===zr.z;
+  if(zr&&zr.role==='hub'){G.zd=G.zd||{};G.zd[zr.z]=1;G.flags['zd_'+zr.z]=1;for(const j of ZONES[zr.z].join)G.flags['v_'+j]=1}
   if(nd.L!==G.lv){
-    const first=G.lv==null;const prevLv=G.lv;G.lv=nd.L;G.lvSeen=G.lvSeen||[];const fresh=!G.lvSeen.includes(nd.L);if(fresh){G.lvSeen.push(nd.L);G.levels++}if(!first)G.alarm=Math.max(0,G.alarm-2);push();draw();await flush();
+    const first=G.lv==null;const prevLv=G.lv;G.lv=nd.L;G.lvSeen=G.lvSeen||[];const fresh=!G.lvSeen.includes(nd.L);if(fresh){G.lvSeen.push(nd.L);G.levels++}if(!first)zSwap(prevLv,nd.L);push();draw();await flush();
     const nch=LV[nd.L].ch||1;if(nch!==G.ch){G.ch=nch;await chapterCard(nch)}else{
       if(!first){
         const cue=movementSound(prevLv,nd.L);snd(cue,cue==='stairs'?.8:.55);
@@ -3607,11 +3643,12 @@ async function enterNode(id){
   }
   G.node=id;G.ev=null;G.audioVisit=(G.audioVisit||0)+1;G.audioEnteredAt=Date.now();G.votes={};G.rv={};G.pc=null;/* v0.21.0：地上的東西留在原地，回來還撿得到 */G.grounds=G.grounds||{};if(G.gnode&&G.gnode!==id)G.grounds[G.gnode]=G.ground.length?G.ground:undefined;if(G.gnode!==id)G.ground=G.grounds[id]||[];G.gnode=id;G.flags['v_'+id]=1;if(nd.onEnter)nd.onEnter();
   if(nd.ev){const ch=LV[nd.L].ch||1;const mine=EVPOOL.map((e,i)=>i).filter(i=>(EVPOOL[i].ch||1)===ch&&evOk(EVPOOL[i]));const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;if(EVPOOL[i].id==='rain')beginRainAudio();out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
+  else if(seen&&zr&&(zr.role==='hub'||(zr.role==='room'&&zDone(zr.z)))){hd(nd.n);out(`你回到${/^\w/.test(nd.n)?' ':''}${nd.n}。`,'lore')}
   else{hd(nd.n);out(nd.t,'lore');if(nd.tx){const x=nd.tx();if(x)out(x,'lore')}if(nd.tm&&G.players.some(p=>p.kind==='maggie'))out(nd.tm,'lore')}
   for(const f of afterScene)f();
   if(id==='WP5')G.flags.wpfail=0;AUDIO_MOVING=false;syncAmbience();if(id==='A2')snd('woodimpact',1,2400);
   syncCodex(G,true);reportEffects();reportGround();
-  if(G.lv==='G'){for(const p of able())addInf(p,G.flags.mask?1:2);out(`空氣裡飄著細細的粉末，喉嚨發癢。感染 +${G.flags.mask?1:2}${G.flags.mask?'（濕布擋掉了一些）':''}。`,'dmg',true)}
+  if(G.lv==='G'&&!soft){for(const p of able())addInf(p,G.flags.mask?1:2);out(`空氣裡飄著細細的粉末，喉嚨發癢。感染 +${G.flags.mask?1:2}${G.flags.mask?'（濕布擋掉了一些）':''}。`,'dmg',true)}
   {const fx=LV[G.lv].fx||{};
    if(fx.alarmNode&&!G.flags.dooroff)addAlarm(fx.alarmNode,null);
    if(fx.infNode){for(const p of able())addInf(p,G.flags.drypath?0:fx.infNode);if(!G.flags.drypath)out(`冰冷的積水漫過腳踝。感染 +${fx.infNode}。`,'dmg',true)}
@@ -3619,7 +3656,7 @@ async function enterNode(id){
    // 自己修好配電站之後：夜裡路燈把人照出來
    if(G.flags.powerfix&&!G.flags.acru&&isNight()&&(LV[G.lv].ch||1)===2&&!LV[G.lv].indoor&&Math.random()<.35){out('路燈把整條街照得一清二楚。有東西看見你們了。','bad');addAlarm(2,null)}
    if(fx.toxic&&!G.flags['tx_'+G.lv]){G.flags['tx_'+G.lv]=1;out('這裡的空氣不對勁，帶著一股甜膩的霉味。<b>污染區</b>：待在這裡越久，感染累積越多；戴著裝了濾罐的防毒面具就不會吸進去。','rule')}}
-  if(!(await tickAll()))return;
+  if(!soft&&!(await tickAll()))return;
   if(await alarmCheck(null,true))return;
   if(await hazard(nd))return;
   makeHints();G.phase='node';startCd();
@@ -3714,29 +3751,38 @@ async function doCheck(i,roller){
 }
 let CURC=null;
 async function applyRes(c,res,actor,bad){CURC=c;
+  const zs=zStay();if(zs&&!c.zback)zCount();
   if(res&&!bad&&c._searchMode==='quick')res=quickSearchRes(res);
   const nextId=c.go||N[G.node].next;
-  if(!res){if(await alarmCheck(nextId))return;return enterNode(nextId)}
+  if(!res){if(zs&&!c.go)return zStayHere(c);if(await alarmCheck(nextId))return;return enterNode(nextId)}
   resultAudio(res);
   if(res.t)out(res.t,bad?'bad':'');recordCodexChoice(c,res,bad);
   await outcome(res,actor);
   if(G.over)return;
   if(res.qte){const sub=await storyQte(res,actor);if(G.over)return;if(sub&&sub.go)res=Object.assign({},res,{go:sub.go});if(sub&&sub.fight)res=Object.assign({},res,{fight:sub.fight})}
   if(res.code){await storyCode(res,actor);if(G.over)return}
-  if(c.once){G.used=G.used||{};G.used[usedKey(c)]=1}
+  // v0.24.0：區域裡仔細搜查會出聲（簡單尋找很安靜）
+  if(c._searchMode==='careful'&&ZONES[G.lv])addAlarm(1,actor);
+  if(c.once||zMark(c)){G.used=G.used||{};G.used[usedKey(c)]=1}
   if(res.r&&res.r.shop){openShop(res.r.shop,res.stay||c.stay?null:(res.go||nextId));return}
   // 留在原地的選項如果打起來，打完回到這個節點（v0.11.0 修正：之前會直接略過戰鬥）
-  const stayHere=res.stay||c.stay;
-  if(stayHere&&!res.fight){G.votes={};G.rv={};G.pc=null;makeHints();G.phase='node';startCd();return}
+  const stayHere=res.stay||c.stay||(zs&&!res.go&&!c.go);
+  if(stayHere&&!res.fight)return zStayHere(c);
   const target=res.go||(stayHere?G.node:nextId);
   // v0.14.0 win：打贏（不是逃跑）才給的獎勵，在 endFight 結算
   if(res.fight){G.after=target;G.winR=res.win||null;await startFight(res.fight);return}
   if(await alarmCheck(target))return;
   await enterNode(target);
 }
+// 留在原地：v0.24.0 起在區域裡的任何動作之後都檢查警戒（原本只在換地方時檢查）
+async function zStayHere(c){G.votes={};G.rv={};G.pc=null;if(await alarmCheck(null,true))return;if(await zEvent())return;makeHints();G.phase='node';startCd()}
 async function alarmCheck(target,here){
   if(here)target=null;
-  if(G.alarm>=6&&!G.fight&&!G.over){G.alarm-=4;await flush();snd('zstep');snd('groan');out('走廊深處傳來拖行聲，越來越快。有東西循著聲音找過來了。','bad');G.after=target;G.alarmFt=1;await startFight({n:1,mode:'ambush',names:['循聲而來的感染者']});return true}
+  if(G.fight||G.over)return false;const a=ALV(),f=zFac();
+  // 戰鬥中升到 3 的預警，打完才說
+  if(G.alarm>=3&&G.alarm<6&&!a.w3&&!a.roused){a.w3=1;out(pick(ZWARN),'bad');snd('zstep',.5)}
+  if(G.alarm>=10&&!a.big){a.big=1;a.w6=1;await flush();snd('zstep');snd('groan');out(ZBIG[f]||ZBIG.inf,'bad');G.after=target;G.alarmFt=2;await startFight(bigWave());return true}
+  if(G.alarm>=6&&!a.w6&&!a.roused){a.w6=1;await flush();snd('zstep');snd('groan');out(ZSMALL[f]||ZSMALL.inf,'bad');G.after=target;G.alarmFt=1;await startFight(smallWave());return true}
   return false}
 function itemTag(t){return `<span class="pk">${t}</span>`}
 async function outcome(o,actor){
@@ -3813,6 +3859,100 @@ async function shopReady(p){const S=G.shop;if(!S)return;S.ready[p.pid]=1;push();
   G.shop=null;out('你們離開了商店。','sys',true);
   if(S.go){if(await alarmCheck(S.go))return;return enterNode(S.go)}
   G.votes={};G.rv={};G.pc=null;makeHints();G.phase='node';startCd()}
+
+/* ================= v0.24.0 地圖重構：區域＋點位（資料在 story4.js 的 ZONES） =================
+   ZN[節點]：{z 區域, role}。role：hub 區域畫面／join 原本的清單或出口節點（一律換成 hub）／room 可重回的房間／
+   ev 隨機事件／pass 往別的區域的通道（東側樓梯）／story 第一次進來時的劇情（區域走過之後再進來就直接到 hub）。
+   G.zd[區域]＝已經走到過區域畫面；G.zc[區域]＝在區域畫面做過幾件事（隨機事件在做過一件事之後才發生）。 */
+const DEPN=['外圍','內部','深處','最深處'];
+const ZN={};
+function zTo(d,z){if(!d||END[d]||!N[d])return null;const L=N[d].L;if(L===z){const nx=N[d].next;return nx&&N[nx]&&N[nx].L!==z?N[nx].L:null}return ZONES[L]?L:null}
+function buildZones(){
+  for(const [z,Z] of Object.entries(ZONES)){
+    if(N[Z.hub])throw new Error('區域畫面代號重複：'+Z.hub);
+    for(const [id,nd] of Object.entries(N))if(nd.L===z)ZN[id]={z,role:nd.ev?'ev':'story'};
+    for(const r of Z.rooms||[])ZN[r]={z,role:'room'};
+    for(const j of Z.join)ZN[j]={z,role:'join'};
+    for(const [k,v] of Object.entries(Z.lock||{})){const [nid,l]=k.split('|');const c=(N[nid].c||[]).find(x=>x.l===l);if(!c)throw new Error('找不到上鎖選項：'+k);c.lock=v.why;c.lockT=v.t;c.door=1;if(v.nomemo)c.nomemo=1}
+    for(const k of Z.door||[]){const [nid,l]=k.split('|');const c=(N[nid].c||[]).find(x=>x.l===l);if(!c)throw new Error('找不到門的選項：'+k);c.door=1}
+    // 區域畫面的文字＝原本清單、出口節點的文字；拿掉「只能挑一個」這類跟新規則矛盾的句子（原本的節點不動）
+    const hub={L:z,n:Z.n,t:(Z.tj||Z.join).map(j=>N[j].t).join('\n\n').replace(/你只來得及進一個地方。|黑暗裡，你只能挑一扇門。/g,'').replace(/[ 　]*\n\n[ 　]*\n\n/g,'\n\n').trim(),hub:z,c:[]};
+    const ons=Z.join.map(j=>N[j].onEnter).filter(Boolean);if(ons.length)hub.onEnter=function(){for(const f of ons)f.call(this)};
+    const rooms=Z.rooms||[],dest=c=>c.go||(c.ok&&c.ok.go);
+    const add=(c,zp)=>{hub.c.push({...c,zp,_searchBase:hub.c.length})};
+    const js=[];for(const j of Z.join)for(const c of N[j].c||[])js.push(c);
+    const refd=new Set(js.map(dest).filter(d=>rooms.includes(d)));
+    for(const r of rooms)if(!refd.has(r))add({l:N[r].n,go:r,t:'q',kind:'移動'},{k:'room',room:r});
+    for(const c of js){const d=dest(c);if(d&&rooms.includes(d))add({...c,kind:'移動'},{k:'room',room:d,first:1})}
+    for(const c of js)if(!dest(c))add({...c,once:1,keep:1,kind:'搜尋'},{k:'search'});
+    for(const c of js){const d=dest(c);if(d&&!rooms.includes(d))add({...c},{k:'exit',to:zTo(d,z)})}
+    for(const [nid,l] of Z.ex||[]){const c=N[nid].c.find(x=>x.l===l);if(!c)throw new Error('找不到出口：'+nid+'|'+l);add({...c},{k:'exit',to:zTo(dest(c),z)})}
+    for(const [to,l] of Z.bk||[])add({l,go:ZONES[to].hub,need:'zd_'+to,kind:'移動'},{k:'back',to});
+    N[Z.hub]=hub;ZN[Z.hub]={z,role:'hub'};
+  }
+  for(const Z of Object.values(ZONES))for(const c of N[Z.hub].c){const d=c.go||(c.ok&&c.ok.go);if(d&&ZN[d]&&ZN[d].z===N[Z.hub].L&&ZN[d].role==='story')ZN[d].role='pass'}
+}
+buildZones();
+const zDone=z=>!!(G&&G.zd&&G.zd[z]);
+function zRoute(id){const r=ZN[id];if(!r)return id;const Z=ZONES[r.z];
+  if(r.role==='join'||(r.role==='story'&&zDone(r.z)))id=Z.hub;
+  // 隨機事件：在區域畫面做過一件事之後，回到區域畫面時發生（每個區域一次）
+  if(id===Z.hub&&zDone(r.z)&&Z.ev&&!G.flags['v_'+Z.ev]&&G.zc&&G.zc[r.z]>0)return Z.ev;
+  return id}
+// 目前是不是「留在原地」的區域畫面：hub，或是區域走過之後的房間
+function zStay(){if(!G||G.ev!=null)return false;const r=ZN[G.node];return !!r&&(r.role==='hub'||(r.role==='room'&&zDone(r.z)))}
+const zNoop=c=>!c.k&&!c.req&&!c.need&&!c.go&&!c.stay&&!c.t&&!c.hide&&(!c.ok||(!c.ok.r&&!c.ok.p&&!c.ok.go&&!c.ok.fight&&!c.ok.qte&&!c.ok.code&&!c.ok.stay));
+function zEff(c){const zp=c.zp;if(!zp)return c;
+  if(zp.k==='room'&&zp.first&&G.flags['v_'+zp.room])return {...c,l:N[zp.room].n,k:null,d:null,ok:{go:zp.room},ng:null,req:null,need:null,lock:null,door:0,s:'',sign:null,t:'q'};
+  if(zp.k==='exit'&&zp.to&&zDone(zp.to))return {...c,k:null,d:null,ok:{go:ZONES[zp.to].hub},ng:null,req:null,reqAny:null,need:null,hide:null,lock:null,door:0,s:'',sign:null,t:null};
+  return c}
+function zView(cs){if(!G||G.ev!=null)return cs;const r=ZN[G.node];if(!r)return cs;
+  if(r.role==='hub'){const seen=new Set();return cs.map(c=>{const o=zEff(c);if(o!==c&&o.zp&&o.zp.k==='exit'){const k=o.ok.go;if(seen.has(k))return {...o,_dup:1};seen.add(k)}return o})}
+  if(r.role!=='room'||!zDone(r.z))return cs;
+  const Z=ZONES[r.z],hide=(Z.hideL||{})[G.node]||[];
+  const o=cs.map((c,i)=>{const x={...c,_searchBase:c._searchBase!=null?c._searchBase:i};if(hide.includes(c.l)||zNoop(c))x._hid=1;else if(!c.stay&&!c.hide){x.once=1;x.keep=1}return x});
+  o.push({l:'回到'+(/^\w/.test(N[Z.hub].n)?' ':'')+N[Z.hub].n,go:Z.hub,t:'q',kind:'移動',zback:1,_searchBase:999});
+  return o}
+// 房間裡選過的選項都記下來（第一次照劇情走過去時也記），回來時標成「已搜過」
+const zMark=c=>{const r=ZN[G.node];return G.ev==null&&!!r&&(r.role==='room'||r.role==='hub')&&!c.stay&&!c.hide&&!c.zback&&!c.go&&!(c.ok&&c.ok.go)}
+const zUsed=c=>!!(c.once&&c.keep&&G.used&&G.used[usedKey(c)]);
+function zNote(c){if(!G||G.ev!=null)return '';const r=ZN[G.node];if(!r)return '';
+  if(zUsed(c))return choiceKind(c)==='搜尋'?'已搜過':'做過了';const zp=c.zp;if(!zp)return '';
+  if(zp.k==='room')return G.flags['v_'+zp.room]?'去過':'還沒進去';
+  if(zp.k==='exit')return zp.to?(zDone(zp.to)?`出口・往${LV[zp.to].n}`:'出口'):`出口・離開${ZONES[r.z].loc}`;
+  if(zp.k==='back')return `往${LV[zp.to].n}`;return ''}
+// 為什麼不能選（上鎖的點位、已搜過的點位點下去時說明）
+function zWhy(c){if(zUsed(c))return choiceKind(c)==='搜尋'?'這裡已經翻過了。':'這件事已經做過了。';if(c.lock&&c.need&&!flagOk(c.need))return c.lock;
+  const rs=reqList(c);if(rs.length&&!(c.reqAny?rs.some(tHas):rs.every(tHas)))return '需要'+rs.map(nameOf).join(c.reqAny?'或':'、')+'。';
+  if(c.reqN&&Object.entries(c.reqN).some(([k,q])=>teamCount(k)<q))return '需要'+Object.entries(c.reqN).map(([k,q])=>ITEMS[k].n+' ×'+q).join('、')+'。';
+  if(c.usd&&teamUsd()<c.usd)return `需要 $${c.usd}。`;if(c.karma)return '他們還不夠信任你們。';return '現在還不能這麼做。'}
+// 點了上鎖的點位：自己這邊播聲音、跳提示；有備忘價值的請房主記進備忘錄
+let ZLOCKT=0;
+function zLockClick(i){const c=G&&choices()[i];if(!c||!visible(c))return;const used=zUsed(c);
+  const memo=!used&&c.lock&&!c.nomemo&&c.need&&!flagOk(c.need),fresh=memo&&!(G.codex&&G.codex.notes['lock:'+c.lockT]);
+  sfx(!used&&c.door?'doorlocked':'click',.8);toast((c.lockT&&!used?c.lockT+'：':'')+zWhy(c)+(fresh?'（記進備忘錄）':''));
+  // 備忘錄更新的通知不要蓋掉「缺什麼」的提示
+  if(memo){ZLOCKT=Date.now();act({a:'lock',i})}}
+function zLockNote(i){const c=choices()[i];if(!c||!c.lock||c.nomemo||!c.need||flagOk(c.need))return;const r=ZN[G.node];if(!r)return;
+  codexNote(G,'lock:'+c.lockT,c.lockT,ZONES[r.z].loc+'・'+LV[r.z].n,'locked',c.lock);push();draw()}
+function zCount(){const r=ZN[G.node];if(!r)return;G.zc=G.zc||{};G.zc[r.z]=(G.zc[r.z]||0)+1}
+async function zEvent(){if(!zStay())return false;const r=ZN[G.node],Z=ZONES[r.z];if(!Z.ev||G.flags['v_'+Z.ev]||!(G.zc&&G.zc[r.z]>0))return false;await enterNode(Z.ev);return true}
+/* ---- 警戒（PROPOSAL_MAP 第十節，主人 2026-11-16 04:29 同意）：每個區域各自計算 0～10。
+   3 有動靜（只有提示）／6 被盯上（下一個動作來一小波：那個區域陣營 1～2 隻普通敵人）／10 驚動（菁英一隻＋依人數加隨從）。
+   強敵打完警戒回到 3，這次停留標成「已驚動」不再累積；離開兩小時以上才重新累積。離開區域時記下數字，回來時 −2，每離開一小時再 −1。 */
+function ALV(){G.zal=G.zal||{};return G.zal[G.lv]||(G.zal[G.lv]={})}
+const zDepth=()=>{const Z=G&&ZONES[G.lv];return Z?Z.d:0};
+function zSwap(a,b){G.zal=G.zal||{};const A=G.zal[a]||(G.zal[a]={});A.v=G.alarm||0;A.t=G.clock||0;
+  const B=G.zal[b]||(G.zal[b]={});let v=B.v||0;if(B.t!=null){const away=(G.clock||0)-B.t;v=Math.max(0,v-2-Math.floor(away/60));if(away>=120){B.roused=0;B.big=0;B.rn=0}}
+  if(v<3)B.w3=0;if(v<6)B.w6=0;G.alarm=v}
+function zFac(){const c={};for(const t of dayPool())c[FOES[t].fac]=(c[FOES[t].fac]||0)+1;return Object.keys(c).sort((a,b)=>c[b]-c[a])[0]||'inf'}
+const ZELITE={inf:'devourer',hum:'collector',acru:'acru_captain'};
+function zFoes(f){const el=ZELITE[f];const pp=dayPool().filter(t=>FOES[t].fac===f&&t!==el&&!ELITE.includes(t));return pp.length?pp:[f==='acru'?'acru_trooper':f==='hum'?'cutter':'infected']}
+function smallWave(){const f=zFac(),pp=zFoes(f),n=rnd(1,2);return {n,mode:'ambush',noElite:1,types:Array.from({length:n},()=>pick(pp))}}
+function bigWave(){const f=zFac(),pp=zFoes(f),k=Math.ceil(Math.max(1,able().length)/2);return {n:1+k,mode:'ambush',types:[ZELITE[f],...Array.from({length:k},()=>pick(pp))]}}
+const ZWARN=['遠處傳來東西被撞倒的聲音，然後又安靜了。聲音已經傳出去了。','附近有腳步聲停了下來，好像在聽。','某個地方有東西在動，越來越近，又停住了。'];
+const ZSMALL={inf:'拖行聲越來越快。有東西循著聲音找過來了。',hum:'壓低的說話聲和腳步聲靠了過來。有人聽見你們了。',acru:'轉角傳來對講機的雜訊，接著是靴子踩在地上的聲音。'};
+const ZBIG={inf:'四面八方都是拖行聲和喘氣聲。你們把這一帶整個驚動了。',hum:'有人吹了一聲口哨，接著是好幾個人的腳步聲。他們是衝著你們來的。',acru:'好幾支手電筒同時照了過來。有人在對講機裡報了你們的位置。'};
 /* ================= 戰鬥 ================= */
 /* 敵人名稱：只用類型名稱（詞綴只放在卡片標籤），同類型有多隻時加羅馬數字（感染者 I、感染者 II） */
 const ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX','X'];
@@ -3838,7 +3978,16 @@ function migrateG(g){if(!g)return g;if(g.fight&&g.fight.foes){const F=g.fight;F.
   // v0.8.0 時間：舊存檔從第 1 天清晨開始算
   if(g.clock==null)g.clock=0;
   if(g.codex)codexState(g);
+  // v0.24.0 地圖重構：旅館改成區域＋點位。舊存檔在旅館裡的話，讀檔時放回旅館的入口（三樓走廊）；走過的區域直接算走過
+  if(!g.zv){g.zv=1;g.zd=g.zd||{};g.zal=g.zal||{};const F=g.flags=g.flags||{};
+    for(const [z,Z] of Object.entries(ZONES))if(Z.join.some(j=>F['v_'+j])){g.zd[z]=1;F['zd_'+z]=1}
+    if(g.lv&&g.zal)g.zal[g.lv]={v:g.alarm||0};
+    if(!g.over&&g.node&&ZN[g.node]&&ZN[g.node].role!=='hub')g.zmove='Ah'}
   return g}
+// 讀檔後把舊存檔的人放回地點入口（戰鬥中就等打完再過去）
+function zRelocate(){if(!G||!G.zmove)return;const to=G.zmove;delete G.zmove;if(G.over)return;
+  if(G.fight){G.after=to;return}
+  G.ev=null;G.phase='busy';run(async()=>{out('地圖改版了：大家回到旅館的三樓走廊，從這裡接著走。之前走過的地方都還記得。','sys',true);await enterNode(to)})}
 const OLD_BGST={office:{INT:1},guard:{STR:1},nurse:{INT:1},cook:{AGI:1},student:{PER:1},courier:{CON:1},sales:{CHA:1},veteran:{STR:1,PER:1},doctor:{INT:2}};
 // 對策是場地事件：條件符合的地方，大約一半的戰鬥會出現一個，一場最多一個、用一次
 const TACT_ENV={trip:'走廊上倒著推車和椅子，可以拿來絆牠。',door:'旁邊有一扇開著的房門，門板很重。',corner:'背後就是牆角，撲過來的東西會直接撞上牆。',distance:'這裡空間夠大，可以跟牠拉開距離。',seam:'光線剛好照到牠背上硬化組織之間的接縫。',extmask:'牠每次吼叫，嘴都張得很大。',cart:'一台堆滿碗盤的餐車停在走廊中間。',gas:'空氣裡有一股瓦斯味，爐台那邊在漏氣。',talk:'對方的眼神一直在你們和出口之間來回，好像不是非打不可。',feed:'那隻一直盯著你們背包的方向，鼻子抽個不停。',shock:'地上的積水一路連到牆邊的電閘。'};
@@ -3883,13 +4032,15 @@ async function startFight(spec){
   if(await passTime(20))return;
   const act=able();const P0=act.length;
   const names=[...(spec.names||[])];const types=names.map(typeOfName);
+  // v0.24.0 警戒引來的敵人直接指定種類（那個區域的陣營）
+  if(spec.types)for(const t of spec.types){types.push(t);names.push('')}
   // v0.20.0 設計包：感染者遭遇照人數決定常態隻數與硬上限；其他陣營維持原本的人數放大
   const PI=clamp(P0,1,8)-1;const infOnly=types.length?types.every(t=>FOES[t].fac==='inf'):dayPool().every(t=>FOES[t].fac==='inf');
   let n=infOnly?Math.min(Math.max(spec.n,rnd(INF_N[PI][0],INF_N[PI][1])),Math.max(INF_CAP[PI],types.length)):Math.min(6,Math.max(spec.n,Math.round(spec.n*(1+(P0-1)*.3))));
   const squad=types.length&&types.every(t=>FOES[t].fac==='acru');
   // v0.17.0 主人：不同陣營不會一起出現。補位的敵人跟第一隻同陣營（沒有指定名字時，先抽一隻決定陣營）
   fillFoes(types,names,n,squad);
-  {const cap=(dayN()>=6?2:1);let e=0;for(let i=0;i<types.length;i++)if(ELITE.includes(types[i])&&!names[i]&&++e>cap)types[i]='infected'}
+  {const cap=spec.noElite?0:(dayN()>=6?2:1);let e=0;for(let i=0;i<types.length;i++)if(ELITE.includes(types[i])&&!names[i]&&++e>cap)types[i]='infected'}
   const wet=['U','G'].includes(G.lv);
   const foes=types.map((t,i)=>newFoe(i,t,act.length,wet));
   const mixed=new Set(types.map(t=>FOES[t].fac)).size>1;
@@ -4355,7 +4506,7 @@ async function execAct(p,a){
   else if(a.a==='ext'){if(!hasI(p,'extinguisher'))return false;const t=F.foes[ti];takeI(p,'extinguisher');snd('ext');t.dazzle=1;out(`一團白色的乾粉噴在${t.n}臉上，${pn(t)}嗆得直往後退，眼睛睜不開。下一次攻擊命中 −4。`,'good')}
   else if(a.a==='flee'){if(F.noflee){out('懸在外牆上，無處可逃。','sys');return}if(able().some(q=>q.held)){out(`${able().filter(q=>q.held).map(q=>nm(q)).join('、')}被抓住了，現在跑不掉。`,'sys');return false}
     const rt=a.csk==='retreat'&&skLeft(p,'retreat');if(rt){skUse(p,'retreat');out(`${nm(p)}：<b>緊急撤退</b>`,'act',true)}
-    const c=await check(p,'AGI',12,'逃跑',(rt?5:0)+(tr(p,'legs')?4:0)+(aliveF().every(f=>affIs(f,'lame')||f.legW)?4:0));if(c.ok){out(MP()?`${nm(p)}大喊一聲，所有人轉身就跑，一路跑到轉角才敢回頭。`:'你轉身就跑，一路跑到轉角才敢回頭。牠沒有追上來。','good');for(const q of able())loseSan(q,1,true);recoverDrops(true);if(G.winR&&G.winR.r&&G.winR.r.questDone)finishCodexQuest(G,G.winR.r.questDone,'已中止');G.fight=null;G.winR=null;snd('doorclose');if(G.alarmFt){G.alarmFt=0;G.alarm=Math.min(G.alarm,3)}addAlarm(1,p);const go=G.after;G.after=null;if(!go){G.phase='node';startCd();return true}G.phase='busy';if(await alarmCheck(go))return true;await enterNode(go);return true}
+    const c=await check(p,'AGI',12,'逃跑',(rt?5:0)+(tr(p,'legs')?4:0)+(aliveF().every(f=>affIs(f,'lame')||f.legW)?4:0));if(c.ok){out(MP()?`${nm(p)}大喊一聲，所有人轉身就跑，一路跑到轉角才敢回頭。`:'你轉身就跑，一路跑到轉角才敢回頭。牠沒有追上來。','good');for(const q of able())loseSan(q,1,true);recoverDrops(true);if(G.winR&&G.winR.r&&G.winR.r.questDone)finishCodexQuest(G,G.winR.r.questDone,'已中止');G.fight=null;G.winR=null;snd('doorclose');if(G.alarmFt){if(G.alarmFt===2){G.alarm=3;Object.assign(ALV(),{roused:1,w3:1,w6:1})}G.alarmFt=0}addAlarm(1,p);const go=G.after;G.after=null;if(!go){G.phase='node';startCd();return true}G.phase='busy';if(await alarmCheck(go))return true;await enterNode(go);return true}
     out('想跑，但牠抓住了外套，把人拽了回去。','dmg')}
   else if(a.a==='free'){if(!p.held)return false;releaseHold(p);out(`${nm(p)}用力一扭，掙脫了。`,'good')}
   else if(a.a==='pat'){if(!(p.burn>0))return false;p.burn=0;snd('whoosh');out(`${nm(p)}在地上打滾，拍熄了身上的火。`,'good')}
@@ -4389,7 +4540,8 @@ async function endFight(){
   if(F&&F.loot&&F.loot.length&&!G.over)acruLoot(F.loot);
   G.fight=null;stopCd();out('四周安靜下來，只剩粗重的喘氣聲。','sys');
   // 被警戒引來的那一場打完：這附近暫時沒有東西了，警戒歸零（不再連續引怪）
-  if(G.alarmFt){G.alarmFt=0;if(G.alarm){G.alarm=0;out('循聲而來的東西都解決了，附近暫時沒有動靜。警戒 0／10','rule',true)}}
+  // v0.24.0：被警戒引來的那一場打完。小波：警戒不降，這次升到 6 不再引第二波；強敵：警戒回到 3，這一帶標成已驚動
+  if(G.alarmFt){const k=G.alarmFt;G.alarmFt=0;if(k===2){G.alarm=3;Object.assign(ALV(),{roused:1,w3:1,w6:1});out('循聲而來的東西都解決了。這一帶已經被驚動過，暫時不會再有東西找上門。警戒 3／10','rule',true)}else out('找上門的東西解決了。可是聲音還在，附近的東西還在聽。','rule',true)}
   G.phase='busy';push();draw();
   if(G.winR){const w=G.winR;G.winR=null;if(!G.over&&able().length){if(w.t)out(w.t,'good');await outcome(w,able()[0]);push();draw()}}
   const go=G.after;G.after=null;
@@ -4533,6 +4685,7 @@ function handle(pid,a){
   if(G.over)return;
   if(a.a==='lvl')return run(async()=>{levelUp(p,a.st)});
   if(a.a==='tell')return run(async()=>{tell(p,a.i)});
+  if(a.a==='lock')return run(async()=>{zLockNote(a.i)});
   if(G.phase==='shop'&&G.shop&&!p.down&&!p.mad){if(a.a==='buy')return run(async()=>{shopBuy(p,a.i)});if(a.a==='sell')return run(async()=>{shopSell(p,a.k)});if(a.a==='shopdone')return run(()=>shopReady(p))}
   if(G.fight&&['atk','tact','reload','unjam','cock','pickup','kick','counter','brace','molotov','ext','flee','use','revive','equip','guard','free','block','dodge','cover','dual','calm','subdue','csk','spot','pat'].includes(a.a))return run(()=>fightAct(pid,a));
   if(G.fight)return;
@@ -4848,6 +5001,8 @@ function setG(g){AUDIO_MOVING=false;const first=!G||G.rid!==g.rid;G=g;syncAmbien
 function requestSync(){NET.needN++;setPres()}
 /* ================= v0.22.0 探索紀錄：只記錄隊伍已知資訊 ================= */
 const CODEX_ROUTES={"A6":["東側樓梯","撬開電梯門，爬電梯井","從 301 的窗戶爬到消防梯"],"S1":["上二樓美食街","下維修區","回入口"],"B4":["西側樓梯","員工專用門","走員工通道"],"C4":["推開維修門"],"D2":["從開著的窗戶進二樓"],"D4":["跳下去，進廚房後門"],"E2":["辦公室"],"E4":["接待大廳","地下室樓梯","往地下停車場"],"F4":["雙開門，去大廳","後門，從後巷離開"],"G4":["搭貨梯上去","看看那扇鐵門","從車道連通門到停車場"],"I2":["看一眼入住簿再走","推開大門"],"R4":["撬開機房，走維修樓梯"],"H4":["往大廳","往停車場"],"P4":["丟東西引開牠們"],"J5":["走進後巷","去便利商店"],"K5":["往封鎖線走","走進地鐵站"],"M5":["往封鎖線走","走進地鐵站"],"Q5":["走向十字路口"],"U5":["走上去"],"V3":["在街區找個落腳的地方"],"Z0":["去消防局","去醫院","抄近路到醫院","去配電站","去警察局","去購物中心","去卡特槍械","到北口檢查站","去便利商店找傑西","回紅磚公寓","去城北的舊貨運場","去北郊的陸軍後備中心","去南岸的火力發電廠","去東岸的淨水廠","回旅館"],"Z2":["回街上"],"Z3":["先回街區"],"Z3b":["一起留下來"],"Z4":["回街上"],"Y0":["上樓搜一搜客房","下到地下室那扇鐵門","回街區"],"T0":["去裝備室","上屋頂的瞭望台","走到購物中心","回街區"],"T1":["回車庫"],"T2":["回車庫"],"O0":["進急診室","搭電梯上四樓","下地下室","走到隔壁的警察局","回街區"],"O1":["回急診入口"],"O2":["回樓下"],"O3":["回樓上"],"W0":["用工具撬開鐵門","從撬開的鐵門進去","回街區"],"W1":["回街區"],"W2":["回街區"],"L0":["舉起手走過去","用工具剪開鐵鍊","走到醫院","回街區"],"L1":["去紀錄室","回門口"],"L2":["刷門禁卡進證物室","用破拆工具撐開證物室的門","打開門禁面板的維修模式","回大廳","從後門出去"],"L3":["回紀錄室"],"S0":["從縫裡鑽進去","從燒穿的大門走進去","繳過路費","從地下停車場的鐵捲門進去","走到消防局","回街區"],"S2":["回一樓"],"S3":["回一樓","從停車場出去"],"N0":["用店主的鑰匙開側門","用破拆工具撐開捲門","從撞開的地方鑽進去","回街區"],"N1":["進工作區","回店門"],"N2":["回店面"],"CA0":["從開著的門走進去","回街區"],"CA1":["去煙囪那邊","去掛紅十字的帳篷","去天線最多的帳篷","去最大的那頂帳篷","從原路溜出去"],"CA2":["回隔離區"],"CA3":["回隔離區"],"CA4":["回隔離區"],"CA5":["退出去","回隔離區"],"BA0":["刷隊長的門禁卡","趁亂走進去","回街區"],"BA1":["進軍械庫","進指揮大樓","去營舍後面的拘留區","去停機坪","離開基地"],"BA2":["回車道"],"BA3":["回車道"],"BA4":["回車道"],"BA5":["回車道"],"PP0":["去油槽那邊","回街區"],"PP1":["去主控室","去柴油發電機房","去鍋爐間","去開關場","回大門"],"PP2":["回汽機廠房"],"PP3":["去油槽看看","回汽機廠房"],"PP4":["先回去整備"],"PP4b":["回去重新點火"],"PP4c":["去開關場","回去重新點火"],"PP5":["回汽機廠房"],"PP5t":["回廠房"],"PP5w":["回廠房","回街區"],"PP6":["回大門"],"WP0":["從大門走進去","付錢進去","回街區"],"WP1":["去取水站","去加氯室","去中央控制室","回大門"],"WP2":["回沉澱池區"],"WP3":["退出去"],"WP4":["回沉澱池區"],"WP5b":["回控制室","回沉澱池區","回街區"],"Y2":["感應 S 區門禁卡","回大廳"],"SA0":["照指示除汙","回旅館地下室"],"SA0d":["走進去"],"SA1":["搭貨梯下研究層","回除汙閘門"],"SB0":["進實驗室","進主任辦公室","進會議室","下到收容層","搭貨梯回 S1"],"SB1":["回走廊"],"SB2":["回走廊"],"SB3":["回走廊"],"SC0":["B-118：有人在敲窗戶的那間","B-121：一直在撞門的那間","走到核心的門前","回研究層"],"SC1":["離開"],"SC2":["離開這扇門"],"SC3":["回環形走廊"]};
+// v0.24.0：區域畫面（hub）的出口也登記成移動路線
+for(const Z of Object.values(ZONES))CODEX_ROUTES[Z.hub]=N[Z.hub].c.filter(c=>c.zp&&(c.zp.k==='exit'||c.zp.k==='back')).map(c=>c.l);
 // 只登記既有劇情中，玩家明確承接的 NPC 請託；不從世界旗標推定任務。
 const CODEX_QUESTS={
  owenRescue:{title:'協助消防隊救人',npc:'歐文',place:'消防局・車庫',conditions:['跟隨消防隊前往兩條街外冒煙的公寓救人。','協助消防隊應付樓梯間的危險。']},
@@ -4859,7 +5014,7 @@ function acceptCodexQuest(g,id){const q=CODEX_QUESTS[id];if(!q||!g)return;const 
  C.tasks[id]={...q,conditions:[...q.conditions],source:'npc',accepted:true,status:'進行中',acceptedAt:codexStamp(g),rev:++C.rev};
 }
 function finishCodexQuest(g,id,status='已完成'){const C=codexState(g),t=C&&C.tasks[id];if(!t||t.source!=='npc'||!t.accepted||!CODEX_QUESTS[id]||t.status!=='進行中')return;t.status=status;t.finishedAt=codexStamp(g);t.rev=++C.rev}
-function isCodexMemoId(id){return id==='hotelDoor'||CODEX_GATES.some(x=>'gate:'+x.id===id)}
+function isCodexMemoId(id){return id==='hotelDoor'||/^lock:/.test(id)||CODEX_GATES.some(x=>'gate:'+x.id===id)}
 function choiceKind(c){
   if(c.kind)return c.kind;
   const l=c.l||'',r=c.ok&&c.ok.r||{};
@@ -4894,14 +5049,16 @@ function codexNote(g,id,title,place,key,text){if(!isCodexMemoId(id))return;const
 function recordCodexChoice(c,res,bad){
   if(!G||bad||!res)return;
   if(c.quest&&CODEX_QUESTS[c.quest])acceptCodexQuest(G,c.quest);
-  if(G.node==='G4'&&c.l==='看看那扇鐵門')codexNote(G,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','reader-card','讀卡器亮起，顯示「S 區　請感應授權卡」。供電並不足以直接開門。');
+  // v0.24.0：上鎖點位後來通過了，同一筆備忘補一行
+  if(c.lockT&&G.codex&&G.codex.notes['lock:'+c.lockT]){const r=ZN[G.node];codexNote(G,'lock:'+c.lockT,c.lockT,r?ZONES[r.z].loc+'・'+LV[r.z].n:'','passed','已經找到辦法通過了。');G.codex.notes['lock:'+c.lockT].status='已通過'}
+  if((G.node==='G4'||G.node==='Gh')&&c.l==='看看那扇鐵門')codexNote(G,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','reader-card','讀卡器亮起，顯示「S 區　請感應授權卡」。供電並不足以直接開門。');
 }
 let CODEX_PANEL_KEY='';
-function codexPanelKey(k){return JSON.stringify([k,G&&G.rid,G&&G.node,G&&G.codex&&G.codex.rev,G&&G.codex&&G.codex.places,G&&G.flags&&[G.flags.citypower,G.flags.citywater,G.flags.labcard,G.flags.acru,G.flags.ylabclr]])}
+function codexPanelKey(k){return JSON.stringify([k,G&&G.rid,G&&G.node,G&&G.used&&Object.keys(G.used).length,G&&G.zd,G&&G.ev,G&&G.codex&&G.codex.rev,G&&G.codex&&G.codex.places,G&&G.flags&&[G.flags.citypower,G.flags.citywater,G.flags.labcard,G.flags.acru,G.flags.ylabclr]])}
 function codexDestination(c){const id=c.go||(c.ok&&c.ok.go);return END[id]&&END[id].next?END[id].next:id}
 const CODEX_GATES=[
- {id:'elevatorDoor',at:'A6',to:'C1',title:'電梯門',text:'電梯門需要撬開才能進入電梯井。',requirements:['鐵撬或消防斧可用來撬門；也能嘗試徒手扳開。']},
- {id:'roofMachineDoor',at:'R4',to:'H1',title:'頂樓機房的門',text:'機房的門擋住了維修樓梯入口。',requirements:['可用鐵撬、消防斧或鐵鎚撬開，也能嘗試撞門。']},
+ {id:'elevatorDoor',at:['A6','Ah'],to:'C1',title:'電梯門',text:'電梯門需要撬開才能進入電梯井。',requirements:['鐵撬或消防斧可用來撬門；也能嘗試徒手扳開。']},
+ {id:'roofMachineDoor',at:['R4','Rh'],to:'H1',title:'頂樓機房的門',text:'機房的門擋住了維修樓梯入口。',requirements:['可用鐵撬、消防斧或鐵鎚撬開，也能嘗試撞門。']},
  {id:'pdEvidence',at:'L2',to:'L3',title:'證物室的電子鎖',text:'紀錄室最裡面的證物室門標示「限授權人員」，旁邊設有讀卡機。'},
  {id:'gunShutter',at:'N0',to:'N1',title:'武器店的鐵捲門',text:'卡特槍械的鐵捲門拉到底，尚需找到進入的方法。'},
  {id:'substationGate',at:'W0',to:'W1',title:'配電站的鐵門',text:'配電站鐵門被鐵鍊鎖住，可留意其他入口或能開門的工具。'},
@@ -4910,7 +5067,10 @@ const CODEX_GATES=[
  {id:'coreGate',at:'SC3',to:null,title:'S4 核心之門',text:'核心之門被搏動的纖維撐住，面板顯示鎮靜劑注入中斷。'}
 ];
 function syncCodexGates(g,visit){const C=codexState(g),F=g.flags||{};
-  for(const gate of CODEX_GATES){if(!F['v_'+gate.at]&&g.node!==gate.at&&!C.notes['gate:'+gate.id])continue;
+  for(const gate0 of CODEX_GATES){
+    // v0.24.0：門可能在原本的節點，也可能在區域畫面（hub）；以隊伍實際所在或到過的那一個為準
+    const ats=[].concat(gate0.at),at=ats.find(x=>g.node===x)||ats.find(x=>F['v_'+x])||ats[0],gate={...gate0,at};
+    if(!F['v_'+gate.at]&&g.node!==gate.at&&!C.notes['gate:'+gate.id])continue;
     const id='gate:'+gate.id;C.places[id]={gate:gate.id,from:gate.at};
     codexNote(g,id,gate.title,(N[gate.at]||{}).n||'已發現入口','found',gate.text);
     C.notes[id].requirements=gate.requirements||[];
@@ -4980,8 +5140,28 @@ function mapTree(g=G){
   }
   const current=codexGroup(g.node);
   const tree=[...groups].sort(([a],[b])=>(b===current[0])-(a===current[0])).map(([a,floors])=>`<details ${a===current[0]?'open':''}><summary>${esc(a)}</summary>${[...floors].map(([f,rows])=>`<details ${a===current[0]&&f===current[1]?'open':''}><summary>${esc(f)}</summary><ul>${rows.map(x=>x.html).join('')}</ul></details>`).join('')}</details>`).join('');
-  return `<p class="note">只供查看。標示已探索地點與已發現出口；移動請使用原本的行動選項。</p><div class="map-tree">${tree||'<p>尚未記錄地點。</p>'}</div>`;
+  return `<p class="note">只供查看。標示已探索地點與已發現出口；移動請使用原本的行動選項。</p>${zMapHtml(g)}<div class="map-tree">${zMapHtml(g)?'<p class="note">城市與各地點</p>':''}${tree||'<p>尚未記錄地點。</p>'}</div>`;
 }
+// v0.24.0 清單地圖：第一層是目前所在的區域（每個點位一行），第二層是這個地點的所有區域，第三層是城市（上面原本的地圖）
+function zMapHtml(g=G){if(!g||g!==G||!g.node)return '';const r=ZN[g.node];if(!r||!zDone(r.z))return '';const Z=ZONES[r.z],F=g.flags||{};
+  const here=g.ev!=null?'事件中':esc(N[g.node].n||LV[r.z].n);
+  let rows='';
+  {const used=c=>!!(c.once&&c.keep&&g.used&&g.used[Z.hub+'|'+c._searchBase]),seen=new Set();
+    for(const c0 of N[Z.hub].c){const c=zEff(c0);if(c.hide&&flagOk(c.hide))continue;if(c.need&&!flagOk(c.need)&&!c.req&&!c.lock)continue;if(c.night&&!isNight())continue;
+      const zp=c.zp;let st='';
+      if(used(c))st=choiceKind(c)==='搜尋'?'已搜過':'做過了';else if(c.lock&&c.need&&!flagOk(c.need))st='上鎖：'+c.lock;
+      else{const rs=reqList(c);if(rs.length&&!(c.reqAny?rs.some(tHas):rs.every(tHas)))st='上鎖：需要'+rs.map(nameOf).join(c.reqAny?'或':'、');}
+      if(!st)st=zp.k==='room'?(F['v_'+zp.room]?'去過':'未探索'):zp.k==='search'?'未搜':zp.k==='exit'?(zp.to?(zDone(zp.to)?'出口→'+LV[zp.to].n:'出口'):'出口→離開'+Z.loc):zp.k==='back'?'出口→'+LV[zp.to].n:'';
+      const lab=zp.k==='room'&&F['v_'+zp.room]?N[zp.room].n:c.l;if(seen.has(lab))continue;seen.add(lab);
+      if(zp.k==='room'&&zp.room===g.node)continue;
+      rows+=`<li><span>${esc(lab)}</span><small>${esc(st)}</small></li>`}}
+  const areas=[];
+  for(const [z,Y] of Object.entries(ZONES)){if(Y.loc!==Z.loc)continue;const lvs=g.lvSeen||[];
+    if(z===r.z)areas.push(`<li class="map-now"><span>${esc(LV[z].n)}</span><small>${DEPN[Y.d]}・目前位置</small></li>`);
+    else if(zDone(z)||lvs.includes(z))areas.push(`<li><span>${esc(LV[z].n)}</span><small>${DEPN[Y.d]}・去過</small></li>`)}
+  // 去過的區域畫面裡看得到、但還沒去過的出口
+  const known=new Set();for(const [z,Y] of Object.entries(ZONES)){if(Y.loc!==Z.loc||!zDone(z))continue;for(const c of N[Y.hub].c)if(c.zp&&c.zp.k==='exit'&&c.zp.to&&!zDone(c.zp.to)&&!(g.lvSeen||[]).includes(c.zp.to)&&!(c.need&&!flagOk(c.need)&&!c.lock)&&!(c.hide&&flagOk(c.hide))&&!known.has(c.zp.to)){known.add(c.zp.to);areas.push(`<li><span>${esc(c.l)}</span><small>還沒去過</small></li>`)}}
+  return `<div class="map-tree zmap"><details open><summary>你在這裡：${esc(Z.loc)}・${esc(LV[r.z].n)}（${DEPN[Z.d]}）</summary><ul><li class="map-now"><b>${here}</b><small>目前位置</small></li>${rows}</ul></details><details open><summary>${esc(Z.loc)}的區域</summary><ul>${areas.join('')}</ul></details></div>`}
 function codexReadKey(g=G){return `${g.rid}:${MYPID}`}
 function codexUnread(k,g=G){if(!g||!g.codex)return false;const read=CODEX_READ[codexReadKey(g)]||{},list=k==='tasks'?g.codex.tasks:g.codex.notes;return Object.values(list).some(x=>x.rev>(read[k]||0))}
 function markCodexRead(k){if(!G||!G.codex||!['memo','tasks'].includes(k))return;const key=codexReadKey();CODEX_READ[key]={...(CODEX_READ[key]||{}),[k]:G.codex.rev};const keys=Object.keys(CODEX_READ);for(const key of keys.slice(0,Math.max(0,keys.length-40)))delete CODEX_READ[key];LS.set('zc22-codex-read',CODEX_READ)}
@@ -5000,7 +5180,7 @@ function codexButtons(){for(const [k,id,label] of [['tasks','tTasks','任務'],[
 function codexDraw(){
   if(!G)return;if(ROLE!=='client')syncCodex();
   if(G.codex){const key=codexReadKey(),prior=CODEX_NOTICES[key],rev=G.codex.rev;CODEX_NOTICES[key]=rev;
-    if(prior!=null&&rev>prior){const task=Object.values(G.codex.tasks).some(x=>x.rev>prior),note=Object.values(G.codex.notes).some(x=>x.rev>prior);if(task||note)toast([task?'任務已更新':'',note?'備忘錄已更新':''].filter(Boolean).join('・'))}
+    if(prior!=null&&rev>prior){const task=Object.values(G.codex.tasks).some(x=>x.rev>prior),note=Object.values(G.codex.notes).some(x=>x.rev>prior);if((task||note)&&Date.now()-ZLOCKT>3000)toast([task?'任務已更新':'',note?'備忘錄已更新':''].filter(Boolean).join('・'))}
   }
   if(['map','tasks','memo'].includes(OVK)&&!$('#ov').hidden&&CODEX_PANEL_KEY!==codexPanelKey(OVK))panel(OVK)
   codexButtons();
@@ -5104,11 +5284,13 @@ function draw(){
     h=choices().map((c,i)=>({c,i})).sort((a,b)=>(a.c._searchBase??a.i)-(b.c._searchBase??b.i)||(a.c._searchMode==='quick'?-1:0)-(b.c._searchMode==='quick'?-1:0)).map(({c,i})=>{if(!visible(c))return '';const ok=choiceOk(c);const sm=ctl().length?ctl().reduce((a,b)=>c.k&&statMod(b,c.k)+checkBonus(b,c.k)>statMod(a,c.k)+checkBonus(a,c.k)?b:a):m;
       const bf=c.bonusFlag&&G.flags[c.bonusFlag]?3:0;const assist=MP()&&ctl().length>1?2:0;
       const tag=checkTag(c.k,c.d);
-      const why=!ok&&c.req?('需要'+reqList(c).map(nameOf).join(c.reqAny?'或':'、')):'';
+      const why=!ok&&c.lock&&c.need&&!flagOk(c.need)?c.lock:!ok&&c.req?('需要'+reqList(c).map(nameOf).join(c.reqAny?'或':'、')):'';
+      // v0.24.0：區域裡不能選的點位不藏起來，變灰但點得下去（播鎖門聲、說明缺什麼）
+      const zl=!ok&&!!ZN[G.node]&&G.ev==null;const zs=zNote(c);
       const vts=MP()?voters().filter(q=>G.votes[q.pid]===i).map(q=>av(q)).join(''):'';
       const hn=G.hint&&G.hint[MYPID]&&G.hint[MYPID][i];const tl=G.told&&G.told[i];const hs=hn?`<em class="hint">你察覺：${hn}</em>`:tl?`<em class="hint">${esc(P(tl.pid).name)}說：${tl.t}</em>`:'';const why2=!ok&&c.usd&&teamUsd()<c.usd?`需要 $${c.usd}（全隊有 $${teamUsd()}）`:!ok&&c.karma&&!c.reqN&&!c.req?'他們還不夠信任你們。':!ok&&c.reqN?'需要'+Object.entries(c.reqN).map(([k,q])=>ITEMS[k].n+' ×'+q).join('、'):'';
       const tk=tKind(c);
-      return chBtn(`data-ch="${i}"`,`<span class="choice-prefix">【${choiceKind(c)}】</span>`+c.l+(tk?`<small class="tmc ${tk}">（${TLAB[tk]}）</small>`:''),(why||why2||choiceNote(c))+hs,tag,tag?'t-ck':'',!ok||G.busy,vts?`<span class="vts">${vts}</span>`:'',G.votes[MYPID]===i?'mine':'')+(hn&&MP()&&!tl?`<button class="btn tellb" data-tell="${i}">告知隊友</button>`:'')}).join('')+(MP()?`<p class="note">多數決，同票隨機。再點一次自己投的選項可以取消。</p>`+hostCdBtn():'')+(G.ground.length?`<p class="note">地上有東西，打開背包可以撿。</p>`:'');
+      return chBtn(zl?`data-lock="${i}"`:`data-ch="${i}"`,`<span class="choice-prefix">【${choiceKind(c)}】</span>`+c.l+(tk&&!zUsed(c)?`<small class="tmc ${tk}">（${TLAB[tk]}）</small>`:''),(zs&&zs!==why?`<b class="zst">${zs}</b>`:'')+(why||why2||choiceNote(c))+hs,tag,tag?'t-ck':'',zl?G.busy:(!ok||G.busy),vts?`<span class="vts">${vts}</span>`:'',(G.votes[MYPID]===i?'mine':'')+(zl?' locked':''))+(hn&&MP()&&!tl?`<button class="btn tellb" data-tell="${i}">告知隊友</button>`:'')}).join('')+(MP()?`<p class="note">多數決，同票隨機。再點一次自己投的選項可以取消。</p>`+hostCdBtn():'')+(G.ground.length?`<p class="note">地上有東西，打開背包可以撿。</p>`:'');
   }else if(G.phase==='shop'&&G.shop){const S=G.shop,sh=SHOPS[S.id];if(S.key!==SHOPKEY){SHOPKEY=S.key;SHOPSHUT=false;SHOPSEL=0;SHOPMODE='buy'}if(OVK==='shop')setTimeout(()=>{if(OVK==='shop')panel('shop')},0);const rd=ctl().filter(q=>S.ready[q.pid]).length;T=sh.n;Pl=`$${m.usd||0}`;
     h=chBtn('data-openshop','回到商店','看看商品、買東西、賣東西','','')+chBtn('data-shopdone',S.ready[MYPID]?'已經準備好，等其他人':'買好了，繼續',`${rd}／${ctl().length} 人準備好`,'','',!!S.ready[MYPID]);
     if(OVK==null&&!SHOPSHUT)setTimeout(()=>{if(G&&G.phase==='shop'&&OVK==null)panel('shop')},0)
@@ -5302,6 +5484,7 @@ document.addEventListener('click',e=>{
   if(d.cfok!=null){$('#cfm').hidden=true;act({a:'vote',i:+d.cfok});return}
   if(b.hasAttribute('data-cfno')){$('#cfm').hidden=true;sfx('click',.4);return}
   if(d.tell!=null)act({a:'tell',i:+d.tell});
+  else if(d.lock!=null)zLockClick(+d.lock);
   else if(d.ch!=null){if(G&&G.votes&&G.votes[MYPID]===+d.ch)act({a:'vote',i:+d.ch});else if(!longAsk(+d.ch))act({a:'vote',i:+d.ch})}
   else if(d.rv)act({a:'rv',t:d.rv});
   else if(b.hasAttribute('data-cdgo'))act({a:'cdgo'});
@@ -5508,7 +5691,7 @@ function startMP(){
     out('—— 冒險繼續 ——','hd',true);out('上一次的調查中斷了。大家回到中斷前的那個地方，接著走。','sys',true);
     for(const p of G.players)out(p.away?`【連線通知】${nm(p)}尚未連線，暫停參與行動。`:`${nm(p)}（生命 ${Math.max(0,p.hp)}／${p.max}、${fstgN(p)}）`,'sys',true);
     reportEffects(true);reportGround();fullSync();showGame();if(G.fight&&!G.fight.group)run(advance);else{startCd();push();draw()}
-    return}
+    zRelocate();return}
   newRun(ps.map(p=>Object.assign({},p.build,{pid:p.pid})),LOBBY.opts,'mp');
   NET.started=1;setPres();fullSync();showGame();run(()=>enterNode('A1'));
 }
@@ -5517,7 +5700,7 @@ function showDiff(){SCR='diff';
 function diffCards(cur,attr,dis){return Object.entries(DIFF).map(([k,d])=>`<button class="card ${cur===k?'on':''}" data-${attr}="${k}" ${dis?'disabled':''}><b>${d.n}</b><small>${d.d}</small></button>`).join('')}
 function startSolo(){ROLE='solo';newRun([buildOut()],{diff:UI.diff},'solo');showGame();run(()=>enterNode('A1'))}
 function resumeSolo(){const d=LS.get('zc7-save',null);if(!d||!d.G)return showMenu();if(!d.G.v9){toast('這是舊版本（還有章節時）的存檔，沒辦法接著玩，請重新開始。');return showMenu()}ROLE='solo';G=migrateG(d.G);LOG=d.LOG||[];G.busy=0;G.cd=null;busy=false;showGame();
-  out('—— 冒險繼續 ——','hd',true);reportEffects(true);reportGround();if(G.fight&&!G.fight.group)run(advance);}
+  out('—— 冒險繼續 ——','hd',true);reportEffects(true);reportGround();if(G.fight&&!G.fight.group)run(advance);zRelocate();}
 function onScr(b,d){
   sfx('click',.5);
   if(d.m==='menu'){if(ROLE!=='solo')leaveRoom();showMenu()}
