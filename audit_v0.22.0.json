@@ -5,12 +5,14 @@
   "time": "2026-11-15T15:07:18+08:00",
   "original_files_changed": [
     "index.html",
+    "MANIFEST.json",
     "更新說明.txt"
   ],
   "assets_unchanged": true,
-  "test_count": 103,
+  "test_count": 104,
   "test_failed": 0,
   "independent_review": "3 項重要問題已以重現測試修正；附帶初見鐵門歷程與重複紀錄一併修正",
-  "visual_qa": "本機畫面驗收受環境限制；待線上頁面確認",
-  "deployment_method": "GitHub 雲端瀏覽器網頁上傳"
+  "visual_qa": "已在 GitHub Pages 線上版載入舊存檔，確認地圖樹、任務、備忘錄、目前樓層與未讀提示。Android 實機與真實多人連線尚未驗收。",
+  "deployment_method": "GitHub 雲端瀏覽器網頁上傳",
+  "gameplay_commit": "afbb9ecb52f7cf3da13507967e4d1fa5ebe435ba"
 }

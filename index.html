@@ -588,7 +588,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.21.12", "b": 51, "t": "2026-11-15T10:21:36+08:00"};
+const ZC_VER={"v": "0.22.0", "b": 52, "t": "2026-11-15T15:10:58+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -4852,7 +4852,7 @@ function codexTask(g,id,title,status,text){const C=codexState(g),old=C.tasks[id]
   C.tasks[id]={title,status,text,history,rev:++C.rev};
 }
 function recordCodexChoice(c,res,bad){
-  if(!G||bad||!res||!res.t||!['對話','調查'].includes(choiceKind(c)))return;
+  if(!G||bad||!res||!res.t||!(['對話','調查'].includes(choiceKind(c))||/紀錄|病歷|報紙|排班|名冊|報告|資料|收據|電腦|影像|路線圖/.test(c.l)))return;
   if(G.node==='G4'&&c.l==='看看那扇鐵門'){codexNote(G,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','reader-card','讀卡器亮起，顯示「S 區　請感應授權卡」。供電並不足以直接開門。');return}
   const flags=[].concat(res.r&&res.r.flag||[]);
   if(flags.some(f=>CODEX_CLUES.some(x=>x[0]===f)))return;
@@ -4941,10 +4941,10 @@ function mapTree(g=G){
     const pass=F.citypower&&F.citywater&&F.labcard&&(!F.acru||F.ylabclr);
     const label=gate?gate.title:door?'地下室的厚重鐵門':p.visited?(N[id].n||p.label||'探索途中'):(p.label||N[id].n||'眼前的通道');
     const state=gate?(gate.to&&F['v_'+gate.to]?'已通過':'暫時無法通行'):door?(opened?'已開啟':pass?'可嘗試通行':'暫時無法通行'):now?'目前位置':p.visited?'已探索':'未探索';
-    rows.push(`<li class="${now?'map-now':''}"><span>${esc(label)}</span><small>${state}</small></li>`);
+    const row={label,now,html:`<li class="${now?'map-now':''}"><span>${esc(label)}</span><small>${state}</small></li>`};const same=rows.findIndex(x=>x.label===label);if(same<0)rows.push(row);else if(now||!rows[same].now)rows[same]=row;
   }
   const current=codexGroup(g.node);
-  const tree=[...groups].sort(([a],[b])=>(b===current[0])-(a===current[0])).map(([a,floors])=>`<details ${a===current[0]?'open':''}><summary>${esc(a)}</summary>${[...floors].map(([f,rows])=>`<details ${a===current[0]&&f===current[1]?'open':''}><summary>${esc(f)}</summary><ul>${rows.join('')}</ul></details>`).join('')}</details>`).join('');
+  const tree=[...groups].sort(([a],[b])=>(b===current[0])-(a===current[0])).map(([a,floors])=>`<details ${a===current[0]?'open':''}><summary>${esc(a)}</summary>${[...floors].map(([f,rows])=>`<details ${a===current[0]&&f===current[1]?'open':''}><summary>${esc(f)}</summary><ul>${rows.map(x=>x.html).join('')}</ul></details>`).join('')}</details>`).join('');
   return `<p class="note">只供查看。標示已探索地點與已發現出口；移動請使用原本的行動選項。</p><div class="map-tree">${tree||'<p>尚未記錄地點。</p>'}</div>`;
 }
 function codexReadKey(g=G){return `${g.rid}:${MYPID}`}
