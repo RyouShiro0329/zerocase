@@ -537,6 +537,26 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 .mid small b.clk{color:#c9c2a8;font-weight:600;letter-spacing:.04em}.mid small b.clk.nt{color:#9fb3d6}
 .ch .tmc{font:12px var(--label);color:var(--muted);margin-left:4px;white-space:nowrap}.ch .tmc.l{color:#d4b27a}
 #stage.short .ch .tmc{font-size:11px}
+
+/* v0.22.0：頂端資訊工具與唯讀紀錄面板 */
+.choice-prefix{color:var(--gold);font-size:.8em;font-weight:400;margin-right:3px}
+.tools .btn{position:relative;padding:5px 8px}
+.tools .has-update::after{content:"";position:absolute;top:3px;right:3px;width:5px;height:5px;border-radius:50%;background:var(--gold);box-shadow:0 0 5px var(--gold)}
+#ov .box.codex-box{display:flex;flex-direction:column;max-height:100%;overflow:hidden}
+.codex-box .boxhead{flex:none}.codex-body{min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:4px 4px 12px;flex:1}
+.map-tree details{margin:5px 0 5px 12px;border-left:1px solid var(--line);padding-left:12px}
+.map-tree>details{margin-left:0}.map-tree summary,.codex-entry summary{cursor:pointer;color:var(--gold);padding:6px 0;min-height:28px}
+.map-tree ul{list-style:none;padding:0;margin:2px 0}.map-tree li{display:flex;justify-content:space-between;gap:12px;padding:7px 10px;border-bottom:1px solid var(--line)}
+.map-tree small{flex:none;color:var(--muted)}.map-tree .map-now{background:#332d1f;border-left:3px solid var(--gold)}.map-tree .map-now small{color:var(--gold)}
+.codex-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;align-items:start}
+.codex-entry{border:1px solid var(--line);padding:12px;background:rgba(20,20,17,.8)}
+.codex-entry h3{margin:0 0 5px;color:var(--gold);font-size:1.05em;display:flex;justify-content:space-between;gap:12px}
+.codex-entry h3 small{font-size:.72em;white-space:nowrap}.codex-entry p{margin:6px 0}.codex-entry .codex-place,.codex-entry li>small{color:var(--muted);font-size:.78em}
+.codex-entry ol{padding-left:22px}.codex-entry li{margin:8px 0}.codex-entry li p{font-size:.9em}
+#stage.compact-tools .topbar{display:grid;grid-template-columns:minmax(0,1fr) minmax(100px,.7fr);gap:3px 10px}
+#stage.compact-tools .lvl{max-width:100%;min-width:0}#stage.compact-tools .lvl small{overflow:hidden;text-overflow:ellipsis}
+#stage.compact-tools .tools{grid-column:1/-1;justify-content:flex-end;gap:5px}#stage.compact-tools .tools .btn{min-height:30px;font-size:.8rem;padding:3px 9px}
+
 </style>
 
 <div id="stage">
@@ -544,7 +564,8 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
   <header class="topbar">
     <div class="lvl"><b id="lvN"></b><small id="lvS"></small></div>
     <div class="mid"><div class="sky-clock" id="skyClock"></div><small id="mids"></small></div>
-    <nav class="tools">
+    <nav class="tools" aria-label="遊戲工具">
+      <button class="btn" data-open="map" id="tMap">地圖樹</button><button class="btn" data-open="tasks" id="tTasks">任務</button><button class="btn" data-open="memo" id="tMemo">備忘錄</button>
       <button class="btn" data-save id="tSave">存檔</button><button class="btn" data-dd id="tTeam">隊伍 ▾</button><button class="btn" data-open="bag">背包</button><button class="btn" data-open="craft">合成</button><button class="btn" data-open="settings">設定</button>
     </nav>
   </header>
@@ -3543,7 +3564,7 @@ async function enterNode(id){
   if(nd.ev){const ch=LV[nd.L].ch||1;const mine=EVPOOL.map((e,i)=>i).filter(i=>(EVPOOL[i].ch||1)===ch&&evOk(EVPOOL[i]));const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
   else{hd(nd.n);out(nd.t,'lore');if(nd.tx){const x=nd.tx();if(x)out(x,'lore')}if(nd.tm&&G.players.some(p=>p.kind==='maggie'))out(nd.tm,'lore')}
   if(id==='WP5')G.flags.wpfail=0;AUDIO_MOVING=false;syncAmbience();if(id==='A2')snd('woodimpact',1,2400);
-  reportEffects();reportGround();
+  syncCodex(G,true);reportEffects();reportGround();
   if(G.lv==='G'){for(const p of able())addInf(p,G.flags.mask?1:2);out(`空氣裡飄著細細的粉末，喉嚨發癢。感染 +${G.flags.mask?1:2}${G.flags.mask?'（濕布擋掉了一些）':''}。`,'dmg',true)}
   {const fx=LV[G.lv].fx||{};
    if(fx.alarmNode&&!G.flags.dooroff)addAlarm(fx.alarmNode,null);
@@ -3648,7 +3669,7 @@ async function applyRes(c,res,actor,bad){CURC=c;
   const nextId=c.go||N[G.node].next;
   if(!res){if(await alarmCheck(nextId))return;return enterNode(nextId)}
   resultAudio(res);
-  if(res.t)out(res.t,bad?'bad':'');
+  if(res.t)out(res.t,bad?'bad':'');recordCodexChoice(c,res,bad);
   await outcome(res,actor);
   if(G.over)return;
   if(res.qte){const sub=await storyQte(res,actor);if(G.over)return;if(sub&&sub.go)res=Object.assign({},res,{go:sub.go});if(sub&&sub.fight)res=Object.assign({},res,{fight:sub.fight})}
@@ -3680,7 +3701,7 @@ async function outcome(o,actor){
   if(r.payUsd)payUsd(r.payUsd,actor);
   if(got.length){await flush();await sndW('pickup',.8,700,.6);out(`${MP()?nm(actor):''}取得　${got.join('')}`,'good',true)}
   if(r.flag)for(const f of [].concat(r.flag))G.flags[f]=(G.flags[f]||0)+1;
-  syncAmbience();
+  syncCodex();syncAmbience();
   if(r.pay)for(const [k,q] of Object.entries(r.pay)){let left=q;for(const ow of able()){const n=Math.min(left,ow.items[k]||0);if(n){takeI(ow,k,n);left-=n}if(!left)break}}
   // 過夜：睡到清晨（時間已在選項扣掉），生命回 50%、恐懼 −35，發瘋的人恢復
   if(r.sleep){for(const q of G.players){if(q.dead)continue;if(q.mad){q.mad=0;setFear(q,Math.min(q.fe||100,85));out(`${nm(q)}睡了一覺，醒來時眼神終於對得上焦了。`,'good',true)}if(q.down){q.down=0;q.hp=Math.max(q.hp,1)}const hp=Math.min(q.max-q.hp,Math.ceil(q.max*.5));q.hp+=hp;out(`${MP()?nm(q)+'：':''}生命 +${hp}。`,'good',true);relax(q,35)}}
@@ -4662,8 +4683,9 @@ function send(obj){
 }
 let pushT=null;
 function push(){
+  if(G&&ROLE!=='client')syncCodex();
   if(ROLE!=='host')return;if(pushT)return;pushT=setTimeout(()=>{pushT=null;if(G)E('st',snap())},80)}
-function snap(){const s=JSON.parse(JSON.stringify(G));if(s.cd)s.cd.left=Math.max(0,s.cd.end-Date.now());return s}
+function snap(){if(G&&ROLE!=='client')syncCodex();const s=JSON.parse(JSON.stringify(G));if(s.cd)s.cd.left=Math.max(0,s.cd.end-Date.now());return s}
 function fullSync(){if(ROLE==='host'&&G){send({t:'full',d:{G:snap(),log:LOG.slice(-40)}});sendAllAv()}}
 // 本機或隊友送出指令
 function act(a){
@@ -4772,6 +4794,178 @@ async function pump(){qRun=true;
 let cdAt=0;
 function setG(g){AUDIO_MOVING=false;const first=!G||G.rid!==g.rid;G=g;syncAmbience();cdAt=Date.now();if(first&&typeof showGame==='function')showGame();if(G.over)creditShards();draw()}
 function requestSync(){NET.needN++;setPres()}
+/* ================= v0.22.0 探索紀錄：只記錄隊伍已知資訊 ================= */
+const CODEX_ROUTES={"A6":["東側樓梯","撬開電梯門，爬電梯井","從 301 的窗戶爬到消防梯"],"S1":["上二樓美食街","下維修區","回入口"],"B4":["西側樓梯","員工專用門","走員工通道"],"C4":["推開維修門"],"D2":["從開著的窗戶進二樓"],"D4":["跳下去，進廚房後門"],"E2":["辦公室"],"E4":["接待大廳","地下室樓梯","往地下停車場"],"F4":["雙開門，去大廳","後門，從後巷離開"],"G4":["搭貨梯上去","看看那扇鐵門","從車道連通門到停車場"],"I2":["看一眼入住簿再走","推開大門"],"R4":["撬開機房，走維修樓梯"],"H4":["往大廳","往停車場"],"P4":["丟東西引開牠們"],"J5":["走進後巷","去便利商店"],"K5":["往封鎖線走","走進地鐵站"],"M5":["往封鎖線走","走進地鐵站"],"Q5":["走向十字路口"],"U5":["走上去"],"V3":["在街區找個落腳的地方"],"Z0":["去消防局","去醫院","抄近路到醫院","去配電站","去警察局","去購物中心","去卡特槍械","到北口檢查站","去便利商店找傑西","回紅磚公寓","去城北的舊貨運場","去北郊的陸軍後備中心","去南岸的火力發電廠","去東岸的淨水廠","回旅館"],"Z2":["回街上"],"Z3":["先回街區"],"Z3b":["一起留下來"],"Z4":["回街上"],"Y0":["上樓搜一搜客房","下到地下室那扇鐵門","回街區"],"T0":["去裝備室","上屋頂的瞭望台","走到購物中心","回街區"],"T1":["回車庫"],"T2":["回車庫"],"O0":["進急診室","搭電梯上四樓","下地下室","走到隔壁的警察局","回街區"],"O1":["回急診入口"],"O2":["回樓下"],"O3":["回樓上"],"W0":["用工具撬開鐵門","從撬開的鐵門進去","回街區"],"W1":["回街區"],"W2":["回街區"],"L0":["舉起手走過去","用工具剪開鐵鍊","走到醫院","回街區"],"L1":["去紀錄室","回門口"],"L2":["刷門禁卡進證物室","用破拆工具撐開證物室的門","打開門禁面板的維修模式","回大廳","從後門出去"],"L3":["回紀錄室"],"S0":["從縫裡鑽進去","從燒穿的大門走進去","繳過路費","從地下停車場的鐵捲門進去","走到消防局","回街區"],"S2":["回一樓"],"S3":["回一樓","從停車場出去"],"N0":["用店主的鑰匙開側門","用破拆工具撐開捲門","從撞開的地方鑽進去","回街區"],"N1":["進工作區","回店門"],"N2":["回店面"],"CA0":["從開著的門走進去","回街區"],"CA1":["去煙囪那邊","去掛紅十字的帳篷","去天線最多的帳篷","去最大的那頂帳篷","從原路溜出去"],"CA2":["回隔離區"],"CA3":["回隔離區"],"CA4":["回隔離區"],"CA5":["退出去","回隔離區"],"BA0":["刷隊長的門禁卡","趁亂走進去","回街區"],"BA1":["進軍械庫","進指揮大樓","去營舍後面的拘留區","去停機坪","離開基地"],"BA2":["回車道"],"BA3":["回車道"],"BA4":["回車道"],"BA5":["回車道"],"PP0":["去油槽那邊","回街區"],"PP1":["去主控室","去柴油發電機房","去鍋爐間","去開關場","回大門"],"PP2":["回汽機廠房"],"PP3":["去油槽看看","回汽機廠房"],"PP4":["先回去整備"],"PP4b":["回去重新點火"],"PP4c":["去開關場","回去重新點火"],"PP5":["回汽機廠房"],"PP5t":["回廠房"],"PP5w":["回廠房","回街區"],"PP6":["回大門"],"WP0":["從大門走進去","付錢進去","回街區"],"WP1":["去取水站","去加氯室","去中央控制室","回大門"],"WP2":["回沉澱池區"],"WP3":["退出去"],"WP4":["回沉澱池區"],"WP5b":["回控制室","回沉澱池區","回街區"],"Y2":["感應 S 區門禁卡","回大廳"],"SA0":["照指示除汙","回旅館地下室"],"SA0d":["走進去"],"SA1":["搭貨梯下研究層","回除汙閘門"],"SB0":["進實驗室","進主任辦公室","進會議室","下到收容層","搭貨梯回 S1"],"SB1":["回走廊"],"SB2":["回走廊"],"SB3":["回走廊"],"SC0":["B-118：有人在敲窗戶的那間","B-121：一直在撞門的那間","走到核心的門前","回研究層"],"SC1":["離開"],"SC2":["離開這扇門"],"SC3":["回環形走廊"]};
+const CODEX_TASK_FLAGS=new Set(['power','streetpower','ppgen','ppaux','ppfire','citypower','eastpower','wpgen','wpscreen','wpcl','wpdeal','citywater','pprd','fdopen','bfreed']);
+function choiceKind(c){
+  if(c.kind)return c.kind;
+  const l=c.l||'',r=c.ok&&c.ok.r||{};
+  if(c.t==='sleep'||r.rest||r.sleep||/歇一下|休息|過夜|睡到/.test(l))return '休息';
+  if([].concat(r.flag||[]).some(f=>CODEX_TASK_FLAGS.has(f))||/恢復供水|啟動送水泵|合上.*斷路器|點火，開始|重新送電/.test(l))return '任務';
+  if(/^(跟.+(?:談|說話)|問|詢問|告訴|隔著小窗說話|說服|請他)/.test(l))return '對話';
+  if(/^(看|讀|檢查|調查|把.+(?:看清楚|看完))/.test(l))return '調查';
+  if(c._searchMode||/^(仔細搜查|簡單尋找|翻(?!過)|搜|找備|拿|取|開彈藥箱|在附近的街上找)/.test(l))return '搜尋';
+  if(Object.values(CODEX_ROUTES).some(labels=>labels.includes(l)))return '移動';
+  if(/^(去|回|先回|到|下到|上樓|走到|走進|走樓梯|進(?:急診|軍械|指揮)|搭|離開|退出|從.+(?:進去|離開)|沿著.+爬進去)/.test(l)||/^(接待大廳|員工廚房|地下室樓梯)$/.test(l))return '移動';
+  return '事件';
+}
+const CODEX_CLUES=[
+ ['map','逃生路線圖','旅館・三樓','逃生圖標示三樓東側的逃生樓梯，以及 301 號房窗外的消防梯。'],
+ ['linenkey','布巾室鑰匙','旅館・製冰機間','找到一串掛著「布巾室」標籤的鑰匙。'],
+ ['gasnote','廚房的手寫提醒','旅館・冷凍庫門口','圍裙上的字指出：瓦斯總閥在後門旁邊，是紅色的那個。'],
+ ['clippings','報紙上的病例','後巷・屋頂棚屋','咬傷事件在兩個月前就已出現，之後逐漸接近這個街區。'],
+ ['acrulist','轉送名單','封鎖線・裝甲車','名單記載第二期受試者與接觸者，安置地點包含這間旅館。'],
+ ['arcroute','旅館房客的去向','封鎖線・臨時檢疫站','檢疫人員說，旅館那批人最早被送往城東。'],
+ ['erlog','急診掛號紀錄','聖瑪莉醫院・急診室','紀錄反覆出現「ARC 合作門診・第二期回診」，最後一筆時間是 23:41。'],
+ ['arcfile','ARC 病歷','聖瑪莉醫院・四樓','已取得臨床合作病房的病歷；這是追查 ARC 與旅館關聯的證據。'],
+ ['campknown','舊貨運場線索','街區','線索指向城北舊貨運場，可從街區前往調查。'],
+ ['baseknown','北郊基地線索','街區','已得知北郊陸軍後備中心的位置。'],
+ ['opsnote','營地值勤日誌','舊貨運場・通訊帳篷','日誌記錄回收醫院病歷與冷藏檢體，以及北區集合點的準備。'],
+ ['opslog','牧杖作戰紀錄','陸軍後備中心・指揮中心','紀錄記載控制、回收、滅菌與後續燃燒作業；S 區入口之一位於旅館地下。'],
+ ['labhint','拘留室的線索','陸軍後備中心・拘留區','拘留室內的人提供了旅館地下入口的線索。'],
+ ['labcard','S 區門禁卡','陸軍後備中心・指揮中心','已取得 S 區門禁卡；與旅館地下那扇門有關。'],
+ ['ppknown','南岸電廠的主饋線','配電站','街區的臨時電不等於市電。要恢復北區市電，線索指向南岸火力發電廠。'],
+ ['ppbook','黑啟動操作程序','南岸電廠・主控室','程序依序包括柴油發電機、廠用電、給水與送風、點火升壓，以及併聯送電。'],
+ ['ppgrant','葛蘭特的協助','南岸電廠・主控室','葛蘭特願意協助恢復廠區供電。'],
+ ['wpknown','東岸淨水廠的狀況','消防局','歐文說淨水廠停了，消防栓水壓持續下降；淨水廠目前有人佔據。'],
+ ['trRoster','第二期受試者名冊','S1・警衛室','名冊將第二期受試者與旅館房號、23:41 接送時間連在一起；最後一頁記載 Z-0 的核心收容。'],
+ ['mgDoc','接送排班表','S1・警衛室','同意書寫的是回診，排班表的目的地卻是 S3 收容層。'],
+ ['trReport','持續共生計畫報告','S2・主任辦公室','第二期計畫讓 EDEN 留在人體並持續修復組織；報告留下「它不知道什麼時候該停」的註記。']
+];
+const CODEX_READ=LS.get('zc22-codex-read',{}),CODEX_NOTICES={};
+function codexState(g=G){
+  if(!g)return null;
+  if(!g.codex){g.codex={v:1,rev:0,notes:{},tasks:{},places:{}};const F=g.flags||{};
+    for(const id of Object.keys(N))if(F['v_'+id])g.codex.places[id]={visited:true};
+  }
+  return g.codex;
+}
+function codexStamp(g){const m=(g.t0==null?T0:g.t0)+(g.clock||0),h=Math.floor(m/60)%24,mm=Math.floor(m%60);return `第 ${Math.floor((m-300)/1440)+1} 天 ${String(h).padStart(2,'0')}:${String(mm).padStart(2,'0')}`}
+function codexNote(g,id,title,place,key,text){const C=codexState(g);let n=C.notes[id];
+  if(!n)n=C.notes[id]={title,place,history:[],rev:0};
+  if(n.history.some(x=>x.key===key))return;
+  n.history.push({key,text,time:codexStamp(g)});n.rev=++C.rev;
+}
+function codexTask(g,id,title,status,text){const C=codexState(g),old=C.tasks[id];
+  if(old&&old.status===status&&old.text===text)return;
+  const history=old?old.history:[];history.push({status,text,time:codexStamp(g)});
+  C.tasks[id]={title,status,text,history,rev:++C.rev};
+}
+function recordCodexChoice(c,res,bad){
+  if(!G||bad||!res||!res.t||!['對話','調查'].includes(choiceKind(c)))return;
+  if(G.node==='G4'&&c.l==='看看那扇鐵門'){codexNote(G,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','reader-card','讀卡器亮起，顯示「S 區　請感應授權卡」。供電並不足以直接開門。');return}
+  const flags=[].concat(res.r&&res.r.flag||[]);
+  if(flags.some(f=>CODEX_CLUES.some(x=>x[0]===f)))return;
+  const text=res.t.replace(/<br\s*\/?\s*>/gi,'\n').replace(/<[^>]*>/g,'').trim();
+  const id='read:'+G.node+':'+c.l;
+  codexNote(G,id,c.l,(N[G.node]||{}).n||'探索途中',text,text);
+}
+let CODEX_PANEL_KEY='';
+function codexPanelKey(k){return JSON.stringify([k,G&&G.rid,G&&G.node,G&&G.codex&&G.codex.rev,G&&G.codex&&G.codex.places,G&&G.flags&&[G.flags.citypower,G.flags.citywater,G.flags.labcard,G.flags.acru,G.flags.ylabclr]])}
+function codexDestination(c){const id=c.go||(c.ok&&c.ok.go);return END[id]&&END[id].next?END[id].next:id}
+const CODEX_GATES=[
+ {id:'pdEvidence',at:'L2',to:'L3',title:'證物室的電子鎖',text:'紀錄室最裡面的證物室門標示「限授權人員」，旁邊設有讀卡機。'},
+ {id:'gunShutter',at:'N0',to:'N1',title:'武器店的鐵捲門',text:'卡特槍械的鐵捲門拉到底，尚需找到進入的方法。'},
+ {id:'substationGate',at:'W0',to:'W1',title:'配電站的鐵門',text:'配電站鐵門被鐵鍊鎖住，可留意其他入口或能開門的工具。'},
+ {id:'baseArmory',at:'BA1',to:'BA2',title:'軍械庫的門',text:'基地車道旁有軍械庫，入口受門禁限制。'},
+ {id:'baseCommand',at:'BA1',to:'BA3',title:'指揮大樓的門禁',text:'基地指揮大樓入口設有門禁，需要找到通行方法。'},
+ {id:'coreGate',at:'SC3',to:null,title:'S4 核心之門',text:'核心之門被搏動的纖維撐住，面板顯示鎮靜劑注入中斷。目前版本尚未開放門後路線。'}
+];
+function syncCodexGates(g,visit){const C=codexState(g),F=g.flags||{};
+  for(const gate of CODEX_GATES){if(!F['v_'+gate.at]&&g.node!==gate.at&&!C.notes['gate:'+gate.id])continue;
+    const id='gate:'+gate.id;C.places[id]={gate:gate.id,from:gate.at};
+    codexNote(g,id,gate.title,(N[gate.at]||{}).n||'已發現入口','found',gate.text);
+    if(visit&&g.node===gate.at&&gate.id==='pdEvidence')codexNote(g,id,gate.title,N[gate.at].n,g===G&&pwNow()?'powered':'no-power',g===G&&pwNow()?'門旁已經有電，仍需確認授權或其他開門方法。':'電子鎖面板沒有亮，目前沒有電。恢復供電後或許能再試。');
+    if(F.citypower&&C.notes[id].history.some(x=>x.key==='no-power'))codexNote(g,id,gate.title,N[gate.at].n,'power-restored','北區市電已恢復，或許值得回去查看入口。');
+    if(gate.to&&F['v_'+gate.to])codexNote(g,id,gate.title,N[gate.at].n,'passed','隊伍已找到通行方法，並探索入口後方。');
+  }
+}
+
+function syncCodex(g=G,visit=false){
+  if(!g)return;const C=codexState(g),F=g.flags||{};
+  if(g.node&&N[g.node]){C.places[g.node]={visited:true};
+    // 只讀眼前可見的移動選項；不遍歷成功／失敗支線，也不預先抽取隨機事件。
+    if(g===G&&g.ev==null)for(const c of choices()){
+      if(!(CODEX_ROUTES[g.node]||[]).includes(c.l)||!visible(c)||!choiceOk(c)||c.k||c.ok&&c.ok.qte||c.ok&&c.ok.code)continue;
+      const id=codexDestination(c);if(!N[id])continue;
+      if(!C.places[id])C.places[id]={visited:false,label:c.l,from:g.node};
+    }
+  }
+  syncCodexGates(g,visit);
+  for(const [id,title,place,text] of CODEX_CLUES)if(F[id])codexNote(g,id,title,place,id,text);
+  const door=F.v_G4||F.v_Y2||F.opslog||F.labhint||F.v_SA0||C.notes.hotelDoor;
+  if(door){
+    C.places.hotelDoor={visited:!!(F.v_G4||F.v_Y2)};
+    if(F.v_G4||F.v_Y2)codexNote(g,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','found',visit&&g.node==='Y2'&&F.citypower?'發現一道厚重鐵門，旁邊有讀卡器。門後是往下的白色樓梯。':'門無法開啟，讀卡器沒有正常運作。恢復供電後，或許能再試試。');
+    if(F.opslog)codexNote(g,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','opslog','作戰紀錄指出：旅館地下是 S 區入口之一，維生系統依賴市電與市水，開啟還需要 S 區門禁。');
+    if(F.labhint)codexNote(g,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','labhint','拘留室的線索指向旅館地下的入口，值得回去查看。');
+    if((F.power||F.citypower)&&!F.v_SA0)codexNote(g,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層',F.citypower?'power-city':'power-local',F.citypower?'北區供電已恢復，或許值得回去查看鐵門。':'地下設備層的備用供電已恢復，或許值得回去查看讀卡器。');
+    if(visit&&g.node==='Y2'){
+      const key=F.acru&&!F.ylabclr?'guard':!F.citypower?'city':!F.citywater?'water':!F.labcard?'card':'ready';
+      const t={guard:'兩名穿黑色制服的人守在門前，目前無法安全接近。',city:'讀卡器顯示維生系統供電不足；地下室備用發電機的電力似乎不夠。',water:'讀卡器顯示「維生系統供水壓力不足　閘門鎖定」。還需要處理供水問題。',card:'讀卡器顯示「S 區　請感應授權卡」。仍需取得相應授權。',ready:'讀卡器顯示維生系統正常；可以嘗試感應 S 區門禁卡。'};
+      if(key==='city'){const first=C.notes.hotelDoor.history.find(x=>x.key==='found');if(first&&first.text==='門無法開啟，讀卡器沒有正常運作。恢復供電後，或許能再試試。'){first.text='讀卡器顯示維生系統供電不足，鐵門無法開啟。恢復供電後，或許能再試試。';C.notes.hotelDoor.rev=++C.rev}}
+      if(key!=='city'||!C.notes.hotelDoor.history.some(x=>x.key==='found'&&x.text.includes('恢復供電後')))codexNote(g,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','screen-'+key,t[key]);
+    }
+    if(F.citywater&&C.notes.hotelDoor.history.some(x=>x.key==='screen-water'||x.key==='opslog'))codexNote(g,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','water-restored','城市供水已恢復，或許能再回去確認門上的訊息。');
+    if(F.labcard)codexNote(g,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','card-got','已取得 S 區門禁卡，或許能用在這扇門上。');
+    if(F.v_SA0)codexNote(g,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','opened','已感應門禁並通過鐵門，門後是通往 S 區的樓梯與除汙閘門。');
+    const last=C.notes.hotelDoor.history.at(-1);codexTask(g,'hotelDoor','調查旅館地下的鐵門',F.v_SA0?'已完成':'進行中',last.text);
+  }
+  const outside=Object.entries(C.places).some(([id,p])=>p.visited&&N[id]&&(LV[N[id].L]||{}).ch===2);
+  if(F.v_A1||outside||C.tasks.escape)codexTask(g,'escape','離開旅館',outside?'已完成':'進行中',outside?'隊伍已離開旅館，抵達街區。':'尋找能離開旅館的路線，留意眼前的出口。');
+  if(F.blackout||F.streetpower||C.tasks.streetPower)codexTask(g,'streetPower','恢復街區臨時供電',F.streetpower?'已完成':'進行中',F.streetpower?'街區已恢復臨時供電。':F.v_W1?'配電盤的保險絲座損壞；可再檢查現場。':'街區停電了，可前往配電站查明狀況。');
+  if(F.ppknown||F.citypower||C.tasks.cityPower)codexTask(g,'cityPower','恢復北區市電',F.citypower?'已完成':'進行中',F.citypower?'北區市電已恢復，旅館與醫院等地重新供電。':F.ppboil?'機組已升壓，下一步是到開關場送電。':F.ppaux?'廠用電已恢復，可依現場程序繼續準備點火。':F.ppgen?'柴油發電機已啟動，可回主控室確認廠用電。':'線索指向南岸火力發電廠；先調查廠內的供電狀況。');
+  if(F.wpknown||F.citywater||C.tasks.cityWater)codexTask(g,'cityWater','恢復城市供水',F.citywater?'已完成':'進行中',F.citywater?'送水泵已穩定運轉，城市供水恢復。':F.wpscreen&&F.wpcl?'取水與加氯問題已處理，可到中央控制室確認送水條件。':F.wpscreen?'取水口已清理，仍需調查廠內其他設備。':'已得知東岸淨水廠停擺，可前往調查。');
+  if(F.evacinfo||C.tasks.evac)codexTask(g,'evac','尋找北口撤離機會',g.over&&/^END_evac/.test(g.over.end)?'已完成':F.evacgone?'已失效':'進行中',g.over&&/^END_evac/.test(g.over.end)?'撤離行動已結束。':F.evacgone?'撤離車隊已離開，這條撤離途徑不再可用。':'已得知北口檢查站有撤離安排，可前往確認。');
+}
+function codexGroup(id){
+  if(id==='hotelDoor')return ['旅館','地下設備層'];
+  const n=N[id]||{},l=n.L,lv=LV[l]||{};
+  if(['A','B','C','D','E','F','G','I','R','H','P','Y'].includes(l)){
+    const floors={A:'三樓',B:'二樓',C:'電梯井',D:'外牆消防梯',E:'一樓',F:'一樓',G:'地下設備層',I:'一樓',R:'頂樓',H:'員工區',P:'地下二樓'};
+    return ['旅館',l==='Y'?(id==='Y2'?'地下設備層':id==='Y1'?'客房區':'一樓'):floors[l]];
+  }
+  if(['SA','SB','SC'].includes(l))return ['地下研究所',lv.sub];
+  if(l==='O')return ['聖瑪莉醫院',id==='O2'?'四樓':id==='O3'?'地下室':'一樓'];
+  if(l==='S')return ['河景廣場',id==='S2'?'二樓':id==='S3'?'地下維修區':'一樓'];
+  return [lv.n||'街區',lv.sub||'已知地點'];
+}
+function mapTree(g=G){
+  const C=g&&g.codex;if(!C)return '<p class="note">尚未記錄地點。</p>';
+  const groups=new Map(),F=g.flags||{};
+  for(const [id,p] of Object.entries(C.places)){
+    if(!N[id]&&id!=='hotelDoor'&&!p.gate)continue;
+    const [area,floor]=codexGroup(p.from&&!p.visited?p.from:id),group=groups.get(area)||new Map();if(!groups.has(area))groups.set(area,group);
+    const rows=group.get(floor)||[];if(!group.has(floor))group.set(floor,rows);
+    const now=id===g.node,door=id==='hotelDoor',opened=!!F.v_SA0,gate=p.gate&&CODEX_GATES.find(x=>x.id===p.gate);
+    const pass=F.citypower&&F.citywater&&F.labcard&&(!F.acru||F.ylabclr);
+    const label=gate?gate.title:door?'地下室的厚重鐵門':p.visited?(N[id].n||p.label||'探索途中'):(p.label||N[id].n||'眼前的通道');
+    const state=gate?(gate.to&&F['v_'+gate.to]?'已通過':'暫時無法通行'):door?(opened?'已開啟':pass?'可嘗試通行':'暫時無法通行'):now?'目前位置':p.visited?'已探索':'未探索';
+    rows.push(`<li class="${now?'map-now':''}"><span>${esc(label)}</span><small>${state}</small></li>`);
+  }
+  const current=codexGroup(g.node);
+  const tree=[...groups].sort(([a],[b])=>(b===current[0])-(a===current[0])).map(([a,floors])=>`<details ${a===current[0]?'open':''}><summary>${esc(a)}</summary>${[...floors].map(([f,rows])=>`<details ${a===current[0]&&f===current[1]?'open':''}><summary>${esc(f)}</summary><ul>${rows.join('')}</ul></details>`).join('')}</details>`).join('');
+  return `<p class="note">只供查看。標示已探索地點與已發現出口；移動請使用原本的行動選項。</p><div class="map-tree">${tree||'<p>尚未記錄地點。</p>'}</div>`;
+}
+function codexReadKey(g=G){return `${g.rid}:${MYPID}`}
+function codexUnread(k,g=G){if(!g||!g.codex)return false;const read=CODEX_READ[codexReadKey(g)]||{},list=k==='tasks'?g.codex.tasks:g.codex.notes;return Object.values(list).some(x=>x.rev>(read[k]||0))}
+function markCodexRead(k){if(!G||!G.codex||!['memo','tasks'].includes(k))return;const key=codexReadKey();CODEX_READ[key]={...(CODEX_READ[key]||{}),[k]:G.codex.rev};const keys=Object.keys(CODEX_READ);for(const key of keys.slice(0,Math.max(0,keys.length-40)))delete CODEX_READ[key];LS.set('zc22-codex-read',CODEX_READ)}
+function codexMarkup(k,g=G){
+  if(k==='map')return mapTree(g);const C=g&&g.codex;if(!C)return '<p class="note">尚無紀錄。</p>';
+  const entries=Object.values(k==='tasks'?C.tasks:C.notes).sort((a,b)=>b.rev-a.rev);
+  if(!entries.length)return `<p class="note">${k==='tasks'?'目前沒有已知目標。':'尚未發現需要記錄的線索。'}</p>`;
+  return `<p class="note">${k==='tasks'?'依隊伍已知資訊記錄的目標與進度。':'新線索會更新同一筆紀錄；只記載隊伍已知資訊。'}</p><div class="codex-list">${entries.map(n=>`<article class="codex-entry"><h3>${esc(n.title)}${n.status?`<small>${esc(n.status)}</small>`:''}</h3>${n.place?`<p class="codex-place">發現位置：${esc(n.place)}</p>`:''}<p>${esc(n.text||n.history.at(-1).text)}</p><details><summary>發現與更新紀錄（${n.history.length}）</summary><ol>${n.history.map(x=>`<li><small>${esc(x.time)}${x.status?'・'+esc(x.status):''}</small><p>${esc(x.text)}</p></li>`).join('')}</ol></details></article>`).join('')}</div>`;
+}
+function codexButtons(){for(const [k,id,label] of [['tasks','tTasks','任務'],['memo','tMemo','備忘錄']]){const e=$('#'+id);if(e){const unread=codexUnread(k);e.classList.toggle('has-update',unread);e.setAttribute?.('aria-label',label+(unread?'，有未讀更新':''))}}}
+function codexDraw(){
+  if(!G)return;if(ROLE!=='client')syncCodex();
+  if(G.codex){const key=codexReadKey(),prior=CODEX_NOTICES[key],rev=G.codex.rev;CODEX_NOTICES[key]=rev;
+    if(prior!=null&&rev>prior){const task=Object.values(G.codex.tasks).some(x=>x.rev>prior),note=Object.values(G.codex.notes).some(x=>x.rev>prior);if(task||note)toast([task?'任務已更新':'',note?'備忘錄已更新':''].filter(Boolean).join('・'))}
+  }
+  if(['map','tasks','memo'].includes(OVK)&&!$('#ov').hidden&&CODEX_PANEL_KEY!==codexPanelKey(OVK))panel(OVK)
+  codexButtons();
+}
+
 /* ================= 遊戲畫面 ================= */
 function bar(cls,name,v,max,txt){return `<div class="stb ${cls}"><span>${name}<b>${txt}</b></span><i><u style="width:${clamp(v/max*100,0,100)}%"></u></i></div>`}
 const chBtn=(attr,l,s,tag,tc,dis,extra,cls)=>`<button class="ch ${cls||''}" ${attr} ${dis?'disabled':''}><span class="cl">${l}</span>${extra||''}${tag?`<span class="tag ${tc}">${tag}</span>`:''}${s?`<span class="cs">${s}</span>`:''}</button>`;
@@ -4818,7 +5012,7 @@ function foeBadges(f){const b=(t,c)=>`<span class="bd ${c||''}">${t}</span>`;con
   return a}
 function myTurn(){const F=G&&G.fight;if(!F||!F.group||F.resolving)return false;return F.group.includes(MYPID)&&!G.busy}
 function draw(){
-  syncAmbience();
+  codexDraw();syncAmbience();
   if(!G||!$('#app'))return;
   const m=me(),Lv=LV[G.lv]||LV.A;
   $('#lvN').textContent=G.ev!=null?'意外':(N[G.node]||{}).n||'';
@@ -4870,7 +5064,7 @@ function draw(){
       const vts=MP()?voters().filter(q=>G.votes[q.pid]===i).map(q=>av(q)).join(''):'';
       const hn=G.hint&&G.hint[MYPID]&&G.hint[MYPID][i];const tl=G.told&&G.told[i];const hs=hn?`<em class="hint">你察覺：${hn}</em>`:tl?`<em class="hint">${esc(P(tl.pid).name)}說：${tl.t}</em>`:'';const why2=!ok&&c.usd&&teamUsd()<c.usd?`需要 $${c.usd}（全隊有 $${teamUsd()}）`:!ok&&c.karma&&!c.reqN&&!c.req?'他們還不夠信任你們。':!ok&&c.reqN?'需要'+Object.entries(c.reqN).map(([k,q])=>ITEMS[k].n+' ×'+q).join('、'):'';
       const tk=tKind(c);
-      return chBtn(`data-ch="${i}"`,c.l+(tk?`<small class="tmc ${tk}">（${TLAB[tk]}）</small>`:''),(why||why2||choiceNote(c))+hs,tag,tag?'t-ck':'',!ok||G.busy,vts?`<span class="vts">${vts}</span>`:'',G.votes[MYPID]===i?'mine':'')+(hn&&MP()&&!tl?`<button class="btn tellb" data-tell="${i}">告知隊友</button>`:'')}).join('')+(MP()?`<p class="note">多數決，同票隨機。</p>`+hostCdBtn():'')+(G.ground.length?`<p class="note">地上有東西，打開背包可以撿。</p>`:'');
+      return chBtn(`data-ch="${i}"`,`<span class="choice-prefix">【${choiceKind(c)}】</span>`+c.l+(tk?`<small class="tmc ${tk}">（${TLAB[tk]}）</small>`:''),(why||why2||choiceNote(c))+hs,tag,tag?'t-ck':'',!ok||G.busy,vts?`<span class="vts">${vts}</span>`:'',G.votes[MYPID]===i?'mine':'')+(hn&&MP()&&!tl?`<button class="btn tellb" data-tell="${i}">告知隊友</button>`:'')}).join('')+(MP()?`<p class="note">多數決，同票隨機。</p>`+hostCdBtn():'')+(G.ground.length?`<p class="note">地上有東西，打開背包可以撿。</p>`:'');
   }else if(G.phase==='shop'&&G.shop){const S=G.shop,sh=SHOPS[S.id];if(S.key!==SHOPKEY){SHOPKEY=S.key;SHOPSHUT=false;SHOPSEL=0;SHOPMODE='buy'}if(OVK==='shop')setTimeout(()=>{if(OVK==='shop')panel('shop')},0);const rd=ctl().filter(q=>S.ready[q.pid]).length;T=sh.n;Pl=`$${m.usd||0}`;
     h=chBtn('data-openshop','回到商店','看看商品、買東西、賣東西','','')+chBtn('data-shopdone',S.ready[MYPID]?'已經準備好，等其他人':'買好了，繼續',`${rd}／${ctl().length} 人準備好`,'','',!!S.ready[MYPID]);
     if(OVK==null&&!SHOPSHUT)setTimeout(()=>{if(G&&G.phase==='shop'&&OVK==null)panel('shop')},0)
@@ -4956,9 +5150,9 @@ function drawDD(){const d=$('#tdd');if(!G){d.hidden=true;return}
    <div class="chips"><span>${handTxt(p)}</span>${p.bleed?`<span class="bad">${p.bleed>1?'重度流血':'流血'}</span>`:''}${p.unbal?'<span class="bad">失衡</span>':''}${p.frac?'<span class="bad">骨折</span>':''}${p.humus?`<span class="bad">腐殖 ${p.humus}</span>`:''}${p.burn?`<span class="bad">燃燒 ${p.burn}</span>`:''}${p.held?'<span class="bad">被抓住</span>':''}${G.alarm&&p.pid===MYPID?`<span>警戒 ${G.alarm}／10</span>`:''}${p.pts&&p.pid===MYPID?`<span style="color:var(--gold)">可加點 ${p.pts}</span>`:''}</div>${teamExtra(p)}</div></div>`).join('');d.hidden=false}
 /* ---- 面板 ---- */
 function renderLog(){const l=$('#log');if(!l)return;l.innerHTML=LOG.filter(([h,c])=>c!=='hd'||h&&!/^[\s—─–-]+$/.test(h)).map(([h,c])=>`<p class="${c}">${h}</p>`).join('');scrollLog()}
-function openOv(h){const box=$('#ov .box');const st=box?box.scrollTop:0;const lists=[...document.querySelectorAll('#ov .scr2')].map(e=>e.scrollTop);
+function openOv(h){const box=$('#ov .box');const st=box?box.scrollTop:0;const lists=[...document.querySelectorAll('#ov .scr2, #ov .codex-body')].map(e=>e.scrollTop);
   $('#ov').innerHTML=`<div class="box wide">${h}</div>`;$('#ov').hidden=false;
-  if(OVK===OVK_LAST){const nb=$('#ov .box');if(nb)nb.scrollTop=st;[...document.querySelectorAll('#ov .scr2')].forEach((e,i)=>{if(lists[i]!=null)e.scrollTop=lists[i]})}OVK_LAST=OVK}
+  if(OVK===OVK_LAST){const nb=$('#ov .box');if(nb)nb.scrollTop=st;[...document.querySelectorAll('#ov .scr2, #ov .codex-body')].forEach((e,i)=>{if(lists[i]!=null)e.scrollTop=lists[i]})}OVK_LAST=OVK}
 function closeOv(){$('#ov').hidden=true;OVK=null;OVK_LAST=null}
 let SEL=null,SLOTS=[],CMSG='',OVK=null,OVK_LAST=null,FIXK=null,SHOPSEL=0,SHOPMODE='buy',SHOPSHUT=false,SHOPKEY=null;
 function craftMsg(t,ok){CMSG=t;if(ok)SLOTS=[];if(OVK==='craft')panel('craft');else if(OVK==='bag'){toast(t);panel('bag')}}
@@ -5012,7 +5206,12 @@ function panel(k){
   OVK=k;const X='<button class="btn" data-close>關閉</button>';const m=G&&me();
   const tabs=k==='craft'?`<div class="tabs"><button class="btn" data-open="bag">← 回背包</button></div>`:'';
   if((k==='bag'||k==='craft')&&!m){toast('觀戰中沒有背包。');OVK=null;return}
-  const inF=!!(G&&G.fight),can=G&&!G.busy&&!m.dead&&(!inF||myTurn())&&!m.down;
+  const inF=!!(G&&G.fight),can=G&&m&&!G.busy&&!m.dead&&(!inF||myTurn())&&!m.down;
+  if(['map','tasks','memo'].includes(k)){
+    if(!G){OVK=null;return}if(ROLE!=='client')syncCodex();markCodexRead(k);
+    const title={map:'地圖樹',tasks:'任務',memo:'備忘錄'}[k];
+    openOv(`<div class="boxhead"><b>${title}</b>${X}</div><div class="codex-body">${codexMarkup(k)}</div>`);CODEX_PANEL_KEY=codexPanelKey(k);$('#ov .box').classList.add('codex-box');codexButtons();return;
+  }
   if(k==='bag'){
     const gr=G.ground.length?G.ground.map((x,i)=>`<div class="irow"><div class="in"><b>${groundName(x)}</b></div><button class="btn" data-pick="${i}" ${can&&!inF?'':'disabled'}>撿起</button></div>`).join(''):'<p class="note">目前地上沒有物品。</p>';
     const space=`<p class="slots">背包 <b>${used(m)}／${cap(m)}</b> 格　<small>同種 5 個疊 1 格；拿在手上、穿著的不佔格</small></p><p class="note">${inF?'戰鬥中不能丟棄或撿取地面物品；使用物品、換武器會用掉回合。':used(m)>=cap(m)?'背包已滿；可先放下物品。相同物品未滿 5 個仍可堆疊。':'點選物品可展開轉交、修理等操作；放下的物品可從地面區撿回。'}</p>`;
@@ -5041,6 +5240,7 @@ function panel(k){
   }
 }
 function saveGame(){if(!G||G.over)return;if(busy||G.busy){toast('等這段結束再存檔。');return}
+  if(ROLE!=='client')syncCodex();
   const k=ROLE==='host'?'zc7-mpsave':'zc7-save';const d={v:7,t:Date.now(),G:JSON.parse(JSON.stringify(G)),LOG:LOG.slice(-80)};if(d.G.cd)d.G.cd=null;
   LS.set(k,d);const ok=LS.get(k,null);toast(ok?'已存檔。':'存檔失敗：瀏覽器不允許儲存。');sfx('ok',.6)}
 // v0.16.0 休息、過夜要先確認（只在自己的畫面，不影響別人投票）
@@ -5322,7 +5522,7 @@ function layout(){
   st.classList.remove('r90');
   if(rot){st.classList.add('r90');st.style.width=H+'px';st.style.height=W+'px'}else{st.style.width=W+'px';st.style.height=H+'px'}
   const sw=rot?H:W,sh=rot?W:H;
-  st.classList.toggle('short',sh<=480);st.classList.toggle('narrow',sw<=700);st.classList.toggle('tall',!rot&&sh>sw);
+  st.classList.toggle('compact-tools',sw<=1100);st.classList.toggle('short',sh<=480);st.classList.toggle('narrow',sw<=700);st.classList.toggle('tall',!rot&&sh>sw);
   st.style.setProperty('--fs',(sh<=480?14:16)+'px');
   // v0.21.0 朋友回饋：大螢幕（含電腦全螢幕）整個畫面等比放大，不再擠在中間一小塊
   const Z=!rot&&sw>=1280&&sh>=720?Math.min(sw/1280,sh/720):1;

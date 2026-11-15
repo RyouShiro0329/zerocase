@@ -1,0 +1,16 @@
+{
+  "version": "0.22.0",
+  "baseline": "0.21.12",
+  "baseline_commit": "c965a99a081412ebb4c2b2b2dc44545c9d1ddf7d",
+  "time": "2026-11-15T15:07:18+08:00",
+  "original_files_changed": [
+    "index.html",
+    "更新說明.txt"
+  ],
+  "assets_unchanged": true,
+  "test_count": 103,
+  "test_failed": 0,
+  "independent_review": "3 項重要問題已以重現測試修正；附帶初見鐵門歷程與重複紀錄一併修正",
+  "visual_qa": "本機畫面驗收受環境限制；待線上頁面確認",
+  "deployment_method": "GitHub 雲端瀏覽器網頁上傳"
+}

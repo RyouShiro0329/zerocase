@@ -1,11 +1,13 @@
 {
-  "version": "0.21.12",
-  "build": 51,
-  "created_at": "2026-11-15T10:21:36+08:00",
-  "deployment": "尚未發布：GitHub 寫入權限不足",
+  "version": "0.22.0",
+  "build": 52,
+  "created_at": "2026-11-15T15:07:18+08:00",
+  "source_base_commit": "c965a99a081412ebb4c2b2b2dc44545c9d1ddf7d",
+  "deployment": "GitHub Pages；雲端瀏覽器上傳",
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "README.md": "f622d83355de0e2f8645a403f62be3c616c350f9de4fc65f331cbc21071f8fe3",
+    "audit_v0.22.0.json": "94d3cb48b42a8ce4bcef7a0dce826a9156560dd7242ef066f22cd853aba19505",
     "docs/audio/2026-11-15-integration-plan.md": "1d8c7185ad2742e1f1b70279b5f9d274f03c36a1b4104513dc5842d2df9ade8d",
     "docs/audio/ASSET_VALIDATION.json": "190994b75a706198d1f3e3435ee47441cee202e55fe70c3593fab8d55d538d0b",
     "docs/audio/ASSET_VALIDATION_V0.21.10.json": "6d61e118b4a1ebef0708d9e4e687d55afbf48a288d61c98a772f1cb5113c612a",
@@ -24,6 +26,11 @@
     "docs/audio/TEST_RESULTS_V0.21.11.txt": "3284cb4b05c43d1e3705bd079bb88bb9b35f16cffc3c3fb60bc4b94ba54347ac",
     "docs/audio/audition-next.html": "0362ceca78aa88e4eaec94f4e1429185e6984719ca194ce2a9f2f4d2c0fa0e5c",
     "docs/audio/prepare_second_batch.py": "6dbb30cde5b1e5bbdec9a4ffe268be484d5a8caf465e94aad7b6163ac129d80c",
+    "docs/exploration/2026-11-15-design.md": "b9e66c4ab0eb888cd00da6062ef83014e9ddfec8c960dd002abaaeef30266561",
+    "docs/exploration/2026-11-15-plan.md": "1b65f993e7fc132132cf106dc11398358ff2e433b23b7e73aa3c1506f58783f6",
+    "docs/exploration/RELEASE_V0.22.0.md": "f717f685ff6765fda731b7b20744d38c529ff3d27edb79f23ce1f503d24cced4",
+    "docs/exploration/TEST_RESULTS.txt": "197150f7a51aa06668eef791296004b1ba4e32c19eef0e2fdf161ed62c095372",
+    "docs/releases/v0.21.12.md": "2749c0d8f38286ed1baf72da07427b2c1c0d9c66c503ee561a0854d413ddc7ce",
     "fonts/README.md": "90982e9334a778f37e2894edd038ba52d55baa9293b065df9fdf4e356970b5d2",
     "fonts/SOURCES.md": "95d1e579324006d3904df22cfa78425191a9eed85215c84acb2592948eabf8fa",
     "fonts/SourceSerif4-OFL.txt": "5f94c3fd3a23131a417ab5a0c8452de57e70c3cfb9f604d88241f7065ebf9fd9",
@@ -50,7 +57,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "99e8b9264fafdcd45c1e7bbbffd9cae50107f5f5b239c6ae6f0696b81aa292c1",
+    "index.html": "5ead7aed3a11be565608724256177a597804ae456aba4cd86ed50b490fb08b3b",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -140,9 +147,11 @@
     "tests/audio.test.cjs": "1707055629944040630fdfb9e604783465bf3f08770c8b30668f51de798c9eb3",
     "tests/baseline-v0.21.5.html": "4f47274b315bc592d54966ce6acc734c3c8c725bfb71b2abae1cbe527371073e",
     "tests/events.test.cjs": "9f57c0dbe76c395c749d60c2e79b05aefb29c99ec8271963cde08b5fc0a753e4",
+    "tests/exploration.test.cjs": "c486b0203a03599069bd5826e8416e78f492a3fd8e596a407ca0ae05874d96b7",
     "tests/feedback.test.cjs": "cd77678f8cac0dce74c920181554a4607862732ed8e2421094bedc0ef7163537",
     "tests/helpers/audio-game.cjs": "7fac8f11a4172d58021f298c5d33cfaa4f1d25e05d80f2978edae505e3cda8f4",
     "tests/scene-time.test.cjs": "fe4e249942deb406f52fc256ecddffb392780344c95cc6d411e5931d56d04861",
-    "docs/releases/v0.21.12.md": "2749c0d8f38286ed1baf72da07427b2c1c0d9c66c503ee561a0854d413ddc7ce"
+    "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
+    "更新說明.txt": "387de6fc84c4a97f5653275f4796df70d3688f00ed823a6ae6bc244bc5384642"
   }
 }
