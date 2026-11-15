@@ -1,0 +1,24 @@
+{
+  "version": "0.22.2",
+  "build": 54,
+  "time": "2026-11-15T16:01:08+08:00",
+  "baseline": "0.22.1",
+  "baseline_index_blob": "ef5dddfc6e228c8ddab90bca5671092e7dc8df36",
+  "changes": [
+    "地圖名稱",
+    "重要入口備忘白名單",
+    "明確NPC承接才登記任務",
+    "收合明細",
+    "v1→v2 清理舊雜項"
+  ],
+  "tasks_inferred_from_world_flags": false,
+  "generic_conversation_logging": false,
+  "task_and_story_options_added": 0,
+  "test_results": {
+    "passed": 112,
+    "failed": 0
+  },
+  "independent_review": "無 Critical 或 Important；另實際驗證救人任務勝利與逃跑結算",
+  "gameplay_rules_changed": false,
+  "save_progress_preserved": true
+}

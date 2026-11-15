@@ -552,7 +552,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 .codex-entry{border:1px solid var(--line);padding:12px;background:rgba(20,20,17,.8)}
 .codex-entry h3{margin:0 0 5px;color:var(--gold);font-size:1.05em;display:flex;justify-content:space-between;gap:12px}
 .codex-entry h3 small{font-size:.72em;white-space:nowrap}.codex-entry p{margin:6px 0}.codex-entry .codex-place,.codex-entry li>small{color:var(--muted);font-size:.78em}
-.codex-entry ol{padding-left:22px}.codex-entry li{margin:8px 0}.codex-entry li p{font-size:.9em}
+.codex-entry>summary{display:flex;justify-content:space-between;gap:12px;align-items:center;min-height:36px;padding:0}.codex-entry>summary::before{content:"▸";flex:none}.codex-entry[open]>summary::before{content:"▾"}.codex-entry>summary b{flex:1}.codex-entry>summary small{font-size:.74em;color:var(--muted);white-space:nowrap}.codex-detail{border-top:1px solid var(--line);margin-top:8px;padding-top:5px}.codex-entry ol{padding-left:22px}.codex-entry li{margin:8px 0}.codex-entry li p{font-size:.9em}
 #stage.compact-tools .topbar{display:flex;flex-wrap:nowrap;gap:8px}
 #stage.compact-tools .lvl{flex:1 1 0;max-width:none;min-width:0;overflow:hidden}#stage.compact-tools .lvl small{overflow:hidden;text-overflow:ellipsis}
 #stage.compact-tools .mid{flex:0 0 164px;min-width:164px;max-width:164px}
@@ -567,7 +567,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
     <div class="lvl"><b id="lvN"></b><small id="lvS"></small></div>
     <div class="mid"><div class="sky-clock" id="skyClock"></div><small id="mids"></small></div>
     <nav class="tools" aria-label="遊戲工具">
-      <button class="btn" data-open="map" id="tMap">地圖樹</button><button class="btn" data-open="tasks" id="tTasks">任務</button><button class="btn" data-open="memo" id="tMemo">備忘錄</button>
+      <button class="btn" data-open="map" id="tMap">地圖</button><button class="btn" data-open="tasks" id="tTasks">任務</button><button class="btn" data-open="memo" id="tMemo">備忘錄</button>
       <button class="btn" data-save id="tSave">存檔</button><button class="btn" data-dd id="tTeam">隊伍 ▾</button><button class="btn" data-open="bag">背包</button><button class="btn" data-open="craft">合成</button><button class="btn" data-open="settings">設定</button>
     </nav>
   </header>
@@ -590,7 +590,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.22.1", "b": 53, "t": "2026-11-15T15:24:43+08:00"};
+const ZC_VER={"v": "0.22.2", "b": 54, "t": "2026-11-15T15:56:46+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3703,6 +3703,7 @@ async function outcome(o,actor){
   if(r.payUsd)payUsd(r.payUsd,actor);
   if(got.length){await flush();await sndW('pickup',.8,700,.6);out(`${MP()?nm(actor):''}取得　${got.join('')}`,'good',true)}
   if(r.flag)for(const f of [].concat(r.flag))G.flags[f]=(G.flags[f]||0)+1;
+  if(o.questDone||r.questDone)finishCodexQuest(G,o.questDone||r.questDone);
   syncCodex();syncAmbience();
   if(r.pay)for(const [k,q] of Object.entries(r.pay)){let left=q;for(const ow of able()){const n=Math.min(left,ow.items[k]||0);if(n){takeI(ow,k,n);left-=n}if(!left)break}}
   // 過夜：睡到清晨（時間已在選項扣掉），生命回 50%、恐懼 −35，發瘋的人恢復
@@ -3789,6 +3790,7 @@ function migrateG(g){if(!g)return g;if(g.fight&&g.fight.foes){const F=g.fight;F.
   if(g.fight&&g.fight.site===undefined)g.fight.site=null;
   // v0.8.0 時間：舊存檔從第 1 天清晨開始算
   if(g.clock==null)g.clock=0;
+  if(g.codex)codexState(g);
   return g}
 const OLD_BGST={office:{INT:1},guard:{STR:1},nurse:{INT:1},cook:{AGI:1},student:{PER:1},courier:{CON:1},sales:{CHA:1},veteran:{STR:1,PER:1},doctor:{INT:2}};
 // 對策是場地事件：條件符合的地方，大約一半的戰鬥會出現一個，一場最多一個、用一次
@@ -4306,7 +4308,7 @@ async function execAct(p,a){
   else if(a.a==='ext'){if(!hasI(p,'extinguisher'))return false;const t=F.foes[ti];takeI(p,'extinguisher');snd('ext');t.dazzle=1;out(`一團白色的乾粉噴在${t.n}臉上，${pn(t)}嗆得直往後退，眼睛睜不開。下一次攻擊命中 −4。`,'good')}
   else if(a.a==='flee'){if(F.noflee){out('懸在外牆上，無處可逃。','sys');return}if(able().some(q=>q.held)){out(`${able().filter(q=>q.held).map(q=>nm(q)).join('、')}被抓住了，現在跑不掉。`,'sys');return false}
     const rt=a.csk==='retreat'&&skLeft(p,'retreat');if(rt){skUse(p,'retreat');out(`${nm(p)}：<b>緊急撤退</b>`,'act',true)}
-    const c=await check(p,'AGI',12,'逃跑',(rt?5:0)+(tr(p,'legs')?4:0)+(aliveF().every(f=>affIs(f,'lame')||f.legW)?4:0));if(c.ok){out(MP()?`${nm(p)}大喊一聲，所有人轉身就跑，一路跑到轉角才敢回頭。`:'你轉身就跑，一路跑到轉角才敢回頭。牠沒有追上來。','good');for(const q of able())loseSan(q,1,true);recoverDrops(true);G.fight=null;G.winR=null;snd('doorclose');if(G.alarmFt){G.alarmFt=0;G.alarm=Math.min(G.alarm,3)}addAlarm(1,p);const go=G.after;G.after=null;if(!go){G.phase='node';startCd();return true}G.phase='busy';if(await alarmCheck(go))return true;await enterNode(go);return true}
+    const c=await check(p,'AGI',12,'逃跑',(rt?5:0)+(tr(p,'legs')?4:0)+(aliveF().every(f=>affIs(f,'lame')||f.legW)?4:0));if(c.ok){out(MP()?`${nm(p)}大喊一聲，所有人轉身就跑，一路跑到轉角才敢回頭。`:'你轉身就跑，一路跑到轉角才敢回頭。牠沒有追上來。','good');for(const q of able())loseSan(q,1,true);recoverDrops(true);if(G.winR&&G.winR.r&&G.winR.r.questDone)finishCodexQuest(G,G.winR.r.questDone,'已中止');G.fight=null;G.winR=null;snd('doorclose');if(G.alarmFt){G.alarmFt=0;G.alarm=Math.min(G.alarm,3)}addAlarm(1,p);const go=G.after;G.after=null;if(!go){G.phase='node';startCd();return true}G.phase='busy';if(await alarmCheck(go))return true;await enterNode(go);return true}
     out('想跑，但牠抓住了外套，把人拽了回去。','dmg')}
   else if(a.a==='free'){if(!p.held)return false;releaseHold(p);out(`${nm(p)}用力一扭，掙脫了。`,'good')}
   else if(a.a==='pat'){if(!(p.burn>0))return false;p.burn=0;snd('whoosh');out(`${nm(p)}在地上打滾，拍熄了身上的火。`,'good')}
@@ -4798,12 +4800,23 @@ function setG(g){AUDIO_MOVING=false;const first=!G||G.rid!==g.rid;G=g;syncAmbien
 function requestSync(){NET.needN++;setPres()}
 /* ================= v0.22.0 探索紀錄：只記錄隊伍已知資訊 ================= */
 const CODEX_ROUTES={"A6":["東側樓梯","撬開電梯門，爬電梯井","從 301 的窗戶爬到消防梯"],"S1":["上二樓美食街","下維修區","回入口"],"B4":["西側樓梯","員工專用門","走員工通道"],"C4":["推開維修門"],"D2":["從開著的窗戶進二樓"],"D4":["跳下去，進廚房後門"],"E2":["辦公室"],"E4":["接待大廳","地下室樓梯","往地下停車場"],"F4":["雙開門，去大廳","後門，從後巷離開"],"G4":["搭貨梯上去","看看那扇鐵門","從車道連通門到停車場"],"I2":["看一眼入住簿再走","推開大門"],"R4":["撬開機房，走維修樓梯"],"H4":["往大廳","往停車場"],"P4":["丟東西引開牠們"],"J5":["走進後巷","去便利商店"],"K5":["往封鎖線走","走進地鐵站"],"M5":["往封鎖線走","走進地鐵站"],"Q5":["走向十字路口"],"U5":["走上去"],"V3":["在街區找個落腳的地方"],"Z0":["去消防局","去醫院","抄近路到醫院","去配電站","去警察局","去購物中心","去卡特槍械","到北口檢查站","去便利商店找傑西","回紅磚公寓","去城北的舊貨運場","去北郊的陸軍後備中心","去南岸的火力發電廠","去東岸的淨水廠","回旅館"],"Z2":["回街上"],"Z3":["先回街區"],"Z3b":["一起留下來"],"Z4":["回街上"],"Y0":["上樓搜一搜客房","下到地下室那扇鐵門","回街區"],"T0":["去裝備室","上屋頂的瞭望台","走到購物中心","回街區"],"T1":["回車庫"],"T2":["回車庫"],"O0":["進急診室","搭電梯上四樓","下地下室","走到隔壁的警察局","回街區"],"O1":["回急診入口"],"O2":["回樓下"],"O3":["回樓上"],"W0":["用工具撬開鐵門","從撬開的鐵門進去","回街區"],"W1":["回街區"],"W2":["回街區"],"L0":["舉起手走過去","用工具剪開鐵鍊","走到醫院","回街區"],"L1":["去紀錄室","回門口"],"L2":["刷門禁卡進證物室","用破拆工具撐開證物室的門","打開門禁面板的維修模式","回大廳","從後門出去"],"L3":["回紀錄室"],"S0":["從縫裡鑽進去","從燒穿的大門走進去","繳過路費","從地下停車場的鐵捲門進去","走到消防局","回街區"],"S2":["回一樓"],"S3":["回一樓","從停車場出去"],"N0":["用店主的鑰匙開側門","用破拆工具撐開捲門","從撞開的地方鑽進去","回街區"],"N1":["進工作區","回店門"],"N2":["回店面"],"CA0":["從開著的門走進去","回街區"],"CA1":["去煙囪那邊","去掛紅十字的帳篷","去天線最多的帳篷","去最大的那頂帳篷","從原路溜出去"],"CA2":["回隔離區"],"CA3":["回隔離區"],"CA4":["回隔離區"],"CA5":["退出去","回隔離區"],"BA0":["刷隊長的門禁卡","趁亂走進去","回街區"],"BA1":["進軍械庫","進指揮大樓","去營舍後面的拘留區","去停機坪","離開基地"],"BA2":["回車道"],"BA3":["回車道"],"BA4":["回車道"],"BA5":["回車道"],"PP0":["去油槽那邊","回街區"],"PP1":["去主控室","去柴油發電機房","去鍋爐間","去開關場","回大門"],"PP2":["回汽機廠房"],"PP3":["去油槽看看","回汽機廠房"],"PP4":["先回去整備"],"PP4b":["回去重新點火"],"PP4c":["去開關場","回去重新點火"],"PP5":["回汽機廠房"],"PP5t":["回廠房"],"PP5w":["回廠房","回街區"],"PP6":["回大門"],"WP0":["從大門走進去","付錢進去","回街區"],"WP1":["去取水站","去加氯室","去中央控制室","回大門"],"WP2":["回沉澱池區"],"WP3":["退出去"],"WP4":["回沉澱池區"],"WP5b":["回控制室","回沉澱池區","回街區"],"Y2":["感應 S 區門禁卡","回大廳"],"SA0":["照指示除汙","回旅館地下室"],"SA0d":["走進去"],"SA1":["搭貨梯下研究層","回除汙閘門"],"SB0":["進實驗室","進主任辦公室","進會議室","下到收容層","搭貨梯回 S1"],"SB1":["回走廊"],"SB2":["回走廊"],"SB3":["回走廊"],"SC0":["B-118：有人在敲窗戶的那間","B-121：一直在撞門的那間","走到核心的門前","回研究層"],"SC1":["離開"],"SC2":["離開這扇門"],"SC3":["回環形走廊"]};
-const CODEX_TASK_FLAGS=new Set(['power','streetpower','ppgen','ppaux','ppfire','citypower','eastpower','wpgen','wpscreen','wpcl','wpdeal','citywater','pprd','fdopen','bfreed']);
+// 只登記既有劇情中，玩家明確承接的 NPC 請託；不從世界旗標推定任務。
+const CODEX_QUESTS={
+ owenRescue:{title:'協助消防隊救人',npc:'歐文',place:'消防局・車庫',conditions:['跟隨消防隊前往兩條街外冒煙的公寓救人。','協助消防隊應付樓梯間的危險。']},
+ maraTankers:{title:'協助灌滿油罐車',npc:'瑪拉',place:'南岸電廠・油槽',conditions:['協助灌滿三台油罐車。','油槽剩下的柴油歸隊伍。']}
+};
+{const c=N.T0.c.find(c=>c.l==='跟他們出去救人');c.quest='owenRescue';c.ok.win={...(c.ok.win||{}),r:{...(c.ok.win&&c.ok.win.r||{}),questDone:'owenRescue'}}}
+{const c=N.PP6.c.find(c=>c.l==='幫他們把油罐車灌滿');c.quest='maraTankers';c.ok.questDone='maraTankers'}
+function acceptCodexQuest(g,id){const q=CODEX_QUESTS[id];if(!q||!g)return;const C=codexState(g);if(C.tasks[id])return;
+ C.tasks[id]={...q,conditions:[...q.conditions],source:'npc',accepted:true,status:'進行中',acceptedAt:codexStamp(g),rev:++C.rev};
+}
+function finishCodexQuest(g,id,status='已完成'){const C=codexState(g),t=C&&C.tasks[id];if(!t||t.source!=='npc'||!t.accepted||!CODEX_QUESTS[id]||t.status!=='進行中')return;t.status=status;t.finishedAt=codexStamp(g);t.rev=++C.rev}
+function isCodexMemoId(id){return id==='hotelDoor'||CODEX_GATES.some(x=>'gate:'+x.id===id)}
 function choiceKind(c){
   if(c.kind)return c.kind;
   const l=c.l||'',r=c.ok&&c.ok.r||{};
   if(c.t==='sleep'||r.rest||r.sleep||/歇一下|休息|過夜|睡到/.test(l))return '休息';
-  if([].concat(r.flag||[]).some(f=>CODEX_TASK_FLAGS.has(f))||/恢復供水|啟動送水泵|合上.*斷路器|點火，開始|重新送電/.test(l))return '任務';
+  if(c.quest&&CODEX_QUESTS[c.quest])return '任務';
   if(/^(跟.+(?:談|說話)|問|詢問|告訴|隔著小窗說話|說服|請他)/.test(l))return '對話';
   if(/^(看|讀|檢查|調查|把.+(?:看清楚|看完))/.test(l))return '調查';
   if(c._searchMode||/^(仔細搜查|簡單尋找|翻(?!過)|搜|找備|拿|取|開彈藥箱|在附近的街上找)/.test(l))return '搜尋';
@@ -4811,72 +4824,47 @@ function choiceKind(c){
   if(/^(去|回|先回|到|下到|上樓|走到|走進|走樓梯|進(?:急診|軍械|指揮)|搭|離開|退出|從.+(?:進去|離開)|沿著.+爬進去)/.test(l)||/^(接待大廳|員工廚房|地下室樓梯)$/.test(l))return '移動';
   return '事件';
 }
-const CODEX_CLUES=[
- ['map','逃生路線圖','旅館・三樓','逃生圖標示三樓東側的逃生樓梯，以及 301 號房窗外的消防梯。'],
- ['linenkey','布巾室鑰匙','旅館・製冰機間','找到一串掛著「布巾室」標籤的鑰匙。'],
- ['gasnote','廚房的手寫提醒','旅館・冷凍庫門口','圍裙上的字指出：瓦斯總閥在後門旁邊，是紅色的那個。'],
- ['clippings','報紙上的病例','後巷・屋頂棚屋','咬傷事件在兩個月前就已出現，之後逐漸接近這個街區。'],
- ['acrulist','轉送名單','封鎖線・裝甲車','名單記載第二期受試者與接觸者，安置地點包含這間旅館。'],
- ['arcroute','旅館房客的去向','封鎖線・臨時檢疫站','檢疫人員說，旅館那批人最早被送往城東。'],
- ['erlog','急診掛號紀錄','聖瑪莉醫院・急診室','紀錄反覆出現「ARC 合作門診・第二期回診」，最後一筆時間是 23:41。'],
- ['arcfile','ARC 病歷','聖瑪莉醫院・四樓','已取得臨床合作病房的病歷；這是追查 ARC 與旅館關聯的證據。'],
- ['campknown','舊貨運場線索','街區','線索指向城北舊貨運場，可從街區前往調查。'],
- ['baseknown','北郊基地線索','街區','已得知北郊陸軍後備中心的位置。'],
- ['opsnote','營地值勤日誌','舊貨運場・通訊帳篷','日誌記錄回收醫院病歷與冷藏檢體，以及北區集合點的準備。'],
- ['opslog','牧杖作戰紀錄','陸軍後備中心・指揮中心','紀錄記載控制、回收、滅菌與後續燃燒作業；S 區入口之一位於旅館地下。'],
- ['labhint','拘留室的線索','陸軍後備中心・拘留區','拘留室內的人提供了旅館地下入口的線索。'],
- ['labcard','S 區門禁卡','陸軍後備中心・指揮中心','已取得 S 區門禁卡；與旅館地下那扇門有關。'],
- ['ppknown','南岸電廠的主饋線','配電站','街區的臨時電不等於市電。要恢復北區市電，線索指向南岸火力發電廠。'],
- ['ppbook','黑啟動操作程序','南岸電廠・主控室','程序依序包括柴油發電機、廠用電、給水與送風、點火升壓，以及併聯送電。'],
- ['ppgrant','葛蘭特的協助','南岸電廠・主控室','葛蘭特願意協助恢復廠區供電。'],
- ['wpknown','東岸淨水廠的狀況','消防局','歐文說淨水廠停了，消防栓水壓持續下降；淨水廠目前有人佔據。'],
- ['trRoster','第二期受試者名冊','S1・警衛室','名冊將第二期受試者與旅館房號、23:41 接送時間連在一起；最後一頁記載 Z-0 的核心收容。'],
- ['mgDoc','接送排班表','S1・警衛室','同意書寫的是回診，排班表的目的地卻是 S3 收容層。'],
- ['trReport','持續共生計畫報告','S2・主任辦公室','第二期計畫讓 EDEN 留在人體並持續修復組織；報告留下「它不知道什麼時候該停」的註記。']
-];
 const CODEX_READ=LS.get('zc22-codex-read',{}),CODEX_NOTICES={};
 function codexState(g=G){
   if(!g)return null;
-  if(!g.codex){g.codex={v:1,rev:0,notes:{},tasks:{},places:{}};const F=g.flags||{};
+  if(!g.codex){g.codex={v:2,rev:0,notes:{},tasks:{},places:{}};const F=g.flags||{};
     for(const id of Object.keys(N))if(F['v_'+id])g.codex.places[id]={visited:true};
   }
-  return g.codex;
+  const C=g.codex;
+  if(C.v<2){C.notes=Object.fromEntries(Object.entries(C.notes||{}).filter(([id])=>isCodexMemoId(id)));C.tasks=Object.fromEntries(Object.entries(C.tasks||{}).filter(([id,t])=>CODEX_QUESTS[id]&&t.source==='npc'&&t.accepted===true));for(const n of Object.values(C.notes))for(const h of n.history||[])h.text=h.text.replace('目前版本尚未開放門後路線。','').trim();C.v=2;C.rev=(C.rev||0)+1}
+  return C;
 }
 function codexStamp(g){const m=(g.t0==null?T0:g.t0)+(g.clock||0),h=Math.floor(m/60)%24,mm=Math.floor(m%60);return `第 ${Math.floor((m-300)/1440)+1} 天 ${String(h).padStart(2,'0')}:${String(mm).padStart(2,'0')}`}
-function codexNote(g,id,title,place,key,text){const C=codexState(g);let n=C.notes[id];
+function codexNote(g,id,title,place,key,text){if(!isCodexMemoId(id))return;const C=codexState(g);let n=C.notes[id];
   if(!n)n=C.notes[id]={title,place,history:[],rev:0};
   if(n.history.some(x=>x.key===key))return;
   n.history.push({key,text,time:codexStamp(g)});n.rev=++C.rev;
 }
-function codexTask(g,id,title,status,text){const C=codexState(g),old=C.tasks[id];
-  if(old&&old.status===status&&old.text===text)return;
-  const history=old?old.history:[];history.push({status,text,time:codexStamp(g)});
-  C.tasks[id]={title,status,text,history,rev:++C.rev};
-}
 function recordCodexChoice(c,res,bad){
-  if(!G||bad||!res||!res.t||!(['對話','調查'].includes(choiceKind(c))||/紀錄|病歷|報紙|排班|名冊|報告|資料|收據|電腦|影像|路線圖/.test(c.l)))return;
-  if(G.node==='G4'&&c.l==='看看那扇鐵門'){codexNote(G,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','reader-card','讀卡器亮起，顯示「S 區　請感應授權卡」。供電並不足以直接開門。');return}
-  const flags=[].concat(res.r&&res.r.flag||[]);
-  if(flags.some(f=>CODEX_CLUES.some(x=>x[0]===f)))return;
-  const text=res.t.replace(/<br\s*\/?\s*>/gi,'\n').replace(/<[^>]*>/g,'').trim();
-  const id='read:'+G.node+':'+c.l;
-  codexNote(G,id,c.l,(N[G.node]||{}).n||'探索途中',text,text);
+  if(!G||bad||!res)return;
+  if(c.quest&&CODEX_QUESTS[c.quest])acceptCodexQuest(G,c.quest);
+  if(G.node==='G4'&&c.l==='看看那扇鐵門')codexNote(G,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','reader-card','讀卡器亮起，顯示「S 區　請感應授權卡」。供電並不足以直接開門。');
 }
 let CODEX_PANEL_KEY='';
 function codexPanelKey(k){return JSON.stringify([k,G&&G.rid,G&&G.node,G&&G.codex&&G.codex.rev,G&&G.codex&&G.codex.places,G&&G.flags&&[G.flags.citypower,G.flags.citywater,G.flags.labcard,G.flags.acru,G.flags.ylabclr]])}
 function codexDestination(c){const id=c.go||(c.ok&&c.ok.go);return END[id]&&END[id].next?END[id].next:id}
 const CODEX_GATES=[
+ {id:'elevatorDoor',at:'A6',to:'C1',title:'電梯門',text:'電梯門需要撬開才能進入電梯井。',requirements:['鐵撬或消防斧可用來撬門；也能嘗試徒手扳開。']},
+ {id:'roofMachineDoor',at:'R4',to:'H1',title:'頂樓機房的門',text:'機房的門擋住了維修樓梯入口。',requirements:['可用鐵撬、消防斧或鐵鎚撬開，也能嘗試撞門。']},
  {id:'pdEvidence',at:'L2',to:'L3',title:'證物室的電子鎖',text:'紀錄室最裡面的證物室門標示「限授權人員」，旁邊設有讀卡機。'},
  {id:'gunShutter',at:'N0',to:'N1',title:'武器店的鐵捲門',text:'卡特槍械的鐵捲門拉到底，尚需找到進入的方法。'},
  {id:'substationGate',at:'W0',to:'W1',title:'配電站的鐵門',text:'配電站鐵門被鐵鍊鎖住，可留意其他入口或能開門的工具。'},
  {id:'baseArmory',at:'BA1',to:'BA2',title:'軍械庫的門',text:'基地車道旁有軍械庫，入口受門禁限制。'},
  {id:'baseCommand',at:'BA1',to:'BA3',title:'指揮大樓的門禁',text:'基地指揮大樓入口設有門禁，需要找到通行方法。'},
- {id:'coreGate',at:'SC3',to:null,title:'S4 核心之門',text:'核心之門被搏動的纖維撐住，面板顯示鎮靜劑注入中斷。目前版本尚未開放門後路線。'}
+ {id:'coreGate',at:'SC3',to:null,title:'S4 核心之門',text:'核心之門被搏動的纖維撐住，面板顯示鎮靜劑注入中斷。'}
 ];
 function syncCodexGates(g,visit){const C=codexState(g),F=g.flags||{};
   for(const gate of CODEX_GATES){if(!F['v_'+gate.at]&&g.node!==gate.at&&!C.notes['gate:'+gate.id])continue;
     const id='gate:'+gate.id;C.places[id]={gate:gate.id,from:gate.at};
     codexNote(g,id,gate.title,(N[gate.at]||{}).n||'已發現入口','found',gate.text);
+    C.notes[id].requirements=gate.requirements||[];
+    if(visit&&g.node===gate.at&&g===G){const options=(N[gate.at].c||[]).filter(c=>codexDestination(c)===gate.to&&visible(c)&&c.req);const needs=options.map(c=>reqList(c).map(nameOf).join(c.reqAny?'或':'、'));if(needs.length)codexNote(g,id,gate.title,N[gate.at].n,'tools-'+needs.join('|'),'可嘗試使用：'+[...new Set(needs)].join('；')+'。');}
+    C.notes[id].status=gate.to&&F['v_'+gate.to]?'已通過':'尚未通行';
     if(visit&&g.node===gate.at&&gate.id==='pdEvidence')codexNote(g,id,gate.title,N[gate.at].n,g===G&&pwNow()?'powered':'no-power',g===G&&pwNow()?'門旁已經有電，仍需確認授權或其他開門方法。':'電子鎖面板沒有亮，目前沒有電。恢復供電後或許能再試。');
     if(F.citypower&&C.notes[id].history.some(x=>x.key==='no-power'))codexNote(g,id,gate.title,N[gate.at].n,'power-restored','北區市電已恢復，或許值得回去查看入口。');
     if(gate.to&&F['v_'+gate.to])codexNote(g,id,gate.title,N[gate.at].n,'passed','隊伍已找到通行方法，並探索入口後方。');
@@ -4894,7 +4882,6 @@ function syncCodex(g=G,visit=false){
     }
   }
   syncCodexGates(g,visit);
-  for(const [id,title,place,text] of CODEX_CLUES)if(F[id])codexNote(g,id,title,place,id,text);
   const door=F.v_G4||F.v_Y2||F.opslog||F.labhint||F.v_SA0||C.notes.hotelDoor;
   if(door){
     C.places.hotelDoor={visited:!!(F.v_G4||F.v_Y2)};
@@ -4911,14 +4898,9 @@ function syncCodex(g=G,visit=false){
     if(F.citywater&&C.notes.hotelDoor.history.some(x=>x.key==='screen-water'||x.key==='opslog'))codexNote(g,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','water-restored','城市供水已恢復，或許能再回去確認門上的訊息。');
     if(F.labcard)codexNote(g,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','card-got','已取得 S 區門禁卡，或許能用在這扇門上。');
     if(F.v_SA0)codexNote(g,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','opened','已感應門禁並通過鐵門，門後是通往 S 區的樓梯與除汙閘門。');
-    const last=C.notes.hotelDoor.history.at(-1);codexTask(g,'hotelDoor','調查旅館地下的鐵門',F.v_SA0?'已完成':'進行中',last.text);
+    C.notes.hotelDoor.status=F.v_SA0?'已開啟':'尚未通行';
   }
-  const outside=Object.entries(C.places).some(([id,p])=>p.visited&&N[id]&&(LV[N[id].L]||{}).ch===2);
-  if(F.v_A1||outside||C.tasks.escape)codexTask(g,'escape','離開旅館',outside?'已完成':'進行中',outside?'隊伍已離開旅館，抵達街區。':'尋找能離開旅館的路線，留意眼前的出口。');
-  if(F.blackout||F.streetpower||C.tasks.streetPower)codexTask(g,'streetPower','恢復街區臨時供電',F.streetpower?'已完成':'進行中',F.streetpower?'街區已恢復臨時供電。':F.v_W1?'配電盤的保險絲座損壞；可再檢查現場。':'街區停電了，可前往配電站查明狀況。');
-  if(F.ppknown||F.citypower||C.tasks.cityPower)codexTask(g,'cityPower','恢復北區市電',F.citypower?'已完成':'進行中',F.citypower?'北區市電已恢復，旅館與醫院等地重新供電。':F.ppboil?'機組已升壓，下一步是到開關場送電。':F.ppaux?'廠用電已恢復，可依現場程序繼續準備點火。':F.ppgen?'柴油發電機已啟動，可回主控室確認廠用電。':'線索指向南岸火力發電廠；先調查廠內的供電狀況。');
-  if(F.wpknown||F.citywater||C.tasks.cityWater)codexTask(g,'cityWater','恢復城市供水',F.citywater?'已完成':'進行中',F.citywater?'送水泵已穩定運轉，城市供水恢復。':F.wpscreen&&F.wpcl?'取水與加氯問題已處理，可到中央控制室確認送水條件。':F.wpscreen?'取水口已清理，仍需調查廠內其他設備。':'已得知東岸淨水廠停擺，可前往調查。');
-  if(F.evacinfo||C.tasks.evac)codexTask(g,'evac','尋找北口撤離機會',g.over&&/^END_evac/.test(g.over.end)?'已完成':F.evacgone?'已失效':'進行中',g.over&&/^END_evac/.test(g.over.end)?'撤離行動已結束。':F.evacgone?'撤離車隊已離開，這條撤離途徑不再可用。':'已得知北口檢查站有撤離安排，可前往確認。');
+
 }
 function codexGroup(id){
   if(id==='hotelDoor')return ['旅館','地下設備層'];
@@ -4954,9 +4936,14 @@ function codexUnread(k,g=G){if(!g||!g.codex)return false;const read=CODEX_READ[c
 function markCodexRead(k){if(!G||!G.codex||!['memo','tasks'].includes(k))return;const key=codexReadKey();CODEX_READ[key]={...(CODEX_READ[key]||{}),[k]:G.codex.rev};const keys=Object.keys(CODEX_READ);for(const key of keys.slice(0,Math.max(0,keys.length-40)))delete CODEX_READ[key];LS.set('zc22-codex-read',CODEX_READ)}
 function codexMarkup(k,g=G){
   if(k==='map')return mapTree(g);const C=g&&g.codex;if(!C)return '<p class="note">尚無紀錄。</p>';
-  const entries=Object.values(k==='tasks'?C.tasks:C.notes).sort((a,b)=>b.rev-a.rev);
-  if(!entries.length)return `<p class="note">${k==='tasks'?'目前沒有已知目標。':'尚未發現需要記錄的線索。'}</p>`;
-  return `<p class="note">${k==='tasks'?'依隊伍已知資訊記錄的目標與進度。':'新線索會更新同一筆紀錄；只記載隊伍已知資訊。'}</p><div class="codex-list">${entries.map(n=>`<article class="codex-entry"><h3>${esc(n.title)}${n.status?`<small>${esc(n.status)}</small>`:''}</h3>${n.place?`<p class="codex-place">發現位置：${esc(n.place)}</p>`:''}<p>${esc(n.text||n.history.at(-1).text)}</p><details><summary>發現與更新紀錄（${n.history.length}）</summary><ol>${n.history.map(x=>`<li><small>${esc(x.time)}${x.status?'・'+esc(x.status):''}</small><p>${esc(x.text)}</p></li>`).join('')}</ol></details></article>`).join('')}</div>`;
+  const entries=Object.entries(k==='tasks'?C.tasks:C.notes).filter(([id,n])=>k==='tasks'?CODEX_QUESTS[id]&&n.source==='npc'&&n.accepted:isCodexMemoId(id)).map(([,n])=>n).sort((a,b)=>b.rev-a.rev);
+  if(!entries.length)return `<p class="note">${k==='tasks'?'尚未接取任務。':'尚無備忘。'}</p>`;
+  return `<div class="codex-list">${entries.map(n=>{
+    const summary=`<summary><b>${esc(n.title)}</b>${n.status?`<small>${esc(n.status)}</small>`:''}</summary>`;
+    const detail=k==='tasks'?`<p class="codex-place">委託人：${esc(n.npc)}　｜　${esc(n.place)}</p><ul>${n.conditions.map(x=>`<li>${esc(x)}</li>`).join('')}</ul><p class="codex-place">接取：${esc(n.acceptedAt)}${n.finishedAt?'　｜　'+esc(n.status)+'：'+esc(n.finishedAt):''}</p>`:
+      `<p class="codex-place">位置：${esc(n.place)}</p><p>${esc(n.history.at(-1).text)}</p>${n.requirements&&n.requirements.length?`<ul>${n.requirements.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}${n.history.length>1?`<details class="codex-history"><summary>先前紀錄（${n.history.length-1}）</summary><ol>${n.history.slice(0,-1).map(x=>`<li><small>${esc(x.time)}</small><p>${esc(x.text)}</p></li>`).join('')}</ol></details>`:''}`;
+    return `<details class="codex-entry">${summary}<div class="codex-detail">${detail}</div></details>`;
+  }).join('')}</div>`;
 }
 function codexButtons(){for(const [k,id,label] of [['tasks','tTasks','任務'],['memo','tMemo','備忘錄']]){const e=$('#'+id);if(e){const unread=codexUnread(k);e.classList.toggle('has-update',unread);e.setAttribute?.('aria-label',label+(unread?'，有未讀更新':''))}}}
 function codexDraw(){
@@ -5211,7 +5198,7 @@ function panel(k){
   const inF=!!(G&&G.fight),can=G&&m&&!G.busy&&!m.dead&&(!inF||myTurn())&&!m.down;
   if(['map','tasks','memo'].includes(k)){
     if(!G){OVK=null;return}if(ROLE!=='client')syncCodex();markCodexRead(k);
-    const title={map:'地圖樹',tasks:'任務',memo:'備忘錄'}[k];
+    const title={map:'地圖',tasks:'任務',memo:'備忘錄'}[k];
     openOv(`<div class="boxhead"><b>${title}</b>${X}</div><div class="codex-body">${codexMarkup(k)}</div>`);CODEX_PANEL_KEY=codexPanelKey(k);$('#ov .box').classList.add('codex-box');codexButtons();return;
   }
   if(k==='bag'){
