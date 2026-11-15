@@ -484,6 +484,8 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 .foe .fhp span{flex:none;font:600 10.5px/1 var(--label);color:#e2c9c3;font-variant-numeric:tabular-nums}
 .foe .fk{font:10px/1.25 var(--label);color:#bfb69c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .foe .fk em{font-style:normal;color:#e6ddc8;margin-right:6px}
+.foe .fk2{white-space:normal;overflow:visible;display:flex;flex-wrap:wrap;gap:0 8px}
+.foe .fk2 span{white-space:nowrap}
 .foe.tg{border-color:#c4776b;box-shadow:inset 0 0 14px #000,0 0 10px rgba(200,90,80,.45)}
 .foe.pick{cursor:pointer;border-color:var(--gold);box-shadow:inset 0 0 14px #000,0 0 10px rgba(200,173,112,.4)}
 .foe.dead{filter:grayscale(1) brightness(.62);opacity:.7;background:linear-gradient(145deg,#232322,#0c0c0c);border-color:#444;box-shadow:inset 0 0 14px #000}
@@ -594,7 +596,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.24.0", "b": 61, "t": "2026-11-16T05:14:30+08:00"};
+const ZC_VER={"v": "0.24.1", "b": 62, "t": "2026-11-16T06:03:06+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -2922,9 +2924,13 @@ SC3:{L:'SC',n:'S3・核心之門',
    d：深度 0 外圍／1 內部／2 深處／3 最深處（深度 2 以上，會出聲的動作警戒多 1）。
    rooms：可以重回的房間（選過的選項標成「已搜過」，不會消失）。join 節點的選項自動變成點位：去房間、就地搜尋、出口。
    ex：其他節點裡要放到 hub 的出口。bk：回到已經去過的區域（還沒去過的不顯示）。
+   opens：用工具打通的出口（成功後立旗標，之後直接走）；each：靠檢定硬過的出口（每次都要檢定，工具打通後收起來）。
    lock：條件不夠時不藏起來，變灰、點了播鎖門聲並寫明缺什麼（nomemo：已有備忘錄的就不重複記）。door：點了播鎖門聲。 */
+N.A2.pace='sudden';N.F2.pace='sudden';
 const ZONES={
  A:{loc:'旅館',d:1,hub:'Ah',n:'三樓走廊',join:['A4','A6'],ev:'A5',rooms:['A1','A3x','A4b','A4c'],hideL:{A1:['貼著門聽外面']},door:['A6|撬開電梯門，爬電梯井'],
+  // v0.24.1 主人：用工具撬開＝電梯門從此開著；徒手扳開＝每次都要檢定（成功也會出聲，失敗受傷、更吵）
+  opens:{'A6|撬開電梯門，爬電梯井':'elevopen'},each:['A6|徒手扳開電梯門'],
   lock:{'A6|從 301 的窗戶爬到消防梯':{t:'301 號房的窗戶',why:'不確定窗外有沒有消防梯。301 號房的門背後應該貼著逃生路線圖。'}}},
  B:{loc:'旅館',d:1,hub:'Bh',n:'二樓走廊',join:['B2','B4'],ev:'B3',rooms:['B2x'],bk:[['A','東側樓梯上三樓'],['D','從開著的窗戶爬到消防梯']]},
  C:{loc:'旅館',d:2,hub:'Ch',n:'電梯井底',join:['C4'],rooms:['C2','C2x'],hideL:{C2:['不管車廂，繼續往下爬'],C2x:[]}},
@@ -3620,10 +3626,15 @@ function visible(c){if(c._hid||c._dup)return false;if(c.night&&!isNight())return
 function nameOf(k){return k==='gun'?'槍械':k.startsWith('g:')?WEAP[k.slice(2)].n:ITEMS[k].n}
 async function enterNode(id){
   AUDIO_MOVING=true;stopAmbience();
+  // v0.24.1：離開區域前先跑完那一層還沒發生的隨機事件；事件結束（走到原本的出口節點）時接回原本要去的地方
+  if(G.zevGo){const zr0=ZN[id];if(zr0&&zr0.z===G.zevGo.z&&zr0.role==='join'){id=G.zevGo.to;G.zevGo=null}else if(!zr0||zr0.z!==G.zevGo.z)G.zevGo=null}
+  if(!G.zevGo)id=zLeave(id);
   if(END[id])return ending(id);
   const from=G.node;id=zRoute(id);
   const nd=N[id];if(!nd){console.error('no node',id);return}
   const afterScene=[];
+  // v0.24.1 主人：同一個區域裡換場景前停一拍，讓上一段的聲音、文字收尾（突然的事件停很短）
+  if(from&&G.lv===nd.L&&G.ev==null&&!(ZN[id]&&ZN[id].role==='hub'&&G.flags['v_'+id])){await flush();await wait((nd.pace==='sudden'?350:nd.pace==='slow'?1600:1000)*Math.max(.4,UI.spd)*(FAST?.3:1))}
   // v0.24.0：區域畫面。走到 hub 就算走過這個區域；同一個區域裡回到 hub 不算往前走（不再扣流血、吸入粉末）
   const zr=ZN[id],seen=!!G.flags['v_'+id];const soft=!!zr&&zr.role==='hub'&&seen&&!!ZN[from]&&ZN[from].z===zr.z;
   if(zr&&zr.role==='hub'){G.zd=G.zd||{};G.zd[zr.z]=1;G.flags['zd_'+zr.z]=1;for(const j of ZONES[zr.z].join)G.flags['v_'+j]=1}
@@ -3885,7 +3896,10 @@ function buildZones(){
     for(const r of rooms)if(!refd.has(r))add({l:N[r].n,go:r,t:'q',kind:'移動'},{k:'room',room:r});
     for(const c of js){const d=dest(c);if(d&&rooms.includes(d))add({...c,kind:'移動'},{k:'room',room:d,first:1})}
     for(const c of js)if(!dest(c))add({...c,once:1,keep:1,kind:'搜尋'},{k:'search'});
-    for(const c of js){const d=dest(c);if(d&&!rooms.includes(d))add({...c},{k:'exit',to:zTo(d,z)})}
+    for(const c of js){const d=dest(c);if(d&&!rooms.includes(d)){const k=c.l,j0=Z.join.find(j=>(N[j].c||[]).includes(c)),key=j0+'|'+k,o={...c};
+      const of=(Z.opens||{})[key];if(of){o.opens=of;o.ok={...c.ok,r:{...((c.ok||{}).r||{}),flag:of}}}
+      if((Z.each||[]).includes(key)){o.each=1;const ow=Object.values(Z.opens||{});if(ow.length)o.hide=ow[0];o.ok={...c.ok,p:{...((c.ok||{}).p||{}),alarm:((c.ok||{}).p||{}).alarm||1}}}
+      add(o,{k:'exit',to:zTo(d,z)})}}
     for(const [nid,l] of Z.ex||[]){const c=N[nid].c.find(x=>x.l===l);if(!c)throw new Error('找不到出口：'+nid+'|'+l);add({...c},{k:'exit',to:zTo(dest(c),z)})}
     for(const [to,l] of Z.bk||[])add({l,go:ZONES[to].hub,need:'zd_'+to,kind:'移動'},{k:'back',to});
     N[Z.hub]=hub;ZN[Z.hub]={z,role:'hub'};
@@ -3896,15 +3910,20 @@ buildZones();
 const zDone=z=>!!(G&&G.zd&&G.zd[z]);
 function zRoute(id){const r=ZN[id];if(!r)return id;const Z=ZONES[r.z];
   if(r.role==='join'||(r.role==='story'&&zDone(r.z)))id=Z.hub;
-  // 隨機事件：在區域畫面做過一件事之後，回到區域畫面時發生（每個區域一次）
-  if(id===Z.hub&&zDone(r.z)&&Z.ev&&!G.flags['v_'+Z.ev]&&G.zc&&G.zc[r.z]>0)return Z.ev;
+  // v0.24.1 主人選 C：區域裡的隨機事件，每做一件事有機率發生（回到區域畫面也算），離開前還沒發生就在離開時發生
+  if(id===Z.hub&&zDone(r.z)&&zEvPending(r.z)&&Math.random()<ZEVP)return Z.ev;
   return id}
+const ZEVP=.3;
+const zEvPending=z=>{const Z=ZONES[z];return !!(Z&&Z.ev&&!G.flags['v_'+Z.ev])};
+// 離開區域時，還沒發生的隨機事件先發生，結束後再往原本要去的地方
+function zLeave(id){const cr=G.ev==null&&ZN[G.node];if(!cr||!zDone(cr.z)||!zEvPending(cr.z))return id;
+  const tl=END[id]?null:N[id]&&N[id].L;if(tl===cr.z)return id;G.zevGo={z:cr.z,to:id};return ZONES[cr.z].ev}
 // 目前是不是「留在原地」的區域畫面：hub，或是區域走過之後的房間
 function zStay(){if(!G||G.ev!=null)return false;const r=ZN[G.node];return !!r&&(r.role==='hub'||(r.role==='room'&&zDone(r.z)))}
 const zNoop=c=>!c.k&&!c.req&&!c.need&&!c.go&&!c.stay&&!c.t&&!c.hide&&(!c.ok||(!c.ok.r&&!c.ok.p&&!c.ok.go&&!c.ok.fight&&!c.ok.qte&&!c.ok.code&&!c.ok.stay));
 function zEff(c){const zp=c.zp;if(!zp)return c;
   if(zp.k==='room'&&zp.first&&G.flags['v_'+zp.room])return {...c,l:N[zp.room].n,k:null,d:null,ok:{go:zp.room},ng:null,req:null,need:null,lock:null,door:0,s:'',sign:null,t:'q'};
-  if(zp.k==='exit'&&zp.to&&zDone(zp.to))return {...c,k:null,d:null,ok:{go:ZONES[zp.to].hub},ng:null,req:null,reqAny:null,need:null,hide:null,lock:null,door:0,s:'',sign:null,t:null};
+  if(zp.k==='exit'&&zp.to&&!c.each&&(c.opens?flagOk(c.opens):zDone(zp.to)))return {...c,k:null,d:null,ok:{go:ZONES[zp.to].hub},ng:null,req:null,reqAny:null,need:null,hide:null,lock:null,door:0,s:'',sign:null,t:null};
   return c}
 function zView(cs){if(!G||G.ev!=null)return cs;const r=ZN[G.node];if(!r)return cs;
   if(r.role==='hub'){const seen=new Set();return cs.map(c=>{const o=zEff(c);if(o!==c&&o.zp&&o.zp.k==='exit'){const k=o.ok.go;if(seen.has(k))return {...o,_dup:1};seen.add(k)}return o})}
@@ -3936,7 +3955,7 @@ function zLockClick(i){const c=G&&choices()[i];if(!c||!visible(c))return;const u
 function zLockNote(i){const c=choices()[i];if(!c||!c.lock||c.nomemo||!c.need||flagOk(c.need))return;const r=ZN[G.node];if(!r)return;
   codexNote(G,'lock:'+c.lockT,c.lockT,ZONES[r.z].loc+'・'+LV[r.z].n,'locked',c.lock);push();draw()}
 function zCount(){const r=ZN[G.node];if(!r)return;G.zc=G.zc||{};G.zc[r.z]=(G.zc[r.z]||0)+1}
-async function zEvent(){if(!zStay())return false;const r=ZN[G.node],Z=ZONES[r.z];if(!Z.ev||G.flags['v_'+Z.ev]||!(G.zc&&G.zc[r.z]>0))return false;await enterNode(Z.ev);return true}
+async function zEvent(){if(!zStay())return false;const r=ZN[G.node],Z=ZONES[r.z];if(!zEvPending(r.z)||Math.random()>=ZEVP)return false;await enterNode(Z.ev);return true}
 /* ---- 警戒（PROPOSAL_MAP 第十節，主人 2026-11-16 04:29 同意）：每個區域各自計算 0～10。
    3 有動靜（只有提示）／6 被盯上（下一個動作來一小波：那個區域陣營 1～2 隻普通敵人）／10 驚動（菁英一隻＋依人數加隨從）。
    強敵打完警戒回到 3，這次停留標成「已驚動」不再累積；離開兩小時以上才重新累積。離開區域時記下數字，回來時 −2，每離開一小時再 −1。 */
@@ -4158,9 +4177,10 @@ const FLANK=['換了位置，壓低身子找下一個射擊角度。','貼著牆
 function flank(f){out(`${f.n}${pick(FLANK)}`,'sys');push();draw()}
 // 重擊倍率：感染者 ×2；人類槍擊 ×1.5、近戰 ×2；狙擊 ×1；QTE 不會重擊
 const critX=(f,mv)=>FT(f).fac==='inf'?2:mv.snipe?1:(mv.gun||mv.shot)?1.5:2;
-function hitFx(f,mv,t,d){const T=FT(f);
+function hitFx(f,mv,t,d,crit){const T=FT(f);
   if(mv.inf&&T.fac==='inf'){const b0=t.inf;addInf(t,mv.inf*(affIs(f,'carrier')?2:1));if(t.inf>b0)out(`傷口沾到了牠的體液。感染 +${t.inf-b0}。`,'dmg',true)}
-  if(T.san&&Math.random()<.5)loseSan(t,T.san);
+  // v0.24.1 主人：一般命中不加恐懼，只有重擊或一下打掉三成以上生命才加（原本每次命中一半機率加，累積太快）
+  if(T.san&&(crit||d>=Math.ceil((t.max||20)*.3)))loseSan(t,T.san);
   if(mv.bleed&&Math.random()<mv.bleed){giveBleed(t,mv.hbleed?2:1);out('傷口開始流血。','dmg',true)}
   if(mv.humus){t.humus=Math.max(t.humus||0,mv.humus);t.humusV=1;out(`${nm(t)}身上沾滿腐殖物：接下來 ${mv.humus} 回合，每回合感染 +1。用優碘、酒精、消毒繃帶或抗生素可以清掉。`,'dmg',true)}
   if(mv.grab&&!t.held){t.held=f.id+1;f.grip=1;out(`${nm(t)}被${f.n}抓住了：防禦 −2、不能逃跑。花一次行動就能掙脫，隊友打中牠也會鬆開。`,'dmg',true)}
@@ -4192,7 +4212,7 @@ async function foeHit(f,mv,t,hits){const F=G.fight,T=FT(f);let firstHit=1;
     if(ar)wearHit(t,T.human);
     const ms=(mv.gun||mv.shot)?(firstHit?snd('bhit',.8,600):0):snd(mv.hs||'claw',.9,1500);firstHit=0;
     hurt(t,d,`${mv.t||pick(BITE)}${SB.half?SB.txt:''}${ar?`（護甲擋掉 ${ar}）`:''}${mv.ap&&armorOf(t)?'（穿透了護甲）':''}`);
-    hitFx(f,mv,t,d);
+    hitFx(f,mv,t,d,j==='crit');
     push();draw();await flush();if(ms)await wait(ms*.8*Math.max(.4,UI.spd));
   }else{snd('whoosh');out(SB.def?`${MP()?nm(t):'你'}${SB.miss}`:mv.shot?'彈丸打在牆上，碎屑噴了一臉。':mv.gun?'子彈打在旁邊的牆上，碎屑濺了一臉。':pick([`${MP()?nm(t):'你'}側身閃開，${pn(f)}撲了個空，撞在牆上。`,`${pn(f)}抓住了袖口，${MP()?nm(t):'你'}用力一甩，掙脫了。`,`${MP()?nm(t):'你'}往後一縮，在面前落了空。`]),'sys')}
   }}
@@ -5247,7 +5267,7 @@ function draw(){
   const F=G.fight,cb=$('#cbar');
   if(F){cb.hidden=false;const pend=PEND&&myTurn();
     $('#foes').innerHTML=F.foes.map(f=>{const dead=f.dead||f.hp<=0;const st=dead?[]:foeBadges(f);const hp=dead?0:f.hp;
-      return `<div class="foe ${pend&&!dead?'pick':''} ${!dead&&F.cur==='f'+f.id?'tg':''} ${dead?'dead':''}" data-id="${f.id}" ${pend&&!dead?`data-tgt="${f.id}"`:''}><div class="fpic">${f.img?`<img src="${foeImg(f)}" alt="">`:'<i>?</i>'}</div><div class="fin"><div class="fh"><b>${f.n}</b></div><div class="fhp"><div class="hpb"><u style="width:${Math.max(0,hp)/f.max*100}%"></u></div><span>${hp}/${f.max}</span></div><div class="fk">${DF().num===0?'':`<em>防禦 ${fDef(f)}</em>`}${knowTxt(f)}${f.defDown?'　護甲破損':''}</div>${dead||st.length?`<div class="fst">${dead?`<span class="bd">${f.fled?'離開':'倒下'}</span>`:st.join('')}</div>`:''}</div></div>`}).join('');
+      return `<div class="foe ${pend&&!dead?'pick':''} ${!dead&&F.cur==='f'+f.id?'tg':''} ${dead?'dead':''}" data-id="${f.id}" ${pend&&!dead?`data-tgt="${f.id}"`:''}><div class="fpic">${f.img?`<img src="${foeImg(f)}" alt="">`:'<i>?</i>'}</div><div class="fin"><div class="fh"><b>${f.n}</b></div><div class="fhp"><div class="hpb"><u style="width:${Math.max(0,hp)/f.max*100}%"></u></div><span>${hp}/${f.max}</span></div><div class="fk">${DF().num===0?'':`<em>防禦 ${fDef(f)}</em>`}${f.defDown?'護甲破損':''}</div><div class="fk fk2">${knowTxt(f).split('　').map(x=>`<span>${x}</span>`).join('')}</div>${dead||st.length?`<div class="fst">${dead?`<span class="bd">${f.fled?'離開':'倒下'}</span>`:st.join('')}</div>`:''}</div></div>`}).join('');
     $('#order').innerHTML=`<span class="rd">${battleState()}</span>`+(F.order.length?`<span class="rd">第 ${F.round} 回合</span>`+F.order.map((o,i)=>{if(o.k==='p'){const p=P(o.id);return `<span class="pl ${o.id===MYPID?'me':''} ${(F.group&&!F.resolving?F.group.includes(o.id):i===F.turn)?'now':''} ${p.dead||p.down||p.away?'gone':''}" style="${MP()?`color:${p.col}`:''}">${esc(p.name)}<em>${o.init}</em></span>`}const f=F.foes[o.id];return `<span class="fo ${i===F.turn?'now':''} ${f.dead||f.hp<=0?'gone':''}">${f.n}<em>${o.init}</em></span>`}).join(''):'<span class="rd">擲骰中</span>');
   }else cb.hidden=true;
   $('#me').hidden=true;
@@ -5276,7 +5296,8 @@ function draw(){
   }else if(G.phase==='roller'){
     const c=choices()[G.pc];T=`由誰來？　${c.l}`;Pl=cl?`${Math.ceil(cl/1000)} 秒`:checkTag(c.k,c.d);
     const el=ctl();const assist=el.length>1?2:0;const bf=c.bonusFlag&&G.flags[c.bonusFlag]?3:0;
-    h=el.map(p=>{const rel=relItems(p,c);const vts=voters().filter(q=>G.rv[q.pid]===p.pid).map(q=>av(q)).join('');
+    // v0.24.1 主人：選擲骰的人照這次檢定的屬性由高到低排
+    h=[...el].sort((a,b)=>(statMod(b,c.k)+checkBonus(b,c.k))-(statMod(a,c.k)+checkBonus(a,c.k))).map(p=>{const rel=relItems(p,c);const vts=voters().filter(q=>G.rv[q.pid]===p.pid).map(q=>av(q)).join('');
       return chBtn(`data-rv="${p.pid}"`,`${av(p)} ${esc(p.name)}`,rel||'',STN[c.k]+(DF().num?` ${statMod(p,c.k)+checkBonus(p,c.k)}`:''),'t-ck',G.busy,`<span class="vts">${vts}</span>`,G.rv[MYPID]===p.pid?'mine':'')}).join('')+
       `<p class="note">被選中的人擲骰，其他人在旁邊協助 +2。再點一次自己選的人可以取消。</p>`+hostCdBtn();
   }else if(G.phase==='node'){

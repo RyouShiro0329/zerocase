@@ -77,8 +77,28 @@ test('舊存檔在旅館裡：讀檔時放回三樓走廊，走過的區域直�
  g.run("globalThis.old2={node:'Z0',lv:'Z',flags:{},players:G.players};old2=migrateG(old2)");assert.equal(g.run('old2.zmove'),undefined,'不在新格式的地點就不動');
 });
 
-test('區域畫面裡做過一件事之後，回到區域畫面才發生那一層的隨機事件（一次）',()=>{const g=setup();
- g.run("G.zd={A:1};G.zc={}");assert.equal(g.run("zRoute('Ah')"),'Ah');g.run('G.zc.A=1');assert.equal(g.run("zRoute('Ah')"),'A5');g.run('G.flags.v_A5=1');assert.equal(g.run("zRoute('Ah')"),'Ah');
+test('隨機事件（主人選 C）：每做一件事有機率發生；離開前還沒發生就在離開時發生，結束後接回原本的出口',async()=>{const g=setup();
+ g.run("G.zd={A:1};G.flags={};Math.random=()=>0.9");assert.equal(g.run("zRoute('Ah')"),'Ah','沒抽中');g.run('Math.random=()=>0.1');assert.equal(g.run("zRoute('Ah')"),'A5','抽中');
+ g.run("Math.random=()=>0.9;G.node='Ah';G.lv='A';G.ev=null");assert.equal(g.run("zLeave('A6e')"),'A6e','往同一區的樓梯不算離開');
+ assert.equal(g.run("zLeave('C1')"),'A5','離開三樓前先發生');assert.equal(g.run('G.zevGo.to'),'C1');
+ g.run("G.flags.v_A5=1;G.zevGo=null");assert.equal(g.run("zLeave('C1')"),'C1','發生過就不再發生');
+ g.run("G.flags={};G.zd={A:1};G.node='Ah';G.ev=null;deathCheck=async()=>false;tickAll=async()=>true;alarmCheck=async()=>false;passTime=async()=>false");
+ await g.run("enterNode('END_main')");assert.equal(g.run('G.node'),'A5','走大門前先跑隨機事件');
+ g.run("G.ev=null;G.node='A5x'");await g.run("enterNode('A6')");assert.ok(!g.run('G.zevGo'),'事件結束接回出口');
+});
+
+test('電梯（主人 v0.24.1）：徒手扳開每次都要檢定、成功也出聲；用工具撬開之後電梯門一直開著，徒手那個收起來',async()=>{const g=setup();
+ g.run("G.zd={A:1,C:1};G.node='Ah';G.lv='A';G.ev=null;G.flags={}");
+ const find=l=>`choices().find(c=>c.l==='${l}')`;
+ assert.equal(g.run(`${find('徒手扳開電梯門')}.k`),'STR','走過電梯井也還是要檢定');assert.ok(g.run(`${find('徒手扳開電梯門')}.ok.p.alarm`)>=1,'成功也出聲');
+ assert.equal(g.run(`${find('撬開電梯門，爬電梯井')}.ok.r.flag`),'elevopen');assert.equal(g.run(`choiceOk(${find('撬開電梯門，爬電梯井')})`),false,'還沒打通前要工具');
+ g.run('G.flags.elevopen=1');assert.equal(g.run(`choiceOk(${find('撬開電梯門，爬電梯井')})`),true,'打通後不用工具');assert.equal(g.run(`${find('撬開電梯門，爬電梯井')}.ok.go`),'Ch');assert.equal(g.run(`visible(${find('徒手扳開電梯門')})`),false);
+});
+
+test('被打的恐懼（主人選 A）：一般命中不加，重擊或一下打掉三成以上生命才加',()=>{const g=setup();
+ g.run("globalThis.t=G.players[0];t.max=20;t.fe=0;Math.random=()=>0;const f={type:'infected',id:0};hitFx(f,{},t,3,false)");assert.equal(g.run('t.fe'),0);
+ g.run("hitFx({type:'infected',id:0},{},t,3,true)");assert.ok(g.run('t.fe')>0,'重擊');
+ g.run("t.fe=0;hitFx({type:'infected',id:0},{},t,6,false)");assert.ok(g.run('t.fe')>0,'三成以上');
 });
 
 test('清單地圖：第一層目前區域的點位、第二層旅館的區域，沒去過的區域不顯示名稱',async()=>{const g=setup();
