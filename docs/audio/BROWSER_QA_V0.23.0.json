@@ -1,0 +1,31 @@
+{
+  "version": "0.23.0",
+  "checked_at": "2026-11-15T23:39:50+08:00",
+  "browser": "雲端 Chrome",
+  "layout": {
+    "640x360": "pass",
+    "768x354": "pass",
+    "896x414": "pass",
+    "1024x480": "pass",
+    "432x936_portrait_rotated": "pass",
+    "checks": [
+      "天象及天數在左右區塊間置中",
+      "天氣位於右側且未碰到工具按鈕",
+      "頂端單列、警戒可見、八個工具按鈕均在畫面內",
+      "按鈕高度至少30px"
+    ]
+  },
+  "audio": {
+    "expected": 60,
+    "decoded": 60,
+    "failed": [],
+    "outdoor_rain": "rain_outdoor_loop",
+    "indoor_rain": "rain_indoor_loop",
+    "underground_ambient": null,
+    "bow_hit_active_sources": 2,
+    "muted_active_sources": 0
+  },
+  "limitations": [
+    "未在使用者實體 Android 裝置或耳機上進行聽感驗收"
+  ]
+}

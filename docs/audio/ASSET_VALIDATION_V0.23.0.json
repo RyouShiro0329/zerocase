@@ -1,0 +1,42 @@
+[
+  {
+    "file": "sfx/bowdraw.mp3",
+    "duration_s": 1.48898,
+    "decode": "pass"
+  },
+  {
+    "file": "sfx/bowimpact.mp3",
+    "duration_s": 0.966531,
+    "decode": "pass"
+  },
+  {
+    "file": "sfx/rain_indoor_loop.mp3",
+    "duration_s": 32.736,
+    "decode": "pass"
+  },
+  {
+    "file": "sfx/rain_indoor_loop.ogg",
+    "duration_s": 32.700021,
+    "decode": "pass"
+  },
+  {
+    "file": "sfx/rain_outdoor_loop.mp3",
+    "duration_s": 32.736,
+    "decode": "pass"
+  },
+  {
+    "file": "sfx/rain_outdoor_loop.ogg",
+    "duration_s": 32.700021,
+    "decode": "pass"
+  },
+  {
+    "file": "sfx/thunder_distant_01.mp3",
+    "duration_s": 15.024,
+    "decode": "pass"
+  },
+  {
+    "file": "sfx/thunder_distant_02.mp3",
+    "duration_s": 17.04,
+    "decode": "pass"
+  }
+]

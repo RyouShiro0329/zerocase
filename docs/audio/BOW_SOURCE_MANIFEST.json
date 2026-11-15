@@ -1,0 +1,95 @@
+{
+  "title": "零號病例：弓箭三段分離試聽包 v4",
+  "date_taipei": "2026-11-15T23:26:56+08:00",
+  "status": "候選素材；尚未接入正式遊戲",
+  "approved_reference": "v3 的短促血肉命中①（完整參考檔原樣保留）",
+  "three_audio_files": {
+    "01_拉弓放箭_無命中.mp3": {
+      "use": "拉弓＋放箭；沒有命中，可用於射偏",
+      "source": "v3 bow_miss_default.mp3 完全不重編碼"
+    },
+    "02_血肉命中_獨立.mp3": {
+      "use": "獨立短促血肉命中聲；依實際命中與距離決定是否播放",
+      "source": "自 v3 命中版與射偏版的相同基底相減，抽取選定血肉音效"
+    },
+    "03_拉弓放箭_命中參考.mp3": {
+      "use": "原版拉弓＋放箭＋短促血肉命中；僅供聽感核對",
+      "source": "v3 bow_body_hit_default.mp3 完全不重編碼"
+    }
+  },
+  "timing": {
+    "bow_release_approx_ms_in_01": 960,
+    "impact_standalone_starts_at_ms_in_03": 1180,
+    "impact_audible_approx_ms_in_03": 1215,
+    "nominal_shot_to_hit_delay_ms": 220,
+    "note": "觸發延遲是音效演出參數，非現實箭矢物理飛行時間。可以在 01 開始後約 1.18 秒播放 02 以接近 03。"
+  },
+  "audio_files": [
+    {
+      "path": "audio/01_拉弓放箭_無命中.mp3",
+      "sha256": "fb43ae506dc8428adca4447ad322e18747343468c072a1c1a73d0f7159f2db63",
+      "size_bytes": 24452,
+      "duration_seconds": 1.489,
+      "codec": "mp3",
+      "sample_rate_hz": 44100,
+      "channels": 2
+    },
+    {
+      "path": "audio/02_血肉命中_獨立.mp3",
+      "sha256": "3b3265d12d61ef4797bc596a6d3aa51dc63edae99154eadc8b04e0ca1a03bef2",
+      "size_bytes": 14151,
+      "duration_seconds": 0.967,
+      "codec": "mp3",
+      "sample_rate_hz": 44100,
+      "channels": 2
+    },
+    {
+      "path": "audio/03_拉弓放箭_命中參考.mp3",
+      "sha256": "2750d3d8faef25c5f11541df738d35c9a5b22a6edce782c805d93f543ea36446",
+      "size_bytes": 37025,
+      "duration_seconds": 2.142,
+      "codec": "mp3",
+      "sample_rate_hz": 44100,
+      "channels": 2
+    }
+  ],
+  "preview_source_sha256": {
+    "v3_hit": "2750d3d8faef25c5f11541df738d35c9a5b22a6edce782c805d93f543ea36446",
+    "v3_miss": "fb43ae506dc8428adca4447ad322e18747343468c072a1c1a73d0f7159f2db63"
+  },
+  "reconstruction_pcm_rms_error_ratio": 4.726993356518656e-06,
+  "source_credit": [
+    {
+      "author": "Paveroux",
+      "title": "Bow drawn",
+      "url": "https://freesound.org/people/Paveroux/sounds/490556/",
+      "license_from_prior_record": "CC0"
+    },
+    {
+      "author": "JoeDinesSound",
+      "title": "arrow_shoot_single_02",
+      "url": "https://freesound.org/people/JoeDinesSound/sounds/534941/",
+      "license_from_prior_record": "CC0"
+    },
+    {
+      "author": "Mixkit",
+      "title": "Game blood pop slide",
+      "url": "https://mixkit.co/free-sound-effects/game/",
+      "license": "Mixkit Sound Effects Free License",
+      "license_url": "https://mixkit.co/license/modal/sfxFree/",
+      "note": "可用於遊戲；不可將血肉音效以獨立素材供他人二次散布。私人整合用途。"
+    }
+  ],
+  "support_files": [
+    {
+      "path": "試聽.html",
+      "size_bytes": 4847,
+      "sha256": "bf09ad562e5f4c117a3e84d68f8e1de992e3b013b84e338f0ab584063f49c9fb"
+    },
+    {
+      "path": "說明與授權.md",
+      "size_bytes": 2763,
+      "sha256": "8a920438930eed59c506d3791d72c4b4695a0b85fcc693e5522abcc014a0ca17"
+    }
+  ]
+}

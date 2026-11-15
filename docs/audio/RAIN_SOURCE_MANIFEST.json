@@ -1,0 +1,63 @@
+{
+  "project": "零號病例",
+  "pack_version": "rain-audio-v1",
+  "created_at": "2026-11-15T15:12:00+08:00",
+  "deployment": "僅備用素材包，尚未寫入 GitHub 或連接遊戲",
+  "sources": [
+    {
+      "file": "564464__nwkstudios__city-night-rain-and-thunder.wav",
+      "author": "nwkstudios",
+      "freesound_id": 564464,
+      "url": "https://freesound.org/people/nwkstudios/sounds/564464/",
+      "license": "CC0 1.0",
+      "sha256": "53a439a97a63cb13e33c84cc0e99b1f40d3dc3759211f1b12ed59605e59081c2"
+    },
+    {
+      "file": "147911__hchiurciu__rainy-day-in-sao-paulo-brazil.wav",
+      "author": "hchiurciu",
+      "freesound_id": 147911,
+      "url": "https://freesound.org/people/hchiurciu/sounds/147911/",
+      "license": "CC0 1.0",
+      "sha256": "04dd9f2305d6081347425e5b17dcaf5287bd998fe50f4bf4686e1aaa82d5f88a"
+    }
+  ],
+  "processing": {
+    "rain_outdoor_loop": "取城市雷雨錄音176-211秒，2.3秒等功率曲線交疊成可循環雨聲；約-22 dBFS RMS",
+    "rain_indoor_loop": "取窗邊小雨錄音18-53秒，1650Hz低通濾波，2.3秒交疊成可循環雨聲；約-26 dBFS RMS",
+    "thunder_distant_01": "取城市雷雨原音16-31秒，40-2800 Hz濾波，淡入淡出；可能含原錄音背景雨聲",
+    "thunder_distant_02": "取城市雷雨原音42-59秒，40-2800 Hz濾波，淡入淡出；可能含原錄音背景雨聲"
+  },
+  "audio_files": {
+    "sfx/rain_indoor_loop.mp3": {
+      "bytes": 458684,
+      "duration_s": 32.7,
+      "sha256": "49cd618fc9809154f3a5b7b11ac9059f97269548586d90a9c4679b6ee053e908"
+    },
+    "sfx/rain_indoor_loop.ogg": {
+      "bytes": 318553,
+      "duration_s": 32.7,
+      "sha256": "68292fd1df5d00ed328095ed09f60e58c409e0aba314a31b3037544962065d6f"
+    },
+    "sfx/rain_outdoor_loop.mp3": {
+      "bytes": 458684,
+      "duration_s": 32.7,
+      "sha256": "cf01289e441e088c2e712b4dc8d28953fd72652e295c475e69802ee660afd52f"
+    },
+    "sfx/rain_outdoor_loop.ogg": {
+      "bytes": 356494,
+      "duration_s": 32.7,
+      "sha256": "a29eb5f2fa4836170b401e08463757860d70515de43ebf3fa905788ae21b3022"
+    },
+    "sfx/thunder_distant_01.mp3": {
+      "bytes": 210716,
+      "duration_s": 15.0,
+      "sha256": "1c898f02db6978975242b59442f29fc4bef0b25cdb1f08d5f951fcbf988d2767"
+    },
+    "sfx/thunder_distant_02.mp3": {
+      "bytes": 238940,
+      "duration_s": 17.0,
+      "sha256": "db707bb3dd9e186844e3d89f3dabfba7cca9563e7091d86bd51bc8ac81d1e0b6"
+    }
+  },
+  "game_integration": "尚未接入。雨聲建議同時間僅啟動一種 loop；雷聲獨立事件型短音效；切換區域、背景及音效關閉須停止。"
+}
