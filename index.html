@@ -592,7 +592,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.23.1", "b": 58, "t": "2026-11-16T00:01:10+08:00"};
+const ZC_VER={"v": "0.23.2", "b": 59, "t": "2026-11-16T04:05:53+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -1034,7 +1034,7 @@ A1:{L:'A',n:'301 號房',next:'A2',
 
 不是電視裡的那種。很近，很實在，一連三下，窗玻璃跟著震了一下。你從床上彈起來，心臟跳得像要從喉嚨裡衝出來。
 
-房間裡一片黑。冷氣停了，原本低低的運轉聲也消失了。你摸到床頭的手機，螢幕顯示 20:00。
+房間裡一片黑。冷氣停了，那陣低沉的運轉聲也跟著消失。你摸到床頭的手機，螢幕顯示 20:00。
 
 整棟樓剛剛停電，只剩門縫底下透進來一點緊急照明的紅光。
 
@@ -1150,12 +1150,12 @@ A6:{L:'A',n:'三樓・出口',
 
 你想到三條路：東側樓梯，紅色的逃生燈還亮著；走廊盡頭的電梯，門縫裡一片漆黑，聞得到機油味；還有 301 的窗戶，窗外如果真有消防梯的話。`,
  c:[
- {l:'東側樓梯',s:'最直接的路 → 二樓',ok:{t:`你推開逃生門。冷空氣帶著潮濕的水泥味灌上來。往下的階梯轉個彎就消失在紅光裡。`,go:'S1'}},
+ {l:'東側樓梯',s:'最直接的路 → 二樓',ok:{t:`你推開逃生門。冷空氣帶著潮濕的水泥味灌上來。往下的階梯轉個彎就消失在紅光裡。`,go:'A6e'}},
  {l:'撬開電梯門，爬電梯井',s:'需要鐵撬或消防斧',req:['g:fireaxe','g:crowbar'],reqAny:1,ok:{t:`你把工具卡進電梯門縫，用全身的重量往外扳。門慢慢滑開，一股機油和腐敗混在一起的氣味湧了出來。底下很深，纜繩在黑暗裡輕輕晃動。`,go:'C1'}},
  {l:'徒手扳開電梯門',s:'力量檢定',k:'STR',d:14,ok:{t:`你把手指塞進門縫，咬緊牙關往外扳。門一寸一寸地滑開，一股機油和腐敗混在一起的氣味湧了出來。底下很深，纜繩在黑暗裡輕輕晃動。`,go:'C1'},ng:{t:`門縫只開了一點，又猛地彈了回去，夾住你的手指。你抽出手，指甲已經發紫了。`,p:{hp:-2,alarm:2},go:'A6'}},
  {l:'從 301 的窗戶爬到消防梯',s:'需要知道窗外有消防梯',need:'map',ok:{t:`你回到 301，推開窗戶。冷風灌進來，帶著焦味和遠處的警報聲。窗台外一公尺，就是生鏽的消防梯。`,go:'D1'}}
  ]},
-S1:{L:'A',n:'東側樓梯',next:'B1',
+A6e:{L:'A',n:'東側樓梯',next:'B1',
  t:`只有一盞紅色的逃生指示燈還亮著。牆上掛著一支乾粉滅火器。
 
 你往下走了兩階就停住了。轉角的平台上站著一個人，面對著牆，一動也不動，嘴裡喃喃唸著什麼。`,
@@ -3590,6 +3590,7 @@ async function enterNode(id){
   AUDIO_MOVING=true;stopAmbience();
   if(END[id])return ending(id);
   const nd=N[id];if(!nd){console.error('no node',id);return}
+  const afterScene=[];
   if(nd.L!==G.lv){
     const first=G.lv==null;const prevLv=G.lv;G.lv=nd.L;G.lvSeen=G.lvSeen||[];const fresh=!G.lvSeen.includes(nd.L);if(fresh){G.lvSeen.push(nd.L);G.levels++}if(!first)G.alarm=Math.max(0,G.alarm-2);push();draw();await flush();
     const nch=LV[nd.L].ch||1;if(nch!==G.ch){G.ch=nch;await chapterCard(nch)}else{
@@ -3597,8 +3598,9 @@ async function enterNode(id){
         const cue=movementSound(prevLv,nd.L);snd(cue,cue==='stairs'?.8:.55);
       }
     }await card(nd.L);
-    out(`<b>${LV[nd.L].n}・${LV[nd.L].sub}</b>`,'rule',true);if(LV[nd.L].rule)out(`環境：${esc(LV[nd.L].rule)}`,'rule',true);
-    if(!first&&fresh){teamXP(1);for(const p of able()){if(p.mad)continue;if((p.fe||0)>0){out(`${MP()?nm(p)+'：':''}換了個地方，稍微喘了口氣。`,'good',true);relax(p,10,true)}}}
+    // v0.23.2：換區域時先讓場景文字出來，系統說明放在後面；區域標題由場景標題代替，不再重複印一次。
+    if(fresh&&LV[nd.L].rule)afterScene.push(()=>out(`環境：${esc(LV[nd.L].rule)}`,'rule',true));
+    if(!first&&fresh){teamXP(1);afterScene.push(()=>{const ps=able().filter(p=>!p.mad&&(p.fe||0)>0);if(!ps.length)return;out(MP()?'換了個地方，大家稍微喘了口氣。':'換了個地方，稍微喘了口氣。','good',true);for(const p of ps)relax(p,10,true)})}
     if(G.flags.hotelburn&&(LV[nd.L].ch||1)===1&&!first){out('旅館外牆整片在燒。你們從還沒燒到的側門鑽進去，濃煙嗆得人睜不開眼。','dmg');for(const p of able()){hurtP(p,3);scare(p,10,true)}if(await deathCheck())return}
     if(typeof lateJoin==='function')lateJoin();
     for(const p of G.players)if(p.down&&!p.dead&&DF().wake){p.down=0;if(p.mad){p.mad=0;setFear(p,90)}p.hp=Math.max(1,Math.ceil(p.max*.25));out(`${nm(p)}咳了幾聲，慢慢撐著牆站了起來。生命回到 ${p.hp}。`,'good')}
@@ -3606,6 +3608,7 @@ async function enterNode(id){
   G.node=id;G.ev=null;G.audioVisit=(G.audioVisit||0)+1;G.audioEnteredAt=Date.now();G.votes={};G.rv={};G.pc=null;/* v0.21.0：地上的東西留在原地，回來還撿得到 */G.grounds=G.grounds||{};if(G.gnode&&G.gnode!==id)G.grounds[G.gnode]=G.ground.length?G.ground:undefined;if(G.gnode!==id)G.ground=G.grounds[id]||[];G.gnode=id;G.flags['v_'+id]=1;if(nd.onEnter)nd.onEnter();
   if(nd.ev){const ch=LV[nd.L].ch||1;const mine=EVPOOL.map((e,i)=>i).filter(i=>(EVPOOL[i].ch||1)===ch&&evOk(EVPOOL[i]));const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;if(EVPOOL[i].id==='rain')beginRainAudio();out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
   else{hd(nd.n);out(nd.t,'lore');if(nd.tx){const x=nd.tx();if(x)out(x,'lore')}if(nd.tm&&G.players.some(p=>p.kind==='maggie'))out(nd.tm,'lore')}
+  for(const f of afterScene)f();
   if(id==='WP5')G.flags.wpfail=0;AUDIO_MOVING=false;syncAmbience();if(id==='A2')snd('woodimpact',1,2400);
   syncCodex(G,true);reportEffects();reportGround();
   if(G.lv==='G'){for(const p of able())addInf(p,G.flags.mask?1:2);out(`空氣裡飄著細細的粉末，喉嚨發癢。感染 +${G.flags.mask?1:2}${G.flags.mask?'（濕布擋掉了一些）':''}。`,'dmg',true)}
@@ -3650,6 +3653,8 @@ function tell(p,i){const h=G.hint&&G.hint[p.pid]&&G.hint[p.pid][i];if(!h||G.phas
 function voters(){return live().filter(p=>!p.mad)}
 function vote(pid,i){
   if(G.phase!=='node'||busy||G.over)return;if(P(pid)&&P(pid).mad)return;const c=choices()[i];if(!c||!visible(c)||!choiceOk(c))return;
+  // v0.23.2：再點一次自己投的選項＝取消投票（所有人都投完就立刻結算，來不及取消）
+  if(G.votes[pid]===i){delete G.votes[pid];sfx('click',.3);push();draw();return}
   G.votes[pid]=i;sfx('click',.4);push();draw();
   if(voters().every(p=>G.votes[p.pid]!=null))resolveVote();
 }
@@ -3665,6 +3670,7 @@ function resolveVote(){
 }
 function rvote(pid,t){
   if(G.phase!=='roller'||busy||G.over)return;const tp=P(t);if(!tp||tp.dead||tp.down||tp.mad)return;
+  if(G.rv[pid]===t){delete G.rv[pid];sfx('click',.3);push();draw();return}
   G.rv[pid]=t;sfx('click',.4);push();draw();
   if(voters().every(p=>G.rv[p.pid]!=null))resolveRoller();
 }
@@ -4739,7 +4745,7 @@ function act(a){
   handle(MYPID,a);
 }
 function setPres(extra){if(!NET.r)return;const pr={pid:MYPID,name:NET.build?bName(NET.build):'',acts:NET.acts,need:NET.needN};
-  if(ROLE==='host')Object.assign(pr,{host:1,code:NET.code,started:NET.started,opts:LOBBY.opts,savePids:LOBBY.load?LOBBY.load.G.players.map(p=>p.pid):null});else Object.assign(pr,{ready:NET.ready?1:0,build:NET.ready?NET.build:null});
+  if(ROLE==='host')Object.assign(pr,{host:1,code:NET.code,started:NET.started,opts:LOBBY.opts,savePids:LOBBY.load?LOBBY.load.G.players.map(p=>p.pid):null});else Object.assign(pr,{ready:NET.ready?1:0,build:NET.build||null});
   Object.assign(pr,extra||{});NET.r.presence(pr).catch(()=>{})}
 // v0.21.0 朋友回饋：晚到的人在隊伍下次換區域時跟上
 function lateJoin(){if(ROLE==='solo'||!NET.late)return;for(const [pid,b] of Object.entries(NET.late)){if(G.players.some(p=>p.pid===pid)){delete NET.late[pid];continue}if(G.players.length>=MAXP)break;
@@ -4869,14 +4875,17 @@ function choiceKind(c){
 const CODEX_READ=LS.get('zc22-codex-read',{}),CODEX_NOTICES={};
 function codexState(g=G){
   if(!g)return null;
-  if(!g.codex){g.codex={v:2,rev:0,notes:{},tasks:{},places:{}};const F=g.flags||{};
+  if(!g.codex){g.codex={v:3,rev:0,notes:{},tasks:{},places:{}};const F=g.flags||{};
     for(const id of Object.keys(N))if(F['v_'+id])g.codex.places[id]={visited:true};
   }
   const C=g.codex;
   if(C.v<2){C.notes=Object.fromEntries(Object.entries(C.notes||{}).filter(([id])=>isCodexMemoId(id)));C.tasks=Object.fromEntries(Object.entries(C.tasks||{}).filter(([id,t])=>CODEX_QUESTS[id]&&t.source==='npc'&&t.accepted===true));for(const n of Object.values(C.notes))for(const h of n.history||[])h.text=h.text.replace('目前版本尚未開放門後路線。','').trim();C.v=2;C.rev=(C.rev||0)+1}
+  // v0.23.2：舊存檔的備忘、任務時間寫成時段（原本寫幾點幾分）
+  if(C.v<3){const fix=t=>typeof t==='string'?t.replace(/第 (\d+) 天 (\d{2}):\d{2}/,(x,d,h)=>`第 ${d} 天・${PERN[periodOf(+h)]}`):t;for(const n of Object.values(C.notes||{}))for(const h of n.history||[])h.time=fix(h.time);for(const t of Object.values(C.tasks||{})){t.acceptedAt=fix(t.acceptedAt);t.finishedAt=fix(t.finishedAt)}C.v=3}
   return C;
 }
-function codexStamp(g){const m=(g.t0==null?T0:g.t0)+(g.clock||0),h=Math.floor(m/60)%24,mm=Math.floor(m%60);return `第 ${Math.floor((m-300)/1440)+1} 天 ${String(h).padStart(2,'0')}:${String(mm).padStart(2,'0')}`}
+// 主人規則：時間只顯示天數與時段，不寫幾點幾分。
+function codexStamp(g){const m=(g.t0==null?T0:g.t0)+(g.clock||0),h=Math.floor(m/60)%24;return `第 ${Math.floor((m-300)/1440)+1} 天・${PERN[periodOf(h)]}`}
 function codexNote(g,id,title,place,key,text){if(!isCodexMemoId(id))return;const C=codexState(g);let n=C.notes[id];
   if(!n)n=C.notes[id]={title,place,history:[],rev:0};
   if(n.history.some(x=>x.key===key))return;
@@ -5089,7 +5098,7 @@ function draw(){
     const el=ctl();const assist=el.length>1?2:0;const bf=c.bonusFlag&&G.flags[c.bonusFlag]?3:0;
     h=el.map(p=>{const rel=relItems(p,c);const vts=voters().filter(q=>G.rv[q.pid]===p.pid).map(q=>av(q)).join('');
       return chBtn(`data-rv="${p.pid}"`,`${av(p)} ${esc(p.name)}`,rel||'',STN[c.k]+(DF().num?` ${statMod(p,c.k)+checkBonus(p,c.k)}`:''),'t-ck',G.busy,`<span class="vts">${vts}</span>`,G.rv[MYPID]===p.pid?'mine':'')}).join('')+
-      `<p class="note">被選中的人擲骰，其他人在旁邊協助 +2。</p>`+hostCdBtn();
+      `<p class="note">被選中的人擲骰，其他人在旁邊協助 +2。再點一次自己選的人可以取消。</p>`+hostCdBtn();
   }else if(G.phase==='node'){
     T='要做什麼？';Pl=cl?`${Math.ceil(cl/1000)} 秒`:MP()?'投票':'行動';
     h=choices().map((c,i)=>({c,i})).sort((a,b)=>(a.c._searchBase??a.i)-(b.c._searchBase??b.i)||(a.c._searchMode==='quick'?-1:0)-(b.c._searchMode==='quick'?-1:0)).map(({c,i})=>{if(!visible(c))return '';const ok=choiceOk(c);const sm=ctl().length?ctl().reduce((a,b)=>c.k&&statMod(b,c.k)+checkBonus(b,c.k)>statMod(a,c.k)+checkBonus(a,c.k)?b:a):m;
@@ -5099,7 +5108,7 @@ function draw(){
       const vts=MP()?voters().filter(q=>G.votes[q.pid]===i).map(q=>av(q)).join(''):'';
       const hn=G.hint&&G.hint[MYPID]&&G.hint[MYPID][i];const tl=G.told&&G.told[i];const hs=hn?`<em class="hint">你察覺：${hn}</em>`:tl?`<em class="hint">${esc(P(tl.pid).name)}說：${tl.t}</em>`:'';const why2=!ok&&c.usd&&teamUsd()<c.usd?`需要 $${c.usd}（全隊有 $${teamUsd()}）`:!ok&&c.karma&&!c.reqN&&!c.req?'他們還不夠信任你們。':!ok&&c.reqN?'需要'+Object.entries(c.reqN).map(([k,q])=>ITEMS[k].n+' ×'+q).join('、'):'';
       const tk=tKind(c);
-      return chBtn(`data-ch="${i}"`,`<span class="choice-prefix">【${choiceKind(c)}】</span>`+c.l+(tk?`<small class="tmc ${tk}">（${TLAB[tk]}）</small>`:''),(why||why2||choiceNote(c))+hs,tag,tag?'t-ck':'',!ok||G.busy,vts?`<span class="vts">${vts}</span>`:'',G.votes[MYPID]===i?'mine':'')+(hn&&MP()&&!tl?`<button class="btn tellb" data-tell="${i}">告知隊友</button>`:'')}).join('')+(MP()?`<p class="note">多數決，同票隨機。</p>`+hostCdBtn():'')+(G.ground.length?`<p class="note">地上有東西，打開背包可以撿。</p>`:'');
+      return chBtn(`data-ch="${i}"`,`<span class="choice-prefix">【${choiceKind(c)}】</span>`+c.l+(tk?`<small class="tmc ${tk}">（${TLAB[tk]}）</small>`:''),(why||why2||choiceNote(c))+hs,tag,tag?'t-ck':'',!ok||G.busy,vts?`<span class="vts">${vts}</span>`:'',G.votes[MYPID]===i?'mine':'')+(hn&&MP()&&!tl?`<button class="btn tellb" data-tell="${i}">告知隊友</button>`:'')}).join('')+(MP()?`<p class="note">多數決，同票隨機。再點一次自己投的選項可以取消。</p>`+hostCdBtn():'')+(G.ground.length?`<p class="note">地上有東西，打開背包可以撿。</p>`:'');
   }else if(G.phase==='shop'&&G.shop){const S=G.shop,sh=SHOPS[S.id];if(S.key!==SHOPKEY){SHOPKEY=S.key;SHOPSHUT=false;SHOPSEL=0;SHOPMODE='buy'}if(OVK==='shop')setTimeout(()=>{if(OVK==='shop')panel('shop')},0);const rd=ctl().filter(q=>S.ready[q.pid]).length;T=sh.n;Pl=`$${m.usd||0}`;
     h=chBtn('data-openshop','回到商店','看看商品、買東西、賣東西','','')+chBtn('data-shopdone',S.ready[MYPID]?'已經準備好，等其他人':'買好了，繼續',`${rd}／${ctl().length} 人準備好`,'','',!!S.ready[MYPID]);
     if(OVK==null&&!SHOPSHUT)setTimeout(()=>{if(G&&G.phase==='shop'&&OVK==null)panel('shop')},0)
@@ -5293,7 +5302,7 @@ document.addEventListener('click',e=>{
   if(d.cfok!=null){$('#cfm').hidden=true;act({a:'vote',i:+d.cfok});return}
   if(b.hasAttribute('data-cfno')){$('#cfm').hidden=true;sfx('click',.4);return}
   if(d.tell!=null)act({a:'tell',i:+d.tell});
-  else if(d.ch!=null){if(!longAsk(+d.ch))act({a:'vote',i:+d.ch})}
+  else if(d.ch!=null){if(G&&G.votes&&G.votes[MYPID]===+d.ch)act({a:'vote',i:+d.ch});else if(!longAsk(+d.ch))act({a:'vote',i:+d.ch})}
   else if(d.rv)act({a:'rv',t:d.rv});
   else if(b.hasAttribute('data-cdgo'))act({a:'cdgo'});
   else if(d.ftab!=null){FTAB=d.ftab||null;sfx('click',.4);draw()}
@@ -5446,7 +5455,7 @@ function showCreate(){
 function loadAvatar(file){if(!/^image\//.test(file.type||'')){toast('請選擇圖片檔。');return}const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{
   const S=80,c=document.createElement('canvas');c.width=c.height=S;const x=c.getContext('2d');const m=Math.min(im.width,im.height);x.fillStyle='#111';x.fillRect(0,0,S,S);x.drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,S,S);
   let q=.8,u=c.toDataURL('image/jpeg',q);while(u.length>9000&&q>.3){q-=.1;u=c.toDataURL('image/jpeg',q)}
-  if(!avOk(u)){toast('這張圖片沒辦法用，換一張試試。');return}LS.set('zc8-avatar',u);AVS[MYPID]=u;if(NET.r&&ROLE==='client'&&NET.ready)sendAv();if(ROLE==='host')send({t:'av',d:{pid:MYPID,d:u}});if(SCR==='menu')showMenu();else showCreate()};im.onerror=()=>toast('讀不到這張圖片。');im.src=rd.result};rd.readAsDataURL(file)}
+  if(!avOk(u)){toast('這張圖片沒辦法用，換一張試試。');return}LS.set('zc8-avatar',u);AVS[MYPID]=u;if(NET.r&&ROLE==='client'&&NET.build)sendAv();if(ROLE==='host')send({t:'av',d:{pid:MYPID,d:u}});if(SCR==='menu')showMenu();else showCreate()};im.onerror=()=>toast('讀不到這張圖片。');im.src=rd.result};rd.readAsDataURL(file)}
 function buildOut(){CB=normalizeBuild(CB);const b=JSON.parse(JSON.stringify(CB));b.pid=MYPID;b.packs=packs();if(b.kind==='custom'&&!b.name.trim())b.name='倖存者';if(JOBS[b.kind]&&!b.name.trim())b.name=JOBS[b.kind].n;LS.set('zc9-build',CB);return b}
 /* ---- 房間 ---- */
 const bName=b=>b?((PRESETS[b.kind]||GUESTS[b.kind])?(PRESETS[b.kind]||GUESTS[b.kind]).n:b.name||'無名'):'';
@@ -5455,9 +5464,9 @@ function showJoin(){SCR='join';
 function lobbyPlayers(){
   if(ROLE==='host'){const sv=LOBBY.load?LOBBY.load.G.players:[];const svP=pid=>sv.find(p=>p.pid===pid);
     const a=[{pid:MYPID,name:svP(MYPID)?svP(MYPID).name+'（存檔）':NET.build?bName(NET.build):'（房主還沒建角）',ready:!!(NET.build||svP(MYPID)),host:1,build:NET.build,saved:!!svP(MYPID)}];
-    for(const x of NET.lobby){const pr=x.presence;if(a.some(y=>y.pid===pr.pid))continue;if(svP(pr.pid)){a.push({pid:pr.pid,name:svP(pr.pid).name+'（存檔）',ready:true,saved:true});continue}a.push({pid:pr.pid,name:pr.ready&&pr.build?bName(pr.build):'（建立角色中）',ready:!!(pr.ready&&pr.build),build:pr.build})}
+    for(const x of NET.lobby){const pr=x.presence;if(a.some(y=>y.pid===pr.pid))continue;if(svP(pr.pid)){a.push({pid:pr.pid,name:svP(pr.pid).name+'（存檔）',ready:!!pr.ready,saved:true});continue}a.push({pid:pr.pid,name:pr.build?bName(pr.build):'（建立角色中）',ready:!!(pr.ready&&pr.build),build:pr.build})}
     return a}
-  return [...NET.lobby].sort((a,b)=>(b.presence.host?1:0)-(a.presence.host?1:0)).map(x=>{const pr=x.presence;return {pid:pr.pid,name:pr.host?(pr.name||'房主'):pr.ready&&pr.build?bName(pr.build):'（建立角色中）',ready:pr.host?1:!!pr.ready,host:pr.host}})}
+  return [...NET.lobby].sort((a,b)=>(b.presence.host?1:0)-(a.presence.host?1:0)).map(x=>{const pr=x.presence;return {pid:pr.pid,name:pr.host?(pr.name||'房主'):pr.build?bName(pr.build):'（建立角色中）',ready:pr.host?1:!!(pr.ready&&pr.build),host:pr.host}})}
 function drawLobby(){if(SCR==='lobby')showLobby()}
 function showLobby(){
   SCR='lobby';const ps=lobbyPlayers();const host=ROLE==='host';
@@ -5472,9 +5481,9 @@ function showLobby(){
    <p class="note">倒數：${cdn[o.cd]}${o.cd!=='off'?`（${o.sec} 秒）`:''}</p>
    ${host?`<div class="seg">${Object.entries(cdn).map(([v,l])=>`<button class="btn ${o.cd===v?'on':''}" data-lcd="${v}">${l}</button>`).join('')}</div><div class="seg">${[15,20,30].map(v=>`<button class="btn ${o.sec===v?'on':''}" data-lsec="${v}">${v} 秒</button>`).join('')}</div><p class="note">關閉：等所有人都投票。房主按下才倒數：房主可以隨時催促。強制倒數：每個選擇和每個回合都有時間限制，時間到了自動決定。</p>`:''}
   </div><div><div class="plist">${ps.map((p,i)=>`<div class="prow">${avH(p.pid,p.name,COLS[i%COLS.length],'big')}<b>${esc(p.name)}${p.pid===MYPID?'（你）':''}</b><small class="${p.ready?'ok':''}">${i>=MAXP?'觀戰':p.host?'房主':p.ready?'準備好了':'還沒好'}</small></div>`).join('')}</div>
-   <p class="note">最多 ${MAXP} 人；超過的人只能觀戰。</p>
+   <p class="note">最多 ${MAXP} 人；超過的人只能觀戰。${host?'所有人按下「準備」之後才能開始。':'建好角色後按「準備」；要改角色可以先取消準備。'}</p>
    ${host&&LS.get('zc7-mpsave',null)?`<div class="seg"><button class="btn ${LOBBY.load?'on':''}" data-m="loadmp">${LOBBY.load?'已載入多人存檔（點一下取消）':'讀取多人存檔'}</button></div>${LOBBY.load?`<p class="note">存檔裡的角色：${LOBBY.load.G.players.map(p=>esc(p.name)).join('、')}。他們加入房間就會自動接回；尚未連線的玩家暫停參與行動，重新連線後即可接回角色。</p>`:''}`:''}
-   <div class="seg">${host&&LOBBY.load&&LOBBY.load.G.players.some(p=>p.pid===MYPID)?'':`<button class="btn" data-m="editc">${myb?'修改角色':'建立角色'}</button>`}${host?`<button class="btn" data-m="start" ${(LOBBY.load||myb)&&readyN>=Math.min(ps.length,MAXP)?'':'disabled'}>開始（${Math.min(readyN,MAXP)} 人）</button>`:''}</div></div></div></div>`)}
+   <div class="seg">${host&&LOBBY.load&&LOBBY.load.G.players.some(p=>p.pid===MYPID)?'':`<button class="btn" data-m="editc">${myb?'修改角色':'建立角色'}</button>`}${!host&&myb?`<button class="btn ${NET.ready?'on':''}" data-m="rdy">${NET.ready?'取消準備':'準備'}</button>`:''}${host?`<button class="btn" data-m="start" ${(LOBBY.load||myb)&&readyN>=Math.min(ps.length,MAXP)?'':'disabled'}>開始（${Math.min(readyN,MAXP)} 人）</button>`:''}</div></div></div></div>`)}
 async function hostRoom(){LOBBY.load=null;LOBBY.opts.diff=UI.diff||'normal';
   const code=String(rnd(1000,9999));
   try{await openRoom(true,code)}catch(e){toast('連不上房間功能。');return}
@@ -5486,8 +5495,8 @@ async function joinRoom(){
   for(let i=0;i<30&&!NET.hostPeer;i++)await wait(200);
   if(!NET.hostPeer){await leaveRoom();if(msg)msg.textContent=NET.kind==='claude'?'找不到這個房間。請確認房號，以及房主有把這個頁面分享給你。':'找不到這個房間。請確認房號，以及房主已經開好房間。';return}
   if(NET.hostPres&&NET.hostPres.started){toast('這局已經開始了，正在接回……');NET.build=buildOut();NET.ready=true;setPres();sendAv();requestSync();SCR='game';return}
-  const sp=NET.hostPres&&NET.hostPres.savePids;if(sp&&sp.includes(MYPID)){NET.build={kind:'saved',name:'存檔角色'};NET.ready=true;setPres();showLobby();return}
-  NET.build=buildOut();NET.ready=true;setPres();sendAv();showLobby()}
+  const sp=NET.hostPres&&NET.hostPres.savePids;if(sp&&sp.includes(MYPID)){NET.build={kind:'saved',name:'存檔角色'};NET.ready=false;setPres();showLobby();return}
+  NET.build=buildOut();NET.ready=false;setPres();sendAv();showLobby()}
 function startMP(){
   const ps=lobbyPlayers().filter(p=>p.ready).slice(0,MAXP);
   if(LOBBY.load){
@@ -5528,13 +5537,14 @@ function onScr(b,d){
   else if(d.m==='settings')panel('settings');
   else if(d.m==='lobby')showLobby();
   else if(d.m==='leave'){leaveRoom();showMenu()}
-  else if(d.m==='editc'){CMODE=ROLE==='host'?'host':'client';CTAB='who';showCreate()}
+  else if(d.m==='rdy'){if(!NET.build)return;NET.ready=!NET.ready;setPres();sfx('click',.5);showLobby()}
+  else if(d.m==='editc'){if(ROLE!=='host'&&NET.ready){NET.ready=false;setPres()}CMODE=ROLE==='host'?'host':'client';CTAB='who';showCreate()}
   else if(d.m==='start'){if(ROLE==='host'){enterFull(true);startMP()}}
   else if(d.m==='loadmp'){const sv=LS.get('zc7-mpsave',null);if(!LOBBY.load&&sv&&sv.G&&!sv.G.v9){toast('這是舊版本（還有章節時）的多人存檔，沒辦法接著玩，請重新開始。');return}LOBBY.load=LOBBY.load?null:sv;setPres();showLobby()}
   else if(d.m==='go'){enterFull(true);startSolo()}
   else if(d.dif){UI.diff=d.dif;saveUI();showDiff()}
   else if(d.ldif){LOBBY.opts.diff=d.ldif;UI.diff=d.ldif;saveUI();setPres();showLobby()}
-  else if(d.m==='cdone'){if(CB.kind==='custom'&&(!TALENT[CB.tal]||!CSKILL[CB.sk])){toast('還沒選天賦或技能。');return}const b=buildOut();if(CMODE==='pre')showPlay();else{NET.build=b;NET.ready=true;setPres();sendAv();showLobby()}}
+  else if(d.m==='cdone'){if(CB.kind==='custom'&&(!TALENT[CB.tal]||!CSKILL[CB.sk])){toast('還沒選天賦或技能。');return}const b=buildOut();if(CMODE==='pre')showPlay();else{NET.build=b;NET.ready=ROLE==='host';setPres();sendAv();showLobby()}}
   else if(d.m==='avpick'){const f=$('#avfile');if(f)f.click()}
   else if(d.m==='avdel'){LS.del('zc8-avatar');delete AVS[MYPID];if(NET.r&&ROLE==='client')sendAv();if(ROLE==='host')send({t:'av',d:{pid:MYPID,d:null}});if(SCR==='menu')showMenu();else showCreate()}
   else if(d.key!=null){if(d.key==='del')JOIN=JOIN.slice(0,-1);else if(JOIN.length<4)JOIN+=d.key;showJoin()}

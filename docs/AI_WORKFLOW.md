@@ -12,7 +12,9 @@
 1. `bash tests/run_all.sh`：Node 邏輯測試（tests/*.test.cjs）＋瀏覽器冒煙測試（有 playwright 才跑）。全部通過才發布。
 2. `tests/guard.test.cjs` 是主人定案的設計規則（不寫喪屍殭屍、沒有中國大陸用語、美國城市沒有台灣地名、QTE 規則、10 天、節點去處、函式不重複）。**測試失敗代表改壞了，不要改測試去配合**；規則要改，先問主人。
 3. 版本號照語意化版本：修正＝patch、新內容＝minor。主選單的版本行 `const ZC_VER=` 要跟著改。
-4. 寫一份發布說明（改了什麼、跑了哪些測試、結果、沒測的和原因），放 `docs/` 或 `更新說明.txt`，commit 訊息寫版本號，並打 git tag。
+4. 寫一份發布說明（改了什麼、跑了哪些測試、結果、沒測的和原因），放 `docs/` 或 `更新說明.txt`，commit 訊息寫版本號，並在 `docs/VERSIONS.md` 表格最上面加一行（版本｜commit｜說明）。
+5. 遊戲文字加了新字、guard 的「遊戲文字沒有缺字」失敗時：`pip install fonttools brotli` 後跑 `python3 tools/make_font_subset.py`，重做正楷字型子集和 `fonts/coverage.txt`。
+6. 劇情節點代號（N 裡的鍵）不能重複；新地點先搜尋代號有沒有被用過。
 
 ## 主人的設計決定（摘要，完整版在 Claude 專案的 HANDOFF.md）
 - 舞台是 2038 年的美國城市；遊戲文字用台灣繁體中文用語。

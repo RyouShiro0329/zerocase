@@ -70,3 +70,21 @@ test('頂層函式沒有重複宣告（全部檔案共用同一個全域範圍�
 test('恐懼在畫面與紀錄都不顯示數字（2026-11-13 主人定案）',{todo:'v0.21.11 起紀錄會寫「恐懼 +N（目前 X／100）」；主人 2026-11-16：先暫時保留數字，之後再決定'},()=>{
  assert.doesNotMatch(text,/恐懼[^`\n]{0,60}／100/);
 });
+
+test('劇情節點代號沒有重複（2026-11-16：旅館東側樓梯和購物中心都叫 S1，後面的蓋掉前面的，走樓梯直接跑到購物中心）',()=>{
+ const ids=[...src.matchAll(/^ ?([A-Za-z][\w]*):\{L:'/gm)].map(m=>m[1]);
+ const dup=[...new Set(ids.filter((n,i)=>ids.indexOf(n)!==i))];
+ assert.ok(ids.length>100,'沒有抓到節點，檢查寫法是不是變了');
+ assert.deepEqual(dup,[],'重複的節點：'+dup.join('、'));
+});
+
+test('備忘錄、任務的時間只寫天數與時段，不寫幾點幾分',()=>{
+ const s=g('codexStamp({t0:1200,clock:1000})');
+ assert.match(s,/^第 \d+ 天・(清晨|白天|傍晚|夜晚)$/);
+});
+
+test('遊戲文字沒有缺字（缺的字會改用手機字型，大小粗細不一樣；修法：python3 tools/make_font_subset.py）',()=>{
+ const cov=new Set([...fs.readFileSync(path.join(__dirname,'../fonts/coverage.txt'),'utf8').split('\n').slice(1).join('')]);
+ const miss=[...new Set([...text].filter(c=>c.codePointAt(0)>0x7F&&!/\s/.test(c)&&!cov.has(c)))];
+ assert.deepEqual(miss,[],'字型缺字：'+miss.join(''));
+});

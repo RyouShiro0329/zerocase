@@ -1,7 +1,7 @@
 {
-  "version": "0.23.1",
-  "build": 58,
-  "created_at": "2026-11-16T00:01:10+08:00",
+  "version": "0.23.2",
+  "build": 59,
+  "created_at": "2026-11-16T04:05:53+08:00",
   "deployment": "GitHub Pages；雲端瀏覽器上傳",
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -55,10 +55,11 @@
     "docs/exploration/TOPBAR_TEST_RESULTS_V0.22.1.txt": "b717973b6df217e4277d2140b02031b042f7d20adc59525e3b5fca39e2c5ec1a",
     "docs/releases/v0.21.12.md": "2749c0d8f38286ed1baf72da07427b2c1c0d9c66c503ee561a0854d413ddc7ce",
     "fonts/README.md": "90982e9334a778f37e2894edd038ba52d55baa9293b065df9fdf4e356970b5d2",
-    "fonts/SOURCES.md": "95d1e579324006d3904df22cfa78425191a9eed85215c84acb2592948eabf8fa",
-    "fonts/SourceSerif4-OFL.txt": "5f94c3fd3a23131a417ab5a0c8452de57e70c3cfb9f604d88241f7065ebf9fd9",
-    "fonts/source-serif-4-latin.woff2": "0def321b5b013063fd642a050ec99cb8759998aaf4036fe80c36370badb13742",
-    "fonts/tw-kai-game.woff2": "71e8d103b7375c2a8c8e8e49e581848f38465ff11b1d1b75da78121a387b474a",
+    "fonts/SOURCES.md": "50e65cf66675cbd8d296c5ce7692a834db24e0038add2ac6b90e8b4858623c3a",
+    "fonts/SourceSerif4-OFL.txt": "0033731631d08edb134cb282087abd2bca21ed7cfbf374effa749a08ec13feb5",
+    "fonts/coverage.txt": "f26204ebab6c7d4b51b86290c2656d4d97e30b08246ca860cc933f69a888c310",
+    "fonts/source-serif-4-latin.woff2": "9314377f84ec3075b440e2295b66810ff2ca3b37ffaf8d10ef9b7f766e16190d",
+    "fonts/tw-kai-game.woff2": "ad0d533e6081a72851d2e607f80196116a0409e70066f58fe656e0179235695c",
     "img/acru_cap.webp": "7c5b32eab4c4abf2aceb3e199495748af9b856a62438845b720002b13af49c8c",
     "img/acru_cmd.webp": "b2ecf1ab2725c591b72d435ad857bde71ed39ed90804f1007de51897d351adff",
     "img/acru_flm.webp": "fda7c48006e4e685c5ae4a954fa63c5747af83be87888cfbfa11780b66c7fc45",
@@ -80,7 +81,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "e3986b1f65d4ad45c2873061cc90975643c87f62af3efa9913ad218bc566ea8c",
+    "index.html": "251e51509ae2b18f0be5caf4e99a3c3abd5d2beeeafe478c646e8d683fe4db10",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -189,7 +190,8 @@
     "tests/topbar-preview.html": "149b060b6e02b8ee522605a093cb9ca2a2d80bd59ec2505beaf6e1fc34640ca5",
     "tests/topbar.test.cjs": "1e37cfd82aac530ab4d5bbacf8e35a177ba06013433230402ae343c27a6e644a",
     "tests/weather.test.cjs": "cc75b126841c5a07a695b7f77d132e30eae97cc3ca4772a0e01e2852011c88ef",
+    "tools/make_font_subset.py": "3eb79719caa2f2863185cb10c9b1e32cc96017b10f03284bcb6fb4ac831c1094",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "1f6c7b41d43c8b0baa09a0d123e13de98a2797147744eb5b42607f72f8cb9578"
+    "更新說明.txt": "9e8f5dd8ccccb186ccc1a77b02b317bda4ba27153792494792059e3ca5b25864"
   }
 }
