@@ -1,0 +1,9 @@
+const {test}=require('node:test'),assert=require('node:assert/strict');
+const fs=require('node:fs');
+const {game}=require('./helpers/audio-game.cjs');
+const html=fs.readFileSync(require('node:path').join(__dirname,'../index.html'),'utf8');
+function setup(){const g=game();g.run("newRun([{kind:'custom',pid:'p1',name:'甲',st:{STR:2,AGI:2,CON:2,PER:2,INT:2,CHA:2},load:{}}],{diff:'normal'},'solo')");return g}
+test('新局從晚上八點開始，手機報時與停電敘述一致',()=>{const g=setup();assert.equal(g.run('G.t0'),1200);assert.equal(g.run('hourN()'),20);assert.match(g.run('N.A1.t'),/手機.*20:00/);assert.doesNotMatch(g.run('N.A1.t'),/秒數不再跳動|電子鐘|23:41/);assert.match(html.match(/<div id="gate">[\s\S]*?<script>/)[0],/手機.*20:00/)});
+test('月亮在入夜靠左、午夜置中、天亮前靠右，太陽正午置中',()=>{const g=setup();for(const [h,phase,night] of [[20,0,true],[22,.25,true],[0,.5,true],[2,.7,true],[4,.9,true],[5,0,false],[12,.5,false],[19,.9375,false]]){g.run(`G.t0=0;G.clock=${h*60}`);const s=g.run('skyClockState()');assert.ok(Math.abs(s.phase-phase)<1e-9,`${h} 時`);assert.equal(s.night,night);assert.ok(Math.abs(s.x-(12+216*phase))<1e-9);assert.ok(Math.abs(s.y-(27-64*phase*(1-phase)))<1e-9);assert.match(g.run('skyClockMarkup()'),new RegExp(`translate\\(${s.x.toFixed(1)} ${s.y.toFixed(1)}\\)`))}});
+test('跨午夜連續前進，舊存檔保留原本時刻與清晨換日規則',()=>{const g=setup();g.run('G.t0=1421;G.clock=0');assert.equal(g.run('hourN()'),23+41/60);assert.equal(g.run('G.t0'),1421);g.run('G.t0=0;G.clock=1439');const a=g.run('skyClockState().x');g.run('G.clock=1441');assert.ok(g.run('skyClockState().x')>a);assert.ok(g.run('skyClockState().x')-a<2);assert.equal(g.run('dayN()'),1);g.run('G.clock=1740');assert.equal(g.run('dayN()'),2);g.run('delete G.t0;G.clock=0');assert.equal(g.run('hourN()'),6)});
+test('劇情接送班次保留原有時間，不隨開局時間改寫',()=>{assert.match(html,/接送車 23:41 到/);assert.match(html,/接送時間全是 23:41/)});
