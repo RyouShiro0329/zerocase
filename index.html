@@ -590,7 +590,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.22.3", "b": 55, "t": "2026-11-15T16:49:26+08:00"};
+const ZC_VER={"v": "0.22.4", "b": 56, "t": "2026-11-15T23:00:13+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3384,9 +3384,9 @@ const timeTxt=()=>`第 ${dayN()} 天・${PERN[periodOf(hourN())]}`;
 // 粉筆天象：只讀遊戲時間，與地圖、章節、探索區域數無關。
 function skyClockState(){
   const h=hourN(),period=periodOf(h),night=period==='night';
-  // 兩段等比例刻度：正午／午夜固定在弧頂；左右依序代表時段前、後半。
-  // 時段沿用遊戲規則：05:00 天亮，20:00 入夜。
-  const phase=night?(h>=20?(h-20)/8:.5+h/10):(h<=12?(h-5)/14:.5+(h-12)/16);
+  // 全天共用 24 小時刻度：清晨在左側、12:00 在弧頂、接近 24:00 時在最右。
+  // 圖示依時段換成太陽／月亮，入夜時位置不重設；只有跨午夜才回到左端。
+  const phase=h/24;
   return {h,period,night,phase,x:12+216*phase,y:27-64*phase*(1-phase)};
 }
 function skyClockMarkup(){
@@ -3396,7 +3396,7 @@ function skyClockMarkup(){
   const moon='<path d="M3-7a7 7 0 1 0 3 11A7 7 0 0 1 3-7Z"/><path d="M10-7v3 M8.5-5.5h3"/>';
   const cloud='<path d="M-10 4h18a3 3 0 0 0 0-6 5 5 0 0 0-9-3 4 4 0 0 0-7 4 2.5 2.5 0 0 0-2 5Z"/>';
   const icon=night?moon:period==='dawn'?sun+'<g transform="translate(1 2)" class="sky-cloud">'+cloud+'</g>':sun;
-  return `<svg viewBox="0 0 240 34" role="img" aria-label="${timeTxt()}"><title>${timeTxt()}・由左至右表示時間推移，弧頂為${night?'午夜':'正午'}</title><g class="chalk"><path class="sky-track" d="M12 27 Q120-5 228 27"/><path opacity=".18" d="M10 29 Q121-3 230 28"/><g class="sky-cloud" transform="translate(24 24) scale(.65)">${cloud}</g><g class="sky-cloud" transform="translate(215 25) scale(.8)">${cloud}</g><g transform="translate(${x} ${y})">${icon}</g></g></svg>`;
+  return `<svg viewBox="0 0 240 34" role="img" aria-label="${timeTxt()}"><title>${timeTxt()}・全天由左至右表示時間推移：清晨在左側、正午在中央、接近午夜在最右側</title><g class="chalk"><path class="sky-track" d="M12 27 Q120-5 228 27"/><path opacity=".18" d="M10 29 Q121-3 230 28"/><g class="sky-cloud" transform="translate(24 24) scale(.65)">${cloud}</g><g class="sky-cloud" transform="translate(215 25) scale(.8)">${cloud}</g><g transform="translate(${x} ${y})">${icon}</g></g></svg>`;
 }
 // 到下一個清晨 05:00 還有幾分鐘（過夜用）
 const untilDawn=()=>{const m=absMin()%1440;return (300-m+1440)%1440||1440};

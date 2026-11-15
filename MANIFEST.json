@@ -1,7 +1,7 @@
 {
-  "version": "0.22.3",
-  "build": 55,
-  "created_at": "2026-11-15T16:49:26+08:00",
+  "version": "0.22.4",
+  "build": 56,
+  "created_at": "2026-11-15T23:00:13+08:00",
   "deployment": "GitHub Pages；雲端瀏覽器上傳",
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -10,6 +10,7 @@
     "audit_v0.22.1.json": "a8a930748128e91585f0c0393c6883db3a1b28bc2730373d62d718717fb15b77",
     "audit_v0.22.2.json": "b9440a07b4c43988aa8038603bbae592e9629b6c0be8adddc4fef0180f2e01ad",
     "audit_v0.22.3.json": "a2978ad0d833458740d84f76b480a29069406e49ac076e68387c3f166efb4e5c",
+    "audit_v0.22.4.json": "65d9f255be8ff7589d40ab86a4b9ec2e838db99bcbfd6c721e274e1c1c24a723",
     "docs/audio/2026-11-15-integration-plan.md": "1d8c7185ad2742e1f1b70279b5f9d274f03c36a1b4104513dc5842d2df9ade8d",
     "docs/audio/ASSET_VALIDATION.json": "190994b75a706198d1f3e3435ee47441cee202e55fe70c3593fab8d55d538d0b",
     "docs/audio/ASSET_VALIDATION_V0.21.10.json": "6d61e118b4a1ebef0708d9e4e687d55afbf48a288d61c98a772f1cb5113c612a",
@@ -35,8 +36,10 @@
     "docs/exploration/RELEASE_V0.22.1.md": "cb7f6cf8a6cecc4686b5fb9fa6c3c2a6c160f8944cd04181e3babf541e295882",
     "docs/exploration/RELEASE_V0.22.2.md": "0f439c542780faeb4217bbbb929708b8ead63eabc96a4257f397830570ed6ec5",
     "docs/exploration/RELEASE_V0.22.3.md": "3ccb064f55611067f9b0975d629cb85f9f821944f04d6f948d37b5f9701039eb",
+    "docs/exploration/RELEASE_V0.22.4.md": "0deedb23abac9821d953e0b6e7926a9aae7262522a67c4728c882d19ea5be288",
     "docs/exploration/TEST_RESULTS.txt": "aae4feb7278f283ff890fe925f5f5d2b42a2e582d75379383becb5c5056dc616",
     "docs/exploration/TIME_TEST_RESULTS_V0.22.3.txt": "35a95166539436545f8eb865eea08c1139e046c3ac83417dc9f4752840983199",
+    "docs/exploration/TIME_TEST_RESULTS_V0.22.4.txt": "3c6620f32287659ba4d194e6817dce911054f228dffce60e4cd23cbaeb232f83",
     "docs/exploration/TOPBAR_BROWSER_QA_V0.22.1.json": "cc64f8135de6db3f558a28f77841d310a87fb08c0aa62a369ab532412d55ee36",
     "docs/exploration/TOPBAR_TEST_RESULTS_V0.22.1.txt": "b717973b6df217e4277d2140b02031b042f7d20adc59525e3b5fca39e2c5ec1a",
     "docs/releases/v0.21.12.md": "2749c0d8f38286ed1baf72da07427b2c1c0d9c66c503ee561a0854d413ddc7ce",
@@ -66,7 +69,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "65f4155fe0613a85bf19f82127854ebf9355f0d1ea4b053b5609f09ee795c86d",
+    "index.html": "cc695cee46e791d21601bf4806782e02022b1d95bd7e17b880165d03df398aa5",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -155,16 +158,16 @@
     "tests/audio-next.test.cjs": "0520ed977056f813860dce06504840e661780cf77a3b97289cea24c6d29cada1",
     "tests/audio.test.cjs": "1707055629944040630fdfb9e604783465bf3f08770c8b30668f51de798c9eb3",
     "tests/baseline-v0.21.5.html": "4f47274b315bc592d54966ce6acc734c3c8c725bfb71b2abae1cbe527371073e",
-    "tests/clock-preview.html": "f569a8d120d5f6737692f941a4bc3d75f5b9a70b8e1ce4d94ae7632197bfb563",
+    "tests/clock-preview.html": "0d6b9b76b98a0c596d768d52c43cf1ed306b6d76bfa09f65490719689cea0cae",
     "tests/events.test.cjs": "9f57c0dbe76c395c749d60c2e79b05aefb29c99ec8271963cde08b5fc0a753e4",
     "tests/exploration.test.cjs": "b52b35dfbbe9cf1de80eae94d44b80e7a1ef5bfbd277a136fd7d60546635b8b3",
     "tests/feedback.test.cjs": "cd77678f8cac0dce74c920181554a4607862732ed8e2421094bedc0ef7163537",
     "tests/helpers/audio-game.cjs": "7fac8f11a4172d58021f298c5d33cfaa4f1d25e05d80f2978edae505e3cda8f4",
-    "tests/opening-clock.test.cjs": "4b7217b4bc8a1c878aaac57474963e651e2258358c1d767a42d5d458ad91d893",
+    "tests/opening-clock.test.cjs": "06110e60e589ea22d807b06baf4de930b326ed34305a3195b1c4fc762eb646f9",
     "tests/scene-time.test.cjs": "fe4e249942deb406f52fc256ecddffb392780344c95cc6d411e5931d56d04861",
     "tests/topbar-preview.html": "d4dacd5800dd40272784121b310ede21ce7230786d9b3369e59c8c5412abe85c",
     "tests/topbar.test.cjs": "48b83deeed37160eae92c5a4b189bd1648f8f8ae2c09a2cc130f3453db612b1e",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "50e090bbb33c4a5897a30274a8d44ed197e54c3f3a35c420d7e3643453046a6a"
+    "更新說明.txt": "547a44dc948d808f62402251d14798a420d75bea707eec2be4eefa222d285772"
   }
 }
