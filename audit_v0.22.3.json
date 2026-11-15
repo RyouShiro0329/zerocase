@@ -1,0 +1,23 @@
+{
+  "version": "0.22.3",
+  "build": 55,
+  "created_at": "2026-11-15T16:49:26+08:00",
+  "timezone": "Asia/Taipei",
+  "baseline_index_git_blob": "4b3794921de9ff7b9f4b95cef1a7d97e7f1ecd63",
+  "changes": [
+    "開局時間改為 20:00，入口簡介與 301 號房敘述一致。",
+    "以手機確認時間，移除停電造成電子鐘秒數不動的敘述；冷氣及室內照明因停電停止。",
+    "天象沿弧線由左至右，正午與午夜固定在弧頂，入夜及清晨依遊戲時段切換。",
+    "修正圖示座標，讓圖示實際貼合弧線。",
+    "有起始時間的舊存檔保留原始時間，未記起點的舊存檔仍以 06:00 起算；清晨 05:00 換日。",
+    "劇情中接送班次與歷史紀錄的 23:41 保留原文。"
+  ],
+  "tests": {
+    "total": 116,
+    "pass": 116,
+    "fail": 0,
+    "command": "node --test tests/*.test.cjs",
+    "report": "docs/exploration/TIME_TEST_RESULTS_V0.22.3.txt"
+  },
+  "save_compatibility": "保留 G.t0、G.clock 與既有排程；只有新局使用 20:00。"
+}
