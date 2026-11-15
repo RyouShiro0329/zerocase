@@ -1,0 +1,32 @@
+# 來源及授權（2026-11-15 更新）
+
+## 第二批素材
+
+| 素材 | 作者 | 來源頁 | 授權及處理 |
+|---|---|---|---|
+| glassstep | LukaCafuka | https://freesound.org/people/LukaCafuka/sounds/757830/ | CC0；裁切、音量調整 |
+| waterpipe | HenKonen | https://freesound.org/people/HenKonen/sounds/797674/ | CC0；裁切、循環交疊、音量調整 |
+| waterpump／pumpmix／pumpstop | unfa | https://freesound.org/people/unfa/sounds/221551/ | CC0；裁切、循環交疊、與上述管線混合、音量調整 |
+| radiostatic | harrisonlace | https://freesound.org/people/harrisonlace/sounds/812929/ | CC0；裁切、淡入淡出、音量調整 |
+| radio01–radio27 | VoiceBosch | https://voicebosch.itch.io/radio-soldier-announcer-audio-pack | CC BY-SA 4.0；由主人提供的同名 27 句 MP3 切段，降低一個半音、保留原速與共振峰、調整音量；本次衍生音檔同採 CC BY-SA 4.0 |
+
+人聲授權連結：https://creativecommons.org/licenses/by-sa/4.0/ 。作者同時於 Pixabay 提供同名合輯：https://pixabay.com/sound-effects/film-special-effects-radio-soldier-announcer-pack-197724/ 。本次以作者官方音效包的 CC BY-SA 4.0 條件標示衍生錄音，保留作者與來源，未宣稱對錄音擁有原創權。作者未替遊戲背書。未使用聲音複製或模型訓練。
+
+`D_GACHA.WAV` 僅有使用者提供的檔名，尚未確認可公開使用之授權；不放入 GitHub 或交付發布素材。遊戲改用自行程式合成的鎖門卡榫聲。之後取得可核對來源再替換。
+
+## 第一批素材
+
+六個素材上傳的原始檔名已包含 Freesound ID 和部分作者資訊；以下逐一核對來源頁面標示。下列是來源頁面授權紀錄，**不是對音訊內容著作權真實來源的法律保證**。建議在遊戲 Credits 中一併保留作者及來源。
+
+| 聲音 | 作者 | Freesound ID | 來源 | 頁面授權 |
+|---|---|---:|---|---|
+| window breaking | RangoAnimations | 613879 | https://freesound.org/people/RangoAnimations/sounds/613879/ | CC0 |
+| Fire Alarm | simonjeffery13 | 792484 | https://freesound.org/people/simonjeffery13/sounds/792484/ | CC0 |
+| Small Diesel Generator | jameswrowles | 516759 | https://freesound.org/people/jameswrowles/sounds/516759/ | CC0 |
+| 9mm Handgun Being Dry Fired | serøutōnin--deprivəd | 674568 | https://freesound.org/people/ser%C3%B8ut%C5%8Dnin--depriv%C9%99d/sounds/674568/ | CC0 |
+| Echo Bang.m4a | RoyalRose | 560295 | https://freesound.org/people/RoyalRose/sounds/560295/ | CC0 |
+| Kicking/Forcing/Breaking Wooden Door | qubodup | 160213 | https://freesound.org/people/qubodup/sounds/160213/ | CC0 |
+
+**備註：** qubodup 頁面在描述中提及作者個人頁面的「CC BY attribution requirements」，但音效頁面另明確標示本檔為 **Creative Commons 0**。以檔案頁面標示為核對依據，仍建議 Credits 自願列出作者名稱以避免來源資訊流失。
+
+這六個新增素材的授權核對不代表**既有 39 個音效**全部已完成來源及授權審查；原本 Credits 記載的其他素材仍應個別查核。

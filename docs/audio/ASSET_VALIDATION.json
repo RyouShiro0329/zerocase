@@ -1,0 +1,684 @@
+[
+  {
+    "file": "sfx/airraid_event.mp3",
+    "seconds": 12.042449,
+    "peak_dbfs": -1.5,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 2
+      }
+    ]
+  },
+  {
+    "file": "sfx/beretta.mp3",
+    "seconds": 1.828571,
+    "peak_dbfs": -8.9,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/berettaReload.mp3",
+    "seconds": 2.246531,
+    "peak_dbfs": 0.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/bgm.mp3",
+    "seconds": 75.049796,
+    "peak_dbfs": -0.4,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 2
+      }
+    ]
+  },
+  {
+    "file": "sfx/bgm.ogg",
+    "seconds": 75.023673,
+    "peak_dbfs": -0.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "vorbis",
+        "sample_rate": "44100",
+        "channels": 2
+      }
+    ]
+  },
+  {
+    "file": "sfx/bhit.mp3",
+    "seconds": 0.339592,
+    "peak_dbfs": -6.9,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/bite.mp3",
+    "seconds": 1.149388,
+    "peak_dbfs": 0.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      },
+      {
+        "codec_name": "png"
+      }
+    ]
+  },
+  {
+    "file": "sfx/bolt.mp3",
+    "seconds": 2.194286,
+    "peak_dbfs": -2.6,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 2
+      }
+    ]
+  },
+  {
+    "file": "sfx/casing.mp3",
+    "seconds": 0.313469,
+    "peak_dbfs": -13.1,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/claw.mp3",
+    "seconds": 3.056327,
+    "peak_dbfs": 0.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/click.mp3",
+    "seconds": 0.391837,
+    "peak_dbfs": -5.6,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/death.mp3",
+    "seconds": 2.586122,
+    "peak_dbfs": -1.8,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/doorclose.mp3",
+    "seconds": 0.679184,
+    "peak_dbfs": -2.7,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/dooropen.mp3",
+    "seconds": 0.626939,
+    "peak_dbfs": -4.2,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/drawer.mp3",
+    "seconds": 0.914286,
+    "peak_dbfs": -7.4,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/dryfire.mp3",
+    "seconds": 0.313469,
+    "peak_dbfs": 0.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/equip.mp3",
+    "seconds": 1.097143,
+    "peak_dbfs": -6.6,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/fal.mp3",
+    "seconds": 1.776327,
+    "peak_dbfs": -2.7,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 2
+      },
+      {
+        "codec_name": "png"
+      }
+    ]
+  },
+  {
+    "file": "sfx/falReload.mp3",
+    "seconds": 1.906939,
+    "peak_dbfs": 0.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/firealarm.mp3",
+    "seconds": 9.247347,
+    "peak_dbfs": -10.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 2
+      }
+    ]
+  },
+  {
+    "file": "sfx/fist.mp3",
+    "seconds": 0.809796,
+    "peak_dbfs": -0.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/genloop.mp3",
+    "seconds": 18.050612,
+    "peak_dbfs": -13.1,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 2
+      }
+    ]
+  },
+  {
+    "file": "sfx/genloop.ogg",
+    "seconds": 18.0,
+    "peak_dbfs": -13.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "vorbis",
+        "sample_rate": "44100",
+        "channels": 2
+      }
+    ]
+  },
+  {
+    "file": "sfx/genstart.mp3",
+    "seconds": 7.549388,
+    "peak_dbfs": -12.1,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 2
+      }
+    ]
+  },
+  {
+    "file": "sfx/glassbreak.mp3",
+    "seconds": 2.324898,
+    "peak_dbfs": -3.7,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 2
+      }
+    ]
+  },
+  {
+    "file": "sfx/goliath.mp3",
+    "seconds": 385.253878,
+    "peak_dbfs": -1.8,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 2
+      }
+    ]
+  },
+  {
+    "file": "sfx/goliath_loop.mp3",
+    "seconds": 82.050612,
+    "peak_dbfs": -2.2,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 2
+      }
+    ]
+  },
+  {
+    "file": "sfx/headshot.mp3",
+    "seconds": 1.776327,
+    "peak_dbfs": -5.1,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/heal.mp3",
+    "seconds": 0.705306,
+    "peak_dbfs": 0.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/knife.mp3",
+    "seconds": 1.018776,
+    "peak_dbfs": 0.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/mimpact.mp3",
+    "seconds": 5.12,
+    "peak_dbfs": -3.4,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/mp5.mp3",
+    "seconds": 2.808,
+    "peak_dbfs": 0.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "24000",
+        "channels": 2
+      }
+    ]
+  },
+  {
+    "file": "sfx/mp5Reload.mp3",
+    "seconds": 2.64,
+    "peak_dbfs": -1.5,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "48000",
+        "channels": 2
+      }
+    ]
+  },
+  {
+    "file": "sfx/mthrow.mp3",
+    "seconds": 2.298776,
+    "peak_dbfs": -1.4,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/pickup.mp3",
+    "seconds": 0.574694,
+    "peak_dbfs": -6.1,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/pill.mp3",
+    "seconds": 1.776327,
+    "peak_dbfs": -10.5,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/revolver.mp3",
+    "seconds": 2.533878,
+    "peak_dbfs": 0.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/revolverCock.mp3",
+    "seconds": 2.429388,
+    "peak_dbfs": -4.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/rifle.mp3",
+    "seconds": 1.724082,
+    "peak_dbfs": 0.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 2
+      }
+    ]
+  },
+  {
+    "file": "sfx/rummage.mp3",
+    "seconds": 2.586122,
+    "peak_dbfs": -19.2,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/shotgun.mp3",
+    "seconds": 1.968,
+    "peak_dbfs": -0.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "24000",
+        "channels": 2
+      }
+    ]
+  },
+  {
+    "file": "sfx/smash.mp3",
+    "seconds": 1.671837,
+    "peak_dbfs": -0.3,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/spit.mp3",
+    "seconds": 1.828571,
+    "peak_dbfs": 0.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/splat.mp3",
+    "seconds": 1.880816,
+    "peak_dbfs": -0.7,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/squish.mp3",
+    "seconds": 0.600816,
+    "peak_dbfs": -11.3,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/stairs.mp3",
+    "seconds": 3.526531,
+    "peak_dbfs": 0.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/step.mp3",
+    "seconds": 0.444082,
+    "peak_dbfs": -6.1,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/thud.mp3",
+    "seconds": 1.201633,
+    "peak_dbfs": 0.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/woodimpact.mp3",
+    "seconds": 1.044898,
+    "peak_dbfs": 0.0,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/woodknock.mp3",
+    "seconds": 2.324898,
+    "peak_dbfs": -0.8,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/zipper.mp3",
+    "seconds": 2.324898,
+    "peak_dbfs": -16.5,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  },
+  {
+    "file": "sfx/zstep.mp3",
+    "seconds": 0.757551,
+    "peak_dbfs": -1.6,
+    "decode": "PASS",
+    "streams": [
+      {
+        "codec_name": "mp3",
+        "sample_rate": "44100",
+        "channels": 1
+      }
+    ]
+  }
+]
