@@ -1,13 +1,13 @@
 {
-  "version": "0.22.0",
-  "build": 52,
-  "created_at": "2026-11-15T15:07:18+08:00",
-  "source_base_commit": "c965a99a081412ebb4c2b2b2dc44545c9d1ddf7d",
+  "version": "0.22.1",
+  "build": 53,
+  "created_at": "2026-11-15T15:28:36+08:00",
   "deployment": "GitHub Pages；雲端瀏覽器上傳",
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "README.md": "f622d83355de0e2f8645a403f62be3c616c350f9de4fc65f331cbc21071f8fe3",
     "audit_v0.22.0.json": "23f18817a8d89c07c3eb44f3d1fe7958eef3c50a6b3a90ecd617c562cf45e514",
+    "audit_v0.22.1.json": "a8a930748128e91585f0c0393c6883db3a1b28bc2730373d62d718717fb15b77",
     "docs/audio/2026-11-15-integration-plan.md": "1d8c7185ad2742e1f1b70279b5f9d274f03c36a1b4104513dc5842d2df9ade8d",
     "docs/audio/ASSET_VALIDATION.json": "190994b75a706198d1f3e3435ee47441cee202e55fe70c3593fab8d55d538d0b",
     "docs/audio/ASSET_VALIDATION_V0.21.10.json": "6d61e118b4a1ebef0708d9e4e687d55afbf48a288d61c98a772f1cb5113c612a",
@@ -29,7 +29,10 @@
     "docs/exploration/2026-11-15-design.md": "b9e66c4ab0eb888cd00da6062ef83014e9ddfec8c960dd002abaaeef30266561",
     "docs/exploration/2026-11-15-plan.md": "1b65f993e7fc132132cf106dc11398358ff2e433b23b7e73aa3c1506f58783f6",
     "docs/exploration/RELEASE_V0.22.0.md": "7104a0646be4021807fb479441c8b9343e0bfebe7ed47d410c959daaf07200d9",
+    "docs/exploration/RELEASE_V0.22.1.md": "cb7f6cf8a6cecc4686b5fb9fa6c3c2a6c160f8944cd04181e3babf541e295882",
     "docs/exploration/TEST_RESULTS.txt": "aae4feb7278f283ff890fe925f5f5d2b42a2e582d75379383becb5c5056dc616",
+    "docs/exploration/TOPBAR_BROWSER_QA_V0.22.1.json": "cc64f8135de6db3f558a28f77841d310a87fb08c0aa62a369ab532412d55ee36",
+    "docs/exploration/TOPBAR_TEST_RESULTS_V0.22.1.txt": "b717973b6df217e4277d2140b02031b042f7d20adc59525e3b5fca39e2c5ec1a",
     "docs/releases/v0.21.12.md": "2749c0d8f38286ed1baf72da07427b2c1c0d9c66c503ee561a0854d413ddc7ce",
     "fonts/README.md": "90982e9334a778f37e2894edd038ba52d55baa9293b065df9fdf4e356970b5d2",
     "fonts/SOURCES.md": "95d1e579324006d3904df22cfa78425191a9eed85215c84acb2592948eabf8fa",
@@ -57,7 +60,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "2dfa6c8ef7ed9adf8c4b4d1d3042a0c509dd2222e60b9ddd2ab80a1e680cc2cc",
+    "index.html": "67c084a06498b80d134ecc6ffa278380df1f97c3d31e8ae0bcb817c2fc7a194c",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -151,7 +154,9 @@
     "tests/feedback.test.cjs": "cd77678f8cac0dce74c920181554a4607862732ed8e2421094bedc0ef7163537",
     "tests/helpers/audio-game.cjs": "7fac8f11a4172d58021f298c5d33cfaa4f1d25e05d80f2978edae505e3cda8f4",
     "tests/scene-time.test.cjs": "fe4e249942deb406f52fc256ecddffb392780344c95cc6d411e5931d56d04861",
+    "tests/topbar-preview.html": "34d884bc0edd27e77e3590015f9bfe8eb79bfc3b82fc0f895d75813bf7f1a05f",
+    "tests/topbar.test.cjs": "48b83deeed37160eae92c5a4b189bd1648f8f8ae2c09a2cc130f3453db612b1e",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "387de6fc84c4a97f5653275f4796df70d3688f00ed823a6ae6bc244bc5384642"
+    "更新說明.txt": "56d61b292da513a8b0748d30279da52c097e06b3b3105ef917cfd685d97f90af"
   }
 }

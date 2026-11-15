@@ -1,0 +1,45 @@
+{
+  "version": "0.22.1",
+  "build": 53,
+  "time": "2026-11-15T15:28:36+08:00",
+  "baseline": "0.22.0",
+  "baseline_index_blob": "d0199596a7945b1721627ace41bc269ef9726491",
+  "cause": [
+    "compact-tools 將頂端欄改為兩列",
+    "narrow 樣式隱藏警戒值"
+  ],
+  "fix": "恢復單列；時間區164px；縮減工具列留白；警戒保持顯示",
+  "node_tests": {
+    "passed": 106,
+    "failed": 0
+  },
+  "browser_qa": {
+    "landscape": [
+      [
+        640,
+        360
+      ],
+      [
+        768,
+        354
+      ],
+      [
+        896,
+        414
+      ],
+      [
+        1024,
+        480
+      ]
+    ],
+    "portrait_auto_rotation": [
+      432,
+      936
+    ],
+    "passed": 5,
+    "baseline_height": 77,
+    "fixed_height": 42
+  },
+  "gameplay_changed": false,
+  "android_physical_device_tested": false
+}
