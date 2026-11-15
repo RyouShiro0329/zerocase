@@ -41,13 +41,13 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .topbar{display:flex;align-items:center;gap:12px;min-height:44px;padding-bottom:4px;border-bottom:1px solid rgba(85,82,72,.6);flex:none}
 .lvl{flex:0 1 240px;min-width:0;max-width:34%}
 .lvl b{display:block;font-weight:900;font-size:1.25rem;line-height:1.15;color:var(--gold);letter-spacing:.06em;text-shadow:0 2px 6px #000;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lvl small{display:block;font-size:.7rem;color:var(--muted);letter-spacing:.08em;white-space:nowrap;font-variant-numeric:tabular-nums}
+.lvl small{display:flex;align-items:center;gap:4px;font-size:.7rem;color:var(--muted);letter-spacing:0;white-space:nowrap;font-variant-numeric:tabular-nums}.lv-place{flex:0 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.lv-difficulty{flex:0 0 auto;white-space:nowrap}
 .time-weather{position:relative;flex:1;min-width:240px;display:flex;align-items:center;justify-content:center;gap:10px}.mid{flex:0 0 164px;min-width:164px;display:flex;flex-direction:column;align-items:center;gap:2px}.sky-clock{width:100%}.weather{position:absolute;left:calc(50% + 86px);width:34px;display:flex;flex-direction:column;align-items:center;gap:1px;color:#b9b5a6;font-size:.7rem;white-space:nowrap}.weather svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
 .sky-clock{height:22px;max-width:240px;color:#c7c3b2;opacity:.9}
 .sky-clock svg{display:block;width:100%;height:100%;overflow:visible}
 .sky-clock .chalk{fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
 .sky-clock .sky-track{stroke-dasharray:2 5;opacity:.32}
-.sky-clock .sky-dawn-mark,.sky-clock .sky-stars{opacity:.55}.sky-clock .sky-sunset{stroke:#c8ad7a}
+.sky-clock .sky-cloud{opacity:.6}.sky-clock .sky-stars{opacity:.55}.sky-clock .sky-sunset{stroke:#c8ad7a}
 #stage.short .sky-clock{height:18px}
 .mid small{color:var(--muted);font-size:.74rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tools{flex:none;display:flex;gap:6px}
@@ -558,6 +558,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 #stage.compact-tools .mid{flex:0 0 164px;min-width:164px;max-width:164px}
 #stage.compact-tools .mid small{font-size:.68rem}
 #stage.compact-tools .tools{display:flex;flex:0 0 auto;flex-wrap:nowrap;gap:4px}#stage.compact-tools .tools .btn{min-height:30px;font-size:.76rem;padding:3px 6px}
+#stage.narrow .time-weather{min-width:220px}#stage.narrow .weather{width:24px}#stage.narrow .lv-chapter{display:none}
 #stage.narrow .tools{gap:3px}#stage.narrow .tools .btn{font-size:.65rem;padding:3px 3px}
 
 </style>
@@ -591,7 +592,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.23.0", "b": 57, "t": "2026-11-15T23:39:50+08:00"};
+const ZC_VER={"v": "0.23.1", "b": 58, "t": "2026-11-16T00:01:10+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3427,9 +3428,8 @@ function skyClockMarkup(){
   const x=posX.toFixed(1),y=posY.toFixed(1);
   const sun='<circle r="4"/><path d="M0-7v-2 M0 7v2 M-7 0h-2 M7 0h2 M-5-5l-1.5-1.5 M5 5l1.5 1.5 M5-5l1.5-1.5 M-5 5l-1.5 1.5"/>';
   const moon='<path d="M3-7a7 7 0 1 0 3 11A7 7 0 0 1 3-7Z"/><path d="M10-7v3 M8.5-5.5h3"/>';
-  const sunrise='<g class="sky-sunrise"><path d="M-5 3a5 5 0 0 1 10 0 M-7 3H7 M0-5v-2 M-6-2l-2-2 M6-2l2-2"/></g>';
-  const icon=night?moon:period==='dawn'?sunrise:period==='dusk'?'<g class="sky-sunset">'+sun+'</g>':sun;
-  return `<svg viewBox="0 0 240 34" role="img" aria-label="${timeTxt()}"><title>${timeTxt()}・全天由左至右表示時間推移：清晨在左側、正午在中央、接近午夜在最右側</title><g class="chalk"><path class="sky-track" d="M12 27 Q120-5 228 27"/><path opacity=".18" d="M10 29 Q121-3 230 28"/><g class="sky-dawn-mark"><path d="M12 29h13 M15 25h8 M18 21h3"/></g><g class="sky-stars"><path d="M224 22v5 M221.5 24.5h5 M232 28v3 M230.5 29.5h3"/><circle cx="234" cy="21" r=".6"/></g><g transform="translate(${x} ${y})">${icon}</g></g></svg>`;
+  const icon=night?moon:period==='dusk'?'<g class="sky-sunset">'+sun+'</g>':sun;
+  return `<svg viewBox="0 0 240 34" role="img" aria-label="${timeTxt()}"><title>${timeTxt()}・全天由左至右表示時間推移：清晨在左側、正午在中央、接近午夜在最右側</title><g class="chalk"><path class="sky-track" d="M12 27 Q120-5 228 27"/><path opacity=".18" d="M10 29 Q121-3 230 28"/><g class="sky-cloud" transform="translate(24 24) scale(.65)"><path d="M-10 4h18a3 3 0 0 0 0-6 5 5 0 0 0-9-3 4 4 0 0 0-7 4 2.5 2.5 0 0 0-2 5Z"/></g><g class="sky-stars"><path d="M224 22v5 M221.5 24.5h5 M232 28v3 M230.5 29.5h3"/><circle cx="234" cy="21" r=".6"/></g><g transform="translate(${x} ${y})">${icon}</g></g></svg>`;
 }
 // 到下一個清晨 05:00 還有幾分鐘（過夜用）
 const untilDawn=()=>{const m=absMin()%1440;return (300-m+1440)%1440||1440};
@@ -5042,12 +5042,16 @@ function foeBadges(f){const b=(t,c)=>`<span class="bd ${c||''}">${t}</span>`;con
   if(f.shaken)a.push(b('動搖','g'));if(f.away)a.push(b('拉開距離','g'));
   return a}
 function myTurn(){const F=G&&G.fight;if(!F||!F.group||F.resolving)return false;return F.group.includes(MYPID)&&!G.busy}
+function locationDetailMarkup(Lv){
+  const chapter=(CHAPTERS[Lv.ch||1]||CHAPTERS[1]).n;
+  return `<span class="lv-place"><span class="lv-chapter">${esc(chapter)}　</span>${esc(Lv.n)}・${esc(Lv.sub)}</span><span class="lv-difficulty">｜${esc(DF().n)}</span>`;
+}
 function draw(){
   codexDraw();syncAmbience();
   if(!G||!$('#app'))return;
   const m=me(),Lv=LV[G.lv]||LV.A;
   $('#lvN').textContent=G.ev!=null?'意外':(N[G.node]||{}).n||'';
-  $('#lvS').textContent=`${(CHAPTERS[Lv.ch||1]||CHAPTERS[1]).n}　${Lv.n}・${Lv.sub}　｜${DF().n}`;
+  $('#lvS').innerHTML=locationDetailMarkup(Lv);
   $('#skyClock').innerHTML=skyClockMarkup();$('#weather').innerHTML=weatherMarkup();
   $('#mids').innerHTML=`<b class="clk ${isNight()?'nt':''}">${timeTxt()}</b><b class="nz">　警戒 ${G.alarm}／10</b>`;
   if(!G.fight){FTAB=null;PEND=null}

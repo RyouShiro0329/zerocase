@@ -1,0 +1,38 @@
+{
+  "version": "0.23.1",
+  "build": 58,
+  "created_at": "2026-11-16T00:01:10+08:00",
+  "timezone": "Asia/Taipei",
+  "baseline_commit": "d8204fab712376017683ed08883ef17b06a92cb9",
+  "changes": [
+    "手機頂端的地點與難度改為分開排版，難度文字不參與縮減，完整顯示普通／困難／真實。",
+    "調整最窄橫向的天氣欄空間；窄畫面省去重複區域前綴，保留樓層、狀態與難度。",
+    "天象左端恢復原本的雲朵圖案，右端星點保留。",
+    "清晨改為完整太陽，取消半輪太陽及階梯狀晨光線。",
+    "保留全天由左至右的時間位置、既有天氣與音效功能。"
+  ],
+  "tests": {
+    "command": "node --test tests/*.test.cjs",
+    "total": 128,
+    "pass": 128,
+    "fail": 0,
+    "red_before_fix": 2
+  },
+  "browser_qa": {
+    "sizes": [
+      "640x360",
+      "768x354",
+      "896x414",
+      "1024x480",
+      "432x936 rotated"
+    ],
+    "all_pass": true,
+    "baseline_truncated_location_reproduced": true,
+    "checks": [
+      "副標完整顯示",
+      "天氣不重疊",
+      "天象天數置中",
+      "八個工具按鈕均可見"
+    ]
+  }
+}
