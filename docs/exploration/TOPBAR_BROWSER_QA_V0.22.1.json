@@ -1,0 +1,11 @@
+{
+  "summary": "PASS：5 種尺寸通過，且舊版跑版已重現。",
+  "results": [
+    "舊版重現：{\"singleRow\":false,\"compactHeight\":false,\"alarmVisible\":true,\"infoFits\":true,\"noOverlap\":false,\"buttonsFit\":true,\"buttonTouch\":true,\"eightButtons\":true}，頂端高度 77 px",
+    "通過：{\"singleRow\":true,\"compactHeight\":true,\"alarmVisible\":true,\"infoFits\":true,\"noOverlap\":true,\"buttonsFit\":true,\"buttonTouch\":true,\"eightButtons\":true}，頂端高度 42 px",
+    "通過：{\"singleRow\":true,\"compactHeight\":true,\"alarmVisible\":true,\"infoFits\":true,\"noOverlap\":true,\"buttonsFit\":true,\"buttonTouch\":true,\"eightButtons\":true}，頂端高度 42 px",
+    "通過：{\"singleRow\":true,\"compactHeight\":true,\"alarmVisible\":true,\"infoFits\":true,\"noOverlap\":true,\"buttonsFit\":true,\"buttonTouch\":true,\"eightButtons\":true}，頂端高度 42 px",
+    "通過：{\"singleRow\":true,\"compactHeight\":true,\"alarmVisible\":true,\"infoFits\":true,\"noOverlap\":true,\"buttonsFit\":true,\"buttonTouch\":true,\"eightButtons\":true}，頂端高度 42 px",
+    "通過：{\"singleRow\":true,\"compactHeight\":true,\"alarmVisible\":true,\"infoFits\":true,\"noOverlap\":true,\"buttonsFit\":true,\"buttonTouch\":true,\"eightButtons\":true}，頂端高度 42 px"
+  ]
+}
