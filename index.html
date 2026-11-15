@@ -425,10 +425,12 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 /* 敵人立繪 */
 #enc{position:absolute;inset:0;z-index:48;background:radial-gradient(ellipse at 50% 60%,rgba(52,8,8,.9),rgba(0,0,0,.97));display:flex;align-items:flex-end;justify-content:center;cursor:pointer}
 #enc[hidden]{display:none}
-#enc .row{display:flex;gap:2vw;align-items:flex-end;justify-content:center;height:88%;padding:0 4%;max-width:100%}
-#enc figure{margin:0;display:flex;flex-direction:column;align-items:center;min-width:0;flex:0 1 auto;height:100%;justify-content:flex-end}
-#enc img{max-height:88%;max-width:30vw;object-fit:contain;filter:drop-shadow(0 0 18px rgba(0,0,0,.9))}
+#enc .row{display:flex;gap:2vw;align-items:flex-end;justify-content:safe center;height:86%;padding:0 4%;width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;box-sizing:border-box}
+#enc figure{margin:0;display:flex;flex-direction:column;align-items:center;min-width:0;flex:0 0 auto;height:100%;justify-content:flex-end}
+#enc img{height:min(560px,88%);width:auto;max-height:none;max-width:none;flex:none;object-fit:contain;filter:drop-shadow(0 0 18px rgba(0,0,0,.9))}
 #enc figure i{display:block;width:60px;height:60%}
+#enc .enc-state{position:absolute;top:3%;left:0;right:0;text-align:center;color:var(--gold);font-size:1.5rem;letter-spacing:.2em;text-shadow:0 2px 8px #000}
+#enc .enc-state small{display:block;font-size:.72rem;letter-spacing:.05em;color:var(--muted)}
 #enc figcaption{color:#e9b9a8;font-weight:700;font-size:.95rem;text-shadow:0 2px 6px #000;padding:4px 0 10px;white-space:nowrap}
 #enc.go img{animation:encin .5s ease-out both}
 @keyframes encin{from{transform:translateY(12%);opacity:0;filter:brightness(3) drop-shadow(0 0 18px #000)}to{transform:none;opacity:1}}
@@ -561,7 +563,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的電子錶停在 23:41。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.21.10", "b": 49, "t": "2026-11-15T02:49:22+08:00"};
+const ZC_VER={"v": "0.21.11", "b": 50, "t": "2026-11-15T09:42:50+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -1036,7 +1038,7 @@ A2:{L:'A',n:'301 號房',next:'A3',
  c:[
  {l:'用身體抵住門',s:'力量檢定',k:'STR',d:12,ok:{t:`你整個人壓在門板上，雙腳蹬住地毯。每撞一下，門框就往內彈一下，震得你牙齒發酸。
 
-撞了十幾下之後，力道越來越弱。外面的東西喘著氣在門口站了一會兒，然後拖著腳走開，去拍隔壁的門。`,p:{fear:6}},
+撞了十幾下之後，力道越來越弱。外面的東西喘著氣在門口站了一會兒，然後拖著腳走開，撞向隔壁的門。`,p:{fear:6}},
   ng:{t:`你剛壓上去，門就被撞開了一半，門板直接砸在你臉上。你往後摔倒，一個穿睡衣的人從門縫擠了進來，嘴邊全是血。`,p:{hp:-2,fear:10},fight:{n:1,mode:'ambush',names:['撞門的感染者']}}},
  {l:'把書桌拖過去頂住門',s:'不用檢定，但很吵（警戒 +2）',ok:{t:`你把書桌拖過地毯，斜卡在門後。門外的東西撞得更兇了，每一下書桌都往後滑一截。你用整個身體壓著桌子，聽見門板另一側傳來指甲刮木頭的聲音。
 
@@ -2891,7 +2893,7 @@ const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 const COLS=['#c8ad70','#8fb0d4','#8fbf98','#c88a9e','#d49a6a','#a99bd6','#7fc4c0','#c9c27a'];
 const MAXP=8;
 // 音效 v4：只標註已核對的劇情結果，不變更遊戲結果。
-N.A3x.c.find(c=>c.l==='撬開販賣機').ok.audio='glassbreak';
+// 撬販賣機是金屬機殼變形，未取得對應素材前不硬套玻璃聲。
 {const c=N.A4.c.find(c=>c.l.includes('消防栓箱'));c.ok.audio=c.ng.audio='glassbreak'}
 for(const label of ['用身體抵住門','從貓眼看清楚外面'])N.A2.c.find(c=>c.l===label).ng.audio='woodimpact';
 N.A2.c.find(c=>c.l==='躲進浴室，鎖上門').ok.audio='woodimpact';
@@ -3175,7 +3177,7 @@ const SYN={
  zap(){noise(0,.35,4200,.8,.35,'highpass');tone(0,60,.3,.14,'square',55);tone(.05,1800,.12,.06,'sawtooth',900);return 360},
  level(){tone(0,55,2.2,.16,'sawtooth',48);tone(0,82,2.2,.08,'sine',77);noise(0,2,180,2,.08,'lowpass');return 2200}
 };
-const FALL={heal:'craft',pill:'craft',rummage:'craft',stairs:'land',zipper:'craft',step:'humanstep',drawer:'craft',pickup:'ok',dooropen:'land',doorclose:'land',beretta:'fumble',berettaReload:'dry',revolver:'fumble',revolverCock:'dry',casing:'dry',fist:'hurt',claw:'hurt',knife:'hurt',zstep:'infectedstep',headshot:'fumble',mthrow:'whoosh',mimpact:'fumble',death:'fumble',click:'dry',equip:'dry',bite:'hurt',smash:'fumble',splat:'hurt',spit:'whoosh',thud:'land',squish:'hurt',bhit:'dry',shotgun:'fumble',fal:'fumble',falReload:'dry',mp5:'fumble',mp5Reload:'dry',rifle:'fumble',bolt:'dry',dryfire:'dry',glassbreak:'craft',woodknock:'land',woodimpact:'fumble',genstart:'groan'};
+const FALL={heal:'craft',pill:'craft',rummage:'craft',stairs:'land',zipper:'craft',step:'humanstep',drawer:'craft',pickup:'ok',dooropen:'land',doorclose:'land',beretta:'fumble',berettaReload:'dry',revolver:'fumble',revolverCock:'dry',casing:'dry',fist:'hurt',claw:'hurt',knife:'hurt',zstep:'infectedstep',headshot:'fumble',mthrow:'whoosh',mimpact:'fumble',death:'fumble',click:'dry',equip:'dry',bite:'hurt',smash:'fumble',splat:'hurt',spit:'whoosh',thud:'land',squish:'hurt',bhit:'dry',shotgun:'fumble',fal:'fumble',falReload:'dry',mp5:'fumble',mp5Reload:'dry',rifle:'fumble',bolt:'dry',dryfire:'dry'};
 // 劇情裡受傷的聲音：照文字判斷是什麼弄傷的（電、刀刃玻璃、槍、火、撞擊），都不是就用程式合成的悶哼
 function hurtSnd(t){t=String(t||'');if(/電|火花|觸電/.test(t))return 'zap';if(/玻璃|割|刺絲|刀|劃/.test(t))return 'knife';if(/子彈|槍|彈丸/.test(t))return 'bhit';/* v0.13.3 燒燙傷不再用燃燒瓶的爆炸聲，改用一般受傷聲 */if(/咬|抓|爪|指甲|撲/.test(t))return 'claw';if(/摔|砸|撞|掉|壓|踢|打/.test(t))return 'thud';return 'hurt'}
 // sfx 回傳毫秒長度；await sfxW 會等到聲音播完
@@ -3301,10 +3303,12 @@ const S2F=n=>n<=0?0:n===1?8:Math.round(n*7.5);
 function fearMsg(p,s0,up){const s1=fstg(p),w=MP()?nm(p)+'：':'';
   if(s1!==s0)return out(`${w}${up?'陷入':'回到'}「${FSTG[s1]}」。`,up?'dmg':'good',true);
   out(`${w}${up?pick(['心跳越來越快。','手心全是冷汗。','背脊一陣發涼。']):pick(['呼吸慢慢穩了下來。','稍微鎮定了一些。'])}`,up?'dmg':'good',true)}
-// 增加恐懼（n 為恐懼點數）。quiet：只有換階段時才提示
-function scare(p,n,quiet){if(!n||n<=0||p.dead||p.mad)return;const s0=fstg(p);n=Math.max(1,Math.round(n*fearRate(p)));p.fe=clamp((p.fe||0)+n,0,100);if(!quiet||fstg(p)!==s0)fearMsg(p,s0,1)}
-// 降低恐懼。floor：恐懼在 50 以上時最多只能降到 50（休息用）
-function relax(p,n,quiet,floor){if(!n||n<=0||p.dead||p.mad)return;const s0=fstg(p),f0=p.fe||0;let v=Math.max(0,f0-n);if(floor&&f0>=50)v=Math.max(50,v);if(v===f0)return;p.fe=v;if(!quiet||fstg(p)!==s0)fearMsg(p,s0,0)}
+// 每次實際變化都留下紀錄；quiet 僅保留為舊呼叫相容參數，不再漏記數值。
+function setFear(p,value){const before=p.fe||0,s0=fstg(p);p.fe=clamp(value,0,100);const delta=p.fe-before;if(!delta)return;
+  const stage=fstg(p);out(`${nm(p)}：恐懼 ${delta>0?'+':'−'}${Math.abs(delta)}（目前 ${p.fe}／100）${stage!==s0?`，${delta>0?'陷入':'回到'}「${FSTG[stage]}」`:''}。`,delta>0?'dmg':'good',true)}
+function scare(p,n,quiet){if(!n||n<=0||p.dead||p.mad)return;n=Math.max(1,Math.round(n*fearRate(p)));setFear(p,(p.fe||0)+n)}
+// floor：恐懼在 50 以上時最多只能降到 50（休息用）。紀錄採實際差額。
+function relax(p,n,quiet,floor){if(!n||n<=0||p.dead||p.mad)return;const f0=p.fe||0;let v=Math.max(0,f0-n);if(floor&&f0>=50)v=Math.max(50,v);setFear(p,v)}
 // 相容舊呼叫：loseSan(p, 舊理智點數)
 function loseSan(p,n,quiet){if(n>0)scare(p,S2F(n),quiet);else if(n<0)relax(p,S2F(-n),quiet)}
 // 劇情裡的 fear：正數直接加恐懼，負數降低恐懼
@@ -3529,12 +3533,12 @@ async function enterNode(id){
     if(!first&&fresh){teamXP(1);for(const p of able()){if(p.mad)continue;if((p.fe||0)>0){out(`${MP()?nm(p)+'：':''}換了個地方，稍微喘了口氣。`,'good',true);relax(p,10,true)}}}
     if(G.flags.hotelburn&&(LV[nd.L].ch||1)===1&&!first){out('旅館外牆整片在燒。你們從還沒燒到的側門鑽進去，濃煙嗆得人睜不開眼。','dmg');for(const p of able()){hurtP(p,3);scare(p,10,true)}if(await deathCheck())return}
     if(typeof lateJoin==='function')lateJoin();
-    for(const p of G.players)if(p.down&&!p.dead&&DF().wake){p.down=0;if(p.mad){p.mad=0;p.fe=90}p.hp=Math.max(1,Math.ceil(p.max*.25));out(`${nm(p)}咳了幾聲，慢慢撐著牆站了起來。生命回到 ${p.hp}。`,'good')}
+    for(const p of G.players)if(p.down&&!p.dead&&DF().wake){p.down=0;if(p.mad){p.mad=0;setFear(p,90)}p.hp=Math.max(1,Math.ceil(p.max*.25));out(`${nm(p)}咳了幾聲，慢慢撐著牆站了起來。生命回到 ${p.hp}。`,'good')}
   }
   G.node=id;G.ev=null;G.audioVisit=(G.audioVisit||0)+1;G.audioEnteredAt=Date.now();G.votes={};G.rv={};G.pc=null;/* v0.21.0：地上的東西留在原地，回來還撿得到 */G.grounds=G.grounds||{};if(G.gnode&&G.gnode!==id)G.grounds[G.gnode]=G.ground.length?G.ground:undefined;if(G.gnode!==id)G.ground=G.grounds[id]||[];G.gnode=id;G.flags['v_'+id]=1;if(nd.onEnter)nd.onEnter();
   if(nd.ev){const ch=LV[nd.L].ch||1;const mine=EVPOOL.map((e,i)=>i).filter(i=>(EVPOOL[i].ch||1)===ch&&evOk(EVPOOL[i]));const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;hd('——');out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
   else{hd(nd.n);out(nd.t,'lore');if(nd.tx){const x=nd.tx();if(x)out(x,'lore')}if(nd.tm&&G.players.some(p=>p.kind==='maggie'))out(nd.tm,'lore')}
-  if(id==='WP5')G.flags.wpfail=0;AUDIO_MOVING=false;syncAmbience();if(id==='A2')snd('woodknock',1,2400);
+  if(id==='WP5')G.flags.wpfail=0;AUDIO_MOVING=false;syncAmbience();if(id==='A2')snd('woodimpact',1,2400);
   reportEffects();reportGround();
   if(G.lv==='G'){for(const p of able())addInf(p,G.flags.mask?1:2);out(`空氣裡飄著細細的粉末，喉嚨發癢。感染 +${G.flags.mask?1:2}${G.flags.mask?'（濕布擋掉了一些）':''}。`,'dmg',true)}
   {const fx=LV[G.lv].fx||{};
@@ -3676,7 +3680,7 @@ async function outcome(o,actor){
   syncAmbience();
   if(r.pay)for(const [k,q] of Object.entries(r.pay)){let left=q;for(const ow of able()){const n=Math.min(left,ow.items[k]||0);if(n){takeI(ow,k,n);left-=n}if(!left)break}}
   // 過夜：睡到清晨（時間已在選項扣掉），生命回 50%、恐懼 −35，發瘋的人恢復
-  if(r.sleep){for(const q of G.players){if(q.dead)continue;if(q.mad){q.mad=0;q.fe=Math.min(q.fe||100,85);out(`${nm(q)}睡了一覺，醒來時眼神終於對得上焦了。`,'good',true)}if(q.down){q.down=0;q.hp=Math.max(q.hp,1)}const hp=Math.min(q.max-q.hp,Math.ceil(q.max*.5));q.hp+=hp;out(`${MP()?nm(q)+'：':''}生命 +${hp}。`,'good',true);relax(q,35)}}
+  if(r.sleep){for(const q of G.players){if(q.dead)continue;if(q.mad){q.mad=0;setFear(q,Math.min(q.fe||100,85));out(`${nm(q)}睡了一覺，醒來時眼神終於對得上焦了。`,'good',true)}if(q.down){q.down=0;q.hp=Math.max(q.hp,1)}const hp=Math.min(q.max-q.hp,Math.ceil(q.max*.5));q.hp+=hp;out(`${MP()?nm(q)+'：':''}生命 +${hp}。`,'good',true);relax(q,35)}}
   if(r.rest){for(const q of able()){const hp=Math.min(q.max-q.hp,r.rest.hp||0);q.hp+=hp;out(`${MP()?nm(q)+'：':''}生命 +${hp}。`,'good',true);if(r.rest.san)relax(q,20,false,1)}}
   if(r.karma)for(const q of able())q.karma=(q.karma||0)+r.karma;
   if(r.use){const keys=r.use==='$req'?reqList(CURC||{}):[r.use];for(const k of keys){const ow=owner(k,actor);if(ow){if(k.startsWith('g:')){const g=ow.gear.find(x=>x.id===k.slice(2));if(g&&WEAP[g.id].kind==='spray'){g.dur--;if(g.dur<=0)rmGear(ow,g.u)}}else takeI(ow,k);break}}}
@@ -3706,7 +3710,7 @@ async function ending(key){
   // v0.9.0 沒有章節了：離開旅館這類出口只是換地點，不結算碎片
   if(e.next&&N[e.next]){
     for(const p of G.players){
-      if(p.mad&&!p.dead){p.mad=0;p.down=0;p.fe=50;p.hp=Math.max(p.hp,Math.ceil(p.max/2));out(`${nm(p)}在大家的拉扯下安靜了下來，坐在路邊看著自己的手，好像剛想起自己是誰。`,'good')}
+      if(p.mad&&!p.dead){p.mad=0;p.down=0;setFear(p,50);p.hp=Math.max(p.hp,Math.ceil(p.max/2));out(`${nm(p)}在大家的拉扯下安靜了下來，坐在路邊看著自己的手，好像剛想起自己是誰。`,'good')}
       else if(p.down&&!p.dead){p.down=0;p.hp=Math.ceil(p.max/3);out(`${nm(p)}被大家架著走出來，慢慢醒了過來。`,'good',true)}
     }
     push();draw();await wait(400);
@@ -3819,11 +3823,11 @@ async function startFight(spec){
   for(const f of foes){if(spec.noMut||FT(f).fac==='acru'||Math.random()>=mch)continue;giveAff(f,pick(Object.keys(AFF).filter(k=>AFF[k].fac===FT(f).fac)))}
   nameFoes(foes);
   for(const p of G.players){p.combo=0;p.counter=0;p.brace=0;p.actUsed=0;p.defPen=0;p.aimed=0;p.stance=null;p.held=0;p.dazed=0;p.humus=0;p.calmUsed=0;p.skUsed={};p.covering=0;p.grit=0}
-  G.fight={foes,P:Math.max(1,P0),sl:{},hb:{},bg:{},noise:null,order:[],turn:0,round:1,arrows:{},first:spec.mode==='first',cur:null,noflee:G.lv==='D',nocover:['D','R'].includes(G.lv),tUsed:{}};
+  G.fight={foes,P:Math.max(1,P0),sl:{},hb:{},bg:{},noise:null,order:[],turn:0,round:1,arrows:{},opening:spec.mode||'normal',first:spec.mode==='first',cur:null,noflee:G.lv==='D',nocover:['D','R'].includes(G.lv),tUsed:{}};
   G.phase='fight';await flush();snd(encounterStep(foes));push();draw();
   if((LV[G.lv].fx||{}).fightAlarm)addAlarm(1,null);
   if(n>spec.n)out(`不只一個。陰影裡還有${n-spec.n===1?'另一個':'更多'}。`,'bad',true);
-  await encounter(foes);
+  await encounter(foes,spec.mode);
   for(const f of foes)if(f.aff)out(`<b>${f.n}</b>：${AFF[f.aff].d}`,'bad',true);
   if(mixed)out('他們不是一夥的。兩邊也互相看到了對方：他們會打你們，也會打彼此。想打誰，由你們自己挑。','rule',true);
   if(foes.some(f=>FT(f).fac==='acru')){radioLine('radio02');out('其中一人的對講機傳出：「Hostiles inbound.（敵方正在接近。）」紅色的鏡片同時轉向你們，槍口跟著對了過來。','bad');if(foes.some(f=>f.hid))out('遠處的高樓上，好像有什麼東西反了一下光。','sys');out(`他們是受過訓練的部隊：每一回合最多 ${acruCap()} 次射擊，同一個人一回合最多被打兩次；其他人會包抄、換位置。看到預告就要準備。`,'rule',true)}
@@ -4227,7 +4231,7 @@ async function charSkill(p,a,ti){const k=a.id,C=CSKILL[k],F=G.fight;if(!C||!skLe
   if(k==='soothe'){const t=P(a.to);if(!t||t.dead||t.down)return false;return await soothe(p,t)}
   return false}
 async function soothe(p,t){if(!skLeft(p,'soothe')||!t||t.dead||t.down||t===p)return false;skUse(p,'soothe');
-  const was=t.mad;if(was){t.mad=0;t.fe=75}else relax(t,22,true);
+  const was=t.mad;if(was){t.mad=0;setFear(t,75)}else relax(t,22,true);
   out(`${nm(p)}：<b>冷靜下來</b>　${was?`按住${nm(t)}的肩膀，一直叫他的名字，直到笑聲停下來。${nm(t)}恢復了意識，`:`陪${nm(t)}慢慢把呼吸放緩。`}${nm(t)}現在「${fstgN(t)}」。`,'good');return true}
 // 臨時調配：外用酒精、威士忌或燃料做成燃燒瓶（每區域一次）
 function brew(p){if(!skLeft(p,'brew')||G.fight)return false;const k=['fuel','alcohol','whiskey'].find(x=>hasI(p,x));if(!k){msgTo(p,'需要外用酒精、威士忌或燃料。');return false}
@@ -4287,7 +4291,7 @@ async function execAct(p,a){
     if(c.ok){h.hid=0;snd('step',.7);out(`${nm(p)}盯著遠處那點反光，終於看清楚了：對面樓頂的水塔旁邊，有個披著披肩的人影趴在那裡。<b>${h.n}</b>現在可以被攻擊了。`,'good')}
     else out(`${nm(p)}掃過一扇扇窗戶和樓頂，還是找不到那點紅光是從哪裡來的。`,'sys')}
   else if(a.a==='dual'){if(!canDual(p))return false;p.dual=1;out(`${nm(p)}：<b>雙持攻擊</b>`,'act',true);try{await attack(p,'R',null,ti);if(G.fight&&!G.over&&aliveF().length&&canDual(p)){const t2=F.foes[ti]&&!F.foes[ti].dead?ti:(aliveF()[0]||{}).id;await attack(p,'L',null,t2)}}finally{p.dual=0}}
-  else if(a.a==='calm'){const t=P(a.to);if(!t||!t.mad||t.dead||t.down||p.calmUsed)return false;p.calmUsed=1;const c=await check(p,'CHA',14,'安撫');if(c.ok){t.mad=0;t.fe=75;out(`${nm(p)}抓住${nm(t)}的肩膀，一直叫他的名字。笑聲慢慢停了下來。${nm(t)}恢復了意識，但還在「${fstgN(t)}」。`,'good')}else out(`${nm(t)}一把推開${nm(p)}，又開始笑了。`,'dmg')}
+  else if(a.a==='calm'){const t=P(a.to);if(!t||!t.mad||t.dead||t.down||p.calmUsed)return false;p.calmUsed=1;const c=await check(p,'CHA',14,'安撫');if(c.ok){t.mad=0;setFear(t,75);out(`${nm(p)}抓住${nm(t)}的肩膀，一直叫他的名字。笑聲慢慢停了下來。${nm(t)}恢復了意識，但還在「${fstgN(t)}」。`,'good')}else out(`${nm(t)}一把推開${nm(p)}，又開始笑了。`,'dmg')}
   else if(a.a==='subdue'){const t=P(a.to);if(!t||!t.mad||t.dead||t.down)return false;used=await subdue(p,t)}
   else if(a.a==='use'){used=await useItem(p,a.k,a.to)}
   else if(a.a==='revive'){used=await revive(p,a.to,a.k)}
@@ -4332,7 +4336,7 @@ async function useItem(p,k,to){
   const it=ITEMS[k];if(!it||!hasI(p,k))return false;
   const T=to&&to!==p.pid?P(to):p;if(!T||T.dead||T.down||T.away)return false;const other=T!==p;
   if(it.revive){out('這個要用在倒地的隊友身上。','sys');return false}
-  if(it.calm){const t=other&&T.mad?T:!other?able().find(q=>q!==p&&q.mad):null;if(t){takeI(p,k);await sndW(it.snd||'pill',1,900,.6);t.mad=0;t.fe=70;out(`${nm(p)}按住${nm(t)}，把鎮定劑扎進他的手臂。過了一會兒，笑聲停了。${nm(t)}恢復了意識，但還在「${fstgN(t)}」。`,'good');return true}}
+  if(it.calm){const t=other&&T.mad?T:!other?able().find(q=>q!==p&&q.mad):null;if(t){takeI(p,k);await sndW(it.snd||'pill',1,900,.6);t.mad=0;setFear(t,70);out(`${nm(p)}按住${nm(t)}，把鎮定劑扎進他的手臂。過了一會兒，笑聲停了。${nm(t)}恢復了意識，但還在「${fstgN(t)}」。`,'good');return true}}
   if(it.t==='wear'){if(other)return false;return wearItem(p,k)}
   if(!['med','food','misc'].includes(it.t))return false;
   if(other&&(k==='photo'||it.t==='misc'))return false;
@@ -4396,7 +4400,7 @@ async function revive(p,to,k){
   const t=P(to);if(!t||!t.down||t.dead||!hasI(p,k)||!ITEMS[k].revive)return false;
   takeI(p,k);await sndW(ITEMS[k].snd||'heal',1,1500,.8);
   const v=ITEMS[k].revive;p.revives=(p.revives||0)+1;
-  const cm=t.mad?(t.mad=0,t.fe=90,1):0;if(cm)out(`${nm(t)}醒過來的時候不再笑了，只是一直發抖。還在「${fstgN(t)}」。`,'good',true);
+  const cm=t.mad?(t.mad=0,setFear(t,90),1):0;if(cm)out(`${nm(t)}醒過來的時候不再笑了，只是一直發抖。還在「${fstgN(t)}」。`,'good',true);
   t.down=0;t.hp=v<1?Math.ceil(t.max*v):v;
   out(k==='aed'?`${nm(p)}撕開${nm(t)}的衣服貼上電極片。「分析心律中，請勿碰觸患者。」電擊。${nm(t)}猛地吸進一口氣。生命回到 ${t.hp}。`:`${nm(p)}把注射筆用力扎進${nm(t)}的大腿。幾秒之後，${nm(t)}瞪大眼睛坐了起來。生命回到 ${t.hp}。`,'good');
   return true}
@@ -4472,10 +4476,12 @@ function handle(pid,a){
 }
 
 /* ---- 遭遇：戰鬥開始時亮出敵人的立繪 ---- */
-async function encounter(foes){const d=foes.map(f=>({n:f.n,img:f.img||''}));if(!d.some(x=>x.img))return;await flush();E('enc',d);await showEnc(d)}
-async function showEnc(d){const c=$('#enc');if(!c)return;
-  c.innerHTML=`<div class="row">${d.map(x=>`<figure>${x.img?`<img src="img/${x.img}.webp" alt="">`:'<i></i>'}<figcaption>${x.n}</figcaption></figure>`).join('')}</div>`;
-  c.hidden=false;c.classList.remove('go');void c.offsetWidth;c.classList.add('go');
+function encounterMarkup(d,mode){const title=mode==='first'?'我方先制':mode==='ambush'?'敵方突襲':'遭遇戰';const note=mode==='first'?'偷襲完成後再擲先攻':mode==='ambush'?'反應成功可解除敵方先攻加成':'行動順序由先攻決定';
+  return `<div class="enc-state">${title}<small>${note}</small></div><div class="row">${d.map(x=>`<figure>${x.img?`<img src="img/${esc(x.img)}.webp" alt="${esc(x.n)}">`:'<i></i>'}<figcaption>${esc(x.n)}</figcaption></figure>`).join('')}</div>`}
+function battleState(){const F=G&&G.fight;if(!F)return '';if(F.sneak)return '我方先制';if(F.round>1)return '戰鬥中';if(F.order&&F.order.length)return F.order[0].k==='f'?'敵人先制':'我方先制';return F.opening==='first'?'我方先制':F.opening==='ambush'?'敵方突襲':'遭遇戰'}
+async function encounter(foes,mode){const d=foes.map(f=>({n:f.n,img:f.img||'',mode:mode||'normal'}));if(!d.some(x=>x.img))return;await flush();E('enc',d);await showEnc(d)}
+async function showEnc(data){const c=$('#enc');if(!c)return;const d=Array.isArray(data)?data:data.foes,mode=Array.isArray(data)?(data[0]&&data[0].mode||'normal'):data.mode;
+  c.innerHTML=encounterMarkup(d,mode);c.hidden=false;c.classList.remove('go');void c.offsetWidth;c.classList.add('go');
   await Promise.race([wait((FAST?700:1700)*Math.max(.5,UI.spd)),new Promise(r=>{c.onclick=r})]);c.hidden=true}
 /* ================= QTE：突然發生的事，沒反應過來就會受傷 =================
    畫面左右兩側會跳出有編號的格子，一次出現兩格（例如 1、2），照順序點完才出現下一組。
@@ -4821,7 +4827,7 @@ function draw(){
   if(F){cb.hidden=false;const pend=PEND&&myTurn();
     $('#foes').innerHTML=F.foes.map(f=>{const dead=f.dead||f.hp<=0;const st=dead?[]:foeBadges(f);const hp=dead?0:f.hp;
       return `<div class="foe ${pend&&!dead?'pick':''} ${!dead&&F.cur==='f'+f.id?'tg':''} ${dead?'dead':''}" data-id="${f.id}" ${pend&&!dead?`data-tgt="${f.id}"`:''}><div class="fpic">${f.img?`<img src="${foeImg(f)}" alt="">`:'<i>?</i>'}</div><div class="fin"><div class="fh"><b>${f.n}</b></div><div class="fhp"><div class="hpb"><u style="width:${Math.max(0,hp)/f.max*100}%"></u></div><span>${hp}/${f.max}</span></div><div class="fk">${DF().num===0?'':`<em>防禦 ${fDef(f)}</em>`}${knowTxt(f)}${f.defDown?'　護甲破損':''}</div>${dead||st.length?`<div class="fst">${dead?`<span class="bd">${f.fled?'離開':'倒下'}</span>`:st.join('')}</div>`:''}</div></div>`}).join('');
-    $('#order').innerHTML=F.order.length?`<span class="rd">第 ${F.round} 回合</span>`+F.order.map((o,i)=>{if(o.k==='p'){const p=P(o.id);return `<span class="pl ${o.id===MYPID?'me':''} ${(F.group&&!F.resolving?F.group.includes(o.id):i===F.turn)?'now':''} ${p.dead||p.down||p.away?'gone':''}" style="${MP()?`color:${p.col}`:''}">${esc(p.name)}<em>${o.init}</em></span>`}const f=F.foes[o.id];return `<span class="fo ${i===F.turn?'now':''} ${f.dead||f.hp<=0?'gone':''}">${f.n}<em>${o.init}</em></span>`}).join(''):'<span class="rd">擲骰中</span>';
+    $('#order').innerHTML=`<span class="rd">${battleState()}</span>`+(F.order.length?`<span class="rd">第 ${F.round} 回合</span>`+F.order.map((o,i)=>{if(o.k==='p'){const p=P(o.id);return `<span class="pl ${o.id===MYPID?'me':''} ${(F.group&&!F.resolving?F.group.includes(o.id):i===F.turn)?'now':''} ${p.dead||p.down||p.away?'gone':''}" style="${MP()?`color:${p.col}`:''}">${esc(p.name)}<em>${o.init}</em></span>`}const f=F.foes[o.id];return `<span class="fo ${i===F.turn?'now':''} ${f.dead||f.hp<=0?'gone':''}">${f.n}<em>${o.init}</em></span>`}).join(''):'<span class="rd">擲骰中</span>');
   }else cb.hidden=true;
   $('#me').hidden=true;
   {const v=$('#vig'),v2=$('#vig2'),lg=$('#log');const r=m&&!m.dead?Math.max(0,m.hp)/m.max:1,sr=m&&!m.dead?(m.mad?0:fstg(m)>=3?.2:1):1;
@@ -4940,7 +4946,7 @@ function teamExtra(p){const effects=statEffects(p);const at=Object.keys(STN).map
   let ch='';if(G.fight&&G.fight.pend&&G.fight.pend[p.pid]){try{ch=actLabel(p,G.fight.pend[p.pid])}catch(e){ch='已選好'}}
   else if(G.votes&&G.votes[p.pid]!=null){const b=document.querySelector(`#choices [data-ch="${G.votes[p.pid]}"] .cl`);ch=b?b.textContent:'已投票'}
   const tl=Object.values(G.told||{}).filter(x=>x.pid===p.pid).map(x=>x.t);
-  return `<div class="chips tat">${at}${p.pts?`<span style="color:var(--gold)">可加點 ${p.pts}</span>`:''}</div>${ch?`<div class="chips"><span>選了：${esc(ch)}</span></div>`:''}${tl.length?`<div class="chips"><span>告知：「${esc(tl[tl.length-1])}」</span></div>`:''}`}
+  return `<div class="chips"><span>現金 $${p.usd||0}</span></div><div class="chips tat">${at}${p.pts?`<span style="color:var(--gold)">可加點 ${p.pts}</span>`:''}</div>${ch?`<div class="chips"><span>選了：${esc(ch)}</span></div>`:''}${tl.length?`<div class="chips"><span>告知：「${esc(tl[tl.length-1])}」</span></div>`:''}`}
 function drawDD(){const d=$('#tdd');if(!G){d.hidden=true;return}
   d.innerHTML=[...G.players].sort((a,b)=>(b.pid===MYPID)-(a.pid===MYPID)).map(p=>`<div class="tcard ${p.down?'dn':''} ${p.dead?'dd':''}">${av(p,1)}<div><div class="nm2"><b>${esc(p.name)}</b>${tallyMk(p,'sm')}<small>Lv${p.lv}　${roleN(p)}${MP()&&p.pid===MYPID?'（你）':''}　${p.dead?'死亡':p.down?'倒地':p.mad?'<span class="bad">發瘋</span>':''}</small></div>
    <div class="b2">${bar('hp','生命',Math.max(0,p.hp),p.max,` ${Math.max(0,p.hp)}`)}${bar('fe fs'+fstg(p),'恐懼',fstg(p),4,` ${fstgN(p)}`)}${bar('in','感染',p.inf,100,` ${p.inf}`)}${bar('hu','飢餓',p.hun,10,` ${p.hun}`)}${bar('th','口渴',p.thi,10,` ${p.thi}`)}</div>
