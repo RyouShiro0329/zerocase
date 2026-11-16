@@ -633,7 +633,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.24.9", "b": 70, "t": "2026-11-16T16:37:14+08:00"};
+const ZC_VER={"v": "0.25.0", "b": 71, "t": "2026-11-16T19:13:58+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -816,7 +816,7 @@ const WEAP={
  r870:{n:'雷明頓 870',hands:2,dt:['ballistic'],st:['PER'],hit:2,dd:[2,12],kind:'gun',ammo:'shell',mag:8,load:2,noise:4,snd:'beretta',rl:'revolverCock',sk:['scatter'],d:'泵動霰彈槍。一次只裝 2 發。'},
  fal:{n:'FN FAL',hands:2,dt:['ballistic'],st:['PER'],hit:-1,dd:[2,12],ap:1,kind:'gun',ammo:'ammo762',mag:20,noise:4,snd:'fal',rl:'falReload',sk:['burst3','precise'],d:'戰鬥步槍。穿甲：不吃槍擊抗性。'},
  model70:{n:'溫徹斯特 Model 70',hands:2,dt:['ballistic'],st:['PER'],hit:-2,dd:[6,10],ap:1,kind:'gun',ammo:'ammo308',mag:5,load:1,noise:4,snd:'rifle',rl:'bolt',sk:['aim'],d:'栓動步槍。穿甲；一次只裝 1 發。'},
- r700:{n:'雷明頓 700',hands:2,dt:['ballistic'],st:['PER'],hit:-1,dd:[6,10],ap:1,kind:'gun',ammo:'ammo308',mag:5,load:1,noise:4,snd:'rifle',rl:'bolt',sk:['aim'],d:'那支部隊的狙擊手用的栓動步槍，裝著瞄準鏡和消音器。穿甲；一次只裝 1 發。'}
+ r700:{n:'雷明頓 700',hands:2,dt:['ballistic'],st:['PER'],hit:-1,dd:[6,10],ap:1,kind:'gun',ammo:'ammo308',mag:5,load:1,noise:4,snd:'rifle',rl:'bolt',sk:['aim'],d:'裝著瞄準鏡的栓動步槍。穿甲；一次只裝 1 發。'}
 };
 const KINDN={melee:'近戰',ranged:'遠程',gun:'槍械',spray:'噴射'};
 /* ============ 技能 ============
@@ -855,17 +855,23 @@ const FOES={
  infected:{n:'感染者',fac:'inf',hp:10,def:10,hit:4,dmg:5,xp:3,rd:{blunt:1.5,slash:1,pierce:.5,ballistic:1,fire:1.5},san:1,tdc:11,ter:1,init:2,weak:['fire'],res:[],inf:[3,3],hear:1,d:'感染初期、還沒有太多變異的感染者。身體還活著，但已經不能算是人了。聽到槍聲會撲向開槍的人；不會逃跑，也不會防禦。'},
  incubator:{n:'孵化者',fac:'inf',hp:12,def:9,hit:3,dmg:2,xp:4,rd:{blunt:.5,slash:1,pierce:1.5,ballistic:1,fire:1.5},san:1,tdc:12,ter:2,init:0,weak:['fire','pierce'],res:['blunt'],inf:[3,6],splash:4,d:'全身長滿囊泡。牠不急著撲上來，而是把囊泡扯下來丟向你；被沾到的地方會一直發癢、發燙。近身打死會噴濺。'},
  devourer:{n:'巨噬者',fac:'inf',hp:22,def:11,hit:4,dmg:4,xp:8,rd:{blunt:1,slash:.5,pierce:1,ballistic:1,fire:1.5},san:2,tdc:13,ter:2,init:0,weak:['fire'],res:[],inf:[2,5],shell:2,big:1,d:'血肉一層層堆上去的龐大感染者。身上有兩層硬化組織：打在上面的傷害最多只剩一半，每打中一下少一層；火焰不受硬化影響，還會燒掉一層。'},
- cutter:{n:'割喉者',fac:'hum',hp:11,def:12,hit:5,dmg:4,xp:4,rd:{blunt:1.5,slash:.5,pierce:1,ballistic:1,fire:1},san:0,tdc:0,ter:0,init:4,weak:[],res:[],inf:[0,0],human:1,d:'拿獵刀的劫匪。動作快，專挑流血的人下手。打不過就會逃，不會死戰。'},
+ predator:{n:'獵食者',fac:'inf',hp:14,def:13,hit:5,dmg:3,xp:6,rd:{blunt:1,slash:.5,pierce:1.5,ballistic:1,fire:1.5},san:1,tdc:13,ter:1.6,init:5,weak:[],res:[],inf:[2,4],hear:1,hide:1,lurk:1,duo:1,d:'四肢著地、高度變異的感染者。一開始躲在暗處，沒被找到之前打不到；第一次出手只撲一下，之後每一回合都會連續動兩次。飛撲之後會露出破綻。'},
+ harvester:{n:'收割者',fac:'inf',hp:24,def:12,hit:6,dmg:5,xp:10,rd:{blunt:.5,slash:1.5,pierce:1,ballistic:1,fire:1.5},san:2,tdc:14,ter:2.14,init:3,weak:[],res:[],inf:[2,3],hear:1,reap:1,d:'肢體拉長成刀刃的感染者。砍中多半會見血；只要有人在流血、著火、骨折、失去平衡或被抓住，牠同一回合就會再動一次。對流血的人會準備一記重斬，止血就能讓牠落空。'},
+ cutter:{n:'割喉者',fac:'hum',hp:11,def:12,hit:5,dmg:4,xp:4,rd:{blunt:1.5,slash:.5,pierce:1,ballistic:1,fire:1},san:0,tdc:0,ter:0,init:4,weak:[],res:[],inf:[0,0],human:1,d:'拿獵刀的劫匪。動作快，專挑流血的人下手。撐不住時會負傷撤走，不會死戰到底。'},
+ // v0.25.0 三陣營第一批（主人 2026-11-16）：生命用回復後比例換算的基礎值，多人照 foeHp 的比例加
+ quickdraw:{n:'快槍手',fac:'hum',hp:10,def:13,hit:6,dmg:5,xp:6,rd:{blunt:1,slash:1.5,pierce:.5,ballistic:1,fire:1},san:0,tdc:0,ter:0,init:5,weak:[],res:[],inf:[0,0],human:1,shooter:1,mag:6,rl:'revolverCock',d:'拿 Model 10 左輪的劫匪，出手比誰都快。平常直接開槍；停下來把準星壓穩、或是拇指扣住擊鎚的時候，下一次就是重的。六發打完要花一次行動裝填。貼身打中他能打斷準備。'},
+ arsonist:{n:'縱火客',fac:'hum',hp:11,def:11,hit:4,dmg:3,xp:5,rd:{blunt:1,slash:1,pierce:1.5,ballistic:1,fire:.5},san:0,tdc:0,ter:0,init:2,weak:[],res:[],inf:[0,0],human:1,d:'提著一袋燃燒瓶的劫匪，外衣耐燒。先點燃瓶口，下一次才丟；丟出去的瓶子最多燒到兩個人，被燒到要花一次行動拍熄。點著的時候貼身打中他，那瓶就廢了。'},
+ oldhunter:{n:'老獵人',fac:'hum',hp:11,def:12,hit:6,dmg:6,xp:7,rd:{blunt:1.5,slash:1,pierce:.5,ballistic:1,fire:1},san:0,tdc:0,ter:0,init:2,weak:[],res:[],inf:[0,0],human:1,shooter:1,mag:1,rl:'bolt',hcov:1,d:'拿獵槍的老手，一直躲在掩體後面：遠程打他比較難打中，近身就沒有這個好處。瞄準、開槍、裝填，一發一發來；開過槍之後會露出來，直到裝好下一發。'},
  collector:{n:'索命客',fac:'hum',hp:13,def:10,hit:4,dmg:5,xp:5,rd:{blunt:.5,slash:1,pierce:1.5,ballistic:1,fire:1},san:0,tdc:0,ter:0,init:1,weak:[],res:[],inf:[0,0],human:1,shooter:1,d:'扛著單管霰彈槍的劫匪。先舉槍瞄準，下一次才開火，開一槍就要重裝一次。貼上去打他能打斷瞄準。'},
- // 滅菌部隊（v0.12.0，主人 2026-11-13 定的數值）：shooter 共用同時開火上限；mag 彈匣；bres 防彈背心減槍擊；loot 打倒後的裝備
- acru_trooper:{n:'隊員',fac:'acru',hp:14,def:12,hit:6,dmg:4,xp:6,rd:{blunt:1.5,slash:1,pierce:1,ballistic:.5,fire:1},san:0,tdc:0,ter:0,init:3,weak:[],res:[],inf:[0,0],human:1,shooter:1,mag:30,rl:'mp5Reload',loot:{gear:'mp5',items:{ammo9:[4,8]}},d:'A.C.R.U. 的一般隊員，HK MP5A5。不說話、不談條件，兩三人一組同步行動。防彈背心擋得住大部分子彈（槍擊只有一半效果），但被重物砸中容易失去平衡。30 發打完才換彈匣。'},
- acru_captain:{n:'隊長',fac:'acru',hp:28,def:13,hit:7,dmg:6,xp:14,rd:{blunt:1,slash:1.5,pierce:1,ballistic:.5,fire:1},san:0,tdc:0,ter:0,init:4,weak:[],res:[],inf:[0,0],human:1,shooter:1,lead:1,boss:1,mag:20,rl:'falReload',loot:{gear:'fal',items:{ammo762:6}},d:'戴紅色貝雷帽的帶隊者，FN FAL。在場時其他隊員命中 +1；會下令集火、一槍精準射擊就能要人命。20 發打完才換彈匣。'},
- acru_flamer:{n:'噴火兵',fac:'acru',hp:18,def:11,hit:4,dmg:5,xp:9,rd:{blunt:1,slash:1,pierce:1.5,ballistic:.5,fire:.5},san:0,tdc:0,ter:0,init:0,weak:[],res:[],inf:[0,0],human:1,shooter:1,flame:1,loot:{items:{gasmask:1,filter:1}},d:'背著三瓶式噴火器的隊員，沒有副武器。先推進，才噴得到人；噴火打全體、掩蔽擋不住，連噴兩次要加壓一回合。被槍打死時燃料罐會爆炸，炸傷他的同伴。'},
- acru_sniper:{n:'狙擊手',fac:'acru',hp:12,def:12,hit:9,dmg:22,xp:10,rd:{blunt:1,slash:1.5,pierce:1,ballistic:.5,fire:1},san:0,tdc:0,ter:0,init:2,weak:[],res:[],inf:[0,0],human:1,shooter:1,hide:1,mag:5,rl:'bolt',loot:{gear:'r700',items:{ammo308:3}},d:'雷明頓 700。躲在遠處，沒被找到之前打不到他。先用紅點鎖定狀態最差的人，下一次才開槍；穿甲、閃躲沒用。'}
+ // 滅菌部隊（v0.12.0，主人 2026-11-13 定的數值）：shooter 共用同時開火上限；mag 彈匣。v0.25.0 起人類敵人戰鬥不掉裝備（主人 2026-11-16）
+ acru_trooper:{n:'隊員',fac:'acru',hp:14,def:12,hit:6,dmg:4,xp:6,rd:{blunt:1.5,slash:1,pierce:1,ballistic:.5,fire:1},san:0,tdc:0,ter:0,init:3,weak:[],res:[],inf:[0,0],human:1,shooter:1,mag:30,rl:'mp5Reload',d:'A.C.R.U. 的一般隊員，HK MP5A5。不說話、不談條件，兩三人一組同步行動。防彈背心擋得住大部分子彈（槍擊只有一半效果），但被重物砸中容易失去平衡。30 發打完才換彈匣。'},
+ acru_captain:{n:'隊長',fac:'acru',hp:28,def:13,hit:7,dmg:6,xp:14,rd:{blunt:1,slash:1.5,pierce:1,ballistic:.5,fire:1},san:0,tdc:0,ter:0,init:4,weak:[],res:[],inf:[0,0],human:1,shooter:1,lead:1,boss:1,mag:20,rl:'falReload',d:'戴紅色貝雷帽的帶隊者，FN FAL。在場時其他隊員命中 +1；會下令集火、一槍精準射擊就能要人命。20 發打完才換彈匣。'},
+ acru_flamer:{n:'噴火兵',fac:'acru',hp:18,def:11,hit:4,dmg:5,xp:9,rd:{blunt:1,slash:1,pierce:1.5,ballistic:.5,fire:.5},san:0,tdc:0,ter:0,init:0,weak:[],res:[],inf:[0,0],human:1,shooter:1,flame:1,d:'背著三瓶式噴火器的隊員，沒有副武器。先推進，才噴得到人；噴火打全體、掩蔽擋不住，連噴兩次要加壓一回合。被槍打死時燃料罐會爆炸，炸傷他的同伴。'},
+ acru_sniper:{n:'狙擊手',fac:'acru',hp:12,def:12,hit:9,dmg:22,xp:10,rd:{blunt:1,slash:1.5,pierce:1,ballistic:.5,fire:1},san:0,tdc:0,ter:0,init:2,weak:[],res:[],inf:[0,0],human:1,shooter:1,hide:1,mag:5,rl:'bolt',d:'雷明頓 700。躲在遠處，沒被找到之前打不到他。先用紅點鎖定狀態最差的人，下一次才開槍；穿甲、閃躲沒用。'}
 };
 const FAC_N={inf:'感染者',hum:'人類',acru:'A.C.R.U.'};
 // 劇情裡寫的描述名只用來判斷類型；畫面上一律顯示類型名稱
-const FOE_BY_NAME=[[/索命客|霰彈槍/,'collector'],[/割喉者|獵刀|劫匪|掠奪者/,'cutter'],[/冷凍庫|沙發|廚師|網裡|帳篷裡|水裡|培養槽/,'incubator'],[/滅菌隊長|紅色貝雷/,'acru_captain'],[/噴火|燃料罐/,'acru_flamer'],[/狙擊/,'acru_sniper'],[/A\.C\.R\.U|滅菌部隊|滅菌隊員/,'acru_trooper'],[/警衛|防爆|防護衣|大個子/,'devourer']];
+const FOE_BY_NAME=[[/索命客|霰彈槍/,'collector'],[/快槍手|左輪/,'quickdraw'],[/縱火|燃燒瓶/,'arsonist'],[/老獵人|獵槍/,'oldhunter'],[/獵食者/,'predator'],[/收割者/,'harvester'],[/割喉者|獵刀|劫匪|掠奪者/,'cutter'],[/冷凍庫|沙發|廚師|網裡|帳篷裡|水裡|培養槽/,'incubator'],[/滅菌隊長|紅色貝雷/,'acru_captain'],[/噴火|燃料罐/,'acru_flamer'],[/狙擊/,'acru_sniper'],[/A\.C\.R\.U|滅菌部隊|滅菌隊員/,'acru_trooper'],[/警衛|防爆|防護衣|大個子/,'devourer']];
 const LV_POOL={A:['infected'],B:['infected'],C:['infected'],D:['infected'],E:['infected','devourer'],F:['incubator','infected'],G:['incubator','infected'],I:['devourer','infected'],R:['infected'],H:['infected','incubator'],P:['infected'],J:['infected'],K:['infected','cutter'],M:['infected','cutter','collector'],Q:['devourer','infected'],U:['incubator','infected'],V:['infected','devourer','collector']};
 /* ============ 對策 ============ */
 const TACT={
@@ -980,7 +986,7 @@ const UNLOCKS=[
 ];
 /* ============ 詞綴（每隻敵人最多一個，加在名字前面；每個都有實際效果，卡片上用紫色標籤顯示） ============
    fac：哪個陣營會出現。acru（滅菌部隊）目前還沒有敵人，先把詞綴定好，之後加敵人時直接用。 */
-const FOE_SHORT={infected:'感染者',incubator:'孵化者',devourer:'巨噬者',cutter:'割喉者',collector:'索命客',acru_trooper:'隊員',acru_captain:'隊長',acru_flamer:'噴火兵',acru_sniper:'狙擊手'};
+const FOE_SHORT={predator:'獵食者',harvester:'收割者',quickdraw:'快槍手',arsonist:'縱火客',oldhunter:'老獵人',infected:'感染者',incubator:'孵化者',devourer:'巨噬者',cutter:'割喉者',collector:'索命客',acru_trooper:'隊員',acru_captain:'隊長',acru_flamer:'噴火兵',acru_sniper:'狙擊手'};
 const AFF={
  // 感染者陣營：宿主經歷了什麼，EDEN 就把牠修成什麼樣子
  hard:{n:'硬化的',fac:'inf',d:'纖維化組織像一層殼：鈍擊以外的傷害 −2；被鈍擊打中 3 次後硬殼碎掉，詞綴消失。'},
@@ -1000,7 +1006,7 @@ const AFF={
  shaken:{n:'慌張的',fac:'hum',d:'一開始就在動搖：「跟對方談」難度 −4；生命剩一半以下就會逃走。'},
  // 滅菌部隊陣營（未來的敵人用）
  heavy:{n:'重裝的',fac:'acru',d:'全套防護與防彈板：受到的傷害 −2，先攻 −2。'},
- squad:{n:'帶隊的',fac:'acru',d:'其他隊員命中 +1；牠倒下時，其他人動搖一回合。'},
+ squad:{n:'帶隊的',fac:'acru',d:'其他隊員命中 +1；他倒下後，其他人照樣作戰，只是少了這份加成。'},
  burner:{n:'噴火的',fac:'acru',d:'背著燃料罐：攻擊會讓人燃燒；被火焰或槍擊打中時可能爆炸。'}
 };
 /* ============ 敵人招式（tele：先蓄力一回合，下一次輪到牠才出手；蓄力時防禦可以減半傷害）============
@@ -1012,6 +1018,12 @@ const MOVES={
  incubator:[{n:'丟擲囊泡',w:4,d:2,inf:4,humus:2,hs:'splat',pre:'spit',ws:'squish',tele:1,qte:1,rng:1,qw:['閃避','側身','低頭','閃避'],warn:'從背上扯下一顆鼓脹的囊泡，高高舉起，對準',t:'囊泡砸在身上破開，黏稠的腐殖物糊了一片，又熱又癢。'},{n:'噴吐',w:2,d:2,inf:4,cd:4,hs:'splat',pre:'spit',ws:'squish',tele:1,qte:1,all:1,rng:1,qw:['閃避','後退','低頭','遮臉'],warn:'的肚子一陣一陣鼓起來，嘴巴慢慢張大，對著',t:'一大口黃綠色的液體噴了出來。'},{n:'推撞',w:3,d:1,h:3,inf:2,near:1,hs:'squish',t:'牠用整個身體撞過來，濕黏的皮膚貼在臉上。'}],
  devourer:[{n:'揮擊',w:4,d:4,h:4,inf:2,hs:'smash',t:'那隻腫大的手臂橫掃過來，砸在肋骨上。'},{n:'震盪重擊',w:2,d:7,inf:2,cd:3,hs:'smash',tele:1,qte:1,stun:1,qw:['閃避','後退','側身','閃避'],warn:'把那隻腫大的手臂往後拉，整個身體跟著擰過去，對準',t:'整隻手臂砸下來，人被打得撞上牆，眼前一黑。'},{n:'吞咬',w:2,d:4,h:3,inf:5,cd:3,hs:'bite',heal:2,healMax:4,t:'牠一把抓住，把人往嘴邊拉，咬下一塊肉。'}],
  cutter:[{n:'刺擊',w:4,d:4,h:5,hs:'knife',t:'獵刀從下往上捅過來。'},{n:'劃開',w:3,d:3,h:5,hs:'knife',bleed:.7,t:'刀鋒一掠而過，傷口過了一秒才開始冒血。'},{n:'割喉',w:2,d:8,cd:4,hs:'knife',tele:1,qte:1,need:'bleed',pref:'bleed',after:'open',qw:['後仰','格開','閃避','後退'],warn:'盯著那道還在流血的傷口，刀子反手握著，慢慢貼近',t:'他貼上來，刀子往脖子上抹。'}],
+ // v0.25.0：pounce 飛撲（當下 QTE、不蓄力）；sweep 橫斬（兩人以上）；need2 雙響要兩發；lit 縱火客的瓶子；tmax 目標上限
+ predator:[{n:'爪擊',w:6,d:3,h:5,inf:2,hs:'claw',t:'牠的前爪從低處掃上來，在腿上撕開幾道口子。'},{n:'咬噬',w:3,d:4,h:4,inf:4,cd:3,hs:'bite',t:'牠一口咬住，頭一甩，扯下一塊肉。'},{n:'飛撲',w:1,d:6,inf:4,cd:3,hs:'thud',qte:1,unbal:1,pounce:1,after:'open',cue:'後腿一縮，整個身體壓低，下一瞬間就彈了起來——',qw:['閃避','側身','翻滾','閃避'],t:'牠整個撲了上來，把人撞倒在地上。'}],
+ harvester:[{n:'刃肢斬擊',w:5,d:5,h:6,inf:2,bleed:.7,hs:'knife',t:'那條拉長的刃肢一揮而過，傷口裂得很深。'},{n:'橫斬',w:2,d:5,h:5,inf:2,bleed:.5,cd:3,sweep:1,tmax:2,hs:'knife',t:'刃肢橫著掃過來，掃過了不只一個人。'},{n:'收割重斬',w:3,d:9,inf:3,cd:4,tele:1,qte:1,need:'bleed',pref:'bleed',after:'open',hs:'knife',qw:['後仰','閃避','側身','後退'],warn:'把刃肢高高舉起，盯著那道還在流血的傷口，對準',t:'刃肢重重劈下來，正落在那道傷口上。'}],
+ quickdraw:[{n:'快射',w:5,d:5,h:6,gun:1,rng:1,snd:'revolver',t:'左輪一響，子彈幾乎是同時打到。'},{n:'雙響',w:2,d:5,h:4,hits:2,cd:4,tele:1,gun:1,rng:1,need2:1,snd:'revolver',each:1,warn:'的拇指壓住擊鎚，槍口穩穩跟著',t:'兩聲槍響連成一聲。'},{n:'穩槍射擊',w:2,d:7,h:7,cd:3,tele:1,gun:1,rng:1,snd:'revolver',warn:'停下晃動，把準星緩緩壓向',t:'這一槍等得很久，打得很準。'}],
+ arsonist:[{n:'投擲燃燒瓶',w:1,d:4,qte:1,flame:1,lit:1,tmax:2,rng:1,qw:['撲倒','翻滾','遮臉','後退'],warn:'點燃瓶口的布條，火光映在他臉上。他盯著',t:'瓶子砸碎在腳邊，火一下子竄上了身。'}],
+ oldhunter:[{n:'獵槍射擊',w:1,tele:1,d:12,h:8,gun:1,rng:1,snd:'rifle',warn:'從掩體後面慢慢探出槍管，準星停在',t:'一聲沉悶的槍響，子彈把人打得往後一退。'}],
  collector:[{n:'開火',w:1,tele:1,d:10,h:6,gun:1,shot:1,rng:1,warn:'把霰彈槍抵在肩上，槍口對準',t:'槍口噴出一團火，彈丸打得人往後一仰。'}],
  // 滅菌部隊：gun 開槍（吃彈匣、算軍方名額）、ap 穿甲（忽略護甲）、big 高傷錯峰、snipe 挑生命比例最低的人、tmax 掃射目標上限
  acru_trooper:[{n:'點射',w:4,tele:1,rng:1,gun:1,d:4,h:6,hits:2,snd:'mp5',warn:'舉槍抵肩，紅色的鏡片轉向',t:'MP5 短促地吼了一串，子彈打在身上。'},{n:'掃射',w:2,cd:3,tele:1,rng:1,gun:1,all:1,tmax:3,d:4,h:4,hits:1,snd:'mp5',warn:'把槍口壓低，準備掃向',t:'槍口橫著掃過來，子彈在牆上、地上、人身上濺開。'}],
@@ -1021,33 +1033,36 @@ const MOVES={
 };
 const BUTT={n:'槍托',hs:'fist',d:3,h:5,melee:1,t:'他倒轉槍身，用槍托砸過來。'};
 const BUTT4={n:'槍托',hs:'fist',d:4,h:5,melee:1,t:'他倒轉槍身，用槍托狠狠砸過來。'};
+const GRIP={n:'槍柄敲擊',hs:'fist',d:3,h:5,melee:1,t:'他倒轉左輪，用槍柄砸過來。'};
+const SWAT={n:'揮打',hs:'fist',d:3,h:4,melee:1,t:'他抄起裝瓶子的袋子，狠狠甩過來。'};
+const HKNIFE={n:'獵刀刺擊',hs:'knife',d:4,h:4,melee:1,t:'他拔出腰上的獵刀，往前一捅。'};
 const SHOVE={n:'推撞',hs:'fist',d:3,h:4,melee:1,t:'他用肩膀和噴火器的鋼瓶把人撞開。'};
 // v0.20.0：弱點／抗性名單由承傷倍率 rd 推出（>1 弱點、<1 抗性），畫面與圖鑑照舊使用
 for(const k in FOES){const F=FOES[k];if(F.rd){F.weak=Object.keys(F.rd).filter(t=>F.rd[t]>1);F.res=Object.keys(F.rd).filter(t=>F.rd[t]<1)}}
 const INF_N=[[1,1],[1,2],[2,2],[2,2],[2,3],[2,3],[3,3],[3,3]],INF_CAP=[2,2,3,3,4,4,5,5];
-const ELITE=['devourer'];
+const ELITE=['devourer','predator','harvester'];
 /* rng：遠程攻擊（掩蔽有效、格擋無效）；hs：被打中時的音效（v0.12.1 每種敵人各自的聲音；槍擊命中是 bhit） */
 /* v0.16.0：pre＝出手時先播的蓄力聲（播完約三分之二才擲骰）；ws＝準備（蓄力）時的聲音，沒寫就是 zstep */
 /* 狀態（敵人卡上的標籤）：蓄力、燃燒、暈眩、倒地、流血、失衡、致盲、腿傷、濕透、鎖定、硬化層、動搖、未裝填；玩家另有「腐殖」 */
 /* 敵人立繪（原專案美術）；沒有對應立繪的類型只顯示文字 */
-const FOE_IMG={infected:['inf_m','inf_f'],incubator:['bloat'],devourer:['riot'],cutter:['loot_a'],collector:['loot_b'],acru_trooper:['acru_trp'],acru_captain:['acru_cap'],acru_flamer:['acru_flm'],acru_sniper:['acru_snp']};
+const FOE_IMG={predator:['pred'],harvester:['harv'],quickdraw:['quick'],arsonist:['arson'],oldhunter:['oldh'],infected:['inf_m','inf_f'],incubator:['bloat'],devourer:['riot'],cutter:['loot_a'],collector:['loot_b'],acru_trooper:['acru_trp'],acru_captain:['acru_cap'],acru_flamer:['acru_flm'],acru_sniper:['acru_snp']};
 /* ============ 敵人建檔（原專案全部敵人；live 代表已經會在遊戲裡出現） ============
    還沒登場的只記名字、陣營、立繪和原專案的說明，能力等輪到牠時再設計；哪一區出現由 LV_POOL 決定。 */
 const ROSTER={
  infected:{n:'感染者',fac:'inf',img:['inf_m','inf_f'],live:1,d:'原專案：受未知病原感染後失去理智的感染者。沒有特殊能力，會持續逼近並以近戰攻擊獵物。'},
- predator:{n:'獵食者',fac:'inf',img:['pred'],d:'原專案：高度異變的四足獵食型感染者。能在極短時間內連續行動，並直接翻越阻擋追擊路線的障礙。'},
+ predator:{n:'獵食者',fac:'inf',img:['pred'],live:1,d:'高度異變的四足感染者。開場躲在暗處，要先搜尋才打得到；第二回合起每回合連續行動兩次。'},
  devourer:{n:'巨噬者',fac:'inf',img:['riot'],live:1,d:'原專案：重型異變感染者。巨大的異變手臂能在兩格距離內發動震盪重擊，三層硬化護甲可削弱受到的傷害。'},
- harvester:{n:'收割者',fac:'inf',img:['harv'],d:'原專案：以異常延伸的肢體在中距離撕裂目標。命中必定造成隨機部位重傷；玩家帶有任意負面狀態時，每回合可行動兩次。'},
+ harvester:{n:'收割者',fac:'inf',img:['harv'],live:1,d:'肢體拉長成刀刃的感染者。砍中多半會流血；有人帶著流血、燃燒、骨折、失衡或被抓住時，同一回合會再動一次。'},
  incubator:{n:'孵化者',fac:'inf',img:['bloat'],live:1,d:'原專案：先鎖定目標位置並顯示警戒，下一次行動才投擲、落地並觸發腐殖擴散；投出後不因施放者死亡而取消。'},
  cutter:{n:'割喉者',fac:'hum',img:['loot_a'],live:1,d:'原專案：持獵刀的武裝劫匪。第一刀撕開傷口，對已有異常狀態的目標會造成雙倍傷害。'},
- quickdraw:{n:'快槍手',fac:'hum',img:['quick'],d:'原專案：持 Model 10 左輪的快槍手。近距離可連射兩發，打空後需花一回合裝填。'},
+ quickdraw:{n:'快槍手',fac:'hum',img:['quick'],live:1,d:'持 Model 10 左輪的劫匪。平常直接快射；預告之後可以連開兩槍或穩穩打一槍。六發打空要花一回合裝填。'},
  collector:{n:'索命客',fac:'hum',img:['loot_b'],live:1,d:'原專案：持單管霰彈槍的索命客。每次射擊後需花一回合裝填，命中可能造成手部或腳部重傷。'},
- arsonist:{n:'縱火客',fac:'hum',img:['arson'],d:'原專案：預告固定落點後，下一次行動拋出燃燒瓶；火焰會蔓延，也會灼傷同伴。'},
- oldhunter:{n:'老獵人',fac:'hum',img:['oldh'],d:'原專案：老練的獵槍手。遠距離命中率更高，射擊後有機率立即完成下一發裝填。'},
- owlchief:{n:'梟首',fac:'hum',img:['owl'],boss:1,d:'原專案：首領。發現玩家後以對講機通報全地圖劫匪，組織火力與側翼；每次射擊兩發，登場時召來三名劫匪。'},
+ arsonist:{n:'縱火客',fac:'hum',img:['arson'],live:1,d:'先點燃瓶口，下一次行動才丟出燃燒瓶；最多燒到兩個人，被燒到的人可以拍熄。'},
+ oldhunter:{n:'老獵人',fac:'hum',img:['oldh'],live:1,d:'躲在掩體後面的老獵槍手。瞄準、開槍、裝填三拍一輪；開槍之後到裝好下一發之前會露出來。'},
+ owlchief:{n:'梟首',fac:'hum',img:['owl'],boss:1,d:'原專案：首領。以對講機指揮劫匪、組織火力；每次射擊兩發，生命掉到一半以下時會叫來三名劫匪（還沒登場）。'},
  // 滅菌部隊（v0.11.1 建檔、v0.12.0 登場；立繪由主人用 GPT 生成，數值與招式在 FOES、MOVES）
  acru_trooper:{n:'隊員',fac:'acru',live:1,img:['acru_trp'],d:'A.C.R.U. 的一般隊員。黑色鋼盔、透出紅光的防毒面具、防彈背心，HK MP5A5。不說話、不談條件，兩三人一組同步行動。'},
- acru_captain:{n:'隊長',fac:'acru',live:1,img:['acru_cap'],boss:1,d:'戴紅色貝雷帽的帶隊者，長皮大衣罩在戰術背心外，FN FAL。下令集火、精準射擊；他倒下時，整隊會亂一拍。'},
+ acru_captain:{n:'隊長',fac:'acru',live:1,img:['acru_cap'],boss:1,d:'戴紅色貝雷帽的帶隊者，長皮大衣罩在戰術背心外，FN FAL。下令集火、精準射擊；他倒下後，其他人照樣作戰，只是少了他的命中加成。'},
  acru_flamer:{n:'噴火兵',fac:'acru',live:1,img:['acru_flm'],d:'背著三瓶式背負噴火器的隊員，沒有帶副武器。噴出的火會越過掩體；背上的燃料罐被打穿時會爆炸。'},
  acru_sniper:{n:'狙擊手',fac:'acru',live:1,img:['acru_snp'],d:'披著迷彩披肩、拿雷明頓 700 的狙擊手。待在打不到的遠處，開槍前會先有一點紅光落在目標身上。'}
 };
@@ -2581,10 +2596,11 @@ BA1:{L:'BA',n:'基地・車道',
   {l:'去停機坪',ok:{t:`你們貼著倉庫的牆往後面走。`,go:'BA5'}},
   {l:'離開基地',t:'l',ok:{t:`你們從進來的路出去，沿著北郊公路往回走。`,go:'Z0'}}]},
 BA2:{L:'BA',n:'基地・軍械庫',
- t:`一排一排的鐵架，大部分都空了，地上全是撕開的木箱。靠牆的槍架上只剩兩把槍：一把 MP5、一把 FAL。角落還疊著幾個彈藥箱。`,
+ t:`一排一排的鐵架，大部分都空了，地上全是撕開的木箱。靠牆的槍架上只剩三把槍：一把 MP5、一把 FAL，還有一把裝著瞄準鏡的雷明頓 700。角落還疊著幾個彈藥箱。`,
  c:[
   {l:'拿那把 MP5',once:1,stay:1,ok:{t:`彈匣是滿的。`,r:{gear:'mp5',mag:30}}},
   {l:'拿那把 FAL',once:1,stay:1,ok:{t:`彈匣是滿的。`,r:{gear:'fal',mag:20}}},
+  {l:'拿那把雷明頓 700',once:1,stay:1,ok:{t:`栓動步槍，瞄準鏡的鏡片上只有一層薄灰。彈倉是滿的。`,r:{gear:'r700',mag:5}}},
   {l:'開彈藥箱',once:1,stay:1,t:'m',ok:{t:`9mm、7.62、.308，各剩一點。`,r:{items:{ammo9:30,ammo762:20,ammo308:5}}}},
   {l:'翻鐵架最下層',once:1,stay:1,ok:{t:`一件被丟下的防爆背心，還有一副防毒面具和兩個濾罐。`,r:{items:{riotvest:1,gasmask:1,filter:2}}}},
   {l:'回車道',ok:{t:`你們退回車道。`,go:'BA1'}}]},
@@ -4002,14 +4018,18 @@ function zFac(){const c={};for(const t of dayPool())c[FOES[t].fac]=(c[FOES[t].fa
 const ZELITE={inf:'devourer',hum:'collector',acru:'acru_captain'};
 function zFoes(f){const el=ZELITE[f];const pp=dayPool().filter(t=>FOES[t].fac===f&&t!==el&&!ELITE.includes(t));return pp.length?pp:[f==='acru'?'acru_trooper':f==='hum'?'cutter':'infected']}
 function smallWave(){const f=zFac(),pp=zFoes(f),n=rnd(1,2);return {n,mode:'ambush',noElite:1,types:Array.from({length:n},()=>pick(pp))}}
-function bigWave(){const f=zFac(),pp=zFoes(f),k=Math.ceil(Math.max(1,able().length)/2);return {n:1+k,mode:'ambush',types:[ZELITE[f],...Array.from({length:k},()=>pick(pp))]}}
+// v0.25.0：感染者區域的強敵從當時已開放的巨噬者／獵食者／收割者抽一隻（旅館等第一章區域只出巨噬者）
+function zBoss(f){if(f!=='inf')return ZELITE[f];const c=['devourer'];if((LV[G.lv]||{}).ch===2){if(dayN()>=3)c.push('predator');if(dayN()>=5)c.push('harvester')}return pick(c)}
+function bigWave(){const f=zFac(),pp=zFoes(f),k=Math.ceil(Math.max(1,able().length)/2);return {n:1+k,mode:'ambush',types:[zBoss(f),...Array.from({length:k},()=>pick(pp))]}}
 const ZWARN=['遠處傳來東西被撞倒的聲音，然後又安靜了。聲音已經傳出去了。','附近有腳步聲停了下來，好像在聽。','某個地方有東西在動，越來越近，又停住了。'];
 const ZSMALL={inf:'拖行聲越來越快。有東西循著聲音找過來了。',hum:'壓低的說話聲和腳步聲靠了過來。有人聽見你們了。',acru:'轉角傳來對講機的雜訊，接著是靴子踩在地上的聲音。'};
 const ZBIG={inf:'四面八方都是拖行聲和喘氣聲。你們把這一帶整個驚動了。',hum:'有人吹了一聲口哨，接著是好幾個人的腳步聲。他們是衝著你們來的。',acru:'好幾支手電筒同時照了過來。有人在對講機裡報了你們的位置。'};
 /* ================= 戰鬥 ================= */
 /* 敵人名稱：只用類型名稱（詞綴只放在卡片標籤），同類型有多隻時加羅馬數字（感染者 I、感染者 II） */
 const ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX','X'];
-function nameFoes(fs){const c={},k={};for(const f of fs)c[f.type]=(c[f.type]||0)+1;for(const f of fs){const b=FOE_SHORT[f.type]||'感染者';if(c[f.type]>1){k[f.type]=(k[f.type]||0)+1;f.n=b+' '+(ROMAN[k[f.type]-1]||k[f.type])}else f.n=b}}
+function nameFoes(fs){const c={},k={};for(const f of fs)c[f.type]=(c[f.type]||0)+1;for(const f of fs){const b=FOE_SHORT[f.type]||'感染者';if(c[f.type]>1){k[f.type]=(k[f.type]||0)+1;f.n=b+' '+(ROMAN[k[f.type]-1]||k[f.type])}else f.n=b;if(lurkHid(f))f.n='不明的動靜'}}
+// v0.25.0 獵食者：還沒被找到之前不顯示名字、立繪、血量與弱點（不洩漏身分）
+const lurkHid=f=>!!(f&&f.hid&&FOES[f.type]&&FOES[f.type].lurk)
 // 舊存檔：類型換成新名字，舊的變異詞條拿掉
 const OLDTYPE={thin:'infected',dog:'infected',bloated:'incubator',riot:'devourer',looter:'cutter'};
 function migrateG(g){if(!g)return g;if(g.fight&&g.fight.foes){const F=g.fight;F.sl=F.sl||{};F.hb=F.hb||{};F.bg=F.bg||{};F.P=F.P||Math.max(1,(g.players||[]).length);for(const f of g.fight.foes){if(OLDTYPE[f.type])f.type=OLDTYPE[f.type];if(!FOES[f.type])f.type='infected';delete f.mut;if(FOES[f.type].shell&&f.shell==null)f.shell=0}nameFoes(g.fight.foes)}
@@ -4050,17 +4070,31 @@ const aliveF=()=>G.fight?G.fight.foes.filter(f=>f.hp>0&&!f.dead&&!f.hid):[];
 const liveF=()=>G.fight?G.fight.foes.filter(f=>f.hp>0&&!f.dead):[];
 const FT=f=>FOES[f.type];
 function typeOfName(n){for(const [re,t] of FOE_BY_NAME)if(re.test(n))return t;return 'infected'}
-const fDef=f=>Math.max(5,FT(f).def-(f.defDown||0)+(f.cov?2:0)-(f.open?2:0));
+const fDef=(f,rng)=>Math.max(5,FT(f).def-(f.defDown||0)+(f.cov?2:0)-(f.open?2:0)+(rng&&f.hcov?2:0));
 const affIs=(f,k)=>!!f&&f.aff===k;
 const numbF=f=>affIs(f,'numb')||affIs(f,'drugged');
 const foeHitMod=f=>(affIs(f,'hungry')?2:0)+(affIs(f,'veteran')?1:0)-(affIs(f,'drugged')?1:0)-(f.dazzle?4:0)-(f.legW?2:0)+(f.atkB&&G.fight&&G.fight.round<=f.atkB?2:0)+(G.fight&&G.fight.foes.some(x=>x!==f&&!x.dead&&(affIs(x,'squad')||FT(x).lead)&&FT(f).fac==='acru')?1:0);
-function foeHp(t,np){const F=FOES[t];np=clamp(np||1,1,8);return F.hp+(np-1)}
-function newFoe(id,t,np,wet){const F=FOES[t];const hp=foeHp(t,np);return {id,type:t,n:'',hp,max:hp,mag:F.mag||0,hid:F.hide?1:0,near:0,cool:0,streak:0,burn:0,stun:0,bleed:0,weak:0,prone:0,defDown:0,nosplash:0,dazzle:0,legW:0,wet:wet?1:0,shell:F.shell||0,loaded:t==='collector'?1:0,img:FOE_IMG[t]?pick(FOE_IMG[t]):''}}
+// v0.25.0 主人選 B：單人基礎值不變；每多一名玩家，感染者陣營與首領 +基礎值 30%，一般劫匪／軍方 +10%（人多時敵人數量本來就會變多），無條件進位，最多 8 人
+const HPK=t=>(FOES[t].fac==='inf'||FOES[t].boss)?.3:.1;
+function foeHp(t,np){const F=FOES[t];np=clamp(np||1,1,8);return Math.ceil(F.hp*(1+HPK(t)*(np-1))-1e-9)}
+function newFoe(id,t,np,wet){const F=FOES[t];const hp=foeHp(t,np);return {id,type:t,n:'',hp,max:hp,mag:F.mag||0,hid:F.hide?1:0,near:0,cool:0,streak:0,burn:0,stun:0,bleed:0,weak:0,prone:0,defDown:0,nosplash:0,dazzle:0,legW:0,wet:wet?1:0,shell:F.shell||0,hcov:F.hcov?1:0,loaded:t==='collector'?1:0,img:FOE_IMG[t]?pick(FOE_IMG[t]):''}}
 function giveAff(f,k){if(!k)return;f.aff=k;const d=k==='fresh'?-2:k==='wounded'?-4:k==='drugged'?3:0;if(d){f.hp=Math.max(3,f.hp+d);f.max=Math.max(3,f.max+d)}if(k==='shaken')f.shaken=1}
 // v0.9.0 隨機遭遇的敵人跟著天數變：劫匪出現前沒有人類陣營；劫匪期街上多割喉者、索命客；影子期起多巨噬者
 function dayPool(){let p=[...(LV_POOL[G.lv]||['infected'])];const F=G.flags||{};
   if(!F.raiders)p=p.filter(t=>FOES[t].fac!=='hum');else if(!F.acru&&(LV[G.lv]||{}).ch===2)p.push('cutter','collector');
-  if(F.shadow)p.push('devourer');return p.length?p:['infected']}
+  if(F.shadow)p.push('devourer');
+  // v0.25.0 三陣營第一批（主人 2026-11-16 同意的時機與地點；旅館與研究所不放）
+  const L=G.lv,ch2=(LV[L]||{}).ch===2,d=dayN();
+  if(ch2&&d>=3&&NEWPOOL.predator.includes(L))p.push('predator');
+  if(ch2&&d>=5&&(F.shadow||NEWPOOL.harvester.includes(L)))p.push('harvester');
+  if(F.raiders&&(!F.acru||['K','M','V'].includes(L))){for(const t of ['quickdraw','arsonist'])if(NEWPOOL[t].includes(L))p.push(t);
+    if(NEWPOOL.oldhunter.includes(L)&&G.sch&&G.clock>=G.sch.raid+1440)p.push('oldhunter')}
+  return p.length?p:['infected']}
+const NEWPOOL={predator:['K','U','CA','WP','Q'],harvester:['O','U','PP','WP'],quickdraw:['M','V','N','S'],arsonist:['J','K','V'],oldhunter:['CA','V','W','Q']};
+// 劫匪槍手上限（索命客、快槍手、老獵人）：1～8 人依序 1,1,2,2,3,3,4,4；縱火客單人一場最多一名。只換掉隨機補上的，劇情指定的不動
+const GUNCAP=[1,1,2,2,3,3,4,4],HUMGUN=['collector','quickdraw','oldhunter'];
+function capGunmen(types,names,P0){let g=0,a=0;const cap=GUNCAP[clamp(P0,1,8)-1];for(let i=0;i<types.length;i++){const t=types[i];
+  if(HUMGUN.includes(t)){if(++g>cap&&!names[i])types[i]='cutter'}if(t==='arsonist'){if(++a>1&&P0<=1&&!names[i])types[i]='cutter'}}}
 // v0.18.0 主人：不同陣營偶爾會撞在一起（小機率），撞在一起時會互打。只發生在完全隨機的遭遇
 const MIXP=.1;
 function fillFoes(types,names,n,squad){const pool=dayPool();let fac=types.length?FOES[types[0]].fac:null;
@@ -4077,6 +4111,9 @@ async function rollInit(mode){
     result:ps.map(x=>`<small>${esc(x.p.name)} ${x.r+x.m}</small>`).join('')+fs.map(x=>`<small>${x.f.n} ${x.r+x.m}</small>`).join('')});
   const order=[...ps.map(x=>({k:'p',id:x.p.pid,init:x.r+x.m})),...fs.map(x=>({k:'f',id:x.f.id,init:x.r+x.m}))].sort((a,b)=>b.init-a.init||(a.k==='p'?0:1)-(b.k==='p'?0:1));
   // v0.21.3：玩家與敵人按先攻總值交錯，平手時玩家優先；連續玩家仍可同時選行動
+  // v0.25.0 獵食者第一輪保護：先攻排在所有玩家前面時，第一輪移到第一組玩家之後（讓玩家至少有一次機會搜尋）
+  if(G.fight.round<=1){const fp=order.findIndex(o=>o.k==='p');if(fp>=0){let e=fp;while(e<order.length&&order[e].k==='p')e++;
+    const mv=order.slice(0,fp).filter(o=>o.k==='f'&&FT(G.fight.foes[o.id]).lurk);for(const o of mv){order.splice(order.indexOf(o),1);e--}order.splice(e,0,...mv)}}
   G.fight.order=order;G.fight.turn=0;
   out(`擲骰｜先攻　${order.map(o=>`${o.k==='p'?esc(P(o.id).name):G.fight.foes[o.id].n} <b>${o.init}</b>`).join('　')}`,'roll',true);
 }
@@ -4092,7 +4129,7 @@ async function startFight(spec){
   let n=infOnly?Math.min(Math.max(spec.n,rnd(INF_N[PI][0],INF_N[PI][1])),Math.max(INF_CAP[PI],types.length)):Math.min(6,Math.max(spec.n,Math.round(spec.n*(1+(P0-1)*.3))));
   const squad=types.length&&types.every(t=>FOES[t].fac==='acru');
   // v0.17.0 主人：不同陣營不會一起出現。補位的敵人跟第一隻同陣營（沒有指定名字時，先抽一隻決定陣營）
-  fillFoes(types,names,n,squad);
+  fillFoes(types,names,n,squad);capGunmen(types,names,P0);
   {const cap=spec.noElite?0:(dayN()>=6?2:1);let e=0;for(let i=0;i<types.length;i++)if(ELITE.includes(types[i])&&!names[i]&&++e>cap)types[i]='infected'}
   const wet=['U','G'].includes(G.lv);
   const foes=types.map((t,i)=>newFoe(i,t,act.length,wet));
@@ -4114,11 +4151,7 @@ async function startFight(spec){
   if(wet)out('地上全是積水，牠們身上都濕透了：電擊傷害加倍，火焰減半。','sys',true);
   if(isNight()&&foes.some(f=>FT(f).fac==='inf'))out('入夜之後，牠們比白天更躁動：感染者陣營先攻 +2。','sys',true);
   // 恐懼檢定
-  const tdc=Math.max(...foes.map(f=>FT(f).tdc)),ter=Math.max(...foes.map(f=>FT(f).ter));
-  const ts=act.map(p=>{const R=r2(),m=statMod(p,'INT')+(tr(p,'calm')?3:0);const j=judge(R,R.s+m,tdc+(fstg(p)>=2?2:0));return {p,R,m,j,ok:j==='ok'||j==='crit'}});
-  await dice({label:'驚嚇檢定',sub:`智力 d20${DF().num?`　難度 ${tdc}`:''}`,quick:true,dice:ts.flatMap(x=>pairDice(x.R,MP()?esc(x.p.name).slice(0,4):'').map(d=>({...d,cls:x.ok?'ok':'ng'}))),
-    result:ts.map(x=>`<small>${MP()?esc(x.p.name)+' ':''}${x.R.s+x.m}　${x.ok?'穩住了':'動搖'}</small>`).join('')});
-  for(const x of ts){const ok=x.ok;if(!ok){out(`${MP()?nm(x.p)+'：':''}${pick(['看到牠的臉，胃裡一陣翻攪。','腦袋一片空白，有好幾秒想不起自己在哪裡。','腿軟了一下，差點站不住。'])}`,'bad',true);loseSan(x.p,ter)}}
+  await fright(foes.filter(f=>!lurkHid(f)),act);
   if(await deathCheck())return;
   if(G.pendingBurn){G.pendingBurn=0;const d=await dmgRoll([[2,6]],0,'燃燒瓶');for(const f of foes){applyDmg(f,d,['fire'],null);f.burn=3}push();draw();for(const f of foes)if(f.hp<=0)await kill(f,null)}
   let mode=spec.mode;
@@ -4129,6 +4162,14 @@ async function startFight(spec){
   await rollInit(mode);if(!G.fight||!G.fight.order.length){await endFight();return}
   await advance();
 }
+async function fright(fs,act){if(!fs.length)return;act=act||able();if(!act.length)return;
+  const tdc=Math.max(...fs.map(f=>FT(f).tdc)),ter=Math.max(...fs.map(f=>FT(f).ter));
+  const ts=act.map(p=>{const R=r2(),m=statMod(p,'INT')+(tr(p,'calm')?3:0);const j=judge(R,R.s+m,tdc+(fstg(p)>=2?2:0));return {p,R,m,j,ok:j==='ok'||j==='crit'}});
+  await dice({label:'驚嚇檢定',sub:`智力 d20${DF().num?`　難度 ${tdc}`:''}`,quick:true,dice:ts.flatMap(x=>pairDice(x.R,MP()?esc(x.p.name).slice(0,4):'').map(d=>({...d,cls:x.ok?'ok':'ng'}))),
+    result:ts.map(x=>`<small>${MP()?esc(x.p.name)+' ':''}${x.R.s+x.m}　${x.ok?'穩住了':'動搖'}</small>`).join('')});
+  for(const x of ts){const ok=x.ok;if(!ok){out(`${MP()?nm(x.p)+'：':''}${pick(['看到牠的臉，胃裡一陣翻攪。','腦袋一片空白，有好幾秒想不起自己在哪裡。','腿軟了一下，差點站不住。'])}`,'bad',true);loseSan(x.p,ter)}}}
+// 獵食者現身或被找到：顯示名字與立繪，補一次驚嚇檢定
+async function revealLurk(f,say){f.hid=0;nameFoes(G.fight.foes);if(say)say();push();draw();if(FT(f).ter)await fright([f])}
 async function advance(){
   const F=G.fight;if(!F)return;
   for(let guard=0;guard<60;guard++){
@@ -4237,7 +4278,7 @@ async function foeHit(f,mv,t,hits){const F=G.fight,T=FT(f);let firstHit=1;
   if((mv.qte||mv.cover)&&!(await qteHit(f,mv,t)))return;
   for(let k=0;k<hits;k++){if(t.dead||t.down||t.hp<=0)break;
   const far=f.type==='incubator'&&f.away?3:0;
-  const R=r2(),m=(mv.h??T.hit)+foeHitMod(f)-far-(f.weak||0)-(f.contact&&(mv.gun||mv.shot)&&f.type!=='gunslinger'?2:0)+DF().hit,tot=R.s+m,SB=stanceOf(t,f,mv),def=baseDef(t)+SB.def-(t.unbal?2:0)-(t.held?2:0);const j=judge(R,tot,def);const hit=j==='ok'||j==='crit';f.weak=0;
+  const R=r2(),m=(mv.h??T.hit)+foeHitMod(f)-far-(f.weak||0)-(f.contact&&(mv.gun||mv.shot)&&f.type!=='quickdraw'?2:0)+(f.type==='harvester'&&t.bleed>0?1:0)+DF().hit,tot=R.s+m,SB=stanceOf(t,f,mv),def=baseDef(t)+SB.def-(t.unbal?2:0)-(t.held?2:0);const j=judge(R,tot,def);const hit=j==='ok'||j==='crit';f.weak=0;
   if(mv.gun&&mv.snd&&(k===0||mv.each))snd(mv.snd,1,1400);
   await dice({label:`${f.n}・${mv.n}${hits>1?`（${k+1}／${hits}）`:''}　→　${esc(t.name)}`,dice:pairDice(R,'',1),quick:true,
     result:`<span class="${hit?'f':'s'}">${j==='crit'?'重擊':hit?'命中':'落空'}</span>`,cls:hit?'ng':'ok'});
@@ -4263,7 +4304,7 @@ async function strike(f,mv,ts){const F=G.fight,T=FT(f);if(!G.fight)return;
     if(t.counter&&!mv.tele&&!mv.all){t.counter=0;if(Math.random()<.7){snd('whoosh');out(`${f.n}撲向${nm(t)}——身體比腦袋先動，側身讓開，順勢反擊。`,'good');await attack(t,'R',null,f.id,true);continue}out(`${nm(t)}想要反制，但慢了半拍。`,'sys',true)}
     let h=mv.hits||1;if(mv.gun&&T.mag){h=Math.min(h,f.mag);f.mag-=h;if(h<=0){out(`${f.n}的彈匣打空了。`,'sys',true);break}}
     await foeHit(f,mv,t,h)}
-  if(mv.after==='open'){f.open=1;out(`${f.n}這一下貼得太近，自己也露出了破綻：到他下次行動前防禦 −2。`,'good',true)}
+  if(mv.after==='open'){f.open=1;out(`${f.n}這一下貼得太近，自己也露出了破綻：到${pn(f)}下次行動前防禦 −2。`,'good',true)}
   F.cur=null;push();draw();await deathCheck()}
 function warnTele(f,mv,ts){snd(mv.ws||foeStep(f),mv.ws?.5:.7);out(`<b>${f.n}</b>${mv.warn}${mv.all?'你們所有人':ts.map(nm).join('、')}。<span class="f">${pn(f)}在準備什麼${mv.qte||mv.cover?'——下一回合要反應':''}。</span>`,'bad');push();draw()}
 // 帶隊指令（隊長）：先指令、後武器；掩護（有人半血以下）＞集火＞攻勢，各冷卻 3
@@ -4312,13 +4353,21 @@ async function foeAct(f){
   // 控制：跳過一次行動並取消預告；下一次自然行動免疫再次跳過
   if(f.prone||f.stun){f.prone=0;f.stun=0;
     if(f.ctlImm){f.ctlImm=0;out(`${f.n}硬撐著穩住身體，這次沒有被打斷。`,'bad',true)}
-    else{f.ctlImm=1;if(f.charge){f.charge=null;out(`${f.n}被打斷了，準備好的那一下沒有出手。`,'good',true)}out(`${f.n}踉蹌著，這一次沒能行動。`,'sys');push();draw();return}}
+    else{f.ctlImm=1;if(f.charge){f.charge=null;out(`${f.n}被打斷了，準備好的那一下沒有出手。`,'good',true)}
+      // v0.25.0：雙動的敵人只吃掉一個名額（獵食者第二輪起、收割者有破綻可趁時），另一個照樣行動
+      if((T.duo&&(f.acted||G.fight.round>1))||(T.reap&&able().some(negOk))){f.lost1=1;out(`${f.n}踉蹌了一下，但很快又撲了回來。`,'sys');push();draw()}
+      else{out(`${f.n}踉蹌著，這一次沒能行動。`,'sys');push();draw();return}}}
   else f.ctlImm=0;
   if(f.grip){f.grip=0;for(const q of G.players)if(q.held===f.id+1)releaseHold(q)}
   // 劫匪：罕見撤退 5%（慌張 10%）；軍方不逃
   if(T.human&&T.fac!=='acru'&&!f.charge&&Math.random()<(f.shaken?.1:.05)){f.dead=1;f.hp=0;f.fled=1;out(`${f.n}罵了一聲，轉身逃進黑暗裡。`,'good');push();draw();return}
   if(affIs(f,'fresh')&&!f.charge&&Math.random()<.3){out(`${f.n}突然停住，看著自己的手，像是想起了什麼。這一回合沒有動。`,'sys');return}
   if(T.lead){await command(f);if(!G.fight||G.over||f.dead)return}
+  if(T.lurk){await predAct(f);return}
+  if(T.reap){await harvAct(f);return}
+  if(f.type==='quickdraw'){await qdAct(f);return}
+  if(f.type==='arsonist'){await arsAct(f);return}
+  if(f.type==='oldhunter'){await ohAct(f);return}
   if(f.type==='collector'){await collectorAct(f);return}
   if(T.fac==='acru'){await acruAct(f);return}
   let mv,t;
@@ -4331,9 +4380,69 @@ async function foeAct(f){
   if(mv.tele){f.charge={m:mv,to:t.pid};warnTele(f,mv,mv.all?[]:[t]);return}
   await strike(f,mv,mv.all?able():[t]);
 }
+/* ===== v0.25.0 三陣營第一批：五種新敵人的行動（交錯先攻：都在自己那一格行動） ===== */
+// 有別的陣營在場時，照原本的比例改打對方（不打預告招式）
+async function hitOrRival(f,mv,t){const T=FT(f);const rv=aliveF().filter(x=>x!==f&&FT(x).fac!==T.fac);
+  if(rv.length&&!mv.all&&!mv.tele&&!mv.sweep&&Math.random()<rv.length/(rv.length+able().length)){await foeVsFoe(f,mv,pick(rv));await deathCheck();return}
+  await strike(f,mv,[t])}
+const ldb=()=>wait(Math.round(450*Math.max(.4,UI.spd)));
+// 獵食者：第一次輪到牠只撲一下（沒被找到就現身）；之後每回合連續兩動
+async function predAct(f){
+  const first=!f.acted&&G.fight.round<=1;f.acted=1;
+  if(f.hid)await revealLurk(f,()=>{snd('zstep',.8);out(`暗處有東西竄了出來——<b>${f.n}</b>，四肢著地，貼著地面撲過來。`,'bad')});
+  if(first){const mv=MOVES.predator[0],t=foeTarget(f,mv);if(t)await hitOrRival(f,mv,t);return}
+  const n=f.lost1?1:2;f.lost1=0;
+  for(let i=0;i<n;i++){if(!G.fight||G.over||f.dead||f.hp<=0||!able().length)break;if(i)await ldb();
+    const mv=pickMove(f),t=foeTarget(f,mv);if(!t)break;setCd(f,mv);
+    if(mv.cue){out(`<b>${f.n}</b>${mv.cue}`,'bad');push();draw()}
+    await hitOrRival(f,mv,t)}}
+// 收割者：有效負面狀態（流血、燃燒、骨折、失衡、被抓住）
+const negOk=q=>!!q&&(q.bleed>0||q.burn>0||(q.frac&&!q.pk)||q.unbal||q.held);
+async function harvAct(f){const base=!f.lost1;f.lost1=0;
+  if(base)await harvOne(f,false);
+  if(!G.fight||G.over||f.dead||f.hp<=0)return;
+  if(able().some(negOk)){await ldb();out(`${f.n}的刃肢一轉，趁著破綻又揮了過來。`,'bad',true);await harvOne(f,true)}}
+async function harvOne(f,second){const F=G.fight;
+  if(f.charge){const c=f.charge;if(c.r<F.round){f.charge=null;const t=P(c.to);setCd(f,c.m);
+      if(!t||t.dead||t.down||t.away){out(`${f.n}的目標不見了，舉起的刃肢慢慢放了下來。`,'sys');push();draw();return}
+      if(!(t.bleed>0)){out(`${nm(t)}的傷口已經止住了。${f.n}的重斬落了空，刃肢砍進地板。`,'good');f.open=1;out(`${f.n}收不回力道：到牠下次行動前防禦 −2。`,'good',true);push();draw();return}
+      await strike(f,c.m,[t]);return}}
+  const ok=m=>!(m.sweep&&able().length<2)&&!(m.tele&&f.charge);
+  const L=(MOVES.harvester||[]).filter(ok);const mv=pickMove(f,L.length?L:[MOVES.harvester[0]]);
+  let pool=able();if(second){const ng=pool.filter(negOk);if(ng.length)pool=ng}
+  if(mv.sweep){const ts=[...able()].sort(()=>Math.random()-.5).slice(0,mv.tmax||2);setCd(f,mv);await strike(f,mv,ts);return}
+  const t=foeTarget(f,mv,pool);if(!t)return;
+  if(mv.tele){f.charge={m:mv,to:t.pid,r:F.round};warnTele(f,mv,[t]);return}
+  setCd(f,mv);await hitOrRival(f,mv,t)}
+// 快槍手：第一次固定快射；雙響、穩槍先預告；打空六發要裝填；貼身時可能用槍柄
+async function qdAct(f){const F=G.fight,M=MOVES.quickdraw;
+  if(f.charge){const c=f.charge;f.charge=null;const t=P(c.to);if(!t||t.dead||t.down||t.away){out(`${f.n}的目標不見了，槍口轉開。`,'sys');push();draw();return}
+    await strike(f,c.m,[t]);return}
+  if(f.mag<=0){f.mag=FT(f).mag;await sndW('revolverCock',.7,900,.5);out(`${f.n}甩開彈巢，倒出彈殼，一顆一顆把子彈壓進去。`,'sys');push();draw();return}
+  if(f.contact&&Math.random()<.6){const t=foeTarget(f,GRIP);if(t){await strike(f,GRIP,[t]);return}}
+  let mv;if(!f.shot1){f.shot1=1;mv=M[0]}else{const L=M.filter(m=>!(m.need2&&f.mag<2));mv=pickMove(f,L)}
+  const t=foeTarget(f,mv);if(!t)return;
+  if(mv.tele){f.cd=f.cd||{};f.cd[mv.n]=F.round+1+mv.cd;f.charge={m:mv,to:t.pid};warnTele(f,mv,[t]);return}
+  await hitOrRival(f,mv,t)}
+// 縱火客：點燃（預告，鎖定一個陣營）→ 下一次投瓶，最多兩人各自 QTE；貼身時揮打或退開
+async function arsAct(f){const mv=MOVES.arsonist[0];
+  if(f.charge){const c=f.charge;f.charge=null;snd('mthrow');await wait(450);snd('mimpact',1,1500);
+    if(c.rv){const xs=aliveF().filter(x=>x!==f&&FT(x).fac!==FT(f).fac).sort(()=>Math.random()-.5).slice(0,mv.tmax);for(const x of xs)await foeVsFoe(f,mv,x);await deathCheck();return}
+    const ts=[...able()].sort(()=>Math.random()-.5).slice(0,mv.tmax);if(!ts.length)return;await strike(f,mv,ts);return}
+  if(f.contact){if(Math.random()<.6){const t=foeTarget(f,SWAT);if(t){await strike(f,SWAT,[t]);return}}f.contact=0;out(`${f.n}往後退了好幾步，拉開距離。`,'sys');push();draw();return}
+  const rv=aliveF().filter(x=>x!==f&&FT(x).fac!==FT(f).fac);const toRv=rv.length&&Math.random()<rv.length/(rv.length+able().length);
+  f.charge={m:mv,rv:toRv?1:0};snd('click',.6);
+  out(`<b>${f.n}</b>${mv.warn}${toRv?rv.map(x=>x.n).join('、'):'你們'}。<span class="f">他下一次行動就會丟出去——到時要反應。</span>`,'bad');push();draw()}
+// 老獵人：瞄準 → 射擊（失去掩體）→ 裝填（沒被貼身就回到掩體）；貼身時獵刀或退回掩體
+async function ohAct(f){const mv=MOVES.oldhunter[0];
+  if(f.charge){const c=f.charge;f.charge=null;const t=P(c.to);if(!t||t.dead||t.down||t.away){out(`${f.n}的目標不見了，槍口慢慢移開。`,'sys');push();draw();return}
+    f.hcov=0;await strike(f,mv,[t]);if(f.hp>0&&!f.dead)out(`${f.n}開槍時整個人露了出來：裝好下一發之前，遠程打他不再吃掩體的好處。`,'good',true);return}
+  if(f.mag<=0){f.mag=1;await sndW('bolt',.7,900,.5);if(!f.contact){f.hcov=1;out(`${f.n}拉動槍栓，退回掩體後面裝上下一發。`,'sys')}else out(`${f.n}一邊提防著貼在身邊的人，一邊把下一發壓進槍膛。`,'sys');push();draw();return}
+  if(f.contact){if(Math.random()<.6){const t=foeTarget(f,HKNIFE);if(t){await strike(f,HKNIFE,[t]);return}}f.contact=0;f.hcov=1;out(`${f.n}往後一退，又縮回了掩體後面。`,'sys');push();draw();return}
+  const t=foeTarget(f,mv);if(!t)return;f.charge={m:mv,to:t.pid};warnTele(f,mv,[t])}
 async function foeVsFoe(f,mv,x){const F=G.fight,T=FT(f),X=FT(x);F.cur='f'+f.id;push();draw();
   if(mv.gun&&mv.snd)snd(mv.snd,1,1400);if(mv.shot){snd('shotgun',1,1600)}if(mv.pre)await sndW(mv.pre,.9,1800,.65);
-  const R=r2(),m=(mv.h??T.hit)+(mv.qte?0:0),tot=R.s+m,def=fDef(x);const j=judge(R,tot,def);const hit=j==='ok'||j==='crit';
+  const R=r2(),m=(mv.h??T.hit)+(mv.qte?0:0),tot=R.s+m,def=fDef(x,mv.gun||mv.rng);const j=judge(R,tot,def);const hit=j==='ok'||j==='crit';
   await dice({label:`${f.n}・${mv.n}　→　${x.n}`,dice:pairDice(R,'',1),quick:true,result:`<span class="${hit?'s':'f'}">${j==='crit'?'重擊':hit?'命中':'落空'}</span>`,cls:hit?'ok':'ng'});
   out(`擲骰｜${f.n}・${mv.n}　→　${x.n}　d20(<b>${R.a}</b>)${m>=0?'+':'−'}${Math.abs(m)}＝<b>${tot}</b>　${j==='crit'?'重擊':hit?'命中':'落空'}`,'roll',true);
   if(hit){let d=Math.max(1,Math.floor((mv.d??T.dmg)*(j==='crit'?critX(f,mv):1)));snd(mv.gun||mv.shot?'bhit':(mv.hs||'claw'),.9,1500);
@@ -4351,9 +4460,7 @@ async function kill(f,p,melee,nox){if(f.dead)return;
   await flush();push();draw();if(!kb)snd('death',.9,2600);
   await wait(Math.round(650*Math.max(.4,UI.spd)));
   out(kb?`${f.n}撐不住了，捂著傷口跌跌撞撞地逃走。`:`${f.n}倒了下去，不再動彈。`,'good');
-  if(affIs(f,'squad'))for(const x of aliveF())if(FT(x).fac==='acru')x.shaken=1;
-  // 滅菌部隊的裝備：戰鬥結束時交給打倒他的人（沒有的話給第一個還站著的人）
-  if(FT(f).loot&&!f.fled){G.fight.loot=G.fight.loot||[];G.fight.loot.push({t:f.type,mag:f.mag,by:p?p.pid:null})}
+  // v0.25.0 主人：人類敵人戰鬥掉落 0（場景搜刮與任務獎勵照舊）；A.C.R.U. 不會因為誰倒下而動搖
   // 噴火兵被槍打死：背上的燃料罐爆炸，炸傷其他所有敵人
   if(FT(f).flame&&f.lastDt==='ballistic'&&G.fight){snd('mimpact',1,1500);out(`子彈打穿了${f.n}背上的燃料罐。一團火球在他身上炸開，把旁邊的隊友一起捲了進去。`,'good');
     for(const x of aliveF().filter(x=>FT(x).fac==='acru')){const dd=applyDmg(x,6,['fire'],null,true);out(`${x.n}被爆炸波及。−${dd}，剩 ${Math.max(0,x.hp)}。`,'good',true)}
@@ -4424,8 +4531,8 @@ async function attack(p,h,sk,ti,counter,csk){
     if(w.kind==='gun'&&!g.mag){snd('dryfire',1,350);out('扳機扣下去，只剩空響。彈匣空了。','sys');break}
     if(w.kind==='ranged'&&!hasI(p,w.ammo))break;
     const targets=spread?aliveF():[t];
-    const R=r2(),tot=R.s+sm+hb;const j0=judge(R,tot,fDef(t));const crit=j0==='crit',fum=j0==='fumble';
-    const lines=targets.map(x=>({x,hit:crit||x.prone||!!(G.fight&&G.fight.sneak)||(!fum&&tot>=fDef(x))}));
+    const R=r2(),tot=R.s+sm+hb;const rgA=w.kind!=='melee';const j0=judge(R,tot,fDef(t,rgA));const crit=j0==='crit',fum=j0==='fumble';
+    const lines=targets.map(x=>({x,hit:crit||x.prone||!!(G.fight&&G.fight.sneak)||(!fum&&tot>=fDef(x,rgA))}));
     const anyH=lines.some(l=>l.hit);
     await dice({label:`${counter?'反擊・':''}${w.n}${shots>1?`（${s+1}／${shots}）`:''}　→　${spread?'所有敵人':t.n}`,sub:`${STN[st]}　d20 ${sgn(sm+hb)}`,
       dice:pairDice(R,MP()?esc(p.name):''),result:`<span class="${anyH?'s':'f'}">${crit?'大成功':fum?'大失敗':anyH?'命中':'落空'}</span>`,cls:crit?'crit':fum?'fumble':anyH?'ok':'ng'});
@@ -4453,7 +4560,7 @@ async function attack(p,h,sk,ti,counter,csk){
         const lethal=x.hp-applyDmg(x,d,w.dt,p,'peek',(S&&sk==='pierce')||w.ap)<=0,fleeK=FT(x).human&&FT(x).fac!=='acru';
         const TX=lethal?(fleeK?KBTXT:KILLTXT):HITTXT;
         out(headHit?`子彈正中${x.n}的額頭。`:pick(TX[w.dt[0]]||TX.blunt)+(crit?'抓準了破綻，這一下特別重。':''),'');
-        const dd=applyDmg(x,d,w.dt,p,false,(S&&sk==='pierce')||w.ap);if(melee&&FT(x).human){x.contact=1;if(x.charge&&['collector','hunter'].includes(x.type)){x.charge=null;out(`${x.n}被貼身打中，瞄準被打斷了。`,'good',true)}}
+        const dd=applyDmg(x,d,w.dt,p,false,(S&&sk==='pierce')||w.ap);if(melee&&FT(x).human){x.contact=1;if(x.type==='oldhunter')x.hcov=0;if(x.charge&&['collector','oldhunter','quickdraw','arsonist'].includes(x.type)){x.charge=null;out(x.type==='arsonist'?`${x.n}被貼身打中，點著的瓶子摔在地上燒成一灘，這一瓶廢了。`:`${x.n}被貼身打中，瞄準被打斷了。`,'good',true)}}
         if(sk==='scatter'){const o=aliveF().find(y=>y!==x);if(o){applyDmg(o,Math.ceil(d/2),w.dt,p,true);out(`散開的彈丸也打中了${o.n}。`,'good',true);if(o.hp<=0)await kill(o,p)}}
         if(sk==='pierce'&&(w.kind==='gun'||w.kind==='ranged')){const o=aliveF().find(y=>y!==x);if(o){applyDmg(o,d,w.dt,p,true,true);out(`貫穿過去，連後面的${o.n}也一起打中。`,'good',true);if(o.hp<=0)await kill(o,p)}}
         if(x.hp>0){
@@ -4576,8 +4683,9 @@ async function execAct(p,a){
   else if(a.a==='dodge'){p.stance='dodge';out(`${nm(p)}放低重心，盯著牠們的動作，隨時準備閃開。`,'sys')}
   else if(a.a==='cover'){if(F.nocover){out('這裡沒有可以躲的地方。','sys');return false}p.stance='cover';out(`${nm(p)}縮到掩體後面，只露出半張臉。`,'sys')}
   else if(a.a==='spot'){const h=G.fight.foes.find(f=>f.hid&&f.hp>0&&!f.dead);if(!h)return false;const c=await check(p,'PER',12,'搜尋');
-    if(c.ok){h.hid=0;snd('step',.7);out(`${nm(p)}盯著遠處那點反光，終於看清楚了：對面樓頂的水塔旁邊，有個披著披肩的人影趴在那裡。<b>${h.n}</b>現在可以被攻擊了。`,'good')}
-    else out(`${nm(p)}掃過一扇扇窗戶和樓頂，還是找不到那點紅光是從哪裡來的。`,'sys')}
+    if(c.ok&&FT(h).lurk){snd('step',.7);await revealLurk(h,()=>out(`${nm(p)}循著那陣窸窣聲看過去：一個四肢著地的東西貼在暗處，正盯著你們。<b>${h.n}</b>現在可以被攻擊了。`,'good'))}
+    else if(c.ok){h.hid=0;snd('step',.7);out(`${nm(p)}盯著遠處那點反光，終於看清楚了：對面樓頂的水塔旁邊，有個披著披肩的人影趴在那裡。<b>${h.n}</b>現在可以被攻擊了。`,'good')}
+    else out(FT(h).lurk?`${nm(p)}盯著暗處看了很久，只聽得到喘氣聲，看不出是從哪裡來的。`:`${nm(p)}掃過一扇扇窗戶和樓頂，還是找不到那點紅光是從哪裡來的。`,'sys')}
   else if(a.a==='dual'){if(!canDual(p))return false;p.dual=1;out(`${nm(p)}：<b>雙持攻擊</b>`,'act',true);try{await attack(p,'R',null,ti);if(G.fight&&!G.over&&aliveF().length&&canDual(p)){const t2=F.foes[ti]&&!F.foes[ti].dead?ti:(aliveF()[0]||{}).id;await attack(p,'L',null,t2)}}finally{p.dual=0}}
   else if(a.a==='calm'){const t=P(a.to);if(!t||!t.mad||t.dead||t.down||p.calmUsed)return false;p.calmUsed=1;const c=await check(p,'CHA',14,'安撫');if(c.ok){t.mad=0;setFear(t,75);out(`${nm(p)}抓住${nm(t)}的肩膀，一直叫他的名字。笑聲慢慢停了下來。${nm(t)}恢復了意識，但還在「${fstgN(t)}」。`,'good')}else out(`${nm(t)}一把推開${nm(p)}，又開始笑了。`,'dmg')}
   else if(a.a==='subdue'){const t=P(a.to);if(!t||!t.mad||t.dead||t.down)return false;used=await subdue(p,t)}
@@ -4598,8 +4706,8 @@ async function endFight(){
   const F=G.fight;
   recoverDrops(false);
   for(const p of G.players){p.aimed=0;p.humus=0;p.held=0;p.burn=0;if(p.jamGuard>0)p.jamGuard--}
-  if(F&&F.foes.some(f=>f.hid&&f.hp>0&&!f.dead))out('遠處那點紅光熄掉了。狙擊手換了位置，沒有再開槍。','sys');
-  if(F&&F.loot&&F.loot.length&&!G.over)acruLoot(F.loot);
+  if(F&&F.foes.some(f=>f.hid&&f.hp>0&&!f.dead&&!FT(f).lurk))out('遠處那點紅光熄掉了。狙擊手換了位置，沒有再開槍。','sys');
+  if(F&&F.foes.some(f=>f.hid&&f.hp>0&&!f.dead&&FT(f).lurk))out('暗處那陣窸窣聲遠去了。不管那是什麼，牠沒有追上來。','sys');
   G.fight=null;stopCd();out('四周安靜下來，只剩粗重的喘氣聲。','sys');
   // 被警戒引來的那一場打完：這附近暫時沒有東西了，警戒歸零（不再連續引怪）
   // v0.24.0：被警戒引來的那一場打完。小波：警戒不降，這次升到 6 不再引第二波；強敵：警戒回到 3，這一帶標成已驚動
@@ -4611,11 +4719,6 @@ async function endFight(){
   if(await alarmCheck(go))return;
   await enterNode(go);
 }
-function acruLoot(L){const got=[];
-  for(const x of L){const T=FOES[x.t],D=T.loot;let q=x.by!=null&&P(x.by);if(!q||q.dead||q.down)q=able()[0];if(!q)return;
-    if(D.gear){const m=Math.max(0,x.mag||0);addGear(q,D.gear,m);got.push(`${MP()?esc(q.name)+'：':''}${WEAP[D.gear].n}（${m}／${WEAP[D.gear].mag}）`)}
-    for(const [k,v] of Object.entries(D.items||{})){const n=Array.isArray(v)?rnd(v[0],v[1]):v;addI(q,k,n);got.push(`${MP()?esc(q.name)+'：':''}${ITEMS[k].n}${n>1?' ×'+n:''}`)}}
-  if(got.length){snd('pickup',.8);out(`從他們身上搜到：${got.map(itemTag).join('、')}`,'good')}}
 /* ================= 物品 ================= */
 function doEquip(p,a){const before=handSnapshot(p);
   if(a.u==null){if(a.h){const u=p.hand[a.h];if(u!=null){if(p.hand.R===u)p.hand.R=null;if(p.hand.L===u)p.hand.L=null}}reportHands(p,before);return true}
@@ -4770,7 +4873,7 @@ function handle(pid,a){
 function encounterMarkup(d,mode){const title=mode==='first'?'我方先制':mode==='ambush'?'敵方突襲':'遭遇戰';const note=mode==='first'?'偷襲完成後再擲先攻':mode==='ambush'?'反應成功可解除敵方先攻加成':'行動順序由先攻決定';
   return `<div class="enc-state">${title}<small>${note}</small></div><div class="row">${d.map(x=>`<figure>${x.img?`<img src="img/${esc(x.img)}.webp" alt="${esc(x.n)}">`:'<i></i>'}<figcaption>${esc(x.n)}</figcaption></figure>`).join('')}</div>`}
 function battleState(){const F=G&&G.fight;if(!F)return '';if(F.sneak)return '我方先制';if(F.round>1)return '戰鬥中';if(F.order&&F.order.length)return F.order[0].k==='f'?'敵人先制':'我方先制';return F.opening==='first'?'我方先制':F.opening==='ambush'?'敵方突襲':'遭遇戰'}
-async function encounter(foes,mode){const d=foes.map(f=>({n:f.n,img:f.img||'',mode:mode||'normal'}));if(!d.some(x=>x.img))return;await flush();E('enc',d);await showEnc(d)}
+async function encounter(foes,mode){const d=foes.filter(f=>!lurkHid(f)).map(f=>({n:f.n,img:f.img||'',mode:mode||'normal'}));if(!d.some(x=>x.img))return;await flush();E('enc',d);await showEnc(d)}
 async function showEnc(data){const c=$('#enc');if(!c)return;const d=Array.isArray(data)?data:data.foes,mode=Array.isArray(data)?(data[0]&&data[0].mode||'normal'):data.mode;
   c.innerHTML=encounterMarkup(d,mode);c.hidden=false;c.classList.remove('go');void c.offsetWidth;c.classList.add('go');
   await Promise.race([wait((FAST?700:1700)*Math.max(.5,UI.spd)),new Promise(r=>{c.onclick=r})]);c.hidden=true}
@@ -5306,8 +5409,9 @@ function knowTxt(f){const K=G.know[f.type];if(!K||(!K.w.length&&!K.r.length))ret
 function foeBadges(f){const b=(t,c)=>`<span class="bd ${c||''}">${t}</span>`;const a=[];
   if(f.aff&&AFF[f.aff])a.push(b(AFF[f.aff].n.replace(/的$/,''),'m'));
   if(f.hid)a.push(b('隱蔽','g'));
-  if(f.charge)a.push(b(f.type==='collector'||(f.charge.m&&f.charge.m.gun)?'瞄準中':'蓄力中','f'));
-  if(FOES[f.type].mag&&f.mag<=0)a.push(b('彈匣空','g'));
+  if(f.charge)a.push(b(f.type==='arsonist'?'點燃':f.type==='collector'||(f.charge.m&&f.charge.m.gun)?'瞄準中':'蓄力中','f'));
+  if(FOES[f.type].mag&&f.mag<=0)a.push(b(f.type==='quickdraw'?'彈巢空':f.type==='oldhunter'?'未裝填':'彈匣空','g'));
+  if(f.hcov)a.push(b('掩體','s'));
   if(FOES[f.type].flame){if(f.near)a.push(b('逼近','f'));if(f.cool)a.push(b('加壓中','g'))}
   if(f.shell>0)a.push(b(`硬化層 ${f.shell}`,'s'));
   if(f.type==='collector'&&!f.loaded)a.push(b('未裝填','g'));
@@ -5335,7 +5439,7 @@ function draw(){
   if(F){cb.hidden=false;const pend=PEND&&myTurn();
     for(const f of F.foes)hpSet(foeHk(f),(f.dead?0:Math.max(0,f.hp))/f.max);
     $('#foes').innerHTML=F.foes.map(f=>{const dead=f.dead||f.hp<=0;const st=dead?[]:foeBadges(f);const hp=dead?0:f.hp;
-      return `<div class="foe ${pend&&!dead?'pick':''} ${!dead&&F.cur==='f'+f.id?'tg':''} ${dead?'dead':''}" data-id="${f.id}" ${pend&&!dead?`data-tgt="${f.id}"`:''}><div class="fpic">${f.img?`<img src="${foeImg(f)}" alt="">`:'<i>?</i>'}</div><div class="fin"><div class="fh"><b>${f.n}</b></div><div class="fhp"><div class="hpb" data-hk="${foeHk(f)}"><s style="width:${Math.max(0,hp)/f.max*100}%"></s><u style="width:${Math.max(0,hp)/f.max*100}%"></u></div><span>${hp}/${f.max}</span></div><div class="fk">${DF().num===0?'':`<em>防禦 ${fDef(f)}</em>`}${f.defDown?'護甲破損':''}</div><div class="fk fk2">${knowTxt(f).split('　').map(x=>`<span>${x}</span>`).join('')}</div>${dead||st.length?`<div class="fst">${dead?`<span class="bd">${f.fled?'離開':'倒下'}</span>`:st.join('')}</div>`:''}</div></div>`}).join('');
+      return `<div class="foe ${pend&&!dead?'pick':''} ${!dead&&F.cur==='f'+f.id?'tg':''} ${dead?'dead':''}" data-id="${f.id}" ${pend&&!dead?`data-tgt="${f.id}"`:''}><div class="fpic">${f.img&&!lurkHid(f)?`<img src="${foeImg(f)}" alt="">`:'<i>?</i>'}</div><div class="fin"><div class="fh"><b>${f.n}</b></div><div class="fhp"><div class="hpb" data-hk="${foeHk(f)}"><s style="width:${Math.max(0,hp)/f.max*100}%"></s><u style="width:${Math.max(0,hp)/f.max*100}%"></u></div><span>${lurkHid(f)?'？':`${hp}/${f.max}`}</span></div><div class="fk">${DF().num===0||lurkHid(f)?'':`<em>防禦 ${fDef(f)}${f.hcov?`（遠程 ${fDef(f,1)}）`:''}</em>`}${f.defDown?'護甲破損':''}</div><div class="fk fk2">${(lurkHid(f)?'弱點：？':knowTxt(f)).split('　').map(x=>`<span>${x}</span>`).join('')}</div>${dead||st.length?`<div class="fst">${dead?`<span class="bd">${f.fled?'離開':'倒下'}</span>`:st.join('')}</div>`:''}</div></div>`}).join('');
     $('#order').innerHTML=`<span class="rd">${battleState()}</span>`+(F.order.length?`<span class="rd">第 ${F.round} 回合</span>`+F.order.map((o,i)=>{if(o.k==='p'){const p=P(o.id);return `<span class="pl ${o.id===MYPID?'me':''} ${(F.group&&!F.resolving?F.group.includes(o.id):i===F.turn)?'now':''} ${p.dead||p.down||p.away?'gone':''}" style="${MP()?`color:${p.col}`:''}">${esc(p.name)}<em>${o.init}</em></span>`}const f=F.foes[o.id];return `<span class="fo ${i===F.turn?'now':''} ${f.dead||f.hp<=0?'gone':''}">${f.n}<em>${o.init}</em></span>`}).join(''):'<span class="rd">擲骰中</span>');
     hpRun($('#foes'));
   }else{cb.hidden=true;for(const k in HPA)if(k[0]==='f')delete HPA[k]}
@@ -5445,8 +5549,8 @@ function fightMenu(m){
 function actLabel(m,a){if(a.a==='csk')return CSKILL[a.id].n+(a.to&&P(a.to)?' → '+esc(P(a.to).name):'');if(a.a==='flee'&&a.csk)return '緊急撤退';if(a.a==='atk'){const x=handsOf(m).find(y=>y.h===(a.h||'R'));return (x?x.lab+'・':'')+(a.csk?CSKILL[a.csk].n:a.sk?SKILL[a.sk].n:'普通攻擊')+(a.t!=null&&G.fight.foes[a.t]?' → '+G.fight.foes[a.t].n:'')}if(a.a==='tact')return TACT[a.id].n;return {reload:'裝填',unjam:'排除卡彈',cock:'上弦',pickup:'撿起武器',kick:'踢回武器',molotov:'丟燃燒瓶',ext:'噴滅火器',flee:'逃跑',free:'掙脫',use:'使用物品',revive:'救隊友',equip:'換武器',guard:'格擋',block:'格擋',dodge:'閃躲',cover:'掩蔽',dual:'雙持攻擊',calm:'安撫隊友',subdue:'制伏隊友'}[a.a]||a.a}
 const backBtn=()=>chBtn('data-ftab=""','返回','回到上一層','','');
 function targetBtns(m){const a=PEND.a;let w=null,sk=a.sk;if(a.a==='atk'){const x=atkHands(m).find(y=>y.h===(a.h||'R'));w=x.w}
-  return aliveF().map(f=>{let tag='';if(w&&DF().num){const st=bestSt(m,w.st);tag=`命中 ${f.prone?100:hitPct(statMod(m,st)+hitBonus(m,a.h||'R',w,sk),fDef(f))}%`}
-    return chBtn(`data-tgt="${f.id}"`,f.n,`生命 ${f.hp}/${f.max}　${DF().num===0?'':`防禦 ${fDef(f)}　`}${knowTxt(f)}`,'','')}).join('')+chBtn('data-cancel','返回','重新選擇行動','','')}
+  return aliveF().map(f=>{let tag='';if(w&&DF().num){const st=bestSt(m,w.st);tag=`命中 ${f.prone?100:hitPct(statMod(m,st)+hitBonus(m,a.h||'R',w,sk),fDef(f,w.kind!=='melee'))}%`}
+    return chBtn(`data-tgt="${f.id}"`,f.n,`生命 ${f.hp}/${f.max}　${DF().num===0?'':`防禦 ${fDef(f,w&&w.kind!=='melee')}　`}${knowTxt(f)}`,'','')}).join('')+chBtn('data-cancel','返回','重新選擇行動','','')}
 function needTarget(a){if(a.a==='atk'){const sk=a.sk;if(sk&&SKILL[sk].all)return false;const x=atkHands(me()).find(y=>y.h===(a.h||'R'));if(x&&x.w.kind==='spray')return false;if(sk&&SKILL[sk].prep)return false}
   if(a.a==='csk')return a.id==='awe'&&aliveF().length>1;
   if(a.a==='tact'){const T=TACT[a.id];if(!T.one)return false;return aliveF().filter(f=>T.foes.includes(f.type)).length>1}
