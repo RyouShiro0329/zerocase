@@ -111,7 +111,17 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .die svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 .die b{position:relative;font:900 26px/1 var(--label);color:#efe6cf;text-shadow:0 2px 3px #000}
 .die.d6{width:50px;height:50px}.die.d6 b{font-size:20px}
-.die.roll{animation:tumble var(--dur,.8s) cubic-bezier(.25,.6,.35,1)}
+.die.roll{animation:none}
+/* v0.24.3 骰子影子、結果的震動與閃光 */
+.die .ds{position:absolute;left:12%;right:12%;bottom:-8px;height:10px;border-radius:50%;background:radial-gradient(rgba(0,0,0,.75),transparent 70%);opacity:.55;pointer-events:none}
+.die.d6 .ds{bottom:-6px;height:7px}
+.tray.t-ng{animation:trayng .32s ease-out}
+.tray.t-fumble{animation:trayfum .6s ease-out}
+.tray.t-crit{animation:traycrit .7s ease-out}
+@keyframes trayng{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}55%{transform:translateX(4px)}80%{transform:translateX(-2px)}}
+@keyframes trayfum{0%{transform:translate(0,0);box-shadow:0 20px 60px #000,0 0 0 2px #d3574a,0 0 40px 8px rgba(200,40,30,.7)}15%{transform:translate(-9px,3px)}30%{transform:translate(8px,-3px)}45%{transform:translate(-6px,2px)}60%{transform:translate(4px,-1px)}80%{transform:translate(-2px,0)}100%{transform:translate(0,0);box-shadow:0 20px 60px #000}}
+@keyframes traycrit{0%{box-shadow:0 20px 60px #000,0 0 0 2px #f3d996,0 0 46px 10px rgba(240,200,110,.65)}100%{box-shadow:0 20px 60px #000}}
+@media (prefers-reduced-motion:reduce){.tray.t-ng,.tray.t-fumble{animation:none}}
 @keyframes tumble{0%{transform:translate(-90px,-34px) rotate(-260deg) scale(.6)}35%{transform:translate(24px,8px) rotate(-60deg) scale(1.05)}55%{transform:translate(-10px,-12px) rotate(30deg)}75%{transform:translate(4px,2px) rotate(-8deg)}100%{transform:translate(0,0) rotate(0) scale(1)}}
 .die.land{animation:pop .28s ease-out}
 @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.18)}100%{transform:scale(1)}}
@@ -622,7 +632,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.24.2", "b": 63, "t": "2026-11-16T09:35:10+08:00"};
+const ZC_VER={"v": "0.24.3", "b": 64, "t": "2026-11-16T13:13:00+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3158,11 +3168,11 @@ function newRun(builds,opts,mode){
 let AC=null,NB=null,SFX_MASTER=null;const BUF={};
 /* ZeroCase Audio Mix v2 / 2026-11-14：依事件分類統一短音效增益；不改動原始檔名與 BGM。 */
 const SFX_TYPES={
-  ui:['click','ok','ng','crit','fumble','rattle','land','dry'],
+  ui:['click','ok','crit','rattle','land','dry','dieknock'],
   movement:['stairs','step','zstep','dooropen','doorclose'],
   foley:['heal','pill','rummage','zipper','drawer','pickup','equip','craft','eat','gulp'],
   combat:['bowdraw','bowimpact','beretta','berettaReload','revolver','revolverCock','casing','fist','claw','knife','headshot','mthrow','mimpact','death','fal','falReload','mp5','mp5Reload','rifle','bolt','bite','smash','splat','spit','thud','squish','bhit','shotgun','whoosh','groan','hurt','ext','zap'],
-  system:['level'],
+  system:['level','ng','fumble','miss'],
   environment:['rain_indoor_loop','rain_outdoor_loop','thunder_distant_01','thunder_distant_02','glassbreak','woodknock','woodimpact','genstart','genloop','firealarm','dryfire','glassstep','waterpipe','pumpmix','pumpstop','radiostatic','radio02','radio23','radio24','doorlocked']
 };
 // 初始音量級距：待桌機與手機試聽後再微調；不是已完成 LUFS 實測的數據。
@@ -3266,8 +3276,11 @@ const SYN={
  land(){noise(0,.09,320,.8,.5,'lowpass');tone(0,140,.14,.28,'sine',70);noise(.01,.03,3200,5,.18);return 150},
  ok(){tone(0,523,.22,.12,'triangle');tone(.09,784,.3,.12,'triangle');return 380},
  crit(){[523,659,784,1046].forEach((f,i)=>tone(i*.07,f,.35,.12,'triangle'));noise(0,.5,6000,.5,.04,'highpass');return 560},
- ng(){tone(0,196,.25,.14,'square',150);tone(.03,98,.3,.12,'sine');return 330},
- fumble(){tone(0,110,.5,.18,'sawtooth',55);noise(0,.3,200,1,.3,'lowpass');return 500},
+ /* v0.24.3 失敗、大失敗、落空加重（主人：不夠強烈）。失敗＝悶響＋兩個互相打架的低音往下沉；大失敗＝低頻重擊＋不和諧和弦一路往下＋第二下重擊 */
+ ng(){tone(0,82,.42,.26,'sine',50);noise(0,.16,260,.8,.45,'lowpass');tone(.02,233,.34,.13,'square',165);tone(.02,220,.36,.11,'sawtooth',155);return 480},
+ fumble(){tone(0,92,.95,.36,'sine',30);noise(0,.5,170,.7,.6,'lowpass');noise(.01,.07,2600,3,.22);tone(.05,233,.75,.13,'sawtooth',104);tone(.05,247,.75,.12,'sawtooth',110);tone(.05,349,.6,.07,'square',156);tone(.36,64,.65,.26,'sine',36);noise(.36,.25,150,.7,.4,'lowpass');return 1000},
+ miss(){for(let i=0;i<6;i++)noise(i*.03,.07,2000-i*270,1.3,.34-i*.03);tone(.02,320,.22,.07,'sine',110);noise(.2,.1,240,.8,.18,'lowpass');return 330},
+ dieknock(){const k=1;noise(0,.03,1700+Math.random()*1100,4,.34*k);tone(0,480+Math.random()*260,.045,.07*k,'triangle');noise(0,.06,280,1,.3*k,'lowpass');return 70},
  whoosh(){noise(0,.22,900,.7,.35);return 220},
  groan(){tone(0,95,1.1,.09,'sawtooth',70);tone(0,141,1.1,.05,'sawtooth',108);noise(0,1,300,3,.06);return 1100},
  hurt(){noise(0,.25,400,1,.35,'lowpass');tone(0,220,.25,.1,'sawtooth',120);return 260},
@@ -3316,6 +3329,29 @@ const D20SVG=`<svg viewBox="-50 -50 100 100"><polygon class="face" points="0,-46
 const D10SVG=`<svg viewBox="-50 -50 100 100"><polygon class="face" points="0,-46 42,-6 30,26 0,46 -30,26 -42,-6"/><path class="edge" d="M0,-46 L-18,12 L0,46 M0,-46 L18,12 L0,46 M-42,-6 L-18,12 M42,-6 L18,12 M-18,12 L18,12"/></svg>`;
 const D6SVG=`<svg viewBox="-50 -50 100 100"><rect class="face" x="-42" y="-42" width="84" height="84" rx="14"/></svg>`;
 let skipDice=null;
+/* v0.24.3 擲骰改成真的在滾：從旁邊丟進來，落地彈三下（每下有碰撞聲、壓扁一下），轉速和數字跳動一路變慢，影子跟著高度變大變小。
+   原本是 CSS 一次甩進來。用 requestAnimationFrame 逐格算位置；略過時立刻停。只在本機演出（隊友那邊各自播）。 */
+function dieRoll(el,dies,spec,dur){
+  const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;const now=()=>performance.now();const T0=now();let raf=0,stop=false;
+  const B=[0,.42,.7,.88,1],H=[70,30,12,4];/* 落地的時間點（比例）與每段的彈跳高度 */
+  const P=dies.map((d,i)=>{const dir=(i%2?1:-1)*(spec.dice.length===1?(Math.random()<.5?1:-1):1);return {d,dir,parts:[...d.children].filter(c=>!(c.tagName==='I')),x0:dir*(150+Math.random()*60),rot:(560+Math.random()*420)*dir,last:0,num:0,hit:0,
+    sh:(()=>{const s=document.createElement('i');s.className='ds';d.prepend(s);return s})(),D:dur+i*70}});
+  const ease=t=>1-Math.pow(1-t,3);
+  const step=()=>{if(stop)return;const t1=now();let alive=false;
+    for(const [i,q] of P.entries()){const t=Math.min(1,(t1-T0)/q.D);if(t<1)alive=true;
+      let k=0;while(k<B.length-2&&t>=B[k+1])k++;const u=(t-B[k])/(B[k+1]-B[k]);
+      const y=k===0?-H[0]*(1-u*u):-H[k]*4*u*(1-u);/* 第一段從高處落下，之後是一段一段的拋物線 */
+      if(k>q.hit){q.hit=k;sfx('dieknock',spec.quick?.6:.9-k*.15);q.squash=t1}
+      const sq=q.squash&&t1-q.squash<90?1-.16*(1-(t1-q.squash)/90):1;
+      const x=q.x0*(1-ease(t)),r=q.rot*(1-ease(t));
+      const tf=RM?'':`translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${r.toFixed(1)}deg) scale(${(1/sq*.98+.02).toFixed(3)},${sq.toFixed(3)})`;for(const c of q.parts)c.style.transform=tf;
+      q.sh.style.transform=`translate(${(-x*.15).toFixed(1)}px,0) scale(${(1-Math.min(.6,-y/120)).toFixed(3)})`;q.sh.style.opacity=(.55-Math.min(.35,-y/200)).toFixed(2);
+      const gap=45+t*t*260;/* 數字越跳越慢 */
+      if(t<1&&t1-q.last>gap){q.last=t1;const S=spec.dice[i].sides;q.d.querySelector('b').textContent=S===10?rnd(0,9):rnd(1,S)}}
+    if(alive)raf=requestAnimationFrame(step)};
+  raf=requestAnimationFrame(step);
+  return ()=>{stop=true;cancelAnimationFrame(raf);for(const q of P){for(const c of q.parts)c.style.transform='';q.sh.style.transform='';q.sh.style.opacity=''}};
+}
 async function showDice(spec){
   await flush();
   const el=$('#dice');const f=FAST?.3:UI.spd;const dur=Math.round((spec.quick?560:900)*f);
@@ -3323,14 +3359,13 @@ async function showDice(spec){
   el.hidden=false;el.classList.remove('out');
   const dies=[...el.querySelectorAll('.die')];
   let skipped=false;const sk=new Promise(r=>{skipDice=()=>{skipped=true;r()}});
-  dies.forEach(d=>{void d.offsetWidth;d.classList.add('roll')});
-  sfx('rattle',spec.quick?.6:1);
-  const iv=setInterval(()=>dies.forEach((d,i)=>{d.querySelector('b').textContent=spec.dice[i].sides===10?rnd(0,9):rnd(1,spec.dice[i].sides)}),55);
+  const stopRoll=dieRoll(el,dies,spec,dur);
   await Promise.race([wait(dur+spec.dice.length*90),sk]);
-  clearInterval(iv);
+  stopRoll();
   dies.forEach((d,i)=>{d.classList.remove('roll');d.querySelector('b').textContent=spec.dice[i].val;void d.offsetWidth;d.classList.add('land');const c=spec.dice[i].cls||(spec.dice[i].sides>=10?spec.cls:'');if(c)d.classList.add(c)});
   sfx('land');
   el.querySelector('.res').innerHTML=spec.result||'';
+  {const tr=el.querySelector('.tray');if(tr&&['crit','fumble','ng'].includes(spec.cls)){void tr.offsetWidth;tr.classList.add('t-'+spec.cls)}}
   let ms=0;if(spec.cls==='crit')ms=sfx('crit');else if(spec.cls==='fumble')ms=sfx('fumble');else if(spec.cls==='ok')ms=sfx('ok');else if(spec.cls==='ng')ms=sfx('ng');
   if(!skipped)await Promise.race([wait(Math.max((spec.quick?520:850)*f,ms)),new Promise(r=>{skipDice=r})]);
   skipDice=null;el.classList.add('out');await wait(180);el.hidden=true;
@@ -4164,10 +4199,11 @@ const EFF={weak:'效果出類拔萃！',norm:'有效果。',res:'效果不好…
 function dmgCoef(f,dt,ignoreRes){const F=FT(f);let c=(F.rd&&F.rd[dt]!=null)?F.rd[dt]:(F.weak.includes(dt)?1.5:F.res.includes(dt)?.5:1);
   if((f.ares||[]).includes(dt))c=Math.min(c,.5);if(ignoreRes&&c<1)c=1;return c}
 function applyDmg(f,base,dts,p,quiet,ignoreRes){
-  const F=FT(f);let best=null;
+  const F=FT(f);let best=null;const peek=quiet==='peek';/* v0.24.3 peek：只算會扣多少，不改任何狀態（用來先決定命中文字） */
   for(const dt of dts){let c=dmgCoef(f,dt,ignoreRes);let sh=0;if(f.shell>0&&dt!=='fire'){c=Math.min(.5,c);sh=1}
     let d=base*c;if(f.wet&&dt==='shock')d*=2;if(f.wet&&dt==='fire')d=d/2;if(affIs(f,'hard')&&dt!=='blunt'&&!ignoreRes)d-=2;
     d=Math.max(1,Math.floor(d+1e-9));const e=c>1?'weak':c<1?'res':'norm';if(!best||d>best.d)best={d,e,dt,sh,c}}
+  if(peek)return affIs(f,'heavy')?Math.max(1,best.d-2):best.d;
   if(f.shell>0&&(best.sh||best.dt==='fire')){f.shell--;if(!quiet)out(best.dt==='fire'?(f.shell?`火燒穿了一層硬化組織。硬化層剩 ${f.shell}。`:'火把最後一層硬化組織燒裂了。'):(f.shell?`打在硬化組織上，力道被吃掉一半。硬化層剩 ${f.shell}。`:'最後一層硬化組織裂開了。'),'sys',true)}
   if(affIs(f,'hard')&&best.dt==='blunt'){f.cracks=(f.cracks||0)+1;if(f.cracks>=3){f.aff=null;nameFoes(G.fight.foes);if(!quiet)out(`${f.n}身上的硬殼整片碎開，掉在地上。`,'good',true)}}
   if(affIs(f,'heavy'))best.d=Math.max(1,best.d-2);
@@ -4338,7 +4374,9 @@ async function kill(f,p,melee,nox){if(f.dead)return;
   if(p)p.kills++;
   if(!nox)teamXP(FT(f).xp||1);
   const kb=FT(f).human&&FT(f).fac!=='acru';
-  await flush();if(!kb)await sndW('death',.9,2600,.75);else await wait(300);
+  /* v0.24.3 先把畫面畫出來（血條降到底、卡片變灰），死亡音效照播但不等它播完 */
+  await flush();push();draw();if(!kb)snd('death',.9,2600);
+  await wait(Math.round(650*Math.max(.4,UI.spd)));
   out(kb?`${f.n}撐不住了，捂著傷口跌跌撞撞地逃走。`:`${f.n}倒了下去，不再動彈。`,'good');
   if(affIs(f,'squad'))for(const x of aliveF())if(FT(x).fac==='acru')x.shaken=1;
   // 滅菌部隊的裝備：戰鬥結束時交給打倒他的人（沒有的話給第一個還站著的人）
@@ -4383,6 +4421,9 @@ function hitBonus(p,h,w,sk){
 const ddTxt=(p,w,sk)=>{const [n,s]=w.dd||[1,2],b=dmgOf(p,w,sk);return `${n}d${s}${b?(b>0?'+':'−')+Math.abs(b):''}`};
 function rollDmg(p,w,sk){const [n,s]=w.dd||[1,2];let r=0;for(let i=0;i<n;i++)r+=rnd(1,s);return {r,d:Math.max(1,r+dmgOf(p,w,sk))}}
 function dmgOf(p,w,sk){const S=sk?SKILL[sk]:{};let d=(w===WEAP.fist&&tr(p,'boxer')?2:0)+(w.ds?Math.floor(Math.max(0,statMod(p,w.ds))/2):0)+((p.lv||1)-1)+(S.dmg||0)-(p.dual?1:0);if(w.blade&&tr(p,'blade'))d+=1;if(isBow(w)&&tr(p,'archer'))d+=1;if(w.kind==='gun'&&p.kind==='liao')d+=1;return Math.max(1,d)}
+/* v0.24.3 打倒的那一下用不同的文字（原本會先寫「頭又慢慢轉了回來」再寫倒下）；KBTXT 是會逃走的劫匪 */
+const KILLTXT={blunt:['這一下砸碎了牠的頭骨，悶響在四周迴盪。','正中太陽穴，牠的頭猛地歪向一邊，眼睛失去了焦點。','一記重擊轟在牠的下顎上，牠整個人往後仰。'],slash:['刀刃深深劃開牠的脖子，血一下子噴了出來。','砍進肩頸之間，卡在骨頭上。牠的手垂了下來。'],pierce:['刺進胸口，正中要害。','尖端從肋骨的縫隙直直鑽進去，牠全身一僵。'],ballistic:['子彈打進牠的胸口正中央，牠整個人往後一頓。','子彈打穿牠的頸部，血霧噴在後面的牆上。'],fire:['火舌捲上牠的全身，牠發出一聲嘶啞的叫聲。']};
+const KBTXT={blunt:['這一下打得他眼前一黑，整個人踉蹌後退。'],slash:['刀刃劃開他的手臂，血一下子湧了出來。'],pierce:['刺進他的側腹，他慘叫一聲，捂住傷口。'],ballistic:['子彈打中他的腿，他整個人跪了下去。'],fire:['火燒上他的衣服，他慘叫著拍打全身。']};
 const HITTXT={blunt:['一下砸在牠的顴骨上，骨頭碎裂的聲音清清楚楚。','打中牠的太陽穴，牠的頭歪向一邊，又慢慢轉了回來。','一記重擊轟在牠的下顎上。'],slash:['刀刃劃開牠的脖子側面，血噴得滿手都是。','砍進牠的肩膀，卡在骨頭上，用力才拔出來。'],pierce:['刺進牠的腹部，再用力拔出來。','尖端從肋骨的縫隙鑽了進去。'],ballistic:['子彈打進牠的胸口。牠晃了一下，又繼續往前。','子彈打穿牠的肩膀，血噴在後面的牆上。'],fire:['火舌捲上牠的身體，焦臭味瞬間填滿走廊。']};
 // 回傳 true 代表用掉了回合
 async function attack(p,h,sk,ti,counter,csk){
@@ -4424,7 +4465,7 @@ async function attack(p,h,sk,ti,counter,csk){
       if(w.kind==='gun'){if(!w.nojam&&!(p.jamGuard>0)&&!(tr(p,'gunner')&&Math.random()<.5)){g.jam=1;out('槍響之後，滑套卡在半途。卡彈了。','dmg')}else out('擊錘落下，只聽到一聲空響。是啞彈。','sys')}
       else if(melee&&g&&!w.bash&&Math.random()<.3){const far=Math.random()<.4;g.drop=far?'far':'feet';if(p.hand.R===g.u)p.hand.R=null;if(p.hand.L===g.u)p.hand.L=null;snd('fumble');
         out(far?`${nm(p)}的${w.n}脫手飛了出去，撞在走廊另一頭。只能等打完再去撿。`:`${nm(p)}的${w.n}從${h==='L'?'左手':'右手'}滑了出去，掉在腳邊。`,'dmg')}
-      else{if(w.ammo!=='arrow')snd('whoosh');out('揮空了，整個人被自己的力道帶得失去平衡。','sys')}
+      else{if(w.ammo!=='arrow')snd('miss');out('揮空了，整個人被自己的力道帶得失去平衡。','sys')}
       if(g&&g.dur!=null&&melee)g.dur-=2;
     }else{
       let anyHit=false;
@@ -4436,7 +4477,9 @@ async function attack(p,h,sk,ti,counter,csk){
         out(`擲骰｜傷害 ${ddTxt(p,w,sk)}(<b>${RD.r}</b>)${C&&C.dmg?'+'+C.dmg:''}${brace?'×1.5':''}${crit?'×2':''}＝<b>${d}</b>`,'roll',true);
         const headHit=headshotHit(w,aimed,crit,s,spread,x,t);
         if(headHit)snd('headshot',.6,900);
-        out(headHit?`子彈正中${x.n}的額頭。`:pick(HITTXT[w.dt[0]]||HITTXT.blunt)+(crit?'抓準了破綻，這一下特別重。':''),'');
+        const lethal=x.hp-applyDmg(x,d,w.dt,p,'peek',(S&&sk==='pierce')||w.ap)<=0,fleeK=FT(x).human&&FT(x).fac!=='acru';
+        const TX=lethal?(fleeK?KBTXT:KILLTXT):HITTXT;
+        out(headHit?`子彈正中${x.n}的額頭。`:pick(TX[w.dt[0]]||TX.blunt)+(crit?'抓準了破綻，這一下特別重。':''),'');
         const dd=applyDmg(x,d,w.dt,p,false,(S&&sk==='pierce')||w.ap);if(melee&&FT(x).human){x.contact=1;if(x.charge&&['collector','hunter'].includes(x.type)){x.charge=null;out(`${x.n}被貼身打中，瞄準被打斷了。`,'good',true)}}
         if(sk==='scatter'){const o=aliveF().find(y=>y!==x);if(o){applyDmg(o,Math.ceil(d/2),w.dt,p,true);out(`散開的彈丸也打中了${o.n}。`,'good',true);if(o.hp<=0)await kill(o,p)}}
         if(sk==='pierce'&&(w.kind==='gun'||w.kind==='ranged')){const o=aliveF().find(y=>y!==x);if(o){applyDmg(o,d,w.dt,p,true,true);out(`貫穿過去，連後面的${o.n}也一起打中。`,'good',true);if(o.hp<=0)await kill(o,p)}}
@@ -4457,7 +4500,7 @@ async function attack(p,h,sk,ti,counter,csk){
         if(x.hp<=0)await kill(x,p,melee);
       }
       if(anyHit){if(sk==='cleave'||sk==='swing')p.defPen=2;if(melee&&p.kind==='maggie')p.combo=1}
-      else{if(w.kind!=='gun'&&w.ammo!=='arrow')snd('whoosh');out(w.kind==='gun'?'子彈擦過牠的耳邊，打進後面的牆裡。':w.kind==='ranged'?'射偏了，釘在牆上。':'牠偏了一下頭，打了個空。','sys')}
+      else{if(w.kind!=='gun'&&w.ammo!=='arrow')snd('miss');out(w.kind==='gun'?'子彈擦過牠的耳邊，打進後面的牆裡。':w.kind==='ranged'?'射偏了，釘在牆上。':'牠偏了一下頭，打了個空。','sys')}
     }
     if(g&&g.dur!=null&&melee&&!w.bash)g.dur-=1+(S&&S.dur||0);
     if(g&&g.dur!=null&&g.dur<=0){out(`<b>${WEAP[g.id].n}</b>壞了。`,'dmg',true);rmGear(p,g.u);snd('fumble');break}
@@ -5254,7 +5297,9 @@ function hpStg(p){if(p.dead)return '死亡';if(p.down||p.hp<=0)return '倒地';c
 const hunStg=p=>p.hun>=7?'飽足':p.hun>=4?'還好':p.hun>=1?'肚子餓':'餓壞了';
 const thiStg=p=>p.thi>=7?'不渴':p.thi>=4?'還好':p.thi>=1?'很渴':'脫水';
 const infStg=p=>p.inf<=0?'沒有':p.inf<20?'輕微':p.inf<40?'加重':p.inf<70?'嚴重':'危急';
-function vitBars(p){const bd=(x,t)=>x?`<em class="bad">${t}</em>`:t;
+/* v0.24.3 狀態下拉也改成階段（主人選 A） */
+const vbd=(x,t)=>x?`<em class="bad">${t}</em>`:t;
+function vitBars(p){const bd=vbd;
   return `<div class="vit">${bar('hp','生命',Math.max(0,p.hp),p.max,bd(p.hp<p.max*.4,hpStg(p)),'p'+p.pid)}${bar('fe fs'+fstg(p),'恐懼',fstg(p),4,fstgN(p))}${bar('in','感染',p.inf,100,bd(p.inf>=40,infStg(p)))}${bar('hu','飢餓',p.hun,10,bd(p.hun<=3,hunStg(p)))}${bar('th','口渴',p.thi,10,bd(p.thi<=3,thiStg(p)))}</div>`}
 const chBtn=(attr,l,s,tag,tc,dis,extra,cls)=>`<button class="ch ${cls||''}" ${attr} ${dis?'disabled':''}><span class="cl">${l}</span>${extra||''}${tag?`<span class="tag ${tc}">${tag}</span>`:''}${s?`<span class="cs">${s}</span>`:''}</button>`;
 // 屬性需求統一放在標籤；真實模式保留標籤，只隱藏判定數字。
@@ -5444,7 +5489,7 @@ function teamExtra(p){const effects=statEffects(p);const at=Object.keys(STN).map
   return `<div class="chips"><span>現金 $${p.usd||0}</span></div><div class="chips tat">${at}${p.pts?`<span style="color:var(--gold)">可加點 ${p.pts}</span>`:''}</div>${ch?`<div class="chips"><span>選了：${esc(ch)}</span></div>`:''}${tl.length?`<div class="chips"><span>告知：「${esc(tl[tl.length-1])}」</span></div>`:''}`}
 function drawDD(){const d=$('#tdd');if(!G){d.hidden=true;return}
   d.innerHTML=[...G.players].sort((a,b)=>(b.pid===MYPID)-(a.pid===MYPID)).map(p=>`<div class="tcard ${p.down?'dn':''} ${p.dead?'dd':''}">${av(p,1)}<div><div class="nm2"><b>${esc(p.name)}</b>${tallyMk(p,'sm')}<small>Lv${p.lv}　${roleN(p)}${MP()&&p.pid===MYPID?'（你）':''}　${p.dead?'死亡':p.down?'倒地':p.mad?'<span class="bad">發瘋</span>':''}</small></div>
-   <div class="b2">${bar('hp','生命',Math.max(0,p.hp),p.max,` ${Math.max(0,p.hp)}`,'p'+p.pid)}${bar('fe fs'+fstg(p),'恐懼',fstg(p),4,` ${fstgN(p)}`)}${bar('in','感染',p.inf,100,` ${p.inf}`)}${bar('hu','飢餓',p.hun,10,` ${p.hun}`)}${bar('th','口渴',p.thi,10,` ${p.thi}`)}</div>
+   <div class="b2">${bar('hp','生命',Math.max(0,p.hp),p.max,' '+vbd(p.hp<p.max*.4,hpStg(p)),'p'+p.pid)}${bar('fe fs'+fstg(p),'恐懼',fstg(p),4,` ${fstgN(p)}`)}${bar('in','感染',p.inf,100,' '+vbd(p.inf>=40,infStg(p)))}${bar('hu','飢餓',p.hun,10,' '+vbd(p.hun<=3,hunStg(p)))}${bar('th','口渴',p.thi,10,' '+vbd(p.thi<=3,thiStg(p)))}</div>
    <div class="chips"><span>${handTxt(p)}</span>${p.bleed?`<span class="bad">${p.bleed>1?'重度流血':'流血'}</span>`:''}${p.unbal?'<span class="bad">失衡</span>':''}${p.frac?'<span class="bad">骨折</span>':''}${p.humus?`<span class="bad">腐殖 ${p.humus}</span>`:''}${p.burn?`<span class="bad">燃燒 ${p.burn}</span>`:''}${p.held?'<span class="bad">被抓住</span>':''}${G.alarm&&p.pid===MYPID?`<span>警戒 ${G.alarm}／10</span>`:''}${p.pts&&p.pid===MYPID?`<span style="color:var(--gold)">可加點 ${p.pts}</span>`:''}</div>${teamExtra(p)}</div></div>`).join('');d.hidden=false;hpRun(d)}
 /* ---- 面板 ---- */
 function renderLog(){const l=$('#log');if(!l)return;l.innerHTML=LOG.filter(([h,c])=>c!=='hd'||h&&!/^[\s—─–-]+$/.test(h)).map(([h,c])=>`<p class="${c}">${h}</p>`).join('');scrollLog()}
