@@ -633,7 +633,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.25.1", "b": 72, "t": "2026-11-16T21:18:22+08:00"};
+const ZC_VER={"v": "0.26.0", "b": 73, "t": "2026-11-17T00:29:07+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -750,22 +750,28 @@ const RECIPES=[
 /* ============ 商店 ============
  PRICE 基準價（美金）；商店每次出現從自己的商品池抽 6～8 樣，價格在基準價 ±30% 之間浮動。
  賣東西給商店：基準價的 1/3，無條件捨去，最少 $1。沒有砍價（之後由「談判」類初始能力處理）。 */
-const PRICE={mre:4,acruuni:6,water:3,cola:2,coffee:3,whiskey:4,cigarette:2,bar:2,chips:2,nuts:2,cookie:2,noodle:2,
+const PRICE={mre:4,acruuni:6,ammo762:6,ammo308:8,adrenaline:20,water:3,cola:2,coffee:3,whiskey:4,cigarette:2,bar:2,chips:2,nuts:2,cookie:2,noodle:2,
  bandage:3,sbandage:5,med:8,iodine:4,alcohol:3,painkiller:4,antibiotic:25,sedative:6,splint:6,suture:8,surgkit:30,
  ammo9:4,ammo38:4,shell:5,arrow:1,bolt:2,shot:1,molotov:6,extinguisher:5,
  lighter:3,flashlight:6,pliers:4,cloth:1,tape:2,rope:2,nails:2,battery:1,pipe:2,glass:1,bottle:1,sock:1,coin:1,hanger:1,magazine:1,hairspray:2,fuel:3,tourniquet:2,chopsticks:1,board:1,mop:1,pvc:2,tableleg:1,blade:3,deadlight:2,sewing:2,
  whetstone:4,superglue:3,repairkit:15,gunoil:5,
  bracer:4,jacket:15,motoarm:8,motoleg:8,hardhat:10,motohelmet:12,riotvest:30,gasmask:20,filter:8,fuse:6,spreader:40};
 const SHOPS={
- jesse:{n:'便利商店・傑西',d:'傑西站在收銀機後面，把能賣的東西一樣一樣擺上櫃台。「現金就好。價錢……我也是照感覺開的，別跟我殺價。」',n0:6,n1:7,
+ jesse:{rf:'傑西看了一眼，往後退了半步。「拿走。這種東西放在我店裡，我會被那些人一起帶走。」',n:'便利商店・傑西',d:'傑西站在收銀機後面，把能賣的東西一樣一樣擺上櫃台。「現金就好。價錢……我也是照感覺開的，別跟我殺價。」',n0:6,n1:7,
   pool:['water','cola','coffee','bar','chips','nuts','cookie','noodle','cigarette','bandage','sbandage','painkiller','iodine','lighter','battery','tape','flashlight','ammo38','sedative','antibiotic']},
- wander:{n:'流浪商人',d:'一個推著購物車的男人攔住你。車上用防水布蓋著一大堆東西，車把上掛著一面寫著「只收現金」的紙牌。「別問我這些是從哪裡來的，」他說，「要不要看看？」',n0:6,n1:8,
+ wander:{guns:1,rf:'他把那把槍推回來，連碰都不想多碰一下。「這種東西我不收。被那些穿黑衣服的看到，我這台車就沒了。」',n:'流浪商人',d:'一個推著購物車的男人攔住你。車上用防水布蓋著一大堆東西，車把上掛著一面寫著「只收現金」的紙牌。「別問我這些是從哪裡來的，」他說，「要不要看看？」',n0:6,n1:8,
   pool:['water','bar','noodle','whiskey','bandage','sbandage','med','iodine','painkiller','antibiotic','splint','suture','ammo9','ammo38','shell','arrow','molotov','lighter','flashlight','rope','nails','tape','whetstone','superglue','gunoil','repairkit','bracer','motoarm','motoleg','hardhat','motohelmet','jacket','filter']},
- mall:{n:'美食街・蘿絲',d:'蘿絲把能賣的東西擺在一張折疊桌上，每一樣都用奇異筆寫了價錢。「現金就好。這些錢是要拿去跟外面的人換藥的。」',n0:6,n1:8,
+ mall:{rf:'蘿絲搖頭。「我們這裡有小孩。那種東西，別拿進來。」',n:'美食街・蘿絲',d:'蘿絲把能賣的東西擺在一張折疊桌上，每一樣都用奇異筆寫了價錢。「現金就好。這些錢是要拿去跟外面的人換藥的。」',n0:6,n1:8,
   pool:['water','cola','coffee','bar','noodle','cookie','nuts','bandage','sbandage','iodine','painkiller','filter','battery','flashlight','lighter','tape','rope']},
- raider:{n:'劫匪・德克',d:'德克把搶來的東西攤在桌上，旁邊站著兩個拿槍的人。「看上什麼就付錢。價錢我說了算。」',n0:5,n1:7,
-  pool:['ammo9','ammo38','shell','molotov','whiskey','cigarette','med','antibiotic','sedative','painkiller','filter','bracer','jacket','motohelmet','fuel']}
+ raider:{guns:1,rf:'德克笑了一聲，把東西推回來。「你想害死我？那些黑衣服的會順著編號找上門。這我不收。」',n:'劫匪・德克',d:'德克把搶來的東西攤在桌上，旁邊站著兩個拿槍的人。「看上什麼就付錢。價錢我說了算。」',n0:5,n1:7,
+  pool:['ammo9','ammo38','shell','molotov','whiskey','cigarette','med','antibiotic','sedative','painkiller','filter','bracer','jacket','motohelmet','fuel']},
+ black:{guns:1,hot:1,mk:1.6,box:1,n:'黑市商人',d:'他把幾個軍用彈藥箱拼成一張桌子，東西一樣一樣擺上來，每一樣都比外面貴。「只收現金。你們拿來的東西，我也收——什麼都收。」',n0:6,n1:8,
+  pool:['ammo9','ammo762','ammo308','shell','surgkit','antibiotic','filter','riotvest','adrenaline','gasmask','suture','med']}
 };
+/* v0.26.0 賣武器：[一般商人收購價, 黑市商人收購價]；燙手貨（滅菌部隊身上搜到的槍）一般商人不收。沒列的近戰、遠程武器照 [2,3] */
+const WSELL={beretta:[8,10],model10:[6,10],model500:[10,14],r870:[12,15],sbshot:[10,15],model70:[12,18],mp5:[12,25],fal:[14,35],r700:[14,30],
+ armyknife:[4,4],knuckles:[3,4],compbow:[6,8],crossbow:[8,10],handxbow:[5,6],flamer:[0,0]};
+const HOTITEM=k=>k==='acruuni';
 const sellPrice=k=>PRICE[k]?Math.max(1,Math.floor(PRICE[k]/3)):0;
 const CRAFT_SLOTS=4;
 const START_KNOWN=['bandage'];
@@ -2979,6 +2985,77 @@ const ZONES={
   lock:{'P4|開車衝出去':{t:'B2-17 的銀色轎車',why:'車門鎖著，沒有車鑰匙。'}}},
  R:{loc:'旅館',d:2,hub:'Rh',n:'頂樓',join:['R4'],rooms:['R1','R2'],bk:[['D','從消防梯爬下去']],door:['R4|撬開機房，走維修樓梯']}
 };
+/* ================= v0.26.0 黑市商人、燙手貨、三個黑市任務 =================
+   主人 2026-11-16 22:13／11-17 00:00：不報名字的黑市商人，是唯一收燙手貨（滅菌部隊身上搜到的槍、他們的制服）的人；任務很難、報酬豐厚。
+   地點：地鐵站維修通道（BM0）。找到的方法：一般商人拒收燙手貨時給線索（shopRefuse），或第 3 天起的街上事件 bmrumor。
+   帶著燙手貨又全隊穿制服：偽裝選項換成「準備被盤問」的魅力檢定（難度 +2），失敗就開戰；選項上的 hot 由 visible() 判斷。 */
+Object.assign(LV,{
+ BM:{n:'地鐵站',sub:'維修通道',en:'MAINTENANCE TUNNEL',rule:'這裡什麼都買得到，只是都比外面貴。',fx:{},ch:2},
+ BQ:{n:'封鎖線',sub:'探照燈塔',en:'SEARCHLIGHT TOWER',rule:'塔上的人看得到整條街。',fx:{},ch:2}
+});
+function bmEffect(k,actor){
+  if(k==='know'){if(!G.flags.bmknown)bmKnow('rumor','街上一個背登山包的男人說：地鐵站大廳旁邊那扇寫著「設備重地」的鐵門進去，有個什麼都收的人。');return}
+  if(k==='fal'){for(const p of G.players){const g=p.gear.find(x=>x.id==='fal'&&x.hot==='acru_captain'&&!x.drop);if(g){rmGear(p,g.u);out(`${MP()?nm(p)+'把':'你把'}那把 FN FAL 交了出去。`,'sys',true);return}}}}
+const bmCapFal=()=>G.players.some(p=>!p.dead&&p.gear.some(g=>g.id==='fal'&&g.hot==='acru_captain'&&!g.drop));
+Object.assign(N,{
+BM0:{L:'BM',n:'地鐵站・維修通道',
+ onEnter(){const F=G.flags;F.bmseen=1;F.bmq1ok=F.bmq1?0:1;F.bmq1give=F.bmq1&&!F.bmq1done&&bmCapFal()?1:0;F.bmq2ok=F.acru&&!F.bmq2?1:0;F.bmq2give=F.bmbox&&!F.bmq2done?1:0;
+  F.bmq3ok=F.raiders&&!F.acru&&!F.mclear&&!F.bmq3?1:0;F.bmq3give=F.bmledger&&!F.bmq3done?1:0},
+ tx:()=>G.flags.acru?'他腳邊的箱子比上次又多了幾個。「那些穿黑衣服的封了一半的出口，」他說，「出去的路越少，東西就越值錢。」':'',
+ t:`大廳旁邊那扇寫著「設備重地　非請勿入」的鐵門沒有鎖。門後是一段乾的維修步道，積水的聲音被擋在門外。
+
+步道盡頭是一間配電室，門口掛著一盞電池式露營燈。一個戴毛線帽的男人坐在軍用彈藥箱上，腳邊一字排開都是箱子。他沒有站起來，只是抬了抬下巴。
+
+「錢、貨，或是消息。」他說，「三樣都沒有的話，門在你們後面。」`,
+ c:[
+  {l:'跟他做買賣',s:'只收美金現鈔；什麼都收，賣的比別人貴',stay:1,ok:{t:`他把箱蓋一個一個掀開。`,r:{shop:'black'}}},
+  {l:'問他叫什麼名字',once:1,stay:1,ok:{t:`「名字不值錢。」他說，「在這裡，值錢的是你手上的東西。」
+
+他說他在封城之前就在做這一行：把城裡拿得到的東西帶出去，賣給外面的人。現在城被封了，生意反而更好。`}},
+  {l:'接下他的活：帶紅帽子的那把',need:'bmq1ok',hide:'bmq1',quest:'bmFal',stay:1,s:'很危險；報酬是 $60 和一套手術包',ok:{t:`他從口袋裡掏出一張拍立得，上面是一個戴紅色貝雷帽的人，背著一把長槍。「那些黑衣服的，帶隊的都戴這種帽子。我要他手上那一把——不是隨便一把，是他的。」他把照片收回去，「外面有人出很高的價錢。」`,r:{flag:'bmq1'}}},
+  {l:'把紅帽子的那把交給他',quest:'bmFal',need:'bmq1give',hide:'bmq1done',stay:1,ok:{t:`他接過槍，把槍身翻過來，用拇指擦了擦機匣上的編號，點點頭。「就是這把。」他數了錢，又從箱子裡拿出一套還封著膜的手術包。`,r:{bm:'fal',flag:'bmq1done',usd:60,items:{surgkit:1}},questDone:'bmFal'}},
+  {l:'接下他的活：封鎖線底下的箱子',need:'bmq2ok',hide:'bmq2',quest:'bmBox',stay:1,s:'很危險；報酬是 $50、一盒步槍子彈和一件防爆背心',ok:{t:`「封鎖線西段那座探照燈塔，」他說，「塔腳的水泥墩子後面，我塞了一個鐵箱。那些人來得太快，我沒來得及拿。現在塔下天天有人巡，塔上還趴著一個。」他看著你們，「箱子不要打開。」`,r:{flag:'bmq2'}}},
+  {l:'把鐵箱交給他',quest:'bmBox',need:'bmq2give',hide:'bmq2done',stay:1,ok:{t:`他接過箱子，掂了掂重量，沒有打開。「沒人碰過，很好。」他從身後拖出一件防爆背心和一盒步槍子彈。`,r:{flag:'bmq2done',usd:50,items:{ammo308:10,riotvest:1}},questDone:'bmBox'}},
+  {l:'接下他的活：德克的帳本',need:'bmq3ok',hide:'bmq3',quest:'bmLedger',stay:1,s:'會得罪購物中心那群人；報酬是 $40 和一個藏貨的地方',ok:{t:`「河景廣場二樓那個叫德克的，」他說，「什麼都記在一本黑色的帳本裡：誰欠他、貨藏在哪。我要那本帳本。」他頓了一下，「拿到之後，他不會再跟你們做生意。你們自己想清楚。」`,r:{flag:'bmq3'}}},
+  {l:'把德克的帳本交給他',quest:'bmLedger',need:'bmq3give',hide:'bmq3done',stay:1,ok:{t:`他翻了幾頁，笑了一聲，撕下其中一頁遞給你們。「這一頁我用不到。上面寫的是他在街區裡藏貨的車庫，鑰匙在門口第三個花盆底下。算你們的。」`,r:{flag:['bmq3done','dkstash'],usd:40},questDone:'bmLedger'}},
+  {l:'回街區',ok:{t:`你們沿著維修步道走回大廳，避開積水，爬上樓梯回到街上。`,go:'Z0'}}]},
+BQ0:{L:'BQ',n:'封鎖線・探照燈塔',
+ t:`封鎖線西段的探照燈塔是用鷹架臨時搭起來的，塔腳壓著四個水泥墩子。燈一直在轉，每轉一圈，白光就從你們藏身的那台公車上掃過去一次。
+
+塔下有兩個穿黑色制服的人來回走，步伐一致。塔頂的平台上有一點反光，一下一下，像是鏡片。`,
+ c:[
+  {l:'等燈轉開，摸到塔底下拿箱子',k:'AGI',d:15,s:'敏捷檢定：很難；失敗就會被發現',t:'m',ok:{t:`你們數著燈轉的圈數，在白光離開的那幾秒裡衝過去，趴進水泥墩子的影子裡。鐵箱就塞在墩子後面，用帆布蓋著。你們把它拖出來，再等下一個空檔退回去。`,r:{flag:'bmbox'},go:'Z0'},
+   ng:{t:`白光停在你們身上。塔頂傳來一聲很短的口令，塔下的兩個人同時轉身，舉槍。`,fight:{n:3,names:['A.C.R.U. 隊員','A.C.R.U. 隊員','哨塔上的狙擊手']},win:{t:`你們從水泥墩子後面把鐵箱拖了出來。`,r:{flag:'bmbox'}},go:'Z0'}},
+  {l:'直接動手',s:'兩個人在塔下，塔上還有一個',ok:{t:`你們趁燈轉開的時候衝了出去。`,fight:{n:3,mode:'first',names:['A.C.R.U. 隊員','A.C.R.U. 隊員','哨塔上的狙擊手']},win:{t:`你們從水泥墩子後面把鐵箱拖了出來。`,r:{flag:'bmbox'}},go:'Z0'}},
+  {l:'回街區',ok:{t:`你們退回公車後面，繞原路回去。`,go:'Z0'}}]}
+});
+{const i=N.Z0.c.findIndex(c=>c.l==='回旅館');N.Z0.c.splice(i,0,
+ {l:'去地鐵站的維修通道',need:'bmknown',t:'m',s:'那個什麼都收的人在那裡',ok:{t:`你們走下地鐵站的樓梯，沿著大廳邊緣避開積水，找到那扇寫著「設備重地」的鐵門。`,go:'BM0'}},
+ {l:'去封鎖線的探照燈塔找那個箱子',need:'bmq2go',t:'m',s:'塔下有人巡邏',ok:{t:`你們繞了一大段路，從封鎖線西側的死角摸過去，躲在一台廢棄的公車後面。`,go:'BQ0'}},
+ {l:'去帳本上寫的那間車庫',need:'dkstash',once:1,stay:1,t:'m',ok:{t:`車庫在兩條街外的一排舊公寓後面。鑰匙真的壓在第三個花盆底下。捲門拉起來，裡面堆著德克他們搶來還沒賣掉的東西。`,r:{items:{ammo9:8,shell:4,antibiotic:1,med:1,water:2,bar:2}}}});
+ const o=N.Z0.onEnter;N.Z0.onEnter=function(){if(o)o.call(this);const F=G.flags;F.bmq2go=F.bmq2&&!F.bmbox&&F.acru?1:0}}
+{const s=N.S2;const o=s.onEnter;s.onEnter=function(){if(o)o.call(this);const F=G.flags;F.bmq3go=F.mboss&&F.bmq3&&!F.bmledger?1:0};
+ const t=s.c.find(c=>c.l==='跟德克交易');if(t&&!t.hide)t.hide='dkoff';
+ const RD=['劫匪','拿獵刀的劫匪','拿霰彈槍的劫匪'];
+ const i=s.c.indexOf(t)+1;s.c.splice(i,0,
+ {l:'趁德克不注意，摸走他的帳本',need:'bmq3go',k:'AGI',d:15,s:'敏捷檢定：很難；失敗就得跟他們打',ok:{t:`德克在跟手下吵晚上誰守屋頂。那本黑色的帳本就放在桌角，壓在一盒子彈底下。你們等他轉身，把帳本抽出來塞進外套，慢慢退出美食街。
+
+走到手扶梯口的時候，後面傳來翻東西的聲音，接著是德克的一聲大吼。你們沒有回頭。`,r:{flag:['bmledger','dkoff']},go:'S1'},
+  ng:{t:`你的手剛碰到帳本，德克就按住了你的手腕。「找死。」`,r:{flag:'dkoff'},fight:{n:3,names:RD},win:{t:`德克倒在桌子旁邊。你們從他身上把那本黑色的帳本翻了出來。`,r:{flag:['bmledger','mclear']}},go:'S2'}},
+ {l:'硬搶德克的帳本',need:'bmq3go',s:'跟他們整群人打',ok:{t:`你們沒有多說，直接朝德克的桌子衝過去。`,r:{flag:'dkoff'},fight:{n:3,mode:'first',names:RD},win:{t:`德克倒在桌子旁邊。你們從他身上把那本黑色的帳本翻了出來。`,r:{flag:['bmledger','mclear']}},go:'S2'}})}
+// 第 3 天起的街上事件：聽說地鐵站裡有人什麼都收
+EVPOOL.push({id:'bmrumor',ch:2,d0:3,hide:'bmknown',t:`一個背著登山包的男人蹲在公車站牌底下，正在數一疊皺巴巴的美金。他看到你們，把錢塞回口袋。
+
+「別緊張，我剛做完一筆生意。」他拍了拍空掉的背包，「東西賣給地鐵站裡那個人了。他什麼都收——連那些穿黑衣服的人身上的東西都收。」`,c:[
+ {l:'問他那個人在哪',ok:{t:`「地鐵站大廳旁邊有一扇寫著『設備重地』的鐵門，進去一直走。」他站起來，背上空背包，「去之前想好要賣什麼。他不喜歡浪費時間。」`,r:{bm:'know'}}},
+ {l:'不理他',ok:{t:`你們繞過公車站牌。他也沒有再看你們一眼。`}}]});
+// 帶著燙手貨又全隊穿制服：原本的偽裝選項收起來，換成會被盤問的版本
+{const CL=[['穿著 A.C.R.U. 的制服走進去','穿著制服走進去，準備被盤問'],['穿著制服，跟在補給車後面走進去','穿著制服跟在補給車後面，準備被盤問'],['混在隊伍裡上機','混在隊伍裡上機，準備被盤問']];
+ const cp=o=>Object.defineProperties({},Object.getOwnPropertyDescriptors(o||{}));let n=0;
+ for(const nd of Object.values(N))if(nd.c)for(const [a,b] of CL){const i=nd.c.findIndex(x=>x.l===a);if(i<0)continue;const c=nd.c[i];c.hot=0;
+  const d=cp(c);d.l=b;d.hot=1;d.k='CHA';d.d=(c.d||12)+2;d.s='魅力檢定：你們帶著他們的槍，一定會被攔下來問';
+  const ng=cp(c.ng);Object.defineProperty(ng,'t',{value:'他伸手把你肩上的槍轉過來，看了一眼機匣上的編號，又抬頭看你。「這把槍，是誰的？」',enumerable:true,writable:true,configurable:true});d.ng=ng;nd.c.splice(i+1,0,d);n++}
+ if(n!==3)console.warn('v0.26.0：盤問選項只找到 '+n+' 個')}
 /* ================= 基礎 ================= */
 const $=s=>document.querySelector(s);
 const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
@@ -3051,7 +3128,7 @@ function dropItem(p,a){
   if(a.u!=null){const g=gearOf(p,a.u);if(!g||g.drop)return false;const pos=gearPlace(p,g);rmGear(p,g.u);toGround({g},`${nm(p)}丟下原本放在${pos}的武器`);return true}
   if(!ITEMS[a.k]||!hasI(p,a.k))return false;takeI(p,a.k);toGround({k:a.k,q:1},`${nm(p)}丟下物品`);return true}
 function newGear(id,mag){const w=WEAP[id];const g={u:++G.uid,id};if(w.dur)g.dur=w.dur;if(w.kind==='gun'){g.mag=mag||0;g.jam=0}if(w.cock)g.cocked=1;return g}
-function addGear(p,id,mag){const before=handSnapshot(p),g=newGear(id,mag);p.gear.push(g);autoEquip(p,g);if(used(p)>cap(p)){rmGear(p,g.u);toGround({g},`${nm(p)}的背包放不下`);reportHands(p,before);return null}reportHands(p,before,g.u);out(`${nm(p)}取得${esc(WEAP[id].n)}，放在${gearPlace(p,g)}。`,'sys',true);return g}
+function addGear(p,id,mag,ex){const before=handSnapshot(p),g=Object.assign(newGear(id,mag),ex||{});p.gear.push(g);autoEquip(p,g);if(used(p)>cap(p)){rmGear(p,g.u);toGround({g},`${nm(p)}的背包放不下`);reportHands(p,before);return null}reportHands(p,before,g.u);out(`${nm(p)}取得${esc(WEAP[id].n)}，放在${gearPlace(p,g)}。`,'sys',true);return g}
 const gearOf=(p,u)=>p.gear.find(g=>g.u===u);
 function handW(p,h){const g=p.hand[h]!=null?gearOf(p,p.hand[h]):null;if(!g||g.drop)return {g:null,w:WEAP.fist};const w=WEAP[g.id];
   // 可以單手拿的雙手武器：只佔一隻手時用單手的傷害骰、命中 −1
@@ -3673,7 +3750,7 @@ function choiceOk(c){
   const rs=reqList(c);if(rs.length&&!(c.reqAny?rs.some(tHas):rs.every(tHas)))return false;
   if(c.karma&&able().some(p=>(p.karma||0)<c.karma))return false;
   if(c.need&&!flagOk(c.need))return false;return true}
-function visible(c){if(c._hid||c._dup)return false;if(c.night&&!isNight())return false;if(c.once&&G.used&&G.used[usedKey(c)])return !!c.keep;if(c.job&&!G.players.some(p=>!p.dead&&!p.away&&[].concat(c.job).includes(p.kind)))return false;if(c.hide&&flagOk(c.hide))return false;if(c.need&&!flagOk(c.need)&&!c.req&&!c.lock)return false;return true}
+function visible(c){if(c._hid||c._dup)return false;if(c.hot!=null&&!!c.hot!==hotNow())return false;if(c.night&&!isNight())return false;if(c.once&&G.used&&G.used[usedKey(c)])return !!c.keep;if(c.job&&!G.players.some(p=>!p.dead&&!p.away&&[].concat(c.job).includes(p.kind)))return false;if(c.hide&&flagOk(c.hide))return false;if(c.need&&!flagOk(c.need)&&!c.req&&!c.lock)return false;return true}
 function nameOf(k){return k==='gun'?'槍械':k.startsWith('g:')?WEAP[k.slice(2)].n:ITEMS[k].n}
 async function enterNode(id){
   AUDIO_MOVING=true;stopAmbience();
@@ -3852,6 +3929,7 @@ async function outcome(o,actor){
   if(r.gear){addGear(actor,r.gear,r.mag);const w=WEAP[r.gear];got.push(itemTag(w.n+(w.kind==='gun'?`（${r.mag||0}／${w.mag}）`:'')))}
   if(got.length&&tr(actor,'scav')&&Math.random()<.3){const mats=Object.keys(ITEMS).filter(k=>ITEMS[k].t==='mat'&&!['deadlight','sewing'].includes(k));const k=pick(r.items?Object.keys(r.items).filter(x=>ITEMS[x].t==='mat').concat(mats.slice(0,6)):mats.slice(0,6));addI(actor,k);got.push(itemTag(ITEMS[k].n+'（多撿到的）'))}
   if(got.length&&skLeft(actor,'search')){skUse(actor,'search');if(Math.random()<.5){const v=rnd(1,3);actor.usd=(actor.usd||0)+v;got.push(itemTag(`$${v}（仔細搜）`))}else{const mats=Object.keys(ITEMS).filter(k=>ITEMS[k].t==='mat'&&!['deadlight','sewing'].includes(k));const k=pick(mats);addI(actor,k);got.push(itemTag(ITEMS[k].n+'（仔細搜）'))}}
+  if(r.bm)bmEffect(r.bm,actor);
   if(r.usd){actor.usd=(actor.usd||0)+r.usd;got.push(itemTag(`$${r.usd}`))}
   if(r.usdAll){for(const q of able())q.usd=(q.usd||0)+r.usdAll;got.push(itemTag(`${MP()?'每人 ':''}$${r.usdAll}`))}
   if(r.payUsd)payUsd(r.payUsd,actor);
@@ -3907,14 +3985,33 @@ async function showChapter(ch){const C=CHAPTERS[ch];const c=$('#lvcard');c.inner
 /* ================= 商店 ================= */
 // 開店：抽商品、定價；stayAt 為 null 代表關店後回到原本的選項，否則前往那個節點
 function openShop(id,go){const S=SHOPS[id];const pool=[...S.pool];const n=Math.min(pool.length,rnd(S.n0,S.n1));const items=[];
-  for(let i=0;i<n;i++){const k=pool.splice(rnd(0,pool.length-1),1)[0];const amm=ITEMS[k].t==='ammo',one=['wear','tool'].includes(ITEMS[k].t)||k==='repairkit';items.push({k,q:amm?rnd(3,8):one?1:rnd(1,3),p:Math.max(1,Math.round(PRICE[k]*(0.7+Math.random()*0.6)))})}
+  for(let i=0;i<n;i++){const k=pool.splice(rnd(0,pool.length-1),1)[0];const amm=ITEMS[k].t==='ammo',one=['wear','tool'].includes(ITEMS[k].t)||k==='repairkit';items.push({k,q:amm?(S.box?rnd(8,15):rnd(3,8)):one?1:rnd(1,3),p:Math.max(1,Math.round(PRICE[k]*(S.mk||1)*(0.7+Math.random()*0.6)))})}
   G.shop={id,items,ready:{},go:go||null,key:G.rid+'-'+(++G.seq)};G.phase='shop';stopCd();push();draw()}
 function shopBuy(p,i){const S=G.shop;const it=S&&S.items[i];if(!it||it.q<=0)return false;
   const pr=buyPrice(p,it);if((p.usd||0)<pr){msgTo(p,'錢不夠。');return false}if(roomFor(p,it.k)<1){msgTo(p,'背包放不下。');return false}
   p.usd-=pr;it.q--;addI(p,it.k,1);snd('pickup',.6);out(`${MP()?nm(p):'你'}花 $${pr} 買了${ITEMS[it.k].n}。`,'sys',true);S.ready={};return true}
 // 好口才：買東西便宜 20%
 const buyPrice=(p,it)=>tr(p,'talker')?Math.max(1,Math.round(it.p*.8)):it.p;
-function shopSell(p,k){if(!G.shop||!hasI(p,k)||!sellPrice(k))return false;const v=sellPrice(k);takeI(p,k);p.usd=(p.usd||0)+v;snd('pickup',.5);out(`${MP()?nm(p):'你'}把${ITEMS[k].n}賣了 $${v}。`,'sys',true);return true}
+/* v0.26.0 燙手貨與賣武器：只有黑市商人收燙手貨（滅菌部隊的槍、制服）；一般商人裡只有流浪商人和德克收武器 */
+const hotG=g=>!!(g&&g.hot&&!g.drop);
+const hotP=p=>!!(p&&p.gear&&p.gear.some(hotG));
+const hotNow=()=>!!(G&&G.players&&G.players.some(p=>!p.dead&&!p.away&&hotP(p)));
+function gearSellPrice(g,shopId){const S=SHOPS[shopId],w=WEAP[g.id];if(!S||!w||w.sig)return 0;if(g.hot&&!S.hot)return 0;if(!S.guns)return 0;
+  const t=WSELL[g.id]||[2,3];let v=S.hot?t[1]:t[0];if(!v)return 0;
+  if(w.dur&&g.dur!=null)v=Math.max(1,Math.ceil(v*g.dur/w.dur));
+  if(w.kind==='gun'&&g.mag>0&&w.ammo)v+=g.mag*sellPrice(w.ammo);
+  return v}
+const itemSellPrice=(k,shopId)=>HOTITEM(k)?(SHOPS[shopId]&&SHOPS[shopId].hot?20:0):sellPrice(k);
+// 一般商人拒收燙手貨：說一句話，順便提到地鐵站那個人（第一次就記進備忘錄）
+function shopRefuse(p,what){const S=SHOPS[G.shop.id];snd('ng',.5);out(`${MP()?nm(p)+'拿出'+what+'。':''}${S.rf||'對方搖頭，不收。'}`,'bad');
+  if(!G.flags.bmknown){out('「真想脫手的話，」對方壓低聲音，「地鐵站積水那一層後面有一道維修通道，裡面那個人什麼都收。別說是我講的。」','sys');bmKnow('refuse','有個商人說：地鐵站積水那一層後面的維修通道裡，有個人什麼都收，包括那些穿黑衣服的人的東西。')}
+  return true}
+function bmKnow(key,text){G.flags.bmknown=1;try{codexNote(G,'blackmarket','收燙手貨的人','地鐵站・維修通道',key,text);syncCodex()}catch(e){}}
+function shopSellG(p,u){if(!G.shop)return false;const g=gearOf(p,u);if(!g||g.drop)return false;const S=SHOPS[G.shop.id],w=WEAP[g.id];
+  if(g.hot&&!S.hot)return shopRefuse(p,w.n);
+  const v=gearSellPrice(g,G.shop.id);if(!v){msgTo(p,'這裡不收武器。');return false}
+  rmGear(p,u);p.usd=(p.usd||0)+v;snd('pickup',.5);out(`${MP()?nm(p):'你'}把${w.n}${w.kind==='gun'&&g.mag>0?`（連同裡面的 ${g.mag} 發）`:''}賣了 $${v}。`,'sys',true);return true}
+function shopSell(p,k){if(!G.shop||!hasI(p,k))return false;if(HOTITEM(k)&&!SHOPS[G.shop.id].hot)return shopRefuse(p,ITEMS[k].n);const v=itemSellPrice(k,G.shop.id);if(!v)return false;takeI(p,k);p.usd=(p.usd||0)+v;snd('pickup',.5);out(`${MP()?nm(p):'你'}把${ITEMS[k].n}賣了 $${v}。`,'sys',true);return true}
 async function shopReady(p){const S=G.shop;if(!S)return;S.ready[p.pid]=1;push();draw();
   if(!ctl().every(q=>S.ready[q.pid]))return;
   G.shop=null;out('你們離開了商店。','sys',true);
@@ -4238,6 +4335,8 @@ function foeTarget(f,mv,pool){let ts=pool||able();if(!ts.length)return null;cons
   if(mv&&mv.snipe){const lo=Math.min(...ts.map(p=>p.hp/p.max));return pick(ts.filter(p=>p.hp/p.max===lo))}
   if(affIs(f,'blind')){const n=F&&F.noise&&ts.find(p=>p.pid===F.noise);if(n){f.lock=n.pid;return n}const ng=ts.filter(p=>!p.stance);if(ng.length)ts=ng}
   if(f.heard){const h=ts.find(p=>p.pid===f.heard);f.heard=null;if(h&&Math.random()<.5){out(`${f.n}猛地轉頭，朝槍聲的方向撲過去。`,'bad',true);return h}}
+  // v0.26.0：穿黑色制服的人看到誰拿著他們的槍，七成先打那個人（狙擊手照原本挑狀態最差的）
+  if(FT(f).fac==='acru'){const h=ts.filter(hotP);if(h.length&&h.length<ts.length&&Math.random()<.7)return pick(h)}
   if(affIs(f,'veteran'))return ts.reduce((a,b)=>b.hp<a.hp?b:a);
   if((mv&&mv.pref==='bleed')||affIs(f,'hungry')){const b=ts.filter(p=>p.bleed>0);if(b.length)return pick(b)}
   return pick(ts)}
@@ -4457,7 +4556,7 @@ async function foeVsFoe(f,mv,x){const F=G.fight,T=FT(f),X=FT(x);F.cur='f'+f.id;p
 const lootMag=f=>f.type==='collector'?(f.loaded?1:0):Math.max(0,f.mag||0);
 function foeLoot(L){const got=[];
   for(const x of L){const T=FOES[x.t],D=T&&T.loot;if(!D)continue;let q=x.by!=null&&P(x.by);if(!q||q.dead||q.down)q=able()[0];if(!q)return;
-    if(D.gear){const W=WEAP[D.gear],m=W.kind==='gun'?Math.min(W.mag,Math.max(0,x.mag||0)):0;addGear(q,D.gear,m);got.push(`${MP()?esc(q.name)+'：':''}${W.n}${W.kind==='gun'?`（${m}／${W.mag}）`:''}`)}
+    if(D.gear){const W=WEAP[D.gear],m=W.kind==='gun'?Math.min(W.mag,Math.max(0,x.mag||0)):0;addGear(q,D.gear,m,T.fac==='acru'?{hot:x.t}:null);got.push(`${MP()?esc(q.name)+'：':''}${W.n}${W.kind==='gun'?`（${m}／${W.mag}）`:''}`)}
     for(const [k,v] of Object.entries(D.items||{})){const n=Array.isArray(v)?rnd(v[0],v[1]):v;if(n>0){addI(q,k,n);got.push(`${MP()?esc(q.name)+'：':''}${ITEMS[k].n}${n>1?' ×'+n:''}`)}}}
   if(got.length){snd('pickup',.8);out(`從他們身上搜到：${got.map(itemTag).join('、')}`,'good')}}
 async function kill(f,p,melee,nox){if(f.dead)return;
@@ -4862,7 +4961,7 @@ function handle(pid,a){
   if(a.a==='lvl')return run(async()=>{levelUp(p,a.st)});
   if(a.a==='tell')return run(async()=>{tell(p,a.i)});
   if(a.a==='lock')return run(async()=>{zLockNote(a.i)});
-  if(G.phase==='shop'&&G.shop&&!p.down&&!p.mad){if(a.a==='buy')return run(async()=>{shopBuy(p,a.i)});if(a.a==='sell')return run(async()=>{shopSell(p,a.k)});if(a.a==='shopdone')return run(()=>shopReady(p))}
+  if(G.phase==='shop'&&G.shop&&!p.down&&!p.mad){if(a.a==='buy')return run(async()=>{shopBuy(p,a.i)});if(a.a==='sell')return run(async()=>{shopSell(p,a.k)});if(a.a==='sellg')return run(async()=>{shopSellG(p,a.u)});if(a.a==='shopdone')return run(()=>shopReady(p))}
   if(G.fight&&['atk','tact','reload','unjam','cock','pickup','kick','counter','brace','molotov','ext','flee','use','revive','equip','guard','free','block','dodge','cover','dual','calm','subdue','csk','spot','pat'].includes(a.a))return run(()=>fightAct(pid,a));
   if(G.fight)return;
   if(p.down)return;
@@ -5186,7 +5285,10 @@ for(const Z of Object.values(ZONES))CODEX_ROUTES[Z.hub]=N[Z.hub].c.filter(c=>c.z
 // 只登記既有劇情中，玩家明確承接的 NPC 請託；不從世界旗標推定任務。
 const CODEX_QUESTS={
  owenRescue:{title:'協助消防隊救人',npc:'歐文',place:'消防局・車庫',conditions:['跟隨消防隊前往兩條街外冒煙的公寓救人。','協助消防隊應付樓梯間的危險。']},
- maraTankers:{title:'協助灌滿油罐車',npc:'瑪拉',place:'南岸電廠・油槽',conditions:['協助灌滿三台油罐車。','油槽剩下的柴油歸隊伍。']}
+ maraTankers:{title:'協助灌滿油罐車',npc:'瑪拉',place:'南岸電廠・油槽',conditions:['協助灌滿三台油罐車。','油槽剩下的柴油歸隊伍。']},
+ bmFal:{title:'帶紅帽子的那把',npc:'黑市商人',place:'地鐵站・維修通道',conditions:['從戴紅色貝雷帽的帶隊者身上拿到他那把 FN FAL。','把槍帶回維修通道交給他。']},
+ bmBox:{title:'封鎖線底下的箱子',npc:'黑市商人',place:'地鐵站・維修通道',conditions:['到封鎖線的探照燈塔底下，把他藏的箱子拿回來。','塔下有穿黑色制服的人巡邏，塔上可能有狙擊手。']},
+ bmLedger:{title:'德克的帳本',npc:'黑市商人',place:'地鐵站・維修通道',conditions:['到河景廣場二樓的劫匪據點，拿到德克的帳本。','拿到之後，德克不會再跟你們做生意。']}
 };
 {const c=N.T0.c.find(c=>c.l==='跟他們出去救人');c.quest='owenRescue';c.ok.win={...(c.ok.win||{}),r:{...(c.ok.win&&c.ok.win.r||{}),questDone:'owenRescue'}}}
 {const c=N.PP6.c.find(c=>c.l==='幫他們把油罐車灌滿');c.quest='maraTankers';c.ok.questDone='maraTankers'}
@@ -5194,7 +5296,7 @@ function acceptCodexQuest(g,id){const q=CODEX_QUESTS[id];if(!q||!g)return;const 
  C.tasks[id]={...q,conditions:[...q.conditions],source:'npc',accepted:true,status:'進行中',acceptedAt:codexStamp(g),rev:++C.rev};
 }
 function finishCodexQuest(g,id,status='已完成'){const C=codexState(g),t=C&&C.tasks[id];if(!t||t.source!=='npc'||!t.accepted||!CODEX_QUESTS[id]||t.status!=='進行中')return;t.status=status;t.finishedAt=codexStamp(g);t.rev=++C.rev}
-function isCodexMemoId(id){return id==='hotelDoor'||/^lock:/.test(id)||CODEX_GATES.some(x=>'gate:'+x.id===id)}
+function isCodexMemoId(id){return id==='hotelDoor'||id==='blackmarket'||/^lock:/.test(id)||CODEX_GATES.some(x=>'gate:'+x.id===id)}
 function choiceKind(c){
   if(c.kind)return c.kind;
   const l=c.l||'',r=c.ok&&c.ok.r||{};
@@ -5413,7 +5515,7 @@ function handsOf(p){
   if(R.g&&L.g&&R.g.u===L.g.u)return [{h:'R',lab:'雙手',...R}];
   const a=[{h:'R',lab:'右手',...R}];if(L.g||R.g)a.push({h:'L',lab:'左手',...L});return a}
 function wLine(p,w,g,h){const st=bestSt(p,w.st);const d=ddTxt(p,w,null);
-  return `${w.dt.map(x=>DT[x]).join('＋')}｜${w.st.map(s=>STN[s]).join('或')}${w.hit?`｜準度 ${w.hit>0?'+':'−'}${Math.abs(w.hit)}`:''}｜傷害 ${d}${g&&g.dur!=null?`｜耐久 ${g.dur}／${WEAP[g.id].dur}`:''}${w.kind==='gun'&&g?`｜彈匣 ${g.mag}／${w.mag}`:''}${w.ammo&&w.kind==='ranged'?`｜${ITEMS[w.ammo].n} ${p.items[w.ammo]||0}`:''}`}
+  return `${w.dt.map(x=>DT[x]).join('＋')}｜${w.st.map(s=>STN[s]).join('或')}${w.hit?`｜準度 ${w.hit>0?'+':'−'}${Math.abs(w.hit)}`:''}｜傷害 ${d}${g&&g.dur!=null?`｜耐久 ${g.dur}／${WEAP[g.id].dur}`:''}${w.kind==='gun'&&g?`｜彈匣 ${g.mag}／${w.mag}`:''}${w.ammo&&w.kind==='ranged'?`｜${ITEMS[w.ammo].n} ${p.items[w.ammo]||0}`:''}${g&&g.hot?'｜<span class="bad">機匣上有他們的編號</span>':''}`}
 function handTxt(p){return handsOf(p).map(x=>`${x.lab} <em>${x.w.n}${x.w.kind==='gun'?`　${x.g.mag}／${x.w.mag}`:x.w.kind==='ranged'?`　${ITEMS[x.w.ammo].n.slice(0,2)} ${p.items[x.w.ammo]||0}`:x.g&&x.g.dur!=null?`　${x.g.dur}`:''}${x.g&&x.g.jam?'（卡彈）':''}</em>`).join('　')+(p.gear.some(g=>g.drop)?'　<span class="bad">武器脫手</span>':'')}
 function knowTxt(f){const K=G.know[f.type];if(!K||(!K.w.length&&!K.r.length))return '弱點：？';return [K.w.length?'弱：'+K.w.map(x=>DT[x]).join('、'):'',K.r.length?'抗：'+K.r.map(x=>DT[x]).join('、'):''].filter(Boolean).join('　')}
 // 敵人卡上的詞綴與狀態標籤（全部列出，有回合數的寫出剩幾回合；不寫出敵人要打誰，玩家看文字敘述判斷）
@@ -5658,9 +5760,14 @@ function panel(k){
     if(!G.shop){OVK=null;closeOv();return}const S=G.shop,sh=SHOPS[S.id];const rd=ctl().filter(q=>S.ready[q.pid]).length;const ok=G&&!G.busy&&m&&!m.dead&&!m.down&&!m.mad;
     let left='';
     if(SHOPMODE==='buy'){left=`<div class="sgrid">${S.items.map((x,i)=>{const it=ITEMS[x.k];const cant=x.q<=0||(m.usd||0)<x.p;return `<div class="scard ${SHOPSEL===i?'on':''}" data-shopsel="${i}"><div class="st"><b>${it.n}</b><small>${CATN[it.t]||''}｜${x.q>0?'剩 '+x.q+' 個':'賣完了'}</small></div><small class="sd">${it.d}</small><div class="sp"><b class="${(m.usd||0)<x.p?'no':''}">$${x.p}</b>${ibt(`data-buy="${i}"`,x.q<=0?'賣完了':(m.usd||0)<x.p?'買不了':'購買',cant,ok)}</div></div>`}).join('')}</div>`}
-    else{const ks=Object.keys(m.items).filter(k=>m.items[k]>0&&sellPrice(k));left=ks.length?ks.map(k=>`<div class="irow"><div class="in"><b>${ITEMS[k].n}　×${m.items[k]}</b><small>${ITEMS[k].d}</small></div>${ibt(`data-sell="${k}"`,`賣 $${sellPrice(k)}`,0,ok)}</div>`).join(''):'<p class="note">沒有這裡收的東西。</p>'}
+    else{const ks=Object.keys(m.items).filter(k=>m.items[k]>0&&(itemSellPrice(k,S.id)||HOTITEM(k)));
+      // v0.26.0 武器：收武器的商人列出全部；不收的只列燙手貨（可以「問問看」）
+      const gs=m.gear.filter(g=>!g.drop&&(sh.guns?(g.hot&&!sh.hot)||gearSellPrice(g,S.id)>0:g.hot));
+      const grow=g=>{const w=WEAP[g.id],v=gearSellPrice(g,S.id);return `<div class="irow"><div class="in"><b>${w.n}${w.kind==='gun'?`　${g.mag}／${w.mag}`:''}</b><small>${g.hot?'<span class="bad">機匣上有他們的編號</span>　':''}${w.d||''}</small></div>${ibt(`data-sellg="${g.u}"`,v?`賣 $${v}`:'問問看',0,ok)}</div>`};
+      const irow=k=>{const v=itemSellPrice(k,S.id);return `<div class="irow"><div class="in"><b>${ITEMS[k].n}　×${m.items[k]}</b><small>${ITEMS[k].d}</small></div>${ibt(`data-sell="${k}"`,v?`賣 $${v}`:'問問看',0,ok)}</div>`};
+      left=(gs.length||ks.length)?gs.map(grow).join('')+ks.map(irow).join(''):'<p class="note">沒有這裡收的東西。</p>'}
     const x=S.items[SHOPSEL]||S.items[0];const it=x&&ITEMS[x.k];
-    const det=SHOPMODE==='buy'&&it?`<b class="dn">${it.n}</b><small>${CATN[it.t]||''}｜$${x.p}｜${x.q>0?'剩 '+x.q+' 個':'賣完了'}</small>${m.items[x.k]?`<p class="note">你的背包裡已經有 ${m.items[x.k]} 個。</p>`:''}<p>${it.d}</p>`+ibt(`data-buy="${S.items.indexOf(x)}"`,x.q<=0?'賣完了':`買下（$${x.p}）`,x.q<=0||(m.usd||0)<x.p,ok):`<p class="note">賣東西給這裡：價錢是平常的三分之一。</p>`;
+    const det=SHOPMODE==='buy'&&it?`<b class="dn">${it.n}</b><small>${CATN[it.t]||''}｜$${x.p}｜${x.q>0?'剩 '+x.q+' 個':'賣完了'}</small>${m.items[x.k]?`<p class="note">你的背包裡已經有 ${m.items[x.k]} 個。</p>`:''}<p>${it.d}</p>`+ibt(`data-buy="${S.items.indexOf(x)}"`,x.q<=0?'賣完了':`買下（$${x.p}）`,x.q<=0||(m.usd||0)<x.p,ok):`<p class="note">賣東西給這裡：價錢是平常的三分之一${sh.guns?'；武器照它的狀況和槍裡剩的子彈算':'；這裡不收武器'}。</p>`;
     openOv(`<div class="boxhead"><b>${sh.n}</b><span class="hbtns"><span class="smoney">$${m.usd||0}　背包 ${used(m)}／${cap(m)} 格</span><button class="btn" data-shopshut>先收起來</button></span></div><p class="note sintro">${sh.d}</p><div class="shopwrap"><div class="scr2">${left}</div><div class="scr2 sdet">${det}</div></div>
       <div class="sfoot">${ibt('data-shopdone',S.ready[MYPID]?`等其他人（${rd}／${ctl().length}）`:`買好了，繼續（${rd}／${ctl().length} 人準備好）`,!!S.ready[MYPID],ok)}<button class="btn" data-open="bag">打開背包</button><button class="btn ${SHOPMODE==='sell'?'on':''}" data-shopmode>${SHOPMODE==='sell'?'回到商品':'賣東西給這裡'}</button></div>`);
   }else if(k==='settings'){
@@ -5703,6 +5810,7 @@ document.addEventListener('click',e=>{
   else if(d.shopsel!=null&&!b.matches('button')){SHOPSEL=+d.shopsel;panel('shop')}
   else if(d.buy!=null){act({a:'buy',i:+d.buy});later2()}
   else if(d.sell){act({a:'sell',k:d.sell});later2()}
+  else if(d.sellg){act({a:'sellg',u:+d.sellg});later2()}
   else if(b.hasAttribute('data-shopdone')){act({a:'shopdone'});later2()}
   else if(b.hasAttribute('data-shopmode')){SHOPMODE=SHOPMODE==='sell'?'buy':'sell';panel('shop')}
   else if(b.hasAttribute('data-shopshut')){SHOPSHUT=true;closeOv();draw()}
