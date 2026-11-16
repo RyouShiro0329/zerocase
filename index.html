@@ -630,7 +630,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.24.5", "b": 66, "t": "2026-11-16T13:28:04+08:00"};
+const ZC_VER={"v": "0.24.6", "b": 67, "t": "2026-11-16T13:37:33+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3291,7 +3291,7 @@ const SYN={
 };
 const FALL={bowdraw:'whoosh',bowimpact:'hurt',heal:'craft',pill:'craft',rummage:'craft',stairs:'land',zipper:'craft',step:'humanstep',drawer:'craft',pickup:'ok',dooropen:'land',doorclose:'land',beretta:'fumble',berettaReload:'dry',revolver:'fumble',revolverCock:'dry',casing:'dry',fist:'hurt',claw:'hurt',knife:'hurt',zstep:'infectedstep',headshot:'fumble',mthrow:'whoosh',mimpact:'fumble',death:'fumble',click:'dry',equip:'dry',bite:'hurt',smash:'fumble',splat:'hurt',spit:'whoosh',thud:'land',squish:'hurt',bhit:'dry',shotgun:'fumble',fal:'fumble',falReload:'dry',mp5:'fumble',mp5Reload:'dry',rifle:'fumble',bolt:'dry',dryfire:'dry'};
 // 劇情裡受傷的聲音：照文字判斷是什麼弄傷的（電、刀刃玻璃、槍、火、撞擊），都不是就用程式合成的悶哼
-function hurtSnd(t){t=String(t||'');if(/電|火花|觸電/.test(t))return 'zap';if(/玻璃|割|刺絲|刀|劃/.test(t))return 'knife';if(/子彈|槍|彈丸/.test(t))return 'bhit';/* v0.13.3 燒燙傷不再用燃燒瓶的爆炸聲，改用一般受傷聲 */if(/咬|抓|爪|指甲|撲/.test(t))return 'claw';if(/摔|砸|撞|掉|壓|踢|打/.test(t))return 'thud';return 'hurt'}
+function hurtSnd(t){t=String(t||'');if(/電|火花|觸電/.test(t))return 'zap';if(/玻璃|割|刺絲|刀|劃/.test(t))return 'knife';if(/子彈|槍|彈丸/.test(t))return 'bhit';/* v0.13.3 燒燙傷不再用燃燒瓶的爆炸聲，改用一般受傷聲 *//* v0.24.6 只有被感染者攻擊才用抓咬聲（原本「指甲發紫」「抓住鋼索」「咬著牙」也會播成被咬）；夾、墜、扭、拐到算撞擊 */if(/牠|感染者|爪|咬住|咬了|咬在|被咬|齒痕|撲上|撲過來|撲倒你|抓傷|抓破|抓住了你|指甲陷進/.test(t))return 'claw';if(/摔|砸|撞|掉|壓|踢|打|夾|墜|扭|歪/.test(t))return 'thud';return 'hurt'}
 // sfx 回傳毫秒長度；await sfxW 會等到聲音播完
 function sfx(k,v,max){
   // 隊友會先收到停機演出、再收到新狀態；立即停掉舊節點的循環直到下一次進入。
@@ -3327,7 +3327,7 @@ const D10SVG=`<svg viewBox="-50 -50 100 100"><polygon class="face" points="0,-46
 const D6SVG=`<svg viewBox="-50 -50 100 100"><rect class="face" x="-42" y="-42" width="84" height="84" rx="14"/></svg>`;
 let skipDice=null;
 /* v0.24.4 擲骰（主人）：不丟進來、不彈跳，骰子在原地轉，轉速越來越慢；數字一直亂跳，越跳越慢，停下時換成結果。
-   requestAnimationFrame 逐格算；只轉骰子本體（svg），數字不跟著轉。點一下略過會立刻停。只在本機演出（隊友那邊各自播）。 */
+   requestAnimationFrame 逐格算；只轉骰子本體（svg），數字不跟著轉。不能略過（v0.24.6）。只在本機演出（隊友那邊各自播）。 */
 function dieRoll(el,dies,spec,dur){
   const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;const now=()=>performance.now();const T0=now();let raf=0,stop=false;
   const P=dies.map((d,i)=>({d,parts:[...d.children].filter(c=>c.tagName==='svg'||c.tagName==='SVG'),/* v0.24.5 只轉骰子本體，數字保持正的不跟著轉 */spin:(720+Math.random()*360)*(Math.random()<.5?1:-1),last:0,D:dur+i*70}));
@@ -3345,7 +3345,7 @@ function dieRoll(el,dies,spec,dur){
 async function showDice(spec){
   await flush();
   const el=$('#dice');const f=FAST?.3:UI.spd;const dur=Math.round((spec.quick?560:900)*f);
-  el.innerHTML=`<div class="tray"><div class="lb">${spec.label}<small>${spec.sub||''}</small></div><div class="drow ${spec.dice.length>8?'many':''}">${spec.dice.map((d,i)=>`<div class="die ${d.sides===20?'d20':d.sides===10?'d10':'d6'} ${d.foe?'enemy':''} ${d.pair?'pr':''}" style="--dur:${dur+i*70}ms">${d.sides===20?D20SVG:d.sides===10?D10SVG:D6SVG}<b>?</b>${d.cap?`<i class="cap">${d.cap}</i>`:''}</div>`).join('')}</div><div class="res"></div><div class="hint">點一下略過</div></div>`;
+  el.innerHTML=`<div class="tray"><div class="lb">${spec.label}<small>${spec.sub||''}</small></div><div class="drow ${spec.dice.length>8?'many':''}">${spec.dice.map((d,i)=>`<div class="die ${d.sides===20?'d20':d.sides===10?'d10':'d6'} ${d.foe?'enemy':''} ${d.pair?'pr':''}" style="--dur:${dur+i*70}ms">${d.sides===20?D20SVG:d.sides===10?D10SVG:D6SVG}<b>?</b>${d.cap?`<i class="cap">${d.cap}</i>`:''}</div>`).join('')}</div><div class="res"></div></div>`;
   el.hidden=false;el.classList.remove('out');
   const dies=[...el.querySelectorAll('.die')];
   let skipped=false;const sk=new Promise(r=>{skipDice=()=>{skipped=true;r()}});
@@ -3361,7 +3361,7 @@ async function showDice(spec){
   if(!skipped)await Promise.race([wait(Math.max((spec.quick?520:850)*f,ms)),new Promise(r=>{skipDice=r})]);
   skipDice=null;el.classList.add('out');await wait(180);el.hidden=true;
 }
-$('#dice').addEventListener('click',()=>{if(skipDice)skipDice()});
+/* v0.24.6 主人：擲骰動畫很短，不用略過，點擊和按鍵都不會跳過（skipDice 只留給測試用） */
 /* 會同步給隊友的演出：snd 音效、dice 擲骰、out 文字、card 關卡卡 */
 function snd(k,v,max){E('s',[k,v??1,max??0]);return sfx(k,v,max??undefined)}
 async function sndW(k,v,max,ratio=1){const ms=snd(k,v,max);if(ms)await wait(ms*ratio*Math.max(.4,UI.spd))}
@@ -5662,7 +5662,7 @@ document.addEventListener('keydown',e=>{
   if(!$('#cfm').hidden){if(e.key==='Escape'){$('#cfm').hidden=true;e.preventDefault()}else if(e.key==='Enter'){$('#cfm [data-cfok]').click();e.preventDefault()}return}
   if(e.key==='Escape'){if(!$('#ov').hidden){closeOv();SEL=null;FIXK=null;e.preventDefault()}return}
   const scrOn=!$('#scr').hidden;
-  if(!$('#dice').hidden&&(e.key===' '||e.key==='Enter')){if(skipDice)skipDice();e.preventDefault();return}
+  if(!$('#dice').hidden&&(e.key===' '||e.key==='Enter')){e.preventDefault();return}
   if(!scrOn&&!$('#lvcard').hidden&&(e.key===' '||e.key==='Enter')){$('#lvcard').click();e.preventDefault();return}
   if(scrOn||!$('#ov').hidden||!G)return;
   if(e.key===' '||e.key==='Enter'){if(G.busy){skipType=true;e.preventDefault()}return}
