@@ -1,7 +1,7 @@
 {
-  "version": "0.26.0",
-  "build": 73,
-  "created_at": "2026-11-17T00:29:07+08:00",
+  "version": "0.27.0",
+  "build": 74,
+  "created_at": "2026-11-17T01:01:07+08:00",
   "deployment": "GitHub Pages；雲端瀏覽器上傳",
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -81,7 +81,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "7e8a4a08cb521b29cc912596fc5fa306932998b27ecb5915b6f9ad93a94f374e",
+    "index.html": "ea816f541dc50a726c7cdc56dd4ca9ac7547416512cb434c3caa2d7ddd1a26a4",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -181,7 +181,7 @@
     "tests/baseline-v0.21.5.html": "4f47274b315bc592d54966ce6acc734c3c8c725bfb71b2abae1cbe527371073e",
     "tests/bow-rain.test.cjs": "c9f48c77d458085655a5b97318116fdeaa128fab9df58cb33b5ca10f7f417adf",
     "tests/clock-preview.html": "f9703c4004d36292d3ebe6bbf73a2b9edbca0ec39bf5b6ad5ee259dd31ec8136",
-    "tests/events.test.cjs": "9f57c0dbe76c395c749d60c2e79b05aefb29c99ec8271963cde08b5fc0a753e4",
+    "tests/events.test.cjs": "1b5124fce7154e5703813a3f27e327f99fa76ea3f3c2883e374087b373fdafd3",
     "tests/exploration.test.cjs": "629409a0ccd45e1aa8a90b3c4da0e34f436ae66c0416ed57740c4c91e81d4c70",
     "tests/feedback.test.cjs": "cd77678f8cac0dce74c920181554a4607862732ed8e2421094bedc0ef7163537",
     "tests/helpers/audio-game.cjs": "cf75b33a1f7f51cdd9d1898f0cf3f373436fdfe7e85492fca3e8b61fe5c7df6e",
@@ -195,6 +195,6 @@
     "tests/zone.test.cjs": "423546f0a6394f096450655b9cc385fac44bbf0d443ce44981e3347ab797fb8a",
     "tools/make_font_subset.py": "3eb79719caa2f2863185cb10c9b1e32cc96017b10f03284bcb6fb4ac831c1094",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "0c4cba52e9cb8d5cfa22c103b5e512dd3c412c6f9d096cbd30f5d4ce83623238"
+    "更新說明.txt": "80011694e50f766e447251fd98b7154863f217e93f95cd0da76b88c07dcc33f6"
   }
 }

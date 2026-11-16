@@ -611,7 +611,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
     <div class="time-weather"><div class="mid"><div class="sky-clock" id="skyClock"></div><small id="mids"></small></div><div class="weather" id="weather" role="status" aria-label="目前天氣"></div></div>
     <nav class="tools" aria-label="遊戲工具">
       <button class="btn" data-open="map" id="tMap">地圖</button><button class="btn" data-open="tasks" id="tTasks">任務</button><button class="btn" data-open="memo" id="tMemo">備忘錄</button>
-      <button class="btn" data-save id="tSave">存檔</button><button class="btn" data-dd id="tTeam">隊伍 ▾</button><button class="btn" data-open="bag">背包</button><button class="btn" data-open="craft">合成</button><button class="btn" data-open="settings">設定</button>
+      <button class="btn" data-save id="tSave">存檔</button><button class="btn" data-dd id="tTeam">隊伍 ▾</button><button class="btn" data-open="bag">背包</button><button class="btn" data-open="gear">裝備</button><button class="btn" data-open="craft">合成</button><button class="btn" data-open="settings">設定</button>
     </nav>
   </header>
   <div id="tdd" hidden></div>
@@ -633,7 +633,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.26.0", "b": 73, "t": "2026-11-17T00:29:07+08:00"};
+const ZC_VER={"v": "0.27.0", "b": 74, "t": "2026-11-17T01:01:07+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -661,10 +661,10 @@ const ITEMS={
  nuts:{n:'綜合堅果',t:'food',d:'飢餓 +2。',hun:2},
  cookie:{n:'蘇打餅乾',t:'food',d:'飢餓 +2，口渴 −1。',hun:2,thi:-1},
  noodle:{n:'泡麵',t:'food',d:'直接乾吃。飢餓 +3，口渴 −1。',hun:3,thi:-1},
- photo:{n:'家人的照片',t:'misc',d:'看一眼就能想起自己為什麼要活下去。稍微平復恐懼；不會用掉，但每個區域只有第一次有效。',san:2,keep:1,verb:'看著'},
+ photo:{n:'家人的照片',t:'misc',d:'看一眼就能想起自己為什麼要活下去。裝在道具欄時才能拿出來看：稍微平復恐懼；不會用掉，但每個區域只有第一次有效。',san:2,keep:1,verb:'看著'},
  // 戰鬥用
  molotov:{n:'燃燒瓶',t:'throw',d:'需要打火機。對所有敵人造成 2d6 火焰傷害，並燃燒 2 回合。'},
- extinguisher:{n:'滅火器',t:'throw',d:'對一名敵人噴乾粉：對方眼睛睜不開，下一次攻擊命中 −4。數量代表還能噴幾次。'},
+ extinguisher:{n:'滅火器',t:'throw',d:'裝在道具欄時，戰鬥中可以對一名敵人噴乾粉：對方眼睛睜不開，下一次攻擊命中 −4。數量代表還能噴幾次。'},
  // 穿著
  bracer:{n:'雜誌護臂',t:'wear',slot:'arm',d:'手臂。雜誌纏在前臂上。受到的傷害 −1，耐久 6。',armor:1,dur:6},
  jacket:{n:'皮外套',t:'wear',slot:'body',d:'身體。厚實的騎士皮外套。受到的傷害 −1。',armor:1},
@@ -674,7 +674,7 @@ const ITEMS={
  motohelmet:{n:'機車安全帽',t:'wear',slot:'head',d:'頭。全罩式安全帽，視線差了一點但很耐打。受到的傷害 −1，耐久 20。',armor:1,dur:20},
  riotvest:{n:'防爆背心',t:'wear',slot:'body',d:'身體。從防爆警衛身上扒下來的。受到的傷害 −2。',armor:2},
  acruuni:{n:'A.C.R.U. 制服',t:'wear',slot:'body',d:'身體。黑色的戰術服，右上臂縫著一圈紅底的徽章。受到的傷害 −1。全隊都穿上它、戴上防毒面具，遠遠看起來就跟他們一樣。',armor:1},
- gasmask:{n:'防毒面具',t:'wear',slot:'head',d:'頭。全罩式防毒面具，不擋傷害，不能和安全帽一起戴。裝上濾毒罐之後，污染區的空氣就進不來；濾罐用完會自動換上背包裡的下一個。',armor:0,wd:'裝上濾毒罐就不怕污染的空氣'},
+ gasmask:{n:'防毒面具',t:'wear',slot:'face',d:'臉。全罩式防毒面具，不擋傷害，可以和安全帽一起戴。裝上濾毒罐之後，污染區的空氣就進不來；濾罐用完會自動換上背包裡的下一個。',armor:0,wd:'裝上濾毒罐就不怕污染的空氣'},
  // 彈藥
  ammo9:{n:'9×19mm 子彈',t:'ammo',d:'貝瑞塔與 MP5 用。非常稀少。'},
  ammo38:{n:'.38 特殊彈',t:'ammo',d:'Model 10 左輪用。非常稀少。'},
@@ -691,8 +691,8 @@ const ITEMS={
  repairkit:{n:'修理工具組',t:'fix',d:'任何近戰武器耐久 +15，專武也可以。',fix:15,fixFor:'any'},
  gunoil:{n:'槍油',t:'fix',d:'排除卡彈；接下來 3 場戰鬥大失敗不會卡彈。',fixFor:'gun'},
  // 工具
- lighter:{n:'打火機',t:'tool',d:'合成工具，不會消耗。點燃燃燒瓶、香菸也需要它。'},
- flashlight:{n:'手電筒',t:'tool',d:'在黑暗的地方，感知檢定不會受罰。'},
+ lighter:{n:'打火機',t:'tool',d:'合成工具，不會消耗。裝在道具欄時才能點燃燃燒瓶、香菸。'},
+ flashlight:{n:'手電筒',t:'tool',d:'裝在道具欄時，在黑暗的地方感知檢定不會受罰（只照亮自己）。'},
  spreader:{n:'液壓破拆工具',t:'tool',d:'消防隊用的油壓擴張器，很重。撐得開卡死的鐵門和壓扁的車殼。不會消耗。'},
  filter:{n:'濾毒罐',t:'tool',d:'防毒面具用的濾罐。在污染區裡大約撐 6 小時；只有在污染區才會消耗。'},
  pliers:{n:'鉗子',t:'tool',d:'合成工具，不會消耗。能彎鐵絲和衣架。'},
@@ -1081,7 +1081,7 @@ const LV={
  B:{n:'二樓',sub:'彈殼走廊',en:'LEVEL B · SECOND FLOOR',rule:'聲音傳得很遠：開槍警戒 +3。'},
  C:{n:'電梯井',sub:'纜繩',en:'LEVEL C · ELEVATOR SHAFT',rule:'懸在半空：有效敏捷 −2，連帶影響敏捷相關攻防、先攻與反應；離開後恢復。'},
  D:{n:'外牆',sub:'消防梯',en:'LEVEL D · FIRE ESCAPE',rule:'無處可躲：戰鬥中不能逃跑。'},
- E:{n:'一樓',sub:'熄燈',en:'LEVEL E · GROUND FLOOR',rule:'一片漆黑：未持有手電筒且沒有夜行者天賦時，有效感知 −2；離開黑暗或取得照明後恢復。'},
+ E:{n:'一樓',sub:'熄燈',en:'LEVEL E · GROUND FLOOR',rule:'一片漆黑：沒有裝手電筒且沒有夜行者天賦時，有效感知 −2；離開黑暗或取得照明後恢復。'},
  F:{n:'員工廚房',sub:'瓦斯',en:'LEVEL F · KITCHEN',rule:'瓦斯外洩：在這裡開槍或用火，會連你一起炸。'},
  G:{n:'地下設備層',sub:'腐植',en:'LEVEL G · BASEMENT',rule:'空氣有毒：每往前一步，感染 +2。'},
  I:{n:'接待大廳',sub:'南門',en:'LEVEL I · THE LOBBY',rule:'門外就是街道。門內，還有東西在等。'}
@@ -1536,7 +1536,7 @@ const END={
 Object.assign(LV,{
  R:{n:'頂樓',sub:'水塔',en:'LEVEL R · ROOFTOP',rule:'風聲蓋過一切：發出的聲音不會提高警戒，但有效感知 −2；離開後恢復。',fx:{noAlarm:1,per:-2},ch:1},
  H:{n:'洗衣房',sub:'員工宿舍',en:'LEVEL H · LAUNDRY',rule:'滿地積水，水管一直在滴：每次提高警戒時少 1；地板濕滑，有效敏捷 −1，連帶影響相關攻防、先攻與反應；離開後恢復。',fx:{alarmMinus:1,agi:-1},ch:1},
- P:{n:'地下停車場',sub:'B2',en:'LEVEL P · CAR PARK',rule:'一片漆黑，而且車子會叫：未持有手電筒且沒有夜行者天賦時，有效感知 −2；戰鬥開始時警戒 +1。',fx:{dark:1,fightAlarm:1},ch:1}
+ P:{n:'地下停車場',sub:'B2',en:'LEVEL P · CAR PARK',rule:'一片漆黑，而且車子會叫：沒有裝手電筒且沒有夜行者天賦時，有效感知 −2；戰鬥開始時警戒 +1。',fx:{dark:1,fightAlarm:1},ch:1}
 });
 Object.assign(N,{
 /* ---------- A 三樓：製冰機間 ---------- */
@@ -1774,7 +1774,7 @@ Object.assign(LV,{
  K:{n:'後巷',sub:'防火梯',en:'LEVEL K · THE ALLEYS',rule:'屋子裡的人還活著：魅力檢定 +2。',fx:{cha:2},ch:2},
  M:{n:'便利商店',sub:'叮咚',en:'LEVEL M · CONVENIENCE STORE',rule:'自動門的音樂：每走一步，警戒 +1。',fx:{alarmNode:1},ch:2},
  Q:{n:'封鎖線',sub:'探照燈',en:'LEVEL Q · CHECKPOINT',rule:'無人機在頭頂：每走一步，有機會被探照燈照到（警戒 +3）。',fx:{spot:.3},ch:2},
- U:{n:'地鐵站',sub:'積水',en:'LEVEL U · SUBWAY',rule:'積水裡有東西：每走一步，感染 +1；未持有手電筒且沒有夜行者天賦時，有效感知 −2。',fx:{infNode:1,dark:1},ch:2},
+ U:{n:'地鐵站',sub:'積水',en:'LEVEL U · SUBWAY',rule:'積水裡有東西：每走一步，感染 +1；沒有裝手電筒且沒有夜行者天賦時，有效感知 −2。',fx:{infNode:1,dark:1},ch:2},
  V:{n:'十字路口',sub:'三個方向',en:'LEVEL V · THE CROSSING',rule:'所有東西都聽得見你。',fx:{},ch:2}
 });
 for(const k of ['A','B','C','D','E','F','G','I'])LV[k].ch=1;
@@ -3153,19 +3153,24 @@ const hasSk=(p,k)=>!!p&&p.skill===k;
 const skLeft=(p,k)=>{if(!hasSk(p,k))return false;const C=CSKILL[k];if(C.per==='fight')return !(p.skUsed&&p.skUsed['c:'+k]);if(C.per==='area')return p.skArea!==k+'@'+G.levels;return true};
 function skUse(p,k){const C=CSKILL[k];if(C.per==='fight'){p.skUsed=p.skUsed||{};p.skUsed['c:'+k]=1}else if(C.per==='area')p.skArea=k+'@'+G.levels}
 // 防具：頭、身體、手臂、腿四格（右手、左手是武器），減傷加總
-const EQS=['head','body','arm','leg'];const SLOTN={head:'頭',body:'身體',arm:'手臂',leg:'腿'};
+const EQS=['head','face','body','arm','leg'];const SLOTN={head:'頭',face:'臉',body:'身體',arm:'手臂',leg:'腿'};
+/* v0.27.0 道具欄（主人 2026-11-17）：手電筒、打火機、滅火器、家人的照片要裝在道具欄（每人兩格）才生效；p.tl 存道具的代號，東西還是算在背包裡 */
+const TOOLK=['flashlight','lighter','extinguisher','photo'];const TOOLN=2;
+const toolOn=(p,k)=>!!(p&&p.tl&&p.tl.includes(k)&&hasI(p,k));
+const itemReady=(p,k)=>TOOLK.includes(k)?toolOn(p,k):hasI(p,k);
+function autoTools(p){if(!Array.isArray(p.tl))p.tl=[];while(p.tl.length<TOOLN)p.tl.push(null);for(let i=0;i<TOOLN;i++)if(p.tl[i]&&!hasI(p,p.tl[i]))p.tl[i]=null;for(const k of TOOLK)if(hasI(p,k)&&!p.tl.includes(k)){const i=p.tl.indexOf(null);if(i<0)break;p.tl[i]=k}}
 function armorOf(p){let a=0;for(const s of EQS){const e=p.eq&&p.eq[s];if(e&&ITEMS[e.k])a+=ITEMS[e.k].armor||0}return a}
 // 計算、面板與事件共用來源；有效屬性與「僅限檢定」分開，保留原有數值。
-function statEffects(p){const a=[],L=G&&LV[G.lv]||{},fx=L.fx||{},dark=!hasI(p,'flashlight')&&!tr(p,'nightowl');
+function statEffects(p){const a=[],L=G&&LV[G.lv]||{},fx=L.fx||{},dark=!toolOn(p,'flashlight')&&!tr(p,'nightowl');
   const add=(id,label,why,mods,check)=>a.push({id,label,why,mods,check:!!check});
   if(p.frac&&!p.pk)add('fracture','骨折','骨折尚未固定，且止痛藥未生效',{AGI:-3});
   if(G&&G.lv==='C'&&(N[G.node]||{}).env==='shaft')add('shaft','電梯井','電梯井：懸在纜繩上',{AGI:-2});
-  if(G&&G.lv==='E'&&dark)add('ground-dark','黑暗','一樓熄燈，未持有手電筒且沒有夜行者天賦',{PER:-2});
+  if(G&&G.lv==='E'&&dark)add('ground-dark','黑暗','一樓熄燈，沒有裝手電筒且沒有夜行者天賦',{PER:-2});
   if(fx.per)add('env-per',L.n,L.n+'：'+(G.lv==='R'?'強風吹拂，聽不清四周':'環境影響'),{PER:fx.per});
-  if(fx.dark&&dark)add('env-dark','黑暗',L.n+'：環境黑暗，未持有手電筒且沒有夜行者天賦',{PER:-2});
+  if(fx.dark&&dark)add('env-dark','黑暗',L.n+'：環境黑暗，沒有裝手電筒且沒有夜行者天賦',{PER:-2});
   if(fx.agi)add('env-agi','地板濕滑',L.n+'：地板濕滑',{AGI:fx.agi});
   if(p.hun<=0||p.thi<=0)add('starved','飢渴',p.hun<=0&&p.thi<=0?'飢餓與口渴都已耗盡（合計只扣一次）':p.hun<=0?'飢餓已耗盡':'口渴已耗盡',Object.fromEntries(Object.keys(STN).map(s=>[s,-2])));
-  if(G&&G.flags&&G.flags.blackout&&L.indoor&&!(G.flags.citypower||(G.flags.streetpower&&(L.ch||1)===2))&&dark)add('blackout','停電','室內停電，未持有手電筒且沒有夜行者天賦',{PER:-1});
+  if(G&&G.flags&&G.flags.blackout&&L.indoor&&!(G.flags.citypower||(G.flags.streetpower&&(L.ch||1)===2))&&dark)add('blackout','停電','室內停電，沒有裝手電筒且沒有夜行者天賦',{PER:-1});
   if(fstg(p)>=2)add('fear-per','恐懼','恐懼達到驚恐以上',{PER:-2});
   if(fstg(p)>=3)add('fear-cha','恐懼','恐懼達到崩潰邊緣以上',{CHA:-2});
   if(fx.cha)add('env-cha',L.n,L.n+'：附近還有人可以交涉',{CHA:fx.cha},true);
@@ -3189,7 +3194,7 @@ const hitPct=(tot,def)=>Math.round(clamp((21-(def-tot))/20*100,5,95));
 function makePlayer(b,i){
   b=normalizeBuild(b);
   const p={pid:b.pid,name:String(b.name||'無名').slice(0,10),col:COLS[i%COLS.length],kind:'custom',bg:null,traits:[],st:{STR:0,AGI:0,CON:0,PER:0,INT:0,CHA:0},
-    hp:0,max:0,fe:0,inf:0,hun:8,thi:8,nT:0,bleed:0,frac:0,pk:0,items:{},gear:[],hand:{R:null,L:null},eq:{head:null,body:null,arm:null,leg:null},usd:0,down:0,dead:0,lost:0,mad:0,bon:{},kills:0,defPen:0,combo:0,counter:0,brace:0,actUsed:0,aimed:0,lv:1,xp:0,pts:0,photoLv:null,jamGuard:0};
+    hp:0,max:0,fe:0,inf:0,hun:8,thi:8,nT:0,bleed:0,frac:0,pk:0,items:{},gear:[],hand:{R:null,L:null},eq:{head:null,face:null,body:null,arm:null,leg:null},tl:[null,null],usd:0,down:0,dead:0,lost:0,mad:0,bon:{},kills:0,defPen:0,combo:0,counter:0,brace:0,actUsed:0,aimed:0,lv:1,xp:0,pts:0,photoLv:null,jamGuard:0};
   G.players.push(p);
   const pr=PRESETS[b.kind]||GUESTS[b.kind],J=JOBS[b.kind];
   if(pr){p.kind=b.kind;p.name=pr.n;Object.assign(p.st,pr.st);
@@ -3207,7 +3212,7 @@ function makePlayer(b,i){
     p.skill=CSKILL[b.sk]?b.sk:'aid';
     addLoad(p,b,LOADOUT_PTS+(b.packs||0));
   }
-  p.max=maxHp(p);p.hp=p.max;p.fe=0;return p}
+  autoTools(p);p.max=maxHp(p);p.hp=p.max;p.fe=0;return p}
 // 帶入物品：倖存者 10 點、劇情角色與訪客 3 點（解鎖的物品點數另外加）
 const FIXED_LOAD=3;
 function addLoad(p,b,lp){for(const [k,n0] of Object.entries(b.load||{})){const L=LOADOUT[k];if(!L)continue;for(let n=0;n<Math.min(3,n0)&&lp>=L.c;n++){lp-=L.c;if(k.startsWith('g:')){const g=newGear(k.slice(2));p.gear.push(g);autoEquip(p,g)}else addIForce(p,k,L.q)}}}
@@ -3636,7 +3641,7 @@ async function passTime(min){if(!G||G.clock==null||!min||G.over)return false;
    防毒面具（頭部）裝著濾罐就不吸進去；濾罐 p.mf 分鐘，只在污染區裡消耗，用完自動換背包裡的下一個。濕布只擋一半。
    目前沒有任何區域設定 fx.toxic（主人決定等全部地圖做完再指定）。 */
 const FILTER_MIN=360;
-const maskWorn=p=>!!(p.eq&&p.eq.head&&p.eq.head.k==='gasmask');
+const maskWorn=p=>!!(p.eq&&p.eq.face&&p.eq.face.k==='gasmask');
 function toxTime(min){const tox=((LV[G.lv]||{}).fx||{}).toxic;if(!tox)return;
   for(const p of able()){let left=min;
     if(maskWorn(p)){
@@ -3665,7 +3670,7 @@ async function cityTick(){if(!G.sch)return false;G.fired=G.fired||{};
   for(const k of CITY_EV){if(G.fired[k]||G.clock<G.sch[k])continue;G.fired[k]=1;if(await cityEvent(k))return true}
   return false}
 async function cityEvent(k){const real=DF().num===0;
-  if(k==='blackout'){G.flags.blackout=1;snd('click',.6);out('啪的一聲，所有的燈同時熄了。冰箱的嗡嗡聲停了，遠處的警報器也停了。整座城市一下子安靜得可怕。<b>停電了</b>：室內更暗；未持有手電筒且沒有夜行者天賦時，有效感知再 −1。','rule')}
+  if(k==='blackout'){G.flags.blackout=1;snd('click',.6);out('啪的一聲，所有的燈同時熄了。冰箱的嗡嗡聲停了，遠處的警報器也停了。整座城市一下子安靜得可怕。<b>停電了</b>：室內更暗；沒有裝手電筒且沒有夜行者天賦時，有效感知再 −1。','rule')}
   else if(k==='broadcast'){G.flags.evacinfo=1;out(real?'街上的廣播車一遍一遍地放著同一段錄音：「市政府將在明天一早進行最後一次撤離，請民眾前往街區北口檢查站集合，由國民兵護送出城。」錄音很舊，雜訊很多。':'街上的廣播車一遍一遍地放著同一段錄音：「最後一班撤離車將於<b>明天早上六點</b>從街區北口檢查站出發。請攜帶身分證件，所有人都要接受檢查。」','rule')}
   else if(k==='evacgone'){G.flags.evacgone=1;out('北邊傳來一長串喇叭聲，然後是引擎聲，越來越遠。最後一班撤離車開走了。','rule')}
   else if(k==='raid'){G.flags.raiders=1;out('秩序撐不住了。街上開始有人成群結隊地砸門、搶東西，有些人手上有刀，有些人有槍。從現在起，街上不只有感染者。','rule')}
@@ -4129,7 +4134,10 @@ function nameFoes(fs){const c={},k={};for(const f of fs)c[f.type]=(c[f.type]||0)
 const lurkHid=f=>!!(f&&f.hid&&FOES[f.type]&&FOES[f.type].lurk)
 // 舊存檔：類型換成新名字，舊的變異詞條拿掉
 const OLDTYPE={thin:'infected',dog:'infected',bloated:'incubator',riot:'devourer',looter:'cutter'};
-function migrateG(g){if(!g)return g;if(g.fight&&g.fight.foes){const F=g.fight;F.sl=F.sl||{};F.hb=F.hb||{};F.bg=F.bg||{};F.P=F.P||Math.max(1,(g.players||[]).length);for(const f of g.fight.foes){if(OLDTYPE[f.type])f.type=OLDTYPE[f.type];if(!FOES[f.type])f.type='infected';delete f.mut;if(FOES[f.type].shell&&f.shell==null)f.shell=0}nameFoes(g.fight.foes)}
+function migrateG(g){if(!g)return g;
+  // v0.27.0 防毒面具改戴在「臉」；道具欄：舊存檔把身上的道具依序放進兩格
+  for(const p of g.players||[]){p.eq=p.eq||{};if(!('face' in p.eq))p.eq.face=null;if(p.eq.head&&p.eq.head.k==='gasmask'){p.eq.face=p.eq.head;p.eq.head=null}if(!Array.isArray(p.tl))autoTools(p)}
+if(g.fight&&g.fight.foes){const F=g.fight;F.sl=F.sl||{};F.hb=F.hb||{};F.bg=F.bg||{};F.P=F.P||Math.max(1,(g.players||[]).length);for(const f of g.fight.foes){if(OLDTYPE[f.type])f.type=OLDTYPE[f.type];if(!FOES[f.type])f.type='infected';delete f.mut;if(FOES[f.type].shell&&f.shell==null)f.shell=0}nameFoes(g.fight.foes)}
   if(g.know)for(const k of Object.keys(g.know))if(!FOES[k])delete g.know[k];
   // v0.3.0 基礎規則：生命、經驗門檻、職業加成分開記、迷失改成發瘋
   if(!g.rules3&&g.players){const G0=G;G=g;try{for(const p of g.players){
@@ -4704,7 +4712,7 @@ function tactAvail(tid,p){const T=TACT[tid],F=G.fight;if(!F||F.tUsed[tid]||F.sit
   if(T.foes&&!aliveF().some(f=>T.foes.includes(f.type)))return false;if(T.aff&&!aliveF().some(f=>affIs(f,T.aff)))return false;if(T.itemAny&&!T.itemAny.some(k=>hasI(p,k)))return false;return true}
 async function tactic(p,tid,ti){
   const T=TACT[tid],F=G.fight;if(!tactAvail(tid,p))return false;
-  if(T.item&&!hasI(p,T.item)){out(`需要${ITEMS[T.item].n}。`,'sys');return false}
+  if(T.item&&!itemReady(p,T.item)){out(hasI(p,T.item)?`要先把${ITEMS[T.item].n}裝在道具欄。`:`需要${ITEMS[T.item].n}。`,'sys');return false}
   let t=F.foes[ti];if(T.one&&(!t||t.dead||!T.foes.includes(t.type)))t=aliveF().find(f=>T.foes.includes(f.type));
   F.tUsed[tid]=1;out(`${nm(p)}：<b>${T.n}</b>`,'act',true);
   if(tid==='extmask')takeI(p,'extinguisher');
@@ -4777,11 +4785,11 @@ async function execAct(p,a){
   else if(a.a==='kick'){const t=P(a.to);const g=t&&gearOf(t,a.u);if(!g||g.drop!=='feet')return false;const before=handSnapshot(t);g.drop=null;autoEquip(t,g);if(t.hand.R!==g.u&&t.hand.L!==g.u)equip(t,g.u,'R');out(`${nm(p)}把${WEAP[g.id].n}踢回${nm(t)}的腳邊，${nm(t)}一把抄起來。`,'sys');reportHands(t,before)}
   else if(a.a==='counter'){if(p.kind!=='maggie'||p.actUsed)return false;p.actUsed=1;p.counter=1;out(`${nm(p)}放低重心，盯著牠們的肩膀。下一次被攻擊時，有七成機會閃開並反擊。`,'sys');used=false}
   else if(a.a==='brace'){if(p.kind!=='liao'||p.actUsed)return false;p.actUsed=1;p.brace=1;out(`${nm(p)}把槍架穩，呼吸放慢。下一槍命中 +2、傷害 ×1.5。`,'sys');used=false}
-  else if(a.a==='molotov'){if(!hasI(p,'molotov'))return false;if(!hasI(p,'lighter')){out('沒有打火機，點不著燃燒瓶。','sys');return}
+  else if(a.a==='molotov'){if(!hasI(p,'molotov'))return false;if(!toolOn(p,'lighter')){out(hasI(p,'lighter')?'打火機在背包深處，要先裝在道具欄才拿得出來。':'沒有打火機，點不著燃燒瓶。','sys');return}
     takeI(p,'molotov');snd('mthrow');await wait(450);snd('mimpact',1,1500);
     if(G.lv==='F'&&!G.flags.gasoff){await explode()}
     if(G.fight){out('瓶子在牠們腳邊炸開，火舌一下竄了上來。','good');const d=await dmgRoll([[2,6]],0,'燃燒瓶');for(const f of aliveF()){applyDmg(f,d,['fire'],p,true);f.burn=3}for(const f of G.fight.foes)if(f.hp<=0&&!f.dead)await kill(f,p)}}
-  else if(a.a==='ext'){if(!hasI(p,'extinguisher'))return false;const t=F.foes[ti];takeI(p,'extinguisher');snd('ext');t.dazzle=1;out(`一團白色的乾粉噴在${t.n}臉上，${pn(t)}嗆得直往後退，眼睛睜不開。下一次攻擊命中 −4。`,'good')}
+  else if(a.a==='ext'){if(!toolOn(p,'extinguisher'))return false;const t=F.foes[ti];takeI(p,'extinguisher');snd('ext');t.dazzle=1;out(`一團白色的乾粉噴在${t.n}臉上，${pn(t)}嗆得直往後退，眼睛睜不開。下一次攻擊命中 −4。`,'good')}
   else if(a.a==='flee'){if(F.noflee){out('懸在外牆上，無處可逃。','sys');return}if(able().some(q=>q.held)){out(`${able().filter(q=>q.held).map(q=>nm(q)).join('、')}被抓住了，現在跑不掉。`,'sys');return false}
     const rt=a.csk==='retreat'&&skLeft(p,'retreat');if(rt){skUse(p,'retreat');out(`${nm(p)}：<b>緊急撤退</b>`,'act',true)}
     const c=await check(p,'AGI',12,'逃跑',(rt?5:0)+(tr(p,'legs')?4:0)+(aliveF().every(f=>affIs(f,'lame')||f.legW)?4:0));if(c.ok){out(MP()?`${nm(p)}大喊一聲，所有人轉身就跑，一路跑到轉角才敢回頭。`:'你轉身就跑，一路跑到轉角才敢回頭。牠沒有追上來。','good');for(const q of able())loseSan(q,1,true);recoverDrops(true);if(G.winR&&G.winR.r&&G.winR.r.questDone)finishCodexQuest(G,G.winR.r.questDone,'已中止');G.fight=null;G.winR=null;snd('doorclose');if(G.alarmFt){if(G.alarmFt===2){G.alarm=3;Object.assign(ALV(),{roused:1,w3:1,w6:1})}G.alarmFt=0}addAlarm(1,p);const go=G.after;G.after=null;if(!go){G.phase='node';startCd();return true}G.phase='busy';if(await alarmCheck(go))return true;await enterNode(go);return true}
@@ -4801,6 +4809,7 @@ async function execAct(p,a){
   else if(a.a==='use'){used=await useItem(p,a.k,a.to)}
   else if(a.a==='revive'){used=await revive(p,a.to,a.k)}
   else if(a.a==='equip'){if(!doEquip(p,a))return false;await sndW('equip',.8,900,.5)}
+  else if(a.a==='tool'){if(!toolSet(p,a))return false;await sndW('equip',.8,900,.5)}
   else return false;
   if(used)p.dazed=0;
   return used;
@@ -4842,7 +4851,8 @@ async function useItem(p,k,to){
   if(it.t==='wear'){if(other)return false;return wearItem(p,k)}
   if(!['med','food','misc'].includes(it.t))return false;
   if(other&&(k==='photo'||it.t==='misc'))return false;
-  if(it.needs&&!hasI(p,it.needs)){out(`需要${ITEMS[it.needs].n}。`,'sys');return false}
+  if(it.needs&&!itemReady(p,it.needs)){out(hasI(p,it.needs)?`要先把${ITEMS[it.needs].n}裝在道具欄。`:`需要${ITEMS[it.needs].n}。`,'sys');return false}
+  if(k==='photo'&&!toolOn(p,'photo')){out('照片收在背包深處，要先裝在道具欄才拿得出來。','sys');return false}
   const who=MP()?nm(p):'你',tw=other?nm(T):who;const pre=other?`${who}替${nm(T)}`:who;
   if(k==='photo'){if(p.photoLv===G.levels){out(`${who}看著照片。這次沒能讓心情好一點。`,'sys');return false}p.photoLv=G.levels}
   else takeI(p,k);
@@ -4862,6 +4872,11 @@ async function useItem(p,k,to){
   }
   await deathCheck();return true;
 }
+// v0.27.0 道具欄：a.s＝第幾格，a.k＝要裝的道具（沒有 k 就是拿下來）；戰鬥中換要花一回合（走 fightAct）
+function toolSet(p,a){if(!Array.isArray(p.tl))autoTools(p);const s=+a.s;if(!(s>=0&&s<TOOLN))return false;
+  if(!a.k){const k=p.tl[s];if(!k)return false;p.tl[s]=null;out(`${MP()?nm(p):'你'}把${ITEMS[k].n}收回背包。`,'sys',true);return true}
+  if(!TOOLK.includes(a.k)||!hasI(p,a.k))return false;const j=p.tl.indexOf(a.k);if(j===s)return false;if(j>=0)p.tl[j]=null;const old=p.tl[s];p.tl[s]=a.k;
+  out(`${MP()?nm(p):'你'}把${ITEMS[a.k].n}裝在道具欄${old&&hasI(p,old)?`，${ITEMS[old].n}收回背包`:''}。`,'sys',true);return true}
 // 穿上防具：放進對應的欄位，原本那件收回背包
 async function wearItem(p,k){const it=ITEMS[k];if(!it||it.t!=='wear'||!hasI(p,k))return false;const s=it.slot||'body';
   takeI(p,k);const old=p.eq[s];if(old)addIForce(p,old.k);p.eq[s]={k,dur:it.dur||0};
@@ -4962,7 +4977,7 @@ function handle(pid,a){
   if(a.a==='tell')return run(async()=>{tell(p,a.i)});
   if(a.a==='lock')return run(async()=>{zLockNote(a.i)});
   if(G.phase==='shop'&&G.shop&&!p.down&&!p.mad){if(a.a==='buy')return run(async()=>{shopBuy(p,a.i)});if(a.a==='sell')return run(async()=>{shopSell(p,a.k)});if(a.a==='sellg')return run(async()=>{shopSellG(p,a.u)});if(a.a==='shopdone')return run(()=>shopReady(p))}
-  if(G.fight&&['atk','tact','reload','unjam','cock','pickup','kick','counter','brace','molotov','ext','flee','use','revive','equip','guard','free','block','dodge','cover','dual','calm','subdue','csk','spot','pat'].includes(a.a))return run(()=>fightAct(pid,a));
+  if(G.fight&&['atk','tact','reload','unjam','cock','pickup','kick','counter','brace','molotov','ext','flee','use','revive','equip','guard','free','block','dodge','cover','dual','calm','subdue','csk','spot','pat','tool'].includes(a.a))return run(()=>fightAct(pid,a));
   if(G.fight)return;
   if(p.down)return;
   if(a.a==='use')return run(async()=>{await useItem(p,a.k,a.to)});
@@ -4971,6 +4986,7 @@ function handle(pid,a){
   if(a.a==='soothe')return run(async()=>{await soothe(p,P(a.to))});
   if(a.a==='revive')return run(async()=>{await revive(p,a.to,a.k)});
   if(a.a==='equip')return run(async()=>{if(doEquip(p,a))snd('equip',.8)});
+  if(a.a==='tool')return run(async()=>{if(toolSet(p,a))snd('equip',.8)});
   if(a.a==='unwear')return run(async()=>{unwear(p,a.s)});
   if(a.a==='giveusd')return run(async()=>{giveUsd(p,a.to,a.n)});
   if(a.a==='give')return run(async()=>{give(p,a.to,a.k,a.u)});
@@ -5634,13 +5650,13 @@ function fightMenu(m){
     const pr=PRESETS[m.kind];if(pr&&pr.act){h+='<p class="note">角色技能</p>'+chBtn(`data-fa="${pr.act}"`,pr.actn,pr.actd,m.actUsed?'已使用':'每場一次','t-x',m.actUsed)}
     else if(m.skill&&CSKILL[m.skill])h+='<p class="note">角色技能</p>'+cskBtns(m,hs);
     let it='';
-    if(hasI(m,'molotov'))it+=chBtn('data-fa="molotov"','丟燃燒瓶',hasI(m,'lighter')?`所有敵人 2d6 火焰，燃燒 2 回合　剩 ${m.items.molotov}`:'需要打火機','','t-dg',!hasI(m,'lighter'));
-    if(hasI(m,'extinguisher'))it+=chBtn('data-fa="ext"','噴滅火器',`一名敵人下一次攻擊命中 −4　剩 ${m.items.extinguisher} 次`,'','t-x');
+    if(hasI(m,'molotov'))it+=chBtn('data-fa="molotov"','丟燃燒瓶',toolOn(m,'lighter')?`所有敵人 2d6 火焰，燃燒 2 回合　剩 ${m.items.molotov}`:hasI(m,'lighter')?'打火機要先裝在道具欄':'需要打火機','','t-dg',!toolOn(m,'lighter'));
+    if(hasI(m,'extinguisher'))it+=chBtn('data-fa="ext"','噴滅火器',toolOn(m,'extinguisher')?`一名敵人下一次攻擊命中 −4　剩 ${m.items.extinguisher} 次`:'滅火器要先裝在道具欄','','t-x',!toolOn(m,'extinguisher'));
     for(const t of G.players.filter(p=>p.down&&!p.dead))for(const k of ['aed','adrenaline'])if(hasI(m,k))it+=chBtn(`data-fa="revive" data-to="${t.pid}" data-k="${k}"`,`用${ITEMS[k].n}救${esc(t.name)}`,'會用掉這個回合','','t-x');
     if(it)h+='<p class="note">道具技能</p>'+it;
     return h+backBtn()}
   if(FTAB==='tact'){const ts=Object.keys(TACT).filter(id=>tactAvail(id,m));
-    return (ts.length?ts.map(id=>{const T=TACT[id];const miss=T.item&&!hasI(m,T.item);return chBtn(`data-fa="tact" data-id="${id}"`,T.n,T.d,checkTag(T.st,T.dc),'t-ck',miss)}).join('')+'<p class="note">對策要看現場有什麼可以利用：一場戰鬥最多出現一個，用過就沒了，會用掉回合。</p>':G.fight.tUsed[G.fight.site]?'<p class="note">這裡能利用的東西已經用掉了。</p>':'<p class="note">這裡沒有可以利用的東西。</p>')+backBtn()}
+    return (ts.length?ts.map(id=>{const T=TACT[id];const miss=T.item&&!itemReady(m,T.item);return chBtn(`data-fa="tact" data-id="${id}"`,T.n,T.d,checkTag(T.st,T.dc),'t-ck',miss)}).join('')+'<p class="note">對策要看現場有什麼可以利用：一場戰鬥最多出現一個，用過就沒了，會用掉回合。</p>':G.fight.tUsed[G.fight.site]?'<p class="note">這裡能利用的東西已經用掉了。</p>':'<p class="note">這裡沒有可以利用的東西。</p>')+backBtn()}
   if(FTAB==='other'){let h='';
     for(const x of handsOf(m)){const {g,w}=x;if(!g)continue;
       if(w.kind==='gun'&&g.jam)h+=chBtn(`data-fa="unjam" data-h="${x.h}"`,`${x.lab}・排除卡彈`,`${w.n}：拉動滑套退出彈殼`,'','t-x');
@@ -5713,6 +5729,21 @@ function eqCol(m,inF,can){
     h+=`<div class="erow ${e?'on':''}"><span class="sl">${SLOTN[s]}</span><div class="in"><b>${it?it.n:'—'}</b><small>${it?(e.k==='gasmask'?mfTxt(m)+`｜背包濾罐 ${m.items.filter||0}`:`減傷 ${it.armor}${it.dur?`｜耐久 ${e.dur}／${it.dur}`:''}`):'沒有穿東西'}</small></div>${e&&!inF?ibt(`data-unwear="${s}"`,'脫下',0,can):''}</div>`}
   if(canDual(m))h+='<p class="note">左右手都拿著單手武器：戰鬥中可以雙持攻擊。</p>';
   return h}
+// v0.27.0 裝備頁右欄：道具欄兩格＋能裝的道具＋還沒穿的防具、沒拿在手上的武器
+function toolCol(m,inF,can){if(!Array.isArray(m.tl))m.tl=[null,null];
+  let h=`<div class="cat">道具欄（${TOOLN} 格）</div><p class="note">${inF?'戰鬥中換道具會用掉這一回合。':'手電筒、打火機、滅火器、家人的照片要裝在這裡才用得上。'}</p>`;
+  for(let i=0;i<TOOLN;i++){const k=m.tl[i]&&hasI(m,m.tl[i])?m.tl[i]:null;const it=k&&ITEMS[k];
+    h+=`<div class="erow ${k?'on':''}"><span class="sl">道具 ${i+1}</span><div class="in"><b>${it?it.n+(m.items[k]>1?`　×${m.items[k]}`:''):'—'}</b><small>${it?it.d:'空著'}</small></div>${k?ibt(`data-tooloff="${i}"`,'收起',0,can):''}</div>`}
+  const cand=TOOLK.filter(k=>hasI(m,k)&&!toolOn(m,k));
+  if(cand.length){h+='<div class="cat">背包裡能裝的道具</div>';const free=m.tl.findIndex(x=>!x||!hasI(m,x));
+    for(const k of cand)h+=`<div class="irow"><div class="in"><b>${ITEMS[k].n}${m.items[k]>1?`　×${m.items[k]}`:''}</b><small>${ITEMS[k].d}</small></div><div class="iops">${free>=0?ibt(`data-tool="${k}" data-s="${free}"`,'裝上',0,can):Array.from({length:TOOLN},(_,i)=>ibt(`data-tool="${k}" data-s="${i}"`,`換掉道具 ${i+1}`,0,can)).join('')}</div></div>`}
+  const wears=Object.keys(m.items).filter(k=>m.items[k]>0&&ITEMS[k]&&ITEMS[k].t==='wear');
+  if(wears.length){h+='<div class="cat">背包裡的防具</div>';for(const k of wears)h+=`<div class="irow"><div class="in"><b>${ITEMS[k].n}</b><small>${ITEMS[k].d}</small></div><div class="iops">${ibt(`data-use="${k}"`,'穿上',0,can)}</div></div>`}
+  const spare=m.gear.filter(g=>!g.drop&&m.hand.R!==g.u&&m.hand.L!==g.u);
+  if(spare.length){h+='<div class="cat">背包裡的武器</div>';for(const g of spare){const w=WEAP[g.id];let a='';
+    if(w.hands===2)a=ibt(`data-eq="${g.u}" data-h="R"`,'雙手拿',0,can);else a=ibt(`data-eq="${g.u}" data-h="R"`,'右手',0,can)+ibt(`data-eq="${g.u}" data-h="L"`,'左手',0,can);
+    h+=`<div class="irow"><div class="in"><b>${w.n}</b><small>${wLine(m,w,g,'R')}</small></div><div class="iops">${a}</div></div>`}}
+  return h}
 // 右欄：背包清單；點一條展開它能做的事
 function itemCol(m,inF,can){
   const mates=G.players.filter(p=>p!==m&&!p.dead&&!p.down&&!p.away);const giveTo=G.players.filter(p=>p!==m&&!p.dead);
@@ -5739,7 +5770,7 @@ function itemCol(m,inF,can){
 function panel(k){
   OVK=k;const X='<button class="btn" data-close>關閉</button>';const m=G&&me();
   const tabs=k==='craft'?`<div class="tabs"><button class="btn" data-open="bag">← 回背包</button></div>`:'';
-  if((k==='bag'||k==='craft')&&!m){toast('觀戰中沒有背包。');OVK=null;return}
+  if((k==='bag'||k==='craft'||k==='gear')&&!m){toast('觀戰中沒有背包。');OVK=null;return}
   const inF=!!(G&&G.fight),can=G&&m&&!G.busy&&!m.dead&&(!inF||myTurn())&&!m.down;
   if(['map','tasks','memo'].includes(k)){
     if(!G){OVK=null;return}if(ROLE!=='client')syncCodex();markCodexRead(k);
@@ -5749,7 +5780,10 @@ function panel(k){
   if(k==='bag'){
     const gr=G.ground.length?G.ground.map((x,i)=>`<div class="irow"><div class="in"><b>${groundName(x)}</b></div><button class="btn" data-pick="${i}" ${can&&!inF?'':'disabled'}>撿起</button></div>`).join(''):'<p class="note">目前地上沒有物品。</p>';
     const space=`<p class="slots">背包 <b>${used(m)}／${cap(m)}</b> 格　<small>同種 5 個疊 1 格；拿在手上、穿著的不佔格</small></p><p class="note">${inF?'戰鬥中不能丟棄或撿取地面物品；使用物品、換武器會用掉回合。':used(m)>=cap(m)?'背包已滿；可先放下物品。相同物品未滿 5 個仍可堆疊。':'點選物品可展開轉交、修理等操作；放下的物品可從地面區撿回。'}</p>`;
-    openOv(`<div class="boxhead"><b>背包與裝備</b><span class="hbtns">${inF?'':'<button class="btn" data-open="craft">合成</button>'}${X}</span></div><div class="bagwrap b3"><div class="scr2">${sheet(m)}</div><div class="scr2">${eqCol(m,inF,can)}</div><div class="bagstore"><div class="bagcap">${space}</div><div class="scr2 bagitems">${itemCol(m,inF,can)}</div><section class="groundarea"><div class="cat">地面物品（${G.ground.length}）</div><div class="scr2 grounditems">${gr}</div></section></div></div>`);
+    openOv(`<div class="boxhead"><b>背包</b><span class="hbtns"><button class="btn" data-open="gear">裝備</button>${inF?'':'<button class="btn" data-open="craft">合成</button>'}${X}</span></div><div class="bagwrap"><div class="scr2">${sheet(m)}</div><div class="bagstore"><div class="bagcap">${space}</div><div class="scr2 bagitems">${itemCol(m,inF,can)}</div><section class="groundarea"><div class="cat">地面物品（${G.ground.length}）</div><div class="scr2 grounditems">${gr}</div></section></div></div>`);
+  }else if(k==='gear'){
+    // v0.27.0 裝備頁：武器、防具、道具欄都在這裡（主人 2026-11-17）
+    openOv(`<div class="boxhead"><b>裝備</b><span class="hbtns"><button class="btn" data-open="bag">背包</button>${inF?'':'<button class="btn" data-open="craft">合成</button>'}${X}</span></div><div class="bagwrap"><div class="scr2">${eqCol(m,inF,can)}</div><div class="scr2">${toolCol(m,inF,can)}</div></div>`);
   }else if(k==='craft'){
     if(inF){toast('戰鬥中不能合成。');OVK=null;return}
     const slotName=s=>s.u!=null?(gearOf(m,s.u)?WEAP[gearOf(m,s.u).id].n:'?'):ITEMS[s.k].n;
@@ -5832,6 +5866,8 @@ document.addEventListener('click',e=>{
   else if(d.eq!=null){const inF=!!G.fight;act({a:'equip',u:+d.eq,h:d.h,one:d.one?1:0});SEL=null;if(inF)closeOv();else later()}
   else if(d.uneq!=null){const m=me();const h=m.hand.R===+d.uneq?'R':'L';act({a:'equip',h});if(G.fight)closeOv();else later()}
   else if(d.unwear){act({a:'unwear',s:d.unwear});later()}
+  else if(d.tool){act({a:'tool',k:d.tool,s:+d.s});if(G.fight)closeOv();else later()}
+  else if(d.tooloff!=null){act({a:'tool',s:+d.tooloff});if(G.fight)closeOv();else later()}
   else if(d.pick!=null){act({a:'pick',i:+d.pick});later()}
   else if(d.give){act({a:'give',k:d.give,to:d.to});later()}
   else if(d.giveg!=null){act({a:'give',u:+d.giveg,to:d.to});later()}
