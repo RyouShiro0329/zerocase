@@ -83,6 +83,9 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .ch.done{opacity:.42}
 .ch.locked{opacity:.5;border-style:dashed}
 .ch .zst{display:block;flex-basis:100%;font-weight:400;color:var(--gold);font-size:.8em;line-height:1.4;order:5}
+.ch .cm{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 10px;flex-basis:100%;min-width:0;margin-top:2px}
+.ch .cm .tag{margin-left:0}
+.ch .cm .zst{display:inline;margin-right:.7em;font-size:.95em}
 .ch .cl{font-weight:900;color:#e6e0d1}
 .ch .cs{flex:1 1 10em;min-width:0;color:var(--muted);font-size:.82em;line-height:1.45}
 .tag{margin-left:auto;flex:none;font:600 10px/1.6 var(--label);letter-spacing:1px;padding:0 6px;border-radius:2px;border:1px solid var(--line);color:var(--muted)}
@@ -159,7 +162,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .seg{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 10px}
 .seg .btn{padding:6px 14px;min-height:34px;font-size:.85rem}
 .seg .on{border-color:var(--gold);color:var(--gold)}
-#toast{position:absolute;left:50%;bottom:max(14px,var(--sb));transform:translateX(-50%);z-index:40;padding:7px 16px;background:rgba(15,16,14,.96);border:1px solid #706957;border-radius:3px;box-shadow:0 6px 20px #000;font-size:.86rem;max-width:80%;text-align:center}
+#toast{position:absolute;left:50%;top:50%;bottom:auto;transform:translate(-50%,-50%);pointer-events:none;z-index:40;padding:7px 16px;background:rgba(15,16,14,.96);border:1px solid #706957;border-radius:3px;box-shadow:0 6px 20px #000;font-size:.86rem;max-width:80%;text-align:center}
 #gate{position:absolute;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#15130f,#050505 75%);text-align:center;padding:20px}
 #gate .in{display:flex;flex-direction:column;align-items:center;gap:12px;max-width:460px}
 #gate h1{margin:0;font-size:2.2rem;letter-spacing:.3em;font-weight:900;text-shadow:0 3px 10px #000}
@@ -630,7 +633,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.24.8", "b": 69, "t": "2026-11-16T14:10:13+08:00"};
+const ZC_VER={"v": "0.24.9", "b": 70, "t": "2026-11-16T16:37:14+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -2945,7 +2948,7 @@ const ZONES={
  A:{loc:'旅館',d:1,hub:'Ah',n:'三樓走廊',join:['A4','A6'],ev:'A5',rooms:['A1','A3x','A4b','A4c'],hideL:{A1:['貼著門聽外面']},door:['A6|撬開電梯門，爬電梯井'],
   // v0.24.1 主人：用工具撬開＝電梯門從此開著；徒手扳開＝每次都要檢定（成功也會出聲，失敗受傷、更吵）
   opens:{'A6|撬開電梯門，爬電梯井':'elevopen'},each:['A6|徒手扳開電梯門'],
-  lock:{'A6|從 301 的窗戶爬到消防梯':{t:'301 號房的窗戶',why:'不確定窗外有沒有消防梯。301 號房的門背後應該貼著逃生路線圖。'}}},
+  lock:{'A6|從 301 的窗戶爬到消防梯':{t:'301 號房的窗戶',why:'不確定窗外有沒有消防梯，不敢貿然爬出去。'}}},
  B:{loc:'旅館',d:1,hub:'Bh',n:'二樓走廊',join:['B2','B4'],ev:'B3',rooms:['B2x'],bk:[['A','東側樓梯上三樓'],['D','從開著的窗戶爬到消防梯']]},
  C:{loc:'旅館',d:2,hub:'Ch',n:'電梯井底',join:['C4'],rooms:['C2','C2x'],hideL:{C2:['不管車廂，繼續往下爬'],C2x:[]}},
  D:{loc:'旅館',d:1,hub:'Dh',n:'消防梯',join:['D4'],ex:[['D2x','往上爬到頂樓'],['D2','從開著的窗戶進二樓']],bk:[['A','從 301 的窗戶爬回三樓']],tj:['D2x','D4']},
@@ -5271,7 +5274,8 @@ const infStg=p=>p.inf<=0?'沒有':p.inf<20?'輕微':p.inf<40?'加重':p.inf<70?'
 const vbd=(x,t)=>x?`<em class="bad">${t}</em>`:t;
 function vitBars(p){const bd=vbd;
   return `<div class="vit">${bar('hp','生命',Math.max(0,p.hp),p.max,bd(p.hp<p.max*.4,hpStg(p)),'p'+p.pid)}${bar('fe fs'+fstg(p),'恐懼',fstg(p),4,fstgN(p))}${bar('in','感染',p.inf,100,bd(p.inf>=40,infStg(p)))}${bar('hu','飢餓',p.hun,10,bd(p.hun<=3,hunStg(p)))}${bar('th','口渴',p.thi,10,bd(p.thi<=3,thiStg(p)))}</div>`}
-const chBtn=(attr,l,s,tag,tc,dis,extra,cls)=>`<button class="ch ${cls||''}" ${attr} ${dis?'disabled':''}><span class="cl">${l}</span>${extra||''}${tag?`<span class="tag ${tc}">${tag}</span>`:''}${s?`<span class="cs">${s}</span>`:''}</button>`;
+// v0.24.9（主人）：標籤和說明一律放在第二行（.cm），不再有時跟在標題後面、有時掉到下一行
+const chBtn=(attr,l,s,tag,tc,dis,extra,cls)=>`<button class="ch ${cls||''}" ${attr} ${dis?'disabled':''}><span class="cl">${l}</span>${extra||''}${tag||s?`<span class="cm">${tag?`<span class="tag ${tc}">${tag}</span>`:''}${s?`<span class="cs">${s}</span>`:''}</span>`:''}</button>`;
 // 屬性需求統一放在標籤；真實模式保留標籤，只隱藏判定數字。
 function checkTag(st,dc){return STN[st]?`需要${STN[st]}${DF().num?' '+dc:''}`:''}
 function choiceNote(c){const text=c.s||'';return c.k&&STN[c.k]?text.replace(new RegExp('^'+STN[c.k]+'檢定\\s*[：:，,；;]?\\s*'),'').replace(new RegExp('\\s*[；;，,]\\s*'+STN[c.k]+'檢定\\s*$'),'').trim():text}

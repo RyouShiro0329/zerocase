@@ -17,7 +17,7 @@ test('三樓的區域畫面：房間、就地搜尋、出口都列出來；上�
  await g.run("enterNode('A4')");assert.equal(g.run('G.node'),'Ah');assert.equal(g.run('G.zd.A'),1);
  const ls=labels(g);for(const l of ['301 號房','製冰機間','302：有光的那間','306：門縫裡有聲音的那間','304：門沒關的那間','打破消防栓箱拿斧頭','東側樓梯','從 301 的窗戶爬到消防梯'])assert.ok(ls.includes(l),l);
  const i=g.run("choices().findIndex(c=>c.l==='從 301 的窗戶爬到消防梯')");
- assert.equal(g.run(`choiceOk(choices()[${i}])`),false);assert.match(g.run(`zWhy(choices()[${i}])`),/逃生路線圖/);
+ assert.equal(g.run(`choiceOk(choices()[${i}])`),false);assert.match(g.run(`zWhy(choices()[${i}])`),/不確定窗外有沒有消防梯/);assert.doesNotMatch(g.run(`zWhy(choices()[${i}])`),/逃生路線|門背後/,'v0.24.9 主人：上鎖提示只說缺什麼，不說去哪裡找');
  g.run('G.flags.map=1');assert.equal(g.run(`choiceOk(choices()[${i}])`),true);
  assert.doesNotMatch(labels(g).join(),/東側樓梯上三樓/,'還沒去過的區域不顯示回程');
 });
@@ -25,7 +25,7 @@ test('三樓的區域畫面：房間、就地搜尋、出口都列出來；上�
 test('點了上鎖的點位：播鎖門聲、跳出缺什麼、記進備忘錄',async()=>{const g=setup();await g.run("enterNode('A4')");
  g.run("globalThis.SFXL=[];globalThis.TOAST='';sfx=(k)=>{SFXL.push(k);return 0};toast=t=>TOAST=t;act=a=>handle('p1',a)");
  const i=g.run("choices().findIndex(c=>c.l==='從 301 的窗戶爬到消防梯')");g.run(`zLockClick(${i})`);await new Promise(r=>setTimeout(r,20));
- assert.equal(g.run('SFXL.join()'),'doorlocked');assert.match(g.run('TOAST'),/301 號房的窗戶.*逃生路線圖/);
+ assert.equal(g.run('SFXL.join()'),'doorlocked');assert.match(g.run('TOAST'),/301 號房的窗戶.*不確定窗外有沒有消防梯/);assert.doesNotMatch(g.run('TOAST'),/逃生路線|門背後/);
  assert.match(g.run("codexMarkup('memo')"),/301 號房的窗戶/);
 });
 
