@@ -185,6 +185,8 @@
     "tests/exploration.test.cjs": "629409a0ccd45e1aa8a90b3c4da0e34f436ae66c0416ed57740c4c91e81d4c70",
     "tests/feedback.test.cjs": "cd77678f8cac0dce74c920181554a4607862732ed8e2421094bedc0ef7163537",
     "tests/helpers/audio-game.cjs": "cf75b33a1f7f51cdd9d1898f0cf3f373436fdfe7e85492fca3e8b61fe5c7df6e",
+    "tests/helpers/godmode.cjs": "0c14c88f49185bfe85e35a24931cf4028d9ba1615eaf5a159740b491fc05a21c",
+    "tests/long-route.cjs": "416efb1c97a48e3ccb2b6757dfef863ad57e333abacf6c3caa6f7cf9eef8859a",
     "tests/opening-clock.test.cjs": "fff00eff0bccd85f1638e3d4c18917613c713de730bf56c9a908888a238d1c6d",
     "tests/scene-time.test.cjs": "fe4e249942deb406f52fc256ecddffb392780344c95cc6d411e5931d56d04861",
     "tests/topbar-preview.html": "149b060b6e02b8ee522605a093cb9ca2a2d80bd59ec2505beaf6e1fc34640ca5",
