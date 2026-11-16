@@ -10,7 +10,7 @@ test('旅館每個區域都有區域畫面；原本的清單、出口節點一�
  for(const [z,h] of Object.entries(JSON.parse(g.run('JSON.stringify(Object.fromEntries(Object.entries(ZONES).map(([z,Z])=>[z,Z.hub])))')))){assert.equal(g.run(`N['${h}'].L`),z);assert.equal(g.run(`ZN['${h}'].role`),'hub')}
  for(const j of ['A4','A6','B2','B4','E2','E4','F4','G4','H4','I2','P4','R4','C4','D4'])assert.equal(g.run(`zRoute('${j}')`),g.run(`ZONES[N['${j}'].L].hub`),j);
  assert.equal(g.run("zRoute('A1')"),'A1','區域還沒走過：照原本的劇情');
- g.run("G.zd={B:1}");assert.equal(g.run("zRoute('B1')"),'Bh','走過的區域再進來，不重播開場的劇情');assert.equal(g.run("zRoute('A6e')"),'A6e','往別的區域的樓梯照走');
+ g.run("G.zd={B:1};G.flags['v_'+ZONES.B.ev]=1");assert.equal(g.run("zRoute('B1')"),'Bh','走過的區域再進來，不重播開場的劇情');assert.equal(g.run("zRoute('A6e')"),'A6e','往別的區域的樓梯照走');
 });
 
 test('三樓的區域畫面：房間、就地搜尋、出口都列出來；上鎖的窗戶留著變灰',async()=>{const g=setup();
