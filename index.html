@@ -112,9 +112,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .die b{position:relative;font:900 26px/1 var(--label);color:#efe6cf;text-shadow:0 2px 3px #000}
 .die.d6{width:50px;height:50px}.die.d6 b{font-size:20px}
 .die.roll{animation:none}
-/* v0.24.3 骰子影子、結果的震動與閃光 */
-.die .ds{position:absolute;left:12%;right:12%;bottom:-8px;height:10px;border-radius:50%;background:radial-gradient(rgba(0,0,0,.75),transparent 70%);opacity:.55;pointer-events:none}
-.die.d6 .ds{bottom:-6px;height:7px}
+/* v0.24.3 結果的震動與閃光 */
 .tray.t-ng{animation:trayng .32s ease-out}
 .tray.t-fumble{animation:trayfum .6s ease-out}
 .tray.t-crit{animation:traycrit .7s ease-out}
@@ -632,7 +630,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.24.3", "b": 64, "t": "2026-11-16T13:13:00+08:00"};
+const ZC_VER={"v": "0.24.4", "b": 65, "t": "2026-11-16T13:24:20+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3168,7 +3166,7 @@ function newRun(builds,opts,mode){
 let AC=null,NB=null,SFX_MASTER=null;const BUF={};
 /* ZeroCase Audio Mix v2 / 2026-11-14：依事件分類統一短音效增益；不改動原始檔名與 BGM。 */
 const SFX_TYPES={
-  ui:['click','ok','crit','rattle','land','dry','dieknock'],
+  ui:['click','ok','crit','rattle','land','dry'],
   movement:['stairs','step','zstep','dooropen','doorclose'],
   foley:['heal','pill','rummage','zipper','drawer','pickup','equip','craft','eat','gulp'],
   combat:['bowdraw','bowimpact','beretta','berettaReload','revolver','revolverCock','casing','fist','claw','knife','headshot','mthrow','mimpact','death','fal','falReload','mp5','mp5Reload','rifle','bolt','bite','smash','splat','spit','thud','squish','bhit','shotgun','whoosh','groan','hurt','ext','zap'],
@@ -3280,7 +3278,6 @@ const SYN={
  ng(){tone(0,82,.42,.26,'sine',50);noise(0,.16,260,.8,.45,'lowpass');tone(.02,233,.34,.13,'square',165);tone(.02,220,.36,.11,'sawtooth',155);return 480},
  fumble(){tone(0,92,.95,.36,'sine',30);noise(0,.5,170,.7,.6,'lowpass');noise(.01,.07,2600,3,.22);tone(.05,233,.75,.13,'sawtooth',104);tone(.05,247,.75,.12,'sawtooth',110);tone(.05,349,.6,.07,'square',156);tone(.36,64,.65,.26,'sine',36);noise(.36,.25,150,.7,.4,'lowpass');return 1000},
  miss(){for(let i=0;i<6;i++)noise(i*.03,.07,2000-i*270,1.3,.34-i*.03);tone(.02,320,.22,.07,'sine',110);noise(.2,.1,240,.8,.18,'lowpass');return 330},
- dieknock(){const k=1;noise(0,.03,1700+Math.random()*1100,4,.34*k);tone(0,480+Math.random()*260,.045,.07*k,'triangle');noise(0,.06,280,1,.3*k,'lowpass');return 70},
  whoosh(){noise(0,.22,900,.7,.35);return 220},
  groan(){tone(0,95,1.1,.09,'sawtooth',70);tone(0,141,1.1,.05,'sawtooth',108);noise(0,1,300,3,.06);return 1100},
  hurt(){noise(0,.25,400,1,.35,'lowpass');tone(0,220,.25,.1,'sawtooth',120);return 260},
@@ -3329,28 +3326,21 @@ const D20SVG=`<svg viewBox="-50 -50 100 100"><polygon class="face" points="0,-46
 const D10SVG=`<svg viewBox="-50 -50 100 100"><polygon class="face" points="0,-46 42,-6 30,26 0,46 -30,26 -42,-6"/><path class="edge" d="M0,-46 L-18,12 L0,46 M0,-46 L18,12 L0,46 M-42,-6 L-18,12 M42,-6 L18,12 M-18,12 L18,12"/></svg>`;
 const D6SVG=`<svg viewBox="-50 -50 100 100"><rect class="face" x="-42" y="-42" width="84" height="84" rx="14"/></svg>`;
 let skipDice=null;
-/* v0.24.3 擲骰改成真的在滾：從旁邊丟進來，落地彈三下（每下有碰撞聲、壓扁一下），轉速和數字跳動一路變慢，影子跟著高度變大變小。
-   原本是 CSS 一次甩進來。用 requestAnimationFrame 逐格算位置；略過時立刻停。只在本機演出（隊友那邊各自播）。 */
+/* v0.24.4 擲骰（主人）：不丟進來、不彈跳，骰子在原地轉，轉速越來越慢；數字一直亂跳，越跳越慢，停下時換成結果。
+   requestAnimationFrame 逐格算；變形套在骰子裡的 svg 和數字上。點一下略過會立刻停。只在本機演出（隊友那邊各自播）。 */
 function dieRoll(el,dies,spec,dur){
   const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;const now=()=>performance.now();const T0=now();let raf=0,stop=false;
-  const B=[0,.42,.7,.88,1],H=[70,30,12,4];/* 落地的時間點（比例）與每段的彈跳高度 */
-  const P=dies.map((d,i)=>{const dir=(i%2?1:-1)*(spec.dice.length===1?(Math.random()<.5?1:-1):1);return {d,dir,parts:[...d.children].filter(c=>!(c.tagName==='I')),x0:dir*(150+Math.random()*60),rot:(560+Math.random()*420)*dir,last:0,num:0,hit:0,
-    sh:(()=>{const s=document.createElement('i');s.className='ds';d.prepend(s);return s})(),D:dur+i*70}});
+  const P=dies.map((d,i)=>({d,parts:[...d.children].filter(c=>c.tagName!=='I'),spin:(720+Math.random()*360)*(Math.random()<.5?1:-1),last:0,D:dur+i*70}));
   const ease=t=>1-Math.pow(1-t,3);
   const step=()=>{if(stop)return;const t1=now();let alive=false;
     for(const [i,q] of P.entries()){const t=Math.min(1,(t1-T0)/q.D);if(t<1)alive=true;
-      let k=0;while(k<B.length-2&&t>=B[k+1])k++;const u=(t-B[k])/(B[k+1]-B[k]);
-      const y=k===0?-H[0]*(1-u*u):-H[k]*4*u*(1-u);/* 第一段從高處落下，之後是一段一段的拋物線 */
-      if(k>q.hit){q.hit=k;sfx('dieknock',spec.quick?.6:.9-k*.15);q.squash=t1}
-      const sq=q.squash&&t1-q.squash<90?1-.16*(1-(t1-q.squash)/90):1;
-      const x=q.x0*(1-ease(t)),r=q.rot*(1-ease(t));
-      const tf=RM?'':`translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${r.toFixed(1)}deg) scale(${(1/sq*.98+.02).toFixed(3)},${sq.toFixed(3)})`;for(const c of q.parts)c.style.transform=tf;
-      q.sh.style.transform=`translate(${(-x*.15).toFixed(1)}px,0) scale(${(1-Math.min(.6,-y/120)).toFixed(3)})`;q.sh.style.opacity=(.55-Math.min(.35,-y/200)).toFixed(2);
-      const gap=45+t*t*260;/* 數字越跳越慢 */
+      const r=q.spin*(1-ease(t)),w=1+.05*Math.sin(t*Math.PI*6)*(1-t);/* 轉的時候微微脈動，快停時就不動了 */
+      const tf=RM?'':`rotate(${r.toFixed(1)}deg) scale(${w.toFixed(3)})`;for(const c of q.parts)c.style.transform=tf;
+      const gap=40+t*t*240;/* 數字越跳越慢 */
       if(t<1&&t1-q.last>gap){q.last=t1;const S=spec.dice[i].sides;q.d.querySelector('b').textContent=S===10?rnd(0,9):rnd(1,S)}}
     if(alive)raf=requestAnimationFrame(step)};
   raf=requestAnimationFrame(step);
-  return ()=>{stop=true;cancelAnimationFrame(raf);for(const q of P){for(const c of q.parts)c.style.transform='';q.sh.style.transform='';q.sh.style.opacity=''}};
+  return ()=>{stop=true;cancelAnimationFrame(raf);for(const q of P)for(const c of q.parts)c.style.transform=''};
 }
 async function showDice(spec){
   await flush();
@@ -3359,6 +3349,7 @@ async function showDice(spec){
   el.hidden=false;el.classList.remove('out');
   const dies=[...el.querySelectorAll('.die')];
   let skipped=false;const sk=new Promise(r=>{skipDice=()=>{skipped=true;r()}});
+  sfx('rattle',spec.quick?.6:1);
   const stopRoll=dieRoll(el,dies,spec,dur);
   await Promise.race([wait(dur+spec.dice.length*90),sk]);
   stopRoll();
