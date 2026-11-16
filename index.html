@@ -168,6 +168,8 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 #gate h1{margin:0;font-size:2.2rem;letter-spacing:.3em;font-weight:900;text-shadow:0 3px 10px #000}
 #gate .mark{width:52px;height:52px;border:1px solid #706a5c;border-radius:4px;display:grid;place-items:center;font:12px var(--label);letter-spacing:3px;color:var(--gold);box-shadow:inset 0 0 15px #000}
 #gate .go{padding:12px 30px;font-size:1.05rem;border-color:#8a7a52;background:linear-gradient(180deg,#3a3426,#15130e)}
+#gacct{margin-top:6px;padding:8px 12px;border:1px solid #3d3b35;border-radius:4px;background:rgba(10,10,9,.7);font:12px/1.5 var(--label);color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:6px}#gacct b{color:var(--ink);font-size:.85rem}#gacct .row{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}#gacct .btn{padding:4px 14px;min-height:32px;font-size:.82rem}#gacct .bad{color:#d9918b}
+@media (max-height:480px){#gate{padding:10px;overflow-y:auto}#gate .in{gap:6px}#gate .mark{display:none}#gate h1{font-size:1.7rem}#gate .go{padding:8px 26px}#gate .note{margin:0;font-size:.74rem}#gate .ghost{padding:2px}#gacct{margin-top:2px;padding:6px 10px;gap:4px}}
 #gate .ghost{background:none;border:none;box-shadow:none;color:var(--muted);font-size:.84rem;padding:6px;text-decoration:underline}
 #stage.short .topbar{min-height:36px;gap:10px;padding-bottom:3px}
 #stage.short .lvl b{font-size:1.02rem}
@@ -273,8 +275,14 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .hcat:active{border-color:var(--gold)}
 .hcat .hico{width:min(96px,40%);aspect-ratio:1;border:1px dashed #5a574e;border-radius:50%;background:#0c0c0a center/cover no-repeat;flex:none}
 .hcat b{font-size:1.3rem;letter-spacing:.2em;color:var(--gold)}.hcat small{color:var(--muted);font-size:.78rem;line-height:1.5}.hcat em{font:11px var(--label);font-style:normal;color:#d9c38f}
-.hfoot{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:8px}.hfoot .avrow{margin:0}.hfoot .avrow .av{width:40px;height:40px;font-size:18px}
-.hfoot>.btn{padding:6px 14px;min-height:38px;font-size:.86rem}.hfoot>.btn small{display:block;font:10px var(--label);color:var(--muted)}
+/* v0.29.0 主選單底部（主人 2026-11-17）：頭像一塊，其他按鈕同寬同高排成格子；副標一行放不下就截掉 */
+.hfoot{flex:none;display:flex;align-items:stretch;gap:10px}.hfoot .avrow{margin:0;flex:none;gap:8px}.hfoot .avrow .av{width:46px;height:46px;font-size:20px}
+.hfoot .avbt{display:flex;flex-direction:column;gap:4px;width:64px}.hfoot .avbt .btn{padding:0;min-height:24px;font-size:.78rem;width:100%}
+.hmain{flex:1;min-width:0;display:grid;grid-template-columns:repeat(var(--n,5),minmax(0,1fr));gap:8px}
+.hmain>.btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;min-height:52px;padding:5px 8px;font-size:.9rem;line-height:1.25}
+.hmain>.btn small{display:block;max-width:100%;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font:10px var(--label);color:var(--muted)}
+#stage.short .hmain>.btn{min-height:44px;font-size:.84rem}#stage.short .hfoot .avrow .av{width:40px;height:40px}
+#stage.tall .hfoot{flex-direction:column}#stage.tall .hmain{grid-template-columns:repeat(2,minmax(0,1fr))}
 #stage.short .hcat{padding:8px;gap:3px}#stage.short .hcat .hico{width:min(64px,30%)}#stage.short .hcat b{font-size:1.1rem}#stage.short .hcat small{font-size:.7rem;line-height:1.35}#stage.short .hhead h1{font-size:1.5rem}
 #stage.tall .hcats{grid-template-columns:minmax(0,1fr)}.cfoot b.miss{color:#d9918b}#stage.tall .cfoot{flex-wrap:wrap;row-gap:2px}#stage.tall .cfoot span{white-space:nowrap}
 .ldleft{position:sticky;top:0;z-index:2;background:#0d0d0b;padding:6px 0;border-bottom:1px solid #3a372f;font:13px var(--label);color:var(--muted)}.ldleft b{color:var(--gold);font-size:1.05rem}
@@ -368,14 +376,22 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .box.wide .bagwrap{flex:1;min-height:0}
 .scr2{overflow-y:auto;min-height:0;overscroll-behavior:contain;padding-right:4px}
 /* 背包與地面各自捲動，物品再多也不會把地面入口擠出畫面。 */
-.bagstore{display:grid;grid-template-rows:auto minmax(0,3fr) minmax(0,2fr);min-height:0;gap:6px}
+.bagstore{display:grid;grid-template-rows:auto minmax(0,1fr) auto;min-height:0;gap:6px}
 .bagcap .slots{margin:0}.bagcap .note{margin:3px 0;font-size:.75rem}
 .groundarea{display:flex;flex-direction:column;min-height:0;border-top:1px solid var(--gold);padding-top:3px}
-.groundarea>.cat{flex:none;margin:0 0 4px}.grounditems{flex:1}
-.bagitems .irow{flex-wrap:wrap}.bagitems .irow>.in{flex-basis:100%}
+.groundarea>.cat{flex:none;margin:0 0 4px}.grounditems{flex:1;max-height:96px}
+/* v0.29.0 背包一條一條：名稱＋一行說明在左，按鈕排在尾端、彼此留大間隔；放不下時按鈕整組換到下一行靠右 */
+.bagitems .irow.ln{flex-wrap:wrap;row-gap:4px;column-gap:10px;padding:4px 8px;margin-bottom:5px}
+.irow.ln>.in{flex:1 1 96px;min-width:0}.irow.ln .in b{white-space:nowrap}.irow.ln .in b i{font-style:normal;color:var(--muted);font-size:.8rem;margin-left:6px}
+.irow.ln .in small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.irow.ln.sel .in small{white-space:normal}.irow.ln .dropn{font:11px var(--label);color:var(--bad,#d9918b);font-style:normal;margin-left:8px}
+.irow.ln .iops{flex:0 1 auto;max-width:100%;margin-left:auto;flex-wrap:wrap;justify-content:flex-end;gap:8px 10px;align-items:center}#stage .irow.ln .iops .btn{min-width:44px;padding:3px 9px;min-height:32px}.irow.ln .iops .btn.on{border-color:var(--gold);color:var(--gold)}
+.opsep{width:1px;align-self:stretch;background:#4a473f;margin:2px 4px}
+.bagitems .acts{justify-content:flex-end;gap:10px;margin:-2px 0 6px;padding:4px 8px;border-left:2px solid var(--gold)}
+.bagcap .usdrow{margin:4px 0 0}
+#stage.short .bagcap .slots small{display:none}#stage.short .bagcap .note{font-size:.68rem;margin:1px 0;line-height:1.35}#stage.short .bagcap .usdrow{margin:2px 0 0}#stage.short .grounditems{max-height:58px}#stage.short .bagstore{gap:4px}
 .iops,.eacts{display:flex;flex-wrap:wrap;gap:4px}.eacts{grid-column:2/-1}
 #stage .iops .btn,#stage .eacts .btn,#stage .grounditems .btn,#stage.short .iops .btn,#stage.short .eacts .btn,#stage.short .grounditems .btn{min-height:32px}
-#stage.tall .bagstore{grid-template-rows:auto minmax(100px,1fr) minmax(100px,1fr);height:380px}
+#stage.tall .bagstore{grid-template-rows:auto minmax(160px,1fr) auto;height:420px}
 #stage.tall .box.wide:has(.bagwrap){height:auto;display:block}
 /* v0.4.0 商店 */
 .sintro{margin:2px 0 6px}
@@ -401,7 +417,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .boxhead .hbtns{display:flex;gap:6px}
 .erow{display:grid;grid-template-columns:3.2em minmax(0,1fr) auto;gap:6px;align-items:center;padding:5px 8px;border:1px solid #3d3b35;border-radius:3px;background:rgba(20,20,18,.9);margin-bottom:4px}
 .erow.on{border-color:var(--gold)}
-.erow .sl{font:12px var(--label);color:var(--gold)}
+.erow .sl{font:12px var(--label);color:var(--gold);white-space:nowrap}
 .erow .in{min-width:0}.erow .in b{font-size:.88rem}.erow .in small{display:block;color:var(--muted);font:11px/1.4 var(--label)}
 .erow .btn{padding:3px 10px;min-height:30px;font-size:.78rem}
 .irow[data-sel]{cursor:pointer}.irow.sel{border-color:#8fb0d4;background:rgba(30,36,44,.92)}
@@ -630,10 +646,10 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="ov" class="ov" hidden></div>
 <div id="toast" hidden></div>
 <div id="lvcard" hidden></div><div id="cfm" hidden></div><div id="enc" hidden></div><div id="vig"></div><div id="vig2"></div>
-<div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
+<div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.28.1", "b": 76, "t": "2026-11-17T01:48:10+08:00"};
+const ZC_VER={"v": "0.29.0", "b": 77, "t": "2026-11-17T03:05:08+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -661,10 +677,10 @@ const ITEMS={
  nuts:{n:'綜合堅果',t:'food',d:'飢餓 +2。',hun:2},
  cookie:{n:'蘇打餅乾',t:'food',d:'飢餓 +2，口渴 −1。',hun:2,thi:-1},
  noodle:{n:'泡麵',t:'food',d:'直接乾吃。飢餓 +3，口渴 −1。',hun:3,thi:-1},
- photo:{n:'家人的照片',t:'misc',d:'看一眼就能想起自己為什麼要活下去。裝在道具欄時才能拿出來看：稍微平復恐懼；不會用掉，但每個區域只有第一次有效。',san:2,keep:1,verb:'看著'},
+ photo:{n:'家人的照片',t:'misc',d:'看一眼就能想起自己為什麼要活下去。稍微平復恐懼；不會用掉，但每個區域只有第一次有效。',san:2,keep:1,verb:'看著'},
  // 戰鬥用
  molotov:{n:'燃燒瓶',t:'throw',d:'需要打火機。對所有敵人造成 2d6 火焰傷害，並燃燒 2 回合。'},
- extinguisher:{n:'滅火器',t:'throw',d:'裝在道具欄時，戰鬥中可以對一名敵人噴乾粉：對方眼睛睜不開，下一次攻擊命中 −4。數量代表還能噴幾次。'},
+ extinguisher:{n:'滅火器',t:'throw',d:'裝在特殊欄位時，每場戰鬥可以噴一次：乾粉噴成一大片，所有敵人下一次攻擊命中 −2。每噴一次用掉一個。'},
  // 穿著
  bracer:{n:'雜誌護臂',t:'wear',slot:'arm',d:'手臂。雜誌纏在前臂上。受到的傷害 −1，耐久 6。',armor:1,dur:6},
  jacket:{n:'皮外套',t:'wear',slot:'body',d:'身體。厚實的騎士皮外套。受到的傷害 −1。',armor:1},
@@ -691,8 +707,8 @@ const ITEMS={
  repairkit:{n:'修理工具組',t:'fix',d:'任何近戰武器耐久 +15，專武也可以。',fix:15,fixFor:'any'},
  gunoil:{n:'槍油',t:'fix',d:'排除卡彈；接下來 3 場戰鬥大失敗不會卡彈。',fixFor:'gun'},
  // 工具
- lighter:{n:'打火機',t:'tool',d:'合成工具，不會消耗。裝在道具欄時才能點燃燃燒瓶、香菸。'},
- flashlight:{n:'手電筒',t:'tool',d:'裝在道具欄時，在黑暗的地方感知檢定不會受罰（只照亮自己）。'},
+ lighter:{n:'打火機',t:'tool',d:'合成工具，不會消耗。點燃燃燒瓶、香菸要用，帶在身上就行。'},
+ flashlight:{n:'手電筒',t:'tool',d:'裝在特殊欄位時，在黑暗的地方感知檢定不會受罰（只照亮自己）。戰鬥技能「強光照射」：每場一次，一名敵人下一次攻擊命中 −4，不會用掉。'},
  spreader:{n:'液壓破拆工具',t:'tool',d:'消防隊用的油壓擴張器，很重。撐得開卡死的鐵門和壓扁的車殼。不會消耗。'},
  filter:{n:'濾毒罐',t:'tool',d:'防毒面具用的濾罐。在污染區裡大約撐 6 小時；只有在污染區才會消耗。'},
  pliers:{n:'鉗子',t:'tool',d:'合成工具，不會消耗。能彎鐵絲和衣架。'},
@@ -3154,8 +3170,8 @@ const skLeft=(p,k)=>{if(!hasSk(p,k))return false;const C=CSKILL[k];if(C.per==='f
 function skUse(p,k){const C=CSKILL[k];if(C.per==='fight'){p.skUsed=p.skUsed||{};p.skUsed['c:'+k]=1}else if(C.per==='area')p.skArea=k+'@'+G.levels}
 // 防具：頭、身體、手臂、腿四格（右手、左手是武器），減傷加總
 const EQS=['head','face','body','arm','leg'];const SLOTN={head:'頭',face:'臉',body:'身體',arm:'手臂',leg:'腿'};
-/* v0.27.0 道具欄（主人 2026-11-17）：手電筒、打火機、滅火器、家人的照片要裝在道具欄（每人兩格）才生效；p.tl 存道具的代號，東西還是算在背包裡 */
-const TOOLK=['flashlight','lighter','extinguisher','photo'];const TOOLN=2;
+/* v0.27.0 道具欄（主人 2026-11-17）；v0.29.0 改成「特殊欄位」：只放有戰鬥技能的道具（手電筒、滅火器），每人兩格；打火機、照片改成一般道具，背包有就能用。p.tl 存道具的代號，東西還是算在背包裡 */
+const TOOLK=['flashlight','extinguisher'];const TOOLN=2;
 const toolOn=(p,k)=>!!(p&&p.tl&&p.tl.includes(k)&&hasI(p,k));
 const itemReady=(p,k)=>TOOLK.includes(k)?toolOn(p,k):hasI(p,k);
 function autoTools(p){if(!Array.isArray(p.tl))p.tl=[];while(p.tl.length<TOOLN)p.tl.push(null);for(let i=0;i<TOOLN;i++)if(p.tl[i]&&!hasI(p,p.tl[i]))p.tl[i]=null;for(const k of TOOLK)if(hasI(p,k)&&!p.tl.includes(k)){const i=p.tl.indexOf(null);if(i<0)break;p.tl[i]=k}}
@@ -3743,6 +3759,11 @@ function quickSearchRes(res){
   return {...res,t:'你簡單找了找，只拿走一份容易取得的物資。',r:loot};
 }
 function reqList(c){return c.req?(Array.isArray(c.req)?c.req:[c.req]):[]}
+// v0.29.0（主人 2026-11-17）：劇情選項要的道具要在同一個人身上（兩樣的也是），由身上有的人來做；可以先用互給物品拿過來
+function reqHolders(c){const rs=reqList(c);return able().filter(p=>c.reqAny?rs.some(k=>hasI(p,k)):rs.every(k=>hasI(p,k)))}
+function reqWhy(c){const rs=reqList(c),ns=rs.map(nameOf).join(c.reqAny?'或':'、');return !c.reqAny&&rs.length>1&&rs.every(tHas)?ns+'要在同一個人身上':'需要'+ns}
+// 選人時能選誰：有要道具的選項只列身上有的人
+function rollEl(c){const el=ctl();if(!reqList(c).length)return el;const h=reqHolders(c);return el.filter(p=>h.includes(p))}
 function teamCount(k){return able().reduce((a,p)=>a+(p.items[k]||0),0)}
 // 美金：每個人身上各自帶，付錢時從帶頭的人開始扣，不夠再扣其他人
 const teamUsd=()=>able().reduce((a,p)=>a+(p.usd||0),0);
@@ -3752,7 +3773,7 @@ function choiceOk(c){
   if(c._hid||c._dup||zUsed(c))return false;
   if(c.reqN&&Object.entries(c.reqN).some(([k,q])=>teamCount(k)<q))return false;
   if(c.usd&&teamUsd()<c.usd)return false;
-  const rs=reqList(c);if(rs.length&&!(c.reqAny?rs.some(tHas):rs.every(tHas)))return false;
+  if(reqList(c).length&&!reqHolders(c).length)return false;
   if(c.karma&&able().some(p=>(p.karma||0)<c.karma))return false;
   if(c.need&&!flagOk(c.need))return false;return true}
 function visible(c){if(c._hid||c._dup)return false;if(c.hot!=null&&!!c.hot!==hotNow())return false;if(c.night&&!isNight())return false;if(c.once&&G.used&&G.used[usedKey(c)])return !!c.keep;if(c.job&&!G.players.some(p=>!p.dead&&!p.away&&[].concat(c.job).includes(p.kind)))return false;if(c.hide&&flagOk(c.hide))return false;if(c.need&&!flagOk(c.need)&&!c.req&&!c.lock)return false;return true}
@@ -3849,16 +3870,16 @@ function resolveVote(){
   run(async()=>{if(MP()&&tie)out('票數相同，最後由運氣決定。','sys',true);await doChoice(i,actor)});
 }
 function rvote(pid,t){
-  if(G.phase!=='roller'||busy||G.over)return;const tp=P(t);if(!tp||tp.dead||tp.down||tp.mad)return;
+  if(G.phase!=='roller'||busy||G.over)return;const tp=P(t);if(!tp||tp.dead||tp.down||tp.mad)return;if(!rollEl(choices()[G.pc]).includes(tp))return;
   if(G.rv[pid]===t){delete G.rv[pid];sfx('click',.3);push();draw();return}
   G.rv[pid]=t;sfx('click',.4);push();draw();
   if(voters().every(p=>G.rv[p.pid]!=null))resolveRoller();
 }
 function resolveRoller(){
-  stopCd();const c=choices()[G.pc];let t;
-  if(Object.keys(G.rv).length)t=tally(G.rv,[]);else t=ctl().reduce((a,b)=>statMod(b,c.k)>statMod(a,c.k)?b:a).pid;
-  const roller=P(t)||ctl()[0];G.phase='busy';const i=G.pc;
-  run(()=>doCheck(i,roller));
+  stopCd();const c=choices()[G.pc];let t;const el=rollEl(c);const pool=el.length?el:ctl();
+  if(Object.keys(G.rv).length)t=tally(G.rv,[]);else t=c.k?pool.reduce((a,b)=>statMod(b,c.k)>statMod(a,c.k)?b:a).pid:pool[0].pid;
+  const roller=pool.includes(P(t))?P(t):pool[0];G.phase='busy';const i=G.pc;
+  run(()=>c.k?doCheck(i,roller):doPlain(i,roller));
 }
 /* ---- 倒數 ---- */
 let cdT=null;
@@ -3873,11 +3894,17 @@ function cdExpire(){if(!G||!G.cd)return;G.cd=null;
 async function doChoice(i,actor){
   const c=choices()[i];
   out(`<span class="me">▸ ${c.l}</span>${MP()?`<small class="who">　${esc(actor.name)}帶頭</small>`:''}`,'act',true);
+  const el=rollEl(c);
   if(c.k){
-    const el=ctl();
     if(MP()&&el.length>1){G.phase='roller';G.pc=i;G.rv={};startCd();return}
-    return doCheck(i,el[0]);
+    return doCheck(i,el[0]||ctl()[0]);
   }
+  if(reqList(c).length&&el.length){if(MP()&&el.length>1){G.phase='roller';G.pc=i;G.rv={};startCd();return}actor=el.includes(actor)?actor:el[0]}
+  return doPlain(i,actor);
+}
+async function doPlain(i,actor){
+  const c=choices()[i];
+  if(MP()&&reqList(c).length)out(`由${nm(actor)}來。`,'sys',true);
   snd(/翻|櫃|抽屜|箱|袋|架|找|搜/.test(c.l)?'drawer':'rummage',.6,1800);
   if(await passTime(tMin(c)))return;
   await applyRes(c,c.ok,actor);
@@ -4094,7 +4121,7 @@ function zNote(c){if(!G||G.ev!=null)return '';const r=ZN[G.node];if(!r)return ''
   if(zp.k==='back')return `往${LV[zp.to].n}`;return ''}
 // 為什麼不能選（上鎖的點位、已搜過的點位點下去時說明）
 function zWhy(c){if(zUsed(c))return choiceKind(c)==='搜尋'?'這裡已經翻過了。':'這件事已經做過了。';if(c.lock&&c.need&&!flagOk(c.need))return c.lock;
-  const rs=reqList(c);if(rs.length&&!(c.reqAny?rs.some(tHas):rs.every(tHas)))return '需要'+rs.map(nameOf).join(c.reqAny?'或':'、')+'。';
+  if(reqList(c).length&&!reqHolders(c).length)return reqWhy(c)+'。';
   if(c.reqN&&Object.entries(c.reqN).some(([k,q])=>teamCount(k)<q))return '需要'+Object.entries(c.reqN).map(([k,q])=>ITEMS[k].n+' ×'+q).join('、')+'。';
   if(c.usd&&teamUsd()<c.usd)return `需要 $${c.usd}。`;if(c.karma)return '他們還不夠信任你們。';return '現在還不能這麼做。'}
 // 點了上鎖的點位：自己這邊播聲音、跳提示；有備忘價值的請房主記進備忘錄
@@ -4135,8 +4162,8 @@ const lurkHid=f=>!!(f&&f.hid&&FOES[f.type]&&FOES[f.type].lurk)
 // 舊存檔：類型換成新名字，舊的變異詞條拿掉
 const OLDTYPE={thin:'infected',dog:'infected',bloated:'incubator',riot:'devourer',looter:'cutter'};
 function migrateG(g){if(!g)return g;
-  // v0.27.0 防毒面具改戴在「臉」；道具欄：舊存檔把身上的道具依序放進兩格
-  for(const p of g.players||[]){p.eq=p.eq||{};if(!('face' in p.eq))p.eq.face=null;if(p.eq.head&&p.eq.head.k==='gasmask'){p.eq.face=p.eq.head;p.eq.head=null}if(!Array.isArray(p.tl))autoTools(p)}
+  // v0.27.0 防毒面具改戴在「臉」；道具欄：舊存檔把身上的道具依序放進兩格。v0.29.0 特殊欄位：舊的道具欄資料只留手電筒、滅火器
+  for(const p of g.players||[]){p.eq=p.eq||{};if(!('face' in p.eq))p.eq.face=null;if(p.eq.head&&p.eq.head.k==='gasmask'){p.eq.face=p.eq.head;p.eq.head=null}if(Array.isArray(p.tl))p.tl=p.tl.slice(0,TOOLN).map(k=>TOOLK.includes(k)?k:null);autoTools(p)}
 if(g.fight&&g.fight.foes){const F=g.fight;F.sl=F.sl||{};F.hb=F.hb||{};F.bg=F.bg||{};F.P=F.P||Math.max(1,(g.players||[]).length);for(const f of g.fight.foes){if(OLDTYPE[f.type])f.type=OLDTYPE[f.type];if(!FOES[f.type])f.type='infected';delete f.mut;if(FOES[f.type].shell&&f.shell==null)f.shell=0}nameFoes(g.fight.foes)}
   if(g.know)for(const k of Object.keys(g.know))if(!FOES[k])delete g.know[k];
   // v0.3.0 基礎規則：生命、經驗門檻、職業加成分開記、迷失改成發瘋
@@ -4178,7 +4205,7 @@ function typeOfName(n){for(const [re,t] of FOE_BY_NAME)if(re.test(n))return t;re
 const fDef=(f,rng)=>Math.max(5,FT(f).def-(f.defDown||0)+(f.cov?2:0)-(f.open?2:0)+(rng&&f.hcov?2:0));
 const affIs=(f,k)=>!!f&&f.aff===k;
 const numbF=f=>affIs(f,'numb')||affIs(f,'drugged');
-const foeHitMod=f=>(affIs(f,'hungry')?2:0)+(affIs(f,'veteran')?1:0)-(affIs(f,'drugged')?1:0)-(f.dazzle?4:0)-(f.legW?2:0)+(f.atkB&&G.fight&&G.fight.round<=f.atkB?2:0)+(G.fight&&G.fight.foes.some(x=>x!==f&&!x.dead&&(affIs(x,'squad')||FT(x).lead)&&FT(f).fac==='acru')?1:0);
+const foeHitMod=f=>(affIs(f,'hungry')?2:0)+(affIs(f,'veteran')?1:0)-(affIs(f,'drugged')?1:0)-(f.dazzle||0)-(f.legW?2:0)+(f.atkB&&G.fight&&G.fight.round<=f.atkB?2:0)+(G.fight&&G.fight.foes.some(x=>x!==f&&!x.dead&&(affIs(x,'squad')||FT(x).lead)&&FT(f).fac==='acru')?1:0);
 // v0.25.0 主人選 B：單人基礎值不變；每多一名玩家，感染者陣營與首領 +基礎值 30%，一般劫匪／軍方 +10%（人多時敵人數量本來就會變多），無條件進位，最多 8 人
 const HPK=t=>(FOES[t].fac==='inf'||FOES[t].boss)?.3:.1;
 function foeHp(t,np){const F=FOES[t];np=clamp(np||1,1,8);return Math.ceil(F.hp*(1+HPK(t)*(np-1))-1e-9)}
@@ -4243,7 +4270,7 @@ async function startFight(spec){
   const mch=0; // v0.20.0 設計包：本輪詞綴生成率 0
   for(const f of foes){if(spec.noMut||FT(f).fac==='acru'||Math.random()>=mch)continue;giveAff(f,pick(Object.keys(AFF).filter(k=>AFF[k].fac===FT(f).fac)))}
   nameFoes(foes);
-  for(const p of G.players){p.combo=0;p.counter=0;p.brace=0;p.actUsed=0;p.defPen=0;p.aimed=0;p.stance=null;p.held=0;p.dazed=0;p.humus=0;p.calmUsed=0;p.skUsed={};p.covering=0;p.grit=0}
+  for(const p of G.players){p.combo=0;p.counter=0;p.brace=0;p.actUsed=0;p.defPen=0;p.aimed=0;p.stance=null;p.held=0;p.dazed=0;p.humus=0;p.calmUsed=0;p.skUsed={};p.tlUsed={};p.covering=0;p.grit=0}
   G.fight={foes,P:Math.max(1,P0),sl:{},hb:{},bg:{},noise:null,order:[],turn:0,round:1,arrows:{},opening:spec.mode||'normal',first:spec.mode==='first',cur:null,noflee:G.lv==='D',nocover:['D','R'].includes(G.lv),tUsed:{}};
   G.phase='fight';await flush();snd(encounterStep(foes));push();draw();
   if((LV[G.lv].fx||{}).fightAlarm)addAlarm(1,null);
@@ -4712,7 +4739,7 @@ function tactAvail(tid,p){const T=TACT[tid],F=G.fight;if(!F||F.tUsed[tid]||F.sit
   if(T.foes&&!aliveF().some(f=>T.foes.includes(f.type)))return false;if(T.aff&&!aliveF().some(f=>affIs(f,T.aff)))return false;if(T.itemAny&&!T.itemAny.some(k=>hasI(p,k)))return false;return true}
 async function tactic(p,tid,ti){
   const T=TACT[tid],F=G.fight;if(!tactAvail(tid,p))return false;
-  if(T.item&&!itemReady(p,T.item)){out(hasI(p,T.item)?`要先把${ITEMS[T.item].n}裝在道具欄。`:`需要${ITEMS[T.item].n}。`,'sys');return false}
+  if(T.item&&!itemReady(p,T.item)){out(hasI(p,T.item)?`要先把${ITEMS[T.item].n}裝在特殊欄位。`:`需要${ITEMS[T.item].n}。`,'sys');return false}
   let t=F.foes[ti];if(T.one&&(!t||t.dead||!T.foes.includes(t.type)))t=aliveF().find(f=>T.foes.includes(f.type));
   F.tUsed[tid]=1;out(`${nm(p)}：<b>${T.n}</b>`,'act',true);
   if(tid==='extmask')takeI(p,'extinguisher');
@@ -4725,7 +4752,7 @@ async function tactic(p,tid,ti){
   else if(tid==='corner'){t.stun=1;applyDmg(t,3,['blunt'],p,true);out(`${t.n}撲了個空，一頭撞在牆上。`,'good');if(t.hp<=0)await kill(t,p)}
   else if(tid==='distance'){t.nosplash=1;t.away=1;out(`你們拉開距離。就算牠爆開，也噴不到任何人；牠下一次丟過來的囊泡也比較難打中。`,'good')}
   else if(tid==='seam'){t.shell=Math.max(0,(t.shell||0)-2);out(`你找到兩層硬化組織之間的縫，狠狠撬下去。一大片硬殼剝落。硬化層剩 ${t.shell}。`,'good')}
-  else if(tid==='extmask'){t.dazzle=1;snd('ext');out(`乾粉灌進${t.n}張開的嘴裡，牠嗆得眼睛睜不開。牠的下一次攻擊命中 −4。`,'good')}
+  else if(tid==='extmask'){t.dazzle=Math.max(t.dazzle||0,4);snd('ext');out(`乾粉灌進${t.n}張開的嘴裡，牠嗆得眼睛睜不開。牠的下一次攻擊命中 −4。`,'good')}
   else if(tid==='cart'){for(const f of aliveF())f.weak=5;snd('fumble');out('餐車翻倒，碗盤碎了一地，把走廊擋住了一半。','good')}
   else if(tid==='gas'){G.flags.gasoff=1;await sndW('mimpact',1,1500,.4);out('你把打火機丟向瓦斯外洩的爐台，往後撲倒。火球在牠們中間炸開。','good');for(const f of aliveF()){applyDmg(f,8,['fire'],p,true);f.burn=3}for(const f of G.fight.foes)if(f.hp<=0&&!f.dead)await kill(f,p)}
   else if(tid==='feed'){const h=aliveF().find(f=>affIs(f,'hungry'));if(h)h.weak=5;out(`你把吃的遠遠丟出去。${h?h.n:'飢餓的那隻'}一直回頭去看，心思全在那包東西上。牠的下一次攻擊 −5。`,'good')}
@@ -4785,11 +4812,12 @@ async function execAct(p,a){
   else if(a.a==='kick'){const t=P(a.to);const g=t&&gearOf(t,a.u);if(!g||g.drop!=='feet')return false;const before=handSnapshot(t);g.drop=null;autoEquip(t,g);if(t.hand.R!==g.u&&t.hand.L!==g.u)equip(t,g.u,'R');out(`${nm(p)}把${WEAP[g.id].n}踢回${nm(t)}的腳邊，${nm(t)}一把抄起來。`,'sys');reportHands(t,before)}
   else if(a.a==='counter'){if(p.kind!=='maggie'||p.actUsed)return false;p.actUsed=1;p.counter=1;out(`${nm(p)}放低重心，盯著牠們的肩膀。下一次被攻擊時，有七成機會閃開並反擊。`,'sys');used=false}
   else if(a.a==='brace'){if(p.kind!=='liao'||p.actUsed)return false;p.actUsed=1;p.brace=1;out(`${nm(p)}把槍架穩，呼吸放慢。下一槍命中 +2、傷害 ×1.5。`,'sys');used=false}
-  else if(a.a==='molotov'){if(!hasI(p,'molotov'))return false;if(!toolOn(p,'lighter')){out(hasI(p,'lighter')?'打火機在背包深處，要先裝在道具欄才拿得出來。':'沒有打火機，點不著燃燒瓶。','sys');return}
+  else if(a.a==='molotov'){if(!hasI(p,'molotov'))return false;if(!hasI(p,'lighter')){out(`${MP()?nm(p)+'身上':'身上'}沒有打火機，點不著燃燒瓶。`,'sys');return false}
     takeI(p,'molotov');snd('mthrow');await wait(450);snd('mimpact',1,1500);
     if(G.lv==='F'&&!G.flags.gasoff){await explode()}
     if(G.fight){out('瓶子在牠們腳邊炸開，火舌一下竄了上來。','good');const d=await dmgRoll([[2,6]],0,'燃燒瓶');for(const f of aliveF()){applyDmg(f,d,['fire'],p,true);f.burn=3}for(const f of G.fight.foes)if(f.hp<=0&&!f.dead)await kill(f,p)}}
-  else if(a.a==='ext'){if(!toolOn(p,'extinguisher'))return false;const t=F.foes[ti];takeI(p,'extinguisher');snd('ext');t.dazzle=1;out(`一團白色的乾粉噴在${t.n}臉上，${pn(t)}嗆得直往後退，眼睛睜不開。下一次攻擊命中 −4。`,'good')}
+  else if(a.a==='ext'){p.tlUsed=p.tlUsed||{};if(!toolOn(p,'extinguisher')||p.tlUsed.ext)return false;p.tlUsed.ext=1;takeI(p,'extinguisher');snd('ext');for(const f of aliveF())f.dazzle=Math.max(f.dazzle||0,2);out(`${MP()?nm(p)+'拔掉插銷':'你拔掉插銷'}，對著前面掃了一圈。乾粉噴成一大片白霧，牠們全都嗆得睜不開眼。所有敵人下一次攻擊命中 −2。`,'good')}
+  else if(a.a==='flash'){p.tlUsed=p.tlUsed||{};if(!toolOn(p,'flashlight')||p.tlUsed.flash)return false;const t=F.foes[ti];if(!t)return false;p.tlUsed.flash=1;snd('click',.6);t.dazzle=Math.max(t.dazzle||0,4);out(`${MP()?nm(p):'你'}把手電筒對準${t.n}的眼睛，一按到底。強光打在${pn(t)}臉上，${pn(t)}抬手擋著，什麼也看不清。下一次攻擊命中 −4。`,'good')}
   else if(a.a==='flee'){if(F.noflee){out('懸在外牆上，無處可逃。','sys');return}if(able().some(q=>q.held)){out(`${able().filter(q=>q.held).map(q=>nm(q)).join('、')}被抓住了，現在跑不掉。`,'sys');return false}
     const rt=a.csk==='retreat'&&skLeft(p,'retreat');if(rt){skUse(p,'retreat');out(`${nm(p)}：<b>緊急撤退</b>`,'act',true)}
     const c=await check(p,'AGI',12,'逃跑',(rt?5:0)+(tr(p,'legs')?4:0)+(aliveF().every(f=>affIs(f,'lame')||f.legW)?4:0));if(c.ok){out(MP()?`${nm(p)}大喊一聲，所有人轉身就跑，一路跑到轉角才敢回頭。`:'你轉身就跑，一路跑到轉角才敢回頭。牠沒有追上來。','good');for(const q of able())loseSan(q,1,true);recoverDrops(true);if(G.winR&&G.winR.r&&G.winR.r.questDone)finishCodexQuest(G,G.winR.r.questDone,'已中止');G.fight=null;G.winR=null;snd('doorclose');if(G.alarmFt){if(G.alarmFt===2){G.alarm=3;Object.assign(ALV(),{roused:1,w3:1,w6:1})}G.alarmFt=0}addAlarm(1,p);const go=G.after;G.after=null;if(!go){G.phase='node';startCd();return true}G.phase='busy';if(await alarmCheck(go))return true;await enterNode(go);return true}
@@ -4851,9 +4879,8 @@ async function useItem(p,k,to){
   if(it.t==='wear'){if(other)return false;return wearItem(p,k)}
   if(!['med','food','misc'].includes(it.t))return false;
   if(other&&(k==='photo'||it.t==='misc'))return false;
-  if(it.needs&&!itemReady(p,it.needs)){out(hasI(p,it.needs)?`要先把${ITEMS[it.needs].n}裝在道具欄。`:`需要${ITEMS[it.needs].n}。`,'sys');return false}
-  if(k==='photo'&&!toolOn(p,'photo')){out('照片收在背包深處，要先裝在道具欄才拿得出來。','sys');return false}
-  const who=MP()?nm(p):'你',tw=other?nm(T):who;const pre=other?`${who}替${nm(T)}`:who;
+  if(it.needs&&!itemReady(p,it.needs)){out(hasI(p,it.needs)?`要先把${ITEMS[it.needs].n}裝在特殊欄位。`:`需要${ITEMS[it.needs].n}。`,'sys');return false}
+    const who=MP()?nm(p):'你',tw=other?nm(T):who;const pre=other?`${who}替${nm(T)}`:who;
   if(k==='photo'){if(p.photoLv===G.levels){out(`${who}看著照片。這次沒能讓心情好一點。`,'sys');return false}p.photoLv=G.levels}
   else takeI(p,k);
   if(it.t==='food'||it.t==='misc'){await sndW(it.thi>0&&!it.hun?'gulp':'eat',1,800,.8);{const bs=tr(T,'bigstomach')?1.5:1;T.hun=clamp(T.hun+Math.ceil((it.hun||0)*(it.hun>0?bs:1)),0,10);T.thi=clamp(T.thi+Math.ceil((it.thi||0)*(it.thi>0?bs:1)),0,10)}if(it.leaves)addI(p,it.leaves);if(it.inf){const b0=T.inf;addInf(T,it.inf);if(T.inf>b0)out(`${MP()?nm(T)+'：':''}水裡有一股河泥的腥味。感染 +${T.inf-b0}。`,'dmg',true)}
@@ -4872,11 +4899,11 @@ async function useItem(p,k,to){
   }
   await deathCheck();return true;
 }
-// v0.27.0 道具欄：a.s＝第幾格，a.k＝要裝的道具（沒有 k 就是拿下來）；戰鬥中換要花一回合（走 fightAct）
+// v0.27.0 道具欄（v0.29.0 特殊欄位）：a.s＝第幾格，a.k＝要裝的道具（沒有 k 就是拿下來）；戰鬥中換要花一回合（走 fightAct）
 function toolSet(p,a){if(!Array.isArray(p.tl))autoTools(p);const s=+a.s;if(!(s>=0&&s<TOOLN))return false;
   if(!a.k){const k=p.tl[s];if(!k)return false;p.tl[s]=null;out(`${MP()?nm(p):'你'}把${ITEMS[k].n}收回背包。`,'sys',true);return true}
   if(!TOOLK.includes(a.k)||!hasI(p,a.k))return false;const j=p.tl.indexOf(a.k);if(j===s)return false;if(j>=0)p.tl[j]=null;const old=p.tl[s];p.tl[s]=a.k;
-  out(`${MP()?nm(p):'你'}把${ITEMS[a.k].n}裝在道具欄${old&&hasI(p,old)?`，${ITEMS[old].n}收回背包`:''}。`,'sys',true);return true}
+  out(`${MP()?nm(p):'你'}把${ITEMS[a.k].n}裝在特殊欄位${old&&hasI(p,old)?`，${ITEMS[old].n}收回背包`:''}。`,'sys',true);return true}
 // 穿上防具：放進對應的欄位，原本那件收回背包
 async function wearItem(p,k){const it=ITEMS[k];if(!it||it.t!=='wear'||!hasI(p,k))return false;const s=it.slot||'body';
   takeI(p,k);const old=p.eq[s];if(old)addIForce(p,old.k);p.eq[s]={k,dur:it.dur||0};
@@ -4977,7 +5004,7 @@ function handle(pid,a){
   if(a.a==='tell')return run(async()=>{tell(p,a.i)});
   if(a.a==='lock')return run(async()=>{zLockNote(a.i)});
   if(G.phase==='shop'&&G.shop&&!p.down&&!p.mad){if(a.a==='buy')return run(async()=>{shopBuy(p,a.i)});if(a.a==='sell')return run(async()=>{shopSell(p,a.k)});if(a.a==='sellg')return run(async()=>{shopSellG(p,a.u)});if(a.a==='shopdone')return run(()=>shopReady(p))}
-  if(G.fight&&['atk','tact','reload','unjam','cock','pickup','kick','counter','brace','molotov','ext','flee','use','revive','equip','guard','free','block','dodge','cover','dual','calm','subdue','csk','spot','pat','tool'].includes(a.a))return run(()=>fightAct(pid,a));
+  if(G.fight&&['atk','tact','reload','unjam','cock','pickup','kick','counter','brace','molotov','ext','flash','flee','use','revive','equip','guard','free','block','dodge','cover','dual','calm','subdue','csk','spot','pat','tool'].includes(a.a))return run(()=>fightAct(pid,a));
   if(G.fight)return;
   if(p.down)return;
   if(a.a==='use')return run(async()=>{await useItem(p,a.k,a.to)});
@@ -5149,7 +5176,7 @@ async function storyCode(res,actor){
 const NET={late:{},hgT:null,room:null,r:null,code:null,hostPeer:null,acts:[],aseq:0,seen:{},need:{},buf:{},mid:0,lobby:[],started:0,offs:[],ready:false,build:null,needN:0};
 let netReady=(async()=>{try{if(window.claude&&claude.use){NET.room=await claude.use('room');if(NET.room)NET.kind='claude'}}catch(e){NET.room=null}
   if(!NET.room&&/^https?:$/.test(location.protocol)){try{NET.F=await loadFb();NET.room=fbRoomApi(NET.F);NET.kind='fb'}catch(e){console.error(e);NET.room=null;NET.fbErr=1}}
-  if(typeof onNetReady==='function')onNetReady();if(typeof acctInit==='function')acctInit()})();
+  if(typeof onNetReady==='function')onNetReady();if(typeof acctInit==='function')acctInit();if(typeof gateAcct==='function')gateAcct()})();
 /* ---- 自己的網站：Firebase 即時資料庫當房間 ----
    rooms/zc-房號/peers/<peer> = {p: presence 的 JSON, t}（斷線自動刪掉）
    rooms/zc-房號/ev/<push id> = {f: 送出的人, m, i, n, s: 切塊內容, t}（送出 60 秒後自己刪掉） */
@@ -5191,7 +5218,7 @@ async function acctAuth(){const A=await acctAuthMod();if(!ACCT.auth)ACCT.auth=A.
 // 開遊戲時：連得上 Firebase 才有帳號功能；登入狀態由 Firebase 記住
 async function acctInit(){if(!acctOn()||ACCT.ready)return;ACCT.ready=1;try{const {A,auth}=await acctAuth();
   A.onAuthStateChanged(auth,async u=>{ACCT.user=u||null;if(u){ACCT.st.mode='google';ACCT.st.uid=u.uid;ACCT.st.name=u.displayName||u.email||'Google 帳號';acctSaveSt();await acctPull(false)}else if(ACCT.st.mode==='google'){ACCT.st.mode='ghost';acctSaveSt()}acctRefresh()})}catch(e){console.error(e);ACCT.err='連不上登入服務。'}}
-function acctRefresh(){if(typeof SCR!=='undefined'){if(SCR==='menu')showMenu();else if(SCR==='acct')showAcct()}}
+function acctRefresh(){if(typeof gateAcct==='function')gateAcct();if(typeof SCR!=='undefined'){if(SCR==='menu')showMenu();else if(SCR==='acct')showAcct()}}
 // 本機有變動：記下來，兩秒後上傳
 function acctDirty(k){if(!SYNCK.includes(k))return;if(ACCT.st.mode!=='google')return;ACCT.st.dirty=1;acctSaveSt();clearTimeout(ACCT.timer);ACCT.timer=setTimeout(()=>{acctPush().catch(e=>console.error(e))},2000)}
 {const s0=LS.set,d0=LS.del;LS.set=function(k,v){s0.call(LS,k,v);if(k!=='zc-acct')acctDirty(k)};LS.del=function(k){d0.call(LS,k);acctDirty(k)}}
@@ -5207,7 +5234,7 @@ async function acctPull(fromLogin){if(!ACCT.user||!acctOn())return;const F=NET.F
   if(same){ACCT.st.at=cloud.t;ACCT.st.dirty=0;acctSaveSt();return}
   if(!has(loc)||(!fromLogin&&!ACCT.st.dirty&&(cloud.t||0)>(ACCT.st.at||0))){acctApply(cloud);location.reload();return}
   if(!fromLogin&&ACCT.st.dirty&&(cloud.t||0)<=(ACCT.st.at||0)){await acctPush();return}
-  ACCT.ask={cloud,loc};if(typeof showAcct==='function')showAcct()}
+  ACCT.ask={cloud,loc};if(typeof gateAcct==='function')gateAcct();if(typeof showAcct==='function'&&typeof BOOTED!=='undefined'&&BOOTED)showAcct()}
 async function acctLogin(){if(!acctOn()||ACCT.busy)return;ACCT.busy=1;ACCT.err='';acctRefresh();try{const {A,auth}=await acctAuth();const pv=new A.GoogleAuthProvider();
   try{await A.signInWithPopup(auth,pv)}catch(e){if(e&&/popup-blocked|operation-not-supported/.test(e.code||''))await A.signInWithRedirect(auth,pv);else throw e}
   ACCT.user=auth.currentUser;if(ACCT.user){ACCT.st={mode:'google',uid:ACCT.user.uid,name:ACCT.user.displayName||ACCT.user.email||'Google 帳號',at:ACCT.st.at||0,dirty:ACCT.st.dirty||0};acctSaveSt();await acctPull(true)}}
@@ -5486,7 +5513,7 @@ function zMapHtml(g=G){if(!g||g!==G||!g.node)return '';const r=ZN[g.node];if(!r|
     for(const c0 of N[Z.hub].c){const c=zEff(c0);if(c.hide&&flagOk(c.hide))continue;if(c.need&&!flagOk(c.need)&&!c.req&&!c.lock)continue;if(c.night&&!isNight())continue;
       const zp=c.zp;let st='';
       if(used(c))st=choiceKind(c)==='搜尋'?'已搜過':'做過了';else if(c.lock&&c.need&&!flagOk(c.need))st='上鎖：'+c.lock;
-      else{const rs=reqList(c);if(rs.length&&!(c.reqAny?rs.some(tHas):rs.every(tHas)))st='上鎖：需要'+rs.map(nameOf).join(c.reqAny?'或':'、');}
+      else if(reqList(c).length&&!reqHolders(c).length)st='上鎖：'+reqWhy(c);
       if(!st)st=zp.k==='room'?(F['v_'+zp.room]?'去過':'未探索'):zp.k==='search'?'未搜':zp.k==='exit'?(zp.to?(zDone(zp.to)?'出口→'+LV[zp.to].n:'出口'):'出口→離開'+Z.loc):zp.k==='back'?'出口→'+LV[zp.to].n:'';
       const lab=zp.k==='room'&&F['v_'+zp.room]?N[zp.room].n:c.l;if(seen.has(lab))continue;seen.add(lab);
       if(zp.k==='room'&&zp.room===g.node)continue;
@@ -5583,7 +5610,7 @@ function foeBadges(f){const b=(t,c)=>`<span class="bd ${c||''}">${t}</span>`;con
   if(f.shell>0)a.push(b(`硬化層 ${f.shell}`,'s'));
   if(f.type==='collector'&&!f.loaded)a.push(b('未裝填','g'));
   if(f.burn>0)a.push(b(`燃燒 ${f.burn}`));if(f.stun>0)a.push(b(`暈眩 ${f.stun}`));if(f.prone)a.push(b('倒地'));
-  if(f.bleed>0)a.push(b(`流血 ${f.bleed}`));if(f.weak)a.push(b('失衡'));if(f.dazzle>0)a.push(b(`致盲 ${f.dazzle}`));
+  if(f.bleed>0)a.push(b(`流血 ${f.bleed}`));if(f.weak)a.push(b('失衡'));if(f.dazzle>0)a.push(b('致盲'));
   if(f.legW)a.push(b('腿傷'));if(f.wet)a.push(b('濕透','w'));
   if(f.aff==='blind'&&f.lock&&G.fight&&G.fight.noise===f.lock&&P(f.lock))a.push(b('鎖定','f'));
   if(f.shaken)a.push(b('動搖','g'));if(f.away)a.push(b('拉開距離','g'));
@@ -5635,18 +5662,19 @@ function draw(){
     else h=(mp?`<p class="note">你選了：${actLabel(m,mp)}。${MP()&&waitN.length?`還在等 ${waitN.join('、')}。`:''}想改的話直接重選。</p>`:'')+fightMenu(m);
   }else if((G.phase==='roller'||G.phase==='node')&&m&&m.mad&&!m.dead){T='你發瘋了';Pl='失控';h='<p class="note">你發瘋了，身體不聽使喚，只聽得到自己的笑聲。等隊友用鎮定劑、安撫，或把你制伏再救起來。</p>'
   }else if(G.phase==='roller'){
-    const c=choices()[G.pc];T=`由誰來？　${c.l}`;Pl=cl?`${Math.ceil(cl/1000)} 秒`:checkTag(c.k,c.d);
-    const el=ctl();const assist=el.length>1?2:0;const bf=c.bonusFlag&&G.flags[c.bonusFlag]?3:0;
-    // v0.24.1 主人：選擲骰的人照這次檢定的屬性由高到低排
-    h=[...el].sort((a,b)=>(statMod(b,c.k)+checkBonus(b,c.k))-(statMod(a,c.k)+checkBonus(a,c.k))).map(p=>{const rel=relItems(p,c);const vts=voters().filter(q=>G.rv[q.pid]===p.pid).map(q=>av(q)).join('');
-      return chBtn(`data-rv="${p.pid}"`,`${av(p)} ${esc(p.name)}`,rel||'',STN[c.k]+(DF().num?` ${statMod(p,c.k)+checkBonus(p,c.k)}`:''),'t-ck',G.busy,`<span class="vts">${vts}</span>`,G.rv[MYPID]===p.pid?'mine':'')}).join('')+
-      `<p class="note">被選中的人擲骰，其他人在旁邊協助 +2。再點一次自己選的人可以取消。</p>`+hostCdBtn();
+    const c=choices()[G.pc];T=`由誰來？　${c.l}`;Pl=cl?`${Math.ceil(cl/1000)} 秒`:c.k?checkTag(c.k,c.d):'用誰身上的道具';
+    const el=rollEl(c);const assist=el.length>1?2:0;const bf=c.bonusFlag&&G.flags[c.bonusFlag]?3:0;
+    // v0.24.1 主人：選擲骰的人照這次檢定的屬性由高到低排；v0.29.0 要道具的選項只列身上有的人
+    const ord=c.k?[...el].sort((a,b)=>(statMod(b,c.k)+checkBonus(b,c.k))-(statMod(a,c.k)+checkBonus(a,c.k))):el;
+    h=ord.map(p=>{const rel=relItems(p,c);const vts=voters().filter(q=>G.rv[q.pid]===p.pid).map(q=>av(q)).join('');
+      return chBtn(`data-rv="${p.pid}"`,`${av(p)} ${esc(p.name)}`,rel||'',c.k?STN[c.k]+(DF().num?` ${statMod(p,c.k)+checkBonus(p,c.k)}`:''):'','t-ck',G.busy,`<span class="vts">${vts}</span>`,G.rv[MYPID]===p.pid?'mine':'')}).join('')+
+      `<p class="note">${c.k?'被選中的人擲骰，其他人在旁邊協助 +2。':'只列出身上帶著需要的道具的人，用掉的會是他身上的。'}${reqList(c).length&&c.k?'只列出身上帶著需要的道具的人。':''}再點一次自己選的人可以取消。</p>`+hostCdBtn();
   }else if(G.phase==='node'){
     T='要做什麼？';Pl=cl?`${Math.ceil(cl/1000)} 秒`:MP()?'投票':'行動';
     h=choices().map((c,i)=>({c,i})).sort((a,b)=>(a.c._searchBase??a.i)-(b.c._searchBase??b.i)||(a.c._searchMode==='quick'?-1:0)-(b.c._searchMode==='quick'?-1:0)).map(({c,i})=>{if(!visible(c))return '';const ok=choiceOk(c);const sm=ctl().length?ctl().reduce((a,b)=>c.k&&statMod(b,c.k)+checkBonus(b,c.k)>statMod(a,c.k)+checkBonus(a,c.k)?b:a):m;
       const bf=c.bonusFlag&&G.flags[c.bonusFlag]?3:0;const assist=MP()&&ctl().length>1?2:0;
       const tag=checkTag(c.k,c.d);
-      const why=!ok&&c.lock&&c.need&&!flagOk(c.need)?c.lock:!ok&&c.req?('需要'+reqList(c).map(nameOf).join(c.reqAny?'或':'、')):'';
+      const why=!ok&&c.lock&&c.need&&!flagOk(c.need)?c.lock:!ok&&c.req&&!reqHolders(c).length?reqWhy(c):'';
       // v0.24.0：區域裡不能選的點位不藏起來，變灰但點得下去（播鎖門聲、說明缺什麼）
       const zl=!ok&&!!ZN[G.node]&&G.ev==null;const zs=zNote(c);
       const vts=MP()?voters().filter(q=>G.votes[q.pid]===i).map(q=>av(q)).join(''):'';
@@ -5662,7 +5690,7 @@ function draw(){
   $('#chp').classList.toggle('typing',!!G.busy);
 }
 function hostCdBtn(){return ROLE==='host'&&G.opts.cd==='host'&&!G.cd?chBtn('data-cdgo','開始倒數',`${G.opts.sec} 秒後以目前的票數決定`,'','t-x'):''}
-function relItems(p,c){const a=[];if(c.k==='PER'&&hasI(p,'flashlight'))a.push('手電筒');if(c.k==='PER'&&tr(p,'nightowl'))a.push('夜貓子');for(const k of reqList(c))if(hasI(p,k))a.push(nameOf(k));
+function relItems(p,c){const a=[];if(c.k==='PER'&&toolOn(p,'flashlight'))a.push('手電筒');if(c.k==='PER'&&tr(p,'nightowl'))a.push('夜貓子');for(const k of reqList(c))if(hasI(p,k))a.push(nameOf(k));
   if(c.k==='STR'&&(hasI(p,'g:crowbar')||hasI(p,'g:fireaxe')))a.push(hasI(p,'g:crowbar')?'鐵撬':'消防斧');if(p.frac&&c.k==='AGI')a.push('骨折');return a.join('、')}
 /* ---- 戰鬥選單 ---- */
 function atkHands(m){return handsOf(m).map(x=>({...x,...handAtk(m,x.h),h:x.h,lab:x.lab}))}
@@ -5688,8 +5716,10 @@ function fightMenu(m){
     const pr=PRESETS[m.kind];if(pr&&pr.act){h+='<p class="note">角色技能</p>'+chBtn(`data-fa="${pr.act}"`,pr.actn,pr.actd,m.actUsed?'已使用':'每場一次','t-x',m.actUsed)}
     else if(m.skill&&CSKILL[m.skill])h+='<p class="note">角色技能</p>'+cskBtns(m,hs);
     let it='';
-    if(hasI(m,'molotov'))it+=chBtn('data-fa="molotov"','丟燃燒瓶',toolOn(m,'lighter')?`所有敵人 2d6 火焰，燃燒 2 回合　剩 ${m.items.molotov}`:hasI(m,'lighter')?'打火機要先裝在道具欄':'需要打火機','','t-dg',!toolOn(m,'lighter'));
-    if(hasI(m,'extinguisher'))it+=chBtn('data-fa="ext"','噴滅火器',toolOn(m,'extinguisher')?`一名敵人下一次攻擊命中 −4　剩 ${m.items.extinguisher} 次`:'滅火器要先裝在道具欄','','t-x',!toolOn(m,'extinguisher'));
+    if(hasI(m,'molotov'))it+=chBtn('data-fa="molotov"','丟燃燒瓶',hasI(m,'lighter')?`所有敵人 2d6 火焰，燃燒 2 回合　剩 ${m.items.molotov}`:'丟的人身上要有打火機（可以先跟隊友拿）','','t-dg',!hasI(m,'lighter'));
+    const tu=m.tlUsed||{};
+    if(hasI(m,'flashlight'))it+=chBtn('data-fa="flash"','強光照射',toolOn(m,'flashlight')?'手電筒對準一名敵人的眼睛：下一次攻擊命中 −4，不會用掉':'手電筒要先裝在特殊欄位',tu.flash?'已使用':'每場一次','t-x',!toolOn(m,'flashlight')||!!tu.flash);
+    if(hasI(m,'extinguisher'))it+=chBtn('data-fa="ext"','噴滅火器',toolOn(m,'extinguisher')?`所有敵人下一次攻擊命中 −2　剩 ${m.items.extinguisher} 次`:'滅火器要先裝在特殊欄位',tu.ext?'已使用':'每場一次','t-x',!toolOn(m,'extinguisher')||!!tu.ext);
     for(const t of G.players.filter(p=>p.down&&!p.dead))for(const k of ['aed','adrenaline'])if(hasI(m,k))it+=chBtn(`data-fa="revive" data-to="${t.pid}" data-k="${k}"`,`用${ITEMS[k].n}救${esc(t.name)}`,'會用掉這個回合','','t-x');
     if(it)h+='<p class="note">道具技能</p>'+it;
     return h+backBtn()}
@@ -5713,7 +5743,7 @@ function fightMenu(m){
   const nt=Object.keys(TACT).filter(id=>tactAvail(id,m)).length;
   const hasOther=m.held||G.fight.foes.some(f=>f.hid&&f.hp>0&&!f.dead)||handsOf(m).some(x=>x.g&&((x.w.kind==='gun'&&(x.g.jam||(x.g.mag<x.w.mag&&m.items[x.w.ammo])))||(x.w.cock&&!x.g.cocked)))||m.gear.some(g=>g.drop==='feet');
   return `<div class="fmenu">${chBtn('data-ftab="atk"','普通攻擊',hs.map(x=>`${x.lab} ${x.w.n}`).join('／'),'','')}${chBtn('data-ftab="skill"','技能','武器、角色、道具技能','','')}${chBtn('data-ftab="tact"','對策',nt?`這裡有 ${nt} 種可以利用`:'看看環境和道具','','',false)}${chBtn('data-open="bag"','物品','用藥、換武器、穿裝備','','')}${chBtn('data-ftab="other"','其他',m.burn>0?'身上著火：拍熄、防守…':m.held?'被抓住了：掙脫、防守…':G.fight.foes.some(f=>f.hid&&f.hp>0&&!f.dead)?'搜尋、防守、協助隊友…':able().some(q=>q.mad)?'有隊友發瘋了：安撫、制伏…':hasOther?'裝填、撿武器、防守、逃跑…':'格擋、閃躲、掩蔽、逃跑','','',false,'',m.held||able().some(q=>q.mad)?'mine':'')}</div>`}
-function actLabel(m,a){if(a.a==='csk')return CSKILL[a.id].n+(a.to&&P(a.to)?' → '+esc(P(a.to).name):'');if(a.a==='flee'&&a.csk)return '緊急撤退';if(a.a==='atk'){const x=handsOf(m).find(y=>y.h===(a.h||'R'));return (x?x.lab+'・':'')+(a.csk?CSKILL[a.csk].n:a.sk?SKILL[a.sk].n:'普通攻擊')+(a.t!=null&&G.fight.foes[a.t]?' → '+G.fight.foes[a.t].n:'')}if(a.a==='tact')return TACT[a.id].n;return {reload:'裝填',unjam:'排除卡彈',cock:'上弦',pickup:'撿起武器',kick:'踢回武器',molotov:'丟燃燒瓶',ext:'噴滅火器',flee:'逃跑',free:'掙脫',use:'使用物品',revive:'救隊友',equip:'換武器',guard:'格擋',block:'格擋',dodge:'閃躲',cover:'掩蔽',dual:'雙持攻擊',calm:'安撫隊友',subdue:'制伏隊友'}[a.a]||a.a}
+function actLabel(m,a){if(a.a==='csk')return CSKILL[a.id].n+(a.to&&P(a.to)?' → '+esc(P(a.to).name):'');if(a.a==='flee'&&a.csk)return '緊急撤退';if(a.a==='atk'){const x=handsOf(m).find(y=>y.h===(a.h||'R'));return (x?x.lab+'・':'')+(a.csk?CSKILL[a.csk].n:a.sk?SKILL[a.sk].n:'普通攻擊')+(a.t!=null&&G.fight.foes[a.t]?' → '+G.fight.foes[a.t].n:'')}if(a.a==='tact')return TACT[a.id].n;return {reload:'裝填',unjam:'排除卡彈',cock:'上弦',pickup:'撿起武器',kick:'踢回武器',molotov:'丟燃燒瓶',ext:'噴滅火器',flash:'強光照射',flee:'逃跑',free:'掙脫',use:'使用物品',revive:'救隊友',equip:'換武器',guard:'格擋',block:'格擋',dodge:'閃躲',cover:'掩蔽',dual:'雙持攻擊',calm:'安撫隊友',subdue:'制伏隊友'}[a.a]||a.a}
 const backBtn=()=>chBtn('data-ftab=""','返回','回到上一層','','');
 function targetBtns(m){const a=PEND.a;let w=null,sk=a.sk;if(a.a==='atk'){const x=atkHands(m).find(y=>y.h===(a.h||'R'));w=x.w}
   return aliveF().map(f=>{let tag='';if(w&&DF().num){const st=bestSt(m,w.st);tag=`命中 ${f.prone?100:hitPct(statMod(m,st)+hitBonus(m,a.h||'R',w,sk),fDef(f,w.kind!=='melee'))}%`}
@@ -5721,7 +5751,7 @@ function targetBtns(m){const a=PEND.a;let w=null,sk=a.sk;if(a.a==='atk'){const x
 function needTarget(a){if(a.a==='atk'){const sk=a.sk;if(sk&&SKILL[sk].all)return false;const x=atkHands(me()).find(y=>y.h===(a.h||'R'));if(x&&x.w.kind==='spray')return false;if(sk&&SKILL[sk].prep)return false}
   if(a.a==='csk')return a.id==='awe'&&aliveF().length>1;
   if(a.a==='tact'){const T=TACT[a.id];if(!T.one)return false;return aliveF().filter(f=>T.foes.includes(f.type)).length>1}
-  return (a.a==='atk'||a.a==='ext'||a.a==='dual')&&aliveF().length>1}
+  return (a.a==='atk'||a.a==='flash'||a.a==='dual')&&aliveF().length>1}
 /* ---- 小隊下拉 ---- */
 // v0.21.0 朋友回饋：隊伍欄看得到隊友的屬性（方便分工配點）、目前選了什麼、告知了什麼
 function statWhy(p){const a=statEffects(p);return a.length?`<p class="note">目前影響（條件解除後恢復）：${a.map(effectText).map(esc).join('；')}</p>`:''}
@@ -5767,14 +5797,14 @@ function eqCol(m,inF,can){
     h+=`<div class="erow ${e?'on':''}"><span class="sl">${SLOTN[s]}</span><div class="in"><b>${it?it.n:'—'}</b><small>${it?(e.k==='gasmask'?mfTxt(m)+`｜背包濾罐 ${m.items.filter||0}`:`減傷 ${it.armor}${it.dur?`｜耐久 ${e.dur}／${it.dur}`:''}`):'沒有穿東西'}</small></div>${e&&!inF?ibt(`data-unwear="${s}"`,'脫下',0,can):''}</div>`}
   if(canDual(m))h+='<p class="note">左右手都拿著單手武器：戰鬥中可以雙持攻擊。</p>';
   return h}
-// v0.27.0 裝備頁右欄：道具欄兩格＋能裝的道具＋還沒穿的防具、沒拿在手上的武器
+// v0.27.0 裝備頁右欄：道具欄兩格（v0.29.0 改名特殊欄位）＋能裝的道具＋還沒穿的防具、沒拿在手上的武器
 function toolCol(m,inF,can){if(!Array.isArray(m.tl))m.tl=[null,null];
-  let h=`<div class="cat">道具欄（${TOOLN} 格）</div><p class="note">${inF?'戰鬥中換道具會用掉這一回合。':'手電筒、打火機、滅火器、家人的照片要裝在這裡才用得上。'}</p>`;
+  let h=`<div class="cat">特殊欄位（${TOOLN} 格）</div><p class="note">${inF?'戰鬥中換道具會用掉這一回合。':'只放有戰鬥技能的道具：手電筒、滅火器要裝在這裡才用得上。打火機、照片放在背包就能用。'}</p>`;
   for(let i=0;i<TOOLN;i++){const k=m.tl[i]&&hasI(m,m.tl[i])?m.tl[i]:null;const it=k&&ITEMS[k];
-    h+=`<div class="erow ${k?'on':''}"><span class="sl">道具 ${i+1}</span><div class="in"><b>${it?it.n+(m.items[k]>1?`　×${m.items[k]}`:''):'—'}</b><small>${it?it.d:'空著'}</small></div>${k?ibt(`data-tooloff="${i}"`,'收起',0,can):''}</div>`}
+    h+=`<div class="erow ${k?'on':''}"><span class="sl">特殊 ${i+1}</span><div class="in"><b>${it?it.n+(m.items[k]>1?`　×${m.items[k]}`:''):'—'}</b><small>${it?it.d:'空著'}</small></div>${k?ibt(`data-tooloff="${i}"`,'收起',0,can):''}</div>`}
   const cand=TOOLK.filter(k=>hasI(m,k)&&!toolOn(m,k));
   if(cand.length){h+='<div class="cat">背包裡能裝的道具</div>';const free=m.tl.findIndex(x=>!x||!hasI(m,x));
-    for(const k of cand)h+=`<div class="irow"><div class="in"><b>${ITEMS[k].n}${m.items[k]>1?`　×${m.items[k]}`:''}</b><small>${ITEMS[k].d}</small></div><div class="iops">${free>=0?ibt(`data-tool="${k}" data-s="${free}"`,'裝上',0,can):Array.from({length:TOOLN},(_,i)=>ibt(`data-tool="${k}" data-s="${i}"`,`換掉道具 ${i+1}`,0,can)).join('')}</div></div>`}
+    for(const k of cand)h+=`<div class="irow"><div class="in"><b>${ITEMS[k].n}${m.items[k]>1?`　×${m.items[k]}`:''}</b><small>${ITEMS[k].d}</small></div><div class="iops">${free>=0?ibt(`data-tool="${k}" data-s="${free}"`,'裝上',0,can):Array.from({length:TOOLN},(_,i)=>ibt(`data-tool="${k}" data-s="${i}"`,`換掉特殊 ${i+1}`,0,can)).join('')}</div></div>`}
   const wears=Object.keys(m.items).filter(k=>m.items[k]>0&&ITEMS[k]&&ITEMS[k].t==='wear');
   if(wears.length){h+='<div class="cat">背包裡的防具</div>';for(const k of wears)h+=`<div class="irow"><div class="in"><b>${ITEMS[k].n}</b><small>${ITEMS[k].d}</small></div><div class="iops">${ibt(`data-use="${k}"`,'穿上',0,can)}</div></div>`}
   const spare=m.gear.filter(g=>!g.drop&&m.hand.R!==g.u&&m.hand.L!==g.u);
@@ -5782,27 +5812,35 @@ function toolCol(m,inF,can){if(!Array.isArray(m.tl))m.tl=[null,null];
     if(w.hands===2)a=ibt(`data-eq="${g.u}" data-h="R"`,'雙手拿',0,can);else a=ibt(`data-eq="${g.u}" data-h="R"`,'右手',0,can)+ibt(`data-eq="${g.u}" data-h="L"`,'左手',0,can);
     h+=`<div class="irow"><div class="in"><b>${w.n}</b><small>${wLine(m,w,g,'R')}</small></div><div class="iops">${a}</div></div>`}}
   return h}
-// 右欄：背包清單；點一條展開它能做的事
+// 右欄：背包清單。v0.29.0（主人 2026-11-17）：一樣東西一條，使用、給誰、替誰用、放到地上都排在那一條的尾端；
+// 「給誰…」「替誰用…」「拿起…」點了才在下面列出人或手（SEL＋SELM），點那一條本身只會展開完整說明
+let SELM=null;
+function usdRow(m,inF,can){const giveTo=G.players.filter(p=>p!==m&&!p.dead);
+  return `<div class="usdrow"><b>$${m.usd||0}</b><span>美金</span>${!inF&&(m.usd||0)>0?giveTo.map(t=>ibt(`data-giveusd="${Math.min(10,m.usd)}" data-to="${t.pid}"`,`給${esc(t.name)} $${Math.min(10,m.usd)}`,0,can)).join(''):''}</div>`}
+function selBtn(key,mode,lab,can){const on=SEL===key&&SELM===mode;return `<button class="btn ${on?'on':''}" data-selm="${key}|${mode}" ${can?'':'disabled'}>${lab}${on?'▴':'…'}</button>`}
+function lnRow(key,info,ops,drop,sel){return `<div class="irow ln ${sel?'sel':''}" data-sel="${key}"><div class="in">${info}</div><div class="iops">${ops}${drop?(ops?'<span class="opsep"></span>':'')+drop:''}</div></div>`}
 function itemCol(m,inF,can){
-  const mates=G.players.filter(p=>p!==m&&!p.dead&&!p.down&&!p.away);const giveTo=G.players.filter(p=>p!==m&&!p.dead);
-  let h=`<div class="usdrow"><b>$${m.usd||0}</b><span>美金</span>${!inF&&(m.usd||0)>0?giveTo.map(t=>ibt(`data-giveusd="${Math.min(10,m.usd)}" data-to="${t.pid}"`,`給${esc(t.name)} $${Math.min(10,m.usd)}`,0,can)).join(''):''}</div>`;
+  const mates=G.players.filter(p=>p!==m&&!p.dead&&!p.down&&!p.away);const giveTo=G.players.filter(p=>p!==m&&!p.dead);const downs=G.players.filter(p=>p.down&&!p.dead);
+  let h='';
   const spare=m.gear.filter(g=>m.hand.R!==g.u&&m.hand.L!==g.u||g.drop);
   if(spare.length)h+='<div class="cat">武器</div>';
-  for(const g of spare){const w=WEAP[g.id];const sel=SEL==='g'+g.u;
-    h+=`<div class="irow ${sel?'sel':''}" data-sel="g${g.u}"><div class="in"><b>${w.n}</b>${g.drop?`<small style="display:inline">　${g.drop==='far'?'飛遠了（戰後撿回）':'掉在腳邊'}</small>`:''}<small>${wLine(m,w,g,'R')}　技能：${w.sk.map(s=>SKILL[s].n+(SKILL[s].per?'（每場一次）':'')).join('、')||'無'}</small></div>${!inF&&!g.drop?`<div class="iops">${ibt(`data-dropg="${g.u}"`,'放到地上',0,can)}</div>`:''}</div>`;
-    if(sel&&!g.drop){let a='';if(w.hands===2){a+=ibt(`data-eq="${g.u}" data-h="R"`,'雙手拿',0,can);if(w.one)a+=ibt(`data-eq="${g.u}" data-h="R" data-one="1"`,'單手拿（右手）',0,can)+ibt(`data-eq="${g.u}" data-h="L" data-one="1"`,'單手拿（左手）',0,can)}else a+=ibt(`data-eq="${g.u}" data-h="R"`,'拿在右手',0,can)+ibt(`data-eq="${g.u}" data-h="L"`,'拿在左手',0,can);
-      if(!inF)a+=giveTo.map(t=>ibt(`data-giveg="${g.u}" data-to="${t.pid}"`,'給'+esc(t.name),0,can)).join('');h+=`<div class="acts">${a}</div>`}}
+  for(const g of spare){const w=WEAP[g.id];const key='g'+g.u;const sel=SEL===key;
+    let ops='';if(!g.drop){ops+=selBtn(key,'eq','拿起',can);if(!inF&&giveTo.length)ops+=selBtn(key,'give','給誰',can)}
+    h+=lnRow(key,`<b>${w.n}</b>${g.drop?`<em class="dropn">${g.drop==='far'?'飛遠了（戰後撿回）':'掉在腳邊'}</em>`:''}<small>${wLine(m,w,g,'R')}　技能：${w.sk.map(s=>SKILL[s].n+(SKILL[s].per?'（每場一次）':'')).join('、')||'無'}</small>`,ops,!inF&&!g.drop?ibt(`data-dropg="${g.u}"`,'放到地上',0,can):'',sel);
+    if(sel&&SELM==='eq'&&!g.drop){let a='';if(w.hands===2){a+=ibt(`data-eq="${g.u}" data-h="R"`,'雙手拿',0,can);if(w.one)a+=ibt(`data-eq="${g.u}" data-h="R" data-one="1"`,'單手拿（右手）',0,can)+ibt(`data-eq="${g.u}" data-h="L" data-one="1"`,'單手拿（左手）',0,can)}else a+=ibt(`data-eq="${g.u}" data-h="R"`,'拿在右手',0,can)+ibt(`data-eq="${g.u}" data-h="L"`,'拿在左手',0,can);h+=`<div class="acts">${a}</div>`}
+    if(sel&&SELM==='give'&&!inF)h+=`<div class="acts">${giveTo.map(t=>ibt(`data-giveg="${g.u}" data-to="${t.pid}"`,'給'+esc(t.name),0,can)).join('')}</div>`}
   for(const c of Object.keys(CATN)){const ks=Object.keys(m.items).filter(k=>m.items[k]>0&&ITEMS[k]&&ITEMS[k].t===c);if(!ks.length)continue;h+=`<div class="cat">${CATN[c]}</div>`;
-    for(const k of ks){const it=ITEMS[k];const sel=SEL===k;const usable=['med','food','wear','misc'].includes(it.t)&&!it.revive;
-      const main=usable?ibt(`data-use="${k}"`,it.t==='wear'?'穿上':it.t==='food'?(it.verb?'用':'吃／喝'):'使用',0,can):'';
-      h+=`<div class="irow ${sel?'sel':''}" data-sel="${k}"><div class="in"><b>${it.n}　×${m.items[k]}</b><small>${it.d}</small></div><div class="iops">${main}${!inF?ibt(`data-drop="${k}"`,m.items[k]>1?'放一個到地上':'放到地上',0,can):''}</div></div>`;
-      if(sel){let a='';
-        if(usable&&it.t!=='wear'&&it.t!=='misc')a+=mates.map(t=>ibt(`data-useon="${k}" data-to="${t.pid}"`,'替'+esc(t.name)+(it.t==='food'?'吃':'使用'),0,can)).join('');
-        if(it.revive)a+=G.players.filter(p=>p.down&&!p.dead).map(t=>ibt(`data-rev="${k}" data-to="${t.pid}"`,'救'+esc(t.name),0,can)).join('');
-        if(it.fixFor&&!inF)a+=ibt(`data-fix="${k}"`,'修理',0,can);
-        if(!inF)a+=giveTo.map(t=>ibt(`data-give="${k}" data-to="${t.pid}"`,'給'+esc(t.name),0,can)).join('');
-        if(a)h+=`<div class="acts">${a}</div>`;
-        if(FIXK===k&&!inF)h+=`<div class="acts"><small>要修哪一把？</small>${m.gear.filter(g=>g.dur!=null||WEAP[g.id].kind==='gun').map(g=>ibt(`data-fixu="${g.u}" data-k="${k}"`,WEAP[g.id].n,0,can)).join('')||'<small>沒有能修的武器。</small>'}</div>`}}}
+    for(const k of ks){const it=ITEMS[k];const sel=SEL===k;const usable=['med','food','wear','misc'].includes(it.t)&&!it.revive;const forOther=usable&&it.t!=='wear'&&it.t!=='misc';
+      let ops=usable?ibt(`data-use="${k}"`,it.t==='wear'?'穿上':it.t==='food'?(it.verb?'用':'吃／喝'):'使用',0,can):'';
+      if(forOther&&mates.length)ops+=selBtn(k,'useon',it.t==='food'?'替誰吃':'替誰用',can);
+      if(it.revive&&downs.length)ops+=selBtn(k,'rev','救誰',can);
+      if(it.fixFor&&!inF)ops+=`<button class="btn ${FIXK===k?'on':''}" data-fix="${k}" ${can?'':'disabled'}>修理${FIXK===k?'▴':'…'}</button>`;
+      if(!inF&&giveTo.length)ops+=selBtn(k,'give','給誰',can);
+      h+=lnRow(k,`<b>${it.n}<i>×${m.items[k]}</i></b><small>${it.d}</small>`,ops,!inF?ibt(`data-drop="${k}"`,'放到地上',0,can):'',sel);
+      if(sel&&SELM==='useon')h+=`<div class="acts">${mates.map(t=>ibt(`data-useon="${k}" data-to="${t.pid}"`,'替'+esc(t.name)+(it.t==='food'?'吃':'使用'),0,can)).join('')}</div>`;
+      if(sel&&SELM==='rev')h+=`<div class="acts">${downs.map(t=>ibt(`data-rev="${k}" data-to="${t.pid}"`,'救'+esc(t.name),0,can)).join('')}</div>`;
+      if(sel&&SELM==='give'&&!inF)h+=`<div class="acts">${giveTo.map(t=>ibt(`data-give="${k}" data-to="${t.pid}"`,'給'+esc(t.name),0,can)).join('')}</div>`;
+      if(FIXK===k&&!inF)h+=`<div class="acts"><small>要修哪一把？</small>${m.gear.filter(g=>g.dur!=null||WEAP[g.id].kind==='gun').map(g=>ibt(`data-fixu="${g.u}" data-k="${k}"`,WEAP[g.id].n,0,can)).join('')||'<small>沒有能修的武器。</small>'}</div>`}}
   if(!spare.length&&!Object.keys(m.items).some(k=>m.items[k]>0))h+='<p class="note">背包是空的。</p>';
   return h}
 function panel(k){
@@ -5817,8 +5855,8 @@ function panel(k){
   }
   if(k==='bag'){
     const gr=G.ground.length?G.ground.map((x,i)=>`<div class="irow"><div class="in"><b>${groundName(x)}</b></div><button class="btn" data-pick="${i}" ${can&&!inF?'':'disabled'}>撿起</button></div>`).join(''):'<p class="note">目前地上沒有物品。</p>';
-    const space=`<p class="slots">背包 <b>${used(m)}／${cap(m)}</b> 格　<small>同種 5 個疊 1 格；拿在手上、穿著的不佔格</small></p><p class="note">${inF?'戰鬥中不能丟棄或撿取地面物品；使用物品、換武器會用掉回合。':used(m)>=cap(m)?'背包已滿；可先放下物品。相同物品未滿 5 個仍可堆疊。':'點選物品可展開轉交、修理等操作；放下的物品可從地面區撿回。'}</p>`;
-    openOv(`<div class="boxhead"><b>背包</b><span class="hbtns"><button class="btn" data-open="gear">裝備</button>${inF?'':'<button class="btn" data-open="craft">合成</button>'}${X}</span></div><div class="bagwrap"><div class="scr2">${sheet(m)}</div><div class="bagstore"><div class="bagcap">${space}</div><div class="scr2 bagitems">${itemCol(m,inF,can)}</div><section class="groundarea"><div class="cat">地面物品（${G.ground.length}）</div><div class="scr2 grounditems">${gr}</div></section></div></div>`);
+    const space=`<p class="slots">背包 <b>${used(m)}／${cap(m)}</b> 格　<small>同種 5 個疊 1 格；拿在手上、穿著的不佔格</small></p><p class="note">${inF?'戰鬥中不能丟棄或撿取地面物品；使用物品、換武器會用掉回合。':used(m)>=cap(m)?'背包已滿；可先放下物品。相同物品未滿 5 個仍可堆疊。':'點一條可以看完整說明；放下的物品可從地面區撿回。'}</p>`;
+    openOv(`<div class="boxhead"><b>背包</b><span class="hbtns"><button class="btn" data-open="gear">裝備</button>${inF?'':'<button class="btn" data-open="craft">合成</button>'}${X}</span></div><div class="bagwrap"><div class="scr2">${sheet(m)}</div><div class="bagstore"><div class="bagcap">${space}${usdRow(m,inF,can)}</div><div class="scr2 bagitems">${itemCol(m,inF,can)}</div><section class="groundarea"><div class="cat">地面物品（${G.ground.length}）</div><div class="scr2 grounditems">${gr}</div></section></div></div>`);
   }else if(k==='gear'){
     // v0.27.0 裝備頁：武器、防具、道具欄都在這裡（主人 2026-11-17）
     openOv(`<div class="boxhead"><b>裝備</b><span class="hbtns"><button class="btn" data-open="bag">背包</button>${inF?'':'<button class="btn" data-open="craft">合成</button>'}${X}</span></div><div class="bagwrap"><div class="scr2">${eqCol(m,inF,can)}</div><div class="scr2">${toolCol(m,inF,can)}</div></div>`);
@@ -5845,7 +5883,7 @@ function panel(k){
   }else if(k==='settings'){
     const seg=(key,opts)=>`<div class="seg">${opts.map(([v,l])=>`<button class="btn ${UI[key]===v?'on':''}" data-ui="${key}" data-v="${v}">${l}</button>`).join('')}</div>`;
     const hostOpt=ROLE==='host'&&G&&!G.over?`<p class="note">倒數（房主）</p><div class="seg">${[['off','關閉'],['host','房主按下才倒數'],['force','強制倒數']].map(([v,l])=>`<button class="btn ${G.opts.cd===v?'on':''}" data-gcd="${v}">${l}</button>`).join('')}</div><div class="seg">${[15,20,30].map(v=>`<button class="btn ${G.opts.sec===v?'on':''}" data-gsec="${v}">${v} 秒</button>`).join('')}</div>`:'';
-    openOv(`<div class="boxhead"><b>設定</b>${X}</div>${hostOpt}<p class="note">音效</p>${seg('snd',[[1,'開'],[0,'關']])}<p class="note">背景音樂</p>${seg('bgm',[[1,'開'],[0,'關']])}<p class="note">擲骰與文字速度</p>${seg('spd',[[1,'完整'],[.55,'快速'],[.3,'極快']])}<p class="note">畫面方向（手機直拿時）</p>${seg('orient',[['auto','自動轉成橫向'],['off','不旋轉']])}${qteTouch()?'':`<p class="note">突發反應（QTE）用的按鍵</p>${seg('qkey',[['wasd','WASD'],['arrow','方向鍵']])}`}<div class="seg"><button class="btn" data-full>全螢幕</button><button class="btn" data-open="credits">製作與授權</button>${G?`<button class="btn" data-quit>${ROLE==='solo'?'回到選單（沒存檔的進度會消失）':'離開房間'}</button>`:''}</div>`);
+    openOv(`<div class="boxhead"><b>設定</b>${X}</div>${hostOpt}<p class="note">音效</p>${seg('snd',[[1,'開'],[0,'關']])}<p class="note">背景音樂</p>${seg('bgm',[[1,'開'],[0,'關']])}<p class="note">擲骰與文字速度</p>${seg('spd',[[1,'完整'],[.55,'快速'],[.3,'極快']])}<p class="note">畫面方向（手機直拿時）</p>${seg('orient',[['auto','自動轉成橫向'],['off','不旋轉']])}${qteTouch()?'':`<p class="note">突發反應（QTE）用的按鍵</p>${seg('qkey',[['wasd','WASD'],['arrow','方向鍵']])}`}<div class="seg"><button class="btn" data-full>全螢幕</button><button class="btn" data-open="credits">製作與授權</button>${!G&&acctOn()?'<button class="btn" data-acctopen>帳號</button>':''}${G?`<button class="btn" data-quit>${ROLE==='solo'?'回到選單（沒存檔的進度會消失）':'離開房間'}</button>`:''}</div>`);
   }else if(k==='credits'){
     openOv(`<div class="boxhead"><b>製作與授權</b><span class="hbtns"><button class="btn" data-open="settings">← 回設定</button>${X}</span></div><p class="note">${CREDITS}</p>`);
   }
@@ -5860,7 +5898,7 @@ function longAsk(i){const c=G&&choices()[i];if(!c||!visible(c)||!choiceOk(c))ret
   $('#cfm').innerHTML=`<div class="cf"><b>${sl?'要睡到天亮嗎？':'要停下來休息嗎？'}</b><p>${sl?'會一直睡到明天清晨。這段時間城市裡發生的事，你們都不會知道。':'休息要很久。外面的時間照樣在走。'}${low?'<br><span class="f">有人肚子餓或口渴，最好先吃點東西、喝點水。</span>':''}</p><div class="cfb"><button class="btn" data-cfno>先不要</button><button class="btn on" data-cfok="${i}">${sl?'睡吧':'休息'}</button></div></div>`;
   $('#cfm').hidden=false;return true}
 document.addEventListener('click',e=>{
-  if(!e.target.closest('button')){const r=e.target.closest('[data-sel]');if(r){SEL=SEL===r.dataset.sel?null:r.dataset.sel;FIXK=null;sfx('click',.4);panel('bag');return}}
+  if(!e.target.closest('button')){const r=e.target.closest('[data-sel]');if(r){SEL=SEL===r.dataset.sel&&!SELM?null:r.dataset.sel;SELM=null;FIXK=null;sfx('click',.4);panel('bag');return}}
   if(!e.target.closest('button')){const sc=e.target.closest('[data-shopsel]');if(sc){SHOPSEL=+sc.dataset.shopsel;panel('shop');return}}
   const b=e.target.closest('button,[data-tgt]');if(!b){if(DD&&!e.target.closest('#tdd')){DD=false;$('#tdd').hidden=true}return}const d=b.dataset;
   if(b.closest('#scr'))return onScr(b,d);
@@ -5896,10 +5934,11 @@ document.addEventListener('click',e=>{
   else if(b.hasAttribute('data-brew')){act({a:'brew'});later()}
   else if(d.soothe){act({a:'soothe',to:d.soothe});later()}
   else if(d.use){const inF=!!G.fight;act({a:'use',k:d.use});if(inF)closeOv();else later()}
+  else if(d.selm){const [k,mm]=d.selm.split('|');if(SEL===k&&SELM===mm){SEL=null;SELM=null}else{SEL=k;SELM=mm}FIXK=null;sfx('click',.4);panel('bag')}
   else if(d.useon){const inF=!!G.fight;act({a:'use',k:d.useon,to:d.to});if(inF)closeOv();else later()}
   else if(d.giveusd){act({a:'giveusd',n:+d.giveusd,to:d.to});later()}
   else if(d.rev){closeOv();act({a:'revive',k:d.rev,to:d.to})}
-  else if(d.fix){FIXK=FIXK===d.fix?null:d.fix;panel('bag')}
+  else if(d.fix){FIXK=FIXK===d.fix?null:d.fix;SELM=null;panel('bag')}
   else if(d.fixu!=null){act({a:'repair',k:d.k,u:+d.fixu});FIXK=null;later()}
   else if(d.eq!=null){const inF=!!G.fight;act({a:'equip',u:+d.eq,h:d.h,one:d.one?1:0});SEL=null;if(inF)closeOv();else later()}
   else if(d.uneq!=null){const m=me();const h=m.hand.R===+d.uneq?'R':'L';act({a:'equip',h});if(G.fight)closeOv();else later()}
@@ -5915,12 +5954,13 @@ document.addEventListener('click',e=>{
   else if(d.gsec){G.opts.sec=+d.gsec;push();panel('settings')}
   else if(d.ui){const k=d.ui;UI[k]=k==='orient'||k==='qkey'?d.v:+d.v;saveUI();if(k==='snd')setSoundEnabled(UI.snd);if(k==='bgm'){if(UI.bgm)startBgm();else stopBgm()}sfx('click',.6);panel('settings');layout()}
   else if(b.hasAttribute('data-full'))enterFull();
+  else if(b.hasAttribute('data-acctopen')){closeOv();showAcct()}
   else if(b.hasAttribute('data-quit')){closeOv();quitGame()}
   else if(b.hasAttribute('data-menu')){quitGame()}
   else if(b.hasAttribute('data-again')){quitGame().then(()=>{CMODE='pre';showPlay()})}
 });
 function later2(){setTimeout(()=>{if(OVK==='shop')panel('shop')},ROLE==='client'?500:80)}
-function later(){setTimeout(()=>{if(OVK==='bag')panel('bag')},ROLE==='client'?500:80)}
+function later(){setTimeout(()=>{if(OVK==='bag'||OVK==='gear')panel(OVK)},ROLE==='client'?500:80)}
 $('#ov').addEventListener('click',e=>{if(e.target.id==='ov'){closeOv();SEL=null}});
 $('#logp').addEventListener('click',()=>{skipType=true});
 setInterval(()=>{if(G&&G.cd&&$('#scr').hidden){const l=cdLeft();const pl=$('#chPill');if(pl)pl.textContent=`${Math.ceil(l/1000)} 秒`}},300);
@@ -5962,9 +6002,16 @@ function showMenu(){
   SCR='menu';const saved=LS.get('zc7-save',null);
   scr(`<div class="home"><div class="hhead"><div class="ttl"><span class="k">ZeroCase · 2038</span><h1>零號病例</h1></div><div class="hinfo"><span class="shard">碎片 ${META.shards}</span><span class="note">遊玩 ${META.runs} 次　通關 ${META.clears} 次</span><span class="note ver">v${ZC_VER.v}・Build ${ZC_VER.b}</span></div></div>
   <div class="hcats">${CATS.map(([k,n,d])=>`<button class="hcat" data-cat="${k}"><span class="hico" data-icon="${k}"></span><b>${n}</b><small>${d}</small></button>`).join('')}</div>
-  <div class="hfoot"><span class="avrow">${avH(MYPID,'玩家','#c8ad70','')}<button class="btn" data-m="avpick">頭像</button>${avOk(AVS[MYPID])?'<button class="btn" data-m="avdel">移除</button>':''}<input type="file" id="avfile" accept="image/*" hidden></span>
-  ${saved&&saved.G&&!saved.G.over?(saved.G.v9?`<button class="btn" data-m="resume">讀取存檔<small>${esc(saved.G.players[0].name)}・${LV[saved.G.lv]?LV[saved.G.lv].n:''}</small></button>`:`<button class="btn" disabled>讀取存檔<small>舊版本的存檔，沒辦法接著玩</small></button>`):''}<button class="btn" data-m="host" ${NET.room?'':'disabled'}>開房間<small>用上次的角色，大廳裡可以改</small></button><button class="btn" data-m="join" ${NET.room?'':'disabled'}>加入房間<small>輸入房號</small></button><button class="btn" data-m="unlock">收藏與解鎖</button>${acctOn()?`<button class="btn" data-m="acct">帳號<small>${ACCT.user?'Google：'+esc(ACCT.st.name||''):'幽靈帳號（只存在這台裝置）'}</small></button>`:''}<button class="btn" data-m="settings">設定</button></div></div>`);
+  <div class="hfoot"><span class="avrow">${avH(MYPID,'玩家','#c8ad70','')}<span class="avbt"><button class="btn" data-m="avpick">頭像</button>${avOk(AVS[MYPID])?'<button class="btn" data-m="avdel">移除</button>':''}</span><input type="file" id="avfile" accept="image/*" hidden></span><div class="hmain">
+  ${saved&&saved.G&&!saved.G.over?(saved.G.v9?`<button class="btn" data-m="resume">讀取存檔<small>${esc(saved.G.players[0].name)}・${LV[saved.G.lv]?LV[saved.G.lv].n:''}</small></button>`:`<button class="btn" disabled>讀取存檔<small>舊版本的存檔，沒辦法接著玩</small></button>`):''}<button class="btn" data-m="host" ${NET.room?'':'disabled'}>開房間<small>用上次的角色，大廳裡可以改</small></button><button class="btn" data-m="join" ${NET.room?'':'disabled'}>加入房間<small>輸入房號</small></button><button class="btn" data-m="unlock">收藏與解鎖</button><button class="btn" data-m="settings">設定</button></div></div></div>`);
+  {const hm=$('.hmain');if(hm)hm.style.setProperty('--n',hm.children.length)}
   bindAvatar()}
+// v0.29.0（主人 2026-11-17 02:48）：帳號放在開始畫面，進遊戲前就登入、拿到雲端進度，讀存檔才不會讀到舊的；設定裡也可以打開帳號頁
+function gateAcct(){const el=$('#gacct');if(!el)return;if(!acctOn()||BOOTED){el.hidden=true;return}const A=ACCT,g=!!A.user;el.hidden=false;
+  if(A.ask){el.innerHTML=`<b>雲端和這台裝置的進度不一樣，要用哪一份？</b><span>雲端：${acctSum(A.ask.cloud.k||{})}</span><span>這台裝置：${acctSum(A.ask.loc||acctLocal())}</span><div class="row"><button class="btn" data-ga="acctcloud">用雲端的</button><button class="btn" data-ga="acctlocal">用這台裝置的</button></div>`;return}
+  el.innerHTML=`<b>帳號：${g?'Google・'+esc(A.st.name||''):'幽靈帳號（進度只存在這台裝置）'}</b><div class="row">${g?'<button class="btn" data-ga="acctout">登出</button>':`<button class="btn" data-ga="acctgo" ${A.busy?'disabled':''}>${A.busy?'登入中…':'綁定 Google（雲端同步）'}</button>`}</div>${A.err?`<span class="bad">${esc(A.err)}</span>`:''}`}
+$('#gacct').addEventListener('click',e=>{const b=e.target.closest('[data-ga]');if(!b||b.disabled)return;const m=b.dataset.ga;
+  if(m==='acctgo')acctLogin();else if(m==='acctout')acctLogout();else if(m==='acctcloud')acctChoose('cloud');else if(m==='acctlocal')acctChoose('local')});
 function bindAvatar(){const af=$('#avfile');if(af)af.addEventListener('change',()=>{const f=af.files&&af.files[0];if(f)loadAvatar(f)})}
 // 劇情角色、訪客的選角頁
 let RCAT='story';
