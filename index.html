@@ -633,7 +633,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.27.0", "b": 74, "t": "2026-11-17T01:01:07+08:00"};
+const ZC_VER={"v": "0.28.1", "b": 76, "t": "2026-11-17T01:48:10+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -5148,14 +5148,14 @@ async function storyCode(res,actor){
    隊友 → 房主：寫在自己的 presence.acts（最近 10 個指令，附流水號），房主依流水號處理。 */
 const NET={late:{},hgT:null,room:null,r:null,code:null,hostPeer:null,acts:[],aseq:0,seen:{},need:{},buf:{},mid:0,lobby:[],started:0,offs:[],ready:false,build:null,needN:0};
 let netReady=(async()=>{try{if(window.claude&&claude.use){NET.room=await claude.use('room');if(NET.room)NET.kind='claude'}}catch(e){NET.room=null}
-  if(!NET.room&&/^https?:$/.test(location.protocol)){try{NET.room=fbRoomApi(await loadFb());NET.kind='fb'}catch(e){console.error(e);NET.room=null;NET.fbErr=1}}
-  if(typeof onNetReady==='function')onNetReady()})();
+  if(!NET.room&&/^https?:$/.test(location.protocol)){try{NET.F=await loadFb();NET.room=fbRoomApi(NET.F);NET.kind='fb'}catch(e){console.error(e);NET.room=null;NET.fbErr=1}}
+  if(typeof onNetReady==='function')onNetReady();if(typeof acctInit==='function')acctInit()})();
 /* ---- 自己的網站：Firebase 即時資料庫當房間 ----
    rooms/zc-房號/peers/<peer> = {p: presence 的 JSON, t}（斷線自動刪掉）
    rooms/zc-房號/ev/<push id> = {f: 送出的人, m, i, n, s: 切塊內容, t}（送出 60 秒後自己刪掉） */
 const FB_CFG={apiKey:"AIzaSyAxQLM4vXURmfT8NPEit3p79EWyd17CJ0k",authDomain:"zerocase.firebaseapp.com",databaseURL:"https://zerocase-default-rtdb.asia-southeast1.firebasedatabase.app",projectId:"zerocase",appId:"1:383147688801:web:4de2a828aba58c6e433b20"};
 async function loadFb(){if(window.__FBFAKE)return window.__FBFAKE;const B='https://www.gstatic.com/firebasejs/10.12.2/';
-  const [a,d]=await Promise.all([import(B+'firebase-app.js'),import(B+'firebase-database.js')]);return Object.assign({db:d.getDatabase(a.initializeApp(FB_CFG))},d)}
+  const [a,d]=await Promise.all([import(B+'firebase-app.js'),import(B+'firebase-database.js')]);const app=a.initializeApp(FB_CFG);return Object.assign({db:d.getDatabase(app),app},d)}
 function fbRoomApi(F){return {join:async name=>{
   const db=F.db,base='rooms/'+name,me='f'+Math.random().toString(36).slice(2,10);
   const pRef=F.ref(db,base+'/peers/'+me),eRef=F.ref(db,base+'/ev');
@@ -5176,6 +5176,44 @@ function fbRoomApi(F){return {join:async name=>{
     presence:async patch=>{pres=Object.assign({},pres,patch);await F.set(pRef,{p:JSON.stringify(pres),t:F.serverTimestamp()})},
     onPeers:f=>{peerL.push(f);setTimeout(()=>{if(known.size)f({peers:[...known.values()],joined:[...known.values()],left:[],updated:[]})},0);return()=>{const i=peerL.indexOf(f);if(i>=0)peerL.splice(i,1)}},
     leave:async()=>{closed=true;for(const o of offs)try{o()}catch(e){}await F.remove(pRef).catch(()=>{});await F.onDisconnect(pRef).cancel().catch(()=>{})}}}}}
+/* ---- v0.28.0 帳號（主人 2026-11-17）：幽靈帳號＝存在這台裝置（原本的做法）；綁定 Google＝同一份存檔同步到 Firebase 的 saves/<uid>，換手機登入就能接著玩。
+   只在自己的網站（NET.kind==='fb'）出現；Claude 連結版照舊只存在這台裝置。之後的帳號等級、解鎖都記在 zc5-meta，一起同步。
+   本機 LS.set 這幾個鍵時標記 dirty，兩秒後上傳；沒網路時 dirty 留著，下次開遊戲再傳。 */
+const SYNCK=['zc7-save','zc7-mpsave','zc5-meta','zc5-ui','zc9-build','zc8-avatar','zc5-pid'];
+const ACCT={st:LS.get('zc-acct',{mode:'ghost'}),user:null,busy:0,ready:0,timer:null,ask:null,err:''};
+const acctOn=()=>NET.kind==='fb'&&!!NET.F;
+const acctSaveSt=()=>LS.set('zc-acct',ACCT.st);
+function acctLocal(){const o={};for(const k of SYNCK){const v=localStorage.getItem(k);if(v!=null)o[k]=v}return o}
+function acctSum(o){const g=k=>{try{return JSON.parse(o[k]||'null')}catch(e){return null}};const m=g('zc5-meta')||{},s=g('zc7-save');
+  return `遊玩 ${m.runs||0} 次・通關 ${m.clears||0} 次・碎片 ${m.shards||0}${s&&s.G&&!s.G.over?`・單人存檔：${esc((s.G.players[0]||{}).name||'')}`:'・沒有單人存檔'}`}
+async function acctAuthMod(){return window.__FBFAKE?window.__FBFAKE.A:await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js')}
+async function acctAuth(){const A=await acctAuthMod();if(!ACCT.auth)ACCT.auth=A.getAuth(NET.F.app);return {A,auth:ACCT.auth}}
+// 開遊戲時：連得上 Firebase 才有帳號功能；登入狀態由 Firebase 記住
+async function acctInit(){if(!acctOn()||ACCT.ready)return;ACCT.ready=1;try{const {A,auth}=await acctAuth();
+  A.onAuthStateChanged(auth,async u=>{ACCT.user=u||null;if(u){ACCT.st.mode='google';ACCT.st.uid=u.uid;ACCT.st.name=u.displayName||u.email||'Google 帳號';acctSaveSt();await acctPull(false)}else if(ACCT.st.mode==='google'){ACCT.st.mode='ghost';acctSaveSt()}acctRefresh()})}catch(e){console.error(e);ACCT.err='連不上登入服務。'}}
+function acctRefresh(){if(typeof SCR!=='undefined'){if(SCR==='menu')showMenu();else if(SCR==='acct')showAcct()}}
+// 本機有變動：記下來，兩秒後上傳
+function acctDirty(k){if(!SYNCK.includes(k))return;if(ACCT.st.mode!=='google')return;ACCT.st.dirty=1;acctSaveSt();clearTimeout(ACCT.timer);ACCT.timer=setTimeout(()=>{acctPush().catch(e=>console.error(e))},2000)}
+{const s0=LS.set,d0=LS.del;LS.set=function(k,v){s0.call(LS,k,v);if(k!=='zc-acct')acctDirty(k)};LS.del=function(k){d0.call(LS,k);acctDirty(k)}}
+async function acctPush(){if(!ACCT.user||!acctOn())return false;const F=NET.F,t=Date.now();
+  await F.set(F.ref(F.db,'saves/'+ACCT.user.uid),{k:acctLocal(),t});ACCT.st.dirty=0;ACCT.st.at=t;acctSaveSt();return true}
+function acctApply(cloud){for(const k of SYNCK){const v=cloud.k&&cloud.k[k];if(v==null)localStorage.removeItem(k);else localStorage.setItem(k,v)}ACCT.st.dirty=0;ACCT.st.at=cloud.t||Date.now();acctSaveSt()}
+// 拿雲端的：雲端比較新而且這台裝置沒有新的變動 → 直接換成雲端的（重新整理）；兩邊都有變動 → 問玩家
+async function acctPull(fromLogin){if(!ACCT.user||!acctOn())return;const F=NET.F;let cloud=null;
+  try{const snap=await F.get(F.ref(F.db,'saves/'+ACCT.user.uid));cloud=snap.exists()?snap.val():null}catch(e){console.error(e);ACCT.err='讀不到雲端存檔，先用這台裝置的。';return}
+  const loc=acctLocal(),has=o=>!!(o&&(o['zc7-save']||o['zc7-mpsave']||(o['zc5-meta']&&(JSON.parse(o['zc5-meta']).runs||0)>0)));
+  if(!cloud||!cloud.k){await acctPush();if(fromLogin)toast('已綁定 Google：這台裝置的進度上傳到雲端了。');return}
+  const flat=o=>JSON.stringify(Object.keys(o||{}).sort().map(k=>[k,o[k]]));const same=flat(cloud.k)===flat(loc);
+  if(same){ACCT.st.at=cloud.t;ACCT.st.dirty=0;acctSaveSt();return}
+  if(!has(loc)||(!fromLogin&&!ACCT.st.dirty&&(cloud.t||0)>(ACCT.st.at||0))){acctApply(cloud);location.reload();return}
+  if(!fromLogin&&ACCT.st.dirty&&(cloud.t||0)<=(ACCT.st.at||0)){await acctPush();return}
+  ACCT.ask={cloud,loc};if(typeof showAcct==='function')showAcct()}
+async function acctLogin(){if(!acctOn()||ACCT.busy)return;ACCT.busy=1;ACCT.err='';acctRefresh();try{const {A,auth}=await acctAuth();const pv=new A.GoogleAuthProvider();
+  try{await A.signInWithPopup(auth,pv)}catch(e){if(e&&/popup-blocked|operation-not-supported/.test(e.code||''))await A.signInWithRedirect(auth,pv);else throw e}
+  ACCT.user=auth.currentUser;if(ACCT.user){ACCT.st={mode:'google',uid:ACCT.user.uid,name:ACCT.user.displayName||ACCT.user.email||'Google 帳號',at:ACCT.st.at||0,dirty:ACCT.st.dirty||0};acctSaveSt();await acctPull(true)}}
+  catch(e){console.error(e);ACCT.err=e&&/popup-closed|cancelled/.test(e.code||'')?'登入視窗被關掉了。':'登入沒有成功，請再試一次。'}ACCT.busy=0;acctRefresh()}
+async function acctLogout(){try{const {A,auth}=await acctAuth();await A.signOut(auth)}catch(e){console.error(e)}ACCT.user=null;ACCT.st={mode:'ghost'};acctSaveSt();toast('已登出。存檔留在這台裝置，之後登入同一個 Google 帳號就會接回來。');acctRefresh()}
+async function acctChoose(w){const a=ACCT.ask;ACCT.ask=null;if(!a)return;if(w==='cloud'){acctApply(a.cloud);location.reload();return}await acctPush();toast('已用這台裝置的進度蓋過雲端。');acctRefresh()}
 function E(t,d){if(ROLE!=='host'||!NET.r)return;send({t,d})}
 function send(obj){
   const s=JSON.stringify(obj);const id=++NET.mid;const L=1000;const n=Math.ceil(s.length/L)||1;
@@ -5925,7 +5963,7 @@ function showMenu(){
   scr(`<div class="home"><div class="hhead"><div class="ttl"><span class="k">ZeroCase · 2038</span><h1>零號病例</h1></div><div class="hinfo"><span class="shard">碎片 ${META.shards}</span><span class="note">遊玩 ${META.runs} 次　通關 ${META.clears} 次</span><span class="note ver">v${ZC_VER.v}・Build ${ZC_VER.b}</span></div></div>
   <div class="hcats">${CATS.map(([k,n,d])=>`<button class="hcat" data-cat="${k}"><span class="hico" data-icon="${k}"></span><b>${n}</b><small>${d}</small></button>`).join('')}</div>
   <div class="hfoot"><span class="avrow">${avH(MYPID,'玩家','#c8ad70','')}<button class="btn" data-m="avpick">頭像</button>${avOk(AVS[MYPID])?'<button class="btn" data-m="avdel">移除</button>':''}<input type="file" id="avfile" accept="image/*" hidden></span>
-  ${saved&&saved.G&&!saved.G.over?(saved.G.v9?`<button class="btn" data-m="resume">讀取存檔<small>${esc(saved.G.players[0].name)}・${LV[saved.G.lv]?LV[saved.G.lv].n:''}</small></button>`:`<button class="btn" disabled>讀取存檔<small>舊版本的存檔，沒辦法接著玩</small></button>`):''}<button class="btn" data-m="host" ${NET.room?'':'disabled'}>開房間<small>用上次的角色，大廳裡可以改</small></button><button class="btn" data-m="join" ${NET.room?'':'disabled'}>加入房間<small>輸入房號</small></button><button class="btn" data-m="unlock">收藏與解鎖</button><button class="btn" data-m="settings">設定</button></div></div>`);
+  ${saved&&saved.G&&!saved.G.over?(saved.G.v9?`<button class="btn" data-m="resume">讀取存檔<small>${esc(saved.G.players[0].name)}・${LV[saved.G.lv]?LV[saved.G.lv].n:''}</small></button>`:`<button class="btn" disabled>讀取存檔<small>舊版本的存檔，沒辦法接著玩</small></button>`):''}<button class="btn" data-m="host" ${NET.room?'':'disabled'}>開房間<small>用上次的角色，大廳裡可以改</small></button><button class="btn" data-m="join" ${NET.room?'':'disabled'}>加入房間<small>輸入房號</small></button><button class="btn" data-m="unlock">收藏與解鎖</button>${acctOn()?`<button class="btn" data-m="acct">帳號<small>${ACCT.user?'Google：'+esc(ACCT.st.name||''):'幽靈帳號（只存在這台裝置）'}</small></button>`:''}<button class="btn" data-m="settings">設定</button></div></div>`);
   bindAvatar()}
 function bindAvatar(){const af=$('#avfile');if(af)af.addEventListener('change',()=>{const f=af.files&&af.files[0];if(f)loadAvatar(f)})}
 // 劇情角色、訪客的選角頁
@@ -5952,6 +5990,14 @@ function showUnlock(){
   SCR='unlock';
   scr(`<div class="sh"><h2>收藏與解鎖</h2><span class="shard">碎片 ${META.shards}</span><button class="btn" data-m="menu">返回</button></div><div class="sbody"><div class="ulist">${UNLOCKS.map(u=>{const have=unlocked(u.id);const blocked=u.need&&!unlocked(u.need);return `<div class="urow"><b>${u.n}</b><small class="shard">${have?'已解鎖':u.cost+' 碎片'}</small>${have?'':`<button class="btn" data-buy="${u.id}" ${META.shards>=u.cost&&!blocked?'':'disabled'}>解鎖</button>`}</div>`}).join('')}</div>
   <p class="note">死亡也會拿到碎片：通過的區域越多、擊倒越多，拿得越多。走到結局拿得最多，不同結局給的碎片不同。</p></div>`)}
+// v0.28.0 帳號頁：幽靈帳號／綁定 Google（只在自己的網站）
+function showAcct(){SCR='acct';const A=ACCT,g=!!A.user,loc=acctLocal();
+  let body;
+  if(A.ask){body=`<p>雲端和這台裝置的進度不一樣，要用哪一份？沒選的那一份會被蓋掉。</p><div class="ulist"><div class="urow"><b>雲端的進度</b><small>${acctSum(A.ask.cloud.k||{})}</small><button class="btn" data-m="acctcloud">用雲端的</button></div><div class="urow"><b>這台裝置的進度</b><small>${acctSum(loc)}</small><button class="btn" data-m="acctlocal">用這台裝置的</button></div></div>`}
+  else body=`<div class="ulist"><div class="urow"><b>${g?'Google 帳號':'幽靈帳號'}</b><small>${g?esc(A.st.name||'')+'・進度會同步到雲端，換手機或換電腦登入同一個帳號就能接著玩':'進度只存在這台裝置；換手機、換電腦或清除瀏覽器資料就會不見'}</small>${g?'<button class="btn" data-m="acctout">登出</button>':`<button class="btn" data-m="acctgo" ${A.busy?'disabled':''}>${A.busy?'登入中…':'綁定 Google'}</button>`}</div>
+    <div class="urow"><b>目前的進度</b><small>${acctSum(loc)}</small>${g?'<button class="btn" data-m="acctsync">現在同步</button>':''}</div></div>
+    <p class="note">${g?'登出之後存檔還留在這台裝置，玩家可以繼續用幽靈帳號玩。':'綁定之後，這台裝置目前的進度會上傳成這個 Google 帳號的存檔。只會用到 Google 帳號的編號和名字，不會拿到密碼。'}${A.err?'<br><span class="bad">'+esc(A.err)+'</span>':''}</p>`;
+  scr(`<div class="sh"><h2>帳號</h2><button class="btn" data-m="menu">返回</button></div><div class="sbody">${body}</div>`)}
 /* ---- 建立角色 ---- */
 const statUsed=()=>Object.values(CB.st).reduce((a,b)=>a+b,0);
 const packs=()=>(unlocked('pack1')?1:0)+(unlocked('pack2')?1:0);
@@ -6067,6 +6113,12 @@ function onScr(b,d){
   else if(d.m==='join'){JOIN='';showJoin()}
   else if(d.m==='dojoin')joinRoom();
   else if(d.m==='unlock')showUnlock();
+  else if(d.m==='acct')showAcct();
+  else if(d.m==='acctgo')acctLogin();
+  else if(d.m==='acctout')acctLogout();
+  else if(d.m==='acctsync'){acctPush().then(ok=>{toast(ok?'已同步到雲端。':'沒有同步成功，請確認網路。');showAcct()}).catch(()=>toast('沒有同步成功，請確認網路。'))}
+  else if(d.m==='acctcloud')acctChoose('cloud');
+  else if(d.m==='acctlocal')acctChoose('local');
   else if(d.m==='settings')panel('settings');
   else if(d.m==='lobby')showLobby();
   else if(d.m==='leave'){leaveRoom();showMenu()}
