@@ -630,7 +630,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.24.4", "b": 65, "t": "2026-11-16T13:24:20+08:00"};
+const ZC_VER={"v": "0.24.5", "b": 66, "t": "2026-11-16T13:28:04+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3327,10 +3327,10 @@ const D10SVG=`<svg viewBox="-50 -50 100 100"><polygon class="face" points="0,-46
 const D6SVG=`<svg viewBox="-50 -50 100 100"><rect class="face" x="-42" y="-42" width="84" height="84" rx="14"/></svg>`;
 let skipDice=null;
 /* v0.24.4 擲骰（主人）：不丟進來、不彈跳，骰子在原地轉，轉速越來越慢；數字一直亂跳，越跳越慢，停下時換成結果。
-   requestAnimationFrame 逐格算；變形套在骰子裡的 svg 和數字上。點一下略過會立刻停。只在本機演出（隊友那邊各自播）。 */
+   requestAnimationFrame 逐格算；只轉骰子本體（svg），數字不跟著轉。點一下略過會立刻停。只在本機演出（隊友那邊各自播）。 */
 function dieRoll(el,dies,spec,dur){
   const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;const now=()=>performance.now();const T0=now();let raf=0,stop=false;
-  const P=dies.map((d,i)=>({d,parts:[...d.children].filter(c=>c.tagName!=='I'),spin:(720+Math.random()*360)*(Math.random()<.5?1:-1),last:0,D:dur+i*70}));
+  const P=dies.map((d,i)=>({d,parts:[...d.children].filter(c=>c.tagName==='svg'||c.tagName==='SVG'),/* v0.24.5 只轉骰子本體，數字保持正的不跟著轉 */spin:(720+Math.random()*360)*(Math.random()<.5?1:-1),last:0,D:dur+i*70}));
   const ease=t=>1-Math.pow(1-t,3);
   const step=()=>{if(stop)return;const t1=now();let alive=false;
     for(const [i,q] of P.entries()){const t=Math.min(1,(t1-T0)/q.D);if(t<1)alive=true;
