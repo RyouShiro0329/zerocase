@@ -135,6 +135,9 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .die.enemy .face{fill:#2a1715;stroke:#7a4038}
 .res{font-size:1.05rem;font-weight:900;letter-spacing:.06em;min-height:1.6em}
 .res small{font:12px var(--label);color:var(--muted);font-weight:400;letter-spacing:.5px;margin-right:8px}
+/* v0.31.2 算式：骰出＋加值＝總和，後面接結果（主人 2026-11-18 02:29） */
+.res .eq{color:var(--ink);margin-right:.7em;letter-spacing:.04em}
+.res small.ln{display:block;margin:2px 0 0}
 .res .s{color:var(--gold)}.res .f{color:var(--redhi)}
 .tray .hint{font:10px var(--label);color:#5f5c54;letter-spacing:1px;margin-top:2px}
 
@@ -657,7 +660,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.31.1", "b": 81, "t": "2026-11-18T02:13:04+08:00"};
+const ZC_VER={"v": "0.31.2", "b": 82, "t": "2026-11-18T02:54:33+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3436,26 +3439,30 @@ const D20SVG=`<svg viewBox="-50 -50 100 100"><polygon class="face" points="0,-46
 const D10SVG=`<svg viewBox="-50 -50 100 100"><polygon class="face" points="0,-46 42,-6 30,26 0,46 -30,26 -42,-6"/><path class="edge" d="M0,-46 L-18,12 L0,46 M0,-46 L18,12 L0,46 M-42,-6 L-18,12 M42,-6 L18,12 M-18,12 L18,12"/></svg>`;
 const D6SVG=`<svg viewBox="-50 -50 100 100"><rect class="face" x="-42" y="-42" width="84" height="84" rx="14"/></svg>`;
 let skipDice=null;
-/* v0.24.4 擲骰（主人）：不丟進來、不彈跳，骰子在原地轉，轉速越來越慢；數字一直亂跳，越跳越慢，停下時換成結果。
-   requestAnimationFrame 逐格算；只轉骰子本體（svg），數字不跟著轉。不能略過（v0.24.6）。只在本機演出（隊友那邊各自播）。 */
+/* v0.31.2 骰子外形統一用二十面骰的樣子（主人 2026-11-18 02:40：不要方形的），點數範圍照各自的骰子 */
+/* v0.24.4 擲骰（主人）：不丟進來、不彈跳，骰子在原地轉。不能略過（v0.24.6）。只在本機演出（隊友那邊各自播）。
+   v0.31.2（主人 2026-11-18 02:32）：要看起來是整顆骰子在原地翻滾（不是只有平面打轉）——骰子本體（svg）同時繞三個軸轉，越轉越慢；
+   數字保持正的、不跟著轉，一直快速亂跳，到落地音效響起的那一刻才換成骰出來的點數（showDice 停止時才寫入結果）。 */
 function dieRoll(el,dies,spec,dur){
   const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;const now=()=>performance.now();const T0=now();let raf=0,stop=false;
-  const P=dies.map((d,i)=>({d,parts:[...d.children].filter(c=>c.tagName==='svg'||c.tagName==='SVG'),/* v0.24.5 只轉骰子本體，數字保持正的不跟著轉 */spin:(720+Math.random()*360)*(Math.random()<.5?1:-1),last:0,D:dur+i*70}));
-  const ease=t=>1-Math.pow(1-t,3);
-  const step=()=>{if(stop)return;const t1=now();let alive=false;
-    for(const [i,q] of P.entries()){const t=Math.min(1,(t1-T0)/q.D);if(t<1)alive=true;
-      const r=q.spin*(1-ease(t)),w=1+.05*Math.sin(t*Math.PI*6)*(1-t);/* 轉的時候微微脈動，快停時就不動了 */
-      const tf=RM?'':`rotate(${r.toFixed(1)}deg) scale(${w.toFixed(3)})`;for(const c of q.parts)c.style.transform=tf;
-      const gap=40+t*t*240;/* 數字越跳越慢 */
-      if(t<1&&t1-q.last>gap){q.last=t1;const S=spec.dice[i].sides;q.d.querySelector('b').textContent=S===10?rnd(0,9):rnd(1,S)}}
-    if(alive)raf=requestAnimationFrame(step)};
+  const rs=()=>(Math.random()<.5?1:-1);
+  const P=dies.map((d,i)=>({d,parts:[...d.children].filter(c=>c.tagName==='svg'||c.tagName==='SVG'),
+    fx:(24+Math.random()*8)*rs(),fy:(20+Math.random()*8)*rs(),p:Math.random()*6,az:(540+Math.random()*360)*rs(),last:0,D:dur+i*70}));
+  const ease=t=>1-Math.pow(1-t,2.2);
+  const step=()=>{if(stop)return;const t1=now();
+    for(const [i,q] of P.entries()){const t=Math.min(1,(t1-T0)/q.D);const k=1-ease(t);
+      /* 翻到側面最多 55 度，避免整顆變成一條線看不見 */
+      const tf=RM?'':`perspective(160px) rotateX(${(55*Math.sin(t*q.fx+q.p)*k).toFixed(1)}deg) rotateY(${(55*Math.cos(t*q.fy+q.p)*k).toFixed(1)}deg) rotateZ(${(q.az*k).toFixed(1)}deg)`;
+      for(const c of q.parts)c.style.transform=tf;
+      if(t1-q.last>45){q.last=t1;const S=spec.dice[i].sides;q.d.querySelector('b').textContent=S===10?rnd(0,9):rnd(1,S)}}
+    raf=requestAnimationFrame(step)};/* 轉停了數字也繼續亂跳，直到 showDice 喊停（落地音效）才寫入點數 */
   raf=requestAnimationFrame(step);
   return ()=>{stop=true;cancelAnimationFrame(raf);for(const q of P)for(const c of q.parts)c.style.transform=''};
 }
 async function showDice(spec){
   await flush();
   const el=$('#dice');const f=FAST?.3:UI.spd;const dur=Math.round((spec.quick?560:900)*f);
-  el.innerHTML=`<div class="tray"><div class="lb">${spec.label}<small>${spec.sub||''}</small></div><div class="drow ${spec.dice.length>8?'many':''}">${spec.dice.map((d,i)=>`<div class="die ${d.sides===20?'d20':d.sides===10?'d10':'d6'} ${d.foe?'enemy':''} ${d.pair?'pr':''}" style="--dur:${dur+i*70}ms">${d.sides===20?D20SVG:d.sides===10?D10SVG:D6SVG}<b>?</b>${d.cap?`<i class="cap">${d.cap}</i>`:''}</div>`).join('')}</div><div class="res"></div></div>`;
+  el.innerHTML=`<div class="tray"><div class="lb">${spec.label}<small>${spec.sub||''}</small></div><div class="drow ${spec.dice.length>8?'many':''}">${spec.dice.map((d,i)=>`<div class="die d20 ${d.foe?'enemy':''} ${d.pair?'pr':''}" style="--dur:${dur+i*70}ms">${D20SVG}<b>?</b>${d.cap?`<i class="cap">${d.cap}</i>`:''}</div>`).join('')}</div><div class="res"></div></div>`;
   el.hidden=false;el.classList.remove('out');
   const dies=[...el.querySelectorAll('.die')];
   let skipped=false;const sk=new Promise(r=>{skipDice=()=>{skipped=true;r()}});
@@ -3479,6 +3486,9 @@ async function dice(spec){reportEffects();E('d',spec);await showDice(spec)}
 // 一顆二十面骰：骰面＋能力值達到難度就成功（等於也算）；擲出 20 必定大成功、擲出 1 必定大失敗
 function r2(){const a=rnd(1,20);return {a,s:a}}
 let LASTJ=null;
+/* v0.31.2 骰子結果的算式（主人 2026-11-18 02:29）：骰出 ＋ 加值 ＝ 總和，後面接結果 */
+const sgS=v=>`${v<0?'−':'+'} ${Math.abs(v)}`;
+const eqS=(a,m,tot)=>`<span class="eq">${a} ${sgS(m)} = ${tot}</span>`;
 function judge(R,tot,dc){if(R.a===20)return 'crit';if(R.a===1)return 'fumble';return tot>=dc?'ok':'ng'}
 const JW={crit:'大成功',fumble:'大失敗',ok:'成功',ng:'失敗'};
 const pairDice=(R,cap,foe)=>[{sides:20,val:R.a,cap,foe}];
@@ -3489,16 +3499,19 @@ async function check(p,st,dc,label,extra){
   const R=r2(),m=statMod(p,st)+checkBonus(p,st)+(extra||0)-fine,tot=R.s+m;
   const j=judge(R,tot,dc);const ok=j==='crit'||j==='ok';
   const who=MP()?esc(p.name)+'・':'';
-  await dice({label,sub:`${who}${STN[st]}檢定　d20 ${sgn(m)}${DF().num?`　難度 ${dc}`:''}`,dice:pairDice(R,MP()?esc(p.name):''),result:`<small>${R.a} ${sgn(m)} = ${tot}</small><span class="${ok?'s':'f'}">${JW[j]}</span>`,cls:j});
+  await dice({label,sub:`${who}${STN[st]}檢定　d20 ${sgn(m)}${DF().num?`　難度 ${dc}`:''}`,dice:pairDice(R,MP()?esc(p.name):''),result:`${eqS(R.a,m,tot)}<span class="${ok?'s':'f'}">${JW[j]}</span>`,cls:j});
   out(`擲骰｜${MP()?esc(p.name)+' ':''}${STN[st]} d20(<b>${R.a}</b>)${m>=0?'+':'−'}${Math.abs(m)}＝<b>${tot}</b>${DF().num?` 對 ${dc}`:''}　<span class="${ok?'s':'f'}">${JW[j]}</span>`,'roll',true);
   LASTJ=j;
   return {ok,r:R.s,tot,crit:j==='crit',fumble:j==='fumble'};
 }
-async function dmgRoll(groups,plus,label,foe){
+/* v0.31.2 cm：爆擊倍率，只顯示在算式裡（回傳值不含倍率，由呼叫的地方乘） */
+async function dmgRoll(groups,plus,label,foe,cm){
   const ds=[];for(const [n,s] of groups)for(let i=0;i<n;i++)ds.push({sides:s,val:rnd(1,s),foe});
   const tot=Math.max(1,ds.reduce((a,d)=>a+d.val,0)+(plus||0));
   const sub=groups.map(([n,s])=>`${n}d${s}`).join(' + ')+(plus?` ${plus>0?'+':'−'} ${Math.abs(plus)}`:'');
-  await dice({label,sub,dice:ds,quick:true,result:`<span class="${foe?'f':'s'}">${foe?`擲出 ${tot}`:`${tot} 點傷害`}</span>`});
+  const raw=ds.reduce((a,d)=>a+d.val,0)+(plus||0);
+  const ex=ds.map(d=>d.val).join(' + ')+(plus?' '+sgS(plus):'');
+  await dice({label,sub,dice:ds,quick:true,result:`<span class="eq">${cm&&cm!==1?`(${ex}) × ${cm} = ${Math.floor(tot*cm)}`:`${ex} = ${raw}${raw!==tot?` → ${tot}`:''}`}</span><span class="${foe?'f':'s'}">${foe?'傷害':'點傷害'}</span>`});
   out(`擲骰｜${foe?esc(String(label))+'　':''}傷害 ${sub}(<b>${ds.map(d=>d.val).join('、')}</b>)＝<b>${tot}</b>`,'roll',true);
   return tot;
 }
@@ -4253,7 +4266,7 @@ async function rollInit(mode){
   if(!fs.length)return;
   await dice({label:'擲先攻',sub:`敏捷 d20${mode==='ambush'?'　（被偷襲，敵人 +4）':''}`,quick:true,
     dice:[...ps.map(x=>({sides:20,val:x.r,cap:esc(x.p.name).slice(0,4),cls:'ok'})),...fs.map(x=>({sides:20,val:x.r,foe:1,cap:x.f.n}))],
-    result:ps.map(x=>`<small>${esc(x.p.name)} ${x.r+x.m}</small>`).join('')+fs.map(x=>`<small>${x.f.n} ${x.r+x.m}</small>`).join('')});
+    result:[...ps.map(x=>[esc(x.p.name),x]),...fs.map(x=>[x.f.n,x])].map(([n,x])=>`<small class="ln">${n}　${x.r} ${sgS(x.m)} = ${x.r+x.m}</small>`).join('')});
   // v0.30.0（主人 2026-11-17）：同分時玩家先於敵人；玩家之間同分先比敏捷，再隨機（不再永遠房主先）
   const order=[...ps.map(x=>({k:'p',id:x.p.pid,init:x.r+x.m,ag:x.m,tb:Math.random()})),...fs.map(x=>({k:'f',id:x.f.id,init:x.r+x.m,ag:0,tb:Math.random()}))].sort((a,b)=>b.init-a.init||(a.k==='p'?0:1)-(b.k==='p'?0:1)||(a.k==='p'?b.ag-a.ag:0)||a.tb-b.tb).map(({ag,tb,...o})=>o);
   // v0.21.3：玩家與敵人按先攻總值交錯，平手時玩家優先；連續玩家仍可同時選行動
@@ -4312,7 +4325,7 @@ async function fright(fs,act){if(!fs.length)return;act=act||able();if(!act.lengt
   const tdc=Math.max(...fs.map(f=>FT(f).tdc)),ter=Math.max(...fs.map(f=>FT(f).ter));
   const ts=act.map(p=>{const R=r2(),m=statMod(p,'CHA')+(tr(p,'calm')?3:0);const j=judge(R,R.s+m,tdc+(fstg(p)>=2?2:0));return {p,R,m,j,ok:j==='ok'||j==='crit'}});
   await dice({label:'驚嚇檢定',sub:`統帥 d20${DF().num?`　難度 ${tdc}`:''}`,quick:true,dice:ts.flatMap(x=>pairDice(x.R,MP()?esc(x.p.name).slice(0,4):'').map(d=>({...d,cls:x.ok?'ok':'ng'}))),
-    result:ts.map(x=>`<small>${MP()?esc(x.p.name)+' ':''}${x.R.s+x.m}　${x.ok?'穩住了':'動搖'}</small>`).join('')});
+    result:ts.length===1?`${eqS(ts[0].R.a,ts[0].m,ts[0].R.s+ts[0].m)}<span class="${ts[0].ok?'s':'f'}">${ts[0].ok?'穩住了':'動搖'}</span>`:ts.map(x=>`<small class="ln">${esc(x.p.name)}　${x.R.a} ${sgS(x.m)} = ${x.R.s+x.m}　${x.ok?'穩住了':'動搖'}</small>`).join('')});
   for(const x of ts){const ok=x.ok;if(!ok){out(`${MP()?nm(x.p)+'：':''}${pick(['看到牠的臉，胃裡一陣翻攪。','腦袋一片空白，有好幾秒想不起自己在哪裡。','腿軟了一下，差點站不住。'])}`,'bad',true);loseSan(x.p,ter)}}}
 // 獵食者現身或被找到：顯示名字與立繪，補一次驚嚇檢定
 async function revealLurk(f,say){f.hid=0;nameFoes(G.fight.foes);if(say)say();push();draw();if(FT(f).ter)await fright([f])}
@@ -4406,7 +4419,7 @@ function flank(f){out(`${f.n}${pick(FLANK)}`,'sys');push();draw()}
 const FDD={1:[0,0,1],2:[1,3,0],3:[1,4,1],4:[1,6,1],5:[2,4,0],6:[2,4,1],7:[2,6,0],8:[2,6,1],9:[2,8,0],10:[2,8,1],12:[2,10,1],14:[2,12,1],22:[4,10,0]};
 const fddOf=v=>FDD[v]||[0,0,v];
 const fddTxt=v=>{const [n,s,b]=fddOf(v);return n?`${n}d${s}${b?'+'+b:''}`:String(b)};
-async function foeDmg(f,mv,label){const v=mv.d??FT(f).dmg;const [n,s,b]=fddOf(v);if(!n)return b;return await dmgRoll([[n,s]],b,label||`${f.n}・${mv.n}`,true)}
+async function foeDmg(f,mv,label,cm){const v=mv.d??FT(f).dmg;const [n,s,b]=fddOf(v);if(!n)return b;return await dmgRoll([[n,s]],b,label||`${f.n}・${mv.n}`,true,cm)}
 const critX=(f,mv)=>FT(f).fac==='inf'?2:mv.snipe?1:(mv.gun||mv.shot)?1.5:2;
 function hitFx(f,mv,t,d,crit){const T=FT(f);
   if(mv.inf&&T.fac==='inf'){const b0=t.inf;addInf(t,mv.inf*(affIs(f,'carrier')?2:1));if(t.inf>b0)out(`傷口沾到了牠的體液。感染 +${t.inf-b0}。`,'dmg',true)}
@@ -4435,11 +4448,11 @@ async function foeHit(f,mv,t,hits){const F=G.fight,T=FT(f);let firstHit=1;
   const far=f.type==='incubator'&&f.away?3:0;
   const R=r2(),m=(mv.h??T.hit)+foeHitMod(f)-far-(f.weak||0)-(f.contact&&(mv.gun||mv.shot)&&f.type!=='quickdraw'?2:0)+(f.type==='harvester'&&t.bleed>0?1:0)+DF().hit,tot=R.s+m,SB=stanceOf(t,f,mv),def=baseDef(t)+SB.def-(t.unbal?2:0)-(t.held?2:0);const j=judge(R,tot,def);const hit=j==='ok'||j==='crit';f.weak=0;
   if(mv.gun&&mv.snd&&(k===0||mv.each))snd(mv.snd,1,1400);
-  await dice({label:`${f.n}・${mv.n}${hits>1?`（${k+1}／${hits}）`:''}　→　${esc(t.name)}`,dice:pairDice(R,'',1),quick:true,
-    result:`<span class="${hit?'f':'s'}">${j==='crit'?'爆擊':hit?'命中':'落空'}</span>`,cls:hit?'ng':'ok'});
+  await dice({label:`${f.n}・${mv.n}${hits>1?`（${k+1}／${hits}）`:''}　→　${esc(t.name)}`,sub:`命中 d20 ${sgn(m)}${DF().num?`　防禦 ${def}`:''}`,dice:pairDice(R,'',1),quick:true,
+    result:`${eqS(R.a,m,tot)}<span class="${hit?'f':'s'}">${j==='crit'?'爆擊':hit?'命中':'落空'}</span>`,cls:hit?'ng':'ok'});
   out(`擲骰｜${f.n}・${mv.n} d20(<b>${R.a}</b>)${m>=0?'+':'−'}${Math.abs(m)}＝<b>${tot}</b>　<span class="${hit?'f':'s'}">${j==='crit'?'爆擊':hit?'命中':'落空'}</span>`,'roll',true);
   if(mv.shot){snd('shotgun',1,1600);addAlarm(2,null)}
-  if(hit){const raw=await foeDmg(f,mv,`${f.n}・${mv.n}　→　${esc(t.name)}`);let d=raw*DF().dmg*(j==='crit'?critX(f,mv):1);if(SB.half)d=d/2;const ar=mv.ap?0:armorOf(t);const bk=!mv.rng&&!mv.flame?strBlock(t):0;d=Math.max(1,Math.floor(d+1e-9)-SB.cut-ar-bk);if(t.grit)d=Math.max(1,d-3);
+  if(hit){const raw=await foeDmg(f,mv,`${f.n}・${mv.n}　→　${esc(t.name)}`,j==='crit'?critX(f,mv):1);let d=raw*DF().dmg*(j==='crit'?critX(f,mv):1);if(SB.half)d=d/2;const ar=mv.ap?0:armorOf(t);const bk=!mv.rng&&!mv.flame?strBlock(t):0;d=Math.max(1,Math.floor(d+1e-9)-SB.cut-ar-bk);if(t.grit)d=Math.max(1,d-3);
     if(ar)wearHit(t,T.human);
     const ms=(mv.gun||mv.shot)?(firstHit?snd('bhit',.8,600):0):snd(mv.hs||'claw',.9,1500);firstHit=0;
     hurt(t,d,`${mv.t||pick(BITE)}${SB.half?SB.txt:''}${bk?`（格擋卸掉 ${bk}）`:''}${ar?`（護甲擋掉 ${ar}）`:''}${mv.ap&&armorOf(t)?'（穿透了護甲）':''}`);
@@ -4601,9 +4614,9 @@ async function ohAct(f){const mv=MOVES.oldhunter[0];
 async function foeVsFoe(f,mv,x){const F=G.fight,T=FT(f),X=FT(x);F.cur='f'+f.id;push();draw();
   if(mv.gun&&mv.snd)snd(mv.snd,1,1400);if(mv.shot){snd('shotgun',1,1600)}if(mv.pre)await sndW(mv.pre,.9,1800,.65);
   const R=r2(),m=(mv.h??T.hit)+(mv.qte?0:0),tot=R.s+m,def=fDef(x,mv.gun||mv.rng);const j=judge(R,tot,def);const hit=j==='ok'||j==='crit';
-  await dice({label:`${f.n}・${mv.n}　→　${x.n}`,dice:pairDice(R,'',1),quick:true,result:`<span class="${hit?'s':'f'}">${j==='crit'?'爆擊':hit?'命中':'落空'}</span>`,cls:hit?'ok':'ng'});
+  await dice({label:`${f.n}・${mv.n}　→　${x.n}`,sub:`命中 d20 ${sgn(m)}${DF().num?`　防禦 ${def}`:''}`,dice:pairDice(R,'',1),quick:true,result:`${eqS(R.a,m,tot)}<span class="${hit?'s':'f'}">${j==='crit'?'爆擊':hit?'命中':'落空'}</span>`,cls:hit?'ok':'ng'});
   out(`擲骰｜${f.n}・${mv.n}　→　${x.n}　d20(<b>${R.a}</b>)${m>=0?'+':'−'}${Math.abs(m)}＝<b>${tot}</b>　${j==='crit'?'爆擊':hit?'命中':'落空'}`,'roll',true);
-  if(hit){const raw=await foeDmg(f,mv,`${f.n}・${mv.n}　→　${x.n}`);let d=Math.max(1,Math.floor(raw*(j==='crit'?critX(f,mv):1)));snd(mv.gun||mv.shot?'bhit':(mv.hs||'claw'),.9,1500);
+  if(hit){const raw=await foeDmg(f,mv,`${f.n}・${mv.n}　→　${x.n}`,j==='crit'?critX(f,mv):1);let d=Math.max(1,Math.floor(raw*(j==='crit'?critX(f,mv):1)));snd(mv.gun||mv.shot?'bhit':(mv.hs||'claw'),.9,1500);
     const dd=applyDmg(x,d,[mv.flame?'fire':mv.gun||mv.shot?'ballistic':T.human?'slash':'blunt'],null,true);
     out(`${f.n}${T.human?'轉向':'撲向'}${x.n}。${x.n}生命 −${dd}，剩 ${Math.max(0,x.hp)}。`,'sys');if(x.hp<=0)await kill(x,null,false,1)}
   else{x.mc=(x.mc||0)+1;out(`${f.n}${T.human?'朝':'撲向'}${x.n}，沒有打中。`,'sys',true)}
@@ -4667,7 +4680,13 @@ function hitBonus(p,h,w,sk){
   return b}
 // 傷害＝武器傷害骰＋（該能力÷2）＋技能加成；v0.30.1 起等級不加傷害；dmgOf 回傳固定加值
 const ddTxt=(p,w,sk)=>{const [n,s]=w.dd||[1,2],b=dmgOf(p,w,sk);return `${n}d${s}${b?(b>0?'+':'−')+Math.abs(b):''}`};
-function rollDmg(p,w,sk){const [n,s]=w.dd||[1,2];let r=0;for(let i=0;i<n;i++)r+=rnd(1,s);return {r,d:Math.max(1,r+dmgOf(p,w,sk))}}
+function rollDmg(p,w,sk){const [n,s]=w.dd||[1,2];const rs=[];for(let i=0;i<n;i++)rs.push(rnd(1,s));const r=rs.reduce((a,b)=>a+b,0);return {r,rs,d:Math.max(1,r+dmgOf(p,w,sk))}}
+/* v0.31.2 玩家的傷害也跳骰子（主人 2026-11-18 02:29）：骰出 ＋ 加值（能力÷2 等）＝ 總和，爆擊 ×2；抗性、弱點、護甲另外算，實際扣多少看敵人卡浮字 */
+async function dmgShow(p,w,sk,x,RD,ext,crit,d){const [n,s]=w.dd||[1,2],b=dmgOf(p,w,sk)+ext;RD={...RD,rs:RD.rs||[RD.r]};
+  const base=RD.r+dmgOf(p,w,sk),ex=`${RD.rs.join(' + ')}${b?' '+sgS(b):''}`;
+  const sub=`傷害 ${n}d${s}${w.ds&&statMod(p,w.ds)>0?`　${STN[w.ds]} ${statMod(p,w.ds)}÷2`:''}${ext?`　招式 ${sgS(ext)}`:''}`;
+  await dice({label:`${w.n}　→　${x.n}`,sub,dice:RD.rs.map(v=>({sides:s,val:v,cls:crit?'crit':'ok'})),quick:true,
+    result:`<span class="eq">${crit?`(${ex}) × 2`:ex} = ${d}${base<1?'（最少 1）':''}</span><span class="s">點傷害</span>`,cls:crit?'crit':'ok'})}
 function dmgOf(p,w,sk){const S=sk?SKILL[sk]:{};let d=(w===WEAP.fist&&tr(p,'boxer')?2:0)+(w.ds?Math.floor(Math.max(0,statMod(p,w.ds))/2):0)+(S.dmg||0)-(p.dual?1:0);if(w.blade&&tr(p,'blade'))d+=1;if(isBow(w)&&tr(p,'archer'))d+=1;if(w.kind==='gun'&&p.kind==='liao')d+=1;return d}/* v0.30.0 固定加值不再保底 1（可以是 0 或負數），最後的傷害在 rollDmg 保底 1 */
 /* v0.24.3 打倒的那一下用不同的文字（原本會先寫「頭又慢慢轉了回來」再寫倒下）；KBTXT 是打倒人類敵人（劫匪、滅菌部隊）的那一下，用「他」（v0.25.1 起劫匪也是直接死亡，不會逃走） */
 const KILLTXT={blunt:['這一下砸碎了牠的頭骨，悶響在四周迴盪。','正中太陽穴，牠的頭猛地歪向一邊，眼睛失去了焦點。','一記重擊轟在牠的下顎上，牠整個人往後仰。'],slash:['刀刃深深劃開牠的脖子，血一下子噴了出來。','砍進肩頸之間，卡在骨頭上。牠的手垂了下來。'],pierce:['刺進胸口，正中要害。','尖端從肋骨的縫隙直直鑽進去，牠全身一僵。'],ballistic:['子彈打進牠的胸口正中央，牠整個人往後一頓。','子彈打穿牠的頸部，血霧噴在後面的牆上。'],fire:['火舌捲上牠的全身，牠發出一聲嘶啞的叫聲。']};
@@ -4710,7 +4729,7 @@ async function attack(p,h,sk,ti,counter,csk){
     for(const l of lines)if(!l.hit)l.x.mc=(l.x.mc||0)+1; // v0.30.0 敵人卡浮字：未命中
     await dice({label:`${counter?'反擊・':''}${w.n}${shots>1?`（${s+1}／${shots}）`:''}　→　${spread?'所有敵人':t.n}`,sub:`${STN[st]}　d20 ${sgn(sm+hb)}`,
       dice:multi?lines.map(l=>({sides:20,val:l.R.a,cap:l.x.n})):pairDice(L0.R,MP()?esc(p.name):''),
-      result:`<span class="${anyH?'s':'f'}">${multi?(nH?`命中 ${nH}／${lines.length}${anyC?'・爆擊':''}`:fum?'大失敗':'落空'):jw(L0)}</span>`,cls:anyC?'crit':(!anyH&&fum)?'fumble':anyH?'ok':'ng'});
+      result:multi?`<span class="${anyH?'s':'f'}">${nH?`命中 ${nH}／${lines.length}${anyC?'・爆擊':''}`:fum?'大失敗':'落空'}</span>${lines.map(l=>`<small class="ln">${l.x.n}　${l.R.a} ${sgS(sm+hb)} = ${l.tot}　${jw(l)}</small>`).join('')}`:`${eqS(L0.R.a,sm+hb,L0.tot)}<span class="${anyH?'s':'f'}">${jw(L0)}</span>`,cls:anyC?'crit':(!anyH&&fum)?'fumble':anyH?'ok':'ng'});
     out(`擲骰｜${MP()?esc(p.name)+' ':''}${w.n} ${lines.map(l=>`${multi?l.x.n+' ':''}d20(<b>${l.R.a}</b>)${sm+hb>=0?'+':'−'}${Math.abs(sm+hb)}＝<b>${l.tot}</b>　<span class="${l.hit?'s':'f'}">${jw(l)}</span>`).join('；')}`,'roll',true);
     if(w.kind==='gun'){g.mag--;if(G.lv==='F'&&!G.flags.gasoff){await explode();if(G.over||!G.fight)return true}
       const ms=snd(w.snd,1,1600);await wait(Math.min(ms||300,420));if(g.id==='beretta')setTimeout(()=>snd('casing',.5),300)}
@@ -4729,6 +4748,7 @@ async function attack(p,h,sk,ti,counter,csk){
         if(melee)snd(w.dt[0]==='blunt'?'fist':'knife',.9,900);
         if(melee&&affIs(x,'spiked')){hurtP(p,1,'骨刺扎進手裡：')}
         const RD=rollDmg(p,w,sk);let d=RD.d+(C&&C.dmg||0)+(brace?2:0);if(crit)d*=2;
+        await dmgShow(p,w,sk,x,RD,(C&&C.dmg||0)+(brace?2:0),crit,d);
         out(`擲骰｜傷害 ${ddTxt(p,w,sk)}(<b>${RD.r}</b>)${C&&C.dmg?'+'+C.dmg:''}${brace?'+2':''}${crit?'×2':''}＝<b>${d}</b>`,'roll',true);
         const headHit=headshotHit(w,aimed,crit,s,spread,x,t);
         if(headHit)snd('headshot',.6,900);
@@ -4964,7 +4984,7 @@ async function madAct(p){const F=G.fight;F.cur='p'+p.pid;push();draw();
 async function hitAlly(p,t,lab){const A=handAtk(p,'R');const {g,w}=A;const st=bestSt(p,w.st);const sm=statMod(p,st)+hitBonus(p,'R',w,null);
   const rng=w.kind!=='melee',S0=stanceOf(t,null,{rng});const R=r2(),tot=R.s+sm,def=baseDef(t)+S0.def;const j=judge(R,tot,def);const hit=j==='ok'||j==='crit';
   if(w.kind==='gun'&&g&&!A.bash){g.mag--;addAlarm(w.noise||2,p);snd(w.snd,1,1600)}else if(w.kind==='ranged'&&!A.bash)takeI(p,w.ammo);
-  await dice({label:`${lab||''}${esc(p.name)}・${w.n}　→　${esc(t.name)}`,sub:`${STN[st]}　d20 ${sgn(sm)}${DF().num?`　防禦 ${def}`:''}`,dice:pairDice(R,'',1),quick:true,result:`<span class="${hit?'f':'s'}">${j==='crit'?'爆擊':hit?'命中':'落空'}</span>`,cls:hit?'ng':'ok'});
+  await dice({label:`${lab||''}${esc(p.name)}・${w.n}　→　${esc(t.name)}`,sub:`${STN[st]}　d20 ${sgn(sm)}${DF().num?`　防禦 ${def}`:''}`,dice:pairDice(R,'',1),quick:true,result:`${eqS(R.a,sm,tot)}<span class="${hit?'f':'s'}">${j==='crit'?'爆擊':hit?'命中':'落空'}</span>`,cls:hit?'ng':'ok'});
   out(`擲骰｜${esc(p.name)}・${w.n} d20(<b>${R.a}</b>)${sm>=0?'+':'−'}${Math.abs(sm)}＝<b>${tot}</b>　<span class="${hit?'f':'s'}">${j==='crit'?'爆擊':hit?'命中':'落空'}</span>`,'roll',true);
   if(w.ammo==='arrow'&&!A.bash)await bowAttackAudio(hit);
   if(g&&g.dur!=null&&w.kind==='melee'&&!A.bash){g.dur--;if(g.dur<=0){out(`<b>${WEAP[g.id].n}</b>壞了。`,'dmg',true);rmGear(p,g.u)}}

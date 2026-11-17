@@ -173,6 +173,23 @@ test('合成三格，每個配方（材料＋工具）最多三樣',()=>{const r
  assert.equal(r('CRAFT_SLOTS'),3);
  assert.equal(r("RECIPES.filter(x=>!x.special&&x.in.length+(x.tools||[]).length>3).map(x=>x.id).join()"),'');
 });
+// v0.31.2 骰子結果寫成算式（主人 2026-11-18 02:29）：骰出 ＋ 加值 ＝ 總和，後面接結果；輪到敵人也一樣；玩家傷害也跳骰子
+test('骰子結果寫成算式：檢定、敵人攻擊、敵人傷害、玩家傷害',async()=>{const r=g30();
+ r("globalThis.SV2={d:dice,r2:r2,mr:Math.random,se:statEffects,h:hurt};globalThis.DS=[];dice=async s=>{DS.push(s)};statEffects=()=>[]");
+ try{
+  r("r2=seq([14]);p.st.AGI=3;p.traits=[]");await r("check(p,'AGI',10,'測試')");
+  assert.match(r("DS[0].result"),/14 \+ 3 = 17<\/span><span[^>]*>成功/);
+  r("DS.length=0;r2=seq([12]);globalThis.f=F0(1)[0];G.fight={foes:[f],first:false,round:1};hurt=()=>{}");
+  await r("foeHit(f,MOVES.infected[0],p,1)");
+  assert.match(r("DS[0].result"),/12 \+ \d+ = \d+<\/span>/,'敵人命中算式');
+  assert.match(r("DS[1].result"),/class="eq">\d+ \+ \d+ = \d+<\/span><span[^>]*>傷害/,'敵人傷害算式（2d4：兩顆骰相加）');
+  r("DS.length=0;p.hand={R:null,L:null};p.st.STR=4;G.fight={foes:F0(1),first:false};r2=seq([15]);rollDmg=(q,w,sk)=>({r:2,rs:[2],d:2+dmgOf(q,w,sk)})");
+  await r("attack(p,'R',null,0)");
+  const dm=r("DS.map(x=>x.result).find(t=>/點傷害/.test(t))");
+  assert.match(dm,/2 \+ 2 = 4<\/span>/,'拳頭 1d2 擲 2，力量 4÷2＝2，共 4');
+  assert.match(r("DS.map(x=>x.sub).join()"),/力量 4÷2/,'寫出能力÷2');
+ }finally{r("dice=SV2.d;r2=SV2.r2;Math.random=SV2.mr;statEffects=SV2.se;hurt=SV2.h")}
+});
 // v0.30.1 等級成長（主人 2026-11-17 20:30 同意）：每 2 級命中 +1，傷害不隨等級
 test('等級：每 2 級命中 +1，傷害不隨等級增加',()=>{const r=g30();
  assert.equal(r("[1,2,3,4,5,10].map(l=>{p.lv=l;return lvHit(p)}).join()"),'0,1,1,2,2,5');
