@@ -427,6 +427,9 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .usdrow b{color:var(--gold);font-size:1rem}.usdrow .btn{padding:2px 8px;min-height:26px;font-size:.74rem}
 #stage.short .erow,#stage.short .irow{padding:3px 6px}
 #stage.short .bagwrap.b3{grid-template-columns:minmax(0,.85fr) minmax(0,1fr) minmax(0,1.15fr);gap:6px}
+/* v0.31.1 背包：左欄（狀態）維持原本三欄時的寬度，拿掉裝備欄空出來的寬度全部給右欄（主人 2026-11-17 02:43、11-18 02:09） */
+.bagwrap.bagv{grid-template-columns:minmax(0,1fr) minmax(0,2.15fr)}
+#stage.short .bagwrap.bagv{grid-template-columns:minmax(0,.85fr) minmax(0,2.15fr);gap:6px}
 #stage.short .erow{grid-template-columns:2.2em minmax(0,1fr) auto;gap:4px}
 #stage.short .erow .btn,#stage.short .irow .btn,#stage.short .acts .btn{padding:2px 7px;min-height:26px;font-size:.72rem}
 #stage.short .sheet{font-size:.78rem}#stage.short .sheet .kv{font-size:11px}#stage.short .attr{font-size:11px;gap:4px}#stage.short .attr .boxes i{width:8px;height:8px}
@@ -654,7 +657,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.31.0", "b": 80, "t": "2026-11-18T01:57:27+08:00"};
+const ZC_VER={"v": "0.31.1", "b": 81, "t": "2026-11-18T02:13:04+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -5897,7 +5900,7 @@ function panel(k){
   if(k==='bag'){
     const gr=G.ground.length?G.ground.map((x,i)=>`<div class="irow"><div class="in"><b>${groundName(x)}</b></div><button class="btn" data-pick="${i}" ${can&&!inF?'':'disabled'}>撿起</button></div>`).join(''):'<p class="note">目前地上沒有物品。</p>';
     const space=`<p class="slots">背包 <b>${used(m)}／${cap(m)}</b> 格　<small>同種 5 個疊 1 格；拿在手上、穿著的不佔格</small></p><p class="note">${inF?'戰鬥中不能丟棄或撿取地面物品；使用物品、換武器會用掉回合。':used(m)>=cap(m)?'背包已滿；可先放下物品。相同物品未滿 5 個仍可堆疊。':'點一條可以看完整說明；放下的物品可從地面區撿回。'}</p>`;
-    openOv(`<div class="boxhead"><b>背包</b><span class="hbtns"><button class="btn" data-open="gear">裝備</button>${inF?'':'<button class="btn" data-open="craft">合成</button>'}${X}</span></div><div class="bagwrap"><div class="scr2">${sheet(m)}</div><div class="bagstore"><div class="bagcap">${space}${usdRow(m,inF,can)}</div><div class="scr2 bagitems">${itemCol(m,inF,can)}</div><section class="groundarea"><div class="cat">地面物品（${G.ground.length}）</div><div class="scr2 grounditems">${gr}</div></section></div></div>`);
+    openOv(`<div class="boxhead"><b>背包</b><span class="hbtns"><button class="btn" data-open="gear">裝備</button>${inF?'':'<button class="btn" data-open="craft">合成</button>'}${X}</span></div><div class="bagwrap bagv"><div class="scr2">${sheet(m)}</div><div class="bagstore"><div class="bagcap">${space}${usdRow(m,inF,can)}</div><div class="scr2 bagitems">${itemCol(m,inF,can)}</div><section class="groundarea"><div class="cat">地面物品（${G.ground.length}）</div><div class="scr2 grounditems">${gr}</div></section></div></div>`);
   }else if(k==='gear'){
     // v0.27.0 裝備頁：武器、防具、道具欄都在這裡（主人 2026-11-17）
     openOv(`<div class="boxhead"><b>裝備</b><span class="hbtns"><button class="btn" data-open="bag">背包</button>${inF?'':'<button class="btn" data-open="craft">合成</button>'}${X}</span></div><div class="bagwrap"><div class="scr2">${eqCol(m,inF,can)}</div><div class="scr2">${toolCol(m,inF,can)}</div></div>`);
