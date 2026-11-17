@@ -126,3 +126,51 @@ test('手電筒、滅火器放背包沒裝：不能用技能',async()=>{const r=
  r("p.items.flashlight=1;p.items.extinguisher=1;p.tl=[null,null];p.tlUsed={};G.fight={foes:[newFoe(0,'infected',2)],round:1}");
  assert.equal(await r("execAct(p,{a:'flash',t:0})"),false);assert.equal(await r("execAct(p,{a:'ext'})"),false);assert.equal(r('p.items.extinguisher'),1);
 });
+
+// v0.30.0 骰子機制（主人 2026-11-17 16:25～16:48 定案，方案在專案 zerocase/PROPOSAL_DICE.md）
+function g30(){const r=g29();r(`dice=async()=>{};G.know={};G.alarm=0;G.flags={};globalThis.F0=(n)=>Array.from({length:n},(_,i)=>({id:i,type:'infected',n:'感染者'+i,hp:999,max:999,bleed:0,burn:0,stun:0,weak:0,prone:0,dead:0}));
+ globalThis.seq=a=>{let i=0;return ()=>{const v=a[Math.min(i,a.length-1)];i++;return {a:v,s:v}}};`);return r}
+test('抗性 ×0.75、弱點 ×1.25 四捨五入；抗性至少少 1、弱點至少多 1；最少 1',()=>{const r=g30();
+ r("globalThis.f=F0(1)[0];G.fight={foes:[f],first:false};globalThis.hit=(b,dt)=>{f.hp=999;applyDmg(f,b,[dt],null,true);return 999-f.hp}");
+ assert.equal(r("[1,2,3,4,8,10,12].map(b=>hit(b,'pierce')).join()"),'1,1,2,3,6,8,9','感染者抗穿刺');
+ assert.equal(r("[1,2,4,6,8].map(b=>hit(b,'blunt')).join()"),'2,3,5,8,10','感染者弱鈍擊');
+ assert.equal(r("[1,4,7].map(b=>hit(b,'slash')).join()"),'1,4,7','沒有抗性不變');
+});
+test('固定加值不再保底 1：力量 0、1 級拿球棒，加值是 0',()=>{const r=g30();
+ assert.equal(r("p.st.STR=0;p.lv=1;dmgOf(p,WEAP.bat,null)"),0);assert.equal(r("p.st.STR=4;dmgOf(p,WEAP.bat,null)"),2);
+});
+test('敵人傷害改擲骰：每一招的固定數字都有對應的骰子，平均值差不到 0.5',async()=>{const r=g30();
+ const bad=r("const o=[];for(const [k,ms] of Object.entries(MOVES))for(const m of ms){const v=m.d??FOES[k].dmg;const [n,s,b]=fddOf(v);if(!FDD[v]||Math.abs((n?n*(s+1)/2:0)+b-v)>.5)o.push(k+':'+m.n+':'+v)}o.join()");
+ assert.equal(bad,'');
+ const v=await r("(async()=>{const f=F0(1)[0];let lo=99,hi=0;for(let i=0;i<300;i++){const x=await foeDmg(f,{d:5,n:'測試'});lo=Math.min(lo,x);hi=Math.max(hi,x)}return lo+','+hi})()");
+ assert.equal(v,'2,8','撲咬 5 → 2d4 擲得出 2～8');
+});
+test('攻擊擲出 20 叫爆擊：整個傷害 ×2，再算弱點',async()=>{const r=g30();
+ r("p.hand={R:null,L:null};G.fight={foes:F0(1),first:false};r2=seq([20]);rollDmg=()=>({r:3,d:4});LOG.length=0");
+ await r("attack(p,'R',null,0)");
+ assert.equal(r('G.fight.foes[0].hp'),989,'4×2＝8，弱鈍擊 ×1.25＝10');
+ assert.match(r("LOG.map(x=>x[0]).join('｜')"),/爆擊/);assert.doesNotMatch(r("LOG.map(x=>x[0]).join('｜')"),/<span[^>]*>(大成功|重擊)</,'擲骰結果的字不能是大成功或重擊（敘事文字裡的「一記重擊」可以）');
+});
+test('橫掃對每個目標各擲一次：一個爆擊、一個大失敗、一個命中',async()=>{const r=g30();
+ r("p.gear=[newGear('bat')];p.hand={R:null,L:null};equip(p,p.gear[0].u,'R');p.st.STR=2;G.fight={foes:F0(3),first:false};r2=seq([20,1,10]);rollDmg=()=>({r:3,d:4})");
+ await r("attack(p,'R','sweep',0)");
+ assert.equal(r("G.fight.foes.map(f=>f.hp).join()"),'989,999,994');
+});
+test('敵人的攻擊也叫爆擊；槍架穩是傷害 +2 不是 ×1.5',()=>{
+ assert.doesNotMatch(src,/'重擊':hit/);assert.doesNotMatch(src,/d\*1\.5/);assert.match(src,/brace\?2:0/);
+});
+test('全隊投票的檢定沒有協助 +2：多人時擲骰的人只看自己的能力',async()=>{const r=g30();
+ // 直接走 doCheck（真正決定加值的地方），把擲骰換成只記錄加值
+ r("globalThis.__ex=null;G.ev=null;N.T30G={L:'A',n:'測試',t:'測試',c:[{l:'測試',k:'AGI',d:12,ok:{t:'x'},ng:{t:'y'}}]};G.node='T30G';searchChoices=n=>n.c;zView=cs=>cs;check=async(p,st,dc,l,ex)=>{__ex=ex||0;return {ok:true,r:10,tot:10}};passTime=async()=>false;applyRes=async()=>{}");
+ await r("doCheck(0,p)");assert.equal(r('G.players.length'),2);assert.equal(r('__ex'),0);
+});
+test('先攻同分：玩家先於敵人，玩家之間先比敏捷',async()=>{const r=g30();
+ // rnd 是 const，改 Math.random：前三次對應 d20 12、10、12，之後（同分的隨機序）固定 0.5；測完還原
+ r("p.st.AGI=2;q.st.AGI=4;G.fight={foes:F0(1),first:false,round:1}");assert.ok(r("statMod(q,'AGI')>statMod(p,'AGI')"));
+ await r("(async()=>{const R0=Math.random;const fm=FOES.infected.init+(isNight()?2:0),a=[14-statMod(p,'AGI'),14-statMod(q,'AGI'),14-fm].map(v=>(v-1)/20+.01);let i=0;Math.random=()=>i<a.length?a[i++]:.5;try{await rollInit('normal')}finally{Math.random=R0}})()");
+ assert.equal(r("G.fight.order.map(o=>o.k+':'+o.id).join()"),'p:p2,p:p1,f:0',r("JSON.stringify(G.fight.order)"));
+});
+test('多段攻擊選之前先確認彈藥：箭不夠射兩次就不能用二連射',async()=>{const r=g30();
+ r("p.gear=[newGear('pvcbow')];p.hand={R:null,L:null};equip(p,p.gear[0].u,'R');p.items.arrow=1;G.fight={foes:F0(1),first:false}");
+ assert.equal(await r("attack(p,'R','double2',0)"),false);assert.equal(r('p.items.arrow'),1);
+});
