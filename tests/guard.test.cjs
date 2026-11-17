@@ -139,6 +139,12 @@ test('抗性 ×0.75、弱點 ×1.25 四捨五入；抗性至少少 1、弱點至
 test('固定加值不再保底 1：力量 0、1 級拿球棒，加值是 0',()=>{const r=g30();
  assert.equal(r("p.st.STR=0;p.lv=1;dmgOf(p,WEAP.bat,null)"),0);assert.equal(r("p.st.STR=4;dmgOf(p,WEAP.bat,null)"),2);
 });
+// v0.30.1 等級成長（主人 2026-11-17 20:30 同意）：每 2 級命中 +1，傷害不隨等級
+test('等級：每 2 級命中 +1，傷害不隨等級增加',()=>{const r=g30();
+ assert.equal(r("[1,2,3,4,5,10].map(l=>{p.lv=l;return lvHit(p)}).join()"),'0,1,1,2,2,5');
+ assert.equal(r("p.st.STR=4;p.lv=1;globalThis.A1=dmgOf(p,WEAP.bat,null);p.lv=9;A1+','+dmgOf(p,WEAP.bat,null)"),'2,2');
+ assert.equal(r("G.fight=null;p.st.STR=0;p.dual=0;p.lv=1;globalThis.A2=hitBonus(p,'R',WEAP.bat,null);p.lv=6;hitBonus(p,'R',WEAP.bat,null)-A2"),3);
+});
 test('敵人傷害改擲骰：每一招的固定數字都有對應的骰子，平均值差不到 0.5',async()=>{const r=g30();
  const bad=r("const o=[];for(const [k,ms] of Object.entries(MOVES))for(const m of ms){const v=m.d??FOES[k].dmg;const [n,s,b]=fddOf(v);if(!FDD[v]||Math.abs((n?n*(s+1)/2:0)+b-v)>.5)o.push(k+':'+m.n+':'+v)}o.join()");
  assert.equal(bad,'');
