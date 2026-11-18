@@ -1,0 +1,73 @@
+{
+  "version": "0.36.1",
+  "build": 89,
+  "base_commit": "ae44f2e1391d40e5e935ba2cc637da8d03050549",
+  "baseline": {
+    "node_pass": 180,
+    "node_fail": 0,
+    "node_todo": 1,
+    "browser_smoke": "三尺寸各40步通過",
+    "long_route": {
+      "actions": 220,
+      "nodes": 66,
+      "areas": 18
+    }
+  },
+  "final": {
+    "node_pass": 180,
+    "node_fail": 0,
+    "node_todo": 1,
+    "browser_smoke": "三尺寸各40步通過",
+    "long_route": {
+      "actions": 220,
+      "nodes": 61,
+      "areas": 18
+    },
+    "party_setting_browser_checks": 129,
+    "original_player_card_checks": 37,
+    "evacuation_logic_checks": 20,
+    "evacuation_browser_checks": 25
+  },
+  "settings": {
+    "key": "zc-battle-party",
+    "ui_property": "partyCards",
+    "default_desktop": 1,
+    "default_android_ios": 0,
+    "account_sync": false,
+    "game_state_sync": false,
+    "manual_override_persisted": true
+  },
+  "screenshots_reviewed": [
+    "393x690",
+    "844x390",
+    "1280x720"
+  ],
+  "unchanged": [
+    "tests/",
+    "tools/split_index.py",
+    "14個切檔標題",
+    "G與玩家資料欄位",
+    "遊戲存檔格式",
+    "戰鬥規則",
+    "多人同步協定"
+  ],
+  "not_tested": [
+    "真實Android/iOS原生瀏覽器引擎（驗收使用Chromium UA與觸控資料模擬）",
+    "正式多人網路實連（驗收使用受控隊伍）"
+  ],
+  "phone": "待主人實機驗收",
+  "review": "獨立唯讀程式審查無Critical/Important問題；另以Node VM驗證無navigator與舊UI相容",
+  "evidence": "docs/QA_v0.36.1.zip",
+  "regression": {
+    "first_ci_run": 44339232676,
+    "first_ci_result": "失敗：直拿選項範圍；Node和長路線通過",
+    "reproduced_in": [
+      "v0.36.0",
+      "v0.36.1"
+    ],
+    "fixture": "兩敵人目標選單，返回left=-15.40625，兩版相同",
+    "ci_exact_state": "未保存，不能確認完全相同觸發",
+    "fix": "僅將低高度普通攻擊雙欄配置擴到選敵與返回",
+    "tests": "8平台卡片開/關各重現，先失敗後通過；原tests完全未改"
+  }
+}

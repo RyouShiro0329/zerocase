@@ -1,11 +1,11 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=c81de404" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=cae406c9" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=c81de404") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=cae406c9") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
@@ -547,9 +547,9 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 .battle-player .battle-shield u{background:#7a6aa0}
 .battle-player.battle-current{border-color:var(--gold);box-shadow:inset 0 0 14px #000,0 0 6px rgba(200,173,112,.35)}
 .battle-player.battle-inactive{opacity:.65}
-#stage.short #cbar:not([hidden])~.cols #choices:has(>.ch[data-fa="atk"][data-h]:not([data-sk]):not([data-csk])){grid-template-columns:repeat(2,minmax(0,1fr))}
-#stage.short #cbar:not([hidden])~.cols #choices:has(>.ch[data-fa="atk"][data-h]:not([data-sk]):not([data-csk]))>.ch[data-ftab=""]{grid-column:1/-1;min-height:32px;padding:3px 9px;align-items:center}
-#stage.short #cbar:not([hidden])~.cols #choices:has(>.ch[data-fa="atk"][data-h]:not([data-sk]):not([data-csk]))>.ch[data-ftab=""] .cm{flex-basis:auto;margin-top:0}
+#stage.short #cbar:not([hidden])~.cols #choices:has(>.ch[data-fa="atk"][data-h]:not([data-sk]):not([data-csk]),>.ch[data-tgt]){grid-template-columns:repeat(2,minmax(0,1fr))}
+#stage.short #cbar:not([hidden])~.cols #choices:has(>.ch[data-fa="atk"][data-h]:not([data-sk]):not([data-csk]),>.ch[data-tgt])>.ch:is([data-ftab=""],[data-cancel]){grid-column:1/-1;min-height:32px;padding:3px 9px;align-items:center}
+#stage.short #cbar:not([hidden])~.cols #choices:has(>.ch[data-fa="atk"][data-h]:not([data-sk]):not([data-csk]),>.ch[data-tgt])>.ch:is([data-ftab=""],[data-cancel]) .cm{flex-basis:auto;margin-top:0}
 /* v0.7.3 主頁分類卡：圖片鋪滿卡片，下方漸層疊字 */
 .hcat{position:relative;overflow:hidden;justify-content:flex-end;align-items:flex-start;text-align:left;padding:12px 14px;background:#070706 center/cover no-repeat}
 .hcat[data-cat=custom]{background-image:url(img/cat_custom.webp);background-position:center 40%}
@@ -679,7 +679,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.36.0", "b": 88, "t": "2026-11-18T21:13:36+08:00"};
+const ZC_VER={"v": "0.36.1", "b": 89, "t": "2026-11-18T23:36:52+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3153,7 +3153,9 @@ EVPOOL.find(e=>e.id==='radio').audio='radiostatic';
 const CREDITS=`音效沿用《零號病例》原專案素材。其中：“Headshot 2” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；“GROSS IMPACT” by magnuswaker（Freesound，CC0）；“Monster Bite on Armor WAV” by OGsoundFX（Freesound，CC BY 4.0）；“Acid Breath Attack” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；裝備切換音效取自 Ryan Conway “putting coat on and off with zippers”（Freesound，CC BY 4.0）。新增音效（CC0）：glassbreak—RangoAnimations（613879）、firealarm—simonjeffery13（792484）、genstart／genloop—jameswrowles（516759）、dryfire—serøutōnin--deprivəd（674568）、woodknock—RoyalRose（560295）、woodimpact—qubodup（160213）。<a href="docs/audio/LICENSES_AND_ORIGINS.md" target="_blank" rel="noopener">作者、Freesound 原始網址與授權紀錄</a>。第二批 CC0：踩玻璃 LukaCafuka（757830）、管線水聲 HenKonen（797674）、水泵 unfa（221551）、無線電雜訊 harrisonlace（812929）。人聲：VoiceBosch「RADIO SOLDIER」，降一個半音、切段、調整音量；衍生音檔採 <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>，<a href="https://voicebosch.itch.io/radio-soldier-announcer-audio-pack" target="_blank" rel="noopener">作者來源</a>。以上音效作者與本作品無關，也未替本作品背書。骰子音效為程式即時合成。<br><br>中文字型：全字庫正楷體（國家發展委員會，2018）；英文字型：Source Serif 4。<a href="fonts/SOURCES.md" target="_blank" rel="noopener">字型來源與授權</a>。`;
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
 let UI=Object.assign({snd:1,bgm:1,spd:1,orient:'auto',diff:'normal',qkey:'wasd'},LS.get('zc5-ui',{}));
-const saveUI=()=>LS.set('zc5-ui',UI);
+// 戰鬥友軍卡為本機偏好，不跟隨帳號的介面設定同步；iPad 桌面版識別也視為行動裝置。
+UI.partyCards=LS.get('zc-battle-party',typeof navigator!=='undefined'&&(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent||'')||(navigator.userAgentData&&navigator.userAgentData.platform==='Android')||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1))?0:1);
+const saveUI=()=>{const {partyCards,...rest}=UI;LS.set('zc5-ui',rest);LS.set('zc-battle-party',partyCards)};
 let META=Object.assign({shards:0,unlocked:[],runs:0,clears:0,got:[]},LS.get('zc5-meta',{}));
 const saveMeta=()=>LS.set('zc5-meta',META);
 // 玩家頭像（不放進 G，另外同步）：pid → 圖片 data URL
@@ -5857,7 +5859,7 @@ function draw(){
     hpRun($('#foes'));fltRun($('#foes'));
   }else{cb.hidden=true;for(const k in HPA)if(k[0]==='f')delete HPA[k];for(const k in FPV)delete FPV[k];FLT.length=0}
   for(const p of G.players)hpSet('p'+p.pid,p.dead?0:Math.max(0,p.hp)/p.max);
-  if(F){const party=$('#battle-party'),left=party.scrollLeft;party.innerHTML=battlePlayerCards();party.scrollLeft=left;hpRun(party)}
+  if(F){const party=$('#battle-party');party.hidden=!UI.partyCards;if(UI.partyCards){const left=party.scrollLeft;party.innerHTML=battlePlayerCards();party.scrollLeft=left;hpRun(party)}}
   $('#me').hidden=true;
   {const v=$('#vig'),v2=$('#vig2'),lg=$('#log');const r=m&&!m.dead?Math.max(0,m.hp)/m.max:1,sr=m&&!m.dead?(m.mad?0:fstg(m)>=3?.2:1):1;
    v.style.opacity=r<.3?String(Math.min(1,.35+(.3-r)*2.2)):'0';v.classList.toggle('beat',r<.15);
@@ -6107,7 +6109,7 @@ function panel(k){
   }else if(k==='settings'){
     const seg=(key,opts)=>`<div class="seg">${opts.map(([v,l])=>`<button class="btn ${UI[key]===v?'on':''}" data-ui="${key}" data-v="${v}">${l}</button>`).join('')}</div>`;
     const hostOpt=ROLE==='host'&&G&&!G.over?`<p class="note">倒數（房主）</p><div class="seg">${[['off','關閉'],['host','房主按下才倒數'],['force','強制倒數']].map(([v,l])=>`<button class="btn ${G.opts.cd===v?'on':''}" data-gcd="${v}">${l}</button>`).join('')}</div><div class="seg">${[15,20,30].map(v=>`<button class="btn ${G.opts.sec===v?'on':''}" data-gsec="${v}">${v} 秒</button>`).join('')}</div>`:'';
-    openOv(`<div class="boxhead"><b>設定</b>${X}</div>${hostOpt}<p class="note">音效</p>${seg('snd',[[1,'開'],[0,'關']])}<p class="note">背景音樂</p>${seg('bgm',[[1,'開'],[0,'關']])}<p class="note">擲骰與文字速度</p>${seg('spd',[[1,'完整'],[.55,'快速'],[.3,'極快']])}<p class="note">畫面方向（手機直拿時）</p>${seg('orient',[['auto','自動轉成橫向'],['off','不旋轉']])}${qteTouch()?'':`<p class="note">突發反應（QTE）用的按鍵</p>${seg('qkey',[['wasd','WASD'],['arrow','方向鍵']])}`}<div class="seg"><button class="btn" data-full>全螢幕</button><button class="btn" data-open="credits">製作與授權</button>${!G&&acctOn()?'<button class="btn" data-acctopen>帳號</button>':''}${G?`<button class="btn" data-quit>${ROLE==='solo'?'回到選單（沒存檔的進度會消失）':'離開房間'}</button>`:''}</div><p class="note">兌換碼（輸入朋友給的代碼，直接解鎖他的訪客角色）</p><div class="seg rcrow"><input class="inp" id="rcode" maxlength="24" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="例如 XXX-XXXX-XXXX"><button class="btn" data-redeem>兌換</button></div>`);
+    openOv(`<div class="boxhead"><b>設定</b>${X}</div>${hostOpt}<p class="note">音效</p>${seg('snd',[[1,'開'],[0,'關']])}<p class="note">背景音樂</p>${seg('bgm',[[1,'開'],[0,'關']])}<p class="note">戰鬥友軍角色卡（包含自己）</p>${seg('partyCards',[[1,'開'],[0,'關']])}<p class="note">僅影響這台裝置的畫面，不影響隊友。</p><p class="note">擲骰與文字速度</p>${seg('spd',[[1,'完整'],[.55,'快速'],[.3,'極快']])}<p class="note">畫面方向（手機直拿時）</p>${seg('orient',[['auto','自動轉成橫向'],['off','不旋轉']])}${qteTouch()?'':`<p class="note">突發反應（QTE）用的按鍵</p>${seg('qkey',[['wasd','WASD'],['arrow','方向鍵']])}`}<div class="seg"><button class="btn" data-full>全螢幕</button><button class="btn" data-open="credits">製作與授權</button>${!G&&acctOn()?'<button class="btn" data-acctopen>帳號</button>':''}${G?`<button class="btn" data-quit>${ROLE==='solo'?'回到選單（沒存檔的進度會消失）':'離開房間'}</button>`:''}</div><p class="note">兌換碼（輸入朋友給的代碼，直接解鎖他的訪客角色）</p><div class="seg rcrow"><input class="inp" id="rcode" maxlength="24" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="例如 XXX-XXXX-XXXX"><button class="btn" data-redeem>兌換</button></div>`);
   }else if(k==='credits'){
     openOv(`<div class="boxhead"><b>製作與授權</b><span class="hbtns"><button class="btn" data-open="settings">← 回設定</button>${X}</span></div><p class="note">${CREDITS}</p>`);
   }
@@ -6178,7 +6180,7 @@ document.addEventListener('click',e=>{
   else if(d.drop){act({a:'drop',k:d.drop});later()}
   else if(d.gcd){G.opts.cd=d.gcd;if(d.gcd!=='force'&&G.phase!=='fight')stopCd();else if(G.phase==='node'||G.phase==='roller')startCd();push();draw();panel('settings')}
   else if(d.gsec){G.opts.sec=+d.gsec;push();panel('settings')}
-  else if(d.ui){const k=d.ui;UI[k]=k==='orient'||k==='qkey'?d.v:+d.v;saveUI();if(k==='snd')setSoundEnabled(UI.snd);if(k==='bgm'){if(UI.bgm)startBgm();else stopBgm()}sfx('click',.6);panel('settings');layout()}
+  else if(d.ui){const k=d.ui;UI[k]=k==='orient'||k==='qkey'?d.v:+d.v;saveUI();if(k==='partyCards'&&G)draw();if(k==='snd')setSoundEnabled(UI.snd);if(k==='bgm'){if(UI.bgm)startBgm();else stopBgm()}sfx('click',.6);panel('settings');layout()}
   else if(b.hasAttribute('data-full'))enterFull();
   else if(b.hasAttribute('data-acctopen')){closeOv();showAcct()}
   else if(b.hasAttribute('data-quit')){closeOv();quitGame()}
