@@ -8,7 +8,7 @@ page.on('pageerror',e=>report.errors.push(`${tag}: ${e.message}`));
 page.on('console',m=>{if(m.type()==='error'&&!/Failed to load|net::|fonts|favicon|firebase|gstatic|ERR_/i.test(m.text()))report.errors.push(`${tag}: ${m.text()}`)});
 await page.addInitScript(()=>{localStorage.setItem('zc5-ui',JSON.stringify({snd:0,bgm:0,spd:.3,orient:'auto'}));setInterval(()=>{for(const s of ['#dice','#lvcard']){const el=document.querySelector(s);if(el&&!el.hidden)el.click()}},100)});
 await page.goto(URL);await page.click('#gateNo');
-check(tag+' 主選單版本',await page.locator('.ver').innerText()==='v0.37.0・Build 90');
+check(tag+' 主選單版本',await page.locator('.ver').innerText()==='v0.37.1・Build 91');
 await page.click('[data-cat="custom"]');await page.fill('#cname','撤離測試');await page.click('[data-ctab="tal"]');await page.click('[data-tal="keen"]');await page.click('[data-ctab="sk"]');
 await page.click('[data-csk="evacroute"]');await page.locator('[data-csk="evacroute"]').scrollIntoViewIfNeeded();await page.evaluate(()=>document.fonts.ready);
 await page.screenshot({path:`qa-output/skill-${tag}.png`});check(tag+' 初始技能選取',await page.locator('[data-csk="evacroute"]').getAttribute('class').then(s=>s.includes('on')));

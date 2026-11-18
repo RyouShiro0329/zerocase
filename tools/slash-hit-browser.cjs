@@ -27,14 +27,15 @@ async function openGame(browser,width,height,broken=false){
   await p.waitForFunction(()=>!!SLASH_VFX.active);const started=await p.evaluate(()=>SLASH_VFX.active.t);
   await p.waitForTimeout(180);await p.evaluate(()=>draw());await p.waitForTimeout(60);
   check(tag+' 重畫後仍對準同一敵人且不重播',await p.evaluate(t=>SLASH_VFX.active.t===t&&document.querySelectorAll('#foes .zc-slash-fx').length===1&&document.querySelector('.zc-slash-fx').parentElement.dataset.id==='0',started));
-  await p.waitForTimeout(240);await p.screenshot({path:OUT+'/hit-'+tag+'.png'});
+  await p.waitForTimeout(90);await p.screenshot({path:OUT+'/hit-'+tag+'.png'});
   check(tag+' 特效不攔截操作且被限制在敵人卡',await p.locator('.zc-slash-fx').evaluate(c=>getComputedStyle(c).pointerEvents==='none'&&getComputedStyle(c.parentElement).overflow==='hidden'&&Math.abs(c.clientWidth-c.parentElement.clientWidth)<2&&Math.abs(c.clientHeight-c.parentElement.clientHeight)<2));
   await p.waitForFunction(()=>!SLASH_VFX.active&&!busy&&!G.busy,null,{timeout:30000});
-  const result=await p.evaluate(t=>({frames:__frames,sounds:__sounds.map(s=>({start:s.at+s.delay-t,peak:s.at+s.delay-t+335})),hp:G.fight.foes[0].hp,dur:me().gear.find(g=>g.id==='knife').dur,clean:!document.querySelector('.zc-slash-fx')&&!/undefined|NaN|\[object/.test(document.querySelector('#app').textContent),saved:JSON.stringify(snap()).includes('zc-slash')}),started);
+  const result=await p.evaluate(t=>({frames:__frames,sounds:__sounds.map(s=>({start:s.at+s.delay-t,peak:s.at+s.delay-t+335})),hp:G.fight.foes[0].hp,dur:me().gear.find(g=>g.id==='knife').dur,clean:!document.querySelector('.zc-slash-fx')&&!/undefined|NaN|\[object/.test(document.querySelector('#app').textContent),saved:JSON.stringify(snap()).includes('zc-slash'),reactionClean:![...document.querySelectorAll('#foes .foe')].some(c=>c.classList.contains('zc-slash-react')||['x','y','px','tilt'].some(k=>c.style.getPropertyValue('--zc-slash-'+k)))}),started);
+  check(tag+' 播完清除全部微震樣式',result.reactionClean);
   check(tag+' 實際斬擊扣原傷害4與耐久1',result.hp===96&&result.dur===14);
   check(tag+' 播完清除且沒有無效文字或特效存檔欄位',result.clean&&!result.saved);
-  check(tag+' 逐格播放到第6格並且只有一份刀聲',result.frames.some(f=>f.at>=471&&f.at<565&&f.ink)&&result.sounds.length===1&&result.frames.every(f=>f.target==='0'));
-  check(tag+' 刀聲峰值對齊主要刀光（偏差小於25ms）',Math.abs(result.sounds[0].peak-533)<25);report.timing.push({tag,...result.sounds[0],frames:result.frames.length});
+  check(tag+' 逐格播放到第6格並且只有一份刀聲',result.frames.some(f=>f.at>=335&&f.at<405&&f.ink)&&result.sounds.length===1&&result.frames.every(f=>f.target==='0'));
+  check(tag+' 刀聲峰值對齊主要刀光（偏差小於25ms）',Math.abs(result.sounds[0].peak-335)<25);report.timing.push({tag,...result.sounds[0],frames:result.frames.length});
   check(tag+' 原本選項完整可見',await p.locator('#choices button').evaluateAll(bs=>bs.slice(0,3).every(b=>{const r=b.getBoundingClientRect(),v=document.querySelector('#stage').getBoundingClientRect();return r.left>=v.left-1&&r.right<=v.right+1&&r.top>=v.top-1&&r.bottom<=v.bottom+1})));
   // 確認接收端真的經 pump 播放，狀態在刀光主格更新而非提早扣血。
   await p.evaluate(()=>{ROLE='client';UI.snd=0;__sounds=[];__frames=[];const state=snap();state.fight.foes[0].hp=92;window.__remoteState=state;enqueue({t:'slash',seq:100,d:{id:0,state}})});
@@ -44,7 +45,15 @@ async function openGame(browser,width,height,broken=false){
   check(tag+' 隊友端更新快照並且靜音仍有動畫',await p.evaluate(()=>G.fight.foes[0].hp===92&&__frames.some(f=>f.ink)&&__sounds.length===0));
   // 減少動態效果設定仍可完成演出；離開戰鬥後不殘留。
   await p.emulateMedia({reducedMotion:'reduce'});await p.evaluate(()=>{window.__reduced=playSlashHit({id:0,state:snap()},true,++SLASH_VFX.stateSeq+1)});await p.waitForFunction(()=>!!SLASH_VFX.active);await p.waitForTimeout(100);
-  check(tag+' 減少動態模式仍顯示接觸畫面',await p.locator('.zc-slash-fx').count()===1);await p.evaluate(()=>__reduced);
+  check(tag+' 減少動態模式仍顯示接觸畫面',await p.locator('.zc-slash-fx').count()===1&&await p.locator('.zc-slash-react').count()===0);await p.evaluate(()=>__reduced);
+  await p.evaluate(()=>{window.__badgeBefore=snap();const f=G.fight.foes[0];f.dead=1;f.hp=0;f.fled=0;draw()});
+  check(tag+' 死亡卡仍為0生命且沒有倒下標籤或空狀態框',await p.locator('#foes .foe[data-id="0"]').evaluate(c=>c.classList.contains('dead')&&c.querySelector('.fhp span').textContent==='0/100'&&![...c.querySelectorAll('.bd')].some(b=>b.textContent==='倒下')&&!c.querySelector('.fst')));
+  await p.screenshot({path:OUT+'/death-'+tag+'.png'});
+  await p.evaluate(()=>{G.fight.foes[0].fled=1;draw()});
+  check(tag+' 逃離標籤保留',await p.locator('#foes .foe[data-id="0"] .bd').allTextContents().then(xs=>xs.includes('離開')));
+  await p.evaluate(()=>{G.fight.foes[1].stun=2;draw()});
+  check(tag+' 存活敵人狀態標籤保留',await p.locator('#foes .foe[data-id="1"]').innerText().then(t=>t.includes('暈眩')));
+  await p.evaluate(()=>{G=__badgeBefore;draw()});
   await p.evaluate(()=>{window.__leaving=playSlashHit({id:0,state:snap()},true,++SLASH_VFX.stateSeq+1)});await p.waitForFunction(()=>!!SLASH_VFX.active);await p.evaluate(()=>{G.fight=null;G.phase='node';draw()});await p.evaluate(()=>__leaving);
   check(tag+' 離開戰鬥清除特效且不還原舊戰鬥',await p.evaluate(()=>G.fight===null&&!document.querySelector('.zc-slash-fx')));
   await ctx.close();
