@@ -1,7 +1,7 @@
 {
-  "version": "0.33.0",
-  "build": 84,
-  "created_at": "2026-11-18T14:02:43+08:00",
+  "version": "0.33.1",
+  "build": 85,
+  "created_at": "2026-11-18T14:13:51+08:00",
   "deployment": "GitHub Pages；雲端瀏覽器上傳",
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -81,7 +81,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "1914aea8f38e8fc26b26c99525b21835ed4f84f086b77bbcee6428517d4ac654",
+    "index.html": "4c6048ed0cdbbef6c84fd751f03c78cde39a430ffb2612971a44c8259b15250e",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -195,7 +195,7 @@
     "tests/zone.test.cjs": "423546f0a6394f096450655b9cc385fac44bbf0d443ce44981e3347ab797fb8a",
     "tools/make_font_subset.py": "3eb79719caa2f2863185cb10c9b1e32cc96017b10f03284bcb6fb4ac831c1094",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "193a4d0df24f57b03a64d1f91b28c8b7ddfadc2fe47277b74258ea7cc6f01fec",
+    "更新說明.txt": "af14cea2363118c18d31d894833c10ab941598b0c838207d0265b7cc49ef1374",
     "img/g_dar.webp": "811af8836e0c0a3f7ca4db55a67c425092e82c0d3bde1362f6c3aed9dc4f469a"
   }
 }
