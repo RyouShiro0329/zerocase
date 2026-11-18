@@ -1,11 +1,11 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=6682e57d" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=c81de404" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=6682e57d") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=c81de404") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
@@ -535,6 +535,21 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 #stage.short .foe .fhp span{font-size:9.5px}
 #stage.short .foe .fk{font-size:9px}
 #stage.short .hpb{height:6px}
+/* 戰鬥玩家卡：各自橫向滑動，使用既有玩家資料，不加入存檔欄位。 */
+#battle-party{display:flex;gap:6px;overflow-x:auto;align-items:stretch;scrollbar-width:thin;flex:none}
+.foe.battle-player{background:linear-gradient(145deg,rgba(30,45,34,.65),rgba(8,12,10,.95));border-color:#52634d}
+.battle-player .fh b{color:var(--ink)}
+.battle-player .fpic{background:#0c110d;border-color:#354333;display:flex;align-items:center;justify-content:center}
+.battle-player .fpic .av{width:32px;height:32px;flex:none;font-size:1rem}
+.battle-player .fpic .av img{position:static;width:100%;height:100%;max-width:100%;transform:none;object-fit:cover}
+.battle-player .fhp{gap:4px}.battle-player .fhp small{flex:none;font:10px/1 var(--label)}
+.battle-player .fk{white-space:normal;overflow:visible;display:flex;flex-wrap:wrap;gap:0 6px}
+.battle-player .battle-shield u{background:#7a6aa0}
+.battle-player.battle-current{border-color:var(--gold);box-shadow:inset 0 0 14px #000,0 0 6px rgba(200,173,112,.35)}
+.battle-player.battle-inactive{opacity:.65}
+#stage.short #cbar:not([hidden])~.cols #choices:has(>.ch[data-fa="atk"][data-h]:not([data-sk]):not([data-csk])){grid-template-columns:repeat(2,minmax(0,1fr))}
+#stage.short #cbar:not([hidden])~.cols #choices:has(>.ch[data-fa="atk"][data-h]:not([data-sk]):not([data-csk]))>.ch[data-ftab=""]{grid-column:1/-1;min-height:32px;padding:3px 9px;align-items:center}
+#stage.short #cbar:not([hidden])~.cols #choices:has(>.ch[data-fa="atk"][data-h]:not([data-sk]):not([data-csk]))>.ch[data-ftab=""] .cm{flex-basis:auto;margin-top:0}
 /* v0.7.3 主頁分類卡：圖片鋪滿卡片，下方漸層疊字 */
 .hcat{position:relative;overflow:hidden;justify-content:flex-end;align-items:flex-start;text-align:left;padding:12px 14px;background:#070706 center/cover no-repeat}
 .hcat[data-cat=custom]{background-image:url(img/cat_custom.webp);background-position:center 40%}
@@ -646,7 +661,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
     </nav>
   </header>
   <div id="tdd" hidden></div>
-  <div id="cbar" hidden><div id="foes"></div><div id="order"></div></div>
+  <div id="cbar" hidden><div id="foes"></div><div id="order"></div><div id="battle-party" aria-label="玩家戰鬥資訊"></div></div>
   <div class="cols">
     <div id="logp" class="panel"><div id="log" aria-live="polite"></div></div>
     <aside id="chp" class="panel">
@@ -664,7 +679,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.35.0", "b": 87, "t": "2026-11-18T16:51:08+08:00"};
+const ZC_VER={"v": "0.36.0", "b": 88, "t": "2026-11-18T21:13:36+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -5812,6 +5827,17 @@ function locationDetailMarkup(Lv){
   const chapter=(CHAPTERS[Lv.ch||1]||CHAPTERS[1]).n;
   return `<span class="lv-place"><span class="lv-chapter">${esc(chapter)}　</span>${esc(Lv.n)}・${esc(Lv.sub)}</span><span class="lv-difficulty">｜${esc(DF().n)}</span>`;
 }
+function battlePlayerCards(){
+  return G.players.map(p=>{
+    const pr=PRESETS[p.kind]||GUESTS[p.kind],hp=p.dead?0:Math.max(0,p.hp),shield=Math.max(0,p.shd||0),maxShield=Math.max(shield,p.shdMax||0);
+    const status=[p.dead?'死亡':p.leftBehind?'脫隊':evacWaiting(p)?'已撤離':p.down?'瀕死':p.mad?'發瘋':'',p.away?'離線':''];
+    for(const [k,t] of [['bleed','流血'],['frac','骨折'],['held','被抓住'],['unbal','失衡'],['burn','燃燒'],['humus','腐殖'],['dazed','暈眩'],['skip','無法行動']])if(p[k])status.push(t);
+    if(p.stance)status.push(({block:'格擋',dodge:'閃躲',cover:'掩蔽'})[p.stance]||'');
+    if(p.covering)status.push('掩護隊友');
+    const current=G.fight.group&&!G.fight.resolving&&G.fight.group.includes(p.pid)&&!p.dead&&!p.down&&!p.away&&teamHere(p);
+    return `<div class="foe battle-player ${current?'battle-current':''} ${p.dead||p.down||p.away||!teamHere(p)?'battle-inactive':''}"><div class="fpic">${pr&&pr.img?`<img src="img/${esc(pr.img)}.webp" alt="">`:av(p,1)}</div><div class="fin"><div class="fh"><b>${esc(p.name)}</b></div><div class="fhp"><small>生命</small><div class="hpb" data-hk="p${esc(p.pid)}"><s style="width:${hp/p.max*100}%"></s><u style="width:${hp/p.max*100}%"></u></div><span>${hp}/${p.max}</span></div>${maxShield>0?`<div class="fhp"><small>護盾</small><div class="hpb battle-shield"><u style="width:${shield/maxShield*100}%"></u></div><span>${shield}/${maxShield}</span>${shield<=0?'<small>已破</small>':!shdOn(p)?'<small>離手</small>':''}</div>`:''}<div class="fk"><span>基礎防禦 ${baseDef(p)}</span>${armorOf(p)?`<span>減傷 ${armorOf(p)}</span>`:''}${strBlock(p)?`<span>近戰格擋 ${strBlock(p)}</span>`:''}</div>${status.some(Boolean)?`<div class="fst">${status.filter(Boolean).map(t=>`<span class="bd">${t}</span>`).join('')}</div>`:''}</div></div>`;
+  }).join('');
+}
 function draw(){
   codexDraw();syncAmbience();
   if(!G||!$('#app'))return;
@@ -5831,6 +5857,7 @@ function draw(){
     hpRun($('#foes'));fltRun($('#foes'));
   }else{cb.hidden=true;for(const k in HPA)if(k[0]==='f')delete HPA[k];for(const k in FPV)delete FPV[k];FLT.length=0}
   for(const p of G.players)hpSet('p'+p.pid,p.dead?0:Math.max(0,p.hp)/p.max);
+  if(F){const party=$('#battle-party'),left=party.scrollLeft;party.innerHTML=battlePlayerCards();party.scrollLeft=left;hpRun(party)}
   $('#me').hidden=true;
   {const v=$('#vig'),v2=$('#vig2'),lg=$('#log');const r=m&&!m.dead?Math.max(0,m.hp)/m.max:1,sr=m&&!m.dead?(m.mad?0:fstg(m)>=3?.2:1):1;
    v.style.opacity=r<.3?String(Math.min(1,.35+(.3-r)*2.2)):'0';v.classList.toggle('beat',r<.15);
