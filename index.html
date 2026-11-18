@@ -1,11 +1,11 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=f602296d" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=6682e57d" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=f602296d") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=6682e57d") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
@@ -664,7 +664,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.34.0", "b": 86, "t": "2026-11-18T14:26:01+08:00"};
+const ZC_VER={"v": "0.35.0", "b": 87, "t": "2026-11-18T16:51:08+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -958,7 +958,8 @@ const CSKILL={
  vital:{n:'瞄準要害',per:'fight',atk:1,need:'bow',hit:-2,dmg:4,d:'限弓弩。命中 −2；命中時傷害 +4，並造成流血。'},
  quick:{n:'快刀',per:'fight',atk:1,need:'blade',shots:2,hit:-1,d:'限刀類。攻擊兩次，各命中 −1。'},
  grit:{n:'咬牙撐住',per:'fight',free:1,d:'不用掉回合，只能對自己用。生命 +（2＋體質÷2），最多 +4（不超過緊急處置），不能止血。'},
- retreat:{n:'緊急撤退',per:'fight',d:'帶頭逃跑，這一次逃跑 +5。'},
+ retreat:{n:'緊急撤退',per:'fight',d:'只讓自己逃跑，這一次敏捷逃跑檢定 +5。'},
+ evacroute:{n:'撤離路線',per:'fight',d:'擲統帥代替敏捷：成功時帶全隊撤離，也能帶走瀕死隊友。每場一次，失敗仍會用掉行動與次數。'},
  flank:{n:'繞到背後',per:'fight',atk:1,hit:3,dmg:2,d:'這一擊命中 +3、傷害 +2。'},
  patch:{n:'臨時修補',per:'fight',free:1,d:'不用掉回合。手上一把有耐久的武器耐久 +5。'},
  awe:{n:'震懾',per:'fight',ctl:1,d:'控制。統帥檢定難度 13：一名敵人跳過下次行動；對痛覺喪失的、嗑藥的無效。'},
@@ -3048,8 +3049,8 @@ Object.assign(LV,{
 });
 function bmEffect(k,actor){
   if(k==='know'){if(!G.flags.bmknown)bmKnow('rumor','街上一個背登山包的男人說：地鐵站大廳旁邊那扇寫著「設備重地」的鐵門進去，有個什麼都收的人。');return}
-  if(k==='fal'){for(const p of G.players){const g=p.gear.find(x=>x.id==='fal'&&x.hot==='acru_captain'&&!x.drop);if(g){rmGear(p,g.u);out(`${MP()?nm(p)+'把':'你把'}那把 FN FAL 交了出去。`,'sys',true);return}}}}
-const bmCapFal=()=>G.players.some(p=>!p.dead&&p.gear.some(g=>g.id==='fal'&&g.hot==='acru_captain'&&!g.drop));
+  if(k==='fal'){for(const p of G.players){if(!teamHere(p))continue;const g=p.gear.find(x=>x.id==='fal'&&x.hot==='acru_captain'&&!x.drop);if(g){rmGear(p,g.u);out(`${MP()?nm(p)+'把':'你把'}那把 FN FAL 交了出去。`,'sys',true);return}}}}
+const bmCapFal=()=>G.players.some(p=>!p.dead&&teamHere(p)&&p.gear.some(g=>g.id==='fal'&&g.hot==='acru_captain'&&!g.drop));
 Object.assign(N,{
 BM0:{L:'BM',n:'地鐵站・維修通道',
  onEnter(){const F=G.flags;F.bmseen=1;F.bmq1ok=F.bmq1?0:1;F.bmq1give=F.bmq1&&!F.bmq1done&&bmCapFal()?1:0;F.bmq2ok=F.acru&&!F.bmq2?1:0;F.bmq2give=F.bmbox&&!F.bmq2done?1:0;
@@ -3152,8 +3153,11 @@ let G=null,LOG=[],ROLE='solo';
 const MP=()=>G&&G.mode==='mp';
 const P=pid=>G.players.find(p=>p.pid===pid);
 const me=()=>G&&P(MYPID);
-const live=()=>G.players.filter(p=>!p.dead&&!p.away);
-const able=()=>G.players.filter(p=>!p.dead&&!p.down&&!p.away);
+// v0.35.0：逃到安全區的人與留在原區域的人，不參與目前現場的行動。
+const evacWaiting=p=>!!(G&&G.fight&&G.fight.escaped&&G.fight.escaped.includes(p.pid));
+const teamHere=p=>!!p&&!p.leftBehind&&!evacWaiting(p);
+const live=()=>G.players.filter(p=>!p.dead&&!p.away&&teamHere(p));
+const able=()=>G.players.filter(p=>!p.dead&&!p.down&&!p.away&&teamHere(p));
 // 能自己操作的人（發瘋的人不能投票、不能被選去做檢定）
 const ctl=()=>able().filter(p=>!p.mad);
 /* v0.31.0 統帥（原魅力）：隊上能行動的人裡最高的統帥；單人時效果加倍（主人 2026-11-17 21:44） */
@@ -3237,7 +3241,7 @@ function effectText(e){const mods=Object.entries(e.mods),all=mods.length===Objec
 function statMod(p,st){return (p.st[st]||0)+statEffects(p).filter(e=>!e.check).reduce((n,e)=>n+(e.mods[st]||0),0)}
 const EFFECT_LOG=new WeakMap();
 function reportEffects(force){if(!G||ROLE==='client')return;const old=force?{}:EFFECT_LOG.get(G)||{},next={};
-  for(const p of G.players){if(p.dead||p.away)continue;const effects=statEffects(p);next[p.pid]=effects;const prev=old[p.pid]||[];
+  for(const p of G.players){if(p.dead||p.away||!teamHere(p))continue;const effects=statEffects(p);next[p.pid]=effects;const prev=old[p.pid]||[];
     for(const e of prev)if(!effects.some(x=>x.id===e.id&&effectText(x)===effectText(e)))out(`${nm(p)}：${e.id==='shaft'?'已離開懸吊纜繩的位置，敏捷 −2 的環境影響已解除':effectText(e)+'的影響已解除'}。`,'good',true);
     for(const e of effects)if(!prev.some(x=>x.id===e.id&&effectText(x)===effectText(e)))out(`${nm(p)}：${effectText(e)}。`,'rule',true)}
   EFFECT_LOG.set(G,next)}
@@ -3289,7 +3293,7 @@ const lvCost=(p,s)=>Math.floor(Math.max(0,stBase(p,s))/5)+1;
 const DIFF={
  normal:{n:'普通',d:'第一次玩選這個。敵人比較容易躲開，感染和飢餓來得比較慢。',hit:-1,dmg:.8,inf:.7,food:1,hp:4,qte:2100,haz:.08,wake:1,num:1,shard:1},
  hard:{n:'困難',d:'原本的平衡。物資吃緊，每一場戰鬥都要想清楚。',hit:0,dmg:1,inf:1,food:0,hp:0,qte:1550,haz:.12,wake:1,num:1,shard:1.3},
- real:{n:'真實',d:'敵人更狠、感染更快、意外更常發生，反應時間很短。不顯示檢定難度和命中率；倒下的人不會自己醒來，只能靠隊友救。',hit:1,dmg:1.25,inf:1.25,food:0,hp:0,qte:1150,haz:.16,wake:0,num:0,shard:1.7}
+ real:{n:'真實',d:'敵人更狠、感染更快、意外更常發生，反應時間很短。不顯示檢定難度和命中率；倒下的人需要隊友救援；脫隊者離開原區域後勉強歸隊，傷勢仍在。',hit:1,dmg:1.25,inf:1.25,food:0,hp:0,qte:1150,haz:.16,wake:0,num:0,shard:1.7}
 };
 const DF=()=>DIFF[G&&G.opts&&DIFF[G.opts.diff]?G.opts.diff:'hard'];
 function newRun(builds,opts,mode){
@@ -3601,17 +3605,21 @@ function addAlarm(n,p){const fx=G.lv&&LV[G.lv]&&LV[G.lv].fx||{};if(n>0){if(fx.no
 async function deathCheck(){
   if(G.over)return true;
   for(const p of G.players){
-    if(p.dead)continue;
+    if(p.dead||!teamHere(p))continue;
     if(p.inf>=100){p.dead=1;p.down=0;p.hp=0;out(`${MP()?nm(p)+'的':''}感染值到了盡頭。高燒吞沒了${MP()?'他':'你'}的意識。${MP()?'他':'你'}倒在冰冷的地板上，最後看見的，是天花板上那盞一閃一閃的緊急照明。`,'dmg');continue}
     if((p.fe||0)>=100&&!p.mad&&!p.down){
       if(MP()&&G.players.length>1){p.mad=1;p.held=0;out(`${nm(p)}的腦袋裡有什麼東西斷掉了。他開始笑，笑到停不下來，眼神再也對不上焦。<b>${nm(p)}發瘋了</b>：沒辦法控制自己，戰鬥中會亂打身邊的人——敵人或隊友都有可能。用鎮定劑、安撫，或把他打倒再救起來，才能讓他恢復。`,'dmg');for(const q of able())if(q!==p)loseSan(q,1);continue}
       p.dead=1;p.mad=1;p.down=0;p.hp=0;out('你的腦袋裡有什麼東西斷掉了。你開始笑，笑到停不下來，再也分不清眼前的是什麼。你發瘋了。','dmg');continue}
     if(p.hp<=0&&!p.down){
-      if(MP()&&G.players.length>1){p.down=1;p.hp=0;p.bleed=0;out(`${nm(p)}倒下了。還有呼吸，但已經站不起來。用 AED 或腎上腺素可以把人救回來；撐到下一個區域，也會慢慢醒過來。`,'dmg');for(const q of able())if(q!==p)loseSan(q,1)}
+      if(MP()&&G.players.length>1){p.down=1;p.evacCarry=0;p.hp=0;out(`${nm(p)}倒下了。還有呼吸，但已經站不起來。用 AED 或腎上腺素可以把人救回來；撐到下一個區域，也會慢慢醒過來。`,'dmg');for(const q of able())if(q!==p)loseSan(q,1)}
       else{p.dead=1;p.hp=0}
     }
   }
-  if(!ctl().length){await gameOver();return true}
+  if(!ctl().length){
+    const saved=G.fight&&G.players.find(p=>evacWaiting(p)&&!p.dead&&!p.down&&!p.mad&&!p.away);
+    if(saved){if(!liveF().length)await endFight();else await finishEvacuation(saved,false);return true}
+    await gameOver();return true
+  }
   return false;
 }
 async function gameOver(){
@@ -3824,7 +3832,7 @@ function choiceOk(c){
   if(reqList(c).length&&!reqHolders(c).length)return false;
   if(c.karma&&able().some(p=>(p.karma||0)<c.karma))return false;
   if(c.need&&!flagOk(c.need))return false;return true}
-function visible(c){if(c._hid||c._dup)return false;if(c.hot!=null&&!!c.hot!==hotNow())return false;if(c.night&&!isNight())return false;if(c.once&&G.used&&G.used[usedKey(c)])return !!c.keep;if(c.job&&!G.players.some(p=>!p.dead&&!p.away&&[].concat(c.job).includes(p.kind)))return false;if(c.hide&&flagOk(c.hide))return false;if(c.need&&!flagOk(c.need)&&!c.req&&!c.lock)return false;return true}
+function visible(c){if(c._hid||c._dup)return false;if(c.hot!=null&&!!c.hot!==hotNow())return false;if(c.night&&!isNight())return false;if(c.once&&G.used&&G.used[usedKey(c)])return !!c.keep;if(c.job&&!G.players.some(p=>!p.dead&&!p.away&&teamHere(p)&&[].concat(c.job).includes(p.kind)))return false;if(c.hide&&flagOk(c.hide))return false;if(c.need&&!flagOk(c.need)&&!c.req&&!c.lock)return false;return true}
 function nameOf(k){return k==='gun'?'槍械':k.startsWith('g:')?WEAP[k.slice(2)].n:ITEMS[k].n}
 async function enterNode(id){
   AUDIO_MOVING=true;stopAmbience();
@@ -3851,12 +3859,12 @@ async function enterNode(id){
     if(fresh&&LV[nd.L].rule)afterScene.push(()=>out(`環境：${esc(LV[nd.L].rule)}`,'rule',true));
     if(!first&&fresh){teamXP(1);afterScene.push(()=>{const ps=able().filter(p=>!p.mad&&(p.fe||0)>0);if(!ps.length)return;out(MP()?'換了個地方，大家稍微喘了口氣。':'換了個地方，稍微喘了口氣。','good',true);for(const p of ps)relax(p,10,true)})}
     if(typeof lateJoin==='function')lateJoin();
-    for(const p of G.players)if(p.down&&!p.dead&&DF().wake){p.down=0;if(p.mad){p.mad=0;setFear(p,90)}p.hp=Math.max(1,Math.ceil(p.max*.25));out(`${nm(p)}咳了幾聲，慢慢撐著牆站了起來。生命回到 ${p.hp}。`,'good')}
+    for(const p of G.players)if(p.down&&!p.dead&&!p.leftBehind&&!p.evacCarry&&DF().wake){p.down=0;if(p.mad){p.mad=0;setFear(p,90)}p.hp=Math.max(1,Math.ceil(p.max*.25));out(`${nm(p)}咳了幾聲，慢慢撐著牆站了起來。生命回到 ${p.hp}。`,'good')}
   }
   G.node=id;G.ev=null;G.audioVisit=(G.audioVisit||0)+1;G.audioEnteredAt=Date.now();G.votes={};G.rv={};G.pc=null;/* v0.21.0：地上的東西留在原地，回來還撿得到 */G.grounds=G.grounds||{};if(G.gnode&&G.gnode!==id)G.grounds[G.gnode]=G.ground.length?G.ground:undefined;if(G.gnode!==id)G.ground=G.grounds[id]||[];G.gnode=id;G.flags['v_'+id]=1;if(nd.onEnter)nd.onEnter();
   if(nd.ev){const ch=LV[nd.L].ch||1;const mine=EVPOOL.map((e,i)=>i).filter(i=>(EVPOOL[i].ch||1)===ch&&evOk(EVPOOL[i]));const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;if(EVPOOL[i].id==='rain')beginRainAudio();out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
   else if(seen&&zr&&(zr.role==='hub'||(zr.role==='room'&&zDone(zr.z)))){hd(nd.n);out(`你回到${/^\w/.test(nd.n)?' ':''}${nd.n}。`,'lore')}
-  else{hd(nd.n);out(nd.t,'lore');if(nd.tx){const x=nd.tx();if(x)out(x,'lore')}if(nd.tm&&G.players.some(p=>p.kind==='maggie'))out(nd.tm,'lore')}
+  else{hd(nd.n);out(nd.t,'lore');if(nd.tx){const x=nd.tx();if(x)out(x,'lore')}if(nd.tm&&G.players.some(p=>p.kind==='maggie'&&teamHere(p)))out(nd.tm,'lore')}
   for(const f of afterScene)f();
   if(id==='WP5')G.flags.wpfail=0;AUDIO_MOVING=false;syncAmbience();if(id==='A2')snd('woodimpact',1,2400);
   syncCodex(G,true);reportEffects();reportGround();
@@ -3869,6 +3877,7 @@ async function enterNode(id){
    if(G.flags.powerfix&&!G.flags.acru&&isNight()&&(LV[G.lv].ch||1)===2&&!LV[G.lv].indoor&&Math.random()<.35){out('路燈把整條街照得一清二楚。有東西看見你們了。','bad');addAlarm(2,null)}
    if(fx.toxic&&!G.flags['tx_'+G.lv]){G.flags['tx_'+G.lv]=1;out('這裡的空氣不對勁，帶著一股甜膩的霉味。<b>污染區</b>：待在這裡越久，感染累積越多；戴著裝了濾罐的防毒面具就不會吸進去。','rule')}}
   if(!soft&&!(await tickAll()))return;
+  rejoinStranded(G.lv);
   const gd=G.guided;G.guided=0;if(gd)darArrive(id);
   if(!gd&&await alarmCheck(null,true))return;
   if(!gd&&await hazard(nd))return;
@@ -4020,7 +4029,7 @@ async function outcome(o,actor){
   syncCodex();syncAmbience();
   if(r.pay)for(const [k,q] of Object.entries(r.pay)){let left=q;for(const ow of able()){const n=Math.min(left,ow.items[k]||0);if(n){takeI(ow,k,n);left-=n}if(!left)break}}
   // 過夜：睡到清晨（時間已在選項扣掉），生命回 50%、恐懼 −35，發瘋的人恢復
-  if(r.sleep){for(const q of G.players){if(q.dead)continue;if(q.mad){q.mad=0;setFear(q,Math.min(q.fe||100,85));out(`${nm(q)}睡了一覺，醒來時眼神終於對得上焦了。`,'good',true)}if(q.down){q.down=0;q.hp=Math.max(q.hp,1)}const hp=Math.min(q.max-q.hp,Math.ceil(q.max*.5));q.hp+=hp;out(`${MP()?nm(q)+'：':''}生命 +${hp}。`,'good',true);relax(q,35)}}
+  if(r.sleep){for(const q of G.players){if(q.dead||!teamHere(q))continue;if(q.mad){q.mad=0;setFear(q,Math.min(q.fe||100,85));out(`${nm(q)}睡了一覺，醒來時眼神終於對得上焦了。`,'good',true)}if(q.down){q.down=0;q.hp=Math.max(q.hp,1)}const hp=Math.min(q.max-q.hp,Math.ceil(q.max*.5));q.hp+=hp;out(`${MP()?nm(q)+'：':''}生命 +${hp}。`,'good',true);relax(q,35)}}
   if(r.rest){for(const q of able()){const hp=Math.min(q.max-q.hp,r.rest.hp||0);q.hp+=hp;out(`${MP()?nm(q)+'：':''}生命 +${hp}。`,'good',true);if(r.rest.san)relax(q,20,false,1)}}
   if(r.karma)for(const q of able())q.karma=(q.karma||0)+r.karma;
   if(r.use){const keys=r.use==='$req'?reqList(CURC||{}):[r.use];for(const k of keys){const ow=owner(k,actor);if(ow){if(k.startsWith('g:')){const g=ow.gear.find(x=>x.id===k.slice(2));if(g&&WEAP[g.id].kind==='spray'){g.dur--;if(g.dur<=0)rmGear(ow,g.u)}}else takeI(ow,k);break}}}
@@ -4050,6 +4059,7 @@ async function ending(key){
   // v0.9.0 沒有章節了：離開旅館這類出口只是換地點，不結算碎片
   if(e.next&&N[e.next]){
     for(const p of G.players){
+      if(p.leftBehind||p.evacWounds)continue;
       if(p.mad&&!p.dead){p.mad=0;p.down=0;setFear(p,50);p.hp=Math.max(p.hp,Math.ceil(p.max/2));out(`${nm(p)}在大家的拉扯下安靜了下來，坐在路邊看著自己的手，好像剛想起自己是誰。`,'good')}
       else if(p.down&&!p.dead){p.down=0;p.hp=Math.ceil(p.max/3);out(`${nm(p)}被大家架著走出來，慢慢醒了過來。`,'good',true)}
     }
@@ -4076,7 +4086,7 @@ const buyPrice=(p,it)=>tr(p,'talker')?Math.max(1,Math.round(it.p*.8)):it.p;
 /* v0.26.0 燙手貨與賣武器：只有黑市商人收燙手貨（滅菌部隊的槍、制服）；一般商人裡只有流浪商人和德克收武器 */
 const hotG=g=>!!(g&&g.hot&&!g.drop);
 const hotP=p=>!!(p&&p.gear&&p.gear.some(hotG));
-const hotNow=()=>!!(G&&G.players&&G.players.some(p=>!p.dead&&!p.away&&hotP(p)));
+const hotNow=()=>!!(G&&G.players&&G.players.some(p=>!p.dead&&!p.away&&teamHere(p)&&hotP(p)));
 function gearSellPrice(g,shopId){const S=SHOPS[shopId],w=WEAP[g.id];if(!S||!w||w.sig)return 0;if(g.hot&&!S.hot)return 0;if(!S.guns)return 0;
   const t=WSELL[g.id]||[2,3];let v=S.hot?t[1]:t[0];if(!v)return 0;
   if(w.dur&&g.dur!=null)v=Math.max(1,Math.ceil(v*g.dur/w.dur));
@@ -4358,9 +4368,9 @@ async function startFight(spec){
   const mch=0; // v0.20.0 設計包：本輪詞綴生成率 0
   for(const f of foes){if(spec.noMut||FT(f).fac==='acru'||Math.random()>=mch)continue;giveAff(f,pick(Object.keys(AFF).filter(k=>AFF[k].fac===FT(f).fac)))}
   nameFoes(foes);
-  for(const p of G.players){p.combo=0;p.counter=0;p.brace=0;p.actUsed=0;p.defPen=0;p.aimed=0;p.stance=null;p.held=0;p.dazed=0;p.humus=0;p.calmUsed=0;p.skUsed={};p.tlUsed={};p.covering=0;p.grit=0}
-  for(const p of G.players)darStart(p);
-  G.fight={foes,P:Math.max(1,P0),sl:{},hb:{},bg:{},noise:null,order:[],turn:0,round:1,arrows:{},opening:spec.mode||'normal',first:spec.mode==='first',cur:null,noflee:G.lv==='D',nocover:['D','R'].includes(G.lv),tUsed:{}};
+  for(const p of G.players){if(!teamHere(p))continue;p.combo=0;p.counter=0;p.brace=0;p.actUsed=0;p.defPen=0;p.aimed=0;p.stance=null;p.held=0;if(!p.evacWounds){p.dazed=0;p.humus=0}p.calmUsed=0;p.skUsed={};p.tlUsed={};p.covering=0;p.grit=0}
+  for(const p of G.players)if(teamHere(p))darStart(p);
+  G.fight={foes,P:Math.max(1,P0),sl:{},hb:{},bg:{},noise:null,order:[],turn:0,round:1,arrows:{},opening:spec.mode||'normal',first:spec.mode==='first',cur:null,escaped:[],noflee:G.lv==='D',nocover:['D','R'].includes(G.lv),tUsed:{}};
   G.phase='fight';await flush();snd(encounterStep(foes));push();draw();
   if((LV[G.lv].fx||{}).fightAlarm)addAlarm(1,null);
   if(n>spec.n)out(`不只一個。陰影裡還有${n-spec.n===1?'另一個':'更多'}。`,'bad',true);
@@ -4399,10 +4409,10 @@ async function advance(){
     const o=F.order[F.turn];
     if(o.k==='p'){
       // 發瘋的人自己亂打
-      {const p0=P(o.id);if(p0&&p0.mad&&!p0.dead&&!p0.down&&!p0.away){p0.stance=null;await madAct(p0);if(G.over||!G.fight)return;await nextTurn();continue}}
+      {const p0=P(o.id);if(p0&&p0.mad&&!p0.dead&&!p0.down&&!p0.away&&teamHere(p0)){p0.stance=null;await madAct(p0);if(G.over||!G.fight)return;await nextTurn();continue}}
       // 連續的玩家同時選行動，再依順序結算
       const grp=[];let i=F.turn;
-      while(i<F.order.length&&F.order[i].k==='p'){const p=P(F.order[i].id);if(p&&p.mad)break;if(p&&p.skip&&!p.dead&&!p.down){p.skip=0;p.unbal=0;out(`${MP()?nm(p):'你'}還暈得站不穩，這一次沒辦法行動。`,'sys')}else if(p&&!p.dead&&!p.down&&!p.away)grp.push(F.order[i].id);i++}
+      while(i<F.order.length&&F.order[i].k==='p'){const p=P(F.order[i].id);if(p&&p.mad&&teamHere(p))break;if(p&&p.skip&&!p.dead&&!p.down&&teamHere(p)){p.skip=0;p.unbal=0;out(`${MP()?nm(p):'你'}還暈得站不穩，這一次沒辦法行動。`,'sys')}else if(p&&!p.dead&&!p.down&&!p.away&&teamHere(p))grp.push(F.order[i].id);i++}
       if(grp.length){F.group=grp;F.gStart=F.turn;F.gEnd=i;F.pend={};F.cur=null;F.resolving=0;for(const pid of grp){const q=P(pid);q.defPen=0;q.stance=null;q.covering=0;q.grit=0;q.unbal=0}G.phase='fight';stopCd();if(MP()&&G.opts.cd==='force')startTurnCd();push();draw();return}
       F.turn=i-1;
     }else{const f=F.foes[o.id];if(f.hp>0&&!f.dead){await foeAct(f);f.weak=0;f.defDown=0;f.dazzle=0}if(G.over)return}
@@ -4531,7 +4541,7 @@ async function foeHit(f,mv,t,hits){const F=G.fight,T=FT(f);let firstHit=1;
   }}
 // 出手：單體／多目標／全體
 async function strike(f,mv,ts){const F=G.fight,T=FT(f);if(!G.fight)return;
-  ts=ts.filter(q=>q&&!q.dead&&!q.down&&!q.away&&q.hp>0);if(!ts.length)return;
+  ts=ts.filter(q=>q&&!q.dead&&!q.down&&!q.away&&teamHere(q)&&q.hp>0);if(!ts.length)return;
   if(ts.length===1&&!mv.all){const cv=able().find(q=>q!==ts[0]&&!q.mad&&q.covering===ts[0].pid);if(cv&&!mv.snipe){out(`${nm(cv)}擋到${nm(ts[0])}前面，替${MP()?'他':'隊友'}接下這一擊。`,'sys',true);ts=[cv]}}
   F.cur='f'+f.id;push();draw();
   if(mv.gun||mv.flame)addAlarm(mv.flame?1:2,null);
@@ -4555,13 +4565,13 @@ async function command(f){const F=G.fight;const al=aliveF().filter(x=>x!==f&&FT(
     out(`<b>${f.n}</b>：<b>攻勢</b>　對講機：「Fire at will.（自由開火。）」低聲下令，${xs.map(x=>x.n).join('、')}同時往前壓。<span class="f">他們下一次攻擊命中 +2。</span>`,'bad');push();draw()}}
 // 索命客：瞄準（預告）→ 開火 → 裝填；被貼身時改用槍托或退開
 async function collectorAct(f){const F=G.fight;
-  if(f.charge){const mv=f.charge.m;let t=P(f.charge.to);f.charge=null;if(!t||t.dead||t.down||t.away)t=foeTarget(f,mv);f.loaded=0;if(t)await strike(f,mv,[t]);return}
+  if(f.charge){const mv=f.charge.m;let t=P(f.charge.to);f.charge=null;if(!t||t.dead||t.down||t.away||!teamHere(t))t=foeTarget(f,mv);f.loaded=0;if(t)await strike(f,mv,[t]);return}
   if(!f.loaded){f.loaded=1;snd('revolverCock',.6);out(`${f.n}折開槍管，退出冒煙的彈殼，塞進一發新的。`,'sys');push();draw();return}
   if(f.contact){if(Math.random()<.6){const t=foeTarget(f,BUTT);if(t)await strike(f,BUTT,[t])}else{f.contact=0;out(`${f.n}往後退了好幾步，拉開距離。`,'sys');push();draw()}return}
   const mv=MOVES.collector[0],t=foeTarget(f,mv);if(!t)return;f.charge={m:mv,to:t.pid};warnTele(f,mv,[t])}
 // 軍方：名額、彈匣、噴火兵、狙擊手
 async function acruAct(f){const F=G.fight,T=FT(f),R=F.round;
-  if(f.charge){const c=f.charge;f.charge=null;const mv=c.m;let ts=(mv.all&&!c.ts?able().map(p=>p.pid):(c.ts||[c.to])).map(P).filter(q=>q&&!q.dead&&!q.down&&!q.away);
+  if(f.charge){const c=f.charge;f.charge=null;const mv=c.m;let ts=(mv.all&&!c.ts?able().map(p=>p.pid):(c.ts||[c.to])).map(P).filter(q=>q&&!q.dead&&!q.down&&!q.away&&teamHere(q));
     if(!ts.length&&!mv.all){const t=foeTarget(f,mv,able().filter(p=>slotOkFor(R,p.pid,mv.big)));if(!t){flank(f);return}ts=[t]}
     if(mv.flame){f.near=2;f.streak=1}
     if(mv.snipe)f.bolt=1;await strike(f,mv,ts);if(mv.snipe&&f.hid){f.hid=0;out(`槍口的火光暴露了${f.n}的位置。他現在可以被攻擊了。`,'good',true)}return}
@@ -4611,7 +4621,7 @@ async function foeAct(f){
   if(f.type==='collector'){await collectorAct(f);return}
   if(T.fac==='acru'){await acruAct(f);return}
   let mv,t;
-  if(f.charge){mv=f.charge.m;t=mv.all?null:P(f.charge.to);f.charge=null;if(!mv.all&&(!t||t.dead||t.down||t.away))t=foeTarget(f,mv);
+  if(f.charge){mv=f.charge.m;t=mv.all?null:P(f.charge.to);f.charge=null;if(!mv.all&&(!t||t.dead||t.down||t.away||!teamHere(t)))t=foeTarget(f,mv);
     if(mv.all){await strike(f,mv,able());return}if(!t)return;await strike(f,mv,[t]);return}
   mv=pickMove(f);t=foeTarget(f,mv);if(!t)return;
   // v0.18.0 不同陣營互打：別的陣營的敵人和玩家一樣是目標
@@ -4644,7 +4654,7 @@ async function harvAct(f){const base=!f.lost1;f.lost1=0;
   if(able().some(negOk)){await ldb();out(`${f.n}的長臂一甩，趁著破綻又撲了上來。`,'bad',true);await harvOne(f,true)}}
 async function harvOne(f,second){const F=G.fight;
   if(f.charge){const c=f.charge;if(c.r<F.round){f.charge=null;const t=P(c.to);setCd(f,c.m);
-      if(!t||t.dead||t.down||t.away){out(`${f.n}的目標不見了，舉起的手臂慢慢垂了下來。`,'sys');push();draw();return}
+      if(!t||t.dead||t.down||t.away||!teamHere(t)){out(`${f.n}的目標不見了，舉起的手臂慢慢垂了下來。`,'sys');push();draw();return}
       if(!(t.bleed>0)){out(`${nm(t)}的傷口已經止住了。${f.n}那一下落了空，硬化的指骨砸進地板。`,'good');f.open=1;out(`${f.n}收不回力道：到牠下次行動前防禦 −2。`,'good',true);push();draw();return}
       await strike(f,c.m,[t]);return}}
   const ok=m=>!(m.sweep&&able().length<2)&&!(m.tele&&f.charge);
@@ -4656,7 +4666,7 @@ async function harvOne(f,second){const F=G.fight;
   setCd(f,mv);await hitOrRival(f,mv,t)}
 // 快槍手：第一次固定快射；雙響、穩槍先預告；打空六發要裝填；貼身時可能用槍柄
 async function qdAct(f){const F=G.fight,M=MOVES.quickdraw;
-  if(f.charge){const c=f.charge;f.charge=null;const t=P(c.to);if(!t||t.dead||t.down||t.away){out(`${f.n}的目標不見了，槍口轉開。`,'sys');push();draw();return}
+  if(f.charge){const c=f.charge;f.charge=null;const t=P(c.to);if(!t||t.dead||t.down||t.away||!teamHere(t)){out(`${f.n}的目標不見了，槍口轉開。`,'sys');push();draw();return}
     await strike(f,c.m,[t]);return}
   if(f.mag<=0){f.mag=FT(f).mag;await sndW('revolverCock',.7,900,.5);out(`${f.n}甩開彈巢，倒出彈殼，一顆一顆把子彈壓進去。`,'sys');push();draw();return}
   if(f.contact&&Math.random()<.6){const t=foeTarget(f,GRIP);if(t){await strike(f,GRIP,[t]);return}}
@@ -4675,7 +4685,7 @@ async function arsAct(f){const mv=MOVES.arsonist[0];
   out(`<b>${f.n}</b>${mv.warn}${toRv?rv.map(x=>x.n).join('、'):'你們'}。<span class="f">他下一次行動就會丟出去——到時要反應。</span>`,'bad');push();draw()}
 // 老獵人：瞄準 → 射擊（失去掩體）→ 裝填（沒被貼身就回到掩體）；貼身時獵刀或退回掩體
 async function ohAct(f){const mv=MOVES.oldhunter[0];
-  if(f.charge){const c=f.charge;f.charge=null;const t=P(c.to);if(!t||t.dead||t.down||t.away){out(`${f.n}的目標不見了，槍口慢慢移開。`,'sys');push();draw();return}
+  if(f.charge){const c=f.charge;f.charge=null;const t=P(c.to);if(!t||t.dead||t.down||t.away||!teamHere(t)){out(`${f.n}的目標不見了，槍口慢慢移開。`,'sys');push();draw();return}
     f.hcov=0;await strike(f,mv,[t]);if(f.hp>0&&!f.dead)out(`${f.n}開槍時整個人露了出來：裝好下一發之前，遠程打他不再吃掩體的好處。`,'good',true);return}
   if(f.mag<=0){f.mag=1;await sndW('bolt',.7,900,.5);if(!f.contact){f.hcov=1;out(`${f.n}拉動槍栓，退回掩體後面裝上下一發。`,'sys')}else out(`${f.n}一邊提防著貼在身邊的人，一邊把下一發壓進槍膛。`,'sys');push();draw();return}
   if(f.contact){if(Math.random()<.6){const t=foeTarget(f,HKNIFE);if(t){await strike(f,HKNIFE,[t]);return}}f.contact=0;f.hcov=1;out(`${f.n}往後一退，又縮回了掩體後面。`,'sys');push();draw();return}
@@ -4693,7 +4703,7 @@ async function foeVsFoe(f,mv,x){const F=G.fight,T=FT(f),X=FT(x);F.cur='f'+f.id;p
 // 掉落時槍裡剩幾發：索命客看有沒有上膛，其他看彈匣
 const lootMag=f=>f.type==='collector'?(f.loaded?1:0):Math.max(0,f.mag||0);
 function foeLoot(L){const got=[];
-  for(const x of L){const T=FOES[x.t],D=T&&T.loot;if(!D)continue;let q=x.by!=null&&P(x.by);if(!q||q.dead||q.down)q=able()[0];if(!q)return;
+  for(const x of L){const T=FOES[x.t],D=T&&T.loot;if(!D)continue;let q=x.by!=null&&P(x.by);if(!q||q.dead||q.down||!teamHere(q))q=able()[0];if(!q)return;
     if(D.gear){const W=WEAP[D.gear],m=W.kind==='gun'?Math.min(W.mag,Math.max(0,x.mag||0)):0;addGear(q,D.gear,m,T.fac==='acru'?{hot:x.t}:null);got.push(`${MP()?esc(q.name)+'：':''}${W.n}${W.kind==='gun'?`（${m}／${W.mag}）`:''}`)}
     for(const [k,v] of Object.entries(D.items||{})){const n=Array.isArray(v)?rnd(v[0],v[1]):v;if(n>0){addI(q,k,n);got.push(`${MP()?esc(q.name)+'：':''}${ITEMS[k].n}${n>1?' ×'+n:''}`)}}}
   if(got.length){snd('pickup',.8);out(`從他們身上搜到：${got.map(itemTag).join('、')}`,'good')}}
@@ -4878,16 +4888,16 @@ async function tactic(p,tid,ti){
   return true}
 // 角色技能（不是攻擊的那些）；回傳 'free' 代表不用掉回合
 async function charSkill(p,a,ti){const k=a.id,C=CSKILL[k],F=G.fight;if(!C||!skLeft(p,k)||C.atk||C.auto||k==='brew')return false;
-  if(k==='aid'){const t=a.to?P(a.to):p;if(!t||t.dead||t.down||t.away)return false;skUse(p,k);const v=4+Math.floor(Math.max(0,statMod(p,'INT'))/2);await sndW('heal',1,1200,.7);t.bleed=0;t.hp=Math.min(t.max,t.hp+v);out(`${nm(p)}：<b>${C.n}</b>　${t===p?'':'替'+nm(t)}壓住傷口、綁緊止血。止血，生命 +${v}。`,'good');return true}
-  if(k==='guardian'){const t=P(a.to);if(!t||t===p||t.dead||t.down)return false;p.covering=t.pid;p.stance='block';out(`${nm(p)}：<b>${C.n}</b>　擋到${nm(t)}前面。到${MP()?nm(p):'你'}下次行動前，打向${nm(t)}的攻擊都會改打${MP()?nm(p):'你'}。`,'sys');return true}
+  if(k==='aid'){const t=a.to?P(a.to):p;if(!t||t.dead||t.down||t.away||!teamHere(t))return false;skUse(p,k);const v=4+Math.floor(Math.max(0,statMod(p,'INT'))/2);await sndW('heal',1,1200,.7);t.bleed=0;t.hp=Math.min(t.max,t.hp+v);out(`${nm(p)}：<b>${C.n}</b>　${t===p?'':'替'+nm(t)}壓住傷口、綁緊止血。止血，生命 +${v}。`,'good');return true}
+  if(k==='guardian'){const t=P(a.to);if(!t||t===p||t.dead||t.down||!teamHere(t))return false;p.covering=t.pid;p.stance='block';out(`${nm(p)}：<b>${C.n}</b>　擋到${nm(t)}前面。到${MP()?nm(p):'你'}下次行動前，打向${nm(t)}的攻擊都會改打${MP()?nm(p):'你'}。`,'sys');return true}
   if(k==='grit'){if(p.hp>=p.max){out('生命是滿的，不需要。','sys');return false}skUse(p,k);const v=Math.min(4,2+Math.floor(Math.max(0,statMod(p,'CON'))/2));p.hp=Math.min(p.max,p.hp+v);out(`${nm(p)}：<b>${C.n}</b>　咬緊牙關，硬撐著站穩。生命 +${v}。`,'good');return 'free'}
   if(k==='patch'){const g=['R','L'].map(h=>handW(p,h).g).find(g=>g&&g.dur!=null&&g.dur<WEAP[g.id].dur);if(!g){out('手上沒有需要修補的武器。','sys');return false}skUse(p,k);g.dur=Math.min(WEAP[g.id].dur,g.dur+5);out(`${nm(p)}：<b>${C.n}</b>　用膠帶和布條把${WEAP[g.id].n}纏緊。耐久 ${g.dur}／${WEAP[g.id].dur}。`,'sys');return 'free'}
   if(k==='awe'){const f=F.foes[ti];if(!f||f.dead)return false;skUse(p,k);out(`${nm(p)}：<b>${C.n}</b>`,'act',true);
     if(numbF(f)){out(`${nm(p)}對著${f.n}大吼，${pn(f)}的眼神連動都沒動一下。`,'bad');return true}
     const c=await check(p,'CHA',13,'震懾');if(c.ok){f.stun=1;out(`${nm(p)}猛地往前一步大吼。${f.n}愣住了，下一次沒能行動。`,'good')}else out(`${f.n}只停了半秒，又繼續逼近。`,'dmg');return true}
-  if(k==='soothe'){const t=P(a.to);if(!t||t.dead||t.down)return false;return await soothe(p,t)}
+  if(k==='soothe'){const t=P(a.to);if(!t||t.dead||t.down||!teamHere(t))return false;return await soothe(p,t)}
   return false}
-async function soothe(p,t){if(!skLeft(p,'soothe')||!t||t.dead||t.down||t===p)return false;skUse(p,'soothe');
+async function soothe(p,t){if(!teamHere(p)||!skLeft(p,'soothe')||!t||t.dead||t.down||t===p||!teamHere(t))return false;skUse(p,'soothe');
   const was=t.mad;if(was){t.mad=0;setFear(t,75)}else relax(t,22,true);
   out(`${nm(p)}：<b>冷靜下來</b>　${was?`按住${nm(t)}的肩膀，一直叫他的名字，直到笑聲停下來。${nm(t)}恢復了意識，`:`陪${nm(t)}慢慢把呼吸放緩。`}${nm(t)}現在「${fstgN(t)}」。`,'good');return true}
 // 臨時調配：外用酒精、威士忌或燃料做成燃燒瓶（每區域一次）
@@ -4895,7 +4905,7 @@ function brew(p){if(!skLeft(p,'brew')||G.fight)return false;const k=['fuel','alc
   skUse(p,'brew');takeI(p,k);addIForce(p,'molotov',1);snd('rummage',.6,1000);out(`${MP()?nm(p):'你'}：<b>臨時調配</b>　把${ITEMS[k].n}灌進瓶子裡、塞上布條。做好一個燃燒瓶。`,'good');return true}
 async function fightAct(pid,a){
   const F=G.fight;if(!F||G.over||!F.group||F.resolving||!F.group.includes(pid))return;
-  const p=P(pid);if(!p||p.dead||p.down)return;
+  const p=P(pid);if(!p||p.dead||p.down||!teamHere(p))return;
   if(a.a==='counter'||a.a==='brace'||(a.a==='csk'&&CSKILL[a.id]&&CSKILL[a.id].free)){await execAct(p,a);push();draw();return}
   F.pend[pid]=a;push();draw();
   if(F.group.every(x=>F.pend[x]||!able().some(q=>q.pid===x)))await resolveGroup();
@@ -4904,7 +4914,7 @@ async function resolveGroup(){
   const F=G.fight;if(!F||!F.group)return;stopCd();F.resolving=1;
   for(let i=F.gStart;i<F.gEnd;i++){
     if(!G.fight||G.over)return;
-    const o=F.order[i];const p=P(o.id);if(!F.group.includes(o.id)||!p||p.dead||p.down||p.away)continue;
+    const o=F.order[i];const p=P(o.id);if(!F.group.includes(o.id)||!p||p.dead||p.down||p.away||!teamHere(p))continue;
     F.turn=i;F.cur=o.id;push();draw();
     let used=await execAct(p,F.pend[o.id]||{a:'atk',h:'R'});
     if(!G.fight||G.over)return;
@@ -4917,7 +4927,7 @@ async function resolveGroup(){
 }
 // 執行一個行動；回傳 true 代表用掉了回合
 async function execAct(p,a){
-  const F=G.fight;let used=true;const pid=p.pid;
+  const F=G.fight;if(!F||!p||p.dead||p.down||p.away||!teamHere(p))return false;let used=true;const pid=p.pid;
   if(fstg(p)===3&&/^(atk|csk|tact|use|flee|kick|molotov|reload|revive|soothe|subdue|calm|unjam)$/.test(a.a)&&Math.random()<.15){out(`${nm(p)}${pick(['僵在原地，手抖得握不住武器。','腦袋一片空白，整整愣了好幾秒。','盯著眼前的東西，忘了自己要做什麼。'])}<b>（崩潰邊緣：失去這一回合）</b>`,'bad');return true}
   const ti=a.t!=null&&F.foes[a.t]&&!F.foes[a.t].dead&&!F.foes[a.t].hid?a.t:(aliveF()[0]||{}).id;
   if(a.a==='atk'){used=await attack(p,a.h==='L'?'L':'R',a.sk||null,ti,false,a.csk||null)}
@@ -4936,10 +4946,22 @@ async function execAct(p,a){
     if(G.fight){out('瓶子在牠們腳邊炸開，火舌一下竄了上來。','good');const d=await dmgRoll([[2,6]],0,'燃燒瓶');for(const f of aliveF()){applyDmg(f,d,['fire'],p,true);f.burn=3}for(const f of G.fight.foes)if(f.hp<=0&&!f.dead)await kill(f,p)}}
   else if(a.a==='ext'){p.tlUsed=p.tlUsed||{};if(!toolOn(p,'extinguisher')||p.tlUsed.ext)return false;p.tlUsed.ext=1;takeI(p,'extinguisher');snd('ext');for(const f of aliveF())f.dazzle=Math.max(f.dazzle||0,2);out(`${MP()?nm(p)+'拔掉插銷':'你拔掉插銷'}，對著前面掃了一圈。乾粉噴成一大片白霧，牠們全都嗆得睜不開眼。所有敵人下一次攻擊命中 −2。`,'good')}
   else if(a.a==='flash'){p.tlUsed=p.tlUsed||{};if(!toolOn(p,'flashlight')||p.tlUsed.flash)return false;const t=F.foes[ti];if(!t)return false;p.tlUsed.flash=1;snd('click',.6);t.dazzle=Math.max(t.dazzle||0,4);out(`${MP()?nm(p):'你'}把手電筒對準${t.n}的眼睛，一按到底。強光打在${pn(t)}臉上，${pn(t)}抬手擋著，什麼也看不清。下一次攻擊命中 −4。`,'good')}
-  else if(a.a==='flee'){if(F.noflee){out('懸在外牆上，無處可逃。','sys');return}if(able().some(q=>q.held)){out(`${able().filter(q=>q.held).map(q=>nm(q)).join('、')}被抓住了，現在跑不掉。`,'sys');return false}
-    const rt=a.csk==='retreat'&&skLeft(p,'retreat');if(rt){skUse(p,'retreat');out(`${nm(p)}：<b>緊急撤退</b>`,'act',true)}
-    const c=await check(p,'AGI',12,'逃跑',(rt?5:0)+(tr(p,'legs')?4:0)+(aliveF().every(f=>affIs(f,'lame')||f.legW)?4:0));if(c.ok){out(MP()?`${nm(p)}大喊一聲，所有人轉身就跑，一路跑到轉角才敢回頭。`:'你轉身就跑，一路跑到轉角才敢回頭。牠沒有追上來。','good');for(const q of able())loseSan(q,1,true);recoverDrops(true);if(G.winR&&G.winR.r&&G.winR.r.questDone)finishCodexQuest(G,G.winR.r.questDone,'已中止');G.fight=null;G.winR=null;snd('doorclose');if(G.alarmFt){if(G.alarmFt===2){G.alarm=3;Object.assign(ALV(),{roused:1,w3:1,w6:1})}G.alarmFt=0}addAlarm(1,p);const go=G.after;G.after=null;if(!go){G.phase='node';startCd();return true}G.phase='busy';if(await alarmCheck(go))return true;await enterNode(go);return true}
-    out('想跑，但牠抓住了外套，把人拽了回去。','dmg')}
+  else if(a.a==='flee'){
+    if(F.noflee){out('懸在外牆上，無處可逃。','sys');return false}
+    const route=a.csk==='evacroute',rt=a.csk==='retreat';
+    if(a.csk&&(!['evacroute','retreat'].includes(a.csk)||!skLeft(p,a.csk)))return false;
+    const held=route?G.players.filter(q=>!q.dead&&!q.away&&teamHere(q)&&q.held):(p.held?[p]:[]);
+    if(held.length){out(`${held.map(nm).join('、')}被抓住了，現在跑不掉。`,'sys');return false}
+    if(a.csk){skUse(p,a.csk);out(`${nm(p)}：<b>${CSKILL[a.csk].n}</b>`,'act',true)}
+    const bonus=route?0:(rt?5:0)+(tr(p,'legs')?4:0)+(aliveF().every(f=>affIs(f,'lame')||f.legW)?4:0);
+    const c=await check(p,route?'CHA':'AGI',12,route?'撤離路線':'逃跑',bonus);
+    if(c.ok){
+      if(route){out(`${nm(p)}指出一條撤離路線，大家趁著空隙一起退了出去，連站不起來的隊友也被帶到安全處。`,'good');await finishEvacuation(p,true)}
+      else{evacuatePlayer(p);out(`${nm(p)}甩開了追來的敵人，先退到安全區等待。還沒逃出去的人仍留在戰場。`,'good');
+        if(!ctl().length)await finishEvacuation(p,false)}
+      return true;
+    }
+    out(route?'敵人堵住了撤離的空隙，全隊只好留在原地。這場戰鬥已無法再使用你的撤離路線。':'想跑，但敵人擋住了去路。你仍留在戰場，之後的行動可以再試。','dmg')}
   else if(a.a==='free'){if(!p.held)return false;releaseHold(p);out(`${nm(p)}用力一扭，掙脫了。`,'good')}
   else if(a.a==='pat'){if(!(p.burn>0))return false;p.burn=0;snd('whoosh');out(`${nm(p)}在地上打滾，拍熄了身上的火。`,'good')}
   else if(a.a==='guard'||a.a==='block'){p.stance='block';out(`${nm(p)}舉起手上的東西擋在身前，準備硬接下一擊。`,'sys')}
@@ -4963,17 +4985,44 @@ async function execAct(p,a){
 function startTurnCd(){const ms=Math.round((G.opts.sec||20)*1500);G.cd={end:Date.now()+ms,ms};clearTimeout(cdT);cdT=setTimeout(cdExpire,ms)}
 function autoTurn(){const F=G.fight;if(!F||!F.group||F.resolving)return;for(const x of F.group)if(!F.pend[x]){F.pend[x]={a:'atk',h:'R'};out(`${nm(P(x))}愣住了，身體自己動了起來。`,'sys',true)}run(resolveGroup)}
 // 戰鬥結束：脫手的武器撿回來，背包滿了就留在地上
-function recoverDrops(fled){for(const p of G.players)for(const g of [...p.gear])if(g.drop){
+function recoverDrops(fled,players=G.players.filter(teamHere)){for(const p of players)for(const g of [...p.gear])if(g.drop){
   if(fled&&g.drop==='far'){rmGear(p,g.u);g.drop=null;toGround({g},`${nm(p)}逃跑時來不及撿回，武器留在原地`);continue}
   const before=handSnapshot(p);g.drop=null;autoEquip(p,g);if(used(p)>cap(p)){rmGear(p,g.u);toGround({g},`${nm(p)}撿回武器，但背包放不下`)}else out(`${nm(p)}把${WEAP[g.id].n}撿了回來，放在${gearPlace(p,g)}。`,'sys',true);reportHands(p,before,g.u)}}
+// v0.35.0：只處理已撤離者的裝備；不讓安全區的人繼續掩護、受擊或取得戰鬥經驗。
+function evacuatePlayer(p){const F=G.fight;if(!F||evacWaiting(p)||p.dead||p.leftBehind)return;
+  recoverDrops(true,[p]);F.escaped=F.escaped||[];F.escaped.push(p.pid);p.evacWounds=1;if(p.down)p.evacCarry=1;
+  p.stance=null;p.covering=0;p.aimed=0;p.shd=0;
+  for(const q of G.players)if(q.covering===p.pid)q.covering=0;
+  if(!p.down)loseSan(p,1,true);
+}
+async function finishEvacuation(actor,route){const F=G.fight;if(!F)return;
+  stopCd();
+  if(route){for(const p of G.players)if(!p.dead&&!p.leftBehind)evacuatePlayer(p)}
+  else for(const p of G.players)if(!p.dead&&!evacWaiting(p)&&!p.leftBehind&&(p.down||p.mad)){
+    p.leftBehind=G.lv;p.evacWounds=1;p.held=0;p.covering=0;p.stance=null;
+    out(`${nm(p)}還留在原處。撤離的人引開了敵人；等隊伍離開這個區域，才有機會逃出來會合。`,'bad',true);
+  }
+  if(G.winR&&G.winR.r&&G.winR.r.questDone)finishCodexQuest(G,G.winR.r.questDone,'已中止');
+  G.fight=null;G.winR=null;PEND=null;FTAB=null;snd('doorclose');
+  if(G.alarmFt){if(G.alarmFt===2){G.alarm=3;Object.assign(ALV(),{roused:1,w3:1,w6:1})}G.alarmFt=0}
+  addAlarm(1,actor);out('撤離的人在安全處會合。傷勢與負面狀態仍在，需要自行修整。','sys',true);
+  const go=G.after;G.after=null;
+  if(!go){G.phase='node';startCd();push();draw();return}
+  G.phase='busy';if(await alarmCheck(go))return;await enterNode(go);
+}
+function rejoinStranded(nextLv){for(const p of G.players){
+  if(!p.leftBehind||p.leftBehind===nextLv||p.dead)continue;
+  p.leftBehind=null;p.down=0;p.evacCarry=0;p.hp=1;p.evacWounds=1;
+  out(`${nm(p)}趁敵人被引開，勉強逃了出來，在離開原區域後追上隊伍。身上的傷讓他幾乎站不住；負面狀態沒有解除，需要自行治療。`,'bad',true);
+}}
 async function endFight(){
   const F=G.fight;
   recoverDrops(false);
-  for(const p of G.players){p.aimed=0;p.humus=0;p.held=0;p.burn=0;p.shd=0;if(p.jamGuard>0)p.jamGuard--}
+  for(const p of G.players){if(p.leftBehind)continue;p.aimed=0;p.held=0;if(!p.evacWounds){p.humus=0;p.burn=0}p.shd=0;if(p.jamGuard>0)p.jamGuard--}
   if(F&&F.loot&&F.loot.length&&!G.over)foeLoot(F.loot);
   if(F&&F.foes.some(f=>f.hid&&f.hp>0&&!f.dead&&!FT(f).lurk))out('遠處那點紅光熄掉了。狙擊手換了位置，沒有再開槍。','sys');
   if(F&&F.foes.some(f=>f.hid&&f.hp>0&&!f.dead&&FT(f).lurk))out('暗處那陣窸窣聲遠去了。不管那是什麼，牠沒有追上來。','sys');
-  G.fight=null;stopCd();out('四周安靜下來，只剩粗重的喘氣聲。','sys');
+  G.fight=null;stopCd();out('四周安靜下來，只剩粗重的喘氣聲。','sys');if(F&&F.escaped&&F.escaped.length)out('先撤離的人確認四周安全，與打完戰鬥的隊友會合。傷勢沒有因此恢復。','sys',true);
   // 被警戒引來的那一場打完：這附近暫時沒有東西了，警戒歸零（不再連續引怪）
   // v0.24.0：被警戒引來的那一場打完。小波：警戒不降，這次升到 6 不再引第二波；強敵：警戒回到 3，這一帶標成已驚動
   if(G.alarmFt){const k=G.alarmFt;G.alarmFt=0;if(k===2){G.alarm=3;Object.assign(ALV(),{roused:1,w3:1,w6:1});out('循聲而來的東西都解決了。這一帶已經被驚動過，暫時不會再有東西找上門。警戒 3／10','rule',true)}else out('找上門的東西解決了。可是聲音還在，附近的東西還在聽。','rule',true)}
@@ -4991,7 +5040,7 @@ function doEquip(p,a){const before=handSnapshot(p);
 // 使用物品；to 有值時是「替隊友使用」：效果給隊友，醫護加成看使用的人
 async function useItem(p,k,to){
   const it=ITEMS[k];if(!it||!hasI(p,k))return false;
-  const T=to&&to!==p.pid?P(to):p;if(!T||T.dead||T.down||T.away)return false;const other=T!==p;
+  const T=to&&to!==p.pid?P(to):p;if(!teamHere(p)||!T||T.dead||T.down||T.away||!teamHere(T))return false;const other=T!==p;
   if(it.revive){out('這個要用在倒地的隊友身上。','sys');return false}
   if(it.calm){const t=other&&T.mad?T:!other?able().find(q=>q!==p&&q.mad):null;if(t){takeI(p,k);await sndW(it.snd||'pill',1,900,.6);t.mad=0;setFear(t,70);out(`${nm(p)}按住${nm(t)}，把鎮定劑扎進他的手臂。過了一會兒，笑聲停了。${nm(t)}恢復了意識，但還在「${fstgN(t)}」。`,'good');return true}}
   if(it.t==='wear'){if(other)return false;return wearItem(p,k)}
@@ -5060,15 +5109,15 @@ async function hitAlly(p,t,lab){const A=handAtk(p,'R');const {g,w}=A;const st=be
 // 制伏：把發瘋的隊友打倒，救起來之後恐懼回到 90（崩潰邊緣）
 async function subdue(p,t){out(`${nm(p)}：<b>制伏</b>${nm(t)}`,'act',true);await hitAlly(p,t,'制伏・');await deathCheck();return true}
 async function revive(p,to,k){
-  const t=P(to);if(!t||!t.down||t.dead||!hasI(p,k)||!ITEMS[k].revive)return false;
+  const t=P(to);if(!teamHere(p)||!t||!t.down||t.dead||!teamHere(t)||!hasI(p,k)||!ITEMS[k].revive)return false;
   takeI(p,k);await sndW(ITEMS[k].snd||'heal',1,1500,.8);
   const v=ITEMS[k].revive;p.revives=(p.revives||0)+1;
   const cm=t.mad?(t.mad=0,setFear(t,90),1):0;if(cm)out(`${nm(t)}醒過來的時候不再笑了，只是一直發抖。還在「${fstgN(t)}」。`,'good',true);
-  t.down=0;t.hp=v<1?Math.ceil(t.max*v):v;
+  t.down=0;t.evacCarry=0;t.hp=v<1?Math.ceil(t.max*v):v;
   out(k==='aed'?`${nm(p)}撕開${nm(t)}的衣服貼上電極片。「分析心律中，請勿碰觸患者。」電擊。${nm(t)}猛地吸進一口氣。生命回到 ${t.hp}。`:`${nm(p)}把注射筆用力扎進${nm(t)}的大腿。幾秒之後，${nm(t)}瞪大眼睛坐了起來。生命回到 ${t.hp}。`,'good');
   return true}
-function giveUsd(p,to,n){const t=P(to);n=Math.floor(+n||0);if(!t||t.dead||t===p||n<=0||(p.usd||0)<n)return false;p.usd-=n;t.usd=(t.usd||0)+n;out(`${nm(p)}給了${nm(t)} $${n}。`,'sys',true);return true}
-function give(p,to,k,u){const t=P(to);if(!t||t.dead||t===p)return false;
+function giveUsd(p,to,n){const t=P(to);n=Math.floor(+n||0);if(!teamHere(p)||!t||!teamHere(t)||t.dead||t===p||n<=0||(p.usd||0)<n)return false;p.usd-=n;t.usd=(t.usd||0)+n;out(`${nm(p)}給了${nm(t)} $${n}。`,'sys',true);return true}
+function give(p,to,k,u){const t=P(to);if(!teamHere(p)||!t||!teamHere(t)||t.dead||t===p)return false;
   if(u!=null){const g=gearOf(p,u);if(!g||g.drop)return false;const pos=gearPlace(p,g),before=handSnapshot(t);rmGear(p,u);t.gear.push(g);autoEquip(t,g);if(used(t)>cap(t)){rmGear(t,g.u);toGround({g},`${nm(p)}把原本${pos}的武器交給${nm(t)}，但對方的背包放不下`)}else out(`${nm(p)}把原本${pos}的${WEAP[g.id].n}交給${nm(t)}，${nm(t)}放在${gearPlace(t,g)}。`,'sys',true);reportHands(t,before,g.u);return true}
   if(!hasI(p,k))return false;takeI(p,k);const left=addI(t,k);out(`${nm(p)}把${ITEMS[k].n} ×1 交給${nm(t)}，${left?'對方背包放不下，留在地上':'收進對方的背包'}。`,'sys',true);return true}
 function pickGround(p,i){const x=G.ground[i];if(!x)return false;
@@ -5111,7 +5160,7 @@ function recipeOut(r){return Object.entries(r.out).map(([k,q])=>k==='gear'?WEAP[
 function recipeText(r){return r.in.map(nameOf).join('＋')+(r.tools?'＋'+r.tools.map(t=>nameOf(t)+'（工具）').join('＋'):'')+' → '+recipeOut(r)}
 /* ================= 房主處理所有人的指令 ================= */
 function handle(pid,a){
-  if(!G||!a)return;const p=P(pid);
+  if(!G||!a)return;const p=P(pid);if(p&&!teamHere(p))return;
   if(a.a==='qte')return qteAns(pid,a);
   if(a.a==='vote')return vote(pid,a.i);
   if(a.a==='rv')return rvote(pid,a.t);
@@ -5758,7 +5807,7 @@ function foeBadges(f){const b=(t,c)=>`<span class="bd ${c||''}">${t}</span>`;con
   if(f.aff==='blind'&&f.lock&&G.fight&&G.fight.noise===f.lock&&P(f.lock))a.push(b('鎖定','f'));
   if(f.shaken)a.push(b('動搖','g'));if(f.away)a.push(b('拉開距離','g'));
   return a}
-function myTurn(){const F=G&&G.fight;if(!F||!F.group||F.resolving)return false;return F.group.includes(MYPID)&&!G.busy}
+function myTurn(){const F=G&&G.fight;if(!F||!F.group||F.resolving||!teamHere(me()))return false;return F.group.includes(MYPID)&&!G.busy}
 function locationDetailMarkup(Lv){
   const chapter=(CHAPTERS[Lv.ch||1]||CHAPTERS[1]).n;
   return `<span class="lv-place"><span class="lv-chapter">${esc(chapter)}　</span>${esc(Lv.n)}・${esc(Lv.sub)}</span><span class="lv-difficulty">｜${esc(DF().n)}</span>`;
@@ -5778,7 +5827,7 @@ function draw(){
     fltScan(F);
     $('#foes').innerHTML=F.foes.map(f=>{const dead=f.dead||f.hp<=0;const st=dead?[]:foeBadges(f);const hp=dead?0:f.hp;
       return `<div class="foe ${pend&&!dead?'pick':''} ${!dead&&F.cur==='f'+f.id?'tg':''} ${dead?'dead':''}" data-id="${f.id}" ${pend&&!dead?`data-tgt="${f.id}"`:''}><div class="fpic">${f.img&&!lurkHid(f)?`<img src="${foeImg(f)}" alt="">`:'<i>?</i>'}</div><div class="fin"><div class="fh"><b>${f.n}</b></div><div class="fhp"><div class="hpb" data-hk="${foeHk(f)}"><s style="width:${Math.max(0,hp)/f.max*100}%"></s><u style="width:${Math.max(0,hp)/f.max*100}%"></u></div><span>${lurkHid(f)?'？':`${hp}/${f.max}`}</span></div><div class="fk">${DF().num===0||lurkHid(f)?'':`<em>防禦 ${fDef(f)}${f.hcov?`（遠程 ${fDef(f,1)}）`:''}</em>`}${f.defDown?'護甲破損':''}</div><div class="fk fk2">${(lurkHid(f)?'弱點：？':knowTxt(f)).split('　').map(x=>`<span>${x}</span>`).join('')}</div>${dead||st.length?`<div class="fst">${dead?`<span class="bd">${f.fled?'離開':'倒下'}</span>`:st.join('')}</div>`:''}</div></div>`}).join('');
-    $('#order').innerHTML=`<span class="rd">${battleState()}</span>`+(F.order.length?`<span class="rd">第 ${F.round} 回合</span>`+F.order.map((o,i)=>{if(o.k==='p'){const p=P(o.id);return `<span class="pl ${o.id===MYPID?'me':''} ${(F.group&&!F.resolving?F.group.includes(o.id):i===F.turn)?'now':''} ${p.dead||p.down||p.away?'gone':''}" style="${MP()?`color:${p.col}`:''}">${esc(p.name)}<em>${o.init}</em></span>`}const f=F.foes[o.id];return `<span class="fo ${i===F.turn?'now':''} ${f.dead||f.hp<=0?'gone':''}">${f.n}<em>${o.init}</em></span>`}).join(''):'<span class="rd">擲骰中</span>');
+    $('#order').innerHTML=`<span class="rd">${battleState()}</span>`+(F.order.length?`<span class="rd">第 ${F.round} 回合</span>`+F.order.map((o,i)=>{if(o.k==='p'){const p=P(o.id);return `<span class="pl ${o.id===MYPID?'me':''} ${(F.group&&!F.resolving?F.group.includes(o.id):i===F.turn)?'now':''} ${p.dead||p.down||p.away||!teamHere(p)?'gone':''}" style="${MP()?`color:${p.col}`:''}">${esc(p.name)}<em>${o.init}</em></span>`}const f=F.foes[o.id];return `<span class="fo ${i===F.turn?'now':''} ${f.dead||f.hp<=0?'gone':''}">${f.n}<em>${o.init}</em></span>`}).join(''):'<span class="rd">擲骰中</span>');
     hpRun($('#foes'));fltRun($('#foes'));
   }else{cb.hidden=true;for(const k in HPA)if(k[0]==='f')delete HPA[k];for(const k in FPV)delete FPV[k];FLT.length=0}
   for(const p of G.players)hpSet('p'+p.pid,p.dead?0:Math.max(0,p.hp)/p.max);
@@ -5794,6 +5843,8 @@ function draw(){
     T=G.over.dead?(G.over.fire?'葬身火海':MP()?'全員倒下':(G.players[0].mad?'你發瘋了':'你死了')):'結局・'+G.over.n;Pl=G.over.dead?'GAME OVER':'結局';
     h=`<p class="note">擊倒 ${G.kills}　通過 ${G.levels} 個區域　${m?`等級 ${m.lv}`:''}</p>${G.players.map(q=>`<div class="sumc" style="${MP()?`border-color:${q.col}`:''}"><b>${esc(q.name)}</b><em>${runTitle(q)}</em><small>${q.dead?(q.mad?'發瘋':'死亡'):q.down?'倒地':q.mad?'發瘋':'活著'}　擊倒 ${q.kills||0}　受傷 ${q.taken||0}　治療 ${q.heal||0}${q.revives?`　救起隊友 ${q.revives}`:''}　等級 ${q.lv}</small></div>`).join('')}<p class="note" style="color:#d9c38f">獲得碎片 ${s}　（目前共 ${META.shards}）</p>`+chBtn('data-menu','回到選單','用碎片解鎖角色與背景','','')+(ROLE==='solo'?chBtn('data-again','再來一局','重新建立角色','',''):'');
   }else if(!m||m.dead){T=m&&m.dead?'你已經死了':'觀戰中';Pl='觀戰';h=`<p class="note">你可以繼續看隊友行動。</p>`}
+  else if(m.leftBehind){T='等待歸隊';Pl='脫隊';h='<p class="note">你還留在原區域。隊友正在引開敵人，等他們離開這個區域，你才有機會逃出來會合。傷勢與負面狀態不會因此恢復。</p>'}
+  else if(F&&evacWaiting(m)){T='安全區等待';Pl='已撤離';h='<p class="note">你已脫離戰鬥，不會再被敵人攻擊，也無法支援戰場。等待隊友結束戰鬥或撤離後會合；傷勢不會自動恢復。</p>'}
   else if(F){
     const mine=myTurn()&&!m.down;const mp=F.pend&&F.pend[MYPID];
     const waitN=F.group?F.group.filter(x=>!F.pend[x]).map(x=>esc(P(x).name)):[];
@@ -5845,7 +5896,7 @@ const talN=p=>{const t=(p.traits||[]).find(x=>TALENT[x]);return t?TALENT[t].n:'�
 function cskBtns(m,hs){const k=m.skill,C=CSKILL[k],left=skLeft(m,k);const tag=C.per==='fight'?(left?'每場一次':'已使用'):C.per==='area'?(left?'每區域一次':'已使用'):'不限次數';
   if(C.auto||k==='brew')return `<p class="note">${C.n}：${C.d}</p>`;
   if(C.atk){const ok=hs.filter(x=>cskOk(C,x));if(!ok.length)return `<p class="note">${C.n}：${C.d}（手上的武器不能用）</p>`;return ok.map(x=>chBtn(`data-fa="atk" data-h="${x.h}" data-csk="${k}"`,`${x.lab}・${C.n}`,`${x.w.n}：${C.d}`,tag,'t-x',!left||(x.base.kind==='gun'&&(x.g.jam||(C.shots||1)>x.g.mag))||(x.base.kind==='ranged'&&(C.shots||1)>(m.items[x.base.ammo]||0))||(x.base.cock&&x.g&&!x.g.cocked))).join('')}
-  if(k==='retreat')return G.fight.noflee?`<p class="note">${C.n}：懸在外牆上，無處可逃。</p>`:chBtn(`data-fa="flee" data-csk="retreat"`,C.n,C.d+(DF().num?'（敏捷 12）':''),tag,'t-dg',!left||able().some(q=>q.held));
+  if(k==='retreat'||k==='evacroute')return G.fight.noflee?`<p class="note">${C.n}：懸在外牆上，無處可逃。</p>`:chBtn(`data-fa="flee" data-csk="${k}"`,C.n,C.d,tag+(left?'・'+checkTag(k==='evacroute'?'CHA':'AGI',12):''),'t-dg',!left||(k==='evacroute'?G.players.some(q=>!q.dead&&!q.away&&teamHere(q)&&q.held):!!m.held));
   if(k==='aid')return able().map(t=>chBtn(`data-fa="csk" data-id="aid" data-to="${t.pid}"`,t===m?`${C.n}（自己）`:`${C.n}：${esc(t.name)}`,`生命 ${Math.max(0,t.hp)}／${t.max}${t.bleed?'，流血中':''}`,tag,'t-x',!left)).join('');
   if(k==='guardian'){const ts=able().filter(t=>t!==m);return ts.length?ts.map(t=>chBtn(`data-fa="csk" data-id="guardian" data-to="${t.pid}"`,`${C.n}：${esc(t.name)}`,C.d,tag,'t-x')).join(''):`<p class="note">${C.n}：身邊沒有可以掩護的隊友。</p>`}
   if(k==='soothe'){const ts=able().filter(t=>t!==m);return ts.length?ts.map(t=>chBtn(`data-fa="csk" data-id="soothe" data-to="${t.pid}"`,`${C.n}：${esc(t.name)}`,`${fstgN(t)}`,tag,'t-x',!left)).join(''):`<p class="note">${C.n}：身邊沒有隊友。</p>`}
@@ -5864,7 +5915,7 @@ function fightMenu(m){
     const tu=m.tlUsed||{};
     if(hasI(m,'flashlight'))it+=chBtn('data-fa="flash"','強光照射',toolOn(m,'flashlight')?'手電筒對準一名敵人的眼睛：下一次攻擊命中 −4，不會用掉':'手電筒要先裝在特殊欄位',tu.flash?'已使用':'每場一次','t-x',!toolOn(m,'flashlight')||!!tu.flash);
     if(hasI(m,'extinguisher'))it+=chBtn('data-fa="ext"','噴滅火器',toolOn(m,'extinguisher')?`所有敵人下一次攻擊命中 −2　剩 ${m.items.extinguisher} 次`:'滅火器要先裝在特殊欄位',tu.ext?'已使用':'每場一次','t-x',!toolOn(m,'extinguisher')||!!tu.ext);
-    for(const t of G.players.filter(p=>p.down&&!p.dead))for(const k of ['aed','adrenaline'])if(hasI(m,k))it+=chBtn(`data-fa="revive" data-to="${t.pid}" data-k="${k}"`,`用${ITEMS[k].n}救${esc(t.name)}`,'會用掉這個回合','','t-x');
+    for(const t of G.players.filter(p=>p.down&&!p.dead&&teamHere(p)))for(const k of ['aed','adrenaline'])if(hasI(m,k))it+=chBtn(`data-fa="revive" data-to="${t.pid}" data-k="${k}"`,`用${ITEMS[k].n}救${esc(t.name)}`,'會用掉這個回合','','t-x');
     if(it)h+='<p class="note">道具技能</p>'+it;
     return h+backBtn()}
   if(FTAB==='tact'){const ts=Object.keys(TACT).filter(id=>tactAvail(id,m));
@@ -5875,19 +5926,19 @@ function fightMenu(m){
       if(w.kind==='gun'&&g.mag<w.mag&&(m.items[w.ammo]||0)>0)h+=chBtn(`data-fa="reload" data-h="${x.h}"`,`${x.lab}・裝填`,`${ITEMS[w.ammo].n}　剩 ${m.items[w.ammo]}${w.load?`　一次裝 ${w.load} 發`:''}`,'','t-x');
       if(w.cock&&!g.cocked)h+=chBtn(`data-fa="cock" data-h="${x.h}"`,`${x.lab}・上弦`,w.n,'','t-x')}
     for(const g of m.gear.filter(g=>g.drop==='feet'))h+=chBtn(`data-fa="pickup" data-u="${g.u}"`,`撿起${WEAP[g.id].n}`,'掉在腳邊，花一回合撿回來','','t-x');
-    for(const t of G.players.filter(p=>p!==m&&!p.dead))for(const g of t.gear.filter(g=>g.drop==='feet'))h+=chBtn(`data-fa="kick" data-to="${t.pid}" data-u="${g.u}"`,`把${WEAP[g.id].n}踢回給${esc(t.name)}`,'花一回合','','t-x');
+    for(const t of G.players.filter(p=>p!==m&&!p.dead&&teamHere(p)))for(const g of t.gear.filter(g=>g.drop==='feet'))h+=chBtn(`data-fa="kick" data-to="${t.pid}" data-u="${g.u}"`,`把${WEAP[g.id].n}踢回給${esc(t.name)}`,'花一回合','','t-x');
     if(G.fight.foes.some(f=>f.hid&&f.hp>0&&!f.dead))h+=chBtn('data-fa="spot"','搜尋','找出一名躲起來的敵人，找到之後才能攻擊他；用掉這個回合',checkTag('PER',12),'t-ck');
     if(m.burn>0)h+=chBtn('data-fa="pat"','拍熄身上的火',`還會燒 ${m.burn} 次，每次生命 −2；用掉這個回合`,'','t-dg');
     if(m.held)h+=chBtn('data-fa="free"','掙脫',`被${(G.fight.foes[m.held-1]||{}).n||'感染者'}抓住了（防禦 −2、不能逃跑）：花掉這個回合就能掙脫`,'','t-dg');
     h+='<p class="note">防守（維持到你下次行動）</p>'+chBtn('data-fa="block"','格擋',`擋下近戰攻擊：防禦 +2，近戰傷害減半${handsOf(m).some(x=>x.w.pole)?'，長柄再減 1':''}；對遠程無效`,'','t-x')+chBtn('data-fa="dodge"','閃躲','專心閃避：防禦 +5，被打中時傷害照算','','t-x')+chBtn('data-fa="cover"','掩蔽',G.fight.nocover?'這裡沒有可以躲的地方':'躲到掩體後面：對槍、弓、丟擲物防禦 +5、傷害減半；對近戰無效','','t-x',G.fight.nocover);
     for(const t of able().filter(q=>q!==m&&q.mad)){h+=chBtn(`data-fa="calm" data-to="${t.pid}"`,`安撫${esc(t.name)}`,'成功就讓他恢復意識。每場戰鬥只能試一次',checkTag('CHA',14)+(m.calmUsed?'・已使用':''),'t-ck',m.calmUsed);h+=chBtn(`data-fa="subdue" data-to="${t.pid}"`,`制伏${esc(t.name)}`,'用手上的武器打他；打倒之後救起來就會清醒，但仍在崩潰邊緣','','t-dg')}
-    if(!G.fight.noflee){const hd=able().some(q=>q.held);h+=chBtn('data-fa="flee"','逃跑',hd?'有人被抓住了，現在跑不掉':MP()?'成功的話全隊一起脫離戰鬥':'成功就脫離戰鬥，失敗會浪費回合',checkTag('AGI',12),'t-dg',hd)}
+    if(!G.fight.noflee){const hd=!!m.held;h+=chBtn('data-fa="flee"','逃跑',hd?'你被抓住了，現在跑不掉':'只判定自己；成功先到安全區等待，失敗消耗行動。不限次數',checkTag('AGI',12),'t-dg',hd)}
     else h+='<p class="note">懸在外牆上，無處可逃。</p>';
     return h+backBtn()}
   const nt=Object.keys(TACT).filter(id=>tactAvail(id,m)).length;
   const hasOther=m.held||G.fight.foes.some(f=>f.hid&&f.hp>0&&!f.dead)||handsOf(m).some(x=>x.g&&((x.w.kind==='gun'&&(x.g.jam||(x.g.mag<x.w.mag&&m.items[x.w.ammo])))||(x.w.cock&&!x.g.cocked)))||m.gear.some(g=>g.drop==='feet');
   return `<div class="fmenu">${chBtn('data-ftab="atk"','普通攻擊',hs.map(x=>`${x.lab} ${x.w.n}`).join('／'),'','')}${chBtn('data-ftab="skill"','技能','武器、角色、道具技能','','')}${chBtn('data-ftab="tact"','對策',nt?`這裡有 ${nt} 種可以利用`:'看看環境和道具','','',false)}${chBtn('data-open="bag"','物品','用藥、換武器、穿裝備','','')}${chBtn('data-ftab="other"','行動',m.burn>0?'身上著火：拍熄、防守…':m.held?'被抓住了：掙脫、防守…':G.fight.foes.some(f=>f.hid&&f.hp>0&&!f.dead)?'搜尋、防守、協助隊友…':able().some(q=>q.mad)?'有隊友發瘋了：安撫、制伏…':hasOther?'裝填、撿武器、防守、逃跑…':'格擋、閃躲、掩蔽、逃跑','','',false,'',m.held||able().some(q=>q.mad)?'mine':'')}</div>`}
-function actLabel(m,a){if(a.a==='csk')return CSKILL[a.id].n+(a.to&&P(a.to)?' → '+esc(P(a.to).name):'');if(a.a==='flee'&&a.csk)return '緊急撤退';if(a.a==='atk'){const x=handsOf(m).find(y=>y.h===(a.h||'R'));return (x?x.lab+'・':'')+(a.csk?CSKILL[a.csk].n:a.sk?SKILL[a.sk].n:'普通攻擊')+(a.t!=null&&G.fight.foes[a.t]?' → '+G.fight.foes[a.t].n:'')}if(a.a==='tact')return TACT[a.id].n;return {reload:'裝填',unjam:'排除卡彈',cock:'上弦',pickup:'撿起武器',kick:'踢回武器',molotov:'丟燃燒瓶',ext:'噴滅火器',flash:'強光照射',flee:'逃跑',free:'掙脫',use:'使用物品',revive:'救隊友',equip:'換武器',guard:'格擋',block:'格擋',dodge:'閃躲',cover:'掩蔽',dual:'雙持攻擊',calm:'安撫隊友',subdue:'制伏隊友'}[a.a]||a.a}
+function actLabel(m,a){if(a.a==='csk')return CSKILL[a.id].n+(a.to&&P(a.to)?' → '+esc(P(a.to).name):'');if(a.a==='flee'&&a.csk)return CSKILL[a.csk]?CSKILL[a.csk].n:'逃跑';if(a.a==='atk'){const x=handsOf(m).find(y=>y.h===(a.h||'R'));return (x?x.lab+'・':'')+(a.csk?CSKILL[a.csk].n:a.sk?SKILL[a.sk].n:'普通攻擊')+(a.t!=null&&G.fight.foes[a.t]?' → '+G.fight.foes[a.t].n:'')}if(a.a==='tact')return TACT[a.id].n;return {reload:'裝填',unjam:'排除卡彈',cock:'上弦',pickup:'撿起武器',kick:'踢回武器',molotov:'丟燃燒瓶',ext:'噴滅火器',flash:'強光照射',flee:'逃跑',free:'掙脫',use:'使用物品',revive:'救隊友',equip:'換武器',guard:'格擋',block:'格擋',dodge:'閃躲',cover:'掩蔽',dual:'雙持攻擊',calm:'安撫隊友',subdue:'制伏隊友'}[a.a]||a.a}
 const backBtn=()=>chBtn('data-ftab=""','返回','回到上一層','','');
 function targetBtns(m){const a=PEND.a;let w=null,sk=a.sk;if(a.a==='atk'){const x=atkHands(m).find(y=>y.h===(a.h||'R'));w=x.w}
   return aliveF().map(f=>{let tag='';if(w&&DF().num){const st=bestSt(m,w.st);tag=`命中 ${f.prone?100:hitPct(statMod(m,st)+hitBonus(m,a.h||'R',w,sk),fDef(f,w.kind!=='melee'))}%`}
@@ -5907,7 +5958,7 @@ function teamExtra(p){const effects=statEffects(p);const at=Object.keys(STN).map
   const tl=Object.values(G.told||{}).filter(x=>x.pid===p.pid).map(x=>x.t);
   return `<div class="chips"><span>現金 $${p.usd||0}</span></div><div class="chips tat">${at}${p.pts?`<span style="color:var(--gold)">可加點 ${p.pts}</span>`:''}</div>${ch?`<div class="chips"><span>選了：${esc(ch)}</span></div>`:''}${tl.length?`<div class="chips"><span>告知：「${esc(tl[tl.length-1])}」</span></div>`:''}`}
 function drawDD(){const d=$('#tdd');if(!G){d.hidden=true;return}
-  d.innerHTML=[...G.players].sort((a,b)=>(b.pid===MYPID)-(a.pid===MYPID)).map(p=>`<div class="tcard ${p.down?'dn':''} ${p.dead?'dd':''}">${av(p,1)}<div><div class="nm2"><b>${esc(p.name)}</b>${tallyMk(p,'sm')}<small>Lv${p.lv}　${roleN(p)}${MP()&&p.pid===MYPID?'（你）':''}　${p.dead?'死亡':p.down?'倒地':p.mad?'<span class="bad">發瘋</span>':''}</small></div>
+  d.innerHTML=[...G.players].sort((a,b)=>(b.pid===MYPID)-(a.pid===MYPID)).map(p=>`<div class="tcard ${p.down?'dn':''} ${p.dead?'dd':''}">${av(p,1)}<div><div class="nm2"><b>${esc(p.name)}</b>${tallyMk(p,'sm')}<small>Lv${p.lv}　${roleN(p)}${MP()&&p.pid===MYPID?'（你）':''}　${p.dead?'死亡':p.leftBehind?'脫隊・等待離開區域':evacWaiting(p)?'已撤離・安全區等待':p.down?'瀕死':p.mad?'<span class="bad">發瘋</span>':''}</small></div>
    <div class="b2">${bar('hp','生命',Math.max(0,p.hp),p.max,' '+vbd(p.hp<p.max*.4,hpStg(p)),'p'+p.pid)}${shdBar(p,' ')}${bar('fe fs'+fstg(p),'恐懼',fstg(p),4,` ${fstgN(p)}`)}${bar('in','感染',p.inf,100,' '+vbd(p.inf>=40,infStg(p)))}${bar('hu','飢餓',p.hun,10,' '+vbd(p.hun<=3,hunStg(p)))}${bar('th','口渴',p.thi,10,' '+vbd(p.thi<=3,thiStg(p)))}</div>
    <div class="chips"><span>${handTxt(p)}</span>${p.bleed?`<span class="bad">${p.bleed>1?'重度流血':'流血'}</span>`:''}${p.unbal?'<span class="bad">失衡</span>':''}${p.frac?'<span class="bad">骨折</span>':''}${p.humus?`<span class="bad">腐殖 ${p.humus}</span>`:''}${p.burn?`<span class="bad">燃燒 ${p.burn}</span>`:''}${p.held?'<span class="bad">被抓住</span>':''}${G.alarm&&p.pid===MYPID?`<span>警戒 ${G.alarm}／10</span>`:''}${p.pts&&p.pid===MYPID?`<span style="color:var(--gold)">可加點 ${p.pts}</span>`:''}</div>${teamExtra(p)}</div></div>`).join('');d.hidden=false;hpRun(d)}
 /* ---- 面板 ---- */
@@ -5923,7 +5974,7 @@ function sheet(m){
   const pr=PRESETS[m.kind]||GUESTS[m.kind];const nx=XPT[m.lv-1];
   const ab=[];if(pr){ab.push(`<b>${pr.p}</b>　${pr.pd}`,`<b>${pr.actn}</b>　${pr.actd}`)}for(const t of m.traits)if(TALENT[t])ab.push(`<b>天賦・${TALENT[t].n}</b>　${TALENT[t].d}`);
   if(m.skill&&CSKILL[m.skill]){const C=CSKILL[m.skill];const left=skLeft(m,m.skill);ab.push(`<b>技能・${C.n}</b>　${C.d}${C.per!=='free'?`　<small>${{fight:'每場一次',area:'每區域一次'}[C.per]}${left?'':'（已使用）'}</small>`:''}`);
-    const can=G.phase!=='fight'&&!G.busy&&!m.down&&!m.dead;if(!G.fight&&m.skill==='brew')ab.push(ibt('data-brew','臨時調配：做一個燃燒瓶',!left,can));if(!G.fight&&m.skill==='soothe')ab.push(able().filter(q=>q!==m).map(q=>ibt(`data-soothe="${q.pid}"`,'讓'+esc(q.name)+'冷靜下來',!left,can)).join(''))}
+    const can=teamHere(m)&&G.phase!=='fight'&&!G.busy&&!m.down&&!m.dead;if(!G.fight&&m.skill==='brew')ab.push(ibt('data-brew','臨時調配：做一個燃燒瓶',!left,can));if(!G.fight&&m.skill==='soothe')ab.push(able().filter(q=>q!==m).map(q=>ibt(`data-soothe="${q.pid}"`,'讓'+esc(q.name)+'冷靜下來',!left,can)).join(''))}
   if(m.kind==='dar'&&!G.fight){const can=G.phase==='node'&&!G.busy&&!m.down&&!m.dead&&G.ev==null;const cd=(m.darCd||0)>(G.clock||0);ab.push(ibt('data-bridge',cd?'靈界的橋樑：「祂」還沒有回應':'靈界的橋樑：請「祂」指路',cd||(G.dar&&G.dar.node===G.node),can))}
   if(pr&&pr.xd)ab.push(`<small>${pr.xd}</small>`);
   return `<div class="sheet"><div class="hd">${av(m,1)}<div><b>${esc(m.name)}</b><div class="ab">${roleN(m)}</div></div></div>
@@ -5961,12 +6012,12 @@ function toolCol(m,inF,can){if(!Array.isArray(m.tl))m.tl=[null,null];
 // 右欄：背包清單。v0.29.0（主人 2026-11-17）：一樣東西一條，使用、給誰、替誰用、放到地上都排在那一條的尾端；
 // 「給誰…」「替誰用…」「拿起…」點了才在下面列出人或手（SEL＋SELM），點那一條本身只會展開完整說明
 let SELM=null;
-function usdRow(m,inF,can){const giveTo=G.players.filter(p=>p!==m&&!p.dead);
+function usdRow(m,inF,can){const giveTo=G.players.filter(p=>p!==m&&!p.dead&&teamHere(p));
   return `<div class="usdrow"><b>$${m.usd||0}</b><span>美金</span>${!inF&&(m.usd||0)>0?giveTo.map(t=>ibt(`data-giveusd="${Math.min(10,m.usd)}" data-to="${t.pid}"`,`給${esc(t.name)} $${Math.min(10,m.usd)}`,0,can)).join(''):''}</div>`}
 function selBtn(key,mode,lab,can){const on=SEL===key&&SELM===mode;return `<button class="btn ${on?'on':''}" data-selm="${key}|${mode}" ${can?'':'disabled'}>${lab}${on?'▴':'…'}</button>`}
 function lnRow(key,info,ops,drop,sel){return `<div class="irow ln ${sel?'sel':''}" data-sel="${key}"><div class="in">${info}</div><div class="iops">${ops}${drop?(ops?'<span class="opsep"></span>':'')+drop:''}</div></div>`}
 function itemCol(m,inF,can){
-  const mates=G.players.filter(p=>p!==m&&!p.dead&&!p.down&&!p.away);const giveTo=G.players.filter(p=>p!==m&&!p.dead);const downs=G.players.filter(p=>p.down&&!p.dead);
+  const mates=G.players.filter(p=>p!==m&&!p.dead&&!p.down&&!p.away&&teamHere(p));const giveTo=G.players.filter(p=>p!==m&&!p.dead&&teamHere(p));const downs=G.players.filter(p=>p.down&&!p.dead&&teamHere(p));
   let h='';
   const spare=m.gear.filter(g=>m.hand.R!==g.u&&m.hand.L!==g.u||g.drop);
   if(spare.length)h+='<div class="cat">武器</div>';
@@ -5993,7 +6044,7 @@ function panel(k){
   OVK=k;const X='<button class="btn" data-close>關閉</button>';const m=G&&me();
   const tabs=k==='craft'?`<div class="tabs"><button class="btn" data-open="bag">← 回背包</button></div>`:'';
   if((k==='bag'||k==='craft'||k==='gear')&&!m){toast('觀戰中沒有背包。');OVK=null;return}
-  const inF=!!(G&&G.fight),can=G&&m&&!G.busy&&!m.dead&&(!inF||myTurn())&&!m.down;
+  const inF=!!(G&&G.fight),can=G&&m&&teamHere(m)&&!G.busy&&!m.dead&&(!inF||myTurn())&&!m.down;
   if(['map','tasks','memo'].includes(k)){
     if(!G){OVK=null;return}if(ROLE!=='client')syncCodex();markCodexRead(k);
     const title={map:'地圖',tasks:'任務',memo:'備忘錄'}[k];
