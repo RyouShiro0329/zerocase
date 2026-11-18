@@ -19,7 +19,7 @@
     "docs/QA_v0.35.0.zip": "deea2a7222c0daf8f4cc4dc1996b3e34b3128e69500aca90d6520ceb1ad503de",
     "docs/QA_v0.35.0_RUN_HISTORY.md": "2cda202ee4d5630de1cc40cda8ceafa910825df0369ea3dcc25ecde096826811",
     "docs/RELEASE_v0.35.0.md": "c945fd75d60180722f73b4592ca85985256e070e923d8c4590b435cd1234db1c",
-    "docs/VERSIONS.md": "2a01d32a3c743ea9ba1651652e94211d2338c874512a06dbad2b7129358491d2",
+    "docs/VERSIONS.md": "b42226117c38c801d16bd0815426041f98d779efa92a6f13df2d36367a49eb03",
     "docs/audio/2026-11-15-integration-plan.md": "1d8c7185ad2742e1f1b70279b5f9d274f03c36a1b4104513dc5842d2df9ade8d",
     "docs/audio/ASSET_VALIDATION.json": "190994b75a706198d1f3e3435ee47441cee202e55fe70c3593fab8d55d538d0b",
     "docs/audio/ASSET_VALIDATION_V0.21.10.json": "6d61e118b4a1ebef0708d9e4e687d55afbf48a288d61c98a772f1cb5113c612a",
@@ -89,7 +89,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "8077066d25508daf8a6fb28626288289933f356ab47821560fd3ac7b31a92439",
+    "index.html": "0ec0376ccda3615366f1f9d7b497ae77f79de424dcc3b28af854f08fb35d7e3e",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -209,15 +209,15 @@
     "tools/make_font_subset.py": "3eb79719caa2f2863185cb10c9b1e32cc96017b10f03284bcb6fb4ac831c1094",
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "694fda2e66f6d3b6bc23f73380ad81d18dad4ac2b15c602c29a4580beecd6841",
+    "更新說明.txt": "730fba4da389c0f6c07fb9d17bd8d2b46103ed0ae087bfa830cafe5a623b2f27",
     "AGENTS.md": "e422a0fb401d356089ba29cbf3a3a3dead6ca2f87a968660024474039a2f3f24",
     "tools/battle-player-cards.cjs": "76dca58b4da6f9fc5b198096d4f265203d00f3a138ee37d9824f73d8e9f5d09e",
     "docs/RELEASE_v0.36.0.md": "808507b9a161bb290bbaf891ce3c15c6b0dc729e068c5f4c5221370eec924e56",
     "docs/QA_v0.36.0.zip": "9df81d87b5c09e1d1e59d66255bd91af7d3e503b2fecc61e6a839cf5b8c94271",
     "audit_v0.36.0.json": "5b2c44f2cab3d19eedaf58324790b7171b60a45315a9b94fcffdf10e71fef6a5",
-    "tools/battle-party-setting-browser.cjs": "8bfcc6ec2d7fecfbdd8c244f1665ddc5ca372831ee1a43462c12cbf60b69d011",
-    "docs/RELEASE_v0.36.1.md": "7102e384d5ffd514e305bb8f12bf34a4b9018ae8a7444b07fb88a11581c0b15c",
-    "docs/QA_v0.36.1.zip": "e77343b34859f0b3243bfd2ed4e27c3691ed1461e187e5d4b8728de68f1ef4f8",
-    "audit_v0.36.1.json": "7588b9b802c83f1c8107bdd54ada812c43d36ae958ab67d22de41fa8215e5d14"
+    "tools/battle-party-setting-browser.cjs": "689524b859bdcd2b677af41bd452810cddc85ef493e919b9944241ba79cb0297",
+    "docs/RELEASE_v0.36.1.md": "a460d1a78aa4b3009c5032944826f1cd1097c7a4fe7b0d2be8c6520ef27f84fa",
+    "docs/QA_v0.36.1.zip": "556d23463f0f0fca0b1639ba2952b7c31b498be7506e3c026156b1ba20f614b2",
+    "audit_v0.36.1.json": "6e93c419a481c929acd017cbf8c2e665c806a9a91a17cb8d1168256d637c1a1f"
   }
 }

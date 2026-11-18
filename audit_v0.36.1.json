@@ -20,10 +20,10 @@
     "browser_smoke": "三尺寸各40步通過",
     "long_route": {
       "actions": 220,
-      "nodes": 68,
+      "nodes": 61,
       "areas": 18
     },
-    "party_setting_browser_checks": 113,
+    "party_setting_browser_checks": 129,
     "original_player_card_checks": 37,
     "evacuation_logic_checks": 20,
     "evacuation_browser_checks": 25
@@ -57,5 +57,17 @@
   ],
   "phone": "待主人實機驗收",
   "review": "獨立唯讀程式審查無Critical/Important問題；另以Node VM驗證無navigator與舊UI相容",
-  "evidence": "docs/QA_v0.36.1.zip"
+  "evidence": "docs/QA_v0.36.1.zip",
+  "regression": {
+    "first_ci_run": 44339232676,
+    "first_ci_result": "失敗：直拿選項範圍；Node和長路線通過",
+    "reproduced_in": [
+      "v0.36.0",
+      "v0.36.1"
+    ],
+    "fixture": "兩敵人目標選單，返回left=-15.40625，兩版相同",
+    "ci_exact_state": "未保存，不能確認完全相同觸發",
+    "fix": "僅將低高度普通攻擊雙欄配置擴到選敵與返回",
+    "tests": "8平台卡片開/關各重現，先失敗後通過；原tests完全未改"
+  }
 }
