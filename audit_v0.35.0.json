@@ -1,0 +1,263 @@
+{
+  "version": "0.35.0",
+  "build": 87,
+  "created_at": "2026-11-18T17:20:07+08:00",
+  "timezone": "Asia/Taipei",
+  "baseline_commit": "851139cccd5556f217a7aebf8d55c702683c04ce",
+  "tested_source_commit": "f39e97ca3b2d84bc433244864ea53420c59965a4",
+  "game_code_commit": "8b3f628fd8470a11a214a9362ce8d49d7c794414",
+  "test_history": {
+    "first_run": {
+      "run_id": 44272919100,
+      "result": "失敗",
+      "reason": "直拿轉橫向的選項按鈕範圍檢查失敗一次，未確定觸發條件"
+    },
+    "second_run": {
+      "run_id": 44273249208,
+      "result": "通過"
+    },
+    "history_file": "docs/QA_v0.35.0_RUN_HISTORY.md"
+  },
+  "changes": [
+    "新增初始主動技能「撤離路線」：使用者擲統帥，成功全隊撤離，也帶走瀕死隊友；每位持有者每場一次，失敗仍消耗行動與次數。",
+    "普通逃跑改為個人敏捷判定，不限次數，每次花一個行動；成功者先到戰鬥外的臨時安全區等待，不再被攻擊或支援戰場。",
+    "緊急撤退保留敏捷逃跑 +5，但只撤離本人。",
+    "普通逃跑留下的瀕死隊友，要等隊伍離開原區域才勉強逃出會合，歸隊生命為 1；同區域不能遠端救援、休息或轉交物品。",
+    "撤離路線帶走的瀕死隊友仍需救援，可立即使用原有救援道具；撤離與歸隊不清除流血、骨折、感染、恐懼、腐殖物、燃燒等負面狀態。",
+    "禁止逃跑地點沿用原限制；個人逃跑只受本人被抓影響，全隊撤離須先解除現場隊友抓握。",
+    "補齊正楷字型的「瀕」字，更新字型網址雜湊；英文字型與所有既有音效、立繪未變。"
+  ],
+  "design_rule_changes": [
+    "新增初始主動技能「撤離路線」：使用者擲統帥，成功全隊撤離，也帶走瀕死隊友；每位持有者每場一次，失敗仍消耗行動與次數。",
+    "普通逃跑改為個人敏捷判定，不限次數，每次花一個行動；成功者先到戰鬥外的臨時安全區等待，不再被攻擊或支援戰場。",
+    "緊急撤退保留敏捷逃跑 +5，但只撤離本人。",
+    "普通逃跑留下的瀕死隊友，要等隊伍離開原區域才勉強逃出會合，歸隊生命為 1；同區域不能遠端救援、休息或轉交物品。",
+    "撤離路線帶走的瀕死隊友仍需救援，可立即使用原有救援道具；撤離與歸隊不清除流血、骨折、感染、恐懼、腐殖物、燃燒等負面狀態。",
+    "禁止逃跑地點沿用原限制；個人逃跑只受本人被抓影響，全隊撤離須先解除現場隊友抓握。"
+  ],
+  "tests": {
+    "existing_node": {
+      "result": "通過",
+      "pass": 180,
+      "fail": 0,
+      "todo": 1,
+      "todo_note": "既有恐懼紀錄 TODO 保留，未列為通過"
+    },
+    "evacuation_node": {
+      "result": "通過",
+      "pass": 20,
+      "fail": 0
+    },
+    "cloud_full_suite": {
+      "result": "通過",
+      "command": "bash tests/run_all.sh",
+      "run_id": 44273249208,
+      "job_id": 134694863781
+    },
+    "browser_qa": {
+      "url": "http://localhost:8768/index.html",
+      "checks": [
+        {
+          "name": "844x390 主選單版本",
+          "result": "通過"
+        },
+        {
+          "name": "844x390 初始技能選取",
+          "result": "通過"
+        },
+        {
+          "name": "844x390 戰鬥技能按鈕",
+          "result": "通過"
+        },
+        {
+          "name": "844x390 統帥一次帶全隊撤離",
+          "result": "通過"
+        },
+        {
+          "name": "844x390 帶走者可立即救援",
+          "result": "通過"
+        },
+        {
+          "name": "844x390 安全區等待畫面",
+          "result": "通過"
+        },
+        {
+          "name": "844x390 等待者不能再行動",
+          "result": "通過"
+        },
+        {
+          "name": "844x390 普通逃跑留下瀕死者",
+          "result": "通過"
+        },
+        {
+          "name": "844x390 脫隊等待畫面",
+          "result": "通過"
+        },
+        {
+          "name": "844x390 極差狀態歸隊且不清除負面狀態",
+          "result": "通過"
+        },
+        {
+          "name": "844x390 舞台完整可見",
+          "result": "通過"
+        },
+        {
+          "name": "844x390 文字沒有水平裁切",
+          "result": "通過"
+        },
+        {
+          "name": "393x690 主選單版本",
+          "result": "通過"
+        },
+        {
+          "name": "393x690 初始技能選取",
+          "result": "通過"
+        },
+        {
+          "name": "393x690 戰鬥技能按鈕",
+          "result": "通過"
+        },
+        {
+          "name": "393x690 統帥一次帶全隊撤離",
+          "result": "通過"
+        },
+        {
+          "name": "393x690 帶走者可立即救援",
+          "result": "通過"
+        },
+        {
+          "name": "393x690 安全區等待畫面",
+          "result": "通過"
+        },
+        {
+          "name": "393x690 等待者不能再行動",
+          "result": "通過"
+        },
+        {
+          "name": "393x690 普通逃跑留下瀕死者",
+          "result": "通過"
+        },
+        {
+          "name": "393x690 脫隊等待畫面",
+          "result": "通過"
+        },
+        {
+          "name": "393x690 極差狀態歸隊且不清除負面狀態",
+          "result": "通過"
+        },
+        {
+          "name": "393x690 舞台完整可見",
+          "result": "通過"
+        },
+        {
+          "name": "393x690 文字沒有水平裁切",
+          "result": "通過"
+        },
+        {
+          "name": "沒有程式錯誤",
+          "result": "通過"
+        }
+      ],
+      "errors": [],
+      "sizes": [
+        {
+          "width": 844,
+          "height": 390,
+          "geometry": {
+            "stage": {
+              "x": 0,
+              "y": 0,
+              "width": 844,
+              "height": 390
+            },
+            "inside": true,
+            "text": true
+          }
+        },
+        {
+          "width": 393,
+          "height": 690,
+          "geometry": {
+            "stage": {
+              "x": 0,
+              "y": 0,
+              "width": 393,
+              "height": 690
+            },
+            "inside": true,
+            "text": true
+          }
+        }
+      ],
+      "multiplayer_network": "未測試：使用受控隊伍狀態，沒有連線到正式房間",
+      "phone": "待主人實機驗收"
+    },
+    "multiplayer_network": {
+      "result": "未測試",
+      "reason": "使用受控隊伍狀態與 JSON 狀態往返，未實際連線正式房間"
+    },
+    "phone": "待主人實機驗收"
+  },
+  "preserved": {
+    "tests_unchanged": true,
+    "split_index_unchanged": true,
+    "module_titles_unchanged": 14,
+    "enemy_art_unchanged": true,
+    "audio_unchanged": true,
+    "latin_font_unchanged": true
+  },
+  "deployment": {
+    "method": "雲端瀏覽器上傳候選分支、驗收後合併 main，由 GitHub Pages 發布",
+    "target": "https://ryoushiro0329.github.io/zerocase/"
+  },
+  "file_changes": {
+    ".github/workflows/evacuation-qa.yml": {
+      "before_sha256": null,
+      "after_sha256": "13e3bba4dfc24bebe1d0581d31ef6b0271d9c4908126d08975518c76ed503402"
+    },
+    "docs/AI_WORKFLOW.md": {
+      "before_sha256": "36bf92d1d1a1362082c71039614af659d7347bb6f3cd2f48645f472879e76a74",
+      "after_sha256": "da1b6a016b6c5fec7efb7802fad7a113d22a0c8e57094dd59b6e325e8962ca66"
+    },
+    "docs/QA_v0.35.0.zip": {
+      "before_sha256": null,
+      "after_sha256": "deea2a7222c0daf8f4cc4dc1996b3e34b3128e69500aca90d6520ceb1ad503de"
+    },
+    "docs/QA_v0.35.0_RUN_HISTORY.md": {
+      "before_sha256": null,
+      "after_sha256": "2cda202ee4d5630de1cc40cda8ceafa910825df0369ea3dcc25ecde096826811"
+    },
+    "docs/RELEASE_v0.35.0.md": {
+      "before_sha256": null,
+      "after_sha256": "c945fd75d60180722f73b4592ca85985256e070e923d8c4590b435cd1234db1c"
+    },
+    "docs/VERSIONS.md": {
+      "before_sha256": "d405db818a80d074d004b5ff075e49f738b5687a8037804b4b361f2c9b499be6",
+      "after_sha256": "ca1cf899e5058e225cc771a2748c57a503cd1006fbd0ac87fcff91ec9d3cc77f"
+    },
+    "fonts/coverage.txt": {
+      "before_sha256": "3370ab200d944204cb6a2062a6c530feb3a71bf41382f6e79fe882b55acd423f",
+      "after_sha256": "daa5c86969f877365e2e00029921d4f3277610b58ccd866eda9d77ecda3c142e"
+    },
+    "fonts/tw-kai-game.woff2": {
+      "before_sha256": "f602296d66c991b2834eebf163d7341f87e4143faad3e8c5c0191ed3461b04cf",
+      "after_sha256": "6682e57d4da00bc78256be6afe5efc22695cd6bf744b51fb4462183df319611c"
+    },
+    "index.html": {
+      "before_sha256": "1f1c567be7eafa10c6140b7ebfafbc83e06a3509e1ac9fcfba4875e99258cb20",
+      "after_sha256": "dacf1405f7be8e8a2cace99d425eac6c5eee46a6e100324399786ba61f01138a"
+    },
+    "tools/check_evacuation.cjs": {
+      "before_sha256": null,
+      "after_sha256": "870849f4d615ba77b9d84258f9aaaf6f3c45faa57f10927cf81242f6fd7b2134"
+    },
+    "tools/evacuation-browser.cjs": {
+      "before_sha256": null,
+      "after_sha256": "78ee9e00ff7995a6b6be61077f1c79e9b0345d32fbb1493c112765dd767e2d7f"
+    },
+    "更新說明.txt": {
+      "before_sha256": "1421f1e3204f078fac2d7305e78e1eb24b79ab8fa8b0f9b063fc1a865e667203",
+      "after_sha256": "c94e388a61180443a5535fbeb5f68622684a28c8e5dcf1705e68d266064c82fc"
+    }
+  }
+}
