@@ -242,5 +242,14 @@
     "Android與iOS原生瀏覽器引擎",
     "手機硬體音訊延遲"
   ],
-  "phone": "待主人實機驗收"
+  "phone": "待主人實機驗收",
+  "github_ci_history": [
+    {
+      "run_id": 44394037666,
+      "result": "失敗",
+      "stage": "安裝瀏覽器相依套件",
+      "reason": "ubuntu-latest 已為 Ubuntu26.04，Playwright1.58.2不支援；遊戲測試尚未執行",
+      "fix": "兩個job固定ubuntu-24.04，不修改測試或遊戲"
+    }
+  ]
 }

@@ -4,7 +4,7 @@
   "created_at": "2026-11-19T04:13:06+08:00",
   "deployment": "草稿 Pull Request；完整回歸進行中，不自動合併或部署",
   "files": {
-    ".github/workflows/evacuation-qa.yml": "50c99f4586712d427d8fb0c9369b43642592ad6bfd0538f81c14634dc3b92569",
+    ".github/workflows/evacuation-qa.yml": "7613f1f262996c8720b5d27573ac58d90822e2e46239cfed1053bd0c7fe90810",
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "README.md": "f622d83355de0e2f8645a403f62be3c616c350f9de4fc65f331cbc21071f8fe3",
     "audit_v0.22.0.json": "23f18817a8d89c07c3eb44f3d1fe7958eef3c50a6b3a90ecd617c562cf45e514",
@@ -209,7 +209,7 @@
     "tools/make_font_subset.py": "3eb79719caa2f2863185cb10c9b1e32cc96017b10f03284bcb6fb4ac831c1094",
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "7f153759cc10dc693516c98f2f3730be5d24246b8d03229a7ac8374df97521dd",
+    "更新說明.txt": "b79b60b4b25b31b910e13a589e4f5d2328fce225bb7216acd62a7f691f687ad0",
     "AGENTS.md": "e422a0fb401d356089ba29cbf3a3a3dead6ca2f87a968660024474039a2f3f24",
     "tools/battle-player-cards.cjs": "76dca58b4da6f9fc5b198096d4f265203d00f3a138ee37d9824f73d8e9f5d09e",
     "docs/RELEASE_v0.36.0.md": "808507b9a161bb290bbaf891ce3c15c6b0dc729e068c5f4c5221370eec924e56",
@@ -223,7 +223,7 @@
     "tools/slash-hit.test.cjs": "cc6e9e2136a35034d4fd5c1f0fce79795345f38cfc3b2006e593f503c9c2e390",
     "tools/slash-hit-browser.cjs": "efcced06ef0a99ea33404572ec60fb5e0dec7721bd2ba4dddd3bcdd49dc4221c",
     "docs/superpowers/plans/2026-11-19-slash-hit.md": "49cf4dde412022eefefa443e65164e0d08d1f4f752121203159602216b607c1d",
-    "docs/slash/QA_v0.37.0.json": "59649f7db693b988e06a60dc02efccaa141131d4836ec1c9b405ef6c5169d40d",
+    "docs/slash/QA_v0.37.0.json": "2f816410fef465968d78de4835e1f77df8beceafb633c5a2c042a0f55708b62a",
     "docs/slash/REVIEW_v0.37.0.md": "ee93bcdc3380e4b53da15822153dbafdecda48b81edb7c6171c96492cc05a50e",
     "docs/slash/BASELINE_v0.37.0.log": "5cfb1f669214388769155623d4c34387615a7a76b2796b10d4a0c52e86fdbbaf"
   }
