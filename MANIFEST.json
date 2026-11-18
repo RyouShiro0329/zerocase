@@ -15,7 +15,7 @@
     "audit_v0.23.0.json": "4380327cd19181b10c01c8b2acaa656ec3c88ecb449a4aecca52276826b3a681",
     "audit_v0.23.1.json": "ee33bd6bd12bba910f6384953caa55d4d7fd1a9dcec5fbe1e92928ceef2ba94d",
     "audit_v0.35.0.json": "2a934203092a0571634eb975828c46ccbfbb29e320706a73d3684af9c17390f7",
-    "docs/AI_WORKFLOW.md": "da1b6a016b6c5fec7efb7802fad7a113d22a0c8e57094dd59b6e325e8962ca66",
+    "docs/AI_WORKFLOW.md": "bb43ecb1592462a49f538ed21501028e06a84ade3fcf19ef772de9c6acda4b24",
     "docs/QA_v0.35.0.zip": "deea2a7222c0daf8f4cc4dc1996b3e34b3128e69500aca90d6520ceb1ad503de",
     "docs/QA_v0.35.0_RUN_HISTORY.md": "2cda202ee4d5630de1cc40cda8ceafa910825df0369ea3dcc25ecde096826811",
     "docs/RELEASE_v0.35.0.md": "c945fd75d60180722f73b4592ca85985256e070e923d8c4590b435cd1234db1c",
@@ -209,6 +209,7 @@
     "tools/make_font_subset.py": "3eb79719caa2f2863185cb10c9b1e32cc96017b10f03284bcb6fb4ac831c1094",
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "edc51f6f0223d068f9c16d115108decdaedbe0fc227b4e438e34d9643b8f46f8"
+    "更新說明.txt": "edc51f6f0223d068f9c16d115108decdaedbe0fc227b4e438e34d9643b8f46f8",
+    "AGENTS.md": "e422a0fb401d356089ba29cbf3a3a3dead6ca2f87a968660024474039a2f3f24"
   }
 }
