@@ -224,7 +224,31 @@
     "pass": 25,
     "fail": 0
   },
-  "final_regression": "進行中；結果完成後補齊",
+  "final_regression": {
+    "node_pass": 180,
+    "node_fail": 0,
+    "node_todo": 1,
+    "node_todo_reason": "恐懼紀錄暫時保留數字，依2026-11-16既定決定；非本次回歸",
+    "smoke_sizes": [
+      [
+        393,
+        690
+      ],
+      [
+        844,
+        390
+      ],
+      [
+        1280,
+        720
+      ]
+    ],
+    "smoke_steps_each": 40,
+    "long_actions": 220,
+    "long_nodes": 66,
+    "long_areas": 17,
+    "all_original_passes_preserved": true
+  },
   "source_art": {
     "file": "fx/slash-12.webp",
     "sha256": "7f1e8dab6290172e4eb7fef05c90aa5fb114d5efb82256ab6819515215545547",
@@ -250,6 +274,36 @@
       "stage": "安裝瀏覽器相依套件",
       "reason": "ubuntu-latest 已為 Ubuntu26.04，Playwright1.58.2不支援；遊戲測試尚未執行",
       "fix": "兩個job固定ubuntu-24.04，不修改測試或遊戲"
+    },
+    {
+      "run_id": 44394305909,
+      "result": "通過（獨立畫面工作安裝逾時後單獨重跑成功）",
+      "runner": "ubuntu-24.04",
+      "main_job": {
+        "id": 135119965035,
+        "result": "通過",
+        "node_pass": 180,
+        "node_todo": 1,
+        "long_actions": 220,
+        "long_nodes": 66,
+        "long_areas": 16,
+        "slash_logic_pass": 11,
+        "slash_browser_pass": 38
+      },
+      "visual_first_attempt": {
+        "id": 135119970458,
+        "result": "未測試：Ubuntu套件下載過慢導致10分鐘逾時",
+        "retry": "重跑成功：job135126980737"
+      },
+      "final_attempt": {
+        "main_job_id": 135126983939,
+        "visual_job_id": 135126980737,
+        "result": "通過"
+      },
+      "url": "https://github.com/RyouShiro0329/zerocase/actions/runs/44394305909"
     }
-  ]
+  ],
+  "tested_game_blob": "19cab3a7b443f3ec18d81e3fa64bda595c6c8b25",
+  "tested_ci_commit": "094bc3c33d02ff761289b324338684a4a8f34cf2",
+  "final_documentation_only": "此後僅補齊驗收文件與MANIFEST，遊戲程式與素材未改"
 }
