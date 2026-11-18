@@ -1,0 +1,52 @@
+{
+  "version": "0.36.0",
+  "build": 88,
+  "base_commit": "6cface0697d53d203907e133014b175fffebd45c",
+  "baseline": {
+    "node_pass": 180,
+    "node_fail": 0,
+    "node_todo": 1,
+    "browser_smoke": "通過：三尺寸各40步",
+    "long_route": {
+      "actions": 220,
+      "nodes": 63,
+      "areas": 17
+    }
+  },
+  "final": {
+    "node_pass": 180,
+    "node_fail": 0,
+    "node_todo": 1,
+    "browser_smoke": "通過：三尺寸各40步",
+    "long_route": {
+      "actions": 220,
+      "nodes": 70,
+      "areas": 20
+    },
+    "player_card_browser_checks": 37,
+    "evacuation_logic_checks": 20,
+    "evacuation_browser_checks": 25,
+    "screenshots_reviewed": [
+      "393x690",
+      "844x390",
+      "1280x720"
+    ]
+  },
+  "regression_found_and_fixed": "首輪393x690普通攻擊第三個返回按鈕超出舞台，新增受控重現後以短舞台普通攻擊兩欄修正；既有tests未修改",
+  "unchanged": [
+    "tests/",
+    "tools/split_index.py",
+    "14個切檔標題",
+    "存檔格式",
+    "G與玩家資料欄位",
+    "戰鬥計算",
+    "連線協定",
+    "既有敵人美術與劇情"
+  ],
+  "design_exception": "依主人本次要求，新增戰鬥玩家卡顯示生命、護盾、防禦數字；背包與狀態下拉不變",
+  "not_tested": [
+    "正式多人網路實連"
+  ],
+  "phone": "待主人實機驗收",
+  "evidence": "docs/QA_v0.36.0.zip"
+}
