@@ -28,7 +28,31 @@
     "long_nodes": 78,
     "long_areas": 21
   },
-  "after_full_regression": "執行中，完成後更新",
+  "after_full_regression": {
+    "node_pass": 180,
+    "node_fail": 0,
+    "node_todo": 1,
+    "node_todo_reason": "恐懼紀錄數字依主人既定決定暫保留",
+    "smoke_steps_each": 40,
+    "smoke_sizes": [
+      [
+        393,
+        690
+      ],
+      [
+        844,
+        390
+      ],
+      [
+        1280,
+        720
+      ]
+    ],
+    "long_actions": 220,
+    "long_nodes": 68,
+    "long_areas": 18,
+    "all_original_passes_preserved": true
+  },
   "slash_logic": {
     "pass": 13,
     "fail": 0
@@ -314,5 +338,25 @@
     "Android/iOS原生引擎",
     "手機硬體音訊延遲"
   ],
-  "phone": "待主人實機驗收"
+  "phone": "待主人實機驗收",
+  "github_ci": {
+    "run_id": 44401908906,
+    "url": "https://github.com/RyouShiro0329/zerocase/actions/runs/44401908906",
+    "commit": "786e6e44c66b8885f0560eae5227979a9f6fe770",
+    "result": "通過",
+    "main_job": 135146903691,
+    "visual_job": 135146904096,
+    "node_pass": 180,
+    "node_fail": 0,
+    "node_todo": 1,
+    "smoke_steps_each": 40,
+    "long_actions": 220,
+    "long_nodes": 65,
+    "long_areas": 18,
+    "slash_logic": 13,
+    "slash_browser": 50,
+    "evac_logic": 20,
+    "evac_browser": 25
+  },
+  "final_documentation_only": "驗收後僅更新文件與MANIFEST；受測遊戲blob2dedc8baaaf0a8b572d723f984ff5bea8ac5e8f0及素材未變"
 }

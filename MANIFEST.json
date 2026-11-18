@@ -2,7 +2,7 @@
   "version": "0.37.1",
   "build": 91,
   "created_at": "2026-11-19T05:24:30+08:00",
-  "deployment": "PR#8優化候選；完整回歸執行中，不自動合併或部署",
+  "deployment": "PR#8優化候選；本機與GitHub遊戲驗收通過，由主人決定合併發布",
   "files": {
     ".github/workflows/evacuation-qa.yml": "7613f1f262996c8720b5d27573ac58d90822e2e46239cfed1053bd0c7fe90810",
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -209,7 +209,7 @@
     "tools/make_font_subset.py": "3eb79719caa2f2863185cb10c9b1e32cc96017b10f03284bcb6fb4ac831c1094",
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "f21267a692c7b284d88fb9a4495c31b26c0b239b73f13ea8747d604cd5a4d902",
+    "更新說明.txt": "2d617d58e070e63b54551a80f3a5ee5b408369f21bde0d2ef3054f128626bdcc",
     "AGENTS.md": "e422a0fb401d356089ba29cbf3a3a3dead6ca2f87a968660024474039a2f3f24",
     "tools/battle-player-cards.cjs": "76dca58b4da6f9fc5b198096d4f265203d00f3a138ee37d9824f73d8e9f5d09e",
     "docs/RELEASE_v0.36.0.md": "808507b9a161bb290bbaf891ce3c15c6b0dc729e068c5f4c5221370eec924e56",
@@ -227,9 +227,10 @@
     "docs/slash/REVIEW_v0.37.0.md": "ee93bcdc3380e4b53da15822153dbafdecda48b81edb7c6171c96492cc05a50e",
     "docs/slash/BASELINE_v0.37.0.log": "5cfb1f669214388769155623d4c34387615a7a76b2796b10d4a0c52e86fdbbaf",
     "docs/slash/FINAL_v0.37.0.log": "1ac54ff639472ca796f40055d1a0fdce4487eb536648ca57fd79c72a95d0a643",
-    "docs/slash/QA_v0.37.1.json": "85d392c61e3c8f4de328342c1845d9758060ad271bdffd85ceefb53b8539321b",
+    "docs/slash/QA_v0.37.1.json": "13fecc949dc528adf79bc23951500ad685472f985856a7b072b1a51112449b07",
     "docs/slash/BASELINE_v0.37.1.log": "d746e68940c8bad254e691960a58d83be99372eea3001770012d3a481a657cb7",
     "docs/slash/REVIEW_v0.37.1.md": "e0a839522edf61dfcdbc24c6cc768cff402cb18798a9b80f169e4b468b6190bd",
-    "docs/superpowers/plans/2026-11-19-slash-hybrid.md": "0ed163a950b335c48eac7ee889fe5e80554d08d4bc037aa85c1a678547dbdc97"
+    "docs/superpowers/plans/2026-11-19-slash-hybrid.md": "bbca6963407718362e7675f890774d95240e1f59f38f29a019234ae09fc5fad2",
+    "docs/slash/FINAL_v0.37.1.log": "c8a04acbe30a4597f155f88a47fc868a3c7d29f47f8e36b0c828e3f99652d07e"
   }
 }
