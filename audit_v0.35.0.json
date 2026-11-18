@@ -16,7 +16,13 @@
       "run_id": 44273249208,
       "result": "通過"
     },
-    "history_file": "docs/QA_v0.35.0_RUN_HISTORY.md"
+    "history_file": "docs/QA_v0.35.0_RUN_HISTORY.md",
+    "third_run": {
+      "run_id": 44274558708,
+      "result": "通過",
+      "full_suite_job_id": 134699249080,
+      "independent_visual_job_id": 134699248601
+    }
   },
   "changes": [
     "新增初始主動技能「撤離路線」：使用者擲統帥，成功全隊撤離，也帶走瀕死隊友；每位持有者每場一次，失敗仍消耗行動與次數。",
@@ -52,7 +58,11 @@
       "result": "通過",
       "command": "bash tests/run_all.sh",
       "run_id": 44273249208,
-      "job_id": 134694863781
+      "job_id": 134694863781,
+      "verification_repeat": {
+        "run_id": 44274558708,
+        "result": "通過"
+      }
     },
     "browser_qa": {
       "url": "http://localhost:8768/index.html",
@@ -257,7 +267,7 @@
     },
     "更新說明.txt": {
       "before_sha256": "1421f1e3204f078fac2d7305e78e1eb24b79ab8fa8b0f9b063fc1a865e667203",
-      "after_sha256": "c94e388a61180443a5535fbeb5f68622684a28c8e5dcf1705e68d266064c82fc"
+      "after_sha256": "edc51f6f0223d068f9c16d115108decdaedbe0fc227b4e438e34d9643b8f46f8"
     }
   }
 }
