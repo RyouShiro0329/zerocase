@@ -46,15 +46,19 @@ const cases=[
   check(c.name+' 進入戰鬥套用預設且保留敵人與順序',await p.locator('#battle-party').isVisible()===!!c.on&&await p.locator('#foes').isVisible()&&await p.locator('#order').isVisible());
   await p.evaluate(()=>{
    const original=G.players[0];for(let i=1;i<8;i++)makePlayer({kind:'custom',pid:'qa'+i,name:'隊友'+i,tal:'keen',sk:'aid',load:{},st:{STR:1,AGI:2,CON:2,PER:1,INT:1,CHA:1}},i);
-   G.fight.group=[original.pid];draw();window.__partyState=JSON.stringify(G);
+   G.fight.foes=[newFoe(0,'infected',1,false),newFoe(1,'infected',1,false)];nameFoes(G.fight.foes);G.fight.group=[original.pid];draw();window.__partyState=JSON.stringify(G);
   });
   await p.locator('#app [data-open="settings"]').click();
   await p.locator('[data-ui="partyCards"][data-v="1"]').click();await p.click('#ov [data-close]');
   check(c.name+' 開啟立即顯示包含自己的八位玩家',await p.locator('#battle-party').isVisible()&&await p.locator('#battle-party .battle-player').count()===8&&await p.locator('#battle-party .fh b').first().innerText()==='開關測試');
+  await p.evaluate(()=>{PEND={a:{a:'atk',h:'R'},lab:'普通攻擊'};draw()});
+  check(c.name+' 開啟卡片時兩名敵人與返回完整可見',await p.locator('#choices button').evaluateAll(bs=>bs.slice(0,3).length===3&&bs.slice(0,3).every(b=>{const r=b.getBoundingClientRect(),v=document.querySelector('#stage').getBoundingClientRect();return r.left>=v.left-1&&r.top>=v.top-1&&r.right<=v.right+1&&r.bottom<=v.bottom+1&&b.scrollWidth<=b.clientWidth+2})));
   const onHeight=await p.locator('.cols').evaluate(e=>e.clientHeight);
   if(['desktop','android-portrait','android-landscape'].includes(c.name))await p.screenshot({path:`${OUT}/battle-on-${c.name}.png`});
   await p.locator('#app [data-open="settings"]').click();await p.locator('[data-ui="partyCards"][data-v="0"]').click();await p.click('#ov [data-close]');
   check(c.name+' 關閉整列立即釋放畫面空間',!await p.locator('#battle-party').isVisible()&&await p.locator('.cols').evaluate(e=>e.clientHeight)>onHeight);
+  check(c.name+' 關閉卡片時兩名敵人與返回完整可見',await p.locator('#choices button').evaluateAll(bs=>bs.slice(0,3).length===3&&bs.slice(0,3).every(b=>{const r=b.getBoundingClientRect(),v=document.querySelector('#stage').getBoundingClientRect();return r.left>=v.left-1&&r.top>=v.top-1&&r.right<=v.right+1&&r.bottom<=v.bottom+1&&b.scrollWidth<=b.clientWidth+2})));
+  await p.evaluate(()=>{PEND=null;draw()});
   check(c.name+' 開關不改G且敵人與順序仍可見',await p.evaluate(()=>JSON.stringify(G)===window.__partyState)&&await p.locator('#foes').isVisible()&&await p.locator('#order').isVisible());
   check(c.name+' 關閉時普通攻擊仍可操作',await p.locator('#choices [data-ftab="atk"]').isEnabled());
   await p.click('#choices [data-ftab="atk"]');check(c.name+' 普通攻擊選單可繼續',await p.locator('#choices [data-fa="atk"]').count()>0);

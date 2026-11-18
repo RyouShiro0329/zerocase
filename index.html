@@ -547,9 +547,9 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 .battle-player .battle-shield u{background:#7a6aa0}
 .battle-player.battle-current{border-color:var(--gold);box-shadow:inset 0 0 14px #000,0 0 6px rgba(200,173,112,.35)}
 .battle-player.battle-inactive{opacity:.65}
-#stage.short #cbar:not([hidden])~.cols #choices:has(>.ch[data-fa="atk"][data-h]:not([data-sk]):not([data-csk])){grid-template-columns:repeat(2,minmax(0,1fr))}
-#stage.short #cbar:not([hidden])~.cols #choices:has(>.ch[data-fa="atk"][data-h]:not([data-sk]):not([data-csk]))>.ch[data-ftab=""]{grid-column:1/-1;min-height:32px;padding:3px 9px;align-items:center}
-#stage.short #cbar:not([hidden])~.cols #choices:has(>.ch[data-fa="atk"][data-h]:not([data-sk]):not([data-csk]))>.ch[data-ftab=""] .cm{flex-basis:auto;margin-top:0}
+#stage.short #cbar:not([hidden])~.cols #choices:has(>.ch[data-fa="atk"][data-h]:not([data-sk]):not([data-csk]),>.ch[data-tgt]){grid-template-columns:repeat(2,minmax(0,1fr))}
+#stage.short #cbar:not([hidden])~.cols #choices:has(>.ch[data-fa="atk"][data-h]:not([data-sk]):not([data-csk]),>.ch[data-tgt])>.ch:is([data-ftab=""],[data-cancel]){grid-column:1/-1;min-height:32px;padding:3px 9px;align-items:center}
+#stage.short #cbar:not([hidden])~.cols #choices:has(>.ch[data-fa="atk"][data-h]:not([data-sk]):not([data-csk]),>.ch[data-tgt])>.ch:is([data-ftab=""],[data-cancel]) .cm{flex-basis:auto;margin-top:0}
 /* v0.7.3 主頁分類卡：圖片鋪滿卡片，下方漸層疊字 */
 .hcat{position:relative;overflow:hidden;justify-content:flex-end;align-items:flex-start;text-align:left;padding:12px 14px;background:#070706 center/cover no-repeat}
 .hcat[data-cat=custom]{background-image:url(img/cat_custom.webp);background-position:center 40%}
