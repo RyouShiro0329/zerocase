@@ -1,0 +1,54 @@
+name: 撤離規則驗收
+on:
+  pull_request:
+    branches: [main]
+    paths: [index.html, "fonts/**", "tools/**", "tests/**", ".github/workflows/evacuation-qa.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  evacuation-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      NODE_OPTIONS: --test-reporter=tap
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - name: 撤離規則檢查
+        run: node --test tools/check_evacuation.cjs
+      - name: 既有完整回歸測試
+        run: bash tests/run_all.sh
+      - name: 手機畫面與撤離流程
+        run: |
+          python3 -m http.server 8768 >/tmp/zerocase-http.log 2>&1 &
+          NODE_PATH=$(npm root -g) node tools/evacuation-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evacuation-v0.35.0-qa
+          path: qa-output/
+
+  visual-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - name: 手機畫面與撤離流程
+        run: |
+          python3 -m http.server 8768 >/tmp/zerocase-http.log 2>&1 &
+          NODE_PATH=$(npm root -g) node tools/evacuation-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evacuation-v0.35.0-visual
+          path: qa-output/
