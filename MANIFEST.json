@@ -1,7 +1,7 @@
 {
-  "version": "0.32.0",
-  "build": 83,
-  "created_at": "2026-11-18T03:43:40+08:00",
+  "version": "0.33.0",
+  "build": 84,
+  "created_at": "2026-11-18T14:02:43+08:00",
   "deployment": "GitHub Pages；雲端瀏覽器上傳",
   "files": {
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -57,9 +57,9 @@
     "fonts/README.md": "90982e9334a778f37e2894edd038ba52d55baa9293b065df9fdf4e356970b5d2",
     "fonts/SOURCES.md": "50e65cf66675cbd8d296c5ce7692a834db24e0038add2ac6b90e8b4858623c3a",
     "fonts/SourceSerif4-OFL.txt": "0033731631d08edb134cb282087abd2bca21ed7cfbf374effa749a08ec13feb5",
-    "fonts/coverage.txt": "fb8e57e32c74eb097faac628b8bfe66a9c0ea48244fd0903ebc784c39057c607",
+    "fonts/coverage.txt": "282c60551fc3f5e4279cfd56ac296f2132470623a7e4cca407795f5e9e0d7864",
     "fonts/source-serif-4-latin.woff2": "9314377f84ec3075b440e2295b66810ff2ca3b37ffaf8d10ef9b7f766e16190d",
-    "fonts/tw-kai-game.woff2": "35479b611704ccf8e818410e52a0190fcb4e36041cb6925fdbdb9e9b9ffac3ac",
+    "fonts/tw-kai-game.woff2": "11908f3ec0c75aa7d0fe9a48fc9cc409d414d64f425e815e40d00c040595b86b",
     "img/acru_cap.webp": "7c5b32eab4c4abf2aceb3e199495748af9b856a62438845b720002b13af49c8c",
     "img/acru_cmd.webp": "b2ecf1ab2725c591b72d435ad857bde71ed39ed90804f1007de51897d351adff",
     "img/acru_flm.webp": "fda7c48006e4e685c5ae4a954fa63c5747af83be87888cfbfa11780b66c7fc45",
@@ -81,7 +81,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "7c02cab867ce119f199ab27c7d7a5a67a5f1a735f8aa3933d92531f9588542b1",
+    "index.html": "1914aea8f38e8fc26b26c99525b21835ed4f84f086b77bbcee6428517d4ac654",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -195,6 +195,7 @@
     "tests/zone.test.cjs": "423546f0a6394f096450655b9cc385fac44bbf0d443ce44981e3347ab797fb8a",
     "tools/make_font_subset.py": "3eb79719caa2f2863185cb10c9b1e32cc96017b10f03284bcb6fb4ac831c1094",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "c87733101af83fa56a5af8ca440c7a61371dd91cbd60f2fd5e6b604681a5ae47"
+    "更新說明.txt": "193a4d0df24f57b03a64d1f91b28c8b7ddfadc2fe47277b74258ea7cc6f01fec",
+    "img/g_dar.webp": "811af8836e0c0a3f7ca4db55a67c425092e82c0d3bde1362f6c3aed9dc4f469a"
   }
 }
