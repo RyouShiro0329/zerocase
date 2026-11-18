@@ -27,6 +27,10 @@ jobs:
         run: |
           python3 -m http.server 8768 >/tmp/zerocase-http.log 2>&1 &
           NODE_PATH=$(npm root -g) node tools/evacuation-browser.cjs
+      - name: 斬擊命中邏輯與音畫驗收
+        run: |
+          node --test tools/slash-hit.test.cjs
+          NODE_PATH=$(npm root -g) node tools/slash-hit-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
