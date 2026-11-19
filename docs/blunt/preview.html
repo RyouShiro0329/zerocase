@@ -69,6 +69,21 @@ header p{margin:0;color:var(--muted);font-size:.78rem;white-space:nowrap;overflo
 @media (prefers-reduced-motion:reduce){
   .foe.bp-react{transform:none}
 }
+/* 手繪草稿用遊戲裡的卡片大小，不放大。桌面 206px，高度不超過 480 時跟 #stage.short 一樣 168px。 */
+body.gamecard .foe{--fw:206px;--fh:86px;--pw:50px}
+body.gamecard .fh b{font-size:.86rem}
+body.gamecard .fhp span{font-size:10.5px}
+body.gamecard .fk{font-size:10px}
+body.gamecard .hpb{height:8px}
+.slot{display:flex;flex-direction:column;align-items:center;gap:3px}
+.slotlab{font-style:normal;color:var(--gold);font-size:.72rem;letter-spacing:.04em}
+@media (max-height:480px){
+  body.gamecard .foe{--fw:168px;--fh:72px;--pw:38px}
+  body.gamecard .fh b{font-size:.78rem}
+  body.gamecard .fhp span,body.gamecard .fk{font-size:9px}
+  body.gamecard .hpb{height:6px}
+  .slotlab{font-size:.62rem}
+}
 </style>
 </head>
 <body>
@@ -160,13 +175,50 @@ const FX = [
   {id:'legsweep', name:'掃腿', group:'其他', sound:'fist', vol:.9, hp:'7/10', bar:'70%',
    text:'掃向腿側。大體型是否無效仍是原本的規則。',
    note:'角色技能，近戰鈍擊。低橫帶，卡微微側一下。',
-   beats:[{card:0, kind:'legsweep', impact:220, len:560}]}
+   beats:[{card:0, kind:'legsweep', impact:220, len:560}]},
+  {id:'sp-shock', name:'震波・原圖', group:'手繪草稿', sound:'fist', vol:.9, hp:'6/10', bar:'60%', sprite:1,
+   text:'AI 生成草稿，尚未核定。白心加銀環，這張還留著較多紅。',
+   note:'試拳頭與普通鈍擊。單張圖，快入、峰值停 70ms、再散開。峰值 220ms，對齊 fist。之後要做成 12 格。',
+   beats:[{card:0, sprite:'shock', impact:220, len:640}]},
+  {id:'sp-shock-low', name:'震波・少紅', group:'手繪草稿', sound:'fist', vol:.9, hp:'6/10', bar:'60%', sprite:1,
+   text:'同一張震波，把大部分紅收成白光，只留一點噴濺。',
+   note:'AI 草稿，尚未核定。鈍擊要和斬擊分得開：白光、震波、碎屑為主。',
+   beats:[{card:0, sprite:'shock-low', impact:220, len:640}]},
+  {id:'sp-smash', name:'重砸・原圖', group:'手繪草稿', sound:'fist', vol:.9, hp:'4/10', bar:'40%', sprite:1,
+   text:'AI 生成草稿，尚未核定。白光從上打下，接觸處往兩側爆開。',
+   note:'試鐵鎚、大鐵鎚、粉碎。這張紅還偏多，接近斬擊的血。',
+   beats:[{card:0, sprite:'smash', impact:220, len:640}]},
+  {id:'sp-smash-low', name:'重砸・少紅', group:'手繪草稿', sound:'fist', vol:.9, hp:'4/10', bar:'40%', sprite:1,
+   text:'同一張重砸，紅只留在接觸處的一點噴濺。',
+   note:'AI 草稿，尚未核定。直擊的白光還在，紅色比原圖少。',
+   beats:[{card:0, sprite:'smash-low', impact:220, len:640}]},
+  {id:'sp-compare', name:'並排對照', group:'手繪草稿', sound:'fist', vol:.9, hp:'6/10', bar:'60%', sprite:1, sync:1, cards:3,
+   labels:['斬擊・現有主格','震波・少紅','重砸・少紅'],
+   text:'同一張敵人卡、同一種放置。左邊是現有斬擊的主格。',
+   note:'AI 草稿尚未核定。斬擊的峰值在遊戲裡是 335ms；這裡為了並排，三張都在 220ms 到最亮，再停 70ms。',
+   beats:[
+     {card:0, sprite:'slash', impact:220, len:640},
+     {card:1, sprite:'shock-low', impact:220, len:640},
+     {card:2, sprite:'smash-low', impact:220, len:640}
+   ]}
 ];
 const byId = Object.fromEntries(FX.map(s=>[s.id,s]));
 const q = new URLSearchParams(location.search);
 let reduce = q.get('motion')==='reduce' ? true : q.get('motion')==='full' ? false : matchMedia('(prefers-reduced-motion: reduce)').matches;
 let soundOn = q.get('sound')!=='0';
-let current = q.get('fx') && byId[q.get('fx')] ? q.get('fx') : 'hit';
+let current = q.get('fx') && byId[q.get('fx')] ? q.get('fx') : 'sp-compare';
+const ASSETS={
+  shock:loadSpr('drafts/ai-shockwave.png'),
+  'shock-low':loadSpr('drafts/ai-shockwave-lowred.png'),
+  smash:loadSpr('drafts/ai-smash.png'),
+  'smash-low':loadSpr('drafts/ai-smash-lowred.png'),
+  slash:loadSpr('../../fx/slash-12.webp')
+};
+function loadSpr(src){
+  const img=new Image();
+  const p=new Promise(res=>{img.onload=()=>res(img);img.onerror=()=>res(null)});
+  img.src=src; return {img,p};
+}
 let raf = 0;
 let audioStop = null;
 
@@ -180,28 +232,39 @@ function beatAt(spec,t){
   const b=spec.beats[spec.beats.length-1];
   return {b, local:b.len, start:spec.beats.reduce((s,x)=>s+x.len,0)-b.len, done:true};
 }
-function totalOf(spec){return spec.beats.reduce((s,b)=>s+b.len,0)}
+function totalOf(spec){return spec.sync?Math.max(...spec.beats.map(b=>b.len)):spec.beats.reduce((s,b)=>s+b.len,0)}
 function cardCount(spec){return spec.cards||1}
 
-function makeCard(i){
+function makeCard(i, label){
   const el=document.createElement('div');
   el.className='foe';
   el.dataset.card=String(i);
-  el.innerHTML=`<div class="fpic"><img src="../../img/inf_${i?'f':'m'}.webp" alt=""></div>
+  el.innerHTML=`<div class="fpic"><img src="../../img/inf_${i%2?'f':'m'}.webp" alt=""></div>
     <div class="fin"><div class="fh"><b>感染者</b></div>
     <div class="fhp"><div class="hpb"><u></u></div><span>10/10</span></div>
     <div class="fk"><em>防禦 10</em>　弱：鈍擊</div></div>
     <canvas class="bp-fx" aria-hidden="true"></canvas>`;
-  return el;
+  if(!label) return el;
+  const wrap=document.createElement('div');
+  wrap.className='slot';
+  wrap.appendChild(el);
+  const em=document.createElement('em');
+  em.className='slotlab';
+  em.textContent=label;
+  wrap.appendChild(em);
+  return wrap;
 }
+let mountedId='';
 function mount(spec){
+  if(mountedId===spec.id && document.querySelectorAll('#cbar .foe').length===cardCount(spec)) return;
+  mountedId=spec.id;
   const bar=document.querySelector('#cbar');
-  const n=cardCount(spec);
-  while(bar.children.length<n) bar.appendChild(makeCard(bar.children.length));
-  while(bar.children.length>n) bar.lastElementChild.remove();
+  bar.replaceChildren();
+  for(let i=0;i<cardCount(spec);i++) bar.appendChild(makeCard(i, spec.labels?spec.labels[i]:''));
 }
 function dropped(spec,card,t){
   if(!spec.hp) return false;
+  if(spec.sync){const b=spec.beats.find(x=>x.card===card);return !!(b&&t>=b.impact)}
   let acc=0;
   for(const b of spec.beats){
     if(b.card===card && t>=acc+b.impact) return true;
@@ -513,7 +576,76 @@ function roundRect(ctx,x,y,w,h,r){
   ctx.closePath();
 }
 
+const SLASH_PRE=[100,80,65,50,40], SLASH_POST=[30,40,55,65,75,85];
+function slashFrameAt(t){
+  if(reduce) return 5;
+  if(t<220){
+    let x=t/(220/335), acc=0;
+    for(let i=0;i<SLASH_PRE.length;i++){acc+=SLASH_PRE[i]; if(x<acc) return i}
+    return 5;
+  }
+  if(t<290) return 5;
+  let x=t-290, acc=0;
+  for(let i=0;i<SLASH_POST.length;i++){acc+=SLASH_POST[i]; if(x<acc) return i+6}
+  return -1;
+}
+function spritePose(t, impact, len){
+  const holdEnd=impact+70;
+  if(reduce){
+    const a=t<impact? t/Math.max(1,impact) : 1-(t-impact)/Math.max(1,len-impact);
+    return {op:Math.max(0,Math.min(.92,a)), scale:1, blur:0};
+  }
+  if(t<impact){
+    const e=1-Math.pow(1-t/Math.max(1,impact),3);
+    return {op:e, scale:.78+.22*e, blur:(1-e)*2.2};
+  }
+  if(t<holdEnd) return {op:1, scale:1, blur:0};
+  const e=Math.min(1,(t-holdEnd)/Math.max(1,len-holdEnd));
+  return {op:1-e*e, scale:1+.06*e*e, blur:e*e*1.6};
+}
+function drawSlashLike(ctx, img, sx, sy, sw, sh, w, h, pose){
+  if(!img||pose.op<=0.01) return;
+  const dw=Math.min(w*.73, h*2.15)*pose.scale;
+  const dh=dw*(sh/sw);
+  ctx.save();
+  ctx.globalAlpha=pose.op;
+  ctx.filter=pose.blur>0.15?`blur(${pose.blur}px)`:'none';
+  ctx.drawImage(img, sx, sy, sw, sh, -2, (h-dh)/2, dw, dh);
+  ctx.restore();
+}
+function paintSprite(card, spec, t){
+  const canvas=card.querySelector('canvas');
+  const w=card.clientWidth, h=card.clientHeight;
+  if(!w||!h) return;
+  const d=Math.min(window.devicePixelRatio||1, 2);
+  if(canvas.width!==Math.round(w*d)||canvas.height!==Math.round(h*d)){
+    canvas.width=Math.round(w*d); canvas.height=Math.round(h*d);
+  }
+  const ctx=canvas.getContext('2d');
+  ctx.setTransform(d,0,0,d,0,0);
+  ctx.clearRect(0,0,w,h);
+  const idx=Number(card.dataset.card);
+  const beat=spec.sync? spec.beats.find(x=>x.card===idx) : beatAt(spec,t).b;
+  const local=spec.sync? Math.min(t, beat?beat.len:0) : beatAt(spec,t).local;
+  const done=!spec.sync && beatAt(spec,t).done;
+  if(!beat||done){setShake(card,0,0,0);return}
+  const pose=spritePose(local, beat.impact, beat.len);
+  const asset=ASSETS[beat.sprite];
+  const img=asset&&asset.img;
+  if(beat.sprite==='slash'){
+    const f=slashFrameAt(local);
+    if(f>=0) drawSlashLike(ctx, img, f%4*432, Math.floor(f/4)*282, 432, 282, w, h, pose);
+  }else if(img&&img.naturalWidth){
+    drawSlashLike(ctx, img, 0, 0, img.naturalWidth, img.naturalHeight, w, h, pose);
+  }
+  const hit=local-beat.impact;
+  if(!reduce && hit>70 && hit<320){
+    const fall=Math.exp(-(hit-70)/90);
+    setShake(card, Math.cos(hit*0.08)*1.5*fall, -Math.sin(hit*0.06)*0.5*fall, 0);
+  }else setShake(card,0,0,0);
+}
 function paintCard(card, spec, t){
+  if(spec.sprite){paintSprite(card, spec, t);return}
   const canvas=card.querySelector('canvas');
   const pw=card.querySelector('.fpic').clientWidth||50;
   const w=card.clientWidth, h=card.clientHeight;
@@ -545,6 +677,11 @@ function show(id, t){
   document.querySelectorAll('.foe').forEach(card=>paintCard(card, spec, t));
   syncHp(spec, t);
   const beat=beatAt(spec,t);
+  document.body.classList.toggle('gamecard', !!spec.sprite);
+  const note=document.querySelector('.zoomnote');
+  if(note) note.textContent=spec.sprite
+    ? 'AI 生成草稿，尚未經主人核定。這張卡是遊戲裡的實際大小。單張圖只用縮放和淡出模擬，之後要做成 12 格。'
+    : '桌面這張卡畫成兩倍大，方便看形狀。手機橫向用的是遊戲裡的尺寸。';
   document.querySelector('#sub').textContent=`${spec.group}・${spec.name}　${Math.round(t)}／${totalOf(spec)} ms`;
   document.querySelector('#cap').innerHTML=`${spec.text}<small>${spec.note}</small>`;
   document.querySelectorAll('#chips button').forEach(b=>b.classList.toggle('on', b.dataset.id===spec.id));
@@ -646,6 +783,7 @@ window.BLUNT_PREVIEW={
     return b.impact+48;
   },
   show: (id,t)=>show(id,t),
+  ready: Promise.all(Object.values(ASSETS).map(a=>a.p)),
   setReduce: v=>{ reduce=!!v },
   ink(){
     let best=0;
@@ -660,8 +798,9 @@ window.BLUNT_PREVIEW={
   }
 };
 function boot(){
-  if(freeze!=null && !Number.isNaN(freeze)) show(current, freeze);
-  else show(current, 0);
+  const t=freeze!=null && !Number.isNaN(freeze) ? freeze : 0;
+  show(current, t);
+  BLUNT_PREVIEW.ready.then(()=>show(current, Number(document.documentElement.dataset.t)||t));
 }
 if(document.readyState==='complete') boot();
 else window.addEventListener('load', boot);
