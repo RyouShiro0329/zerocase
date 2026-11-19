@@ -1,0 +1,362 @@
+{
+  "version": "0.37.1",
+  "build": 91,
+  "base_main": "44b1fc9b12500d002a77251ed5457a35397e2398",
+  "base_candidate": "e6dd68ed4f6d43d02d8040e32ff18788947405f0",
+  "game_commit": "460cd2183d5dd21b0eb73c1f3bad7d0a0c3ff33b",
+  "game_blob": "2dedc8baaaf0a8b572d723f984ff5bea8ac5e8f0",
+  "baseline": {
+    "node_pass": 180,
+    "node_fail": 0,
+    "node_todo": 1,
+    "smoke_steps_each": 40,
+    "smoke_sizes": [
+      [
+        393,
+        690
+      ],
+      [
+        844,
+        390
+      ],
+      [
+        1280,
+        720
+      ]
+    ],
+    "long_actions": 220,
+    "long_nodes": 78,
+    "long_areas": 21
+  },
+  "after_full_regression": {
+    "node_pass": 180,
+    "node_fail": 0,
+    "node_todo": 1,
+    "node_todo_reason": "恐懼紀錄數字依主人既定決定暫保留",
+    "smoke_steps_each": 40,
+    "smoke_sizes": [
+      [
+        393,
+        690
+      ],
+      [
+        844,
+        390
+      ],
+      [
+        1280,
+        720
+      ]
+    ],
+    "long_actions": 220,
+    "long_nodes": 68,
+    "long_areas": 18,
+    "all_original_passes_preserved": true
+  },
+  "slash_logic": {
+    "pass": 13,
+    "fail": 0
+  },
+  "evac_logic": {
+    "pass": 20,
+    "fail": 0
+  },
+  "browser": {
+    "checks": [
+      {
+        "name": "393x690 主人原畫完整載入",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 重畫後仍對準同一敵人且不重播",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 特效不攔截操作且被限制在敵人卡",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 播完清除全部微震樣式",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 實際斬擊扣原傷害4與耐久1",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 播完清除且沒有無效文字或特效存檔欄位",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 逐格播放到第6格並且只有一份刀聲",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 刀聲峰值對齊主要刀光（偏差小於25ms）",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 原本選項完整可見",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 隊友端在主刀光前保留舊生命",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 隊友端更新快照並且靜音仍有動畫",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 減少動態模式仍顯示接觸畫面",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 死亡卡仍為0生命且沒有倒下標籤或空狀態框",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 逃離標籤保留",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 存活敵人狀態標籤保留",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 離開戰鬥清除特效且不還原舊戰鬥",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 主人原畫完整載入",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 重畫後仍對準同一敵人且不重播",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 特效不攔截操作且被限制在敵人卡",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 播完清除全部微震樣式",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 實際斬擊扣原傷害4與耐久1",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 播完清除且沒有無效文字或特效存檔欄位",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 逐格播放到第6格並且只有一份刀聲",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 刀聲峰值對齊主要刀光（偏差小於25ms）",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 原本選項完整可見",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 隊友端在主刀光前保留舊生命",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 隊友端更新快照並且靜音仍有動畫",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 減少動態模式仍顯示接觸畫面",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 死亡卡仍為0生命且沒有倒下標籤或空狀態框",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 逃離標籤保留",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 存活敵人狀態標籤保留",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 離開戰鬥清除特效且不還原舊戰鬥",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 主人原畫完整載入",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 重畫後仍對準同一敵人且不重播",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 特效不攔截操作且被限制在敵人卡",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 播完清除全部微震樣式",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 實際斬擊扣原傷害4與耐久1",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 播完清除且沒有無效文字或特效存檔欄位",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 逐格播放到第6格並且只有一份刀聲",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 刀聲峰值對齊主要刀光（偏差小於25ms）",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 原本選項完整可見",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 隊友端在主刀光前保留舊生命",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 隊友端更新快照並且靜音仍有動畫",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 減少動態模式仍顯示接觸畫面",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 死亡卡仍為0生命且沒有倒下標籤或空狀態框",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 逃離標籤保留",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 存活敵人狀態標籤保留",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 離開戰鬥清除特效且不還原舊戰鬥",
+        "result": "通過"
+      },
+      {
+        "name": "素材載入失敗不阻斷回合且仍保留原狀態",
+        "result": "通過"
+      },
+      {
+        "name": "沒有程式或主控台錯誤",
+        "result": "通過"
+      }
+    ],
+    "errors": [],
+    "timing": [
+      {
+        "tag": "393x690",
+        "start": 0.20000000298023224,
+        "peak": 335.20000000298023,
+        "frames": 46
+      },
+      {
+        "tag": "844x390",
+        "start": 0.09999999403953552,
+        "peak": 335.09999999403954,
+        "frames": 46
+      },
+      {
+        "tag": "1280x720",
+        "start": 0.20000000298023224,
+        "peak": 335.20000000298023,
+        "frames": 40
+      }
+    ],
+    "phone": "待主人實機驗收",
+    "network": "未測試：正式多人網路實連；已驗證兩端使用相同演出與接收佇列"
+  },
+  "existing_checks": {
+    "party": {
+      "pass": 37,
+      "fail": 0
+    },
+    "settings": {
+      "pass": 129,
+      "fail": 0
+    },
+    "evac": {
+      "pass": 25,
+      "fail": 0
+    }
+  },
+  "approved_timing_ms": {
+    "frames": [
+      100,
+      80,
+      65,
+      50,
+      40,
+      70,
+      30,
+      40,
+      55,
+      65,
+      75,
+      85
+    ],
+    "total": 755,
+    "impact": 335,
+    "main_frame_hold": 70
+  },
+  "death_badge": {
+    "origin_commit": "1abc041",
+    "origin_version": "v0.6.0",
+    "origin_date": "2026-11-12",
+    "change": "僅移除死亡卡倒下標籤及空狀態框，保留離開及存活狀態、死亡規則"
+  },
+  "independent_review": {
+    "reviewer": "review_hybrid_update",
+    "result": "無可重現Critical/Important/Minor缺陷，無阻擋問題",
+    "logic_tests": "13/13通過"
+  },
+  "source_atlas_sha256": "7f1e8dab6290172e4eb7fef05c90aa5fb114d5efb82256ab6819515215545547",
+  "untested": [
+    "正式多人網路實連",
+    "Android/iOS原生引擎",
+    "手機硬體音訊延遲"
+  ],
+  "phone": "待主人實機驗收",
+  "github_ci": {
+    "run_id": 44401908906,
+    "url": "https://github.com/RyouShiro0329/zerocase/actions/runs/44401908906",
+    "commit": "786e6e44c66b8885f0560eae5227979a9f6fe770",
+    "result": "通過",
+    "main_job": 135146903691,
+    "visual_job": 135146904096,
+    "node_pass": 180,
+    "node_fail": 0,
+    "node_todo": 1,
+    "smoke_steps_each": 40,
+    "long_actions": 220,
+    "long_nodes": 65,
+    "long_areas": 18,
+    "slash_logic": 13,
+    "slash_browser": 50,
+    "evac_logic": 20,
+    "evac_browser": 25
+  },
+  "final_documentation_only": "驗收後僅更新文件與MANIFEST；受測遊戲blob2dedc8baaaf0a8b572d723f984ff5bea8ac5e8f0及素材未變"
+}

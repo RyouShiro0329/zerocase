@@ -1,0 +1,309 @@
+{
+  "version": "0.37.0",
+  "build": 90,
+  "base_commit": "44b1fc9b12500d002a77251ed5457a35397e2398",
+  "baseline": {
+    "node_pass": 180,
+    "node_fail": 0,
+    "node_todo": 1,
+    "smoke_sizes": [
+      [
+        393,
+        690
+      ],
+      [
+        844,
+        390
+      ],
+      [
+        1280,
+        720
+      ]
+    ],
+    "smoke_steps_each": 40,
+    "long_actions": 220,
+    "long_nodes": 64,
+    "long_areas": 17
+  },
+  "slash_logic": {
+    "pass": 11,
+    "fail": 0
+  },
+  "slash_browser": {
+    "checks": [
+      {
+        "name": "393x690 主人原畫完整載入",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 重畫後仍對準同一敵人且不重播",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 特效不攔截操作且被限制在敵人卡",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 實際斬擊扣原傷害4與耐久1",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 播完清除且沒有無效文字或特效存檔欄位",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 逐格播放到第6格並且只有一份刀聲",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 刀聲峰值對齊主要刀光（偏差小於25ms）",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 原本選項完整可見",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 隊友端在主刀光前保留舊生命",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 隊友端更新快照並且靜音仍有動畫",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 減少動態模式仍顯示接觸畫面",
+        "result": "通過"
+      },
+      {
+        "name": "393x690 離開戰鬥清除特效且不還原舊戰鬥",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 主人原畫完整載入",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 重畫後仍對準同一敵人且不重播",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 特效不攔截操作且被限制在敵人卡",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 實際斬擊扣原傷害4與耐久1",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 播完清除且沒有無效文字或特效存檔欄位",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 逐格播放到第6格並且只有一份刀聲",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 刀聲峰值對齊主要刀光（偏差小於25ms）",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 原本選項完整可見",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 隊友端在主刀光前保留舊生命",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 隊友端更新快照並且靜音仍有動畫",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 減少動態模式仍顯示接觸畫面",
+        "result": "通過"
+      },
+      {
+        "name": "844x390 離開戰鬥清除特效且不還原舊戰鬥",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 主人原畫完整載入",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 重畫後仍對準同一敵人且不重播",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 特效不攔截操作且被限制在敵人卡",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 實際斬擊扣原傷害4與耐久1",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 播完清除且沒有無效文字或特效存檔欄位",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 逐格播放到第6格並且只有一份刀聲",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 刀聲峰值對齊主要刀光（偏差小於25ms）",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 原本選項完整可見",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 隊友端在主刀光前保留舊生命",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 隊友端更新快照並且靜音仍有動畫",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 減少動態模式仍顯示接觸畫面",
+        "result": "通過"
+      },
+      {
+        "name": "1280x720 離開戰鬥清除特效且不還原舊戰鬥",
+        "result": "通過"
+      },
+      {
+        "name": "素材載入失敗不阻斷回合且仍保留原狀態",
+        "result": "通過"
+      },
+      {
+        "name": "沒有程式或主控台錯誤",
+        "result": "通過"
+      }
+    ],
+    "errors": [],
+    "timing": [
+      {
+        "tag": "393x690",
+        "start": 198.20000000298023,
+        "peak": 533.2000000029802,
+        "frames": 65
+      },
+      {
+        "tag": "844x390",
+        "start": 198,
+        "peak": 533,
+        "frames": 69
+      },
+      {
+        "tag": "1280x720",
+        "start": 198.10000000149012,
+        "peak": 533.1000000014901,
+        "frames": 62
+      }
+    ],
+    "phone": "待主人實機驗收",
+    "network": "未測試：正式多人網路實連；已驗證兩端使用相同演出與接收佇列"
+  },
+  "existing_cards": {
+    "pass": 37,
+    "fail": 0
+  },
+  "existing_setting": {
+    "pass": 129,
+    "fail": 0
+  },
+  "evacuation_logic": {
+    "pass": 20,
+    "fail": 0
+  },
+  "evacuation_browser": {
+    "pass": 25,
+    "fail": 0
+  },
+  "final_regression": {
+    "node_pass": 180,
+    "node_fail": 0,
+    "node_todo": 1,
+    "node_todo_reason": "恐懼紀錄暫時保留數字，依2026-11-16既定決定；非本次回歸",
+    "smoke_sizes": [
+      [
+        393,
+        690
+      ],
+      [
+        844,
+        390
+      ],
+      [
+        1280,
+        720
+      ]
+    ],
+    "smoke_steps_each": 40,
+    "long_actions": 220,
+    "long_nodes": 66,
+    "long_areas": 17,
+    "all_original_passes_preserved": true
+  },
+  "source_art": {
+    "file": "fx/slash-12.webp",
+    "sha256": "7f1e8dab6290172e4eb7fef05c90aa5fb114d5efb82256ab6819515215545547",
+    "rgba_equal_to_owner_png": true,
+    "width": 1728,
+    "height": 846,
+    "frame_width": 432,
+    "frame_height": 282,
+    "frames": 12,
+    "duration_ms": 1130
+  },
+  "review": "獨立審查指出過期事件後受工具額度限制中止；已重現並以新增3項測試修正，最後差異由實作者再次檢視；未宣稱完成獨立審查",
+  "untested": [
+    "正式多人網路實連",
+    "Android與iOS原生瀏覽器引擎",
+    "手機硬體音訊延遲"
+  ],
+  "phone": "待主人實機驗收",
+  "github_ci_history": [
+    {
+      "run_id": 44394037666,
+      "result": "失敗",
+      "stage": "安裝瀏覽器相依套件",
+      "reason": "ubuntu-latest 已為 Ubuntu26.04，Playwright1.58.2不支援；遊戲測試尚未執行",
+      "fix": "兩個job固定ubuntu-24.04，不修改測試或遊戲"
+    },
+    {
+      "run_id": 44394305909,
+      "result": "通過（獨立畫面工作安裝逾時後單獨重跑成功）",
+      "runner": "ubuntu-24.04",
+      "main_job": {
+        "id": 135119965035,
+        "result": "通過",
+        "node_pass": 180,
+        "node_todo": 1,
+        "long_actions": 220,
+        "long_nodes": 66,
+        "long_areas": 16,
+        "slash_logic_pass": 11,
+        "slash_browser_pass": 38
+      },
+      "visual_first_attempt": {
+        "id": 135119970458,
+        "result": "未測試：Ubuntu套件下載過慢導致10分鐘逾時",
+        "retry": "重跑成功：job135126980737"
+      },
+      "final_attempt": {
+        "main_job_id": 135126983939,
+        "visual_job_id": 135126980737,
+        "result": "通過"
+      },
+      "url": "https://github.com/RyouShiro0329/zerocase/actions/runs/44394305909"
+    }
+  ],
+  "tested_game_blob": "19cab3a7b443f3ec18d81e3fa64bda595c6c8b25",
+  "tested_ci_commit": "094bc3c33d02ff761289b324338684a4a8f34cf2",
+  "final_documentation_only": "此後僅補齊驗收文件與MANIFEST，遊戲程式與素材未改"
+}

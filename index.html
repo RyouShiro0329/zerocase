@@ -3,6 +3,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preload" href="fonts/tw-kai-game.woff2?v=cae406c9" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fx/slash-12.webp" as="image" type="image/webp">
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
 @font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=cae406c9") format("woff2");font-style:normal;font-weight:400;font-display:swap}
@@ -645,6 +646,10 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 .sheet .vit .stb i{height:7px}
 /* v0.30.0 敵人卡浮字：傷害紅、未命中白 */
 .foe{position:relative}
+#foes .zc-slash-react{transform:translate(var(--zc-slash-x,0px),var(--zc-slash-y,0px))}
+#foes .zc-slash-react .fpic img{transform:translateX(-50%) translate(var(--zc-slash-px,0px),var(--zc-slash-y,0px)) rotate(var(--zc-slash-tilt,0deg))}
+#foes .foe.dead.zc-slash-react{filter:none;opacity:1}
+#foes .zc-slash-fx{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
 .flt{position:absolute;left:calc(50% + var(--pw) / 2);top:34%;z-index:4;pointer-events:none;white-space:nowrap;font:700 1.15rem var(--label);letter-spacing:.04em;text-shadow:0 1px 2px #000,0 0 6px #000,0 0 10px rgba(0,0,0,.8);animation:fltUp 1.15s ease-out both}
 .flt.f-dmg{color:#ff4a3d}.flt.f-miss{color:#f4f1e8;font-size:1rem}
 @keyframes fltUp{0%{opacity:0;transform:translate(-50%,8px) scale(.75)}14%{opacity:1;transform:translate(-50%,0) scale(1.18)}28%{transform:translate(-50%,-3px) scale(1)}100%{opacity:0;transform:translate(-50%,-24px) scale(1)}}
@@ -679,7 +684,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.36.1", "b": 89, "t": "2026-11-18T23:36:52+08:00"};
+const ZC_VER={"v": "0.37.1", "b": 91, "t": "2026-11-19T05:24:30+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -4839,7 +4844,6 @@ async function attack(p,h,sk,ti,counter,csk){
       let anyHit=false;
       for(const L of lines){const x=L.x,crit=L.crit;if(!L.hit){continue}anyHit=true;x.prone=0;
         if(sk==='shove'){snd('fist',.7,900);x.weak=4;out(`一把把${x.n}推開，牠撞上牆，晃了好一下。牠的下一次攻擊 −4。`,'good');continue}
-        if(melee)snd(wdt[0]==='blunt'?'fist':'knife',.9,900);
         if(melee&&affIs(x,'spiked')){hurtP(p,1,'骨刺扎進手裡：')}
         const RD=rollDmg(p,w,sk);let d=RD.d+(C&&C.dmg||0)+(brace?2:0);if(crit)d*=2;
         out(`擲骰｜${esc(p.name)}・${w.n}　→　${x.n}　傷害 ${ddTxt(p,w,sk)}(<b>${RD.r}</b>)${C&&C.dmg?'+'+C.dmg:''}${brace?'+2':''}${crit?'×2':''}＝<b>${d}</b>`,'roll',true);
@@ -4848,7 +4852,9 @@ async function attack(p,h,sk,ti,counter,csk){
         const lethal=x.hp-applyDmg(x,d,wdt,p,'peek',(S&&sk==='pierce')||w.ap)<=0,humK=FT(x).human;
         const TX=lethal?(humK?KBTXT:KILLTXT):HITTXT;
         out(headHit?`子彈正中${x.n}的額頭。`:pick(TX[wdt[0]]||TX.blunt)+(crit?'抓準了破綻，這一下特別重。':''),'');
-        const dd=applyDmg(x,d,wdt,p,false,(S&&sk==='pierce')||w.ap);if(melee&&FT(x).human){x.contact=1;if(x.type==='oldhunter')x.hcov=0;if(x.charge&&['collector','oldhunter','quickdraw','arsonist'].includes(x.type)){x.charge=null;out(x.type==='arsonist'?`${x.n}被貼身打中，點著的瓶子摔在地上燒成一灘，這一瓶廢了。`:`${x.n}被貼身打中，瞄準被打斷了。`,'good',true)}}
+        const dd=applyDmg(x,d,wdt,p,false,(S&&sk==='pierce')||w.ap);
+        if(melee){if(x.lastDt==='slash')await slashAttack(x);else snd(wdt[0]==='blunt'?'fist':'knife',.9,900)}
+        if(melee&&FT(x).human){x.contact=1;if(x.type==='oldhunter')x.hcov=0;if(x.charge&&['collector','oldhunter','quickdraw','arsonist'].includes(x.type)){x.charge=null;out(x.type==='arsonist'?`${x.n}被貼身打中，點著的瓶子摔在地上燒成一灘，這一瓶廢了。`:`${x.n}被貼身打中，瞄準被打斷了。`,'good',true)}}
         if(sk==='scatter'){const o=aliveF().find(y=>y!==x);if(o){applyDmg(o,Math.ceil(d/2),wdt,p,true);out(`散開的彈丸也打中了${o.n}。`,'good',true);if(o.hp<=0)await kill(o,p)}}
         if(sk==='pierce'&&(w.kind==='gun'||w.kind==='ranged')){const o=aliveF().find(y=>y!==x);if(o){applyDmg(o,d,wdt,p,true,true);out(`貫穿過去，連後面的${o.n}也一起打中。`,'good',true);if(o.hp<=0)await kill(o,p)}}
         if(x.hp>0){
@@ -5525,7 +5531,8 @@ function onEv(msg){
   if(ROLE!=='client'||!NET.hostPeer||msg.peer!==NET.hostPeer)return;
   let b=NET.buf[d.m];if(!b){b=NET.buf[d.m]={n:d.n,p:[],c:0};const ks=Object.keys(NET.buf);if(ks.length>40)delete NET.buf[ks[0]]}
   if(b.p[d.i]==null){b.p[d.i]=d.s;b.c++}
-  if(b.c===b.n){delete NET.buf[d.m];let o;try{o=JSON.parse(b.p.join(''))}catch(e){return}enqueue(o)}
+  if(b.c===b.n){delete NET.buf[d.m];let o;try{o=JSON.parse(b.p.join(''))}catch(e){return}
+    o.seq=d.m;o.peer=msg.peer;enqueue(o)}
 }
 // 頭像：隊友送給房主，房主再轉給所有人；房主整包同步時把所有頭像也送一次
 function sendAv(){if(!NET.r)return;const d=LS.get('zc8-avatar',null);send({t:'av',d:{pid:MYPID,d:avOk(d)?d:null}})}
@@ -5535,16 +5542,18 @@ const Q=[];let qRun=false;
 function enqueue(o){Q.push(o);if(!qRun)pump()}
 async function pump(){qRun=true;
   while(Q.length){const o=Q.shift();FAST=Q.length>5?1:0;
+    if(o.peer&&SLASH_VFX.peer!==o.peer){SLASH_VFX.peer=o.peer;SLASH_VFX.stateSeq=0}
     try{
       if(o.t==='o'){L_out(o.d[0],o.d[1],o.d[2]);if(!FAST)await typing}
       else if(o.t==='d'){await showDice(o.d)}
       else if(o.t==='s'){const ms=sfx(o.d[0],o.d[1],o.d[2]||undefined);if(o.d[0]==='bowhit'||o.d[0]==='bowmiss')await wait(ms||1500)}
+      else if(o.t==='slash'){await playSlashHit(o.d,true,o.seq)}
       else if(o.t==='c'){await flush();await levelCard(o.d)}
       else if(o.t==='enc'){await flush();await showEnc(o.d)}
       else if(o.t==='cc'){await flush();await showChapter(o.d)}
       else if(o.t==='tc'){/* 相容舊房主：忽略舊版時間過場，時間依 full 狀態重繪。 */}
-      else if(o.t==='st'){setG(o.d)}
-      else if(o.t==='full'){LOG=o.d.log||[];setG(o.d.G);renderLog();if(typeof showGame==='function')showGame();if(!NET.avSent){NET.avSent=1;sendAv()}}
+      else if(o.t==='st'){SLASH_VFX.stateSeq=Math.max(SLASH_VFX.stateSeq,o.seq||0);setG(o.d)}
+      else if(o.t==='full'){SLASH_VFX.stateSeq=Math.max(SLASH_VFX.stateSeq,o.seq||0);LOG=o.d.log||[];setG(o.d.G);renderLog();if(typeof showGame==='function')showGame();if(!NET.avSent){NET.avSent=1;sendAv()}}
       else if(o.t==='q'){if(o.d.to===MYPID)(o.d.kind==='code'?codeLocal(o.d):qteLocal(o.d)).then(r=>act({a:'qte',id:o.d.id,r}))}
       else if(o.t==='m'){if(o.d.to===MYPID)craftMsg(o.d.t,o.d.ok)}
       else if(o.t==='av'){if(o.d&&typeof o.d.pid==='string'&&o.d.pid!==MYPID){if(avOk(o.d.d))AVS[o.d.pid]=o.d.d;else if(o.d.d===null)delete AVS[o.d.pid]}if(G)draw();if(typeof drawLobby==='function')drawLobby()}
@@ -5748,6 +5757,59 @@ function codexDraw(){
 function bar(cls,name,v,max,txt,hk){const w=clamp(v/max*100,0,100);return `<div class="stb ${cls}"><span>${name}<b>${txt}</b></span><i${hk?` data-hk="${hk}"`:''}>${hk?`<s style="width:${w}%"></s>`:''}<u style="width:${w}%"></u></i></div>`}
 /* v0.24.2 血條下降動畫（敵我都有）：每條血條記住上一次的比例；掉血時主條很快降下去，後面留一段淺色殘影慢慢縮回，外框閃一下紅。
    畫面每次 draw 都會整個重畫，所以動畫狀態記在 HPA（只在本機，不放進 G），重畫後由 hpRun 接著播剩下的部分。 */
+/* 主人提供的12格斬擊：本機演出不存入G；每次重畫後在同一張敵人卡接續。 */
+const SLASH_TIMING={frames:[100,80,65,50,40,70,30,40,55,65,75,85],total:755,impact:335};
+function slashFrame(ms){if(!Number.isFinite(ms)||ms<0)return -1;let end=0;for(let f=0;f<SLASH_TIMING.frames.length;f++){end+=SLASH_TIMING.frames[f];if(ms<end)return f}return -1}
+function clearSlashVfx(){document.querySelectorAll('#foes .foe').forEach(el=>{el.classList.remove('zc-slash-react');for(const k of ['x','y','px','tilt'])el.style.removeProperty('--zc-slash-'+k)});document.querySelectorAll('.zc-slash-fx').forEach(e=>e.remove())}
+const SLASH_VFX={image:null,ready:null,active:null,stateSeq:0,peer:null};
+function loadSlashVfx(){
+  if(typeof Image!=='function')return Promise.resolve(null);
+  if(!SLASH_VFX.ready){const img=SLASH_VFX.image=new Image();SLASH_VFX.ready=new Promise(resolve=>{img.onload=()=>resolve(img);img.onerror=()=>resolve(null)});img.src='fx/slash-12.webp'}
+  return SLASH_VFX.ready;
+}
+function renderSlashVfx(fx){
+  if(SLASH_VFX.active!==fx)return;
+  const elapsed=performance.now()-fx.t;
+  if(elapsed>=SLASH_TIMING.total||document.hidden||!G||G.rid!==fx.rid||G.fight!==fx.battle){clearSlashVfx();return}
+  const card=document.querySelector('#foes .foe[data-id="'+fx.id+'"]');
+  if(card){let canvas=card.querySelector('.zc-slash-fx');if(!canvas){canvas=document.createElement('canvas');canvas.className='zc-slash-fx';canvas.setAttribute('aria-hidden','true');card.appendChild(canvas)}
+    const w=card.clientWidth,h=card.clientHeight,d=Math.min(window.devicePixelRatio||1,2),cw=Math.round(w*d),ch=Math.round(h*d);
+    if(canvas.width!==cw||canvas.height!==ch){canvas.width=cw;canvas.height=ch}
+    const ctx=canvas.getContext('2d');if(!ctx)return;
+    ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,w,h);
+    const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches,f=reduced?5:slashFrame(elapsed),clamp01=v=>Math.max(0,Math.min(1,v)),hit=elapsed-SLASH_TIMING.impact;
+    fx.frame=f;
+    const sweep=clamp01(elapsed/SLASH_TIMING.impact),after=Math.max(0,elapsed-405)/1000,dx=-5*(1-sweep)+after*7,dy=3*(1-sweep)-after*4,scale=.965+.035*sweep;
+    const sprite=(frame,alpha,x=0,y=0,z=1)=>{if(frame<0)return;const dw=Math.min(w*.73,h*2.15)*z,dh=dw*282/432;ctx.globalAlpha=alpha;ctx.drawImage(SLASH_VFX.image,frame%4*432,Math.floor(frame/4)*282,432,282,-2+x,(h-dh)/2+y,dw,dh)};
+    // 畫面反應與殘影共用原圖；只作用在本機敵人卡，結束時清除。
+    if(!reduced){card.classList.add('zc-slash-react');const recoil=(hit-70)/1000,fall=recoil>=0&&recoil<.28?Math.exp(-recoil*16):0,k=Math.min(3,w*.009),x=k*Math.cos(Math.max(0,recoil)*92)*fall,y=-k*.45*Math.sin(Math.max(0,recoil)*70)*fall;
+      card.style.setProperty('--zc-slash-x',x+'px');card.style.setProperty('--zc-slash-y',y+'px');card.style.setProperty('--zc-slash-px',x*1.5+'px');card.style.setProperty('--zc-slash-tilt',x*.18+'deg');
+      if(hit>=0&&hit<45){ctx.globalAlpha=.10*(1-hit/45);ctx.fillStyle='#f8dcc1';ctx.fillRect(0,0,w,h)}
+      if(elapsed>190&&elapsed<335){sprite(slashFrame(Math.max(0,elapsed-40)),.10,dx-7,dy+4,scale);sprite(slashFrame(Math.max(0,elapsed-20)),.17,dx-3,dy+2,scale)}
+    }else{card.classList.remove('zc-slash-react')}
+    sprite(f,reduced?Math.min(1,elapsed/120)*(1-elapsed/SLASH_TIMING.total):1,reduced?0:dx,reduced?0:dy,reduced?1:scale);
+    if(!reduced&&hit>=0&&hit<180){ctx.globalAlpha=1-hit/180;ctx.strokeStyle='#a68f80';ctx.lineWidth=1;ctx.strokeRect(.5,.5,w-1,h-1)}
+  }
+  fx.raf=requestAnimationFrame(()=>renderSlashVfx(fx));
+}
+async function playSlashHit(d,remote=false,seq=0){
+  if(!d||!G||!d.state||G.rid!==d.state.rid||G.node!==d.state.node||G.clock!==d.state.clock||!G.fight||remote&&(!Number.isSafeInteger(seq)||seq<=SLASH_VFX.stateSeq))return;
+  const battle=G.fight,valid=()=>G&&G.rid===d.state.rid&&G.fight===battle;
+  const impact=()=>{if(valid()){if(remote){if(seq<=SLASH_VFX.stateSeq)return;SLASH_VFX.stateSeq=seq;setG(d.state)}else{push();draw()}}};
+  const img=await Promise.race([loadSlashVfx(),wait(400).then(()=>null)]);
+  if(!valid())return;
+  if(!img||!img.naturalWidth||typeof requestAnimationFrame!=='function'||document.hidden||FAST){sfx('knife',.9,900);impact();return}
+  const fx={id:d.id,rid:G.rid,battle,t:performance.now(),raf:0,soundT:0};SLASH_VFX.active=fx;
+  try{
+    // 原knife素材峰值約335ms；立即排程，對齊第6格與生命條更新。
+    if(UI.snd&&!play('knife',sfxLevel('knife',.9),900))sfx('knife',.9,900);
+    renderSlashVfx(fx);
+    await wait(Math.max(0,SLASH_TIMING.impact-(performance.now()-fx.t)));impact();if(remote&&G&&G.rid===fx.rid)fx.battle=G.fight;
+    await wait(Math.max(0,SLASH_TIMING.total-(performance.now()-fx.t)));
+  }finally{cancelAnimationFrame(fx.raf);clearTimeout(fx.soundT);if(SLASH_VFX.active===fx){SLASH_VFX.active=null;clearSlashVfx()}}
+}
+async function slashAttack(f){const d={id:f.id,state:snap()};E('slash',d);await playSlashHit(d)}
+loadSlashVfx();
 const HPA={},HPM=260,HPG0=320,HPG1=1000;
 const foeHk=f=>'f'+f.id+'|'+f.n+'|'+f.max;
 /* v0.30.0 敵人卡浮字（主人 2026-11-17）：生命掉了浮出紅色「−N」，被打空浮出白色「未命中」。
@@ -5854,7 +5916,7 @@ function draw(){
     for(const f of F.foes)hpSet(foeHk(f),(f.dead?0:Math.max(0,f.hp))/f.max);
     fltScan(F);
     $('#foes').innerHTML=F.foes.map(f=>{const dead=f.dead||f.hp<=0;const st=dead?[]:foeBadges(f);const hp=dead?0:f.hp;
-      return `<div class="foe ${pend&&!dead?'pick':''} ${!dead&&F.cur==='f'+f.id?'tg':''} ${dead?'dead':''}" data-id="${f.id}" ${pend&&!dead?`data-tgt="${f.id}"`:''}><div class="fpic">${f.img&&!lurkHid(f)?`<img src="${foeImg(f)}" alt="">`:'<i>?</i>'}</div><div class="fin"><div class="fh"><b>${f.n}</b></div><div class="fhp"><div class="hpb" data-hk="${foeHk(f)}"><s style="width:${Math.max(0,hp)/f.max*100}%"></s><u style="width:${Math.max(0,hp)/f.max*100}%"></u></div><span>${lurkHid(f)?'？':`${hp}/${f.max}`}</span></div><div class="fk">${DF().num===0||lurkHid(f)?'':`<em>防禦 ${fDef(f)}${f.hcov?`（遠程 ${fDef(f,1)}）`:''}</em>`}${f.defDown?'護甲破損':''}</div><div class="fk fk2">${(lurkHid(f)?'弱點：？':knowTxt(f)).split('　').map(x=>`<span>${x}</span>`).join('')}</div>${dead||st.length?`<div class="fst">${dead?`<span class="bd">${f.fled?'離開':'倒下'}</span>`:st.join('')}</div>`:''}</div></div>`}).join('');
+      return `<div class="foe ${pend&&!dead?'pick':''} ${!dead&&F.cur==='f'+f.id?'tg':''} ${dead?'dead':''}" data-id="${f.id}" ${pend&&!dead?`data-tgt="${f.id}"`:''}><div class="fpic">${f.img&&!lurkHid(f)?`<img src="${foeImg(f)}" alt="">`:'<i>?</i>'}</div><div class="fin"><div class="fh"><b>${f.n}</b></div><div class="fhp"><div class="hpb" data-hk="${foeHk(f)}"><s style="width:${Math.max(0,hp)/f.max*100}%"></s><u style="width:${Math.max(0,hp)/f.max*100}%"></u></div><span>${lurkHid(f)?'？':`${hp}/${f.max}`}</span></div><div class="fk">${DF().num===0||lurkHid(f)?'':`<em>防禦 ${fDef(f)}${f.hcov?`（遠程 ${fDef(f,1)}）`:''}</em>`}${f.defDown?'護甲破損':''}</div><div class="fk fk2">${(lurkHid(f)?'弱點：？':knowTxt(f)).split('　').map(x=>`<span>${x}</span>`).join('')}</div>${dead?(f.fled?'<div class="fst"><span class="bd">離開</span></div>':''):st.length?`<div class="fst">${st.join('')}</div>`:''}</div></div>`}).join('');
     $('#order').innerHTML=`<span class="rd">${battleState()}</span>`+(F.order.length?`<span class="rd">第 ${F.round} 回合</span>`+F.order.map((o,i)=>{if(o.k==='p'){const p=P(o.id);return `<span class="pl ${o.id===MYPID?'me':''} ${(F.group&&!F.resolving?F.group.includes(o.id):i===F.turn)?'now':''} ${p.dead||p.down||p.away||!teamHere(p)?'gone':''}" style="${MP()?`color:${p.col}`:''}">${esc(p.name)}<em>${o.init}</em></span>`}const f=F.foes[o.id];return `<span class="fo ${i===F.turn?'now':''} ${f.dead||f.hp<=0?'gone':''}">${f.n}<em>${o.init}</em></span>`}).join(''):'<span class="rd">擲骰中</span>');
     hpRun($('#foes'));fltRun($('#foes'));
   }else{cb.hidden=true;for(const k in HPA)if(k[0]==='f')delete HPA[k];for(const k in FPV)delete FPV[k];FLT.length=0}
