@@ -31,6 +31,10 @@ jobs:
         run: |
           node --test tools/slash-hit.test.cjs
           NODE_PATH=$(npm root -g) node tools/slash-hit-browser.cjs
+      - name: 鈍擊命中邏輯與手機畫面驗收
+        run: |
+          node --test tools/blunt-hit.test.cjs
+          NODE_PATH=$(npm root -g) node tools/blunt-hit-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
