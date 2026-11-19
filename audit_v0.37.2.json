@@ -1,0 +1,327 @@
+{
+  "version": "0.37.2",
+  "build": 92,
+  "created_at": "2026-11-20T02:43:27+08:00",
+  "audit_at": "2026-11-20T03:04:05+08:00",
+  "timezone": "Asia/Taipei",
+  "baseline_commit": "bf343046ef77192f366ad08bcffa07132be5681d",
+  "game_code_commit": "1dc941c22af8557da2cb8c809075f77748f77580",
+  "game_blob": "5b4eaa3b3dd7e7cf19de26e4dcb7296b75c8840a",
+  "tested_source_commit": "1dc941c22af8557da2cb8c809075f77748f77580",
+  "pull_request": "https://github.com/RyouShiro0329/zerocase/pull/12",
+  "deployment": "未部署：完整回歸失敗，保持 main 不變",
+  "changes": [
+    "近戰穿刺實際命中改用主人提供的 Sword Stab Body Hit；弓弩與槍擊排除",
+    "完整 1 秒轉為 MP3，混音增益修整，保留尾音",
+    "補齊署名、作品頁及 CC BY 4.0 連結",
+    "沿用原音效同步、靜音、停止與備援；不改傷害、命中、耐久、劇情或存檔"
+  ],
+  "design_rule_changes": [],
+  "tests": {
+    "baseline_commit": "bf343046ef77192f366ad08bcffa07132be5681d",
+    "candidate_commit": "1dc941c22af8557da2cb8c809075f77748f77580",
+    "version": "0.37.2",
+    "build": 92,
+    "timezone": "Asia/Taipei",
+    "source": {
+      "file": "718259__georgediamond__sword-stab-body-hit.wav",
+      "sha256": "63d06259460dee3d258fb14543283f25403d453dc8186ecc8e49193da8178e23",
+      "author": "-GeorgeDiamond-",
+      "url": "https://freesound.org/people/-GeorgeDiamond-/sounds/718259/",
+      "license": "CC BY 4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "sample_rate": 48000,
+      "channels": 2,
+      "bits": 24,
+      "duration": 1
+    },
+    "derived": {
+      "file": "sfx/piercehit.mp3",
+      "sha256": "08d10f87f121ed2b7d5c154cd5a8cc3c7fd654d732181def3887434256f4ea81",
+      "encoding": "ffmpeg -c:a libmp3lame -q:a 2",
+      "runtime_trim": 0.8,
+      "attack_volume": 0.9,
+      "max_ms": 1200,
+      "changes": [
+        "轉為 MP3",
+        "播放時音量調整"
+      ],
+      "no_trim_or_pitch_or_speed_changes": true
+    },
+    "baseline_node": {
+      "result": "通過",
+      "pass": 180,
+      "fail": 0,
+      "todo": 1
+    },
+    "final_node": {
+      "result": "失敗",
+      "pass": 178,
+      "fail": 2,
+      "todo": 1,
+      "failures": [
+        {
+          "file": "tests/audio.test.cjs",
+          "line": 2,
+          "reason": "expected 與 loaded 固定 60，新增後實際 61"
+        },
+        {
+          "file": "tests/audio.test.cjs",
+          "line": 13,
+          "reason": "loaded 固定 60，新增後實際 61"
+        }
+      ]
+    },
+    "pierce_node": {
+      "result": "通過",
+      "pass": 23
+    },
+    "slash_node": {
+      "result": "通過",
+      "pass": 13
+    },
+    "evacuation_node": {
+      "result": "通過",
+      "pass": 20
+    },
+    "local_browser": {
+      "result": "未測試",
+      "reason": "配套瀏覽器未安裝，現有 Chromium 啟動受環境 socket 權限限制"
+    },
+    "protected_files": {
+      "result": "通過",
+      "count": 22,
+      "scope": "tests/ 與 tools/split_index.py 逐位元不變"
+    },
+    "phone": "待主人實機驗收",
+    "design_rule_changes": [],
+    "deployment": {
+      "result": "未測試",
+      "reason": "未部署；完整回歸尚未通過，不修改 main"
+    },
+    "decision_needed": "是否允許兩個既有測試共三處音效數量斷言由 60 更新為 61；不修改 guard 或其他測試判定",
+    "evacuation_browser": {
+      "result": "通過",
+      "checks": 25,
+      "run_id": 44591679956,
+      "job_id": 135799032585,
+      "sizes": [
+        [
+          844,
+          390
+        ],
+        [
+          393,
+          690
+        ]
+      ],
+      "visual_review": "已逐張檢視兩尺寸戰鬥截圖，沒有新增文字裁切或遮擋"
+    },
+    "cloud_full_suite": {
+      "result": "失敗",
+      "run_id": 44591680215,
+      "job_id": 135799034464,
+      "tested_source_commit": "1dc941c22af8557da2cb8c809075f77748f77580",
+      "node": {
+        "pass": 178,
+        "fail": 2,
+        "todo": 1
+      },
+      "browser_smoke": {
+        "result": "通過",
+        "sizes": [
+          [
+            393,
+            690
+          ],
+          [
+            844,
+            390
+          ],
+          [
+            1280,
+            720
+          ]
+        ],
+        "steps_each": 40
+      },
+      "long_route": {
+        "result": "通過",
+        "actions": 220,
+        "nodes": 69,
+        "areas": 18
+      },
+      "failure_reason": "兩項既有音效數量測試要求 60，實際 61"
+    },
+    "pierce_browser": {
+      "result": "通過",
+      "checks": 17,
+      "report": "docs/audio/qa_v0.37.2/report.json",
+      "screenshots_reviewed": [
+        "battle-844x390.png",
+        "battle-393x690.png",
+        "credits-844x390.png",
+        "credits-393x690.png"
+      ],
+      "decoded_duration_seconds": 0.9999773242630385,
+      "errors": []
+    },
+    "cloud_repeat": {
+      "result": "失敗",
+      "run_id": 44592722723,
+      "job_id": 135802726786,
+      "tested_source_commit": "51a5a9f364975fa7bb240da840dddf337c27f788",
+      "node": {
+        "pass": 178,
+        "fail": 2,
+        "todo": 1
+      },
+      "pierce_node": {
+        "result": "通過",
+        "pass": 23
+      },
+      "pierce_browser": {
+        "result": "通過",
+        "checks": 17
+      },
+      "browser_smoke": {
+        "result": "通過",
+        "steps_each": 40,
+        "sizes": [
+          [
+            393,
+            690
+          ],
+          [
+            844,
+            390
+          ],
+          [
+            1280,
+            720
+          ]
+        ]
+      },
+      "long_route": {
+        "result": "通過",
+        "actions": 220,
+        "nodes": 65,
+        "areas": 18
+      },
+      "reason": "仍只有兩項原有素材數量斷言失敗"
+    }
+  },
+  "decision_needed": "是否允許兩個既有測試共三處音效數量斷言由 60 更新為 61；不修改 guard 或其他測試判定",
+  "files": {
+    ".github/workflows/pierce-audio-qa.yml": {
+      "before_sha256": null,
+      "after_sha256": "c96c544b85be56bec2170e904fb53cef0104be1f652917e9f48048bd54500357"
+    },
+    "docs/RELEASE_v0.37.2.md": {
+      "before_sha256": null,
+      "after_sha256": "6c122652ffcd571d3379a434e4f3b90a6b1a6983896c876a48c464bc697b390d"
+    },
+    "docs/VERSIONS.md": {
+      "before_sha256": "8e9e3fe7459327770374912e54e0e0985987f42b90cec031fb857622e2d629a4",
+      "after_sha256": "9b79f57a9e2517a983a0b9217c1a7904e607a4e5bf34cf665c62622d80954447"
+    },
+    "docs/audio/LICENSES_AND_ORIGINS.md": {
+      "before_sha256": "2bc8369d6fca7fd97dc2d311a0316fd63d472083f509ddae07210fdb15e637d1",
+      "after_sha256": "f14920b97dbe79d3a3da011feaee1c96e7a72e3ebf42a9c77b5f5b44d3db20a9"
+    },
+    "docs/audio/qa_v0.37.2/battle-393x690.png": {
+      "before_sha256": null,
+      "after_sha256": "0944637dbfd3049cd7460e5cb162fe240115af4f3cc25bf273bb461cf3fb7fb6"
+    },
+    "docs/audio/qa_v0.37.2/battle-844x390.png": {
+      "before_sha256": null,
+      "after_sha256": "5a807c4b381fb9ef92f19ba56941fd8a29fa8b0891d18293d967157307fccb65"
+    },
+    "docs/audio/qa_v0.37.2/cloud_summary.log": {
+      "before_sha256": null,
+      "after_sha256": "af4c0edbf94c06e14b0f59d13f417665ce586b57cee81d1c5113744b076ddf1d"
+    },
+    "docs/audio/qa_v0.37.2/cloud_summary_repeat.log": {
+      "before_sha256": null,
+      "after_sha256": "8dfbbefdf65df76fd13ef79193324dec58121b3c7f585538e2fbbd2808960e70"
+    },
+    "docs/audio/qa_v0.37.2/credits-393x690.png": {
+      "before_sha256": null,
+      "after_sha256": "22cb4b5f09d19fba8a750f52b518cba5a744bc3f60fdb38381f864c308bfb7cd"
+    },
+    "docs/audio/qa_v0.37.2/credits-844x390.png": {
+      "before_sha256": null,
+      "after_sha256": "e58420b1f22971f240f6608ede031ee8394462754b29bab3787424ae0eb9ac1a"
+    },
+    "docs/audio/qa_v0.37.2/evacuation_report.json": {
+      "before_sha256": null,
+      "after_sha256": "4b4f7cb9bc4078ed244788dd52894a41b69084ae54783abf27edf27d8c0d1e1c"
+    },
+    "docs/audio/qa_v0.37.2/live_version.json": {
+      "before_sha256": null,
+      "after_sha256": "2179b387b46ba91a2704c9715a888c654b92d629fc674c47fc07dd10a153eb0f"
+    },
+    "docs/audio/qa_v0.37.2/local_report.json": {
+      "before_sha256": null,
+      "after_sha256": "eb5fadff9313f1e04a8f8b9499c28ed77d81ab82d8115907baef679507e5075e"
+    },
+    "docs/audio/qa_v0.37.2/module_headers.json": {
+      "before_sha256": null,
+      "after_sha256": "ea655e8675ec45a42f71befd33453e55ce8c15a1906b70914255337c1425804a"
+    },
+    "docs/audio/qa_v0.37.2/report.json": {
+      "before_sha256": null,
+      "after_sha256": "3b209f3d4df46b1279e603f648c20dc4bab79dde80568261e391146ac4b21611"
+    },
+    "index.html": {
+      "before_sha256": "d0d2790b8ba0cedfdd5302ea28df2e3d1588a824fd167da793e24d431ea5cf9f",
+      "after_sha256": "2aa96c8336c89ec2e57435f6c76fdd38e8dbec52c217c9380be1aa4c553f5925"
+    },
+    "sfx/piercehit.mp3": {
+      "before_sha256": null,
+      "after_sha256": "08d10f87f121ed2b7d5c154cd5a8cc3c7fd654d732181def3887434256f4ea81"
+    },
+    "tools/evacuation-browser.cjs": {
+      "before_sha256": "f62c5c49792ace3d368b204ab616923a9074b8ccc90ec50896e8af4c3e01627e",
+      "after_sha256": "0a43940e6af585ab0e728bd6f4d19158728d9aa599486bc518956e33cbc7c92e"
+    },
+    "tools/pierce-audio-browser.cjs": {
+      "before_sha256": null,
+      "after_sha256": "1ca2c89b70233d10d66bf823762f64671be2bb083dc307e0a788da98972ba80b"
+    },
+    "tools/pierce-audio.test.cjs": {
+      "before_sha256": null,
+      "after_sha256": "4ce27cdaa1d012c65d467961d82017e23a1506b1183af8f13c53deb55d4fa222"
+    },
+    "更新說明.txt": {
+      "before_sha256": "2d617d58e070e63b54551a80f3a5ee5b408369f21bde0d2ef3054f128626bdcc",
+      "after_sha256": "d5191661036cca4a424f0848bc8fa3eee3eb086a2af972cd1fa7c90ec52b94fd"
+    }
+  },
+  "ci_setup_commit": "51a5a9f364975fa7bb240da840dddf337c27f788",
+  "live_version_check": {
+    "url": "https://ryoushiro0329.github.io/zerocase/",
+    "checked_at": "2026-11-20T02:56:00+08:00",
+    "http_version": {
+      "v": "0.37.1",
+      "b": 91,
+      "t": "2026-11-19T05:24:30+08:00"
+    },
+    "method": "HTTP 讀取版本行；未部署候選，未進行部署後操作驗收"
+  },
+  "verification": {
+    "manifest": {
+      "result": "通過",
+      "command": "python3 verify_release.py"
+    },
+    "protected_files": {
+      "result": "通過",
+      "count": 22
+    },
+    "module_headers": {
+      "result": "通過",
+      "count": 14,
+      "split_files": 15
+    }
+  }
+}

@@ -1,0 +1,194 @@
+{
+  "baseline_commit": "bf343046ef77192f366ad08bcffa07132be5681d",
+  "candidate_commit": "1dc941c22af8557da2cb8c809075f77748f77580",
+  "version": "0.37.2",
+  "build": 92,
+  "timezone": "Asia/Taipei",
+  "source": {
+    "file": "718259__georgediamond__sword-stab-body-hit.wav",
+    "sha256": "63d06259460dee3d258fb14543283f25403d453dc8186ecc8e49193da8178e23",
+    "author": "-GeorgeDiamond-",
+    "url": "https://freesound.org/people/-GeorgeDiamond-/sounds/718259/",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "sample_rate": 48000,
+    "channels": 2,
+    "bits": 24,
+    "duration": 1
+  },
+  "derived": {
+    "file": "sfx/piercehit.mp3",
+    "sha256": "08d10f87f121ed2b7d5c154cd5a8cc3c7fd654d732181def3887434256f4ea81",
+    "encoding": "ffmpeg -c:a libmp3lame -q:a 2",
+    "runtime_trim": 0.8,
+    "attack_volume": 0.9,
+    "max_ms": 1200,
+    "changes": [
+      "轉為 MP3",
+      "播放時音量調整"
+    ],
+    "no_trim_or_pitch_or_speed_changes": true
+  },
+  "baseline_node": {
+    "result": "通過",
+    "pass": 180,
+    "fail": 0,
+    "todo": 1
+  },
+  "final_node": {
+    "result": "失敗",
+    "pass": 178,
+    "fail": 2,
+    "todo": 1,
+    "failures": [
+      {
+        "file": "tests/audio.test.cjs",
+        "line": 2,
+        "reason": "expected 與 loaded 固定 60，新增後實際 61"
+      },
+      {
+        "file": "tests/audio.test.cjs",
+        "line": 13,
+        "reason": "loaded 固定 60，新增後實際 61"
+      }
+    ]
+  },
+  "pierce_node": {
+    "result": "通過",
+    "pass": 23
+  },
+  "slash_node": {
+    "result": "通過",
+    "pass": 13
+  },
+  "evacuation_node": {
+    "result": "通過",
+    "pass": 20
+  },
+  "local_browser": {
+    "result": "未測試",
+    "reason": "配套瀏覽器未安裝，現有 Chromium 啟動受環境 socket 權限限制"
+  },
+  "protected_files": {
+    "result": "通過",
+    "count": 22,
+    "scope": "tests/ 與 tools/split_index.py 逐位元不變"
+  },
+  "phone": "待主人實機驗收",
+  "design_rule_changes": [],
+  "deployment": {
+    "result": "未測試",
+    "reason": "未部署；完整回歸尚未通過，不修改 main"
+  },
+  "decision_needed": "是否允許兩個既有測試共三處音效數量斷言由 60 更新為 61；不修改 guard 或其他測試判定",
+  "evacuation_browser": {
+    "result": "通過",
+    "checks": 25,
+    "run_id": 44591679956,
+    "job_id": 135799032585,
+    "sizes": [
+      [
+        844,
+        390
+      ],
+      [
+        393,
+        690
+      ]
+    ],
+    "visual_review": "已逐張檢視兩尺寸戰鬥截圖，沒有新增文字裁切或遮擋"
+  },
+  "cloud_full_suite": {
+    "result": "失敗",
+    "run_id": 44591680215,
+    "job_id": 135799034464,
+    "tested_source_commit": "1dc941c22af8557da2cb8c809075f77748f77580",
+    "node": {
+      "pass": 178,
+      "fail": 2,
+      "todo": 1
+    },
+    "browser_smoke": {
+      "result": "通過",
+      "sizes": [
+        [
+          393,
+          690
+        ],
+        [
+          844,
+          390
+        ],
+        [
+          1280,
+          720
+        ]
+      ],
+      "steps_each": 40
+    },
+    "long_route": {
+      "result": "通過",
+      "actions": 220,
+      "nodes": 69,
+      "areas": 18
+    },
+    "failure_reason": "兩項既有音效數量測試要求 60，實際 61"
+  },
+  "pierce_browser": {
+    "result": "通過",
+    "checks": 17,
+    "report": "docs/audio/qa_v0.37.2/report.json",
+    "screenshots_reviewed": [
+      "battle-844x390.png",
+      "battle-393x690.png",
+      "credits-844x390.png",
+      "credits-393x690.png"
+    ],
+    "decoded_duration_seconds": 0.9999773242630385,
+    "errors": []
+  },
+  "cloud_repeat": {
+    "result": "失敗",
+    "run_id": 44592722723,
+    "job_id": 135802726786,
+    "tested_source_commit": "51a5a9f364975fa7bb240da840dddf337c27f788",
+    "node": {
+      "pass": 178,
+      "fail": 2,
+      "todo": 1
+    },
+    "pierce_node": {
+      "result": "通過",
+      "pass": 23
+    },
+    "pierce_browser": {
+      "result": "通過",
+      "checks": 17
+    },
+    "browser_smoke": {
+      "result": "通過",
+      "steps_each": 40,
+      "sizes": [
+        [
+          393,
+          690
+        ],
+        [
+          844,
+          390
+        ],
+        [
+          1280,
+          720
+        ]
+      ]
+    },
+    "long_route": {
+      "result": "通過",
+      "actions": 220,
+      "nodes": 65,
+      "areas": 18
+    },
+    "reason": "仍只有兩項原有素材數量斷言失敗"
+  }
+}
