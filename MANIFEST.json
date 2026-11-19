@@ -1,8 +1,8 @@
 {
-  "version": "0.37.2",
-  "build": 92,
-  "created_at": "2026-11-20T02:43:27+08:00",
-  "deployment": "main 6237517 已部署；正式網站版本、正常開局三行動、遊戲來源主控台及素材雜湊驗證通過",
+  "version": "0.38.0",
+  "build": 93,
+  "created_at": "2026-11-20T06:36:55+08:00",
+  "deployment": "候選版，尚未合併部署",
   "files": {
     ".github/workflows/evacuation-qa.yml": "7613f1f262996c8720b5d27573ac58d90822e2e46239cfed1053bd0c7fe90810",
     ".github/workflows/pierce-audio-qa.yml": "c96c544b85be56bec2170e904fb53cef0104be1f652917e9f48048bd54500357",
@@ -29,7 +29,7 @@
     "docs/RELEASE_v0.36.0.md": "808507b9a161bb290bbaf891ce3c15c6b0dc729e068c5f4c5221370eec924e56",
     "docs/RELEASE_v0.36.1.md": "a460d1a78aa4b3009c5032944826f1cd1097c7a4fe7b0d2be8c6520ef27f84fa",
     "docs/RELEASE_v0.37.2.md": "5a6fa2a2c722fde837b51dbb297f7a34d48e6b9c9bd1c1787cc6504c94f78f60",
-    "docs/VERSIONS.md": "01b7f408bc200abe88e6301900109b12e27db5060c1c666d462258fbc05c84be",
+    "docs/VERSIONS.md": "ba1c028a23bd3dee90626e07b2c3b2c2f15199942bbfbf0451c166aa6450c796",
     "docs/audio/2026-11-15-integration-plan.md": "1d8c7185ad2742e1f1b70279b5f9d274f03c36a1b4104513dc5842d2df9ade8d",
     "docs/audio/ASSET_VALIDATION.json": "190994b75a706198d1f3e3435ee47441cee202e55fe70c3593fab8d55d538d0b",
     "docs/audio/ASSET_VALIDATION_V0.21.10.json": "6d61e118b4a1ebef0708d9e4e687d55afbf48a288d61c98a772f1cb5113c612a",
@@ -101,9 +101,9 @@
     "fonts/README.md": "90982e9334a778f37e2894edd038ba52d55baa9293b065df9fdf4e356970b5d2",
     "fonts/SOURCES.md": "50e65cf66675cbd8d296c5ce7692a834db24e0038add2ac6b90e8b4858623c3a",
     "fonts/SourceSerif4-OFL.txt": "0033731631d08edb134cb282087abd2bca21ed7cfbf374effa749a08ec13feb5",
-    "fonts/coverage.txt": "daa5c86969f877365e2e00029921d4f3277610b58ccd866eda9d77ecda3c142e",
+    "fonts/coverage.txt": "759bd851971fb4f747ebfee0ecbdbb597e24c50c772cb5f0e28cbb6d22a40456",
     "fonts/source-serif-4-latin.woff2": "9314377f84ec3075b440e2295b66810ff2ca3b37ffaf8d10ef9b7f766e16190d",
-    "fonts/tw-kai-game.woff2": "cae406c9aa6805733d724eeef7e9a3dc7edcb53e3d3afdf2392c845ecb888618",
+    "fonts/tw-kai-game.woff2": "869982234cbdd0ad35b3554a8b50769bd215f8dd260c6861eba61a9a178f1790",
     "fx/slash-12.webp": "7f1e8dab6290172e4eb7fef05c90aa5fb114d5efb82256ab6819515215545547",
     "img/acru_cap.webp": "7c5b32eab4c4abf2aceb3e199495748af9b856a62438845b720002b13af49c8c",
     "img/acru_cmd.webp": "b2ecf1ab2725c591b72d435ad857bde71ed39ed90804f1007de51897d351adff",
@@ -127,7 +127,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "2aa96c8336c89ec2e57435f6c76fdd38e8dbec52c217c9380be1aa4c553f5925",
+    "index.html": "3609f708128e77811386b45db02427b76ed1818bd35e766fe10037c4fad57e4d",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -254,6 +254,7 @@
     "tools/slash-hit.test.cjs": "3751b72598f28f9f7c80873bf0348220fb27a134e8766b0faf3f430b6d5cd970",
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "ff9153c913df787c6a6b883b7f5898a44bdb622d5c861db2f191466a5bee9037"
+    "更新說明.txt": "3bbc2e8dbc7625ea4dee3a45db140c5f9af8280679acdf9755cc1947f6509b61",
+    "tests/hotel-stage.test.cjs": "7e102e5b12806ddd18478d26f1f0193193211daf70173381d98559ead6139ee9"
   }
 }

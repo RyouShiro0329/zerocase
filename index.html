@@ -1,12 +1,12 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=cae406c9" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=86998223" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fx/slash-12.webp" as="image" type="image/webp">
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=cae406c9") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=86998223") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
@@ -684,7 +684,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.37.2", "b": 92, "t": "2026-11-20T02:43:27+08:00"};
+const ZC_VER={"v": "0.38.0", "b": 93, "t": "2026-11-20T06:36:55+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -2285,11 +2285,13 @@ Z4:{L:'Z',n:'紅磚公寓・一樓',rest:1,
  c:[restC('在空房裡歇一下',5,3),sleepC('在空房睡到天亮',`你把沙發推到門後，在黑暗裡躺下。半夜樓上傳來腳步聲，走到門口停了很久，又慢慢走遠。\n\n醒來的時候，天邊開始泛白。`),
   {l:'回街上',ok:{t:`你推開沙發，走回街上。`,go:'Z0'}}]},
 Y0:{L:'Y',n:'旅館・大廳',rest:1,
- tx:()=>G.flags.acru?'旅館門口停著兩台沒有標示的黑色廂型車。大廳裡有穿黑色制服的人在守，櫃台的電腦被拆走了，入住簿一本都不剩。往地下室的那扇門前站著兩個人，槍口朝下，一直沒有離開。':'',
+ tx:()=>hotelTx(),
  t:`大廳的玻璃門碎了一地。櫃台後面的鑰匙板空了一半。電梯的門半開著，車廂卡在一樓和二樓之間，門縫裡黑漆漆的。`,
  c:[
-  {l:'上樓搜一搜客房',s:'還有沒搜過的房間',t:'m',hide:'acru',ok:{t:`你踩著樓梯往上走，挑了一條還沒走過的走廊。`,go:'Y1'}},
-  {l:'從員工通道溜上樓搜客房',need:'acru',t:'m',k:'AGI',d:13,s:'敏捷檢定：大廳有人守著',ok:{t:`你們繞到後巷，從員工通道摸上二樓。走廊上的屍體都不見了，地毯被人用水沖過。`,go:'Y1'},ng:{t:`員工通道的門後站著一個人。紅色的鏡片轉了過來。`,fight:{n:2,names:['A.C.R.U. 隊員','A.C.R.U. 隊員']},go:'Z0'}},
+  {l:'上樓搜一搜客房',s:'還有沒搜過的房間',t:'m',stg:[1],hide:'ys1x3',ok:{t:`你踩著樓梯往上走，挑了一條還沒走過的走廊。`,r:{flag:'ys1'},go:'Y1'}},
+  {l:'摸黑上樓搜客房',s:'停電了，樓梯很暗',t:'m',stg:[2],hide:'ys2x3',ok:{t:`你扶著牆，一階一階往上摸。黑暗裡，每一扇門後面都像有東西。`,r:{flag:'ys2'},go:'Y1'}},
+  {l:'提防著樓下，上樓搜客房',s:'大門外有人在走動',t:'m',stg:[3],hide:'ys3x3',ok:{t:`你把大廳的門拴上，貼著牆往樓梯走。樓下傳來玻璃被踩碎的聲音。`,r:{flag:'ys3'},go:'Y1'}},
+  {l:'從員工通道溜上樓搜客房',need:'acru',hide:'ys4x2',t:'m',k:'AGI',d:13,s:'敏捷檢定：大廳有人守著',ok:{t:`你們繞到後巷，從員工通道摸上二樓。走廊上的屍體都不見了，地毯被人用水沖過。`,r:{flag:'ys4'},go:'Y1'},ng:{t:`員工通道的門後站著一個人。紅色的鏡片轉了過來。`,fight:{n:2,names:['A.C.R.U. 隊員','A.C.R.U. 隊員']},go:'Z0'}},
   {...restC('到員工宿舍歇一下',6,3),hide:'acru'},
   {...sleepC('鎖上宿舍的門睡到天亮',`你把門鏈扣上，椅子頂住門把。半夜整棟樓都在響，水管、腳步聲，還有不知道哪一層的門被撞了一下又一下。\n\n醒來的時候，窗簾縫透進一點灰白的光。`),hide:'acru'},
   {l:'回街區',ok:{t:`你走出大廳，回到街上。`,go:'Z0'}}]},
@@ -2935,6 +2937,103 @@ Object.assign(LV,{
  SC:{n:'地下研究所',sub:'S3・收容層',en:'S-WING · LEVEL 3',rule:'牆後面有東西在呼吸。',fx:{},ch:1,indoor:1,fire:'lab'}
 });
 Object.assign(LV_POOL,{SA:['infected'],SB:['infected','incubator'],SC:['infected','incubator','devourer']});
+/* ================= v0.38.0 旅館階段：回訪的旅館會隨城市事件改變 =================
+   階段＝既有城市旗標：1 停電前、2 停電（blackout）、3 劫匪（raiders）、4 佔領（acru）。
+   每階段能搜的客房次數有限（HCAP），事件牌是 EVPOOL 裡標 z:'Y'、stg:[階段] 的牌，Y1 只從這些牌抽，所以每局看到的不同。
+   決定牌 YD2～YD4：進入階段後第一次回到大廳時出現，二選一、不可逆；拖到下一階段還沒決定，就套用預設結果（YD.def）。
+   旗標：ydN＝已決定，ydNa／ydNb＝選項，ydNc＝被世界逼著走的預設結果。 */
+const hotelStage=()=>G.flags.acru?4:G.flags.raiders?3:G.flags.blackout?2:1;
+const HCAP={1:3,2:3,3:3,4:2};
+const HSTAGE_TX=['','','大廳沒有一盞燈亮著。櫃台上的蠟燭只剩半截，火光把鑰匙板的影子拉得很長。','大門外有人來回走動，玻璃碎片被踩得喀啦響。櫃台後面的抽屜全被拉開了。','旅館門口停著兩台沒有標示的黑色廂型車。大廳裡有穿黑色制服的人在守，櫃台的電腦被拆走了，入住簿一本都不剩。往地下室的那扇門前站著兩個人，槍口朝下，一直沒有離開。'];
+function hotelTx(){const F=G.flags,s=hotelStage();
+  const cap=(F['ys'+s]||0)>=HCAP[s]?'能搜的客房都翻過了，剩下的門不是鎖著，就是被家具堵死了。':'';
+  return [HSTAGE_TX[s],cap].filter(Boolean).join('\n\n')}
+const YD={
+ 2:{node:'YD2',def:{flag:['yd2','yd2c'],fear:3,t:'你一直沒有做決定。半夜有人在樓下拖了很久的東西，天亮的時候，櫃台後面的抽屜全空了，配電箱的蓋子丟在地上。'}},
+ 3:{node:'YD3',def:{flag:['yd3','yd3c'],fear:4,t:'門外的人等不到回答，開始用身體撞門。沙發被一寸一寸推開，等你聽見聲音趕過去，他們已經把一樓翻了一遍，走了。'}},
+ 4:{node:'YD4'}
+};
+// 下一階段來的時候，還沒決定的決定牌由世界替玩家決定
+function hotelAuto(){const s=hotelStage();for(let k=2;k<s;k++){const d=YD[k];if(!d||!d.def||G.flags['yd'+k])continue;for(const f of d.def.flag)G.flags[f]=(G.flags[f]||0)+1;out(d.def.t,'rule');for(const q of able())scare(q,d.def.fear)}}
+// 回到大廳時，如果目前階段還有沒做的決定，先去決定
+function hotelDecision(id){if(id!=='Y0'||!G||G.guided||G.fight)return id;const s=hotelStage();for(let k=2;k<=s;k++){const d=YD[k];if(d&&!G.flags['yd'+k])return d.node}return id}
+Object.assign(N,{
+YD2:{L:'Y',n:'旅館・大廳',
+ t:`停電之後，旅館安靜得讓人耳鳴。大廳的備用燈一盞都沒亮。\n\n設備層的方向隱約傳來金屬碰撞的聲音，有人在摸黑弄什麼。\n\n不去看，這一夜只能靠蠟燭撐。去看，就得一個人走下那段沒有光的樓梯。`,
+ c:[
+  {l:'摸黑下去看電源',s:'會出聲，可能引來東西',t:'m',ok:{t:`你扶著扶手往下走。設備層的門半掩著，有人把配電箱的蓋子撬開，留下一小堆工具和幾顆電池就跑了。你撿了能用的東西，退回大廳。\n\n下樓的聲音，不只你一個人聽見。`,r:{items:{battery:2,fuel:1},flag:['yd2','yd2a']},p:{alarm:2},go:'Y0'}},
+  {l:'守在大廳，把門堵好',s:'休息一下，哪裡都不去',t:'m',ok:{t:`你把沙發推到門框前，又把櫃台拖過去頂著，在後面坐下來，一根蠟燭一根蠟燭地數著時間。樓下的聲音響了一陣，停了。\n\n天亮以前，你睡了一小段。`,r:{rest:{hp:4,san:2},flag:['yd2','yd2b']},go:'Y0'}}]},
+YD3:{L:'Y',n:'旅館・大廳',
+ tx:()=>G.flags.yd2a?'你想起樓下那些被撬開的配電箱。他們多半也知道旅館裡有什麼。':'',
+ t:`有人在敲大門。不是撞，是一下一下、很有耐心地敲。\n\n「裡面的人，」門外的男人說，「我們只要水和吃的。我們有一個人受傷了。」\n\n擋在你們之間的，只有門框前那一堆家具。`,
+ c:[
+  {l:'讓他們進來',s:'會用掉補給，但他們欠你一個人情',t:'m',ok:{t:`你把沙發拖開一道縫。三個人擠了進來，其中一個人的肩膀上全是血。你分了水和繃帶給他們。\n\n天亮以前，其中一個人低聲說：「地下室那邊，員工樓梯底下有一個側門。穿黑衣服的人還不知道。」`,r:{pay:{water:1,bandage:1},karma:1,flag:['yd3','yd3a']},go:'Y0'}},
+  {l:'不開門',need:'yd2b',s:'家具早就頂死了',t:'m',ok:{t:`「我們不開。」門外安靜了一會兒。家具早就頂得死死的，他們推了幾下就放棄了，腳步聲往街上走遠。`,r:{flag:['yd3','yd3b']},p:{fear:2},go:'Y0'}},
+  {l:'不開門',hide:'yd2b',s:'門只是勉強擋著',t:'m',ok:{t:`「我們不開。」門外安靜了一會兒，然後開始撞。家具一寸一寸被推開，你們拿椅子頂了很久，他們才罵著走遠。整棟樓都聽見了。`,r:{flag:['yd3','yd3b']},p:{fear:3,alarm:2},go:'Y0'}}]},
+YD4:{L:'Y',n:'旅館・大廳',
+ t:`黑色的廂型車停在旅館門口，穿制服的人把大廳清空了。你躲在櫃台的陰影裡，看見他們把入住簿一本一本裝進箱子。\n\n地下室那扇門前站了兩個人。他們每隔一陣就換班，換班的那幾分鐘，門口只剩一個人。`,
+ c:[
+  {l:'走側門繞過去',need:'yd3a',k:'AGI',d:10,s:'敏捷檢定：有人告訴過你側門',t:'m',ok:{t:`你照那個人說的，從員工樓梯底下推開側門，貼著管線摸到鐵門旁邊，換班的人剛好背對著你。你記住了他們換班的空檔。`,r:{flag:['yd4','yd4a','ylabclr']},go:'Y0'},ng:{t:`側門的鉸鏈響了一聲。紅色的鏡片轉了過來。`,r:{flag:['yd4','yd4f']},fight:{n:2,names:['A.C.R.U. 隊員','A.C.R.U. 隊員']},go:'Z0'}},
+  {l:'趁換班溜過去',hide:'yd3a',k:'AGI',d:13,s:'敏捷檢定：只有一個人守著的幾分鐘',t:'m',ok:{t:`你貼著牆，順著管線一段一段挪過去。換班的人在說話，沒有往這邊看。你記住了他們換班的空檔。`,r:{flag:['yd4','yd4a','ylabclr']},go:'Y0'},ng:{t:`你的鞋底踩到了碎玻璃。紅色的鏡片轉了過來。`,r:{flag:['yd4','yd4f']},fight:{n:2,names:['A.C.R.U. 隊員','A.C.R.U. 隊員']},go:'Z0'}},
+  {l:'先退出旅館',s:'下次回來，守衛還在',t:'q',ok:{t:`你們沒有試。你把帽簷壓低，從員工通道退到後巷。想進地下室，只能找機會，或是硬闖。`,r:{flag:['yd4','yd4b']},go:'Z0'}}]}
+});
+// 旅館事件牌：每階段一副，每次搜客房抽一張（不放回）
+EVPOOL.push(
+ {id:'yh1a',z:'Y',stg:[1],t:`二樓走廊最底的客房，門縫下透出一條細細的光。裡面有人在小聲說話，說得很快，像在背什麼。`,c:[
+  {l:'敲門',k:'CHA',d:11,s:'統帥檢定',ok:{t:`門開了一道縫。一個穿著睡衣的女人把行李箱推出來。「我走不動了，」她說，「這個給你，別讓人知道我在這裡。」箱子裡有幾瓶水和一包能量棒。`,r:{items:{water:2,bar:1}}},ng:{t:`裡面的聲音突然停了。門板後面傳來椅子被拖動的聲音，然後什麼也沒有了。你站了一會兒，只能走開。`,p:{fear:3}}},
+  {l:'貼著門聽',k:'PER',d:12,s:'感知檢定',ok:{t:`她在背一串電話號碼，一遍又一遍。你沒有再打擾她，只是靜靜地走開。`,p:{fear:2}},ng:{t:`你的腳碰到了牆角的垃圾桶。說話聲立刻停了。`,p:{alarm:1}}}]},
+ {id:'yh1b',z:'Y',stg:[1],t:`轉角的飲料販賣機被人撬開過，玻璃碎了一地，裡面還卡著幾罐沒掉下來的飲料。`,c:[
+  {l:'伸手進去拿',k:'AGI',d:11,s:'敏捷檢定',ok:{t:`你的手指勾住鋁罐的邊緣，一罐一罐慢慢拉出來。`,r:{items:{cola:2}}},ng:{t:`你的手臂被玻璃劃了一道。`,p:{hp:-1},r:{items:{glass:1}}}},
+  {l:'用腳踢機身',ok:{t:`整台機器晃了一下，兩罐可樂和一包餅乾滾了出來。聲音在走廊裡傳得很遠。`,r:{items:{cola:2,cookie:1}},p:{alarm:1}}}]},
+ {id:'yh1c',z:'Y',stg:[1],t:`樓梯間的燈閃了一下。一個穿旅館制服的人坐在階梯中間，背對著你，肩膀一抽一抽的。`,c:[
+  {l:'悄悄繞過去',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你貼著欄杆，一階一階跨過去。他的頭偏了一下，又低下去。`},ng:{t:`你的衣角勾到了欄杆。他整個人轉了過來。`,p:{fear:6},fight:{n:1,mode:'ambush',names:['穿旅館制服的感染者']}}},
+  {l:'從背後動手',ok:{t:`你沒有給他回頭的機會。`,fight:{n:1,mode:'first',names:['穿旅館制服的感染者']}}}]},
+ {id:'yh1d',z:'Y',stg:[1],t:`一間客房的門沒關。床鋪整齊得不像有人住過，只有浴室的燈還亮著，洗手台上排著三排瓶瓶罐罐。`,c:[
+  {l:'翻找盥洗包',k:'PER',d:11,s:'感知檢定',ok:{t:`你在盥洗包的夾層裡摸到一小瓶酒精、一個針線包，還有一條乾淨的毛巾。`,r:{items:{alcohol:1,sewing:1,cloth:1}}},ng:{t:`全是乳液和面膜，都過期了。你把東西放回原位。`}},
+  {l:'關掉浴室的燈離開',ok:{t:`你把燈關了。黑暗裡，你聽見自己的呼吸比剛才大聲。`,p:{fear:1}}}]},
+ {id:'yh1e',z:'Y',stg:[1],t:`走廊盡頭的窗戶沒關，窗簾一下一下往外飄。從這裡可以看到街區北邊：一台公車橫在路中央，車門開著。`,c:[
+  {l:'探出頭看',k:'PER',d:12,s:'感知檢定',ok:{t:`窗台外側卡著一個皮夾，裡面有幾張皺巴巴的美金。你把它勾了回來。`,r:{usd:3}},ng:{t:`公車的後座上，有東西在動。它抬起頭，好像看了你一眼。你縮了回來。`,p:{fear:4}}},
+  {l:'把窗戶拉上',ok:{t:`你把窗戶關緊，窗簾拉好。走廊安靜了一點。`}}]},
+ {id:'yh2a',z:'Y',stg:[2],t:`走廊裡伸手不見五指。你只能靠牆慢慢摸，指尖碰到一扇一扇冰冷的門板。其中一扇沒有鎖。`,c:[
+  {l:'推開那扇門',k:'PER',d:12,dark:1,s:'感知檢定',ok:{t:`你在黑暗裡一寸一寸摸過去，摸到床頭櫃的抽屜，裡面有一捲膠帶和一把布料剪下來的碎布。`,r:{items:{tape:1,cloth:2}}},ng:{t:`你被床腳絆了一下，整個人摔在地上。`,p:{hp:-1}}},
+  {l:'不理它，繼續往前',ok:{t:`你把手縮回來，貼著另一側的牆走。有些門，還是別打開比較好。`}}]},
+ {id:'yh2b',z:'Y',stg:[2],t:`一個男人舉著蠟燭從樓梯上摸下來。他看到你，停住了。「有沒有電池？」他說，「我的助聽器沒電了，我什麼都聽不見。」`,c:[
+  {l:'給他一顆電池',reqN:{battery:1},s:'需要電池 ×1',ok:{t:`他兩隻手握著那顆電池，像握著什麼貴重的東西。「謝謝你，」他說，從口袋裡摸出一包能量棒，硬塞進你手裡。`,r:{pay:{battery:1},karma:1,items:{bar:1}}}},
+  {l:'說自己沒有',ok:{t:`他點點頭，沒有再問，舉著蠟燭一階一階走回樓上。燭光越來越小。`,p:{fear:2}}}]},
+ {id:'yh2c',z:'Y',stg:[2],t:`櫃台後面的員工休息室裡，冰箱還有一點涼氣。再不吃，裡面的東西撐不到天亮。`,c:[
+  {l:'把能吃的都帶走',ok:{t:`你把還沒壞的東西一樣一樣拿出來：泡麵、餅乾、幾罐可樂。冰箱門闔上的時候，裡面只剩下發酸的牛奶。`,r:{items:{noodle:1,cola:2,cookie:1}}}},
+  {l:'關上冰箱，留給別人',ok:{t:`你把冰箱門關好，在門上貼了一張紙條：「裡面還有吃的，一人一份。」不知道會不會有人看到。`,r:{karma:1}}}]},
+ {id:'yh2d',z:'Y',stg:[2],t:`天花板上傳來腳步聲，很輕，一下一下，從走廊這頭走到那頭，停了很久。`,c:[
+  {l:'屏住呼吸等它過去',k:'CON',d:12,s:'體質檢定',ok:{t:`腳步聲停在你頭頂，過了很久很久，才又響起，往樓梯的方向遠去。`},ng:{t:`你的肚子在這時叫了一聲。上面的腳步聲立刻停了。`,p:{fear:6},fight:{n:1,mode:'ambush',names:['天花板上的感染者']}}},
+  {l:'上樓去看',k:'AGI',d:12,dark:1,s:'敏捷檢定',ok:{t:`二樓的走廊上，一個住客趴在地上，已經不動了。他的口袋裡還有一卷繃帶。`,r:{items:{bandage:1}}},ng:{t:`你踩上最後一階，木板響了一聲。黑暗裡，有東西轉過頭來。`,p:{fear:6},fight:{n:1,mode:'ambush',names:['天花板上的感染者']}}}]},
+ {id:'yh2e',z:'Y',stg:[2],t:`從窗戶看出去，遠處有一個街區在燒。火光把整面玻璃映成橘紅色，沒有警笛，沒有人在滅火。`,c:[
+  {l:'看久一點',k:'PER',d:11,s:'感知檢定',ok:{t:`你注意到旅館後巷有一台車，有人正在撬它的油箱蓋。那個人抬頭看了一眼這棟樓，又低下頭繼續撬。`,p:{fear:2}},ng:{t:`火光晃得你眼睛發痛。你什麼都沒看清楚，只覺得心裡越來越沉。`,p:{fear:3}}},
+  {l:'拉上窗簾',ok:{t:`房間暗了下來。你靠在牆邊，等心跳慢下來。`,r:{rest:{hp:1,san:1}}}}]},
+ {id:'yh3a',z:'Y',stg:[3],t:`這一層的客房門全被踹開了。地毯上有拖行的痕跡，床墊被翻到牆邊，衣櫃整個倒了。`,c:[
+  {l:'在翻亂的東西裡找',k:'PER',d:12,s:'感知檢定',ok:{t:`衣櫃底下壓著一個小藥包，他們翻過一次，沒有翻到最底下。`,r:{items:{alcohol:1,painkiller:1}}},ng:{t:`你的手按到了一根外露的釘子。`,p:{hp:-1}}},
+  {l:'不浪費時間，走開',ok:{t:`你看了一眼那些被撕開的行李，轉身離開。`}}]},
+ {id:'yh3b',z:'Y',stg:[3],t:`浴室的簾子後面有人在發抖。是個穿旅館制服的年輕人，手裡抓著一把拆信刀。「我不是他們的人，」他說。`,c:[
+  {l:'把水遞給他，勸他跟你說話',k:'CHA',d:12,s:'統帥檢定',ok:{t:`他喝了一大口水，手慢慢不抖了。「樓梯後面的儲藏室，他們沒找到，」他說，帶你過去，從貨架後面拿出一包能量棒。`,r:{items:{bar:1},karma:1}},ng:{t:`你一靠近，他就尖叫起來。聲音在空樓裡迴盪。`,p:{alarm:2}}},
+  {l:'不理他，退出去',ok:{t:`你慢慢退到走廊上，拉上門。裡面的哭聲被擋在門後。`,p:{fear:2}}}]},
+ {id:'yh3c',z:'Y',stg:[3],t:`樓梯轉角有人用噴漆寫了一串數字和箭頭，箭頭指向這棟樓的另一側。`,c:[
+  {l:'順著箭頭走',k:'PER',d:12,s:'感知檢定',ok:{t:`箭頭的盡頭是一間被撬開的客房，床底下藏著一個彈藥盒，他們還沒回來拿。`,r:{items:{ammo9:3}}},ng:{t:`轉角後面有人守著，手上拿著球棒。「這是我們的。」他說。`,fight:{n:1,mode:'ambush',names:['拿球棒的劫匪']}}},
+  {l:'用腳把字抹掉',ok:{t:`你把那串數字擦得模模糊糊。不知道這有沒有用。`}}]},
+ {id:'yh3d',z:'Y',stg:[3],t:`樓梯中間有一個被丟下的背包，拉鍊開著，露出一角急救包。背包旁邊的牆上，有一道新的血手印。`,c:[
+  {l:'拿走急救包',ok:{t:`你把背包裡還能用的東西倒出來：一個急救敷料包，一捲繃帶。血手印在你背後，一直沒有乾。`,r:{items:{med:1,bandage:1}},p:{fear:2}}},
+  {l:'檢查血手印',k:'PER',d:12,s:'感知檢定',ok:{t:`血還沒乾。你順著痕跡找到二樓盡頭，有人躲在那裡，等你走開才敢出來。你什麼都沒說，轉身走了。`},ng:{t:`痕跡的盡頭，有人在等著你。`,p:{fear:4},fight:{n:1,mode:'ambush',names:['劫匪']}}}]},
+ {id:'yh3e',z:'Y',stg:[3],t:`樓下的收音機被人調到最大聲，是撤離廣播的重播，一遍又一遍。聲音把整棟樓的人都引了過來。`,c:[
+  {l:'把收音機關掉',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你衝下去按掉了開關。整層樓一下子安靜下來，你在櫃台後面蹲了很久，才聽見外面的腳步聲慢慢散去。`},ng:{t:`你還沒摸到開關，有人已經先進了大廳。`,p:{alarm:2}}},
+  {l:'趁聲音掩護搜東西',ok:{t:`廣播的聲音蓋過了你的腳步。你在一間又一間客房裡，匆匆抓走了繩子和幾盒釘子。`,r:{items:{rope:1,nails:1}},p:{alarm:1}}}]},
+ {id:'yh4a',z:'Y',stg:[4],t:`走廊上的地毯被人用水沖過。客房的門一間一間貼上了白色的封條，封條上只有一串編號。`,c:[
+  {l:'撕開封條',k:'PER',d:12,s:'感知檢定',ok:{t:`房間裡的東西被清得乾乾淨淨，只有浴室的排水孔旁邊，掉了一小瓶消毒用的酒精。`,r:{items:{alcohol:1}}},ng:{t:`封條撕開的瞬間，走廊盡頭的對講機響了一聲。`,p:{alarm:2}}},
+  {l:'不碰，繼續往前',ok:{t:`你把手縮回來。有些東西，一旦動了就再也瞞不住。`}}]},
+ {id:'yh4b',z:'Y',stg:[4],t:`樓梯間的垃圾袋堆在轉角，袋口露出一角黑色的布料，和幾個空的針劑盒。`,c:[
+  {l:'翻垃圾袋',k:'INT',d:12,s:'智力檢定',ok:{t:`針劑盒上的標籤都被刮掉了。袋子底下有一捲膠帶、兩顆電池，和一條沒用過的布。`,r:{items:{tape:1,battery:2,cloth:1}}},ng:{t:`袋子被你扯倒了，滿地的空盒子嘩啦響了一聲。`,p:{alarm:1}}},
+  {l:'繞過去',ok:{t:`你貼著牆邊走過，沒有回頭。`}}]},
+ {id:'yh4c',z:'Y',stg:[4],t:`走廊另一頭的對講機在說話：「……三樓清完了。換班前再看一遍。」腳步聲往這邊走來。`,c:[
+  {l:'躲進旁邊的客房',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你從門縫看著兩雙靴子走過去，停在電梯前面。他們把一個袋子放進電梯，按了往下的鈕。`},ng:{t:`門板在你身後輕輕響了一聲。腳步聲停了。`,p:{fear:4},fight:{n:2,mode:'ambush',names:['A.C.R.U. 隊員','A.C.R.U. 隊員']}}},
+  {l:'先下手為強',ok:{t:`你沒有等他們走近。`,fight:{n:2,mode:'first',names:['A.C.R.U. 隊員','A.C.R.U. 隊員']}}}]}
+);
 // 旅館大廳：知道入口之後可以下到地下室那扇門
 {const y=N.Y0;const o=y.onEnter;y.onEnter=function(){if(o)o.call(this);const F=G.flags;F.knowlab=F.opslog||F.labhint?1:0};
  y.c.splice(y.c.findIndex(c=>c.l==='回街區'),0,{l:'下到地下室那扇鐵門',need:'knowlab',s:'基地的紀錄說，研究所的入口就在這裡',ok:{t:`你們穿過廚房後面的員工樓梯，一路往下。空氣越來越悶，越來越甜。`,go:'Y2'}})}
@@ -3759,7 +3858,7 @@ function makeSched(){const df=(G.opts&&G.opts.diff)||'normal';const r=(d,a,b)=>a
   return s}
 const CITY_EV=['blackout','broadcast','evacgone','raid','shadow','sweep','warn','fire'];
 // 事件池的條件：d0／d1 天數範圍、need 旗標
-const evOk=e=>(!e.d0||dayN()>=e.d0)&&(!e.d1||dayN()<=e.d1)&&(!e.need||flagOk(e.need))&&(!e.hide||!flagOk(e.hide));
+const evOk=e=>(!e.d0||dayN()>=e.d0)&&(!e.d1||dayN()<=e.d1)&&(!e.need||flagOk(e.need))&&(!e.hide||!flagOk(e.hide))&&(!e.stg||e.stg.includes(hotelStage()));
 async function cityTick(){if(!G.sch)return false;G.fired=G.fired||{};
   for(const k of CITY_EV){if(G.fired[k]||G.clock<G.sch[k])continue;G.fired[k]=1;if(await cityEvent(k))return true}
   return false}
@@ -3773,6 +3872,7 @@ async function cityEvent(k){const real=DF().num===0;
   else if(k==='sweep'){G.flags.acru=1;out('天還沒亮，街上傳來一長串沒有開燈的車隊引擎聲。沒有廣播，沒有警笛。之後的一整個早上，你聽見好幾個地方響起短促的槍聲，每一次都只響幾下，就安靜了。','rule')}
   else if(k==='warn'){G.flags.warn=1;out('東邊的天空開始泛白。很高很高的地方，傳來飛機引擎低沉的聲音，不只一架。','rule')}
   else if(k==='fire'){await fireEnding();return true}
+  if(k==='blackout'||k==='raid'||k==='sweep')hotelAuto();
   push();draw();return false}
 // 燃燒彈：最後一天（第 DAYS 天）清晨還在地面
 const FIRE_END={lab:'天亮了。燃燒彈打不進這麼深的地底，可是地面上的火把空氣抽走了。通風口先是灌進熱風，然後是濃煙，白色的走廊一段一段暗下去。',wp:'天亮了。淨水廠的沉澱池映著天上的火光，一池一池亮起來，像一排鏡子。燃燒彈落在管理大樓上，玻璃全碎了，水面上漂滿了灰。',pp:'天亮了。南岸的兩根煙囪是整座城市最高的東西，第一波燃燒彈就是對著它們落下來的。廠房的鐵皮屋頂一片一片掀開，裡面的機器還在轉。',camp:'天亮了。營地的帳篷早就拆光了，只剩那根煙囪還立在空地中間。第一顆燃燒彈落下來的時候，你們正站在它的影子裡。',
@@ -3854,9 +3954,10 @@ function choiceOk(c){
   if(reqList(c).length&&!reqHolders(c).length)return false;
   if(c.karma&&able().some(p=>(p.karma||0)<c.karma))return false;
   if(c.need&&!flagOk(c.need))return false;return true}
-function visible(c){if(c._hid||c._dup)return false;if(c.hot!=null&&!!c.hot!==hotNow())return false;if(c.night&&!isNight())return false;if(c.once&&G.used&&G.used[usedKey(c)])return !!c.keep;if(c.job&&!G.players.some(p=>!p.dead&&!p.away&&teamHere(p)&&[].concat(c.job).includes(p.kind)))return false;if(c.hide&&flagOk(c.hide))return false;if(c.need&&!flagOk(c.need)&&!c.req&&!c.lock)return false;return true}
+function visible(c){if(c._hid||c._dup)return false;if(c.stg&&!c.stg.includes(hotelStage()))return false;if(c.hot!=null&&!!c.hot!==hotNow())return false;if(c.night&&!isNight())return false;if(c.once&&G.used&&G.used[usedKey(c)])return !!c.keep;if(c.job&&!G.players.some(p=>!p.dead&&!p.away&&teamHere(p)&&[].concat(c.job).includes(p.kind)))return false;if(c.hide&&flagOk(c.hide))return false;if(c.need&&!flagOk(c.need)&&!c.req&&!c.lock)return false;return true}
 function nameOf(k){return k==='gun'?'槍械':k.startsWith('g:')?WEAP[k.slice(2)].n:ITEMS[k].n}
 async function enterNode(id){
+  id=hotelDecision(id);
   AUDIO_MOVING=true;stopAmbience();
   // v0.24.1：離開區域前先跑完那一層還沒發生的隨機事件；事件結束（走到原本的出口節點）時接回原本要去的地方
   if(G.zevGo){const zr0=ZN[id];if(zr0&&zr0.z===G.zevGo.z&&zr0.role==='join'){id=G.zevGo.to;G.zevGo=null}else if(!zr0||zr0.z!==G.zevGo.z)G.zevGo=null}
@@ -3884,7 +3985,7 @@ async function enterNode(id){
     for(const p of G.players)if(p.down&&!p.dead&&!p.leftBehind&&!p.evacCarry&&DF().wake){p.down=0;if(p.mad){p.mad=0;setFear(p,90)}p.hp=Math.max(1,Math.ceil(p.max*.25));out(`${nm(p)}咳了幾聲，慢慢撐著牆站了起來。生命回到 ${p.hp}。`,'good')}
   }
   G.node=id;G.ev=null;G.audioVisit=(G.audioVisit||0)+1;G.audioEnteredAt=Date.now();G.votes={};G.rv={};G.pc=null;/* v0.21.0：地上的東西留在原地，回來還撿得到 */G.grounds=G.grounds||{};if(G.gnode&&G.gnode!==id)G.grounds[G.gnode]=G.ground.length?G.ground:undefined;if(G.gnode!==id)G.ground=G.grounds[id]||[];G.gnode=id;G.flags['v_'+id]=1;if(nd.onEnter)nd.onEnter();
-  if(nd.ev){const ch=LV[nd.L].ch||1;const mine=EVPOOL.map((e,i)=>i).filter(i=>(EVPOOL[i].ch||1)===ch&&evOk(EVPOOL[i]));const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;if(EVPOOL[i].id==='rain')beginRainAudio();out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
+  if(nd.ev){const ch=LV[nd.L].ch||1;let mine=EVPOOL.map((e,i)=>i).filter(i=>(EVPOOL[i].ch||1)===ch&&evOk(EVPOOL[i]));const zm=mine.filter(i=>EVPOOL[i].z===nd.L);mine=zm.length?zm:mine.filter(i=>!EVPOOL[i].z);const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;if(EVPOOL[i].id==='rain')beginRainAudio();out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
   else if(seen&&zr&&(zr.role==='hub'||(zr.role==='room'&&zDone(zr.z)))){hd(nd.n);out(`你回到${/^\w/.test(nd.n)?' ':''}${nd.n}。`,'lore')}
   else{hd(nd.n);out(nd.t,'lore');if(nd.tx){const x=nd.tx();if(x)out(x,'lore')}if(nd.tm&&G.players.some(p=>p.kind==='maggie'&&teamHere(p)))out(nd.tm,'lore')}
   for(const f of afterScene)f();
