@@ -27,6 +27,7 @@ async function openGame(browser,width,height,broken=false){
    await p.screenshot({path:OUT+'/pierce-impact-'+tag+'.png'});
    check(tag+' 重畫後仍在原目標卡播放不重置時間',await p.evaluate(t=>PIERCE_VFX.active&&PIERCE_VFX.active.t===t&&document.querySelectorAll('#foes .zc-pierce-fx').length===1&&document.querySelector('.zc-pierce-fx').parentElement.dataset.id==='0',started));
    check(tag+' 特效畫布限於敵人卡且不攔截點擊',await p.locator('.zc-pierce-fx').evaluate(c=>getComputedStyle(c).pointerEvents==='none'&&Math.abs(c.clientWidth-c.parentElement.clientWidth)<2));
+   check(tag+' 特效像素只在立繪區不遮擋名稱與生命',await p.locator('.zc-pierce-fx').evaluate(c=>{const data=c.getContext('2d').getImageData(0,0,c.width,c.height).data,pw=c.parentElement.querySelector('.fpic').clientWidth,scale=c.width/c.clientWidth;let ink=0;for(let y=0;y<c.height;y++)for(let x=0;x<c.width;x++)if(data[(y*c.width+x)*4+3]){ink++;if(x/scale>pw)return false}return ink>0}));
    await p.waitForFunction(()=>!PIERCE_VFX.active&&!busy&&!G.busy,null,{timeout:30000});
    check(tag+' 12格正常繪製及消散',await p.evaluate(()=>__frames.some(x=>x.at>=335&&x.at<410&&x.ink)&&__frames.every(x=>x.target==='0')&&!document.querySelector('.zc-pierce-fx')));
    check(tag+' 攻擊結果有效且沒有未定義文字',await p.evaluate(()=>G.fight.foes[0].hp<100&&!/undefined|NaN|\[object/.test(document.querySelector('#app').textContent)));

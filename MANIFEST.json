@@ -89,7 +89,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "de346c44d7baaed166646b9ef08564d6ec965f3b590486b7d07f089917c2ffcb",
+    "index.html": "0e65ac53227e0d7320e1b4399817af96b596168f53357ee9fca7f8cd635474af",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -233,7 +233,7 @@
     "docs/superpowers/plans/2026-11-19-slash-hybrid.md": "bbca6963407718362e7675f890774d95240e1f59f38f29a019234ae09fc5fad2",
     "docs/slash/FINAL_v0.37.1.log": "c8a04acbe30a4597f155f88a47fc868a3c7d29f47f8e36b0c828e3f99652d07e",
     "tools/pierce-hit.test.cjs": "4e60c8941386bccca85079084d3ea0da02066ff2bcf8210f946174d8432d10a2",
-    "tools/pierce-hit-browser.cjs": "fb680a689391a7ea2ebce72caacf9cc3c6550bd9add3d3809ed76294781c9558",
+    "tools/pierce-hit-browser.cjs": "85fe83d15261be0cba40b6686b17b3c93eadf413cbe60bb87eb7bd2c35f5bd7f",
     "fx/pierce-12.webp": "51e8a0bf280067c04cd9475df50b858e1eec4b95cb61bf441955015ae2b46ea6"
   }
 }

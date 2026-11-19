@@ -5834,9 +5834,9 @@ function renderPierceVfx(fx){
     const ctx=canvas.getContext('2d');if(ctx){
       ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,w,h);
       const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches,f=reduced?6:pierceFrame(elapsed);
-      if(f>=0){const dh=Math.min(h*.94,w*1.7),dw=dh*264/450;
+      if(f>=0){const pw=card.querySelector('.fpic')?.clientWidth||w,dh=Math.min(h*.94,pw*1.7),dw=dh*264/450;
         ctx.globalAlpha=reduced?Math.max(0,Math.min(1,elapsed/100))*(1-elapsed/PIERCE_TIMING.total):1;
-        ctx.drawImage(PIERCE_VFX.image,f%4*264,Math.floor(f/4)*450,264,450,(w-dw)/2,(h-dh)/2,dw,dh)}
+        ctx.drawImage(PIERCE_VFX.image,f%4*264,Math.floor(f/4)*450,264,450,(pw-dw)/2,(h-dh)/2,dw,dh)}
     }
   }
   fx.raf=requestAnimationFrame(()=>renderPierceVfx(fx));
