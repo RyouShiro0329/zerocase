@@ -1,7 +1,6 @@
 // 獨立美術驗收：只在測試頁記憶體替換素材、時點及畫布落點，不寫回遊戲正本。
 const {chromium}=require('playwright');
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
-const {execFileSync}=require('node:child_process');
 const OUT='qa-output/pierce-stop-preview',URL='http://localhost:8768/index.html';
 const report={previewOnly:true,base:'ff72fe3068dee1e642b29809a09af11569170679',checks:[],errors:[],phone:'待主人實機驗收',scope:'單次攻擊受控展示；未部署、未修改index.html，不含後續敵方回合'};
 function check(name,result){report.checks.push({name,result:result?'通過':'失敗'});assert.ok(result,name)}
@@ -63,10 +62,7 @@ function check(name,result){report.checks.push({name,result:result?'通過':'失
    check(tag+' 結束沒有殘留畫布或未定義文字',await p.evaluate(()=>!PIERCE_VFX.active&&!document.querySelector('.zc-pierce-fx')&&!/undefined|NaN|\[object/.test(document.querySelector('#app').textContent)));
    await p.waitForTimeout(650);await p.screenshot({path:OUT+'/after-'+tag+'.png'});
    const video=record?p.video():null;await ctx.close();
-   if(record){const input=await video.path(),output=OUT+'/attack-844x390.gif';
-    execFileSync('ffmpeg',['-y','-ss',Math.max(0,effectSec-.2).toFixed(3),'-t','1.7','-i',input,'-filter_complex','fps=30,split[a][b];[a]palettegen=stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=3','-loop','0',output],{stdio:'pipe'});
-    report.animation=output;report.recordedEffectAt=effectSec;
-   }
+   if(record){report.video=path.relative(OUT,await video.path());report.recordedEffectAt=effectSec;}
   }
   check('正常流程沒有程式或主控台錯誤',report.errors.length===0);
  }finally{fs.writeFileSync(OUT+'/report.json',JSON.stringify(report,null,2));await browser.close();console.log(JSON.stringify(report,null,2))}
