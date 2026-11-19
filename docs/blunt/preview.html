@@ -1,0 +1,886 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>鈍擊命中預覽</title>
+<link rel="preload" href="../../fonts/tw-kai-game.woff2?v=cae406c9" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../../fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face{font-family:"ZC Kai";src:url("../../fonts/tw-kai-game.woff2?v=cae406c9") format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"ZC Latin";src:url("../../fonts/source-serif-4-latin.woff2") format("woff2");font-weight:200 900;font-style:normal;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
+:root{
+  --bg:#060605;--ink:#d9d5ca;--muted:#89877f;--line:#4c4a43;--gold:#c8ad70;--redhi:#c86a63;
+  --serif:"ZC Latin","ZC Kai","BiauKai","DFKai-SB",serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:radial-gradient(ellipse at 30% 18%,#14130f 0%,#060605 70%);color:var(--ink);font-family:var(--serif);font-size:16px;line-height:1.5}
+body{display:flex;flex-direction:column;height:100%;overflow:hidden;padding:10px 16px 8px}
+header{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;min-height:28px;flex:none}
+header h1{margin:0;font-size:1.05rem;font-weight:900;color:var(--gold);letter-spacing:.06em}
+header p{margin:0;color:var(--muted);font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.zoomnote{margin:0;flex-basis:100%;color:#6f6c64;font-size:.72rem}
+@media (max-height:480px){.zoomnote{display:none}}
+.stage{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px}
+.cbar{display:flex;gap:6px;align-items:stretch}
+.cap{margin:0;max-width:640px;text-align:center;color:#d9c38f;font-size:.92rem}
+.cap small{display:block;color:var(--muted);font-size:.75rem}
+.foe{--fw:206px;--fh:86px;--pw:50px;position:relative;flex:0 0 var(--fw);width:var(--fw);min-height:var(--fh);display:grid;grid-template-columns:var(--pw) minmax(0,1fr);overflow:hidden;background:linear-gradient(145deg,rgba(60,22,22,.55),rgba(14,8,8,.92));border:1px solid #5a3632;border-radius:5px;box-shadow:inset 0 0 14px #000,0 2px 8px #000}
+.foe.bp-react{transform:translate(var(--bx,0px),var(--by,0px)) rotate(var(--br,0deg))}
+.foe .fpic{position:relative;background:#120a09;border-right:1px solid #3d2624;overflow:hidden}
+.foe .fpic img{position:absolute;left:50%;top:-2px;height:calc(var(--pw) * 2.05);width:auto;max-width:none;transform:translateX(-50%);pointer-events:none}
+.fin{min-width:0;padding:4px 7px;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.fh b{color:var(--redhi);font-size:.86rem;font-weight:700}
+.fhp{display:flex;align-items:center;gap:6px}
+.hpb{position:relative;flex:1;height:8px;background:#1b1514;border:1px solid #4a2e2b;border-radius:6px;overflow:hidden}
+.hpb u{display:block;height:100%;width:100%;background:linear-gradient(90deg,#8a3a36,#c86a63);text-decoration:none}
+.fhp span{font:600 10.5px/1 var(--serif);color:#e2c9c3;font-variant-numeric:tabular-nums}
+.fk{font:10px/1.25 var(--serif);color:#bfb69c;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fk em{font-style:normal;color:#e6ddc8}
+.bp-fx{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+.tools{flex:none;display:flex;flex-direction:column;gap:6px;padding-top:4px}
+.chips{display:flex;flex-wrap:wrap;gap:4px;justify-content:center}
+.chips button,.tog button{font:inherit;color:var(--ink);background:linear-gradient(180deg,#292a26,#111210);border:1px solid #5a574e;border-radius:3px;padding:4px 8px;cursor:pointer}
+.chips button.on{border-color:var(--gold);color:var(--gold)}
+.tog{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.tog button{font-size:.78rem;color:#c9c2a8}
+@media (min-height:481px){
+  .foe{--fw:412px;--fh:168px;--pw:100px}
+  .fh b{font-size:1.7rem}
+  .fhp span{font-size:21px}
+  .fk{font-size:20px}
+  .hpb{height:16px}
+}
+@media (max-height:480px){
+  body{padding:4px 10px 4px}
+  header h1{font-size:.86rem}
+  header p{font-size:.68rem}
+  .foe{--fw:168px;--fh:72px;--pw:38px}
+  .fh b{font-size:.78rem}
+  .fhp span,.fk{font-size:9px}
+  .hpb{height:6px}
+  .cap{font-size:.75rem}
+  .cap small{font-size:.66rem}
+  .chips{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scrollbar-width:none}
+  .chips button,.tog button{padding:3px 7px;font-size:.72rem;white-space:nowrap}
+  .tools{gap:3px}
+}
+@media (prefers-reduced-motion:reduce){
+  .foe.bp-react{transform:none}
+}
+/* 手繪草稿用遊戲裡的卡片大小，不放大。桌面 206px，高度不超過 480 時跟 #stage.short 一樣 168px。 */
+body.gamecard .foe{--fw:206px;--fh:86px;--pw:50px}
+body.gamecard .fh b{font-size:.86rem}
+body.gamecard .fhp span{font-size:10.5px}
+body.gamecard .fk{font-size:10px}
+body.gamecard .hpb{height:8px}
+.slot{display:flex;flex-direction:column;align-items:center;gap:3px}
+.slotlab{font-style:normal;color:var(--gold);font-size:.72rem;letter-spacing:.04em}
+@media (max-height:480px){
+  body.gamecard .foe{--fw:168px;--fh:72px;--pw:38px}
+  body.gamecard .fh b{font-size:.78rem}
+  body.gamecard .fhp span,body.gamecard .fk{font-size:9px}
+  body.gamecard .hpb{height:6px}
+  .slotlab{font-size:.62rem}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>鈍擊命中預覽</h1>
+  <p id="sub">預覽頁，不進遊戲。不改傷害、存檔或 index.html。</p>
+  <p class="zoomnote">桌面這張卡畫成兩倍大，方便看形狀。手機橫向用的是遊戲裡的尺寸。</p>
+</header>
+<div class="stage">
+  <div class="cbar" id="cbar"></div>
+  <p class="cap" id="cap"></p>
+</div>
+<div class="tools">
+  <div class="chips" id="chips"></div>
+  <div class="tog">
+    <button type="button" id="bReplay">再看一次</button>
+    <button type="button" id="bAll">連播全部</button>
+    <button type="button" id="bMotion">減少動態：關</button>
+    <button type="button" id="bSnd">聲音：開</button>
+  </div>
+</div>
+<script>
+/* 預覽專用。名稱只活在這一頁，不放進遊戲的全域。 */
+const FX = [
+  {id:'hit', name:'普通鈍擊', group:'近戰', sound:'fist', vol:.9, hp:'6/10', bar:'60%',
+   text:'一下砸在牠的顴骨上，骨頭碎裂的聲音清清楚楚。',
+   note:'拳頭、指虎、警棍、鎚、棍、球棒、釘刺、鐵撬、大鎚，不按技能。接觸 220ms，對齊 fist 峰值。',
+   beats:[{card:0, kind:'hit', impact:220, len:520}]},
+  {id:'combo', name:'連打', group:'近戰', sound:'fist', vol:.9, hp:'4/10', bar:'40%',
+   text:'指虎連打兩下。每一下中間仍會擲骰。',
+   note:'單下是兩枚指節印，不是大圓環。第二下略偏。',
+   beats:[{card:0, kind:'combo', shot:0, impact:220, len:460},{card:0, kind:'combo', shot:1, impact:220, len:460}]},
+  {id:'knock', name:'敲頭', group:'近戰', sound:'fist', vol:.9, hp:'7/10', bar:'70%',
+   text:'被敲得眼神渙散，一時動不了。',
+   note:'警棍。由上而下的短直墨線，停在立繪上段。',
+   beats:[{card:0, kind:'knock', impact:220, len:480}]},
+  {id:'down', name:'擊倒', group:'近戰', sound:'fist', vol:.9, hp:'6/10', bar:'60%',
+   text:'被打倒在地，一時動不了。',
+   note:'鐵撬。底邊短裂縫，整張卡往下沉一點再回來。',
+   beats:[{card:0, kind:'down', impact:220, len:640}]},
+  {id:'pry', name:'撬擊', group:'近戰', sound:'fist', vol:.9, hp:'8/10', bar:'80%',
+   text:'找縫隙撬下去。這一記偏準，不重。',
+   note:'鐵撬。一道細縫，尖端一點暗金，幾乎不震。',
+   beats:[{card:0, kind:'pry', impact:220, len:420}]},
+  {id:'swing', name:'全力揮擊', group:'近戰', sound:'fist', vol:.9, hp:'5/10', bar:'50%',
+   text:'一記重擊轟在牠的下顎上。',
+   note:'襪錘、水管棍、球棒、釘刺。中段較厚的橫向壓力。',
+   beats:[{card:0, kind:'swing', impact:220, len:600}]},
+  {id:'crush', name:'粉碎', group:'近戰', sound:'fist', vol:.9, hp:'4/10', bar:'40%',
+   text:'身上有什麼東西碎了。',
+   note:'羊角鎚與大鎚。裂紋留得較久，接觸仍在 220ms。',
+   beats:[{card:0, kind:'crush', impact:220, len:700}]},
+  {id:'sweep', name:'橫掃', group:'近戰', sound:'fist', vol:.9, hp:'7/10', bar:'70%', cards:2,
+   text:'橫掃打中的每一張卡各播一次，中間仍是原本的擲骰。',
+   note:'球棒、釘刺、鐵撬、大鎚。細橫帶掃過，和全力揮擊的厚帶不同。',
+   beats:[{card:0, kind:'sweep', impact:220, len:600},{card:1, kind:'sweep', impact:220, len:600}]},
+  {id:'bash', name:'敲擊', group:'近戰', sound:'fist', vol:.9, hp:'8/10', bar:'80%',
+   text:'槍裡沒有子彈，用握把砸了一下。',
+   note:'沒子彈的槍、沒有彈藥的遠程。偏一邊的濁印，沒有乾淨的圓。',
+   beats:[{card:0, kind:'bash', impact:220, len:400}]},
+  {id:'crit', name:'普通・爆擊', group:'加強', sound:'fist', vol:.9, hp:'3/10', bar:'30%', crit:1,
+   text:'抓準了破綻，這一下特別重。',
+   note:'疊在普通鈍擊上：多一圈、一小段暗金弧、震得稍大。不是另一招。',
+   beats:[{card:0, kind:'hit', crit:1, impact:220, len:600}]},
+  {id:'crushcrit', name:'粉碎・爆擊', group:'加強', sound:'fist', vol:.9, hp:'2/10', bar:'20%', crit:1,
+   text:'裂紋更深。硬化層仍只看原本的文字，畫面不代表層數。',
+   note:'爆擊加在粉碎上，裂紋還在，不會換成普通圓環。',
+   beats:[{card:0, kind:'crush', crit:1, impact:220, len:760}]},
+  {id:'sling', name:'彈弓', group:'遠程', sound:'whoosh', vol:.8, hp:'8/10', bar:'80%',
+   text:'鋼珠打在身上，聲音很輕。',
+   note:'whoosh 一開始就最大聲。彈孔放在 20ms，幾乎貼著起音。',
+   beats:[{card:0, kind:'sling', shot:0, impact:20, len:300}]},
+  {id:'sling2', name:'二連射', group:'遠程', sound:'whoosh', vol:.8, hp:'6/10', bar:'60%',
+   text:'兩發鋼珠，中間仍會擲骰。',
+   note:'同一種彈孔，第二發位置錯開。一發結束再播下一發。',
+   beats:[{card:0, kind:'sling', shot:0, impact:20, len:240},{card:0, kind:'sling', shot:1, impact:20, len:240}]},
+  {id:'shove', name:'推開', group:'其他', sound:'fist', vol:.7, hp:null,
+   text:'一把把牠推開。沒有造成傷害。',
+   note:'拳頭、指虎。卡往側邊讓一下，血條不動。fist 音量 0.7。',
+   beats:[{card:0, kind:'shove', impact:220, len:480}]},
+  {id:'case', name:'手提箱', group:'其他', sound:'fist', vol:.9, hp:'5/10', bar:'50%',
+   text:'箱面拍上。利爪與撕咬不是這一擊。',
+   note:'普通揮擊才是鈍擊。方印，沒有靈光。',
+   beats:[{card:0, kind:'case', impact:220, len:640}]},
+  {id:'flank', name:'繞到背後', group:'其他', sound:'fist', vol:.9, hp:'5/10', bar:'50%',
+   text:'從旁邊帶過來的一擊。',
+   note:'角色技能。只有手上是鈍擊武器時才是這個形狀。',
+   beats:[{card:0, kind:'flank', impact:220, len:520}]},
+  {id:'legsweep', name:'掃腿', group:'其他', sound:'fist', vol:.9, hp:'7/10', bar:'70%',
+   text:'掃向腿側。大體型是否無效仍是原本的規則。',
+   note:'角色技能，近戰鈍擊。低橫帶，卡微微側一下。',
+   beats:[{card:0, kind:'legsweep', impact:220, len:560}]},
+  {id:'sp-crush', name:'砸爛', group:'手繪草稿', sound:'fist', vol:.9, hp:'4/10', bar:'40%', sprite:1, loops:3, gap:200, peakAt:228, swingAt:150,
+   text:'AI 草稿，尚未核定。先從下往上揮，再正面砸爛。少紅。',
+   note:'揮擊 0–200ms 加速掃到接觸點，220ms 對齊 fist。蓋住名字和生命的範圍與斬擊相同。單張圖模擬，之後要做成 12 格。',
+   beats:[{card:0, sprite:'crush', impact:220, len:720}]},
+  {id:'sp-compare', name:'並排對照', group:'手繪草稿', sound:'fist', vol:.9, hp:'4/10', bar:'40%', sprite:1, sync:1, cards:2, loops:3, gap:200, peakAt:228, swingAt:150,
+   labels:['斬擊・現有','鈍擊・砸爛'],
+   text:'同一張敵人卡、同一塊範圍。左邊是現有斬擊。右邊先從下揮上來，再砸下去。',
+   note:'AI 草稿尚未核定。名字和生命會被蓋住，這次是要跟斬擊一樣打在卡片上。連播三次。',
+   beats:[
+     {card:0, sprite:'slash', impact:220, len:720},
+     {card:1, sprite:'crush', impact:220, len:720}
+   ]}
+];
+const byId = Object.fromEntries(FX.map(s=>[s.id,s]));
+const q = new URLSearchParams(location.search);
+let reduce = q.get('motion')==='reduce' ? true : q.get('motion')==='full' ? false : matchMedia('(prefers-reduced-motion: reduce)').matches;
+let soundOn = q.get('sound')!=='0';
+let current = q.get('fx') && byId[q.get('fx')] ? q.get('fx') : 'sp-compare';
+const ASSETS={
+  crush:loadSpr('drafts/ai-crush.png'),
+  windup:loadSpr('drafts/ai-windup-up.png'),
+  slash:loadSpr('../../fx/slash-12.webp')
+};
+function loadSpr(src){
+  const img=new Image();
+  const p=new Promise(res=>{img.onload=()=>res(img);img.onerror=()=>res(null)});
+  img.src=src; return {img,p};
+}
+let raf = 0;
+let audioStop = null;
+
+function clamp01(v){return Math.max(0,Math.min(1,v))}
+function beatAt(spec,t){
+  let acc=0;
+  for(const b of spec.beats){
+    if(t<acc+b.len) return {b, local:t-acc, start:acc};
+    acc+=b.len;
+  }
+  const b=spec.beats[spec.beats.length-1];
+  return {b, local:b.len, start:spec.beats.reduce((s,x)=>s+x.len,0)-b.len, done:true};
+}
+function totalOf(spec){
+  const len=spec.beats[0].len;
+  if(spec.loops>1) return spec.loops*len+(spec.loops-1)*(spec.gap||0);
+  return spec.sync?Math.max(...spec.beats.map(b=>b.len)):spec.beats.reduce((s,b)=>s+b.len,0);
+}
+function sampleTime(spec, t){
+  const len=spec.beats[0].len;
+  if(!(spec.loops>1)) return {local:Math.max(0,t), hide:false, hit:0};
+  const cycle=len+(spec.gap||0);
+  if(t>=totalOf(spec)) return {local:len, hide:false, hit:spec.loops-1};
+  const hit=Math.floor(Math.max(0,t)/cycle), m=t-hit*cycle;
+  return {local:Math.min(m,len), hide:m>=len, hit};
+}
+function cardCount(spec){return spec.cards||1}
+
+function makeCard(i, label){
+  const el=document.createElement('div');
+  el.className='foe';
+  el.dataset.card=String(i);
+  el.innerHTML=`<div class="fpic"><img src="../../img/inf_${i%2?'f':'m'}.webp" alt=""></div>
+    <div class="fin"><div class="fh"><b>感染者</b></div>
+    <div class="fhp"><div class="hpb"><u></u></div><span>10/10</span></div>
+    <div class="fk"><em>防禦 10</em>　弱：鈍擊</div></div>
+    <canvas class="bp-fx" aria-hidden="true"></canvas>`;
+  if(!label) return el;
+  const wrap=document.createElement('div');
+  wrap.className='slot';
+  wrap.appendChild(el);
+  const em=document.createElement('em');
+  em.className='slotlab';
+  em.textContent=label;
+  wrap.appendChild(em);
+  return wrap;
+}
+let mountedId='';
+function mount(spec){
+  if(mountedId===spec.id && document.querySelectorAll('#cbar .foe').length===cardCount(spec)) return;
+  mountedId=spec.id;
+  const bar=document.querySelector('#cbar');
+  bar.replaceChildren();
+  for(let i=0;i<cardCount(spec);i++) bar.appendChild(makeCard(i, spec.labels?spec.labels[i]:''));
+}
+function dropped(spec,card,t){
+  if(!spec.hp) return false;
+  if(spec.sync){const b=spec.beats.find(x=>x.card===card);return !!(b&&t>=b.impact)}
+  let acc=0;
+  for(const b of spec.beats){
+    if(b.card===card && t>=acc+b.impact) return true;
+    acc+=b.len;
+  }
+  return false;
+}
+function syncHp(spec,t){
+  [...document.querySelectorAll('.foe')].forEach((card,i)=>{
+    const on=dropped(spec,i,t);
+    const u=card.querySelector('u'), s=card.querySelector('.fhp span');
+    u.style.transition = q.has('t') ? 'none' : 'width .28s ease-out';
+    u.style.width = on ? spec.bar : '100%';
+    s.textContent = on ? spec.hp : '10/10';
+  });
+}
+function clearMotion(){
+  document.querySelectorAll('.foe').forEach(card=>{
+    card.classList.remove('bp-react');
+    card.style.removeProperty('--bx');
+    card.style.removeProperty('--by');
+    card.style.removeProperty('--br');
+  });
+}
+function setShake(card, x, y, r){
+  if(reduce || (Math.abs(x)<.05 && Math.abs(y)<.05 && Math.abs(r)<.02)){card.classList.remove('bp-react');return}
+  card.classList.add('bp-react');
+  card.style.setProperty('--bx', x.toFixed(2)+'px');
+  card.style.setProperty('--by', y.toFixed(2)+'px');
+  card.style.setProperty('--br', r.toFixed(2)+'deg');
+}
+function recoil(hit, amp){
+  if(hit<0) return {x:0,y:0,r:0};
+  const fall = hit<300 ? Math.exp(-hit/80) : 0;
+  const x = amp*Math.cos(hit*0.09)*fall;
+  const y = -amp*0.4*Math.sin(hit*0.07)*fall;
+  return {x, y, r:x*0.16};
+}
+
+function ring(ctx,x,y,r,alpha,lw){
+  if(alpha<=0.01||r<=0.4) return;
+  ctx.beginPath();
+  const seg=12;
+  for(let i=0;i<=seg;i++){
+    const a=i/seg*Math.PI*2;
+    const wob=1+Math.sin(a*3+r)*0.035;
+    const px=x+Math.cos(a)*r*wob, py=y+Math.sin(a)*r*wob;
+    if(i===0) ctx.moveTo(px,py); else ctx.lineTo(px,py);
+  }
+  ctx.closePath();
+  strokeInk(ctx, alpha, lw);
+}
+function strokeInk(ctx, alpha, lw){
+  if(alpha<=0.02) return;
+  ctx.strokeStyle=`rgba(8,5,4,${Math.min(0.92, alpha)})`;
+  ctx.lineWidth=lw+1.6;
+  ctx.stroke();
+  ctx.strokeStyle=`rgba(236,224,206,${Math.min(1, alpha)})`;
+  ctx.lineWidth=Math.max(1, lw);
+  ctx.stroke();
+}
+function dent(ctx,x,y,rx,ry,alpha){
+  if(alpha<=0.01) return;
+  ctx.beginPath();
+  ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);
+  ctx.fillStyle=`rgba(10,6,5,${alpha*0.55})`;
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(x,y,rx*0.72,ry*0.72,0,0,Math.PI*2);
+  ctx.fillStyle=`rgba(248,220,193,${alpha})`;
+  ctx.fill();
+}
+function dust(ctx,x,y,age,n,spread,u,seed){
+  if(age<0) return;
+  for(let i=0;i<n;i++){
+    const a=((seed+i*17)%100)/100;
+    const b=((seed+i*29)%100)/100;
+    const life=160+a*140;
+    if(age>life) continue;
+    const k=age/life;
+    const ang=-Math.PI*0.5+(b-0.5)*1.5;
+    const sp=(6+a*spread)*u;
+    const px=x+Math.cos(ang)*sp*k;
+    const py=y+Math.sin(ang)*sp*k+k*k*12*u;
+    ctx.fillStyle=`rgba(203,184,162,${(1-k)*0.7})`;
+    ctx.fillRect(px,py,Math.max(1,u),Math.max(1,u));
+  }
+}
+function cracks(ctx,x,y,age,u,power){
+  const grow=clamp01(age/50);
+  const fade=1-clamp01((age-80)/420);
+  if(grow<=0||fade<=0) return;
+  const angs=[-1.05,-0.35,0.28,0.95,1.7,2.45,3.3];
+  angs.forEach((ang,i)=>{
+    const len=(12+ (i%3)*4)*u*grow*(power?1.18:1);
+    ctx.beginPath();
+    ctx.moveTo(x,y);
+    for(let s=1;s<=4;s++){
+      const f=s/4;
+      const j=((i*5+s*3)%5-2)*0.7*u;
+      ctx.lineTo(x+Math.cos(ang)*len*f+Math.cos(ang+1.6)*j, y+Math.sin(ang)*len*f+Math.sin(ang+1.6)*j);
+    }
+    strokeInk(ctx, 0.9*fade, Math.max(1,u*(i%2?1.25:0.85)));
+  });
+}
+function band(ctx,x,y,w,h,alpha,trail){
+  if(alpha<=0.01||w<=0) return;
+  const g=ctx.createLinearGradient(x,y,x+w,y);
+  if(trail){
+    g.addColorStop(0,'rgba(216,196,170,0)');
+    g.addColorStop(0.55,`rgba(216,196,170,${alpha})`);
+    g.addColorStop(1,`rgba(248,220,193,${alpha})`);
+  }else{
+    g.addColorStop(0,'rgba(216,196,170,0)');
+    g.addColorStop(0.25,`rgba(216,196,170,${alpha})`);
+    g.addColorStop(0.75,`rgba(216,196,170,${alpha})`);
+    g.addColorStop(1,'rgba(216,196,170,0)');
+  }
+  ctx.fillStyle=`rgba(8,5,4,${Math.min(0.8, alpha+0.25)})`;
+  ctx.fillRect(x,y-0.7,w,h+1.4);
+  ctx.fillStyle=g;
+  ctx.fillRect(x,y,w,h);
+}
+
+function paintKind(ctx, kind, local, impact, pw, h, u, crit, shot){
+  const cx=pw*0.5, cy=h*0.46;
+  const hit=local-impact;
+  const approach=clamp01(local/Math.max(1,impact));
+  if(reduce){
+    const a=local<impact ? approach*0.9 : (1-clamp01(hit/260))*0.9;
+    drawPose(ctx, kind, cx, cy, pw, h, u, a, crit, shot, true);
+    return {x:0,y:0,r:0};
+  }
+  drawPose(ctx, kind, cx, cy, pw, h, u, 1, crit, shot, false, hit, approach);
+  if(kind==='shove'){
+    const out=hit<0 ? approach : 1-clamp01(hit/200);
+    return {x:5.5*u*out, y:0, r:0};
+  }
+  if(kind==='down'){
+    const dip=hit<0?0:(hit<90? (hit/90)*3.2*u : 3.2*u*(1-clamp01((hit-90)/220)));
+    return {x:0, y:dip, r:0};
+  }
+  if(kind==='legsweep'){
+    const tilt=hit<0? approach*0.6 : 0.8*(1-clamp01(hit/240));
+    return {x:0.4*u*tilt, y:0.6*u*tilt, r:tilt};
+  }
+  const amp=(kind==='pry'?0.6:kind==='sling'?0.35:kind==='bash'?1.3:kind==='crush'?2.4:1.6)*(crit?1.45:1)*u;
+  return recoil(hit, amp);
+}
+function drawPose(ctx, kind, cx, cy, pw, h, u, a, crit, shot, still, hit, approach){
+  const hot = still || hit>=0;
+  const age = still ? 48 : (hot ? hit : -1);
+  const vis = still ? a : (hot ? 1-clamp01(age/280) : 0);
+  const flash = !hot ? 0 : still ? a : (age<90 ? 1-age/90 : 0);
+  if(kind==='hit'){
+    dent(ctx,cx,cy,7*u,9*u, flash*0.24);
+    if(hot) ring(ctx,cx,cy,(still?15:7+age*0.2)*u, (still?a*0.9:Math.max(vis,0.15)*0.8), 1.35*u);
+    if(crit && hot){
+      ring(ctx,cx,cy,(still?21:11+age*0.22)*u, (still?a*0.5:vis*0.45), u);
+      ctx.beginPath();
+      ctx.strokeStyle=`rgba(200,173,112,${(still?a:vis)*0.8})`;
+      ctx.lineWidth=Math.max(1,u);
+      ctx.arc(cx,cy,(still?17:9+age*0.18)*u, -0.95, 0.5);
+      ctx.stroke();
+    }
+    if(hot) dust(ctx,cx,cy+4*u, still?50:age, crit?8:5, 14, u, 3);
+    if(hot && flash>0.2){
+      ctx.strokeStyle=`rgba(166,143,128,${0.5*flash})`;
+      ctx.lineWidth=Math.max(1,u);
+      ctx.strokeRect(0.5,0.5,pw-1,h-1);
+    }
+    return;
+  }
+  if(kind==='combo'){
+    const ox=(shot?6:-5)*u;
+    const y=h*0.34;
+    dent(ctx, cx+ox-4.2*u, y, 3.6*u, 4.6*u, flash*0.34);
+    dent(ctx, cx+ox+4.2*u, y+2.2*u, 3*u, 3.8*u, flash*0.26);
+    if(hot) ring(ctx, cx+ox, y, (still?10:4.5+age*0.11)*u, (still?a*0.75:vis*0.7), Math.max(1,u));
+    if(hot) dust(ctx, cx+ox, y, still?30:age, 3, 8, u, 9+shot);
+    return;
+  }
+  if(kind==='knock'){
+    const y=h*0.28;
+    const reach=still?1:clamp01(hot?1:approach);
+    ctx.beginPath();
+    ctx.moveTo(cx, 2*u);
+    ctx.lineTo(cx, 2*u+(y-2*u)*reach);
+    strokeInk(ctx, still?a*0.95:(hot?0.9:0.55*approach), Math.max(1.2,1.3*u));
+    dent(ctx,cx,y,2.6*u,2.6*u, flash*0.5);
+    if(hot) ring(ctx,cx,y,(still?8:3+age*0.09)*u, (still?a*0.55:vis*0.5), Math.max(1,u));
+    return;
+  }
+  if(kind==='down'){
+    const y=h-6*u;
+    if(hot){
+      const len=(still?18:8+Math.min(16,age*0.22))*u;
+      ctx.beginPath();
+      ctx.moveTo(cx-len,y);
+      ctx.lineTo(cx-len*0.35,y+1.4*u);
+      ctx.lineTo(cx+len*0.25,y-0.8*u);
+      ctx.lineTo(cx+len,y+0.5*u);
+      strokeInk(ctx, still?a*0.95:Math.max(vis,0.5), Math.max(1.2,1.2*u));
+      dust(ctx,cx,y-2*u, still?60:age, 8, 16, u, 4);
+      dent(ctx,cx,h*0.58,6*u,3*u, flash*0.2);
+    }
+    return;
+  }
+  if(kind==='pry'){
+    const open=still?1:clamp01((hot?1:approach*0.55));
+    ctx.beginPath();
+    ctx.moveTo(cx-3*u, cy+7*u);
+    ctx.lineTo(cx+1.5*u, cy-9*u*open);
+    strokeInk(ctx, (still?a:(hot?Math.max(vis,0.55):approach))*0.95, Math.max(1.15,1.15*u));
+    if(open>0.4){
+      ctx.beginPath();
+      ctx.arc(cx+1.5*u, cy-9*u*open, 1.5*u, 0, Math.PI*2);
+      ctx.fillStyle=`rgba(200,173,112,${(still?a:(hot?Math.max(vis,0.35):approach*0.5))*0.95})`;
+      ctx.fill();
+    }
+    return;
+  }
+  if(kind==='swing'){
+    const thick=8*u;
+    const y=cy-thick/2;
+    const w=pw*(still?0.94:(hot?0.96:0.35+approach*0.4));
+    band(ctx,(pw-w)/2,y,w,thick, still?a*0.62:(hot?0.55*Math.max(vis,0.2):0.14*approach), false);
+    dent(ctx,cx,cy,9*u,3.4*u, flash*0.22);
+    if(hot) dust(ctx,cx,cy, still?40:age, 4, 18, u, 6);
+    return;
+  }
+  if(kind==='crush'){
+    dent(ctx,cx,cy,6.5*u,7.5*u, flash*0.3);
+    if(hot) cracks(ctx,cx,cy, still?56:age, u, crit);
+    if(crit && hot) ring(ctx,cx,cy,(still?18:8+age*0.18)*u, (still?a*0.45:vis*0.4), Math.max(1,u));
+    if(hot) dust(ctx,cx,cy, still?50:age, crit?9:6, 12, u, 2);
+    return;
+  }
+  if(kind==='sweep'){
+    const y=cy-1.5*u;
+    const x=still ? pw*0.02 : (-pw*0.62 + pw*0.64*(hot?1:approach));
+    band(ctx, x, y, pw*0.9, 3.4*u, still?a*0.85:(hot?0.75*Math.max(vis,0.35):0.45*approach), true);
+    if(hot) dust(ctx, Math.min(pw-4*u, x+pw*0.5), y, still?30:age, 4, 8, u, 8);
+    return;
+  }
+  if(kind==='bash'){
+    const x=pw*0.68, y=h*0.62;
+    if(!hot && !still) return;
+    ctx.beginPath();
+    ctx.ellipse(x,y,8*u,5*u,-0.45,0,Math.PI*2);
+    ctx.fillStyle=`rgba(92,72,58,${still?a*0.7:flash*0.5+vis*0.15})`;
+    ctx.fill();
+    strokeInk(ctx, (still?a:Math.max(vis,0.4))*0.85, Math.max(1.2,1.15*u));
+    dust(ctx,x,y, still?24:age, 2, 6, u, 11);
+    return;
+  }
+  if(kind==='sling'){
+    if(!hot) return;
+    const x=pw*(shot?0.68:0.4), y=h*(shot?0.36:0.52);
+    ctx.beginPath();
+    ctx.ellipse(x,y,1.8*u,2.1*u,0,0,Math.PI*2);
+    ctx.fillStyle=`rgba(8,5,4,${still?0.95:(age<180?0.9*(1-age/200):0)})`;
+    ctx.fill();
+    strokeInk(ctx, still?a:(age<140?0.85*(1-age/140):0), Math.max(1.1,u));
+    dust(ctx,x,y, still?18:age, 2, 4, u, 15+(shot||0));
+    return;
+  }
+  if(kind==='shove'){
+    const alpha=still?a*0.4:(hot?0.28*(1-clamp01(age/220)):0.1*approach);
+    band(ctx, pw*0.06, cy-2*u, pw*0.88, 5*u, alpha, false);
+    return;
+  }
+  if(kind==='case'){
+    const rw=8.5*u, rh=14*u;
+    const alpha=still?a:(hot?(age<80?0.9:vis):0.2*approach);
+    roundRect(ctx, cx-rw, cy-rh, rw*2, rh*2, 2.2*u);
+    ctx.fillStyle=`rgba(16,10,8,${0.45*alpha})`;
+    ctx.fill();
+    strokeInk(ctx, 0.9*alpha, Math.max(1.3,1.35*u));
+    if(hot) dust(ctx,cx,cy+rh, still?36:age, 4, 8, u, 12);
+    return;
+  }
+  if(kind==='flank'){
+    const x=pw*0.74;
+    dent(ctx,x,cy,5.2*u,6.6*u, flash*0.24);
+    if(hot) ring(ctx,x,cy,(still?12:5+age*0.14)*u, (still?a*0.85:vis*0.75), 1.25*u);
+    const ticks=still||hot?1:(approach);
+    for(let i=0;i<3;i++){
+      ctx.beginPath();
+      ctx.moveTo(x-(10+i*3.2)*u, cy-4*u+i*3.2*u);
+      ctx.lineTo(x-3*u, cy-1*u+i*2.2*u);
+      strokeInk(ctx, (still?a:(hot?vis:ticks))*0.7, Math.max(1.1,u));
+    }
+    return;
+  }
+  if(kind==='legsweep'){
+    const y=h*0.8;
+    band(ctx, pw*0.04, y, pw*0.92, 3.6*u, still?a*0.8:(hot?0.65*Math.max(vis,0.25):0.2*approach), true);
+    if(hot) dust(ctx,cx,y, still?28:age, 5, 10, u, 7);
+  }
+}
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+}
+
+const SLASH_PRE=[100,80,65,50,40], SLASH_POST=[30,40,55,65,75,85];
+function slashFrameAt(t){
+  if(reduce) return 5;
+  if(t<220){
+    let x=t/(220/335), acc=0;
+    for(let i=0;i<SLASH_PRE.length;i++){acc+=SLASH_PRE[i]; if(x<acc) return i}
+    return 5;
+  }
+  if(t<290) return 5;
+  let x=t-290, acc=0;
+  for(let i=0;i<SLASH_POST.length;i++){acc+=SLASH_POST[i]; if(x<acc) return i+6}
+  return -1;
+}
+function slashBox(w, h, scale, sx, sy){
+  const base=Math.min(w*.73, h*2.15)*(scale||1);
+  const bw=base, bh=base*(282/432);
+  const dw=bw*(sx||1), dh=bh*(sy||1);
+  return {x:-2+(bw-dw)/2, y:(h-bh)/2+(bh-dh)/2, dw, dh, bw, bh};
+}
+function coverCrop(sw, sh, dw, dh){
+  if(sw/sh>dw/dh){const csw=sh*(dw/dh); return {sx:(sw-csw)/2, sy:0, sw:csw, sh}}
+  const csh=sw/(dw/dh); return {sx:0, sy:(sh-csh)/2, sw, sh:csh};
+}
+function mapNorm(img, nx, ny, box){
+  const sw=img.naturalWidth, sh=img.naturalHeight;
+  const crop=coverCrop(sw, sh, box.bw, box.bh);
+  const u=(nx*sw-crop.sx)/crop.sw, v=(ny*sh-crop.sy)/crop.sh;
+  return {x:box.x+u*box.bw, y:box.y+v*box.bh};
+}
+let scratch;
+function scratchCtx(w, h, d){
+  if(!scratch) scratch=document.createElement('canvas');
+  const W=Math.round(w*d), H=Math.round(h*d);
+  if(scratch.width!==W||scratch.height!==H){scratch.width=W; scratch.height=H}
+  const c=scratch.getContext('2d');
+  c.setTransform(d,0,0,d,0,0);
+  c.clearRect(0,0,w,h);
+  c.globalAlpha=1; c.filter='none'; c.globalCompositeOperation='source-over';
+  return c;
+}
+function crushMotion(t, impact, len){
+  if(reduce){
+    const a=t<impact?t/Math.max(1,impact):Math.max(0,1-(t-impact)/Math.max(1,len-impact));
+    return {op:Math.max(0,Math.min(.9,a)), scale:1, sx:1, sy:1, blur:0, flash:0, lift:0};
+  }
+  if(t<155) return {op:0, scale:1.16, sx:1, sy:1, blur:0, flash:0, lift:0};
+  if(t<impact){
+    const k=(t-155)/(impact-155), e=k*k*k;
+    return {op:Math.min(1,k*1.35), scale:1.16-.16*e, sx:1, sy:1, blur:(1-k)*1.3, flash:0, lift:0};
+  }
+  if(t<impact+45){
+    const s=Math.sin((t-impact)/45*Math.PI);
+    return {op:1, scale:1, sx:1+.09*s, sy:1-.08*s, blur:0, flash:1-(t-impact)/45, lift:0};
+  }
+  if(t<impact+90) return {op:1, scale:1, sx:1, sy:1, blur:0, flash:0, lift:0};
+  const e=Math.min(1,(t-impact-90)/Math.max(1,len-impact-90));
+  return {op:1-e*e, scale:1+.04*e, sx:1, sy:1, blur:e*2.3, flash:0, lift:-e*8};
+}
+function windMotion(t){
+  if(t>=250) return null;
+  const k=Math.min(1,Math.max(0,t)/200), e=k*k*k;
+  let op=1;
+  if(t>185) op=1-Math.min(1,(t-185)/50);
+  if(reduce) return {op:t<210?.8:0, reveal:1, slide:0};
+  return {op, reveal:Math.min(1.1, e*1.1), slide:1-e};
+}
+function paintCrush(ctx, w, h, d, local, impact, len){
+  const crush=ASSETS.crush&&ASSETS.crush.img, wind=ASSETS.windup&&ASSETS.windup.img;
+  const wm=windMotion(local), cm=crushMotion(local, impact, len);
+  if(wm&&wm.op>0.02&&wind&&wind.naturalWidth){
+    const base=slashBox(w,h,1,1,1);
+    const align=crush&&crush.naturalWidth?{x:mapNorm(crush,.5,.5,base).x-mapNorm(wind,.5,.3,base).x, y:mapNorm(crush,.5,.5,base).y-mapNorm(wind,.5,.3,base).y}:{x:0,y:0};
+    const box=slashBox(w,h,1,1,1);
+    box.x+=align.x+wm.slide*box.bw*.14;
+    box.y+=align.y+wm.slide*box.bh*.2;
+    const crop=coverCrop(wind.naturalWidth, wind.naturalHeight, box.bw, box.bh);
+    const o=scratchCtx(w,h,d);
+    o.drawImage(wind, crop.sx, crop.sy, crop.sw, crop.sh, box.x, box.y, box.dw, box.dh);
+    if(!reduce&&wm.reveal<1.05){
+      const tail=mapNorm(wind,.74,.94,box), tip=mapNorm(wind,.5,.3,box);
+      const dx=tip.x-tail.x, dy=tip.y-tail.y, reach=wm.reveal;
+      const tipX=tail.x+dx*reach, tipY=tail.y+dy*reach;
+      o.globalCompositeOperation='destination-in';
+      const g=o.createLinearGradient(tipX-dx*.16, tipY-dy*.16, tipX, tipY);
+      g.addColorStop(0,'#000'); g.addColorStop(1,'rgba(0,0,0,0)');
+      o.fillStyle=g; o.fillRect(0,0,w,h);
+      o.globalCompositeOperation='source-over';
+    }
+    ctx.save(); ctx.globalAlpha=wm.op;
+    ctx.drawImage(scratch, 0, 0, scratch.width, scratch.height, 0, 0, w, h);
+    ctx.restore();
+  }
+  if(cm.op>0.02&&crush&&crush.naturalWidth){
+    const box=slashBox(w,h,cm.scale,cm.sx,cm.sy);
+    box.y+=cm.lift||0;
+    const crop=coverCrop(crush.naturalWidth, crush.naturalHeight, box.bw, box.bh);
+    ctx.save();
+    ctx.globalAlpha=cm.op;
+    ctx.filter=cm.blur>0.15?`blur(${cm.blur}px)`:'none';
+    ctx.drawImage(crush, crop.sx, crop.sy, crop.sw, crop.sh, box.x, box.y, box.dw, box.dh);
+    if(cm.flash>0.02){
+      ctx.filter='none'; ctx.globalAlpha=cm.flash*.2; ctx.fillStyle='#f4efe6'; ctx.fillRect(0,0,w,h);
+    }
+    ctx.restore();
+  }
+}
+function drawSlashFrame(ctx, img, frame, w, h){
+  if(!img||frame<0) return;
+  const dw=Math.min(w*.73, h*2.15), dh=dw*282/432;
+  ctx.save(); ctx.globalAlpha=1; ctx.filter='none';
+  ctx.drawImage(img, frame%4*432, Math.floor(frame/4)*282, 432, 282, -2, (h-dh)/2, dw, dh);
+  ctx.restore();
+}
+function paintSprite(card, spec, t){
+  const canvas=card.querySelector('canvas');
+  const w=card.clientWidth, h=card.clientHeight;
+  if(!w||!h) return;
+  const d=Math.min(window.devicePixelRatio||1, 2);
+  if(canvas.width!==Math.round(w*d)||canvas.height!==Math.round(h*d)){
+    canvas.width=Math.round(w*d); canvas.height=Math.round(h*d);
+  }
+  const ctx=canvas.getContext('2d');
+  ctx.setTransform(d,0,0,d,0,0);
+  ctx.clearRect(0,0,w,h);
+  const sampled=sampleTime(spec, t);
+  if(sampled.hide){setShake(card,0,0,0);return}
+  const idx=Number(card.dataset.card);
+  const beat=spec.sync?spec.beats.find(x=>x.card===idx):spec.beats[0];
+  if(!beat){setShake(card,0,0,0);return}
+  const local=sampled.local;
+  if(beat.sprite==='slash'){
+    drawSlashFrame(ctx, ASSETS.slash&&ASSETS.slash.img, slashFrameAt(local), w, h);
+    setShake(card,0,0,0);
+    return;
+  }
+  paintCrush(ctx, w, h, d, local, beat.impact, beat.len);
+  const hit=local-beat.impact;
+  if(!reduce && hit>=0 && hit<170){
+    const fall=Math.exp(-hit/52), amp=3.5*fall;
+    setShake(card, Math.cos(hit*.26)*amp, -Math.abs(Math.sin(hit*.34))*amp*.5, 0);
+  }else setShake(card,0,0,0);
+}
+function paintCard(card, spec, t){
+  if(spec.sprite){paintSprite(card, spec, t);return}
+  const canvas=card.querySelector('canvas');
+  const pw=card.querySelector('.fpic').clientWidth||50;
+  const w=card.clientWidth, h=card.clientHeight;
+  if(!w||!h) return;
+  const d=Math.min(window.devicePixelRatio||1, 2);
+  if(canvas.width!==Math.round(w*d) || canvas.height!==Math.round(h*d)){
+    canvas.width=Math.round(w*d); canvas.height=Math.round(h*d);
+  }
+  const ctx=canvas.getContext('2d');
+  ctx.setTransform(d,0,0,d,0,0);
+  ctx.clearRect(0,0,w,h);
+  const beat=beatAt(spec,t);
+  if(beat.b.card!==Number(card.dataset.card) || beat.done && beat.local>=beat.b.len){
+    setShake(card,0,0,0);
+    return;
+  }
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(0,0,pw,h);
+  ctx.clip();
+  const shake=paintKind(ctx, beat.b.kind, beat.local, beat.b.impact, pw, h, pw/50, beat.b.crit, beat.b.shot||0);
+  ctx.restore();
+  setShake(card, shake.x, shake.y, shake.r);
+}
+function show(id, t){
+  const spec=byId[id]||byId.hit;
+  current=spec.id;
+  mount(spec);
+  document.querySelectorAll('.foe').forEach(card=>paintCard(card, spec, t));
+  syncHp(spec, t);
+  const beat=beatAt(spec,t);
+  document.body.classList.toggle('gamecard', !!spec.sprite);
+  const note=document.querySelector('.zoomnote');
+  if(note) note.textContent=spec.sprite
+    ? 'AI 生成草稿，尚未經主人核定。卡片是遊戲裡的實際大小。先從下往上揮，220ms 砸中，之後要做成 12 格。'
+    : '桌面這張卡畫成兩倍大，方便看形狀。手機橫向用的是遊戲裡的尺寸。';
+  document.querySelector('#sub').textContent=`${spec.group}・${spec.name}　${Math.round(t)}／${totalOf(spec)} ms`;
+  document.querySelector('#cap').innerHTML=`${spec.text}<small>${spec.note}</small>`;
+  document.querySelectorAll('#chips button').forEach(b=>b.classList.toggle('on', b.dataset.id===spec.id));
+  document.documentElement.dataset.fx=spec.id;
+  document.documentElement.dataset.t=String(Math.round(t));
+  document.documentElement.dataset.ready='1';
+  return {id:spec.id, t, impact:beat.start+beat.b.impact, total:totalOf(spec), kind:beat.b.kind};
+}
+function stopAudio(){ if(audioStop){ audioStop(); audioStop=null } }
+function playFist(vol){
+  stopAudio();
+  const a=new Audio('../../sfx/fist.mp3');
+  a.volume=vol;
+  const p=a.play(); if(p&&p.catch) p.catch(()=>{});
+  audioStop=()=>{a.pause(); a.src=''};
+}
+function playWhoosh(){
+  stopAudio();
+  const AC=window.AudioContext||window.webkitAudioContext;
+  if(!AC) return;
+  const ac=new AC();
+  const dur=0.22, buf=ac.createBuffer(1, Math.floor(ac.sampleRate*dur), ac.sampleRate);
+  const data=buf.getChannelData(0);
+  for(let i=0;i<data.length;i++) data[i]=(Math.random()*2-1)*Math.pow(1-i/data.length,1.4);
+  const src=ac.createBufferSource(); src.buffer=buf;
+  const f=ac.createBiquadFilter(); f.type='bandpass'; f.frequency.value=900; f.Q.value=0.7;
+  const g=ac.createGain(); g.gain.value=0.2;
+  src.connect(f); f.connect(g); g.connect(ac.destination);
+  src.start();
+  audioStop=()=>{try{src.stop()}catch(e){} ac.close()};
+}
+function play(id){
+  cancelAnimationFrame(raf);
+  stopAudio();
+  const spec=byId[id]||byId.hit;
+  const t0=performance.now();
+  let heard=-1;
+  const step=now=>{
+    const t=now-t0;
+    const sampled=spec.sprite?sampleTime(spec,t):null;
+    const beat=beatAt(spec, sampled?sampled.local:t);
+    const idx=spec.loops>1?(sampled?sampled.hit:-1):spec.beats.indexOf(beat.b);
+    const local=spec.loops>1?(sampled?sampled.local:0):beat.local;
+    if(soundOn && !((sampled&&sampled.hide)) && idx!==heard && local<36){
+      heard=idx;
+      if(spec.sound==='fist') playFist(spec.vol);
+      else if(spec.sound==='whoosh') playWhoosh();
+    }
+    show(spec.id, Math.min(t, totalOf(spec)));
+    if(t<totalOf(spec)) raf=requestAnimationFrame(step);
+    else finish(spec);
+  };
+  raf=requestAnimationFrame(step);
+}
+function finish(spec){
+  clearMotion();
+  document.querySelectorAll('.bp-fx').forEach(c=>{
+    const ctx=c.getContext('2d'); ctx.setTransform(1,0,0,1,0,0); ctx.clearRect(0,0,c.width,c.height);
+  });
+  syncHp(spec, totalOf(spec));
+}
+function renderButtons(){
+  const host=document.querySelector('#chips');
+  let group='';
+  for(const spec of FX){
+    if(spec.group!==group){
+      group=spec.group;
+      const s=document.createElement('span');
+      s.textContent=group;
+      s.style.cssText='align-self:center;color:#89877f;font-size:.72rem;padding:0 4px';
+      host.appendChild(s);
+    }
+    const b=document.createElement('button');
+    b.type='button';
+    b.dataset.id=spec.id;
+    b.textContent=spec.name;
+    b.addEventListener('click', ()=>play(spec.id));
+    host.appendChild(b);
+  }
+}
+function syncToggles(){
+  document.querySelector('#bMotion').textContent='減少動態：'+(reduce?'開':'關');
+  document.querySelector('#bSnd').textContent='聲音：'+(soundOn?'開':'關');
+}
+document.querySelector('#bReplay').addEventListener('click', ()=>play(current));
+document.querySelector('#bAll').addEventListener('click', async ()=>{
+  for(const spec of FX){ play(spec.id); await new Promise(r=>setTimeout(r, totalOf(spec)+280)); }
+});
+document.querySelector('#bMotion').addEventListener('click', ()=>{ reduce=!reduce; syncToggles(); show(current, Number(document.documentElement.dataset.t)||0) });
+document.querySelector('#bSnd').addEventListener('click', ()=>{ soundOn=!soundOn; if(!soundOn) stopAudio(); syncToggles() });
+
+renderButtons();
+syncToggles();
+const freeze = q.has('t') ? Number(q.get('t')) : null;
+window.BLUNT_PREVIEW={
+  ids: FX.map(s=>s.id),
+  total: id=>totalOf(byId[id]),
+  still: id=>{
+    const spec=byId[id];
+    if(spec.peakAt!=null) return spec.peakAt;
+    return spec.beats[0].impact+48;
+  },
+  swing: id=>{
+    const spec=byId[id];
+    return spec.swingAt!=null?spec.swingAt:150;
+  },
+  show: (id,t)=>show(id,t),
+  ready: Promise.all(Object.values(ASSETS).map(a=>a.p)),
+  setReduce: v=>{ reduce=!!v },
+  ink(){
+    let best=0;
+    document.querySelectorAll('.bp-fx').forEach(c=>{
+      if(!c.width) return;
+      const d=c.getContext('2d').getImageData(0,0,c.width,c.height).data;
+      let n=0;
+      for(let i=3;i<d.length;i+=4) if(d[i]>12) n++;
+      if(n>best) best=n;
+    });
+    return best;
+  }
+};
+function boot(){
+  const t=freeze!=null && !Number.isNaN(freeze) ? freeze : 0;
+  show(current, t);
+  BLUNT_PREVIEW.ready.then(()=>show(current, Number(document.documentElement.dataset.t)||t));
+}
+if(document.readyState==='complete') boot();
+else window.addEventListener('load', boot);
+</script>
+</body>
+</html>
