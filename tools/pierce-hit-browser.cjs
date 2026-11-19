@@ -30,7 +30,7 @@ async function openGame(browser,w,h,broken=false){
   await p.screenshot({path:OUT+'/hit-'+tag+'.png'});
   check(tag+' 特效不攔截點擊也不增加卡片範圍',await p.locator('.zc-pierce-fx').evaluate(c=>getComputedStyle(c).pointerEvents==='none'&&getComputedStyle(c.parentElement).overflow==='hidden'&&Math.abs(c.clientWidth-c.parentElement.clientWidth)<2));
   await p.waitForFunction(()=>!PIERCE_VFX.active&&!busy&&!G.busy,null,{timeout:30000});
-  check(tag+' 完整播放與清除、無無效文字',await p.evaluate(()=>__frames.some(f=>f.at>=350&&f.at<425&&f.ink)&&__frames.every(f=>f.target==='0')&&!document.querySelector('.zc-pierce-fx')&&!/undefined|NaN|\\[object/.test(document.querySelector('#app').textContent)));
+  check(tag+' 完整播放與清除、無無效文字',await p.evaluate(()=>__frames.some(f=>f.at>=350&&f.at<425&&f.ink)&&__frames.every(f=>f.target==='0')&&!document.querySelector('.zc-pierce-fx')&&!['undefined','NaN','[object'].some(t=>document.querySelector('#app').textContent.includes(t))));
   check(tag+' 傷害與耐久照既有規則扣除且不新增存檔欄位',await p.evaluate(()=>G.fight.foes[0].hp<100&&me().gear.find(x=>x.id==='screwdriver').dur===11&&!JSON.stringify(snap()).includes('PIERCE_VFX')));
   check(tag+' 操作選項沒有被擋住',await p.locator('#choices button').evaluateAll(bs=>bs.slice(0,3).every(b=>{const r=b.getBoundingClientRect(),v=document.querySelector('#stage').getBoundingClientRect();return r.left>=v.left-1&&r.right<=v.right+1&&r.top>=v.top-1&&r.bottom<=v.bottom+1})));
   await p.evaluate(()=>{ROLE='client';const state=snap();state.fight.foes[0].hp=72;window.__remoteState=state;enqueue({t:'pierce',seq:100,d:{id:0,melee:true,state}})});
