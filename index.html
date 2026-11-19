@@ -1,12 +1,12 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=86998223" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=e1f387fa" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fx/slash-12.webp" as="image" type="image/webp">
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=86998223") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=e1f387fa") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
@@ -684,7 +684,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.38.0", "b": 93, "t": "2026-11-20T06:36:55+08:00"};
+const ZC_VER={"v": "0.38.1", "b": 94, "t": "2026-11-20T07:10:43+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3904,7 +3904,14 @@ async function run(fn){
   finally{busy=false;if(G)G.busy=0;reportEffects();await flush();push();draw();if(RQ.length)run(RQ.shift())}
 }
 const curNode=()=>G.ev!=null?EVPOOL[G.ev]:N[G.node];
-const choices=()=>darCh(zView(searchChoices(curNode())));
+/* v0.38.0 區域裡每個房間能翻找的次數有限（人數，最少 2 次）；用完剩下的搜尋點位消失，只留出口。
+   會設旗標的選項（鑰匙、密碼之類劇情用）不算也不會被藏，避免卡關。 */
+const zBudgetMax=()=>Math.max(2,able().length);
+const zSpent=()=>(G.zb&&G.zb[G.node])||0;
+const zIsSearch=c=>!c.zback&&!c.stay&&!c.go&&!(c.ok&&c.ok.go)&&!(c.ok&&c.ok.r&&c.ok.r.flag)&&!(c.ng&&c.ng.go);
+function zBudget(cs){if(!G||G.ev!=null||!ZN[G.node]||!['room','hub'].includes(ZN[G.node].role)||zSpent()<zBudgetMax())return cs;
+  return cs.map(c=>zIsSearch(c)&&!(c.once&&c.keep&&G.used&&G.used[usedKey(c)])?{...c,_hid:1}:c)}
+const choices=()=>darCh(zBudget(zView(searchChoices(curNode()))));
 // 不搬動原選項索引：仔細搜查留在原位置，簡單尋找附加在陣列尾端。
 const SEARCH_CACHE=new WeakMap();
 function canSearch(c){
@@ -4115,6 +4122,7 @@ async function applyRes(c,res,actor,bad){CURC=c;if(c.darGo)G.guided=1;
   // v0.24.0：區域裡仔細搜查會出聲（簡單尋找很安靜）
   if(c._searchMode==='careful'&&ZONES[G.lv])addAlarm(1,actor);
   if(c.once||zMark(c)){G.used=G.used||{};G.used[usedKey(c)]=1}
+  if(zMark(c)&&zIsSearch(c)){G.zb=G.zb||{};G.zb[G.node]=(G.zb[G.node]||0)+1;if(G.zb[G.node]===zBudgetMax())out('能翻的都翻過了，再耗下去只是浪費時間。該往前走了。','rule')}
   if(res.r&&res.r.shop){openShop(res.r.shop,res.stay||c.stay?null:(res.go||nextId));return}
   // 留在原地的選項如果打起來，打完回到這個節點（v0.11.0 修正：之前會直接略過戰鬥）
   const stayHere=res.stay||c.stay||(zs&&!res.go&&!c.go);

@@ -8,3 +8,4 @@ test('旅館事件牌只抽當階段的旅館牌，搜客房有次數上限',asy
  g.run("G.flags.ys2=3");assert.equal(g.run("visible(N.Y0.c.find(c=>c.l==='摸黑上樓搜客房'))"),false);assert.match(g.run('hotelTx()'),/都翻過了/)});
 test('每階段牌數大於次數上限，同一局看到的是子集',()=>{for(const s of [1,2,3,4])assert.ok(setup({}).run(`EVPOOL.filter(e=>e.z==='Y'&&e.stg.includes(${s})).length`)>=setup({}).run(`HCAP[${s}]`))});
 test('舊存檔（沒有 yd 旗標）不會壞：佔領階段只被引導到仍未決定的決定牌',async()=>{const g=setup({blackout:1,raiders:1,acru:1});await g.run("enterNode('Y0')");assert.equal(g.run('G.node'),'YD2')});
+test('區域房間翻找次數用完後，搜尋點位消失、出口還在（單人最少 2 次）',async()=>{const g=setup({});g.run("G.node='E2s';G.lv='E';G.flags.v_E2s=1;G.zd={E:1};G.zb={E2s:2}");const ls=g.run("choices().filter(visible).map(c=>c.l)");assert.ok(ls.length>0);assert.ok(!ls.some(l=>/工具架|備品架/.test(l)));assert.ok(ls.some(l=>/回到/.test(l)));g.run("G.zb={E2s:0}");assert.ok(g.run("choices().filter(visible).map(c=>c.l)").some(l=>/工具架/.test(l)))});
