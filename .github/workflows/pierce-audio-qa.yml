@@ -1,0 +1,35 @@
+name: 穿刺音效驗收
+on:
+  pull_request:
+    branches: [main]
+    paths: [index.html, "sfx/piercehit.mp3", "tools/pierce-audio*", ".github/workflows/pierce-audio-qa.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pierce-audio:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      NODE_OPTIONS: --test-reporter=tap
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install chromium
+      - name: 穿刺音效邏輯
+        run: node --test tools/pierce-audio.test.cjs
+      - name: 穿刺音效與手機畫面
+        run: |
+          python3 -m http.server 8768 >/tmp/zerocase-pierce-http.log 2>&1 &
+          NODE_PATH=$(npm root -g) node tools/pierce-audio-browser.cjs
+      - name: 既有完整回歸測試
+        if: always()
+        run: bash tests/run_all.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pierce-audio-v0.37.2-qa
+          path: qa-output/

@@ -30,3 +30,14 @@
 **備註：** qubodup 頁面在描述中提及作者個人頁面的「CC BY attribution requirements」，但音效頁面另明確標示本檔為 **Creative Commons 0**。以檔案頁面標示為核對依據，仍建議 Credits 自願列出作者名稱以避免來源資訊流失。
 
 這六個新增素材的授權核對不代表**既有 39 個音效**全部已完成來源及授權審查；原本 Credits 記載的其他素材仍應個別查核。
+
+
+## v0.37.2 穿刺命中音效（2026-11-20，Asia/Taipei）
+
+| 素材 | 作者 | 來源頁 | 授權及處理 |
+|---|---|---|---|
+| `sfx/piercehit.mp3`（Sword Stab Body Hit） | -GeorgeDiamond- | https://freesound.org/people/-GeorgeDiamond-/sounds/718259/ | CC BY 4.0：https://creativecommons.org/licenses/by/4.0/ ；主人提供原始 WAV，轉為 MP3（libmp3lame，品質 2），保留完整 1 秒與立體聲，不裁切、不變速、不變調；執行時套用戰鬥音量與 0.8 增益修整。 |
+
+原始檔名：`718259__georgediamond__sword-stab-body-hit.wav`。原始規格：48 kHz、24 位元、立體聲、1 秒。2026-11-20 核對作者來源頁，明確標示 Attribution 4.0。作者未替本遊戲背書。
+
+用途：玩家近戰攻擊實際造成穿刺傷害的命中聲，包含穿刺武器、反擊與箱中靈・撕咬；弓、弩、槍擊、斬擊、鈍擊與落空不套用。沿用既有音效同步事件；素材失敗回退既有合成受傷聲。原始 WAV 不加入遊戲載入清單，MP3 不截斷尾音（播放上限 1,200ms）。

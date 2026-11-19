@@ -1,0 +1,89 @@
+{
+  "authorization": "主人於 2026-11-20 回覆 A",
+  "source_commit": "bb2751ad349d8a6dd98d4bc7a473bb7e08d7206e",
+  "version": "0.37.2",
+  "build": 92,
+  "scope": {
+    "file": "tests/audio.test.cjs",
+    "test_cases": 2,
+    "numeric_assertions": 3,
+    "test_names": 1,
+    "change": "60→61"
+  },
+  "local_node": {
+    "result": "通過",
+    "pass": 180,
+    "fail": 0,
+    "todo": 1,
+    "todo_note": "原有恐懼紀錄數字，依主人決定保留，不列通過"
+  },
+  "local_special_logic": {
+    "result": "通過",
+    "pierce": 23,
+    "slash": 13,
+    "evacuation": 20
+  },
+  "protected_files": {
+    "result": "通過",
+    "unchanged": 21,
+    "authorized_exception": "tests/audio.test.cjs，精確符合核准範圍"
+  },
+  "guard_unchanged": true,
+  "game_blob_unchanged": "5b4eaa3b3dd7e7cf19de26e4dcb7296b75c8840a",
+  "cloud_full_suite": {
+    "result": "通過",
+    "run_id": 44596599605,
+    "job_id": 135816430358,
+    "node": {
+      "pass": 180,
+      "fail": 0,
+      "todo": 1
+    },
+    "smoke": {
+      "result": "通過",
+      "sizes": [
+        [
+          393,
+          690
+        ],
+        [
+          844,
+          390
+        ],
+        [
+          1280,
+          720
+        ]
+      ],
+      "steps_each": 40
+    },
+    "long_route": {
+      "result": "通過",
+      "actions": 220,
+      "nodes": 66,
+      "areas": 18
+    },
+    "pierce_logic": {
+      "result": "通過",
+      "pass": 23
+    },
+    "pierce_browser": {
+      "result": "通過",
+      "checks": 17
+    }
+  },
+  "phone": "待主人實機驗收",
+  "standard_cloud_workflow": {
+    "result": "通過",
+    "run_id": 44596599621,
+    "job_ids": [
+      135816429721,
+      135816430274
+    ],
+    "full_suite": "通過",
+    "evacuation_logic": 20,
+    "evacuation_browser": 25,
+    "slash_logic": 13,
+    "slash_browser": 50
+  }
+}
