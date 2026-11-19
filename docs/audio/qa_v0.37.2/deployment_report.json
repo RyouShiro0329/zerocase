@@ -1,0 +1,50 @@
+{
+  "url": "https://ryoushiro0329.github.io/zerocase/",
+  "checked_at": "2026-11-20T03:28:29+08:00",
+  "version": {
+    "v": "0.37.2",
+    "b": 92,
+    "t": "2026-11-20T02:43:27+08:00"
+  },
+  "http_assets": {
+    "result": "通過",
+    "index_sha256": "2aa96c8336c89ec2e57435f6c76fdd38e8dbec52c217c9380be1aa4c553f5925",
+    "piercehit_sha256": "08d10f87f121ed2b7d5c154cd5a8cc3c7fd654d732181def3887434256f4ea81",
+    "audio_size": 17996
+  },
+  "browser_flow": {
+    "result": "通過",
+    "verified_at": "2026-11-20T03:31:18.795+08:00",
+    "url": "https://ryoushiro0329.github.io/zerocase/",
+    "menu_version": "v0.37.2・Build 92",
+    "new_game": true,
+    "actions": [
+      "掀開窗簾往外看",
+      "把書桌拖過去頂住門",
+      "退回房間，等他走開"
+    ],
+    "location": "三樓走廊",
+    "combat_controls_visible": true,
+    "screenshots": [
+      "live-menu.jpg",
+      "live-play.jpg"
+    ],
+    "phone": "待主人實機驗收",
+    "console": {
+      "result": "通過",
+      "scope": "遊戲網站來源程式",
+      "game_error_count": 0,
+      "environment_extension_errors": {
+        "count": 45,
+        "message": "Error sending browser metadata to extension: Object",
+        "source": "chrome-extension 的 content-script.bundle.js",
+        "first_at": "2026-11-20T03:28:37.843+08:00",
+        "last_at": "2026-11-20T03:30:42.714+08:00",
+        "note": "雲端瀏覽器驗收外掛訊息，未冒稱整個瀏覽器完全沒有錯誤；未修改遊戲或停用外掛"
+      }
+    }
+  },
+  "result": "通過",
+  "merge_commit": "6237517b6b036939d31b2f9fbcaf1cdff7d4192b",
+  "merged_at": "2026-11-20T03:26:38+08:00"
+}

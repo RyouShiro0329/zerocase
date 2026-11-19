@@ -2,14 +2,69 @@
   "version": "0.37.2",
   "build": 92,
   "created_at": "2026-11-20T02:43:27+08:00",
-  "audit_at": "2026-11-20T03:25:10+08:00",
+  "audit_at": "2026-11-20T03:34:18+08:00",
   "timezone": "Asia/Taipei",
   "baseline_commit": "bf343046ef77192f366ad08bcffa07132be5681d",
   "game_code_commit": "1dc941c22af8557da2cb8c809075f77748f77580",
   "game_blob": "5b4eaa3b3dd7e7cf19de26e4dcb7296b75c8840a",
   "tested_source_commit": "bb2751ad349d8a6dd98d4bc7a473bb7e08d7206e",
   "pull_request": "https://github.com/RyouShiro0329/zerocase/pull/12",
-  "deployment": "完整驗收通過；依主人核准合併部署，部署後網站驗證另行補記",
+  "deployment": {
+    "status": "已部署並完成正式網站驗證",
+    "merge_commit": "6237517b6b036939d31b2f9fbcaf1cdff7d4192b",
+    "merged_at": "2026-11-20T03:26:38+08:00",
+    "url": "https://ryoushiro0329.github.io/zerocase/",
+    "verification": {
+      "url": "https://ryoushiro0329.github.io/zerocase/",
+      "checked_at": "2026-11-20T03:28:29+08:00",
+      "version": {
+        "v": "0.37.2",
+        "b": 92,
+        "t": "2026-11-20T02:43:27+08:00"
+      },
+      "http_assets": {
+        "result": "通過",
+        "index_sha256": "2aa96c8336c89ec2e57435f6c76fdd38e8dbec52c217c9380be1aa4c553f5925",
+        "piercehit_sha256": "08d10f87f121ed2b7d5c154cd5a8cc3c7fd654d732181def3887434256f4ea81",
+        "audio_size": 17996
+      },
+      "browser_flow": {
+        "result": "通過",
+        "verified_at": "2026-11-20T03:31:18.795+08:00",
+        "url": "https://ryoushiro0329.github.io/zerocase/",
+        "menu_version": "v0.37.2・Build 92",
+        "new_game": true,
+        "actions": [
+          "掀開窗簾往外看",
+          "把書桌拖過去頂住門",
+          "退回房間，等他走開"
+        ],
+        "location": "三樓走廊",
+        "combat_controls_visible": true,
+        "screenshots": [
+          "live-menu.jpg",
+          "live-play.jpg"
+        ],
+        "phone": "待主人實機驗收",
+        "console": {
+          "result": "通過",
+          "scope": "遊戲網站來源程式",
+          "game_error_count": 0,
+          "environment_extension_errors": {
+            "count": 45,
+            "message": "Error sending browser metadata to extension: Object",
+            "source": "chrome-extension 的 content-script.bundle.js",
+            "first_at": "2026-11-20T03:28:37.843+08:00",
+            "last_at": "2026-11-20T03:30:42.714+08:00",
+            "note": "雲端瀏覽器驗收外掛訊息，未冒稱整個瀏覽器完全沒有錯誤；未修改遊戲或停用外掛"
+          }
+        }
+      },
+      "result": "通過",
+      "merge_commit": "6237517b6b036939d31b2f9fbcaf1cdff7d4192b",
+      "merged_at": "2026-11-20T03:26:38+08:00"
+    }
+  },
   "changes": [
     "近戰穿刺實際命中改用主人提供的 Sword Stab Body Hit；弓弩與槍擊排除",
     "完整 1 秒轉為 MP3，混音增益修整，保留尾音",
@@ -114,11 +169,11 @@
     },
     "docs/RELEASE_v0.37.2.md": {
       "before_sha256": null,
-      "after_sha256": "2101969adff47b7ef619a3dade813c7ba8ebd5f5b38ec9f771b706cdf89b8ed4"
+      "after_sha256": "5a6fa2a2c722fde837b51dbb297f7a34d48e6b9c9bd1c1787cc6504c94f78f60"
     },
     "docs/VERSIONS.md": {
       "before_sha256": "8e9e3fe7459327770374912e54e0e0985987f42b90cec031fb857622e2d629a4",
-      "after_sha256": "63cf214b6b51bca78695305732abc3385b4c003bfcfc9d5921cf205cf34dc4f6"
+      "after_sha256": "01b7f408bc200abe88e6301900109b12e27db5060c1c666d462258fbc05c84be"
     },
     "docs/audio/LICENSES_AND_ORIGINS.md": {
       "before_sha256": "2bc8369d6fca7fd97dc2d311a0316fd63d472083f509ddae07210fdb15e637d1",
@@ -160,9 +215,21 @@
       "before_sha256": null,
       "after_sha256": "e58420b1f22971f240f6608ede031ee8394462754b29bab3787424ae0eb9ac1a"
     },
+    "docs/audio/qa_v0.37.2/deployment_report.json": {
+      "before_sha256": null,
+      "after_sha256": "0e91121978a2a8a73cfc573a55b529fabaa011baa30e0ac012b46c5f53fc5c27"
+    },
     "docs/audio/qa_v0.37.2/evacuation_report.json": {
       "before_sha256": null,
       "after_sha256": "4b4f7cb9bc4078ed244788dd52894a41b69084ae54783abf27edf27d8c0d1e1c"
+    },
+    "docs/audio/qa_v0.37.2/live-menu.jpg": {
+      "before_sha256": null,
+      "after_sha256": "8bb9691576e0dce31e4073e7a844eaad135daf0daae2faec523ac7f0be3f2fb2"
+    },
+    "docs/audio/qa_v0.37.2/live-play.jpg": {
+      "before_sha256": null,
+      "after_sha256": "a89cefcfb7b3c2c856c63756ef622fa3acab44720c901a15f1809832d97870d7"
     },
     "docs/audio/qa_v0.37.2/live_version.json": {
       "before_sha256": null,
@@ -206,7 +273,7 @@
     },
     "更新說明.txt": {
       "before_sha256": "2d617d58e070e63b54551a80f3a5ee5b408369f21bde0d2ef3054f128626bdcc",
-      "after_sha256": "7dce688a5bd0e26715ef262ec0b3ab49f95af14a724648b0849eb7a65e106583"
+      "after_sha256": "ff9153c913df787c6a6b883b7f5898a44bdb622d5c861db2f191466a5bee9037"
     }
   },
   "ci_setup_commit": "51a5a9f364975fa7bb240da840dddf337c27f788",

@@ -2,7 +2,7 @@
   "version": "0.37.2",
   "build": 92,
   "created_at": "2026-11-20T02:43:27+08:00",
-  "deployment": "完整雲端驗收通過，主人已核准 A，準備合併部署",
+  "deployment": "main 6237517 已部署；正式網站版本、正常開局三行動、遊戲來源主控台及素材雜湊驗證通過",
   "files": {
     ".github/workflows/evacuation-qa.yml": "7613f1f262996c8720b5d27573ac58d90822e2e46239cfed1053bd0c7fe90810",
     ".github/workflows/pierce-audio-qa.yml": "c96c544b85be56bec2170e904fb53cef0104be1f652917e9f48048bd54500357",
@@ -19,7 +19,7 @@
     "audit_v0.35.0.json": "2a934203092a0571634eb975828c46ccbfbb29e320706a73d3684af9c17390f7",
     "audit_v0.36.0.json": "5b2c44f2cab3d19eedaf58324790b7171b60a45315a9b94fcffdf10e71fef6a5",
     "audit_v0.36.1.json": "6e93c419a481c929acd017cbf8c2e665c806a9a91a17cb8d1168256d637c1a1f",
-    "audit_v0.37.2.json": "015cec8b088a483079882eb0e55f8bf333ceeeb69f9f8eacbc1d261ca687182c",
+    "audit_v0.37.2.json": "2227af2154b262ad1e3b97b083ab1d48652f27857060b3c93da212cd6fdae09d",
     "docs/AI_WORKFLOW.md": "bb43ecb1592462a49f538ed21501028e06a84ade3fcf19ef772de9c6acda4b24",
     "docs/QA_v0.35.0.zip": "deea2a7222c0daf8f4cc4dc1996b3e34b3128e69500aca90d6520ceb1ad503de",
     "docs/QA_v0.35.0_RUN_HISTORY.md": "2cda202ee4d5630de1cc40cda8ceafa910825df0369ea3dcc25ecde096826811",
@@ -28,8 +28,8 @@
     "docs/RELEASE_v0.35.0.md": "c945fd75d60180722f73b4592ca85985256e070e923d8c4590b435cd1234db1c",
     "docs/RELEASE_v0.36.0.md": "808507b9a161bb290bbaf891ce3c15c6b0dc729e068c5f4c5221370eec924e56",
     "docs/RELEASE_v0.36.1.md": "a460d1a78aa4b3009c5032944826f1cd1097c7a4fe7b0d2be8c6520ef27f84fa",
-    "docs/RELEASE_v0.37.2.md": "2101969adff47b7ef619a3dade813c7ba8ebd5f5b38ec9f771b706cdf89b8ed4",
-    "docs/VERSIONS.md": "63cf214b6b51bca78695305732abc3385b4c003bfcfc9d5921cf205cf34dc4f6",
+    "docs/RELEASE_v0.37.2.md": "5a6fa2a2c722fde837b51dbb297f7a34d48e6b9c9bd1c1787cc6504c94f78f60",
+    "docs/VERSIONS.md": "01b7f408bc200abe88e6301900109b12e27db5060c1c666d462258fbc05c84be",
     "docs/audio/2026-11-15-integration-plan.md": "1d8c7185ad2742e1f1b70279b5f9d274f03c36a1b4104513dc5842d2df9ade8d",
     "docs/audio/ASSET_VALIDATION.json": "190994b75a706198d1f3e3435ee47441cee202e55fe70c3593fab8d55d538d0b",
     "docs/audio/ASSET_VALIDATION_V0.21.10.json": "6d61e118b4a1ebef0708d9e4e687d55afbf48a288d61c98a772f1cb5113c612a",
@@ -64,7 +64,10 @@
     "docs/audio/qa_v0.37.2/cloud_summary_repeat.log": "8dfbbefdf65df76fd13ef79193324dec58121b3c7f585538e2fbbd2808960e70",
     "docs/audio/qa_v0.37.2/credits-393x690.png": "22cb4b5f09d19fba8a750f52b518cba5a744bc3f60fdb38381f864c308bfb7cd",
     "docs/audio/qa_v0.37.2/credits-844x390.png": "e58420b1f22971f240f6608ede031ee8394462754b29bab3787424ae0eb9ac1a",
+    "docs/audio/qa_v0.37.2/deployment_report.json": "0e91121978a2a8a73cfc573a55b529fabaa011baa30e0ac012b46c5f53fc5c27",
     "docs/audio/qa_v0.37.2/evacuation_report.json": "4b4f7cb9bc4078ed244788dd52894a41b69084ae54783abf27edf27d8c0d1e1c",
+    "docs/audio/qa_v0.37.2/live-menu.jpg": "8bb9691576e0dce31e4073e7a844eaad135daf0daae2faec523ac7f0be3f2fb2",
+    "docs/audio/qa_v0.37.2/live-play.jpg": "a89cefcfb7b3c2c856c63756ef622fa3acab44720c901a15f1809832d97870d7",
     "docs/audio/qa_v0.37.2/live_version.json": "2179b387b46ba91a2704c9715a888c654b92d629fc674c47fc07dd10a153eb0f",
     "docs/audio/qa_v0.37.2/local_report.json": "eb5fadff9313f1e04a8f8b9499c28ed77d81ab82d8115907baef679507e5075e",
     "docs/audio/qa_v0.37.2/module_headers.json": "ea655e8675ec45a42f71befd33453e55ce8c15a1906b70914255337c1425804a",
@@ -251,6 +254,6 @@
     "tools/slash-hit.test.cjs": "3751b72598f28f9f7c80873bf0348220fb27a134e8766b0faf3f430b6d5cd970",
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "7dce688a5bd0e26715ef262ec0b3ab49f95af14a724648b0849eb7a65e106583"
+    "更新說明.txt": "ff9153c913df787c6a6b883b7f5898a44bdb622d5c861db2f191466a5bee9037"
   }
 }
