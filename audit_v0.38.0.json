@@ -1,0 +1,81 @@
+{
+  "version": "0.38.0",
+  "build": 93,
+  "created_at": "2026-11-20T04:35:28+08:00",
+  "audit_at": "2026-11-20T04:45:12+08:00",
+  "timezone": "Asia/Taipei",
+  "baseline_commit": "7bdbe032740fe90d7e95270abcc397dbf3287ca5",
+  "game_code_commit": "bc1a41a341b311cb9f9bb3aa47137effe157bc01",
+  "pull_request": "https://github.com/RyouShiro0329/zerocase/pull/13",
+  "deployment": {
+    "status": "未部署（驗收候選）",
+    "url": "https://ryoushiro0329.github.io/zerocase/",
+    "site_verification": "部署後未驗證"
+  },
+  "changes": [
+    "參考原本 fx/slash-12.webp，以相同銀白刀光、暗紅飛濺及黑灰煙霧製作4×3、12格的由下往上穿刺特效",
+    "穿刺近戰命中時才在敵人卡播放，原穿刺音效只播放一次；斬擊與其他攻擊不更動",
+    "共用斬擊755ms與335ms命中時點，沿用微震、殘影、減少動態、清理與網路防過期佇列",
+    "不更動戰鬥判定、傷害、耐久、存檔、劇情、敵人立繪與原有音效授權",
+    "更新驗收工具的版本並新增844×390、393×690的命中畫面截圖；未修改既有tests/或tools/split_index.py"
+  ],
+  "design_rule_changes": [],
+  "test_status": {
+    "cloud_full": {
+      "result": "未測試",
+      "reason": "PR #13 工作流程執行中",
+      "run_id": 44610900968
+    },
+    "cloud_pierce": {
+      "result": "未測試",
+      "reason": "PR #13 工作流程執行中",
+      "run_id": 44610901014
+    },
+    "screenshots": {
+      "result": "未測試",
+      "reason": "等待雲端輸出與人工檢視",
+      "sizes": [
+        [
+          844,
+          390
+        ],
+        [
+          393,
+          690
+        ]
+      ]
+    },
+    "browser_after_deploy": {
+      "result": "未測試",
+      "reason": "尚未部署"
+    },
+    "actual_phone": "待主人實機驗收",
+    "real_multiplayer": {
+      "result": "未測試",
+      "reason": "無真實多人裝置"
+    }
+  },
+  "files": {
+    "index.html": {
+      "before_blob": "5b4eaa3b3dd7e7cf19de26e4dcb7296b75c8840a",
+      "after_blob": "e50219a71d5885cf6d01f4bd97d0243de8a0f7a8"
+    },
+    "fx/pierce-12.png": {
+      "before_sha256": null,
+      "after_sha256": "804e58163e02785fdd50ce08fbef70dedce18efad2fe17f6950d65327c3a0741",
+      "width": 768,
+      "height": 576,
+      "columns": 4,
+      "rows": 3,
+      "cell": [
+        192,
+        192
+      ],
+      "palette_colors": 64
+    },
+    "tools/evacuation-browser.cjs": "只修正版本預期",
+    "tools/pierce-audio-browser.cjs": "修正版本預期並新增穿刺逐格與兩尺寸畫面驗收"
+  },
+  "handoff": "docs/pierce/RELEASE_v0.38.0.md",
+  "decision_needed": null
+}
