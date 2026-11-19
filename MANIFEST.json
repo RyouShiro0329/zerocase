@@ -235,11 +235,11 @@
     "tools/pierce-hit.test.cjs": "4e60c8941386bccca85079084d3ea0da02066ff2bcf8210f946174d8432d10a2",
     "tools/pierce-hit-browser.cjs": "85fe83d15261be0cba40b6686b17b3c93eadf413cbe60bb87eb7bd2c35f5bd7f",
     "fx/pierce-12.webp": "51e8a0bf280067c04cd9475df50b858e1eec4b95cb61bf441955015ae2b46ea6",
-    "docs/pierce/BASELINE_v0.38.0.log": "e5a7a754cbc9f9b5441a618eb4e32a14fc2099141328d4ee6b606644438396ed",
+    "docs/pierce/BASELINE_v0.38.0.log": "4eabb1874021edbb7c6bb6971a865ddd9ebf5d5396a61d5cc6595d44442ef842",
     "docs/pierce/REVIEW_v0.38.0.md": "e44738ff6a30db350b46fcd6a594da991b4291067bdf02cfcbefdc3c7b414cc1",
     "docs/pierce/HOST_CLIENT_v0.38.0.log": "19aed92b80f6c2aa2693ac02b4c2bb2b118e0cdee0a8869e9e15c167c750d4d8",
     "docs/pierce/HOST_CLIENT_v0.38.0.cjs": "da0b423f6c97b3ad9747b04758b00111e16f8b86ebaf7a2a37138b486a3c28d0",
     "docs/pierce/QA_v0.38.0.zip": "8e876f58a1306a28a5f5a1d338268c3f49686b42cd67eb51f01ce3b4526d193e",
-    "docs/pierce/FINAL_v0.38.0.log": "fc300b4e43fcc3a11a6fbb0fdc7eae6fcf4451d9838ea0e2126c6b8f08d0978b"
+    "docs/pierce/FINAL_v0.38.0.log": "916a6505e2b235ae5925d5c96e8abdb3e3b07427f86ed9b6ad889f0a5215e99c"
   }
 }
