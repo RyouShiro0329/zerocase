@@ -2,7 +2,7 @@
   "version": "0.38.0",
   "build": 92,
   "created_at": "2026-11-19T16:26:17+08:00",
-  "deployment": "尚未合併；等待完整回歸與PR審核，主人決定發布",
+  "deployment": "候選分支完整回歸與穿刺驗收通過；僅開PR，待主人審閱後決定合併main發布",
   "files": {
     ".github/workflows/evacuation-qa.yml": "01b0ceb1854636a1c90f6f6105a9557c5a480fd941051804adcd5fc0ffd6cc00",
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -19,7 +19,7 @@
     "docs/QA_v0.35.0.zip": "deea2a7222c0daf8f4cc4dc1996b3e34b3128e69500aca90d6520ceb1ad503de",
     "docs/QA_v0.35.0_RUN_HISTORY.md": "2cda202ee4d5630de1cc40cda8ceafa910825df0369ea3dcc25ecde096826811",
     "docs/RELEASE_v0.35.0.md": "c945fd75d60180722f73b4592ca85985256e070e923d8c4590b435cd1234db1c",
-    "docs/VERSIONS.md": "6879795086e4e121f9b96fa90955c208bc77d728de629050b59435d5b4cdccd1",
+    "docs/VERSIONS.md": "d9cf294dd5d4be3300c031d2ac445ec509bbd524e608d563efbcd43783e4823d",
     "docs/audio/2026-11-15-integration-plan.md": "1d8c7185ad2742e1f1b70279b5f9d274f03c36a1b4104513dc5842d2df9ade8d",
     "docs/audio/ASSET_VALIDATION.json": "190994b75a706198d1f3e3435ee47441cee202e55fe70c3593fab8d55d538d0b",
     "docs/audio/ASSET_VALIDATION_V0.21.10.json": "6d61e118b4a1ebef0708d9e4e687d55afbf48a288d61c98a772f1cb5113c612a",
@@ -209,7 +209,7 @@
     "tools/make_font_subset.py": "3eb79719caa2f2863185cb10c9b1e32cc96017b10f03284bcb6fb4ac831c1094",
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "4244eeb73ab73e3da610a5049dc2a3dec513d7fd741538e3a5cd8c11355e4b7e",
+    "更新說明.txt": "5745af24f78ad0590b0159421b753743128ae2a43f9fac60f21412c890481bef",
     "AGENTS.md": "e422a0fb401d356089ba29cbf3a3a3dead6ca2f87a968660024474039a2f3f24",
     "tools/battle-player-cards.cjs": "76dca58b4da6f9fc5b198096d4f265203d00f3a138ee37d9824f73d8e9f5d09e",
     "docs/RELEASE_v0.36.0.md": "808507b9a161bb290bbaf891ce3c15c6b0dc729e068c5f4c5221370eec924e56",
@@ -234,6 +234,12 @@
     "docs/slash/FINAL_v0.37.1.log": "c8a04acbe30a4597f155f88a47fc868a3c7d29f47f8e36b0c828e3f99652d07e",
     "tools/pierce-hit.test.cjs": "4e60c8941386bccca85079084d3ea0da02066ff2bcf8210f946174d8432d10a2",
     "tools/pierce-hit-browser.cjs": "85fe83d15261be0cba40b6686b17b3c93eadf413cbe60bb87eb7bd2c35f5bd7f",
-    "fx/pierce-12.webp": "51e8a0bf280067c04cd9475df50b858e1eec4b95cb61bf441955015ae2b46ea6"
+    "fx/pierce-12.webp": "51e8a0bf280067c04cd9475df50b858e1eec4b95cb61bf441955015ae2b46ea6",
+    "docs/pierce/BASELINE_v0.38.0.log": "e5a7a754cbc9f9b5441a618eb4e32a14fc2099141328d4ee6b606644438396ed",
+    "docs/pierce/REVIEW_v0.38.0.md": "e44738ff6a30db350b46fcd6a594da991b4291067bdf02cfcbefdc3c7b414cc1",
+    "docs/pierce/HOST_CLIENT_v0.38.0.log": "19aed92b80f6c2aa2693ac02b4c2bb2b118e0cdee0a8869e9e15c167c750d4d8",
+    "docs/pierce/HOST_CLIENT_v0.38.0.cjs": "da0b423f6c97b3ad9747b04758b00111e16f8b86ebaf7a2a37138b486a3c28d0",
+    "docs/pierce/QA_v0.38.0.zip": "8e876f58a1306a28a5f5a1d338268c3f49686b42cd67eb51f01ce3b4526d193e",
+    "docs/pierce/FINAL_v0.38.0.log": "fc300b4e43fcc3a11a6fbb0fdc7eae6fcf4451d9838ea0e2126c6b8f08d0978b"
   }
 }
