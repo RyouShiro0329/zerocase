@@ -2,9 +2,9 @@
   "version": "0.38.0",
   "build": 92,
   "created_at": "2026-11-19T16:26:17+08:00",
-  "deployment": "候選分支完整回歸與穿刺驗收通過；僅開PR，待主人審閱後決定合併main發布",
+  "deployment": "僅供主人檢查攻擊畫面的隔離預覽；index.html未變更，未部署，未更新PR#10",
   "files": {
-    ".github/workflows/evacuation-qa.yml": "01b0ceb1854636a1c90f6f6105a9557c5a480fd941051804adcd5fc0ffd6cc00",
+    ".github/workflows/evacuation-qa.yml": "5df495fd95b669ffbdae3cf1f78628a8bab1745a5c5957e68c3b44dca1013c2f",
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "README.md": "f622d83355de0e2f8645a403f62be3c616c350f9de4fc65f331cbc21071f8fe3",
     "audit_v0.22.0.json": "23f18817a8d89c07c3eb44f3d1fe7958eef3c50a6b3a90ecd617c562cf45e514",
@@ -240,6 +240,8 @@
     "docs/pierce/HOST_CLIENT_v0.38.0.log": "19aed92b80f6c2aa2693ac02b4c2bb2b118e0cdee0a8869e9e15c167c750d4d8",
     "docs/pierce/HOST_CLIENT_v0.38.0.cjs": "da0b423f6c97b3ad9747b04758b00111e16f8b86ebaf7a2a37138b486a3c28d0",
     "docs/pierce/QA_v0.38.0.zip": "8e876f58a1306a28a5f5a1d338268c3f49686b42cd67eb51f01ce3b4526d193e",
-    "docs/pierce/FINAL_v0.38.0.log": "916a6505e2b235ae5925d5c96e8abdb3e3b07427f86ed9b6ad889f0a5215e99c"
+    "docs/pierce/FINAL_v0.38.0.log": "916a6505e2b235ae5925d5c96e8abdb3e3b07427f86ed9b6ad889f0a5215e99c",
+    "tools/pierce-hit-preview.cjs": "529ea2318419b7dde66aa5b07bba7f33330491d8abc593f19fc0a13a85ca9c25",
+    "tools/preview/pierce-stop-v5.webp": "d4dcd616418be2b68daf6d3aea5783d19d823a81b63d713b15821dbfa76abd8e"
   }
 }

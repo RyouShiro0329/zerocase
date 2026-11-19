@@ -35,6 +35,8 @@ jobs:
         run: |
           node --test tools/pierce-hit.test.cjs
           NODE_PATH=$(npm root -g) node tools/pierce-hit-browser.cjs
+      - name: 主人驗收用血條命中預覽（不修改遊戲正本）
+        run: NODE_PATH=$(npm root -g) node tools/pierce-hit-preview.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
