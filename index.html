@@ -649,7 +649,10 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 #foes .zc-slash-react{transform:translate(var(--zc-slash-x,0px),var(--zc-slash-y,0px))}
 #foes .zc-slash-react .fpic img{transform:translateX(-50%) translate(var(--zc-slash-px,0px),var(--zc-slash-y,0px)) rotate(var(--zc-slash-tilt,0deg))}
 #foes .foe.dead.zc-slash-react{filter:none;opacity:1}
-#foes .zc-slash-fx{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+#foes .zc-slash-fx,#foes .zc-blunt-fx{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+#foes .zc-blunt-react{transform:translate(var(--zc-blunt-x,0px),var(--zc-blunt-y,0px))}
+#foes .zc-blunt-react .fpic img{transform:translateX(-50%) translate(var(--zc-blunt-px,0px),var(--zc-blunt-y,0px)) rotate(var(--zc-blunt-tilt,0deg))}
+#foes .foe.dead.zc-blunt-react{filter:none;opacity:1}
 .flt{position:absolute;left:calc(50% + var(--pw) / 2);top:34%;z-index:4;pointer-events:none;white-space:nowrap;font:700 1.15rem var(--label);letter-spacing:.04em;text-shadow:0 1px 2px #000,0 0 6px #000,0 0 10px rgba(0,0,0,.8);animation:fltUp 1.15s ease-out both}
 .flt.f-dmg{color:#ff4a3d}.flt.f-miss{color:#f4f1e8;font-size:1rem}
 @keyframes fltUp{0%{opacity:0;transform:translate(-50%,8px) scale(.75)}14%{opacity:1;transform:translate(-50%,0) scale(1.18)}28%{transform:translate(-50%,-3px) scale(1)}100%{opacity:0;transform:translate(-50%,-24px) scale(1)}}
@@ -684,7 +687,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.37.1", "b": 91, "t": "2026-11-19T05:24:30+08:00"};
+const ZC_VER={"v": "0.38.0", "b": 92, "t": "2026-11-20T00:51:44+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -4853,7 +4856,7 @@ async function attack(p,h,sk,ti,counter,csk){
         const TX=lethal?(humK?KBTXT:KILLTXT):HITTXT;
         out(headHit?`子彈正中${x.n}的額頭。`:pick(TX[wdt[0]]||TX.blunt)+(crit?'抓準了破綻，這一下特別重。':''),'');
         const dd=applyDmg(x,d,wdt,p,false,(S&&sk==='pierce')||w.ap);
-        if(melee){if(x.lastDt==='slash')await slashAttack(x);else snd(wdt[0]==='blunt'?'fist':'knife',.9,900)}
+        if(melee){if(x.lastDt==='slash')await slashAttack(x);else if(x.lastDt==='blunt')await bluntAttack(x);else snd(wdt[0]==='blunt'?'fist':'knife',.9,900)}
         if(melee&&FT(x).human){x.contact=1;if(x.type==='oldhunter')x.hcov=0;if(x.charge&&['collector','oldhunter','quickdraw','arsonist'].includes(x.type)){x.charge=null;out(x.type==='arsonist'?`${x.n}被貼身打中，點著的瓶子摔在地上燒成一灘，這一瓶廢了。`:`${x.n}被貼身打中，瞄準被打斷了。`,'good',true)}}
         if(sk==='scatter'){const o=aliveF().find(y=>y!==x);if(o){applyDmg(o,Math.ceil(d/2),wdt,p,true);out(`散開的彈丸也打中了${o.n}。`,'good',true);if(o.hp<=0)await kill(o,p)}}
         if(sk==='pierce'&&(w.kind==='gun'||w.kind==='ranged')){const o=aliveF().find(y=>y!==x);if(o){applyDmg(o,d,wdt,p,true,true);out(`貫穿過去，連後面的${o.n}也一起打中。`,'good',true);if(o.hp<=0)await kill(o,p)}}
@@ -5548,6 +5551,7 @@ async function pump(){qRun=true;
       else if(o.t==='d'){await showDice(o.d)}
       else if(o.t==='s'){const ms=sfx(o.d[0],o.d[1],o.d[2]||undefined);if(o.d[0]==='bowhit'||o.d[0]==='bowmiss')await wait(ms||1500)}
       else if(o.t==='slash'){await playSlashHit(o.d,true,o.seq)}
+       else if(o.t==='blunt'){await playBluntHit(o.d,true,o.seq)}
       else if(o.t==='c'){await flush();await levelCard(o.d)}
       else if(o.t==='enc'){await flush();await showEnc(o.d)}
       else if(o.t==='cc'){await flush();await showChapter(o.d)}
@@ -5810,6 +5814,89 @@ async function playSlashHit(d,remote=false,seq=0){
 }
 async function slashAttack(f){const d={id:f.id,state:snap()};E('slash',d);await playSlashHit(d)}
 loadSlashVfx();
+
+/* v0.38.0 鈍擊：沿用斬擊755ms時序，在敵人卡即時繪製灰金色衝擊波；不增加素材、存檔欄位。 */
+const BLUNT_VFX={active:null};
+function clearBluntVfx(){
+  document.querySelectorAll('#foes .foe').forEach(el=>{el.classList.remove('zc-blunt-react');for(const k of ['x','y','px','tilt'])el.style.removeProperty('--zc-blunt-'+k)});
+  document.querySelectorAll('.zc-blunt-fx').forEach(el=>el.remove());
+}
+function renderBluntVfx(fx){
+  if(BLUNT_VFX.active!==fx)return;
+  const ms=performance.now()-fx.t;
+  if(ms>=SLASH_TIMING.total||document.hidden||!G||G.rid!==fx.rid||G.fight!==fx.battle){clearBluntVfx();return}
+  const card=document.querySelector('#foes .foe[data-id="'+fx.id+'"]');
+  if(card){
+    let canvas=card.querySelector('.zc-blunt-fx');
+    if(!canvas){canvas=document.createElement('canvas');canvas.className='zc-blunt-fx';canvas.setAttribute('aria-hidden','true');card.appendChild(canvas)}
+    const w=card.clientWidth,h=card.clientHeight,d=Math.min(window.devicePixelRatio||1,2);
+    if(canvas.width!==Math.round(w*d)||canvas.height!==Math.round(h*d)){canvas.width=Math.max(1,Math.round(w*d));canvas.height=Math.max(1,Math.round(h*d))}
+    const ctx=canvas.getContext('2d'),clamp=x=>Math.max(0,Math.min(1,x)),reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    if(ctx&&w&&h){
+      const hit=ms-SLASH_TIMING.impact,r=Math.min(w*.34,h*.62),lead=clamp((ms-65)/270),growth=clamp(hit/340);
+      ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,w,h);ctx.save();
+      ctx.translate(w*.48,h*.49);ctx.globalCompositeOperation='screen';ctx.lineCap='round';ctx.lineJoin='round';
+      if(hit<0&&!reduced){
+        // 由慢至快的鈍器殘影，與斬擊的刀光方向、輪廓不同。
+        const p=lead*lead,px=-r*(1.1-p),py=-r*(.92-.88*p);
+        ctx.globalAlpha=.1+.54*lead;ctx.strokeStyle='#cfbca0';ctx.lineWidth=r*(.19-.09*lead);
+        ctx.beginPath();ctx.moveTo(-r*1.1,-r*.97);ctx.quadraticCurveTo(-r*.55,-r*.55,px,py);ctx.stroke();
+        ctx.globalAlpha=.22+.56*lead;ctx.fillStyle='#f1dcb5';
+        ctx.beginPath();ctx.ellipse(px,py,r*(.13+.13*lead),r*(.07+.07*lead),-.6,0,Math.PI*2);ctx.fill();
+      }
+      if(hit>=0||reduced){
+        const age=reduced?Math.max(0,ms-200):hit,fade=clamp(1-age/(reduced?555:420)),g=reduced?1:growth;
+        // 不規則的撞擊環、放射裂痕與塵屑。
+        for(const [size,alpha,weight,col] of [[.16,.82,3.2,'#e5d3b3'],[.31,.38,1.3,'#96958d']]){
+          ctx.globalAlpha=alpha*fade;ctx.strokeStyle=col;ctx.lineWidth=Math.max(1,weight*(1-g*.7));ctx.beginPath();
+          ctx.ellipse(0,0,r*(size+g*.93),r*(size*.75+g*.63),-.2,0,Math.PI*2);ctx.stroke();
+        }
+        for(let i=0;i<10;i++){
+          const a=i*Math.PI/5+.19,dist=r*(.38+g*(.43+(i%3)*.13));
+          ctx.globalAlpha=(.85-i*.038)*fade;ctx.strokeStyle=i%3?'#a9a49b':'#f5dec0';ctx.lineWidth=i%3?1.3:2.5;
+          ctx.beginPath();ctx.moveTo(Math.cos(a)*r*.12,Math.sin(a)*r*.08);
+          ctx.lineTo(Math.cos(a+.09)*dist*.7,Math.sin(a+.09)*dist*.53);
+          ctx.lineTo(Math.cos(a)*dist,Math.sin(a)*dist*.72);ctx.stroke();
+        }
+        for(let i=0;i<8;i++){
+          const a=i*2.39,dist=r*(.23+g*(.55+(i%3)*.2));
+          ctx.globalAlpha=.48*fade;ctx.fillStyle=i%2?'#d9c39f':'#8d8980';ctx.beginPath();
+          ctx.arc(Math.cos(a)*dist,Math.sin(a)*dist*.7,Math.max(1,2.6-g*1.5),0,Math.PI*2);ctx.fill();
+        }
+        if(!reduced&&hit<65){ctx.globalAlpha=.23*(1-hit/65);ctx.fillStyle='#e9d8b9';
+          ctx.beginPath();ctx.ellipse(0,0,r*.43,r*.35,0,0,Math.PI*2);ctx.fill();
+          ctx.globalAlpha=.08*(1-hit/65);ctx.fillRect(-w*.48,-h*.49,w,h)}
+      }
+      ctx.restore();
+      if(!reduced){
+        card.classList.add('zc-blunt-react');const t=hit/1000,fall=t>=0&&t<.32?Math.exp(-t*12):0,k=Math.min(4,w*.013);
+        const x=k*fall*Math.cos(Math.max(0,t)*75),y=k*.55*fall*Math.sin(Math.max(0,t)*64);
+        card.style.setProperty('--zc-blunt-x',x+'px');card.style.setProperty('--zc-blunt-y',y+'px');
+        card.style.setProperty('--zc-blunt-px',x*1.4+'px');card.style.setProperty('--zc-blunt-tilt',x*.22+'deg');
+      }else card.classList.remove('zc-blunt-react');
+    }
+  }
+  fx.raf=requestAnimationFrame(()=>renderBluntVfx(fx));
+}
+async function playBluntHit(data,remote=false,seq=0){
+  // 鈍擊和斬擊共用連線收件序號，防止較舊的攻擊快照還原新狀態。
+  if(!data||!G||!data.state||G.rid!==data.state.rid||G.node!==data.state.node||G.clock!==data.state.clock||!G.fight||remote&&(!Number.isSafeInteger(seq)||seq<=SLASH_VFX.stateSeq))return;
+  const battle=G.fight,valid=()=>G&&G.rid===data.state.rid&&G.fight===battle;
+  const impact=()=>{if(valid()){if(remote){if(seq<=SLASH_VFX.stateSeq)return;SLASH_VFX.stateSeq=seq;setG(data.state)}else{push();draw()}}};
+  if(typeof requestAnimationFrame!=='function'||document.hidden||FAST){sfx('fist',.9,900);impact();return}
+  const fx={id:data.id,rid:G.rid,battle,t:performance.now(),raf:0,soundT:0};BLUNT_VFX.active=fx;
+  try{
+    // 重擊聲於命中前夕播放；使用原有fist素材及合成退路。
+    if(UI.snd){const gain=sfxLevel('fist',.9);
+      if(gain>0&&play('fist',gain,900,.30)==null)fx.soundT=setTimeout(()=>{if(BLUNT_VFX.active===fx&&valid())sfx('fist',.9,900)},300);
+    }
+    renderBluntVfx(fx);
+    await wait(Math.max(0,SLASH_TIMING.impact-(performance.now()-fx.t)));
+    impact();if(remote&&G&&G.rid===fx.rid)fx.battle=G.fight;
+    await wait(Math.max(0,SLASH_TIMING.total-(performance.now()-fx.t)));
+  }finally{cancelAnimationFrame(fx.raf);clearTimeout(fx.soundT);if(BLUNT_VFX.active===fx){BLUNT_VFX.active=null;clearBluntVfx()}}
+}
+async function bluntAttack(f){const data={id:f.id,state:snap()};E('blunt',data);await playBluntHit(data)}
 const HPA={},HPM=260,HPG0=320,HPG1=1000;
 const foeHk=f=>'f'+f.id+'|'+f.n+'|'+f.max;
 /* v0.30.0 敵人卡浮字（主人 2026-11-17）：生命掉了浮出紅色「−N」，被打空浮出白色「未命中」。
