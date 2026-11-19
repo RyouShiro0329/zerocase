@@ -1,12 +1,12 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=e1f387fa" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=208479ea" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fx/slash-12.webp" as="image" type="image/webp">
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=e1f387fa") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=208479ea") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
@@ -684,7 +684,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.38.1", "b": 94, "t": "2026-11-20T07:10:43+08:00"};
+const ZC_VER={"v": "0.38.2", "b": 95, "t": "2026-11-20T07:30:10+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -2977,6 +2977,10 @@ YD4:{L:'Y',n:'旅館・大廳',
   {l:'趁換班溜過去',hide:'yd3a',k:'AGI',d:13,s:'敏捷檢定：只有一個人守著的幾分鐘',t:'m',ok:{t:`你貼著牆，順著管線一段一段挪過去。換班的人在說話，沒有往這邊看。你記住了他們換班的空檔。`,r:{flag:['yd4','yd4a','ylabclr']},go:'Y0'},ng:{t:`你的鞋底踩到了碎玻璃。紅色的鏡片轉了過來。`,r:{flag:['yd4','yd4f']},fight:{n:2,names:['A.C.R.U. 隊員','A.C.R.U. 隊員']},go:'Z0'}},
   {l:'先退出旅館',s:'下次回來，守衛還在',t:'q',ok:{t:`你們沒有試。你把帽簷壓低，從員工通道退到後巷。想進地下室，只能找機會，或是硬闖。`,r:{flag:['yd4','yd4b']},go:'Z0'}}]}
 });
+/* v0.38.2 首次旅館的隨機事件要符合所在的地方：at＝這張牌只會在這些區域（樓層）出現。
+   例：走廊、客房門縫的事件不會出現在電梯井或外牆；沒標 at 的牌哪裡都能抽。 */
+{const EVAT={lights:'ABEFGHPC',name:'ABEFGHP',floor:'ABE',blood:'ABEFGHP',radio:'ABEFH',survivor:'ABEH',body:'ABEFGHP',smell:'ABEFH',tv:'AB',kid:'ABE',phone:'AB',smoke:'ABE',mirror:'ABE',roomservice:'ABE',trader1:'ABEH'};
+ for(const e of EVPOOL)if(EVAT[e.id])e.at=[...EVAT[e.id]]}
 // 旅館事件牌：每階段一副，每次搜客房抽一張（不放回）
 EVPOOL.push(
  {id:'yh1a',z:'Y',stg:[1],t:`二樓走廊最底的客房，門縫下透出一條細細的光。裡面有人在小聲說話，說得很快，像在背什麼。`,c:[
@@ -3858,6 +3862,7 @@ function makeSched(){const df=(G.opts&&G.opts.diff)||'normal';const r=(d,a,b)=>a
   return s}
 const CITY_EV=['blackout','broadcast','evacgone','raid','shadow','sweep','warn','fire'];
 // 事件池的條件：d0／d1 天數範圍、need 旗標
+function evCands(nd){const ch=LV[nd.L].ch||1;let m=EVPOOL.map((e,i)=>i).filter(i=>(EVPOOL[i].ch||1)===ch&&evOk(EVPOOL[i])&&(!EVPOOL[i].at||EVPOOL[i].at.includes(nd.L)));const zm=m.filter(i=>EVPOOL[i].z===nd.L);return zm.length?zm:m.filter(i=>!EVPOOL[i].z)}
 const evOk=e=>(!e.d0||dayN()>=e.d0)&&(!e.d1||dayN()<=e.d1)&&(!e.need||flagOk(e.need))&&(!e.hide||!flagOk(e.hide))&&(!e.stg||e.stg.includes(hotelStage()));
 async function cityTick(){if(!G.sch)return false;G.fired=G.fired||{};
   for(const k of CITY_EV){if(G.fired[k]||G.clock<G.sch[k])continue;G.fired[k]=1;if(await cityEvent(k))return true}
@@ -3909,9 +3914,12 @@ const curNode=()=>G.ev!=null?EVPOOL[G.ev]:N[G.node];
 const zBudgetMax=()=>Math.max(2,able().length);
 const zSpent=()=>(G.zb&&G.zb[G.node])||0;
 const zIsSearch=c=>!c.zback&&!c.stay&&!c.go&&!(c.ok&&c.ok.go)&&!(c.ok&&c.ok.r&&c.ok.r.flag)&&!(c.ng&&c.ng.go);
+// 走過的房間、往回走的出口一律封死：旅館只能往前（回訪旅館另有條件式入口）
+function zSeal(cs){if(!G||G.ev!=null||!ZN[G.node]||ZN[G.node].role!=='hub')return cs;
+  return cs.map(c=>c.zp&&((c.zp.k==='room'&&G.flags['v_'+c.zp.room]&&!(c.once&&c.keep&&G.used&&G.used[usedKey(c)]))||c.zp.k==='back')?{...c,_hid:1}:c)}
 function zBudget(cs){if(!G||G.ev!=null||!ZN[G.node]||!['room','hub'].includes(ZN[G.node].role)||zSpent()<zBudgetMax())return cs;
-  return cs.map(c=>zIsSearch(c)&&!(c.once&&c.keep&&G.used&&G.used[usedKey(c)])?{...c,_hid:1}:c)}
-const choices=()=>darCh(zBudget(zView(searchChoices(curNode()))));
+  return cs.map(c=>(zIsSearch(c)||(c.zp&&c.zp.k==='room'))&&!(c.once&&c.keep&&G.used&&G.used[usedKey(c)])?{...c,_hid:1}:c)}
+const choices=()=>darCh(zBudget(zSeal(zView(searchChoices(curNode())))));
 // 不搬動原選項索引：仔細搜查留在原位置，簡單尋找附加在陣列尾端。
 const SEARCH_CACHE=new WeakMap();
 function canSearch(c){
@@ -3965,6 +3973,8 @@ function visible(c){if(c._hid||c._dup)return false;if(c.stg&&!c.stg.includes(hot
 function nameOf(k){return k==='gun'?'槍械':k.startsWith('g:')?WEAP[k.slice(2)].n:ITEMS[k].n}
 async function enterNode(id){
   id=hotelDecision(id);
+  // 這個地方沒有合適的隨機事件就直接過去，不硬抽不合理的
+  for(let n=0;n<3&&N[id]&&N[id].ev&&N[id].next&&!evCands(N[id]).length;n++)id=N[id].next;
   AUDIO_MOVING=true;stopAmbience();
   // v0.24.1：離開區域前先跑完那一層還沒發生的隨機事件；事件結束（走到原本的出口節點）時接回原本要去的地方
   if(G.zevGo){const zr0=ZN[id];if(zr0&&zr0.z===G.zevGo.z&&zr0.role==='join'){id=G.zevGo.to;G.zevGo=null}else if(!zr0||zr0.z!==G.zevGo.z)G.zevGo=null}
@@ -3992,7 +4002,7 @@ async function enterNode(id){
     for(const p of G.players)if(p.down&&!p.dead&&!p.leftBehind&&!p.evacCarry&&DF().wake){p.down=0;if(p.mad){p.mad=0;setFear(p,90)}p.hp=Math.max(1,Math.ceil(p.max*.25));out(`${nm(p)}咳了幾聲，慢慢撐著牆站了起來。生命回到 ${p.hp}。`,'good')}
   }
   G.node=id;G.ev=null;G.audioVisit=(G.audioVisit||0)+1;G.audioEnteredAt=Date.now();G.votes={};G.rv={};G.pc=null;/* v0.21.0：地上的東西留在原地，回來還撿得到 */G.grounds=G.grounds||{};if(G.gnode&&G.gnode!==id)G.grounds[G.gnode]=G.ground.length?G.ground:undefined;if(G.gnode!==id)G.ground=G.grounds[id]||[];G.gnode=id;G.flags['v_'+id]=1;if(nd.onEnter)nd.onEnter();
-  if(nd.ev){const ch=LV[nd.L].ch||1;let mine=EVPOOL.map((e,i)=>i).filter(i=>(EVPOOL[i].ch||1)===ch&&evOk(EVPOOL[i]));const zm=mine.filter(i=>EVPOOL[i].z===nd.L);mine=zm.length?zm:mine.filter(i=>!EVPOOL[i].z);const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;if(EVPOOL[i].id==='rain')beginRainAudio();out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
+  if(nd.ev){const ch=LV[nd.L].ch||1;const mine=evCands(nd);const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;if(EVPOOL[i].id==='rain')beginRainAudio();out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
   else if(seen&&zr&&(zr.role==='hub'||(zr.role==='room'&&zDone(zr.z)))){hd(nd.n);out(`你回到${/^\w/.test(nd.n)?' ':''}${nd.n}。`,'lore')}
   else{hd(nd.n);out(nd.t,'lore');if(nd.tx){const x=nd.tx();if(x)out(x,'lore')}if(nd.tm&&G.players.some(p=>p.kind==='maggie'&&teamHere(p)))out(nd.tm,'lore')}
   for(const f of afterScene)f();
@@ -4122,7 +4132,7 @@ async function applyRes(c,res,actor,bad){CURC=c;if(c.darGo)G.guided=1;
   // v0.24.0：區域裡仔細搜查會出聲（簡單尋找很安靜）
   if(c._searchMode==='careful'&&ZONES[G.lv])addAlarm(1,actor);
   if(c.once||zMark(c)){G.used=G.used||{};G.used[usedKey(c)]=1}
-  if(zMark(c)&&zIsSearch(c)){G.zb=G.zb||{};G.zb[G.node]=(G.zb[G.node]||0)+1;if(G.zb[G.node]===zBudgetMax())out('能翻的都翻過了，再耗下去只是浪費時間。該往前走了。','rule')}
+  if(zMark(c)&&zIsSearch(c)||(c.zp&&c.zp.k==='room'&&ZN[G.node]&&ZN[G.node].role==='hub')){G.zb=G.zb||{};G.zb[G.node]=(G.zb[G.node]||0)+1;if(G.zb[G.node]===zBudgetMax())out('能翻的都翻過了，再耗下去只是浪費時間。該往前走了。','rule')}
   if(res.r&&res.r.shop){openShop(res.r.shop,res.stay||c.stay?null:(res.go||nextId));return}
   // 留在原地的選項如果打起來，打完回到這個節點（v0.11.0 修正：之前會直接略過戰鬥）
   const stayHere=res.stay||c.stay||(zs&&!res.go&&!c.go);
