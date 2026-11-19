@@ -1,10 +1,10 @@
 {
-  "version": "0.37.1",
-  "build": 91,
-  "created_at": "2026-11-19T05:24:30+08:00",
-  "deployment": "PR#8優化候選；本機與GitHub遊戲驗收通過，由主人決定合併發布",
+  "version": "0.38.0",
+  "build": 92,
+  "created_at": "2026-11-19T13:38:14+08:00",
+  "deployment": "PR#9 穿刺特效候選；僅由主人審核合併後由 GitHub Pages 發布",
   "files": {
-    ".github/workflows/evacuation-qa.yml": "7613f1f262996c8720b5d27573ac58d90822e2e46239cfed1053bd0c7fe90810",
+    ".github/workflows/evacuation-qa.yml": "8a2000f01d925d8b1522b4aa5b61a50a4bc4b48c3cc52af8ce423c088be0cb24",
     ".nojekyll": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "README.md": "f622d83355de0e2f8645a403f62be3c616c350f9de4fc65f331cbc21071f8fe3",
     "audit_v0.22.0.json": "23f18817a8d89c07c3eb44f3d1fe7958eef3c50a6b3a90ecd617c562cf45e514",
@@ -19,7 +19,7 @@
     "docs/QA_v0.35.0.zip": "deea2a7222c0daf8f4cc4dc1996b3e34b3128e69500aca90d6520ceb1ad503de",
     "docs/QA_v0.35.0_RUN_HISTORY.md": "2cda202ee4d5630de1cc40cda8ceafa910825df0369ea3dcc25ecde096826811",
     "docs/RELEASE_v0.35.0.md": "c945fd75d60180722f73b4592ca85985256e070e923d8c4590b435cd1234db1c",
-    "docs/VERSIONS.md": "8e9e3fe7459327770374912e54e0e0985987f42b90cec031fb857622e2d629a4",
+    "docs/VERSIONS.md": "cc57b13463cb93e03d431643ec2c4b9be37ac834ad4b09a05ef7fdd17ffea9cb",
     "docs/audio/2026-11-15-integration-plan.md": "1d8c7185ad2742e1f1b70279b5f9d274f03c36a1b4104513dc5842d2df9ade8d",
     "docs/audio/ASSET_VALIDATION.json": "190994b75a706198d1f3e3435ee47441cee202e55fe70c3593fab8d55d538d0b",
     "docs/audio/ASSET_VALIDATION_V0.21.10.json": "6d61e118b4a1ebef0708d9e4e687d55afbf48a288d61c98a772f1cb5113c612a",
@@ -89,7 +89,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "d0d2790b8ba0cedfdd5302ea28df2e3d1588a824fd167da793e24d431ea5cf9f",
+    "index.html": "66d155ebaa7d3ca28e0ebc589386acc735ffe390318f93c7f8a98cf83d15b98e",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -205,11 +205,11 @@
     "tests/weather.test.cjs": "cc75b126841c5a07a695b7f77d132e30eae97cc3ca4772a0e01e2852011c88ef",
     "tests/zone.test.cjs": "423546f0a6394f096450655b9cc385fac44bbf0d443ce44981e3347ab797fb8a",
     "tools/check_evacuation.cjs": "870849f4d615ba77b9d84258f9aaaf6f3c45faa57f10927cf81242f6fd7b2134",
-    "tools/evacuation-browser.cjs": "f62c5c49792ace3d368b204ab616923a9074b8ccc90ec50896e8af4c3e01627e",
+    "tools/evacuation-browser.cjs": "77094e8ef84e8fa7d146fe39e023858d928d66401956228b03724db32d1aaaa7",
     "tools/make_font_subset.py": "3eb79719caa2f2863185cb10c9b1e32cc96017b10f03284bcb6fb4ac831c1094",
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "2d617d58e070e63b54551a80f3a5ee5b408369f21bde0d2ef3054f128626bdcc",
+    "更新說明.txt": "a8116bec6a1e187b88bf7e699fabca0fa2ea51abcad97042faee35bb73ce9281",
     "AGENTS.md": "e422a0fb401d356089ba29cbf3a3a3dead6ca2f87a968660024474039a2f3f24",
     "tools/battle-player-cards.cjs": "76dca58b4da6f9fc5b198096d4f265203d00f3a138ee37d9824f73d8e9f5d09e",
     "docs/RELEASE_v0.36.0.md": "808507b9a161bb290bbaf891ce3c15c6b0dc729e068c5f4c5221370eec924e56",
@@ -231,6 +231,9 @@
     "docs/slash/BASELINE_v0.37.1.log": "d746e68940c8bad254e691960a58d83be99372eea3001770012d3a481a657cb7",
     "docs/slash/REVIEW_v0.37.1.md": "e0a839522edf61dfcdbc24c6cc768cff402cb18798a9b80f169e4b468b6190bd",
     "docs/superpowers/plans/2026-11-19-slash-hybrid.md": "bbca6963407718362e7675f890774d95240e1f59f38f29a019234ae09fc5fad2",
-    "docs/slash/FINAL_v0.37.1.log": "c8a04acbe30a4597f155f88a47fc868a3c7d29f47f8e36b0c828e3f99652d07e"
+    "docs/slash/FINAL_v0.37.1.log": "c8a04acbe30a4597f155f88a47fc868a3c7d29f47f8e36b0c828e3f99652d07e",
+    "fx/pierce-12.svg": "78ed0d3f985ef92ed87464ce5a27ed3a7dfc2de9d0e10def50fc1df420518e84",
+    "tools/pierce-hit.test.cjs": "0afdf20babbd5ccc9cb9a9f392423812efa94790f0cd96d7c1dc0b70e4c6b933",
+    "tools/pierce-hit-browser.cjs": "0a8b4de7ca639348ada10e890c82044fdf7e4fcb6600f1fe5e6e25f09d21ee5b"
   }
 }
