@@ -176,30 +176,17 @@ const FX = [
    text:'掃向腿側。大體型是否無效仍是原本的規則。',
    note:'角色技能，近戰鈍擊。低橫帶，卡微微側一下。',
    beats:[{card:0, kind:'legsweep', impact:220, len:560}]},
-  {id:'sp-shock', name:'震波・原圖', group:'手繪草稿', sound:'fist', vol:.9, hp:'6/10', bar:'60%', sprite:1,
-   text:'AI 生成草稿，尚未核定。白心加銀環，這張還留著較多紅。',
-   note:'試拳頭與普通鈍擊。單張圖，快入、峰值停 70ms、再散開。峰值 220ms，對齊 fist。之後要做成 12 格。',
-   beats:[{card:0, sprite:'shock', impact:220, len:640}]},
-  {id:'sp-shock-low', name:'震波・少紅', group:'手繪草稿', sound:'fist', vol:.9, hp:'6/10', bar:'60%', sprite:1,
-   text:'同一張震波，把大部分紅收成白光，只留一點噴濺。',
-   note:'AI 草稿，尚未核定。鈍擊要和斬擊分得開：白光、震波、碎屑為主。',
-   beats:[{card:0, sprite:'shock-low', impact:220, len:640}]},
-  {id:'sp-smash', name:'重砸・原圖', group:'手繪草稿', sound:'fist', vol:.9, hp:'4/10', bar:'40%', sprite:1,
-   text:'AI 生成草稿，尚未核定。白光從上打下，接觸處往兩側爆開。',
-   note:'試鐵鎚、大鐵鎚、粉碎。這張紅還偏多，接近斬擊的血。',
-   beats:[{card:0, sprite:'smash', impact:220, len:640}]},
-  {id:'sp-smash-low', name:'重砸・少紅', group:'手繪草稿', sound:'fist', vol:.9, hp:'4/10', bar:'40%', sprite:1,
-   text:'同一張重砸，紅只留在接觸處的一點噴濺。',
-   note:'AI 草稿，尚未核定。直擊的白光還在，紅色比原圖少。',
-   beats:[{card:0, sprite:'smash-low', impact:220, len:640}]},
-  {id:'sp-compare', name:'並排對照', group:'手繪草稿', sound:'fist', vol:.9, hp:'6/10', bar:'60%', sprite:1, sync:1, cards:3,
-   labels:['斬擊・現有主格','震波・少紅','重砸・少紅'],
-   text:'同一張敵人卡、同一種放置。左邊是現有斬擊的主格。',
-   note:'AI 草稿尚未核定。斬擊的峰值在遊戲裡是 335ms；這裡為了並排，三張都在 220ms 到最亮，再停 70ms。',
+  {id:'sp-crush', name:'砸爛', group:'手繪草稿', sound:'fist', vol:.9, hp:'4/10', bar:'40%', sprite:1, loops:3, gap:200, peakAt:228, swingAt:150,
+   text:'AI 草稿，尚未核定。先從下往上揮，再正面砸爛。少紅。',
+   note:'揮擊 0–200ms 加速掃到接觸點，220ms 對齊 fist。蓋住名字和生命的範圍與斬擊相同。單張圖模擬，之後要做成 12 格。',
+   beats:[{card:0, sprite:'crush', impact:220, len:720}]},
+  {id:'sp-compare', name:'並排對照', group:'手繪草稿', sound:'fist', vol:.9, hp:'4/10', bar:'40%', sprite:1, sync:1, cards:2, loops:3, gap:200, peakAt:228, swingAt:150,
+   labels:['斬擊・現有','鈍擊・砸爛'],
+   text:'同一張敵人卡、同一塊範圍。左邊是現有斬擊。右邊先從下揮上來，再砸下去。',
+   note:'AI 草稿尚未核定。名字和生命會被蓋住，這次是要跟斬擊一樣打在卡片上。連播三次。',
    beats:[
-     {card:0, sprite:'slash', impact:220, len:640},
-     {card:1, sprite:'shock-low', impact:220, len:640},
-     {card:2, sprite:'smash-low', impact:220, len:640}
+     {card:0, sprite:'slash', impact:220, len:720},
+     {card:1, sprite:'crush', impact:220, len:720}
    ]}
 ];
 const byId = Object.fromEntries(FX.map(s=>[s.id,s]));
@@ -208,10 +195,8 @@ let reduce = q.get('motion')==='reduce' ? true : q.get('motion')==='full' ? fals
 let soundOn = q.get('sound')!=='0';
 let current = q.get('fx') && byId[q.get('fx')] ? q.get('fx') : 'sp-compare';
 const ASSETS={
-  shock:loadSpr('drafts/ai-shockwave.png'),
-  'shock-low':loadSpr('drafts/ai-shockwave-lowred.png'),
-  smash:loadSpr('drafts/ai-smash.png'),
-  'smash-low':loadSpr('drafts/ai-smash-lowred.png'),
+  crush:loadSpr('drafts/ai-crush.png'),
+  windup:loadSpr('drafts/ai-windup-up.png'),
   slash:loadSpr('../../fx/slash-12.webp')
 };
 function loadSpr(src){
@@ -232,7 +217,19 @@ function beatAt(spec,t){
   const b=spec.beats[spec.beats.length-1];
   return {b, local:b.len, start:spec.beats.reduce((s,x)=>s+x.len,0)-b.len, done:true};
 }
-function totalOf(spec){return spec.sync?Math.max(...spec.beats.map(b=>b.len)):spec.beats.reduce((s,b)=>s+b.len,0)}
+function totalOf(spec){
+  const len=spec.beats[0].len;
+  if(spec.loops>1) return spec.loops*len+(spec.loops-1)*(spec.gap||0);
+  return spec.sync?Math.max(...spec.beats.map(b=>b.len)):spec.beats.reduce((s,b)=>s+b.len,0);
+}
+function sampleTime(spec, t){
+  const len=spec.beats[0].len;
+  if(!(spec.loops>1)) return {local:Math.max(0,t), hide:false, hit:0};
+  const cycle=len+(spec.gap||0);
+  if(t>=totalOf(spec)) return {local:len, hide:false, hit:spec.loops-1};
+  const hit=Math.floor(Math.max(0,t)/cycle), m=t-hit*cycle;
+  return {local:Math.min(m,len), hide:m>=len, hit};
+}
 function cardCount(spec){return spec.cards||1}
 
 function makeCard(i, label){
@@ -589,28 +586,104 @@ function slashFrameAt(t){
   for(let i=0;i<SLASH_POST.length;i++){acc+=SLASH_POST[i]; if(x<acc) return i+6}
   return -1;
 }
-function spritePose(t, impact, len){
-  const holdEnd=impact+70;
-  if(reduce){
-    const a=t<impact? t/Math.max(1,impact) : 1-(t-impact)/Math.max(1,len-impact);
-    return {op:Math.max(0,Math.min(.92,a)), scale:1, blur:0};
-  }
-  if(t<impact){
-    const e=1-Math.pow(1-t/Math.max(1,impact),3);
-    return {op:e, scale:.78+.22*e, blur:(1-e)*2.2};
-  }
-  if(t<holdEnd) return {op:1, scale:1, blur:0};
-  const e=Math.min(1,(t-holdEnd)/Math.max(1,len-holdEnd));
-  return {op:1-e*e, scale:1+.06*e*e, blur:e*e*1.6};
+function slashBox(w, h, scale, sx, sy){
+  const base=Math.min(w*.73, h*2.15)*(scale||1);
+  const bw=base, bh=base*(282/432);
+  const dw=bw*(sx||1), dh=bh*(sy||1);
+  return {x:-2+(bw-dw)/2, y:(h-bh)/2+(bh-dh)/2, dw, dh, bw, bh};
 }
-function drawSlashLike(ctx, img, sx, sy, sw, sh, w, h, pose){
-  if(!img||pose.op<=0.01) return;
-  const dw=Math.min(w*.73, h*2.15)*pose.scale;
-  const dh=dw*(sh/sw);
-  ctx.save();
-  ctx.globalAlpha=pose.op;
-  ctx.filter=pose.blur>0.15?`blur(${pose.blur}px)`:'none';
-  ctx.drawImage(img, sx, sy, sw, sh, -2, (h-dh)/2, dw, dh);
+function coverCrop(sw, sh, dw, dh){
+  if(sw/sh>dw/dh){const csw=sh*(dw/dh); return {sx:(sw-csw)/2, sy:0, sw:csw, sh}}
+  const csh=sw/(dw/dh); return {sx:0, sy:(sh-csh)/2, sw, sh:csh};
+}
+function mapNorm(img, nx, ny, box){
+  const sw=img.naturalWidth, sh=img.naturalHeight;
+  const crop=coverCrop(sw, sh, box.bw, box.bh);
+  const u=(nx*sw-crop.sx)/crop.sw, v=(ny*sh-crop.sy)/crop.sh;
+  return {x:box.x+u*box.bw, y:box.y+v*box.bh};
+}
+let scratch;
+function scratchCtx(w, h, d){
+  if(!scratch) scratch=document.createElement('canvas');
+  const W=Math.round(w*d), H=Math.round(h*d);
+  if(scratch.width!==W||scratch.height!==H){scratch.width=W; scratch.height=H}
+  const c=scratch.getContext('2d');
+  c.setTransform(d,0,0,d,0,0);
+  c.clearRect(0,0,w,h);
+  c.globalAlpha=1; c.filter='none'; c.globalCompositeOperation='source-over';
+  return c;
+}
+function crushMotion(t, impact, len){
+  if(reduce){
+    const a=t<impact?t/Math.max(1,impact):Math.max(0,1-(t-impact)/Math.max(1,len-impact));
+    return {op:Math.max(0,Math.min(.9,a)), scale:1, sx:1, sy:1, blur:0, flash:0, lift:0};
+  }
+  if(t<155) return {op:0, scale:1.16, sx:1, sy:1, blur:0, flash:0, lift:0};
+  if(t<impact){
+    const k=(t-155)/(impact-155), e=k*k*k;
+    return {op:Math.min(1,k*1.35), scale:1.16-.16*e, sx:1, sy:1, blur:(1-k)*1.3, flash:0, lift:0};
+  }
+  if(t<impact+45){
+    const s=Math.sin((t-impact)/45*Math.PI);
+    return {op:1, scale:1, sx:1+.09*s, sy:1-.08*s, blur:0, flash:1-(t-impact)/45, lift:0};
+  }
+  if(t<impact+90) return {op:1, scale:1, sx:1, sy:1, blur:0, flash:0, lift:0};
+  const e=Math.min(1,(t-impact-90)/Math.max(1,len-impact-90));
+  return {op:1-e*e, scale:1+.04*e, sx:1, sy:1, blur:e*2.3, flash:0, lift:-e*8};
+}
+function windMotion(t){
+  if(t>=250) return null;
+  const k=Math.min(1,Math.max(0,t)/200), e=k*k*k;
+  let op=1;
+  if(t>185) op=1-Math.min(1,(t-185)/50);
+  if(reduce) return {op:t<210?.8:0, reveal:1, slide:0};
+  return {op, reveal:Math.min(1.1, e*1.1), slide:1-e};
+}
+function paintCrush(ctx, w, h, d, local, impact, len){
+  const crush=ASSETS.crush&&ASSETS.crush.img, wind=ASSETS.windup&&ASSETS.windup.img;
+  const wm=windMotion(local), cm=crushMotion(local, impact, len);
+  if(wm&&wm.op>0.02&&wind&&wind.naturalWidth){
+    const base=slashBox(w,h,1,1,1);
+    const align=crush&&crush.naturalWidth?{x:mapNorm(crush,.5,.5,base).x-mapNorm(wind,.5,.3,base).x, y:mapNorm(crush,.5,.5,base).y-mapNorm(wind,.5,.3,base).y}:{x:0,y:0};
+    const box=slashBox(w,h,1,1,1);
+    box.x+=align.x+wm.slide*box.bw*.14;
+    box.y+=align.y+wm.slide*box.bh*.2;
+    const crop=coverCrop(wind.naturalWidth, wind.naturalHeight, box.bw, box.bh);
+    const o=scratchCtx(w,h,d);
+    o.drawImage(wind, crop.sx, crop.sy, crop.sw, crop.sh, box.x, box.y, box.dw, box.dh);
+    if(!reduce&&wm.reveal<1.05){
+      const tail=mapNorm(wind,.74,.94,box), tip=mapNorm(wind,.5,.3,box);
+      const dx=tip.x-tail.x, dy=tip.y-tail.y, reach=wm.reveal;
+      const tipX=tail.x+dx*reach, tipY=tail.y+dy*reach;
+      o.globalCompositeOperation='destination-in';
+      const g=o.createLinearGradient(tipX-dx*.16, tipY-dy*.16, tipX, tipY);
+      g.addColorStop(0,'#000'); g.addColorStop(1,'rgba(0,0,0,0)');
+      o.fillStyle=g; o.fillRect(0,0,w,h);
+      o.globalCompositeOperation='source-over';
+    }
+    ctx.save(); ctx.globalAlpha=wm.op;
+    ctx.drawImage(scratch, 0, 0, scratch.width, scratch.height, 0, 0, w, h);
+    ctx.restore();
+  }
+  if(cm.op>0.02&&crush&&crush.naturalWidth){
+    const box=slashBox(w,h,cm.scale,cm.sx,cm.sy);
+    box.y+=cm.lift||0;
+    const crop=coverCrop(crush.naturalWidth, crush.naturalHeight, box.bw, box.bh);
+    ctx.save();
+    ctx.globalAlpha=cm.op;
+    ctx.filter=cm.blur>0.15?`blur(${cm.blur}px)`:'none';
+    ctx.drawImage(crush, crop.sx, crop.sy, crop.sw, crop.sh, box.x, box.y, box.dw, box.dh);
+    if(cm.flash>0.02){
+      ctx.filter='none'; ctx.globalAlpha=cm.flash*.2; ctx.fillStyle='#f4efe6'; ctx.fillRect(0,0,w,h);
+    }
+    ctx.restore();
+  }
+}
+function drawSlashFrame(ctx, img, frame, w, h){
+  if(!img||frame<0) return;
+  const dw=Math.min(w*.73, h*2.15), dh=dw*282/432;
+  ctx.save(); ctx.globalAlpha=1; ctx.filter='none';
+  ctx.drawImage(img, frame%4*432, Math.floor(frame/4)*282, 432, 282, -2, (h-dh)/2, dw, dh);
   ctx.restore();
 }
 function paintSprite(card, spec, t){
@@ -624,24 +697,22 @@ function paintSprite(card, spec, t){
   const ctx=canvas.getContext('2d');
   ctx.setTransform(d,0,0,d,0,0);
   ctx.clearRect(0,0,w,h);
+  const sampled=sampleTime(spec, t);
+  if(sampled.hide){setShake(card,0,0,0);return}
   const idx=Number(card.dataset.card);
-  const beat=spec.sync? spec.beats.find(x=>x.card===idx) : beatAt(spec,t).b;
-  const local=spec.sync? Math.min(t, beat?beat.len:0) : beatAt(spec,t).local;
-  const done=!spec.sync && beatAt(spec,t).done;
-  if(!beat||done){setShake(card,0,0,0);return}
-  const pose=spritePose(local, beat.impact, beat.len);
-  const asset=ASSETS[beat.sprite];
-  const img=asset&&asset.img;
+  const beat=spec.sync?spec.beats.find(x=>x.card===idx):spec.beats[0];
+  if(!beat){setShake(card,0,0,0);return}
+  const local=sampled.local;
   if(beat.sprite==='slash'){
-    const f=slashFrameAt(local);
-    if(f>=0) drawSlashLike(ctx, img, f%4*432, Math.floor(f/4)*282, 432, 282, w, h, pose);
-  }else if(img&&img.naturalWidth){
-    drawSlashLike(ctx, img, 0, 0, img.naturalWidth, img.naturalHeight, w, h, pose);
+    drawSlashFrame(ctx, ASSETS.slash&&ASSETS.slash.img, slashFrameAt(local), w, h);
+    setShake(card,0,0,0);
+    return;
   }
+  paintCrush(ctx, w, h, d, local, beat.impact, beat.len);
   const hit=local-beat.impact;
-  if(!reduce && hit>70 && hit<320){
-    const fall=Math.exp(-(hit-70)/90);
-    setShake(card, Math.cos(hit*0.08)*1.5*fall, -Math.sin(hit*0.06)*0.5*fall, 0);
+  if(!reduce && hit>=0 && hit<170){
+    const fall=Math.exp(-hit/52), amp=3.5*fall;
+    setShake(card, Math.cos(hit*.26)*amp, -Math.abs(Math.sin(hit*.34))*amp*.5, 0);
   }else setShake(card,0,0,0);
 }
 function paintCard(card, spec, t){
@@ -680,7 +751,7 @@ function show(id, t){
   document.body.classList.toggle('gamecard', !!spec.sprite);
   const note=document.querySelector('.zoomnote');
   if(note) note.textContent=spec.sprite
-    ? 'AI 生成草稿，尚未經主人核定。這張卡是遊戲裡的實際大小。單張圖只用縮放和淡出模擬，之後要做成 12 格。'
+    ? 'AI 生成草稿，尚未經主人核定。卡片是遊戲裡的實際大小。先從下往上揮，220ms 砸中，之後要做成 12 格。'
     : '桌面這張卡畫成兩倍大，方便看形狀。手機橫向用的是遊戲裡的尺寸。';
   document.querySelector('#sub').textContent=`${spec.group}・${spec.name}　${Math.round(t)}／${totalOf(spec)} ms`;
   document.querySelector('#cap').innerHTML=`${spec.text}<small>${spec.note}</small>`;
@@ -721,9 +792,11 @@ function play(id){
   let heard=-1;
   const step=now=>{
     const t=now-t0;
-    const beat=beatAt(spec,t);
-    const idx=spec.beats.indexOf(beat.b);
-    if(soundOn && idx!==heard && beat.local<30){
+    const sampled=spec.sprite?sampleTime(spec,t):null;
+    const beat=beatAt(spec, sampled?sampled.local:t);
+    const idx=spec.loops>1?(sampled?sampled.hit:-1):spec.beats.indexOf(beat.b);
+    const local=spec.loops>1?(sampled?sampled.local:0):beat.local;
+    if(soundOn && !((sampled&&sampled.hide)) && idx!==heard && local<36){
       heard=idx;
       if(spec.sound==='fist') playFist(spec.vol);
       else if(spec.sound==='whoosh') playWhoosh();
@@ -779,8 +852,12 @@ window.BLUNT_PREVIEW={
   total: id=>totalOf(byId[id]),
   still: id=>{
     const spec=byId[id];
-    const b=spec.beats[0];
-    return b.impact+48;
+    if(spec.peakAt!=null) return spec.peakAt;
+    return spec.beats[0].impact+48;
+  },
+  swing: id=>{
+    const spec=byId[id];
+    return spec.swingAt!=null?spec.swingAt:150;
   },
   show: (id,t)=>show(id,t),
   ready: Promise.all(Object.values(ASSETS).map(a=>a.p)),

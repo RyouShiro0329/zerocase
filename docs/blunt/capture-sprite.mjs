@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const out = path.resolve(process.argv[2] || '/tmp/blunt-sprite');
 const port = 8766;
-const ids = ['sp-shock','sp-shock-low','sp-smash','sp-smash-low','sp-compare'];
+const ids = ['sp-crush','sp-compare'];
 mkdirSync(out, {recursive:true});
 
 const server = spawn('python3', ['-m', 'http.server', String(port), '--bind', '127.0.0.1'], {cwd:root, stdio:'ignore'});
@@ -73,10 +73,13 @@ async function main(){
     mkdirSync(dir, {recursive:true});
     for(const id of ids){
       const still = await evalJson(ws, sessionId, `BLUNT_PREVIEW.still(${JSON.stringify(id)})`);
+      const swing = await evalJson(ws, sessionId, `BLUNT_PREVIEW.swing(${JSON.stringify(id)})`);
       const total = await evalJson(ws, sessionId, `BLUNT_PREVIEW.total(${JSON.stringify(id)})`);
+      await paint(ws, sessionId, id, swing);
+      writeFileSync(path.join(dir, `${id}-swing.png`), await shot(ws, sessionId));
       await paint(ws, sessionId, id, still);
       const ink = await evalJson(ws, sessionId, 'BLUNT_PREVIEW.ink()');
-      if(!(ink>30)) throw new Error(`${size.tag} ${id} 幾乎是空的（${ink}）`);
+      if(!(ink>30)) throw new Error(`${size.tag} ${id} 峰值幾乎是空的（${ink}）`);
       writeFileSync(path.join(dir, `${id}.png`), await shot(ws, sessionId));
       const effectDir = path.join(out, 'frames', `${size.tag}-${id}`);
       rmSync(effectDir, {recursive:true, force:true});
