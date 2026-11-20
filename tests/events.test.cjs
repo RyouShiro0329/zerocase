@@ -37,7 +37,8 @@ test('全區域及多種狀態組合與發布基準的有效屬性及檢定加�
  const before=game(base),after=game();const zones=JSON.parse(after.run('JSON.stringify(Object.keys(LV))'));
  let count=0;
  for(const zone of zones)for(let i=0;i<32;i++){
-  const state=`G.lv=${JSON.stringify(zone)};G.flags={blackout:${i%2},citypower:${i%7===0?1:0},streetpower:${i%11===0?1:0}};p.frac=${(i>>1)%2};p.pk=${i%5===0?1:0};p.hun=${i%3===0?0:7};p.thi=${i%4===0?0:7};p.fe=${[0,25,50,75,100][i%5]};p.items=${JSON.stringify(i%6===0?{flashlight:1}:{})};p.tl=['flashlight',null];p.traits=${JSON.stringify(i%9===0?['nightowl','keen','athletic','talker']:[])};JSON.stringify(Object.keys(STN).map(s=>[statMod(p,s),checkBonus(p,s)]))`;
+  const state=`G.lv=${JSON.stringify(zone)};G.flags={blackout:${i%2},citypower:${i%7===0?1:0},streetpower:${i%11===0?1:0}};p.frac=${(i>>1)%2};p.pk=${i%5===0?1:0};p.hun=${i%3===0&&i%4===0?0:7};p.thi=${i%4===0?0:7};p.fe=${[0,25,50,75,100][i%5]};p.items=${JSON.stringify(i%6===0?{flashlight:1}:{})};p.tl=['flashlight',null];p.traits=${JSON.stringify(i%9===0?['nightowl','keen','athletic','talker']:[])};JSON.stringify(Object.keys(STN).map(s=>[statMod(p,s),checkBonus(p,s)]))`;
+  // v0.42.0（主人 2026-11-20）：只有餓壞了、還不渴時改成只扣力量、體質，和基準不同，這組改成不餓再比對；新規則在 hotel-stage.test.cjs
   assert.equal(after.run(state),before.run(state),`區域 ${zone}／情境 ${i}`);count++;
  }
  assert.ok(count>=900);console.log('已比對',count,'組情境，共',count*12,'個屬性／檢定結果');
