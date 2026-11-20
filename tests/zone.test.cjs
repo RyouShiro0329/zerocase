@@ -103,3 +103,9 @@ test('被打的恐懼（主人選 A）：一般命中不加，重擊或一下打
  g.run("hitFx({type:'infected',id:0},{},t,3,true)");assert.ok(g.run('t.fe')>0,'重擊');
  g.run("t.fe=0;hitFx({type:'infected',id:0},{},t,6,false)");assert.ok(g.run('t.fe')>0,'三成以上');
 });
+test('出口去哪裡不寫在選項上：感知夠的人才察覺得到，可以告知隊友；搜尋選項沒有小字',()=>{const g=setup();
+ g.run("G.node='A6';G.lv='A';G.players[0].st.PER=-5;makeHints()");assert.ok(!g.run("G.hint.p1"),'感知低看不到');
+ g.run("G.players[0].st.PER=4;makeHints()");const i=g.run("choices().findIndex(c=>c.l==='東側樓梯')");assert.match(g.run(`G.hint.p1[${i}]`),/二樓/);
+ g.run("G.phase='node'");assert.ok(g.run(`tell(G.players[0],${i})`));assert.ok(!g.run("Object.values(N).some(n=>ROUTE[n.L]&&(n.c||[]).some(c=>/→/.test(c.s||'')))"));
+ assert.ok(!g.run("Object.values(N).some(n=>searchChoices(n).some(c=>c._searchMode&&c.s))"));
+});
