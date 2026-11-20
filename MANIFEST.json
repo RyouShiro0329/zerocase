@@ -234,7 +234,7 @@
     "tests/bow-rain.test.cjs": "c9f48c77d458085655a5b97318116fdeaa128fab9df58cb33b5ca10f7f417adf",
     "tests/browser-smoke.cjs": "3d0fdd4d88ee441af2aaecbfb6ee035c08e192d5f6cbce994f1820c777942740",
     "tests/clock-preview.html": "f9703c4004d36292d3ebe6bbf73a2b9edbca0ec39bf5b6ad5ee259dd31ec8136",
-    "tests/events.test.cjs": "eece0afd5acd00a79e41b61e1582dffe60dd2ba9bc07d1f40a979b064bd096c7",
+    "tests/events.test.cjs": "728507dc465b5ce18389540cc3432eba4c1acbb320a0a99f2f54a5ea7da82f9b",
     "tests/exploration.test.cjs": "657bc792a4d166df1f56c49a59ae5d0d2695eddda5c0091f427413204308b34b",
     "tests/feedback.test.cjs": "cd77678f8cac0dce74c920181554a4607862732ed8e2421094bedc0ef7163537",
     "tests/guard.test.cjs": "28343d5f2f11bd44e7cbfc590ef765746cac66320d7ca83d497bfb1a0942ba82",

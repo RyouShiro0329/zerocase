@@ -33,13 +33,16 @@ test('重回節點或讀檔可列出地上的物品及數量',()=>{let g=game();
 test('逃跑遺落的武器真的留在原節點，無法從裝備欄重複丟出',async()=>{let g=game();g.run("let gg=newGear('hammer');gg.drop='far';p.gear.push(gg);recoverDrops(true)");assert.equal(g.run('p.gear.length'),0);assert.equal(g.run('G.ground.length'),1);assert.equal(g.run('G.ground[0].g.drop'),null);assert.match(g.log(),/地上|原地/)});
 test('轉交武器會顯示接收者實際拿在哪一手',()=>{let g=game();g.run("p.gear.push(newGear('hammer'));give(p,'p2',null,1)");assert.match(g.log(),/了白.*隊友/);assert.match(g.log(),/右手/)});
 test('全區域及多種狀態組合與發布基準的有效屬性及檢定加值一致',()=>{
+ const STARVED={STR:-2,CON:-2};
  const base=fs.readFileSync(path.join(__dirname,'baseline-v0.21.5.html'),'utf8');
  const before=game(base),after=game();const zones=JSON.parse(after.run('JSON.stringify(Object.keys(LV))'));
  let count=0;
  for(const zone of zones)for(let i=0;i<32;i++){
-  const state=`G.lv=${JSON.stringify(zone)};G.flags={blackout:${i%2},citypower:${i%7===0?1:0},streetpower:${i%11===0?1:0}};p.frac=${(i>>1)%2};p.pk=${i%5===0?1:0};p.hun=${i%3===0&&i%4===0?0:7};p.thi=${i%4===0?0:7};p.fe=${[0,25,50,75,100][i%5]};p.items=${JSON.stringify(i%6===0?{flashlight:1}:{})};p.tl=['flashlight',null];p.traits=${JSON.stringify(i%9===0?['nightowl','keen','athletic','talker']:[])};JSON.stringify(Object.keys(STN).map(s=>[statMod(p,s),checkBonus(p,s)]))`;
-  // v0.42.0（主人 2026-11-20）：只有餓壞了、還不渴時改成只扣力量、體質，和基準不同，這組改成不餓再比對；新規則在 hotel-stage.test.cjs
-  assert.equal(after.run(state),before.run(state),`區域 ${zone}／情境 ${i}`);count++;
+  const state=hun=>`G.lv=${JSON.stringify(zone)};G.flags={blackout:${i%2},citypower:${i%7===0?1:0},streetpower:${i%11===0?1:0}};p.frac=${(i>>1)%2};p.pk=${i%5===0?1:0};p.hun=${hun};p.thi=${i%4===0?0:7};p.fe=${[0,25,50,75,100][i%5]};p.items=${JSON.stringify(i%6===0?{flashlight:1}:{})};p.tl=['flashlight',null];p.traits=${JSON.stringify(i%9===0?['nightowl','keen','athletic','talker']:[])};JSON.stringify(Object.keys(STN).map(s=>[s,statMod(p,s),checkBonus(p,s)]))`;
+  const hun=i%3===0?0:7;let want=before.run(state(hun));
+  // v0.42.0（主人 2026-11-20 選方案 A）：只有餓壞了、還不渴時，新規則只扣力量、體質 2（不影響檢定加值），預期值＝基準不餓的結果再扣
+  if(hun===0&&i%4!==0)want=JSON.stringify(JSON.parse(before.run(state(7))).map(([s,m,c])=>[s,STARVED[s]?m+STARVED[s]:m,c]));
+  assert.equal(after.run(state(hun)),want,`區域 ${zone}／情境 ${i}`);count++;
  }
  assert.ok(count>=900);console.log('已比對',count,'組情境，共',count*12,'個屬性／檢定結果');
 });
