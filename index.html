@@ -684,7 +684,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.43.1", "b": 103, "t": "2026-11-21T00:57:00+08:00"};
+const ZC_VER={"v": "0.43.2", "b": 104, "t": "2026-11-21T02:45:00+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -4337,7 +4337,7 @@ async function enterNode(id){
     if(typeof lateJoin==='function')lateJoin();
     for(const p of G.players)if(p.down&&!p.dead&&!p.leftBehind&&!p.evacCarry&&DF().wake){p.down=0;if(p.mad){p.mad=0;setFear(p,90)}p.hp=Math.max(1,Math.ceil(p.max*.25));out(`${nm(p)}咳了幾聲，慢慢撐著牆站了起來。生命回到 ${p.hp}。`,'good')}
   }
-  G.node=id;G.ev=null;G.audioVisit=(G.audioVisit||0)+1;G.audioEnteredAt=Date.now();G.votes={};G.rv={};G.pc=null;/* v0.21.0：地上的東西留在原地，回來還撿得到 */G.grounds=G.grounds||{};if(G.gnode&&G.gnode!==id)G.grounds[G.gnode]=G.ground.length?G.ground:undefined;if(G.gnode!==id)G.ground=G.grounds[id]||[];G.gnode=id;G.flags['v_'+id]=1;if(nd.onEnter)nd.onEnter();
+  G.node=id;G.gwOk=null;G.ev=null;G.audioVisit=(G.audioVisit||0)+1;G.audioEnteredAt=Date.now();G.votes={};G.rv={};G.pc=null;/* v0.21.0：地上的東西留在原地，回來還撿得到 */G.grounds=G.grounds||{};if(G.gnode&&G.gnode!==id)G.grounds[G.gnode]=G.ground.length?G.ground:undefined;if(G.gnode!==id)G.ground=G.grounds[id]||[];G.gnode=id;G.flags['v_'+id]=1;if(nd.onEnter)nd.onEnter();
   if(nd.ev){const ch=LV[nd.L].ch||1;const mine=evCands(nd);const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;if(EVPOOL[i].id==='rain')beginRainAudio();out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
   else if(seen&&zr&&(zr.role==='hub'||(zr.role==='room'&&zDone(zr.z)))){hd(nd.n);out(`你回到${/^\w/.test(nd.n)?' ':''}${nd.n}。`,'lore')}
   else if(seen&&nd.sr){hd(nd.n);if(from!==id)out(`你回到${/^\w/.test(nd.n)?' ':''}${nd.n}。`,'lore')}
@@ -4479,7 +4479,7 @@ async function applyRes(c,res,actor,bad){CURC=c;if(c.darGo)G.guided=1;
   // v0.39.0 搜索點：記下選過的（之後消失）；就地翻找的選項做完留在原地，次數用完才往前
   const sr=G.ev==null&&N[G.node].sr&&!c.srOut?G.node:null,srIn=!!sr&&!c.go&&!(res&&res.go);
   if(sr){const st=srSt(sr);st.u[c._searchBase!=null?c._searchBase:choices().indexOf(c)]=1;st.n++;if(srIn)nextId=sr}
-  if(!res){if(zs&&!c.go)return zStayHere(c);if(srIn&&srMore(sr))return zStayHere(c);if(await alarmCheck(nextId))return;return enterNode(nextId)}
+  if(!res){if(zs&&!c.go)return zStayHere(c);if(srIn&&srMore(sr))return zStayHere(c);if(await groundWait(nextId))return;if(await alarmCheck(nextId))return;return enterNode(nextId)}
   resultAudio(res);
   if(res.t)out(res.t,bad?'bad':'');recordCodexChoice(c,res,bad);
   await outcome(res,actor);
@@ -4498,12 +4498,19 @@ async function applyRes(c,res,actor,bad){CURC=c;if(c.darGo)G.guided=1;
   const target=res.go||(stayHere?G.node:nextId);
   // v0.14.0 win：打贏（不是逃跑）才給的獎勵，在 endFight 結算
   if(res.fight){G.after=target;G.winR=res.win||null;await startFight(moreFoes(res.fight));return}
+  if(await groundWait(target))return;
   if(await alarmCheck(target))return;
   await enterNode(target);
 }
 // v0.39.0 前面的抉擇讓戰鬥多出敵人（more：{need 旗標, names, t}），例：發電機的燈把感染者引進大廳
 function moreFoes(f){const m=f&&f.more;if(!m||!flagOk(m.need))return f;out(m.t,'bad');return {...f,n:(f.n||1)+m.names.length,names:[...(f.names||[]),...m.names]}}
 // 留在原地：v0.24.0 起在區域裡的任何動作之後都檢查警戒（原本只在換地方時檢查）
+// v0.43.2 主人：要離開時地上還有東西，先停下來；全隊都按「繼續往前」才走（單人自己按），免得東西留在原地就不見了
+async function groundWait(go){if(!G||G.over||!go||go===G.node||!G.ground||!G.ground.length||G.gwOk===go||!ctl().length)return false;
+  G.gw={go,ready:{}};G.votes={};G.rv={};G.pc=null;G.phase='gw';stopCd();out('地上還有東西。要撿的打開背包撿起來，好了再按「繼續往前」。','sys',true);push();draw();return true}
+async function groundGo(p){const W=G.gw;if(!W||G.phase!=='gw')return;W.ready[p.pid]=1;push();draw();
+  if(!ctl().every(q=>W.ready[q.pid]))return;
+  G.gw=null;G.gwOk=W.go;G.phase='busy';if(await alarmCheck(W.go))return;return enterNode(W.go)}
 async function zStayHere(c){G.votes={};G.rv={};G.pc=null;if(await alarmCheck(null,true))return;if(await zEvent())return;makeHints();G.phase='node';startCd()}
 async function alarmCheck(target,here){
   if(here)target=null;
@@ -4588,7 +4595,7 @@ const karmaMul=p=>(p.karma||0)<=-4?1.5:(p.karma||0)<=-2?1.2:1;
 const evilTeam=()=>!!G&&able().some(p=>(p.karma||0)<=-6);
 // 好口才：買東西便宜 20%（跟惡值的加價疊在一起算）
 const buyPrice=(p,it)=>Math.max(1,Math.round(it.p*karmaMul(p)*(tr(p,'talker')?.8:1)));
-function shopLeave(go){if(go)return (async()=>{if(await alarmCheck(go))return;return enterNode(go)})();G.votes={};G.rv={};G.pc=null;makeHints();G.phase='node';startCd();push();draw()}
+function shopLeave(go){if(go)return (async()=>{if(await groundWait(go))return;if(await alarmCheck(go))return;return enterNode(go)})();G.votes={};G.rv={};G.pc=null;makeHints();G.phase='node';startCd();push();draw()}
 /* v0.26.0 燙手貨與賣武器：只有黑市商人收燙手貨（滅菌部隊的槍、制服）；一般商人裡只有流浪商人和德克收武器 */
 const hotG=g=>!!(g&&g.hot&&!g.drop);
 const hotP=p=>!!(p&&p.gear&&p.gear.some(hotG));
@@ -4613,7 +4620,7 @@ function shopSell(p,k){if(!G.shop||!hasI(p,k))return false;if(HOTITEM(k)&&!SHOPS
 async function shopReady(p){const S=G.shop;if(!S)return;S.ready[p.pid]=1;push();draw();
   if(!ctl().every(q=>S.ready[q.pid]))return;
   G.shop=null;out('你們離開了商店。','sys',true);
-  if(S.go){if(await alarmCheck(S.go))return;return enterNode(S.go)}
+  if(S.go){if(await groundWait(S.go))return;if(await alarmCheck(S.go))return;return enterNode(S.go)}
   G.votes={};G.rv={};G.pc=null;makeHints();G.phase='node';startCd()}
 
 /* ================= v0.24.0 地圖重構：區域＋點位（資料在 story4.js 的 ZONES） =================
@@ -5558,7 +5565,7 @@ async function finishEvacuation(actor,route){const F=G.fight;if(!F)return;
   addAlarm(1,actor);out('撤離的人在安全處會合。傷勢與負面狀態仍在，需要自行修整。','sys',true);
   const go=G.after;G.after=null;
   if(!go){G.phase='node';startCd();push();draw();return}
-  G.phase='busy';if(await alarmCheck(go))return;await enterNode(go);
+  G.phase='busy';if(await groundWait(go))return;if(await alarmCheck(go))return;await enterNode(go);
 }
 function rejoinStranded(nextLv){for(const p of G.players){
   if(!p.leftBehind||p.leftBehind===nextLv||p.dead)continue;
@@ -5580,6 +5587,7 @@ async function endFight(){
   if(G.winR){const w=G.winR;G.winR=null;if(!G.over&&able().length){if(w.t)out(w.t,'good');await outcome(w,able()[0]);push();draw()}}
   const go=G.after;G.after=null;
   if(!go){G.phase='node';startCd();return}
+  if(await groundWait(go))return;
   if(await alarmCheck(go))return;
   await enterNode(go);
 }
@@ -5721,6 +5729,7 @@ function handle(pid,a){
   if(a.a==='tell')return run(async()=>{tell(p,a.i)});
   if(a.a==='lock')return run(async()=>{zLockNote(a.i)});
   if(G.phase==='shop'&&G.shop&&!p.down&&!p.mad){if(a.a==='buy')return run(async()=>{shopBuy(p,a.i)});if(a.a==='sell')return run(async()=>{shopSell(p,a.k)});if(a.a==='sellg')return run(async()=>{shopSellG(p,a.u)});if(a.a==='shopdone')return run(()=>shopReady(p))}
+  if(G.phase==='gw'&&a.a==='gwgo'&&!p.down&&!p.mad)return run(()=>groundGo(p));
   if(G.fight&&['atk','tact','reload','unjam','cock','pickup','kick','counter','brace','molotov','ext','flash','flee','use','revive','equip','guard','free','block','dodge','cover','dual','calm','subdue','csk','spot','pat','tool'].includes(a.a))return run(()=>fightAct(pid,a));
   if(G.fight)return;
   if(p.down)return;
@@ -6499,6 +6508,8 @@ function draw(){
   }else if(G.phase==='shop'&&G.shop){const S=G.shop,sh=SHOPS[S.id];if(S.key!==SHOPKEY){SHOPKEY=S.key;SHOPSHUT=false;SHOPSEL=0;SHOPMODE='buy'}if(OVK==='shop')setTimeout(()=>{if(OVK==='shop')panel('shop')},0);const rd=ctl().filter(q=>S.ready[q.pid]).length;T=sh.n;Pl=`$${m.usd||0}`;
     h=chBtn('data-openshop','回到商店','看看商品、買東西、賣東西','','')+chBtn('data-shopdone',S.ready[MYPID]?'已經準備好，等其他人':'買好了，繼續',`${rd}／${ctl().length} 人準備好`,'','',!!S.ready[MYPID]);
     if(OVK==null&&!SHOPSHUT)setTimeout(()=>{if(G&&G.phase==='shop'&&OVK==null)panel('shop')},0)
+  }else if(G.phase==='gw'&&G.gw){const W=G.gw,rd=ctl().filter(q=>W.ready[q.pid]).length;T='地上還有東西';Pl=MP()?'等大家':'行動';
+    h=chBtn('data-open="bag"','打開背包','撿地上的東西','','',false)+chBtn('data-gwgo',W.ready[MYPID]?'已經準備好，等其他人':'繼續往前',MP()?`${rd}／${ctl().length} 人準備好`:'','','',!!W.ready[MYPID]||m.down||m.mad)+`<p class="note">地上有：${G.ground.map(groundName).join('、')}。</p>`;
   }else{T='……';Pl='';h=''}
   if(OVK==='shop'&&!(G.phase==='shop'&&G.shop))closeOv();
   if(OVK==='bag'&&!$('#ov').hidden)setTimeout(()=>{if(OVK==='bag'&&!$('#ov').hidden)panel('bag')},0);if(DD)setTimeout(()=>{if(DD)drawDD()},0);$('#chTitle').innerHTML=T;$('#chPill').textContent=Pl;$('#choices').innerHTML=h;/* v0.21.0 朋友回饋：拿掉數字鍵與 Shift 告知隊友，一律點按鈕 */
@@ -6739,6 +6750,7 @@ document.addEventListener('click',e=>{
   else if(d.sell){act({a:'sell',k:d.sell});later2()}
   else if(d.sellg){act({a:'sellg',u:+d.sellg});later2()}
   else if(b.hasAttribute('data-shopdone')){act({a:'shopdone'});later2()}
+  else if(b.hasAttribute('data-gwgo')){act({a:'gwgo'})}
   else if(b.hasAttribute('data-shopmode')){SHOPMODE=SHOPMODE==='sell'?'buy':'sell';panel('shop')}
   else if(b.hasAttribute('data-shopshut')){SHOPSHUT=true;closeOv();draw()}
   else if(b.hasAttribute('data-openshop')){SHOPSHUT=false;panel('shop')}

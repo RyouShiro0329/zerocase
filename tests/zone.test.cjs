@@ -160,3 +160,21 @@ test('街道段的隨機牌：每段有自己的牌；地鐵站抽不到戶外�
  assert.ok(!ids('J').some(id=>/^s[kmquv]_/.test(id)),'別段的牌不會跑到前街');
 });
 function EVn(g,L){return g.run(`EVPOOL.filter(e=>e.ch===2&&e.at&&e.at.length===1&&e.at[0]==='${L}').length`)}
+
+// v0.43.2 主人：背包放不下、東西掉在地上，選項結果又直接往前走，東西就不見了
+test('地上還有東西要離開時先停下來：按了「繼續往前」才走；地上沒東西照常直接走',async()=>{const g=setup();
+ await g.run("enterNode('J2')");g.run("G.ground.push({k:'bandage',q:2})");
+ await pick(g,'不要靠近');
+ assert.equal(g.run('G.node'),'J2','還沒走');assert.equal(g.run('G.phase'),'gw');
+ await g.run("groundGo(G.players[0])");
+ assert.equal(g.run('G.node'),'J2s','按了繼續才往前');
+ await g.run("enterNode('J3')");await pick(g,labels(g)[0]);
+ assert.notEqual(g.run('G.phase'),'gw','地上沒東西不會停');
+});
+test('連線：每個人都按了「繼續往前」才走',async()=>{const g=setup();
+ g.run("G.players.push({...JSON.parse(JSON.stringify(G.players[0])),pid:'p2',name:'乙'});ROLE='host';push=()=>{}");
+ await g.run("enterNode('J2')");g.run("G.ground.push({k:'bandage',q:1})");
+ assert.equal(await g.run("groundWait('J2s')"),true);
+ await g.run("groundGo(P('p1'))");assert.equal(g.run('G.node'),'J2','只有一個人按');
+ await g.run("groundGo(P('p2'))");assert.equal(g.run('G.node'),'J2s');
+});
