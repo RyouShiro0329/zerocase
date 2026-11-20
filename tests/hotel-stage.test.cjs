@@ -8,6 +8,42 @@ test('旅館事件牌只抽當階段的旅館牌，搜客房有次數上限',asy
  g.run("G.flags.ys2=3");assert.equal(g.run("visible(N.Y0.c.find(c=>c.l==='摸黑上樓搜客房'))"),false);assert.match(g.run('hotelTx()'),/都翻過了/)});
 test('每階段牌數大於次數上限，同一局看到的是子集',()=>{for(const s of [1,2,3,4])assert.ok(setup({}).run(`EVPOOL.filter(e=>e.z==='Y'&&e.stg.includes(${s})).length`)>=setup({}).run(`HCAP[${s}]`))});
 test('舊存檔（沒有 yd 旗標）不會壞：佔領階段只被引導到仍未決定的決定牌',async()=>{const g=setup({blackout:1,raiders:1,acru:1});await g.run("enterNode('Y0')");assert.equal(g.run('G.node'),'YD2')});
-test('區域房間翻找次數用完後，搜尋點位消失、出口還在（單人最少 2 次）',async()=>{const g=setup({});g.run("G.node='E2s';G.lv='E';G.flags.v_E2s=1;G.zd={E:1};G.zb={E2s:2}");const ls=g.run("choices().filter(visible).map(c=>c.l)");assert.ok(ls.length>0);assert.ok(!ls.some(l=>/工具架|備品架/.test(l)));assert.ok(ls.some(l=>/回到/.test(l)));g.run("G.zb={E2s:0}");assert.ok(g.run("choices().filter(visible).map(c=>c.l)").some(l=>/工具架/.test(l)))});
-test('走廊停留後 301 房間與往回走的出口都封死，只剩沒去過的房間和往前的路',()=>{const g=setup({});g.run("G.node='Ah';G.lv='A';G.flags={v_A1:1,v_A3x:1,v_Ah:1};G.zd={A:1}");const ls=g.run("choices().filter(visible).map(c=>c.l)");assert.ok(!ls.some(l=>/301 號房/.test(l)));assert.ok(ls.some(l=>/東側樓梯/.test(l)));g.run("G.node='Eh';G.lv='E';G.flags={v_E2:1,zd_B:1,v_Eh:1};G.zd={E:1,B:1}");assert.ok(!g.run("choices().filter(visible).map(c=>c.l)").some(l=>/西側樓梯上二樓/.test(l)))});
-test('隨機事件符合所在地：電梯井、外牆不抽走廊事件；沒合適事件的地方直接過去',async()=>{const g=setup({});for(const L of ['C','D'])for(const i of g.run(`evCands({L:'${L}'})`))assert.ok(!/smell|tv|kid|mirror|roomservice|phone|floor/.test(g.run(`EVPOOL[${i}].id`)));assert.equal(g.run("evCands({L:'D'}).length"),0);await g.run("enterNode('D3')");assert.notEqual(g.run('G.node'),'D3');assert.equal(g.run('G.ev'),null)});
+// v0.39.0 單向路線（docs/HOTEL_ROUTE_SPEC.md）：各區專用隨機牌與六個抉擇的後果
+const opts=g=>g.run("choices().filter(visible).map(c=>c.l)");
+async function pick(g,l,ok=true){const i=g.run(`choices().findIndex(c=>c.l===${JSON.stringify(l)}&&visible(c))`);assert.ok(i>=0,'找不到選項：'+l);await g.run(`(async()=>{const c=choices()[${i}];await applyRes(c,${ok}?c.ok:c.ng,G.players[0],${!ok})})()`)}
+function route(g,node){g.run(`G.node='${node}';G.lv=N['${node}'].L;G.ev=null;LOG=[];globalThis.FT_LOG=[];startFight=async s=>{FT_LOG.push(s);G.fight={foes:[]};G.phase='fight'};card=async()=>{};chapterCard=async()=>{};hazard=async()=>false;startCd=()=>{};reportEffects=()=>{};reportGround=()=>{};tickAll=async()=>true;alarmCheck=async()=>false;FAST=1`)}
+test('隨機事件符合所在地：電梯井、外牆有自己的牌，不抽走廊事件；商人移到旅館外的街上',async()=>{const g=setup({});
+ for(const L of ['C','D']){const ids=g.run(`evCands({L:'${L}'}).map(i=>EVPOOL[i].id)`);assert.ok(ids.length>=5,L);for(const id of ids)assert.ok(!/smell|tv|kid|mirror|roomservice|phone|floor/.test(id),id)}
+ for(const L of ['F','H','G','P'])assert.ok(g.run(`evCands({L:'${L}'}).filter(i=>/^[fhgp]_/.test(EVPOOL[i].id)).length`)>=3,L);
+ assert.ok(!g.run("['A','B','E','H'].some(L=>evCands({L}).some(i=>EVPOOL[i].id==='trader1'))"),'旅館裡沒有商人');assert.ok(g.run("evCands({L:'J'}).some(i=>EVPOOL[i].id==='trader1')"));
+ route(g,'C2x');await g.run("enterNode('C3')");assert.equal(g.run('G.node'),'C3');assert.match(g.run('EVPOOL[G.ev].id'),/^c_|^[a-z]/);assert.ok(g.run("EVPOOL[G.ev].at.includes('C')"));
+});
+test('D1 守住走廊：馬可在大廳、停車場幫忙；把聲音引走不用打但警戒 +1',async()=>{const g=setup({});route(g,'A6d');
+ assert.equal(g.run("N.A6d.c.find(c=>c.l==='守住走廊口').ok.win.r.flag"),'corr_held');
+ g.run('G.alarm=0');await pick(g,'把聲音引到 302');assert.equal(g.run('FT_LOG.length'),0);assert.ok(g.run('G.flags.corr_lured'));assert.equal(g.run('G.alarm'),1);
+ route(g,'I1');assert.ok(!opts(g).includes('跟馬可會合'));g.run('G.flags.corr_held=1');assert.ok(opts(g).includes('跟馬可會合'));
+ await pick(g,'跟馬可會合');assert.equal(g.run('FT_LOG[0].n'),1,'大廳只剩一隻');
+ route(g,'P4');assert.ok(opts(g).includes('跟馬可一起拉開鐵捲門'));
+});
+test('D2 冷藏室：開門救出蘿莎＝大廳有人幫忙、知道地下室鐵門的事；不開就沒有',async()=>{const g=setup({});route(g,'F2x');
+ await pick(g,'拆開拖把柄，把門打開');assert.equal(g.run('FT_LOG[0].n'),2);assert.equal(g.run('G.winR.r.flag.join()'),'freezer_open,fzhint');
+ route(g,'I1');assert.ok(!opts(g).includes('讓蘿莎引開一隻'));g.run('G.flags.freezer_open=1;G.flags.fzhint=1');assert.ok(opts(g).includes('讓蘿莎引開一隻'));
+ g.run('N.Y0.onEnter&&N.Y0.onEnter()');assert.equal(g.run('G.flags.knowlab'),1,'回訪旅館時知道地下室鐵門');
+});
+test('D3 凱文：幫他包紮＝拿到鑰匙和捷徑；鎖門休息＝他死在門外、停車場遇到他',async()=>{const g=setup({});route(g,'H2');
+ const bc="choices().find(c=>c.l==='等凱文回來，幫他包紮')";g.run('for(const k of ["bandage","sbandage","med","alcohol"])delete G.players[0].items[k]');assert.equal(g.run(`choiceOk(${bc})`),false,'沒有繃帶不能選');g.run("G.players[0].items.bandage=1");
+ await pick(g,'等凱文回來，幫他包紮');assert.ok(g.run('G.flags.kevin_alive&&G.flags.carkey&&G.flags.parknote'));assert.equal(g.run('G.players[0].items.bandage||0'),0);
+ const g2=setup({});route(g2,'H2');await pick(g2,'把凱文的房門鎖上，躺一下');assert.ok(g2.run('G.flags.kevin_dead'));assert.ok(!opts(g2).some(l=>/等凱文回來/.test(l)),'錯過了');
+ route(g2,'P1');await g2.run("enterNode('P1k')");assert.equal(g2.run('G.node'),'P1k');
+});
+test('D4 路易斯：止血＝他帶你走員工樓梯直接到停車場；三個選項互斥',async()=>{const g=setup({});route(g,'E3d');
+ assert.deepEqual(JSON.parse(g.run('JSON.stringify(choices().filter(visible).map(c=>c.l))')),['幫他止血','打開寄放間裡那個在動的箱子','不碰，繼續走']);g.run("G.players[0].items.bandage=1");await pick(g,'幫他止血');
+ assert.equal(g.run('G.node'),'E4');assert.ok(opts(g).includes('跟著路易斯走員工樓梯'));assert.equal(g.run("N.E4.c.find(c=>c.l==='跟著路易斯走員工樓梯').ok.go"),'P4');
+});
+test('D5 發電機：開了燈，大廳的戰鬥多一隻被燈光引來的',async()=>{const g=setup({});route(g,'I1');await pick(g,'趁它們還沒發現，先動手');const n0=g.run('FT_LOG[0].n');
+ route(g,'I1');g.run('G.flags.power=1');await pick(g,'趁它們還沒發現，先動手');assert.equal(g.run('FT_LOG[0].n'),n0+1);assert.ok(g.run("FT_LOG[0].names.includes('被燈光引來的感染者')"));
+});
+test('D6 入住簿：帶走的可以賣給黑市商人一次',async()=>{const g=setup({});route(g,'BM0');assert.ok(!opts(g).includes('給他看旅館的入住簿'));
+ g.run('G.flags.ledger=1;G.players[0].usd=0');assert.ok(opts(g).includes('給他看旅館的入住簿'));await pick(g,'給他看旅館的入住簿');
+ assert.equal(g.run('G.players[0].usd'),30);assert.ok(!opts(g).includes('給他看旅館的入住簿'));
+});
