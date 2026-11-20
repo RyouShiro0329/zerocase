@@ -1,6 +1,7 @@
 // 真實開局與攻擊選單；受控骰點僅在測試頁使用，不改遊戲本體。
 const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs');
 const URL=process.env.ZC_QA_URL||'http://localhost:8768/index.html',OUT='qa-output/pierce-audio';
+const ZC_VER=JSON.parse(fs.readFileSync(require('node:path').join(__dirname,'..','index.html'),'utf8').match(/const ZC_VER=(\{.*?\});/)[1]),VER_TXT=`v${ZC_VER.v}・Build ${ZC_VER.b}`;
 const report={url:URL,checks:[],errors:[],audio:[],phone:'待主人實機驗收',network:'未測試：正式多人網路實連；事件接收由邏輯測試驗證'};
 function check(name,ok){report.checks.push({name,result:ok?'通過':'失敗'});assert.ok(ok,name)}
 (async()=>{fs.mkdirSync(OUT,{recursive:true});const browser=await chromium.launch();
@@ -8,7 +9,7 @@ try{for(const [width,height] of [[844,390],[393,690]]){
  const tag=width+'x'+height,ctx=await browser.newContext({viewport:{width,height},hasTouch:true}),p=await ctx.newPage();
  p.on('pageerror',e=>report.errors.push(e.message));p.on('console',m=>{if(m.type()==='error'&&!/Failed to load|net::|favicon|firebase|gstatic|ERR_/i.test(m.text()))report.errors.push(m.text())});
  await p.addInitScript(()=>{localStorage.setItem('zc5-ui',JSON.stringify({snd:0,bgm:0,spd:.3,orient:'auto'}));setInterval(()=>{for(const s of ['#dice','#lvcard','#enc']){const e=document.querySelector(s);if(e&&!e.hidden)e.click()}},70)});
- await p.goto(URL);await p.click('#gateNo');check(tag+'主選單版本',await p.locator('.ver').innerText()==='v0.37.2・Build 92');
+ await p.goto(URL);await p.click('#gateNo');check(tag+'主選單版本',await p.locator('.ver').innerText()===VER_TXT);
  await p.click('[data-cat="custom"]');await p.fill('#cname','穿刺驗收');await p.click('[data-ctab="tal"]');await p.click('[data-tal="keen"]');await p.click('[data-ctab="sk"]');await p.click('[data-csk="aid"]');await p.click('[data-m="cdone"]');await p.click('[data-m="solo"]');await p.click('[data-m="go"]');
  await p.waitForFunction(()=>G&&G.phase==='node'&&!busy,null,{timeout:30000});
  await p.evaluate(()=>{const p=me();p.gear=[];p.hand={R:null,L:null};const g=newGear('screwdriver');p.gear.push(g);equip(p,g.u,'R');window.__encounter=startFight({n:2,types:['infected'],noMut:1,mode:'first'})});

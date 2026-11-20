@@ -14,6 +14,8 @@ jobs:
       NODE_OPTIONS: --test-reporter=tap
     steps:
       - uses: actions/checkout@v4
+      - name: 讀取遊戲版本
+        run: node -e "const v=JSON.parse(require('fs').readFileSync('index.html','utf8').match(/const ZC_VER=(\{.*?\});/)[1]);console.log('ZC_V='+v.v)" >> "$GITHUB_ENV"
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -31,5 +33,5 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: pierce-audio-v0.37.2-qa
+          name: pierce-audio-v${{ env.ZC_V }}-qa
           path: qa-output/
