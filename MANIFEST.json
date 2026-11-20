@@ -1,7 +1,7 @@
 {
-  "version": "0.40.1",
-  "build": 98,
-  "created_at": "2026-11-20T14:07:51+08:00",
+  "version": "0.40.2",
+  "build": 99,
+  "created_at": "2026-11-20T14:23:58+08:00",
   "deployment": "候選版，尚未合併部署",
   "files": {
     ".github/workflows/evacuation-qa.yml": "7613f1f262996c8720b5d27573ac58d90822e2e46239cfed1053bd0c7fe90810",
@@ -30,7 +30,7 @@
     "docs/RELEASE_v0.36.0.md": "808507b9a161bb290bbaf891ce3c15c6b0dc729e068c5f4c5221370eec924e56",
     "docs/RELEASE_v0.36.1.md": "a460d1a78aa4b3009c5032944826f1cd1097c7a4fe7b0d2be8c6520ef27f84fa",
     "docs/RELEASE_v0.37.2.md": "5a6fa2a2c722fde837b51dbb297f7a34d48e6b9c9bd1c1787cc6504c94f78f60",
-    "docs/VERSIONS.md": "9659b6abd2811db24b5ccea482d9aee9fa4e8046e523ba3ec3c9742bf721131a",
+    "docs/VERSIONS.md": "9d07a3b40625c277cf979652326266650c57ee1ade5334eaeffe41536b497003",
     "docs/audio/2026-11-15-integration-plan.md": "1d8c7185ad2742e1f1b70279b5f9d274f03c36a1b4104513dc5842d2df9ade8d",
     "docs/audio/ASSET_VALIDATION.json": "190994b75a706198d1f3e3435ee47441cee202e55fe70c3593fab8d55d538d0b",
     "docs/audio/ASSET_VALIDATION_V0.21.10.json": "6d61e118b4a1ebef0708d9e4e687d55afbf48a288d61c98a772f1cb5113c612a",
@@ -128,7 +128,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "31c20c5411bff4d6fed8ca8dd5d3437bfbf7d202a79a77917f336f1d04e08fb8",
+    "index.html": "0dd5e13375aee9523f37dc722a368d98f0318503fb3955fe3d7dc94dc96b8027",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -230,7 +230,7 @@
     "tests/bow-rain.test.cjs": "c9f48c77d458085655a5b97318116fdeaa128fab9df58cb33b5ca10f7f417adf",
     "tests/browser-smoke.cjs": "3d0fdd4d88ee441af2aaecbfb6ee035c08e192d5f6cbce994f1820c777942740",
     "tests/clock-preview.html": "f9703c4004d36292d3ebe6bbf73a2b9edbca0ec39bf5b6ad5ee259dd31ec8136",
-    "tests/events.test.cjs": "1b5124fce7154e5703813a3f27e327f99fa76ea3f3c2883e374087b373fdafd3",
+    "tests/events.test.cjs": "e5109cfa7b44966d15c399ce2fbbdb7fdb798dea083775e46d29c0f8f505df89",
     "tests/exploration.test.cjs": "657bc792a4d166df1f56c49a59ae5d0d2695eddda5c0091f427413204308b34b",
     "tests/feedback.test.cjs": "cd77678f8cac0dce74c920181554a4607862732ed8e2421094bedc0ef7163537",
     "tests/guard.test.cjs": "eb0e711d5c149a75f34654c97b0cb628e6b94fdbe268b3400525959f94ff1066",
@@ -256,6 +256,6 @@
     "tools/slash-hit.test.cjs": "3751b72598f28f9f7c80873bf0348220fb27a134e8766b0faf3f430b6d5cd970",
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "5343e51176d66f46ed0db96af10269cc5d8fc8ee03928f1cd937a083ab2a028e"
+    "更新說明.txt": "f088a8e5d22e2f686e99002fe04cca5766d43f560bc90a33a2f373c07008a955"
   }
 }
