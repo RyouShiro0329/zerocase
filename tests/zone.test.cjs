@@ -109,3 +109,39 @@ test('出口去哪裡不寫在選項上：感知夠的人才察覺得到，可�
  g.run("G.phase='node'");assert.ok(g.run(`tell(G.players[0],${i})`));assert.ok(!g.run("Object.values(N).some(n=>ROUTE[n.L]&&(n.c||[]).some(c=>/→/.test(c.s||'')))"));
  assert.ok(!g.run("Object.values(N).some(n=>searchChoices(n).some(c=>c._searchMode&&c.s))"));
 });
+
+// v0.43.0 街道段（OUTSIDE_MAP_SPEC 第 3 節；抉擇是主人 2026-11-20 決定的）
+test('街道段走單向路線：地點寫街區；整段共用一個警戒，和旅館分開',()=>{const g=setup();
+ g.run("G.node='K1';G.lv='K'");assert.equal(g.run('zPlace()'),'街區・後巷');
+ g.run("G.lv='A';G.alarm=0;G.clock=0;addAlarm(4,null);zSwap('A','K');G.lv='K'");assert.equal(g.run('G.alarm'),0,'出了旅館，街上從 0 開始');
+ g.run("addAlarm(3,null);zSwap('K','Q');G.lv='Q';zSwap('Q','V');G.lv='V'");assert.equal(g.run('G.alarm'),3,'街道段換地點不清掉');
+ g.run("G.node='K5';G.route=['J','K','U']");assert.deepEqual(labels(g),['往封鎖線走'],'走過的地鐵站不再出現');
+});
+
+test('公車司機：用繃帶救他，廣播前就知道北口，但還不能排隊；不救沒有差別、不扣善惡值',async()=>{const g=setup();
+ await g.run("enterNode('J4b')");g.run("G.players[0].items={bandage:1}");await pick(g,'幫司機包紮');
+ assert.equal(g.run('G.flags.busnews'),1);assert.ok(!g.run('G.players[0].items.bandage'),'繃帶用掉了');assert.equal(g.run('G.node'),'J5');
+ g.run("G.node='Z0';G.lv='Z';G.ev=null");assert.equal(labels(g).filter(l=>l==='到北口檢查站').length,1);
+ await pick(g,'到北口檢查站');assert.equal(g.run('G.node'),'Z3');assert.ok(!labels(g).includes('排隊等撤離車'),'廣播前不能排隊');assert.match(log(g),/時間還沒公布/);
+ g.run("G.flags.evacinfo=1;G.node='Z0'");assert.equal(labels(g).filter(l=>l==='到北口檢查站').length,1,'廣播後只剩一個北口選項');
+ g.run("G.node='Z3'");assert.ok(labels(g).includes('排隊等撤離車'));
+ const g2=setup();await g2.run("enterNode('J4b')");const k0=g2.run('G.players[0].karma||0');await pick(g2,'不管他，繼續走');assert.equal(g2.run('G.node'),'J5');
+ assert.ok(!g2.run('G.flags.busnews'));assert.equal(g2.run('G.players[0].karma||0'),k0,'不扣善惡值');
+ g2.run("G.node='Z0';G.lv='Z'");assert.ok(!labels(g2).includes('到北口檢查站'));
+});
+
+test('傑西的倉庫：翻了紙箱再敲門，他們不開門，之後也找不到傑西',async()=>{const g=setup();
+ await g.run("enterNode('M2')");await pick(g,'搜倉庫的紙箱');assert.equal(g.run('G.node'),'M2','翻完還在倉庫');
+ assert.ok(!labels(g).includes('搜倉庫的紙箱'));await pick(g,'敲門');assert.equal(g.run('G.node'),'M3');assert.ok(!g.run('G.flags.v_M2t'));
+ g.run("G.node='Z0';G.lv='Z'");assert.ok(!labels(g).includes('去便利商店找傑西'));
+ const g2=setup();await g2.run("enterNode('M2')");await pick(g2,'敲門');assert.equal(g2.run('G.node'),'M2t','沒翻紙箱，敲門照舊進休息室');
+});
+
+test('地鐵站的腐殖核心：不燒掉過不去，可以退回地面改走封鎖線',async()=>{const g=setup();
+ await g.run("enterNode('U4')");assert.deepEqual(labels(g),['燒掉腐殖核心','撿那些背包','退回地面，改走封鎖線']);
+ assert.equal(g.run("choiceOk(choices().find(c=>c.l==='燒掉腐殖核心'))"),false,'沒有火就燒不了');
+ await pick(g,'撿那些背包');assert.equal(g.run('G.node'),'U4');assert.deepEqual(labels(g),['燒掉腐殖核心','退回地面，改走封鎖線']);
+ await pick(g,'退回地面，改走封鎖線');assert.equal(g.run('G.node'),'Q1');
+ const g2=setup();await g2.run("enterNode('U4')");g2.run("G.players[0].items={molotov:1}");await pick(g2,'燒掉腐殖核心');
+ assert.equal(g2.run('G.node'),'U5');assert.equal(g2.run('G.flags.burnednest'),1);
+});
