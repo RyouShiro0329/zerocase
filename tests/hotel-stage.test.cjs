@@ -1,6 +1,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const {game}=require('./helpers/audio-game.cjs');
-function setup(flags){const g=game();g.run("newRun([{kind:'custom',pid:'p1',name:'甲',st:{STR:2,AGI:2,CON:2,PER:2,INT:2,CHA:2},load:{}}],{diff:'normal'},'solo');G.node='Z0';G.lv='Z';G.ev=null;G.flags="+JSON.stringify(Object.assign({v_Z0:1},flags))+";deathCheck=async()=>false");return g}
+// 測試環境沒有畫面，QTE 一律當作沒按到（只測流程，不測反應）
+function setup(flags){const g=game();g.run("newRun([{kind:'custom',pid:'p1',name:'甲',st:{STR:2,AGI:2,CON:2,PER:2,INT:2,CHA:2},load:{}}],{diff:'normal'},'solo');G.node='Z0';G.lv='Z';G.ev=null;G.flags="+JSON.stringify(Object.assign({v_Z0:1},flags))+";deathCheck=async()=>false;qte=async()=>false");return g}
 test('旅館階段依城市旗標推進',()=>{const g=setup({});assert.equal(g.run('hotelStage()'),1);g.run('G.flags.blackout=1');assert.equal(g.run('hotelStage()'),2);g.run('G.flags.raiders=1');assert.equal(g.run('hotelStage()'),3);g.run('G.flags.acru=1');assert.equal(g.run('hotelStage()'),4)});
 test('停電後第一次回大廳先遇到決定牌，決定後才回大廳且不再出現',async()=>{const g=setup({blackout:1});await g.run("enterNode('Y0')");assert.equal(g.run('G.node'),'YD2');await g.run("doChoice(1,G.players[0])");assert.equal(g.run('G.node'),'Y0');assert.ok(g.run('G.flags.yd2&&G.flags.yd2b'));await g.run("enterNode('Y0')");assert.equal(g.run('G.node'),'Y0')});
 test('拖到下一階段沒決定，世界替玩家用預設結果決定',async()=>{const g=setup({blackout:1});await g.run("cityEvent('raid')");assert.ok(g.run('G.flags.yd2&&G.flags.yd2c&&!G.flags.yd2a&&!G.flags.yd2b'));await g.run("enterNode('Y0')");assert.equal(g.run('G.node'),'YD3')});
