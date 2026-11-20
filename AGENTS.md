@@ -2,6 +2,10 @@
 
 這個倉庫是網頁遊戲《零號病例》。主人（了白）會輪流用 Claude（露涅希亞）和 GPT／Codex 更新，**以 Claude 為主**。開工前一定先完整讀 `docs/AI_WORKFLOW.md` 並照做；這份是最重要的摘要。
 
+**依你的模型，再讀一份專屬規則（必讀）：**
+- Claude 系列（Sonnet、Opus、Haiku）：`docs/RULES_SONNET.md`
+- GPT 系列（GPT、Codex）：`docs/RULES_GPT.md`
+
 ## 開工前
 1. 從最新的 main 開始。先看 `docs/VERSIONS.md` 最上面幾行和 `更新說明.txt`，確認目前版本（也可能是 Claude 剛發的版本）。
 2. 正本是根目錄的 `index.html`，網站由 GitHub Pages 從 main 發布。
