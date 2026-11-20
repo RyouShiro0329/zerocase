@@ -62,3 +62,8 @@ test('賣東西：價錢是五分之一，一般商人只收自己也賣的那�
  const j=g.run("JSON.stringify(Object.keys(ITEMS).find(k=>!shopBuys(SHOPS.jesse,k)))");assert.ok(j);assert.ok(g.run(`shopBuys(SHOPS.black,${j})`));
  const [k,v]=JSON.parse(g.run("JSON.stringify(Object.entries(PRICE).find(([k,v])=>v>=20))"));assert.equal(g.run(`sellPrice('${k}')`),Math.floor(v/5));
 });
+test('麥琪的內心話只送給麥琪玩家，不進共用紀錄',()=>{const g=setup({});
+ g.run("globalThis.SENT=[];E=(t,d)=>SENT.push([t,d]);G.mode='mp';G.players[0].pid='other';const mg={pid:'mg',kind:'maggie'};LOG=[];outMe([mg],'秘密','lore')");
+ assert.equal(g.run("JSON.stringify(SENT)"),JSON.stringify([['pv',{to:'mg',h:'秘密',c:'lore'}]]));assert.equal(g.run('LOG.length'),0);
+ assert.equal(g.run("SENT=[];outMe([],'秘密','lore');SENT.length+LOG.length"),0);
+});

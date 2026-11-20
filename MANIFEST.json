@@ -128,7 +128,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "31caefdd81ced3956feee5d06ac80c6b8a4e2bf2e2358ae4b86271ab9ee7d5f2",
+    "index.html": "a654b941524d48fa91ef6f904dea8050edcf019d4a48739ba546586b5f63f8ae",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -236,7 +236,7 @@
     "tests/guard.test.cjs": "eb0e711d5c149a75f34654c97b0cb628e6b94fdbe268b3400525959f94ff1066",
     "tests/helpers/audio-game.cjs": "cf75b33a1f7f51cdd9d1898f0cf3f373436fdfe7e85492fca3e8b61fe5c7df6e",
     "tests/helpers/godmode.cjs": "0c14c88f49185bfe85e35a24931cf4028d9ba1615eaf5a159740b491fc05a21c",
-    "tests/hotel-stage.test.cjs": "55e1d8dc192b7a310ddecacb1c5b9694afdc26b348dff1fdbeeb5aafac710cb9",
+    "tests/hotel-stage.test.cjs": "ec8eebef3d54df7be48d293c6fb46e52d03b0e786d4b882d8e723ca76475dffb",
     "tests/long-route.cjs": "416efb1c97a48e3ccb2b6757dfef863ad57e333abacf6c3caa6f7cf9eef8859a",
     "tests/opening-clock.test.cjs": "afb9e999a6419d02207e2146072ad07ce401602db676a389de9ef14f5e5e3844",
     "tests/run_all.sh": "407bc6da6560332f081b439a94f5db288d73f0189a2a99d29b1d656ccd0b8a21",
@@ -256,6 +256,6 @@
     "tools/slash-hit.test.cjs": "3751b72598f28f9f7c80873bf0348220fb27a134e8766b0faf3f430b6d5cd970",
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "72d7c89811a34c54f7e594007cca5eaea98c42cc3b93cee594576b54df20d4c6"
+    "更新說明.txt": "67ff05f7d77da190fe182c0fc68ce3ee2b493344f5ef675707e8cd0a423ed2ad"
   }
 }

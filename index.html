@@ -3840,6 +3840,8 @@ async function dmgRoll(groups,plus,label,foe,cm){/* v0.32.0 傷害骰在背景�
 /* ================= 敘事輸出 ================= */
 let typing=Promise.resolve(),skipType=false;
 function out(html,cls,instant){E('o',[html,cls||'',instant?1:0]);L_out(html,cls,instant)}
+// v0.40.0 只給某些玩家看的敘述（麥琪的內心話）：連線時只送給那幾位；不進共用紀錄，免得同步時被別人看到
+function outMe(ps,html,cls){if(!MP()){if(ps.length){L_out(html,cls);LOG.pop()}return}for(const p of ps){if(p.pid===MYPID){L_out(html,cls);LOG.pop()}else E('pv',{to:p.pid,h:html,c:cls||''})}}
 function L_out(html,cls,instant){
   html=String(html).replace(/\n\n/g,'</p><p class="'+(cls||'')+'">').replace(/\n/g,'<br>');
   LOG.push([html,cls||'']);if(LOG.length>180)LOG.shift();
@@ -4177,7 +4179,7 @@ async function enterNode(id){
   if(nd.ev){const ch=LV[nd.L].ch||1;const mine=evCands(nd);const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;if(EVPOOL[i].id==='rain')beginRainAudio();out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
   else if(seen&&zr&&(zr.role==='hub'||(zr.role==='room'&&zDone(zr.z)))){hd(nd.n);out(`你回到${/^\w/.test(nd.n)?' ':''}${nd.n}。`,'lore')}
   else if(seen&&nd.sr){hd(nd.n);if(from!==id)out(`你回到${/^\w/.test(nd.n)?' ':''}${nd.n}。`,'lore')}
-  else{hd(nd.n);out(nd.t,'lore');if(nd.tx){const x=nd.tx();if(x)out(x,'lore')}if(nd.tm&&G.players.some(p=>p.kind==='maggie'&&teamHere(p)))out(nd.tm,'lore')}
+  else{hd(nd.n);out(nd.t,'lore');if(nd.tx){const x=nd.tx();if(x)out(x,'lore')}if(nd.tm)outMe(G.players.filter(p=>p.kind==='maggie'&&teamHere(p)),nd.tm,'lore')}
   for(const f of afterScene)f();
   if(id==='WP5')G.flags.wpfail=0;AUDIO_MOVING=false;syncAmbience();if(id==='A2')snd('woodimpact',1,2400);
   syncCodex(G,true);reportEffects();reportGround();
@@ -5902,6 +5904,7 @@ async function pump(){qRun=true;
       else if(o.t==='full'){SLASH_VFX.stateSeq=Math.max(SLASH_VFX.stateSeq,o.seq||0);LOG=o.d.log||[];setG(o.d.G);renderLog();if(typeof showGame==='function')showGame();if(!NET.avSent){NET.avSent=1;sendAv()}}
       else if(o.t==='q'){if(o.d.to===MYPID)(o.d.kind==='code'?codeLocal(o.d):qteLocal(o.d)).then(r=>act({a:'qte',id:o.d.id,r}))}
       else if(o.t==='m'){if(o.d.to===MYPID)craftMsg(o.d.t,o.d.ok)}
+      else if(o.t==='pv'){if(o.d.to===MYPID){L_out(o.d.h,o.d.c);LOG.pop()}}
       else if(o.t==='av'){if(o.d&&typeof o.d.pid==='string'&&o.d.pid!==MYPID){if(avOk(o.d.d))AVS[o.d.pid]=o.d.d;else if(o.d.d===null)delete AVS[o.d.pid]}if(G)draw();if(typeof drawLobby==='function')drawLobby()}
     }catch(e){console.error(e)}
   }
