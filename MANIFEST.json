@@ -1,7 +1,7 @@
 {
-  "version": "0.43.1",
-  "build": 103,
-  "created_at": "2026-11-21T00:57:00+08:00",
+  "version": "0.43.2",
+  "build": 104,
+  "created_at": "2026-11-21T02:45:00+08:00",
   "deployment": "候選版，尚未合併部署",
   "files": {
     ".github/workflows/evacuation-qa.yml": "7613f1f262996c8720b5d27573ac58d90822e2e46239cfed1053bd0c7fe90810",
@@ -34,7 +34,7 @@
     "docs/RELEASE_v0.37.2.md": "5a6fa2a2c722fde837b51dbb297f7a34d48e6b9c9bd1c1787cc6504c94f78f60",
     "docs/RULES_GPT.md": "10dd13b50ce4e44cc2e8fbae8efeb8c6f83b75ea5358f506c4aa333df18cbab3",
     "docs/RULES_SONNET.md": "6701574123320b40fe7e7e377068bf93a6e99f71c3075c2e81063b0199a667ac",
-    "docs/VERSIONS.md": "d5b10687aa2915e299c073348210f12304cd00bfd15dde41690bf3686884f555",
+    "docs/VERSIONS.md": "441a62853b44fb1b96f710ba689745b3cf9a92819bcd1186df2997bdd700d0c7",
     "docs/audio/2026-11-15-integration-plan.md": "1d8c7185ad2742e1f1b70279b5f9d274f03c36a1b4104513dc5842d2df9ade8d",
     "docs/audio/ASSET_VALIDATION.json": "190994b75a706198d1f3e3435ee47441cee202e55fe70c3593fab8d55d538d0b",
     "docs/audio/ASSET_VALIDATION_V0.21.10.json": "6d61e118b4a1ebef0708d9e4e687d55afbf48a288d61c98a772f1cb5113c612a",
@@ -132,7 +132,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "1ba35e422dfd68bc3aeea497bcf4b74826308d7481d5786f0540ab272ba85a48",
+    "index.html": "1877572ee2061457e355b3454db4c98f2bb580c9c4bbc1a5b8f335f61785626d",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -248,7 +248,7 @@
     "tests/topbar-preview.html": "149b060b6e02b8ee522605a093cb9ca2a2d80bd59ec2505beaf6e1fc34640ca5",
     "tests/topbar.test.cjs": "1e37cfd82aac530ab4d5bbacf8e35a177ba06013433230402ae343c27a6e644a",
     "tests/weather.test.cjs": "cc75b126841c5a07a695b7f77d132e30eae97cc3ca4772a0e01e2852011c88ef",
-    "tests/zone.test.cjs": "7d1c42774fcc1ae4fcb783e010dbd690307e11f780f6e66d46cb7c977e2c810d",
+    "tests/zone.test.cjs": "9f81c71f7c6005f3744f2f2fa7931c08a60794ac33d196b8227337d0e5d94fb2",
     "tools/battle-party-setting-browser.cjs": "689524b859bdcd2b677af41bd452810cddc85ef493e919b9944241ba79cb0297",
     "tools/battle-player-cards.cjs": "76dca58b4da6f9fc5b198096d4f265203d00f3a138ee37d9824f73d8e9f5d09e",
     "tools/check_evacuation.cjs": "870849f4d615ba77b9d84258f9aaaf6f3c45faa57f10927cf81242f6fd7b2134",
@@ -260,6 +260,6 @@
     "tools/slash-hit.test.cjs": "3751b72598f28f9f7c80873bf0348220fb27a134e8766b0faf3f430b6d5cd970",
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "4a255928d1e8964d077b025c08ab777aff04cb1cfbfd7d457dfda1773c754978"
+    "更新說明.txt": "19fc27c90843eb760e67c5c76db86938724876c3244c4aad6f43a2b9757fcfde"
   }
 }
