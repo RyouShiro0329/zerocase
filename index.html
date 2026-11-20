@@ -1,12 +1,12 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=6a40dd63" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=82adf605" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fx/slash-12.webp" as="image" type="image/webp">
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=6a40dd63") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=82adf605") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
@@ -684,7 +684,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.39.0", "b": 96, "t": "2026-11-20T08:39:18+08:00"};
+const ZC_VER={"v": "0.40.0", "b": 97, "t": "2026-11-20T13:32:15+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -808,11 +808,11 @@ const PRICE={mre:4,acruuni:6,ammo762:6,ammo308:8,adrenaline:20,water:3,cola:2,co
  whetstone:4,superglue:3,repairkit:15,gunoil:5,
  bracer:4,jacket:15,motoarm:8,motoleg:8,hardhat:10,motohelmet:12,riotvest:30,gasmask:20,filter:8,fuse:6,spreader:40};
 const SHOPS={
- jesse:{rf:'傑西看了一眼，往後退了半步。「拿走。這種東西放在我店裡，我會被那些人一起帶走。」',n:'便利商店・傑西',d:'傑西站在收銀機後面，把能賣的東西一樣一樣擺上櫃台。「現金就好。價錢……我也是照感覺開的，別跟我殺價。」',n0:6,n1:7,
+ jesse:{nice:'傑西看見是你們，手按在櫃台底下沒有拿出來。「我聽說過你們做的事。」他把貨架推回去，「今天不賣了。」',rf:'傑西看了一眼，往後退了半步。「拿走。這種東西放在我店裡，我會被那些人一起帶走。」',n:'便利商店・傑西',d:'傑西站在收銀機後面，把能賣的東西一樣一樣擺上櫃台。「現金就好。價錢……我也是照感覺開的，別跟我殺價。」',n0:6,n1:7,
   pool:['water','cola','coffee','bar','chips','nuts','cookie','noodle','cigarette','bandage','sbandage','painkiller','iodine','lighter','battery','tape','flashlight','ammo38','sedative','antibiotic']},
  wander:{guns:1,rf:'他把那把槍推回來，連碰都不想多碰一下。「這種東西我不收。被那些穿黑衣服的看到，我這台車就沒了。」',n:'流浪商人',d:'一個推著購物車的男人攔住你。車上用防水布蓋著一大堆東西，車把上掛著一面寫著「只收現金」的紙牌。「別問我這些是從哪裡來的，」他說，「要不要看看？」',n0:6,n1:8,
   pool:['water','bar','noodle','whiskey','bandage','sbandage','med','iodine','painkiller','antibiotic','splint','suture','ammo9','ammo38','shell','arrow','molotov','lighter','flashlight','rope','nails','tape','whetstone','superglue','gunoil','repairkit','bracer','motoarm','motoleg','hardhat','motohelmet','jacket','filter']},
- mall:{rf:'蘿絲搖頭。「我們這裡有小孩。那種東西，別拿進來。」',n:'美食街・蘿絲',d:'蘿絲把能賣的東西擺在一張折疊桌上，每一樣都用奇異筆寫了價錢。「現金就好。這些錢是要拿去跟外面的人換藥的。」',n0:6,n1:8,
+ mall:{nice:'蘿絲把折疊桌上的紙箱收了起來。「有人跟我說過你們。」她沒有看你們，「這裡有小孩。請你們走。」',rf:'蘿絲搖頭。「我們這裡有小孩。那種東西，別拿進來。」',n:'美食街・蘿絲',d:'蘿絲把能賣的東西擺在一張折疊桌上，每一樣都用奇異筆寫了價錢。「現金就好。這些錢是要拿去跟外面的人換藥的。」',n0:6,n1:8,
   pool:['water','cola','coffee','bar','noodle','cookie','nuts','bandage','sbandage','iodine','painkiller','filter','battery','flashlight','lighter','tape','rope']},
  raider:{guns:1,rf:'德克笑了一聲，把東西推回來。「你想害死我？那些黑衣服的會順著編號找上門。這我不收。」',n:'劫匪・德克',d:'德克把搶來的東西攤在桌上，旁邊站著兩個拿槍的人。「看上什麼就付錢。價錢我說了算。」',n0:5,n1:7,
   pool:['ammo9','ammo38','shell','molotov','whiskey','cigarette','med','antibiotic','sedative','painkiller','filter','bracer','jacket','motohelmet','fuel']},
@@ -823,7 +823,8 @@ const SHOPS={
 const WSELL={beretta:[8,10],model10:[6,10],model500:[10,14],r870:[12,15],sbshot:[10,15],model70:[12,18],mp5:[12,25],fal:[14,35],r700:[14,30],
  armyknife:[4,4],knuckles:[3,4],compbow:[6,8],crossbow:[8,10],handxbow:[5,6],flamer:[0,0]};
 const HOTITEM=k=>k==='acruuni';
-const sellPrice=k=>PRICE[k]?Math.max(1,Math.floor(PRICE[k]/3)):0;
+/* v0.40.0 收購價降到售價的五分之一；一般商人只收自己也在賣的那類東西，黑市什麼都收（主人 2026-11-20：錢不能太好賺） */
+const sellPrice=k=>PRICE[k]?Math.max(1,Math.floor(PRICE[k]/5)):0;
 const CRAFT_SLOTS=3;/* v0.31.0 合成三格；每個配方（材料＋工具）最多三樣（主人 2026-11-18 01:42） */
 const START_KNOWN=['bandage'];
 /* ============ 能力 ============ */
@@ -1207,7 +1208,7 @@ A2:{L:'A',n:'301 號房',next:'A3',
 
 撞了十幾下之後，力道越來越弱。外面的東西喘著氣在門口站了一會兒，然後拖著腳走開，撞向隔壁的門。`,p:{fear:6}},
   ng:{t:`你剛壓上去，門就被撞開了一半，門板直接砸在你臉上。你往後摔倒，一個穿睡衣的人從門縫擠了進來，嘴邊全是血。`,p:{hp:-2,fear:10},fight:{n:1,mode:'ambush',names:['撞門的感染者']}}},
- {l:'把書桌拖過去頂住門',s:'不用檢定，但很吵（警戒 +2）',ok:{t:`你把書桌拖過地毯，斜卡在門後。門外的東西撞得更兇了，每一下書桌都往後滑一截。你用整個身體壓著桌子，聽見門板另一側傳來指甲刮木頭的聲音。
+ {l:'把書桌拖過去頂住門',s:'不用檢定，但很吵',ok:{t:`你把書桌拖過地毯，斜卡在門後。門外的東西撞得更兇了，每一下書桌都往後滑一截。你用整個身體壓著桌子，聽見門板另一側傳來指甲刮木頭的聲音。
 
 十幾下之後，撞擊停了。它沒有離開，只是站在那裡喘氣。然後它走了。`,p:{fear:10,alarm:2}}},
  {l:'從貓眼看清楚外面',s:'感知檢定：看清楚有幾個',k:'PER',d:12,ok:{t:`門外只有一個。穿著旅館的浴袍，半張臉腫得發紫，肩膀上一個咬痕還在流血。它每撞一次門，就退後兩步，再撞一次。
@@ -1244,7 +1245,7 @@ A4:{L:'A',n:'三樓走廊',next:'A5',
  {l:'302：有光的那間',s:'像是倉庫，裡面有東西在翻找',ok:{t:`你推開 302 的門。床被拆掉了，兩座置物架把房間隔成兩半。一個男人蹲在架子之間，正抱著一大包蘇打餅乾往嘴裡塞，連包裝一起。
 
 他抬起頭，嘴裡的餅乾屑混著血沫掉下來。`,fight:{n:1,mode:'normal',names:['房客模樣的感染者']},go:'A4b'}},
- {l:'306：門縫裡有聲音的那間',s:'倒著一個穿接送人員外套的人',ok:{t:`你從門縫看進去。行李推車橫在床尾，旁邊倒著一個穿接送人員外套的男人，臉朝下。另一個東西跪在他旁邊，頭埋在他的肩膀裡。
+ {l:'306：門縫裡有聲音的那間',s:'倒著一個穿看護制服的人',ok:{t:`你從門縫看進去。行李推車橫在床尾，旁邊倒著一個穿淺藍色看護制服的男人，臉朝下。另一個東西跪在他旁邊，頭埋在他的肩膀裡。
 
 它在吃。它太專心了，沒有聽見你進來。`,fight:{n:1,mode:'first',names:['跪著的感染者']},go:'A4c'}},
  {l:'304：門沒關的那間',s:'安靜得過分',ok:{t:`304 整齊得過分。床鋪得平平整整，枕頭上的薄荷糖還沒被動過。只有床頭櫃的抽屜被拉出一半，浴室洗手台上放著旅館的盥洗包。鏡子上用口紅寫著：「我先上頂樓了，聽說有直升機。看到就上來。」
@@ -1252,29 +1253,31 @@ A4:{L:'A',n:'三樓走廊',next:'A5',
 行李箱的夾層裡有一包急救敷料包。你把盥洗包裡的針線包也收了起來。
 
 行李箱最底下壓著一支黃色的筆狀注射器，標籤寫著「腎上腺素自動注射筆」，主人大概有嚴重過敏。`,r:{items:{med:1,sewing:1,adrenaline:1}},p:{fear:4}}},
- {l:'打破消防栓箱拿斧頭',s:'力量檢定，很吵（警戒 +2）',k:'STR',d:10,ok:{t:`你用外套包住手肘，對準玻璃角落狠狠一撞。玻璃碎成好幾大片落在地毯上。消防斧比你想像的重，斧刃上的紅漆有幾處剝落。
+ {l:'打破消防栓箱拿斧頭',s:'力量檢定，很吵',k:'STR',d:10,ok:{t:`你用外套包住手肘，對準玻璃角落狠狠一撞。玻璃碎成好幾大片落在地毯上。消防斧比你想像的重，斧刃上的紅漆有幾處剝落。
 
-你順手撿了一片又長又尖的碎玻璃，用布包好。`,r:{gear:'fireaxe',items:{glass:1,magazine:1}},p:{alarm:2}},
-  ng:{t:`玻璃碎了，你的手臂也跟著穿了過去。一道長長的口子從手肘劃到手腕。你咬著牙取下斧頭，用手掌死死壓住傷口。`,r:{gear:'fireaxe'},p:{hp:-3,bleed:1,inf:3,alarm:2}}}
+你順手撿了一片又長又尖的碎玻璃，用布包好。`,r:{gear:'fireaxe',items:{glass:1,magazine:1}},p:{alarm:3}},
+  ng:{t:`玻璃碎了，你的手臂也跟著穿了過去。一道長長的口子從手肘劃到手腕。你咬著牙取下斧頭，用手掌死死壓住傷口。`,r:{gear:'fireaxe'},p:{hp:-3,bleed:1,inf:3,alarm:3}}}
  ]},
 A4b:{L:'A',n:'302 號房',next:'A5',
- t:`地上掉著一支還亮著的手機，螢幕停在一則未讀訊息：「接送車 23:41 到，請在房內等候。」
+ t:`地上掉著一支還亮著的手機，螢幕停在一則未讀訊息：「今晚巡房前先量完體溫。有人發燒，立刻回報，不要讓他離開房間。」
 
 置物架上的東西被拿走了大半。牆邊排著三只一模一樣的行李箱，裡面裝著尺寸相同的旅館制服，姓名牌全被拆掉了。`,
  c:[
  {l:'掃一遍置物架',s:'拿了就走',ok:{t:`你抓了一卷布膠帶、兩包蘇打餅乾和一瓶 75% 的外用酒精，塞進口袋就往外走。`,r:{items:{tape:1,cookie:2,alcohol:1,hairspray:1}}}},
- {l:'仔細翻那三只行李箱',s:'警戒 +1',ok:{t:`三只行李箱連吊牌編號都只差一號。最上面都放著同一張排班表，最後一班寫著 23:41，簽到欄是空的。
+ {l:'仔細翻那三只行李箱',ok:{t:`三只行李箱連吊牌編號都只差一號。最上面都放著同一張巡房表：303、305、306，每晚兩次，量體溫、看瞳孔。305 那一欄從三天前起就劃掉了，旁邊寫著「已轉出」。
 
-第三只的夾層裡，壓著一捲沒拆封的尼龍繩和一盒長鐵釘。像是有人原本打算把什麼釘起來。`,r:{items:{rope:1,nails:1,board:1},flag:'c2341'},p:{alarm:1,fear:3}}}
+制服的領口內側繡著旅館的名字，底下一行小字：SINCE 1987。
+
+第三只的夾層裡，壓著一捲沒拆封的尼龍繩和一盒長鐵釘。像是有人原本打算把什麼釘起來。`,r:{items:{rope:1,nails:1,board:1},flag:'csafe'},p:{alarm:2,fear:3}}}
  ]},
 A4c:{L:'A',n:'306 號房',next:'A5',
  t:`房裡有一股濃重的鐵鏽味。
 
-穿接送人員外套的男人倒在床尾，背上被啃開了一大塊。他的右手壓在身體底下，外套腰側鼓起一塊，形狀很硬。胸前的識別證上沒有名字，只有一行班次號碼：23:41。`,
+穿淺藍色看護制服的男人倒在床尾，背上被啃開了一大塊。他的右手壓在身體底下，制服腰側鼓起一塊，形狀很硬。胸前的識別證印著「ARC 合作門診　隨行看護」，名字那一格寫著：卡爾。`,
  c:[
  {l:'把屍體翻過來',s:'智力檢定',k:'INT',d:11,ok:{t:`你抓住他的肩膀用力一翻。他比你想像的輕，臉上的表情很平靜，平靜得不像被活活吃掉的人。
 
-外套底下壓著一把貝瑞塔 92F。你退出彈匣：只剩 4 發。備用彈匣是空的。皮夾裡還有幾張美金。`,r:{gear:'beretta',mag:4,flag:'c2341',usd:6}},
+制服底下壓著一把貝瑞塔 92F。你退出彈匣：只剩 4 發。備用彈匣是空的。皮夾裡還有幾張美金，和一張旅館的臨時員工證，背面燙著金字：SINCE 1987。`,r:{gear:'beretta',mag:4,flag:'csafe',usd:6}},
   ng:{t:`你的手剛碰到他，他的手指抽動了一下。你整個人往後摔，撞翻了行李推車，鐵盤和玻璃杯全砸在地上。
 
 那只是神經反射。你喘著氣爬回去，從他身下抽出一把貝瑞塔 92F，彈匣裡只剩 4 發。走廊上傳來急促的腳步聲。`,r:{gear:'beretta',mag:4},p:{fear:10,alarm:3}}},
@@ -1418,9 +1421,11 @@ E1:{L:'E',n:'一樓走廊',next:'E2',
 E2:{L:'E',n:'一樓走廊',next:'E3',
  t:`辦公室、備品間和公共衛浴的門沿著走廊排開，櫃台後面還有一間行李寄放間。拖行聲還在遠處，你沒辦法每一扇都打開。`,
  c:[
- {l:'辦公室',s:'牆角有一個保險箱',ok:{t:`值班書桌上的電話聽筒垂在桌邊。值班表上寫著一條撤離指示：「從一樓大廳南側推門離館。」最後一欄，23:41 那一班，沒有人簽退。
+ {l:'辦公室',s:'牆角有一個保險箱',ok:{t:`值班書桌上的電話聽筒垂在桌邊。值班表上寫著一條撤離指示：「從一樓大廳南側推門離館。」最下面另外加了一行：「303、305、306 由門診人員負責，房務一律不要進去。」
 
-牆角有一個四位數的轉盤保險箱。辦公室最裡面是一扇比任何門都厚的鐵門，讀卡器熄著，門框上有一個被刮掉一半的標記：一根杖，杖上纏著一條蛇。`,r:{flag:'c2341'},go:'E2o'}},
+桌墊底下壓著一張經理的便條：「保險箱密碼改回開幕那年了，別再把號碼貼在桌上。」
+
+牆角有一個四位數的轉盤保險箱。辦公室最裡面是一扇比任何門都厚的鐵門，讀卡器熄著，門框上有一個被刮掉一半的標記：一根杖，杖上纏著一條蛇。`,r:{flag:'csafe'},go:'E2o'}},
  {l:'備品間',s:'門內有布料撕裂的聲音',ok:{t:`你一腳踹開門。一個穿廚師服的人站在布巾架前，正用牙齒把一條毛巾撕開。布從他嘴角掉下來，上面全是血。`,fight:{n:1,mode:'first',names:['穿廚師服的感染者']},go:'E2s'}},
  {l:'公共衛浴',s:'水龍頭在滴水',ok:{t:`滴答，滴答。鏡子碎了一半，剩下的那一半映出你的臉，比你記憶中蒼白得多。洗手台下的維修櫃裡有一瓶外用酒精。鏡子有一片又長又尖，你用布包住，扳了下來。
 
@@ -1432,9 +1437,9 @@ E2o:{L:'E',n:'辦公室',next:'E3',
 
 牆上掛著一個白色的員工急救箱。`,
  c:[
- {l:'輸入 2341',s:'這個數字到處都是',need:'c2341x2',ok:{t:`你把轉盤轉到 2，3，4，1。最後一格落下，保險箱喀一聲彈開了。
+ {l:'輸入 1987',s:'旅館開幕那年',need:'csafex2',ok:{t:`你把轉盤轉到 1，9，8，7。最後一格落下，保險箱喀一聲彈開了。
 
-裡面用絨布包著一把 S&W Model 10 左輪。彈巢裡裝了 2 發，旁邊還有 2 發散裝的 .38 特殊彈。絨布底下壓著一張紙：「給接送的人。」旁邊還有一疊用橡皮筋綁著的零用金，夠每個人分一份。`,r:{gear:'model10',mag:2,items:{ammo38:2,blade:1},usdAll:20}}},
+裡面用絨布包著一把 S&W Model 10 左輪。彈巢裡裝了 2 發，旁邊還有 2 發散裝的 .38 特殊彈。絨布底下壓著一張紙：「303、305、306 有狀況，先鎖門，再打門診的電話。不要報警。」旁邊還有一疊用橡皮筋綁著的零用金，夠每個人分一份。`,r:{gear:'model10',mag:2,items:{ammo38:2,blade:1},usdAll:20}}},
  {l:'聽轉盤試著開',s:'智力檢定（只有一次機會）',k:'INT',d:16,ok:{t:`你把耳朵貼在保險箱上，一格一格地轉。終於聽見彈片落下的聲音。裡面是一把 S&W Model 10 左輪，彈巢裡裝了 2 發，旁邊還有 2 發 .38 特殊彈。`,r:{gear:'model10',mag:2,items:{ammo38:2,blade:1}}},
   ng:{t:`你轉了好幾圈，什麼都沒聽到。再轉下去只是浪費時間。也許密碼就藏在這間旅館的某個地方。`,p:{alarm:1}}},
  {l:'打開急救箱',s:'不管保險箱了',ok:{t:`急救箱裡還剩兩捲繃帶、一瓶優碘和一包止痛藥。箱門內側貼著緊急聯絡電話，最上面那支被圈起來，旁邊寫著：「打了沒人接」。`,r:{items:{bandage:2,iodine:1,painkiller:1}}}}
@@ -1505,7 +1510,7 @@ G2:{L:'G',n:'配電室',next:'G3',
 
 配電盤上貼著一張手寫的紙：「地下讀卡門　獨立迴路　沒有授權切勿強制啟動」。`,
  c:[
- {l:'啟動發電機',s:'智力檢定；會很吵（警戒 +3）',k:'INT',d:12,ok:{t:`你按照發電機側面的說明，打開燃料閥、拉動啟動繩。第三次的時候，機器咳了兩聲，轟隆隆地轉了起來。
+ {l:'啟動發電機',s:'智力檢定；會很吵',k:'INT',d:12,ok:{t:`你按照發電機側面的說明，打開燃料閥、拉動啟動繩。第三次的時候，機器咳了兩聲，轟隆隆地轉了起來。
 
 配電盤上的燈一個接一個亮起。走廊深處，有一扇門的讀卡器，亮起了綠燈。
 
@@ -1549,7 +1554,7 @@ I1:{L:'I',n:'接待大廳',next:'I2',
 I2:{L:'I',n:'接待大廳',
  t:`大廳安靜下來了。櫃台上攤著入住簿，旁邊倒著那個穿接待員背心的人，胸前的名牌寫著「夜班」。大門就在那裡。`,
  c:[
- {l:'看一眼入住簿再走',s:'也許會知道些什麼',ok:{t:`入住簿最後幾頁被撕掉了。剩下的那幾頁，有三間房被另外註記「ARC 合作門診　回診房客　等候接送」：303、305、306。同一個時間，23:41，出現了四次。
+ {l:'看一眼入住簿再走',s:'也許會知道些什麼',ok:{t:`入住簿最後幾頁被撕掉了。剩下的那幾頁，有三間房被另外註記「ARC 合作門診　長期包房　追蹤觀察」：303、305、306。付款欄是同一個單位，已經付到下個月底。305 那一行三天前被劃掉，旁邊寫著「已轉出」。
 
 那三間房，都在你那一層。`,p:{fear:6},go:'END_main'}},
  {l:'推開大門',s:'離開旅館',ok:{t:`你沒有回頭。`,go:'END_main'}}
@@ -1595,9 +1600,9 @@ const EVPOOL=[
 const END={
  END_main:{n:'南門',shards:30,t:`你推開大門。冷風灌進來，帶著焦味和遠處的警報聲。
 
-街上沒有接送車。不會有接送車了。路口的警察已經不見了，警車的門開著，車頂的警示燈還在空轉。
+街上沒有救護車，也沒有人來救。路口的警察已經不見了，警車的門開著，車頂的警示燈還在空轉。
 
-你把領子拉高，握緊手上的武器。這座城市正在一點一點地死去，而你還不知道為什麼。你只知道一件事：23:41 那班接送車要接的那幾間房，就在你房間的隔壁。`},
+你把領子拉高，握緊手上的武器。這座城市正在一點一點地死去，而你還不知道為什麼。你只知道一件事：那家門診包下的幾間房，就在你房間的隔壁。`},
  END_alley:{n:'後巷',shards:22,t:`你走出後巷，混進大街上逃難的人潮裡。沒有人看你一眼，每個人都在跑，往同一個方向，那個方向只有更多的車和更多的封鎖線。
 
 你回頭看了一眼旅館。三樓的某扇窗戶後面，有一個人影正看著你。
@@ -1686,17 +1691,17 @@ F2x:{L:'F',n:'冷藏室門口',next:'F3',
   {l:'把圍裙上的字看清楚',k:'INT',d:10,s:'智力檢定',once:1,stay:1,ok:{t:`圍裙背面還有字，寫得很小：「裡面是被咬的阿傑和小麥，他們已經不認得人了。瓦斯總閥在後門旁邊，紅色的那個。」
 
 可是會照著節奏敲門的，不會是不認得人的東西。`,r:{flag:'gasnote'}},ng:{t:`字太潦草了，你只看懂「不要開」三個字。`}},
-  {l:'拆開拖把柄，把門打開',s:'裡面還有活人；被咬的那兩個也在裡面',t:'q',ok:{t:`你抽走拖把柄，拉開門。冷氣撲了你一臉。
+  {l:'拆開拖把柄，把門打開',s:'門會被打開',t:'q',ok:{t:`你抽走拖把柄，拉開門。冷氣撲了你一臉。
 
 貨架之間縮著幾個人，裹著保鮮膜和紙箱取暖。站在最前面的兩個穿著廚師服，脖子上都是咬痕，眼睛是白色的。牠們轉過頭來。`,p:{fear:6,alarm:1},fight:{n:2,mode:'normal',names:['被咬過的阿傑','被咬過的小麥']},
    win:{t:`冷藏室裡剩下兩個人：一個穿房務制服的女人，抱著一個發抖的老先生。她叫蘿莎。
 
-「是經理把我們關進來的，」她的嘴唇是紫的，「他說外面比較危險。然後他自己拿著門卡，下地下室去了。每天晚上 23:41，他都會刷卡下去那扇白色的門。」
+「是經理把我們關進來的，」她的嘴唇是紫的，「他說外面比較危險。然後他自己拿著門卡，下地下室去了。每天晚上等門診的人巡完房，他都會刷卡下去那扇白色的門。」
 
 她把老先生扶起來。「我們去大廳找人。你如果也要往大廳……我們會幫你。」`,r:{flag:['freezer_open','fzhint']}}}},
-  {l:'不開，讓拖把柄卡著',s:'安全；裡面的人就留在那裡',ok:{t:`你把拖把柄又往下壓緊了一點，退開。
+  {l:'不開，讓拖把柄卡著',ok:{t:`你把拖把柄又往下壓緊了一點，退開。
 
-敲門聲又響了。三下，停一下，又三下。你走到廚房另一頭的時候，它還在敲。`,r:{flag:'freezer_shut'},p:{fear:8}}}]},
+敲門聲又響了。三下，停一下，又三下。你走到廚房另一頭的時候，它還在敲。`,r:{flag:'freezer_shut',karma:-1},p:{fear:8}}}]},
 /* ---------- G 地下設備層：排水溝 ---------- */
 G2x:{L:'G',n:'排水溝',next:'G3',
  t:`地下室的地板中間有一條排水溝，上面蓋著鐵柵欄。柵欄底下的水不是在流，是在冒泡。
@@ -1819,23 +1824,23 @@ Object.assign(N,{
 A6d:{L:'A',n:'三樓走廊・轉角',
  t:`拖行聲轉過了西側的轉角。不只一個。
 
-305 的門突然開了一條縫。一個穿接送人員外套的年輕人探出頭來，臉色慘白，名牌上寫著「馬可」。「卡爾呢？」他壓低聲音問，「306 那個，跟我同一班車的……」他看見你的表情，就沒有再問了。
+305 的門突然開了一條縫。一個穿淺藍色看護制服的年輕人探出頭來，臉色慘白，名牌上寫著「馬可」。「卡爾呢？」他壓低聲音問，「306 那個，跟我一起巡房的……」他看見你的表情，就沒有再問了。
 
 「牠們每隔一陣子就會從那邊過來，」他指著走廊盡頭，「整層樓的門，牠們會一扇一扇撞。」
 
 走廊口很窄，一次只過得了一個。302 的門還開著。`,
  c:[
-  {l:'拿消防斧守住走廊口',s:'先出手；贏了馬可就有機會活下來',req:'g:fireaxe',ok:{t:`你讓馬可退回 305，自己握著斧頭站到走廊最窄的地方。第一個影子從轉角拖出來的時候，你先揮了下去。`,fight:{n:2,mode:'first',names:['拖著腳的感染者','拖著腳的感染者']},win:{t:`最後一個倒下的時候，305 的門開了。馬可扶著門框走出來，看著地上的東西，吐了。
+  {l:'拿消防斧守住走廊口',s:'先出手',req:'g:fireaxe',ok:{t:`你讓馬可退回 305，自己握著斧頭站到走廊最窄的地方。第一個影子從轉角拖出來的時候，你先揮了下去。`,fight:{n:2,mode:'first',names:['拖著腳的感染者','拖著腳的感染者']},win:{t:`最後一個倒下的時候，305 的門開了。馬可扶著門框走出來，看著地上的東西，吐了。
 
 「我欠你一次。」他擦了擦嘴，「我要下樓找我們的車。如果你也往下走……我會等你。」`,r:{flag:'corr_held'}}}},
-  {l:'守住走廊口',s:'跟牠們打一場；贏了馬可就有機會活下來',ok:{t:`你讓馬可退回 305，自己站到走廊最窄的地方。第一個影子從轉角拖了出來。`,fight:{n:2,mode:'normal',names:['拖著腳的感染者','拖著腳的感染者']},win:{t:`最後一個倒下的時候，305 的門開了。馬可扶著門框走出來，看著地上的東西，吐了。
+  {l:'守住走廊口',s:'跟牠們打一場',ok:{t:`你讓馬可退回 305，自己站到走廊最窄的地方。第一個影子從轉角拖了出來。`,fight:{n:2,mode:'normal',names:['拖著腳的感染者','拖著腳的感染者']},win:{t:`最後一個倒下的時候，305 的門開了。馬可扶著門框走出來，看著地上的東西，吐了。
 
 「我欠你一次。」他擦了擦嘴，「我要下樓找我們的車。如果你也往下走……我會等你。」`,r:{flag:'corr_held'}}}},
-  {l:'把聲音引到 302',s:'不用打（警戒 +1）；馬可會被留下',t:'q',ok:{t:`你抓起地毯上的玻璃菸灰缸，用力砸向 302 的門框，然後閃進 304。拖行聲停了一下，轉了方向，一個接一個擠進 302。
+  {l:'把聲音引到 302',s:'不用打',t:'q',ok:{t:`你抓起地毯上的玻璃菸灰缸，用力砸向 302 的門框，然後閃進 304。拖行聲停了一下，轉了方向，一個接一個擠進 302。
 
 你從 304 的門縫看出去。305 的門開著，馬可沒有來得及關上。
 
-你聽見他叫了一聲。只有一聲。`,r:{flag:'corr_lured'},p:{fear:10,alarm:1}}}
+你聽見他叫了一聲。只有一聲。`,r:{flag:'corr_lured',karma:-2},p:{fear:10,alarm:1}}}
  ]},
 E3d:{L:'E',n:'一樓走廊・寄放間前',
  t:`行李寄放間的門半開著，裡面那個箱子還在一下一下地動。
@@ -1879,7 +1884,7 @@ N.I1.c.splice(N.I1.c.length-1,0,
 跪在櫃台前的那個抬起頭來。只剩牠了。`,fight:{n:1,mode:'first',names:['跪在櫃台前的感染者']}}});
 {const more={need:'power',names:['被燈光引來的感染者'],t:'大廳的燈全亮著。破掉的落地窗外，又有一個被燈光引了進來。'};
  for(const c of N.I1.c)for(const r of [c.ok,c.ng])if(r&&r.fight)r.fight.more=more}
-N.I2.c.splice(1,0,{l:'把入住簿整本帶走',s:'會多花一點時間（警戒 +1）',t:'m',ok:{t:`你把入住簿從櫃台上抽起來，連同底下壓著的那疊接送單。最後幾頁被撕掉了，剩下的那幾頁，有三間房被另外註記「ARC 合作門診　回診房客　等候接送」：303、305、306。同一個時間，23:41，出現了四次。
+N.I2.c.splice(1,0,{l:'把入住簿整本帶走',s:'會多花一點時間',t:'m',ok:{t:`你把入住簿從櫃台上抽起來，連同底下壓著的那疊帳單。最後幾頁被撕掉了，剩下的那幾頁，有三間房被另外註記「ARC 合作門診　長期包房　追蹤觀察」：303、305、306。帳單上的付款單位，是同一家門診。
 
 櫃台後面的辦公室傳來一聲悶響。你把入住簿塞進外套裡，推開大門。`,r:{flag:'ledger'},p:{alarm:1,fear:6},go:'END_main'}});
 // 出口新增路線
@@ -1919,7 +1924,7 @@ EVPOOL.push(
  {id:'mirror',t:`走廊盡頭有一整面落地鏡，映出你身後的整條走廊。手電筒的光掃過去的時候，鏡子裡的走廊深處，有一團影子動了一下。`,c:[
   {l:'停下來看清楚',k:'PER',d:13,s:'感知檢定：從鏡子裡看身後',ok:{t:`你壓低手電筒，從鏡子裡慢慢看。那是一個蹲在行李推車後面的感染者，背對著你，低著頭在啃什麼東西。你趁牠還沒抬頭，貼著牆繞了過去。`,p:{fear:6}},ng:{t:`你看得太久了。鏡子裡那團影子站了起來，轉過頭，朝你走過來。`,p:{fear:8},fight:{n:1,mode:'normal'}}},
   {l:'低著頭走過去',ok:{t:`你沒有回頭，加快腳步走過鏡子。身後傳來行李推車被撞倒的聲音，然後是拖著腳走路的聲音。你沒有停。`,p:{fear:4}}}]},
- {id:'roomservice',t:`一台客房服務推車停在走廊中間。銀色的餐蓋掉在地毯上，盤子裡的牛排早就冷了，醬汁凝成一層白油。推車把手上夾著一張點餐單：「303　牛排　五分熟　19:30送達　※房客 23:41 有接送，請準時收餐具」。`,c:[
+ {id:'roomservice',t:`一台客房服務推車停在走廊中間。銀色的餐蓋掉在地毯上，盤子裡的牛排早就冷了，醬汁凝成一層白油。推車把手上夾著一張點餐單：「303　牛排　五分熟　19:30送達　※門診交代：放門口，不要敲門，不要跟房客說話」。`,c:[
   {l:'翻翻推車下層',k:'PER',d:12,ok:{t:`推車下層有一瓶沒開的紅酒和一把牛排刀。你只拿了刀。地毯上有一串帶血的腳印，從推車旁邊一路走進最近的那間房，房門半開著。`,r:{gear:'knife'},p:{fear:6}},ng:{t:`你蹲下去翻的時候碰倒了刀叉，鏗鏗鏘鏘掉了一地。最近那間半開的房門裡，有東西撞上了門板。你什麼都沒拿就走了。`,p:{fear:6,alarm:1}}},
   {l:'不要碰',ok:{t:`你繞過推車。最近那間半開的房門裡，傳來很輕、很慢的咀嚼聲。`,p:{fear:4}}}]}
 );
@@ -2234,7 +2239,7 @@ N.H2.c.splice(N.H2.c.findIndex(c=>c.l==='不要停留'),0,{l:'把凱文的房門
 
 後來有人敲門。很輕，叫著：「有人在裡面嗎？我是凱文……拜託……」你沒有動。敲門聲越來越慢，最後停了。
 
-再睜開眼睛的時候，手已經不抖了。`,r:{rest:{hp:6,san:3},get flag(){return G.flags.kevin_met?null:['kevin_met','kevin_dead']}},p:{alarm:1}}});
+再睜開眼睛的時候，手已經不抖了。`,r:{rest:{hp:6,san:3},get flag(){return G.flags.kevin_met?null:['kevin_met','kevin_dead']},get karma(){return G.flags.kevin_met?0:-1}},p:{alarm:1}}});
 // 老公寓：休息、幫忙
 N.K2.rest=1;
 N.K2.c[0].ok.r.karma=1;
@@ -2274,7 +2279,7 @@ N.H2.c.splice(N.H2.c.findIndex(c=>c.l==='不要停留'),0,{l:'鎖上門，在下
 
 半夜醒來過一次。有人在敲門，叫著凱文的名字，又像是在叫自己的名字。然後是拖行的聲音，從這一頭慢慢拖到另一頭，又拖回來。你屏住呼吸數到三百，它才停下。
 
-再睜開眼睛的時候，窗簾縫透進一點灰白的光。`,r:{sleep:1,get flag(){return G.flags.kevin_met?null:['kevin_met','kevin_dead']}}}});
+再睜開眼睛的時候，窗簾縫透進一點灰白的光。`,r:{sleep:1,get flag(){return G.flags.kevin_met?null:['kevin_met','kevin_dead']},get karma(){return G.flags.kevin_met?0:-1}}}});
 N.K2.c.splice(3,0,{l:'在一樓的空房睡到天亮',s:'睡前最好先吃點東西、喝點水',t:'sleep',night:1,stay:1,ok:{get t(){return `你把沙發推到門後，${pwNow()?'關掉那台靜音的電視，':''}在黑暗裡躺下。
 
 樓上有人在哭，哭了很久，後來停了。你不知道是哭累了，還是別的原因。
@@ -2287,12 +2292,12 @@ N.K2.c.splice(3,0,{l:'在一樓的空房睡到天亮',s:'睡前最好先吃點�
 天亮的時候，傑西坐在門邊打瞌睡，手裡還握著那根拖把柄。`,r:{sleep:1}}})}
 
 /* ================= 保險箱：自己輸入密碼（線索要玩家自己記） ================= */
-{const C=N.E2o.c;const okRes=C.find(c=>c.need==='c2341x2').ok;
- const gi=C.findIndex(c=>c.need==='c2341x2');C.splice(gi,1,{l:'轉保險箱的密碼',s:'四位數',stay:1,hide:'safeopen',ok:{t:'你蹲在保險箱前面，手指搭上轉盤。',code:{ans:'2341',ok:Object.assign({},okRes,{r:Object.assign({},okRes.r,{flag:'safeopen'})}),ng:{t:'最後一格轉完，保險箱沒有任何反應。轉盤喀喀地退回原位。',p:{alarm:1}}}}});
+{const C=N.E2o.c;const okRes=C.find(c=>c.need==='csafex2').ok;
+ const gi=C.findIndex(c=>c.need==='csafex2');C.splice(gi,1,{l:'轉保險箱的密碼',s:'四位數',stay:1,hide:'safeopen',ok:{t:'你蹲在保險箱前面，手指搭上轉盤。',code:{ans:'1987',ok:Object.assign({},okRes,{r:Object.assign({},okRes.r,{flag:'safeopen'})}),ng:{t:'最後一格轉完，保險箱沒有任何反應。轉盤喀喀地退回原位。',p:{alarm:1}}}}});
  const li=C.findIndex(c=>c.k==='INT');if(li>=0){C[li].hide='safeopen';C[li].ok=Object.assign({},C[li].ok,{r:Object.assign({},C[li].ok.r,{flag:'safeopen'})})}}
 N.Q4.c.splice(1,0,{l:'問他那間旅館的人送去哪裡了',s:'你看過那份名單',need:'acrulist',hide:'shadow',ok:{t:`他愣了一下，面罩後面的眼睛眨了眨。
 
-「你怎麼知道那份名單？」他壓低聲音，「旅館那一批……第一批送去城東的，就是那裡的人。接送車本來是要等到天亮的，可是有人提早發病了。」
+「你怎麼知道那份名單？」他壓低聲音，「旅館那一批……第一批送去城東的，就是那裡的人。本來說好要觀察到下個月，可是有人提早發病了。」
 
 他看著你，看了很久。「你是那間旅館的房客？那你更不應該在這裡。」他塞給你兩支鎮定劑，指了指十字路口的方向。`,r:{items:{sedative:2},flag:'arcroute'},p:{fear:3}}});
 /* ================= 劇情裡的 QTE ================= */
@@ -2431,8 +2436,8 @@ T0:{L:'T',n:'消防局・車庫',rest:1,
  tx:()=>G.flags.acru?'車庫門被人從外面用鐵鍊鎖上，又被剪開了。裡面翻得亂七八糟，牆上的值班表被撕掉，地上有一排很整齊的靴印。':G.flags.evacgone?'人都走了。白板上寫著一行字：「全員隨撤離車隊護送。對不起。——歐文」雲梯車還在，鑰匙插在上面，油箱是空的。':'車庫裡有十幾個人，有消防員，也有穿著睡衣跑出來的居民。一個滿臉菸灰的中年消防員看了你們一眼，胸前的名牌寫著「歐文」。「會用斧頭嗎？」他問，「會的話，就留下來幫忙。」',
  t:`第 9 分隊的消防局。紅色的車庫門關了一半，門上用噴漆寫著「這裡有人　沒被咬的才能進來」。車庫裡停著一台雲梯車，另一個車位空著，地上只剩一攤油漬。`,
  c:[
-  {l:'跟歐文談',hide:'fdopen',k:'CHA',d:12,s:'統帥檢定',stay:1,once:1,ok:{t:`你說了你們從哪裡來、路上看到了什麼。他聽完，從裝備架上拿下一副防毒面具丟給你。\n\n「有些地方的空氣已經不能吸了。」他指了指後面的裝備室，「需要什麼自己拿，別拿太多。」`,r:{items:{gasmask:1,filter:1},flag:'fdopen'}},ng:{t:`「我們自己的人都不夠用了。」他轉身回去整理水帶，沒有再看你。`}},
-  {l:'跟他們出去救人',hide:'fdopen',once:1,t:'m',s:'兩條街外有一棟公寓在冒煙',ok:{t:`歐文把一副防毒面具塞進你手裡：「戴著，別走散。」\n\n你們跟著雲梯車衝到兩條街外那棟冒煙的公寓。樓梯間裡全是煙，煙裡有東西在動。`,r:{items:{gasmask:1,filter:1},flag:'fdopen',karma:1},fight:{n:2,mode:'normal'},go:'T0'}},
+  {l:'跟歐文談',hide:'fdopen',trust:1,k:'CHA',d:12,s:'統帥檢定',stay:1,once:1,ok:{t:`你說了你們從哪裡來、路上看到了什麼。他聽完，從裝備架上拿下一副防毒面具丟給你。\n\n「有些地方的空氣已經不能吸了。」他指了指後面的裝備室，「需要什麼自己拿，別拿太多。」`,r:{items:{gasmask:1,filter:1},flag:'fdopen'}},ng:{t:`「我們自己的人都不夠用了。」他轉身回去整理水帶，沒有再看你。`}},
+  {l:'跟他們出去救人',hide:'fdopen',trust:1,once:1,t:'m',s:'兩條街外有一棟公寓在冒煙',ok:{t:`歐文把一副防毒面具塞進你手裡：「戴著，別走散。」\n\n你們跟著雲梯車衝到兩條街外那棟冒煙的公寓。樓梯間裡全是煙，煙裡有東西在動。`,r:{items:{gasmask:1,filter:1},flag:'fdopen',karma:1},fight:{n:2,mode:'normal'},go:'T0'}},
   {l:'趁沒人注意，溜進裝備室',hide:'fdopen',k:'AGI',d:13,s:'敏捷檢定',ok:{t:`你等歐文轉身去接無線電，貼著雲梯車的車身溜到後面。`,r:{karma:-1},go:'T1'},ng:{t:`「喂！」歐文一把抓住你的領子，把你推出車庫門。「我們這裡不歡迎小偷。」`,p:{fear:6},go:'Z0'}},
   {l:'去裝備室',need:'fdopen',ok:{t:`你們穿過車庫，推開後面那扇寫著「裝備室」的門。`,go:'T1'}},
   {l:'上屋頂的瞭望台',ok:{t:`你們爬上消防局的鐵梯，推開屋頂的門。`,go:'T2'}},
@@ -2466,7 +2471,7 @@ O1:{L:'O',n:'急診室',
  t:`檢傷分類的桌子翻倒在地上，一張張病床用布簾隔開，大部分的簾子都拉著。`,
  c:[
   {l:'翻藥櫃',once:1,stay:1,k:'PER',d:12,s:'感知檢定',ok:{t:`藥櫃的玻璃被打破了，常用的藥都被拿光，但最上層還塞著幾樣沒人看到的東西。`,r:{items:{sbandage:2,antibiotic:1,iodine:1}}},ng:{t:`你伸手去搆最上層，身後的簾子被拉開了。`,fight:{n:1,mode:'ambush',names:['簾子後面的病人']}}},
-  {l:'翻護理站的掛號紀錄',once:1,stay:1,k:'INT',d:11,s:'智力檢定',ok:{get t(){return (pwNow()?'電腦上的':'交班本裡夾著一疊印出來的掛號清單。')+`掛號紀錄停在三天前。那一天急診收了四十幾個病人，備註欄寫的都是同一行字：「ARC 合作門診・第二期回診」。最後一筆的時間是 23:41。`},r:{flag:'erlog'},p:{fear:4}},ng:{get t(){return pwNow()?`螢幕跳出登入畫面，要員工證才能進去。`:`交班本被血泡過，一頁一頁黏在一起，字全糊了。`}}},
+  {l:'翻護理站的掛號紀錄',once:1,stay:1,k:'INT',d:11,s:'智力檢定',ok:{get t(){return (pwNow()?'電腦上的':'交班本裡夾著一疊印出來的掛號清單。')+`掛號紀錄停在三天前。那一天急診收了四十幾個病人，備註欄寫的都是同一行字：「ARC 合作門診・第二期回診」。最後一筆的備註多了一句：「旅館那幾位，改成到院觀察。」`},r:{flag:'erlog'},p:{fear:4}},ng:{get t(){return pwNow()?`螢幕跳出登入畫面，要員工證才能進去。`:`交班本被血泡過，一頁一頁黏在一起，字全糊了。`}}},
   {l:'回急診入口',ok:{t:`你們退回救護車道。`,go:'O0'}}]},
 O2:{L:'O',n:'四樓・臨床合作病房',
  tx:()=>G.flags.shadow?'病房被清空了。病床上的床墊被翻過來，抽屜全被拉出來，冰箱的門開著，裡面一格一格都是空的。':'',
@@ -2540,11 +2545,17 @@ L0:{L:'L',n:'第 4 分局・門口',
   {l:'走到醫院',t:'q',ok:{t:`你們穿過馬路，往醫院的救護車道走。`,go:'O0'}},
   {l:'回街區',ok:{t:`你們離開警察局。`,go:'Z0'}}]},
 L1:{L:'L',n:'第 4 分局・大廳',
+ onEnter(){const F=G.flags;F.ledgerq=F.ledger&&!F.evacgone&&!F.ledgercop?1:0},
  tx:()=>G.flags.evacgone?'大廳空了。那幾張椅子上只剩被剪斷的手銬，白板上的字被人擦掉一半。':'大廳裡擠滿了人，有警察、有平民。角落有幾個人被銬在椅子上，一直在扭、一直在流口水，每隔一陣子就有人過去檢查他們的手銬。牆上的白板寫著：「國民兵聯絡中斷　第 14 小時」。',
  t:`值班台後面的無線電一直在沙沙作響。牆上掛著轄區地圖，上面用紅筆圈了好幾個地方：醫院、旅館、北口。`,
  c:[
-  {l:'跟羅培茲警佐談',hide:'evacgone',once:1,stay:1,k:'CHA',d:12,s:'統帥檢定',ok:{t:`她聽你們說完，沉默了一下。「我們也聯絡不上任何人。」她從腰上解下一根伸縮警棍丟給你，「拿著。槍我不能給你。想休息的話，拘留室後面那間是空的。」`,r:{gear:'baton',flag:'pdok'}},ng:{t:`「我現在沒空聽故事。」她轉身去接無線電。`}},
-  {l:'幫她把一個掙脫手銬的人押回去',hide:'evacgone',once:1,s:'角落那張椅子上的人把手銬扯斷了',ok:{t:`那個人撲向離他最近的警察。你們衝了過去。`,r:{flag:'pdok',karma:1},fight:{n:1,mode:'normal',names:['銬在椅子上的人']},go:'L1'}},
+  {l:'跟羅培茲警佐談',hide:'evacgone',trust:1,once:1,stay:1,k:'CHA',d:12,s:'統帥檢定',ok:{t:`她聽你們說完，沉默了一下。「我們也聯絡不上任何人。」她從腰上解下一根伸縮警棍丟給你，「拿著。槍我不能給你。想休息的話，拘留室後面那間是空的。」`,r:{gear:'baton',flag:'pdok'}},ng:{t:`「我現在沒空聽故事。」她轉身去接無線電。`}},
+  {l:'幫她把一個掙脫手銬的人押回去',hide:'evacgone',trust:1,once:1,s:'角落那張椅子上的人把手銬扯斷了',ok:{t:`那個人撲向離他最近的警察。你們衝了過去。`,r:{flag:'pdok',karma:1},fight:{n:1,mode:'normal',names:['銬在椅子上的人']},go:'L1'}},
+  {l:'給羅培茲警佐看旅館的入住簿',need:'ledgerq',once:1,stay:1,ok:{t:`她翻到註記「ARC 合作門診」的那幾頁，手指停在 303、305、306 上。
+
+「上個月有兩件傷人案，」她說，「嫌犯登記的住址，就是這三個房號。我們去旅館問過，門診的人說他們是『追蹤觀察中的病人』，有醫師負責。隔天，上面就叫我們結案。」
+
+她把入住簿闔上，沒有還給你們。「紀錄室在走廊盡頭。你們想看什麼，自己去看。」`,r:{flag:['ledgercop','pdok']}}},
   {l:'去紀錄室',need:'pdok',ok:{t:`你們穿過辦公區，推開走廊盡頭那扇寫著「紀錄室」的門。`,go:'L2'}},
   {l:'趁亂溜進紀錄室',hide:'pdok',k:'AGI',d:13,s:'敏捷檢定',ok:{t:`你趁大家都在看角落那幾個人，貼著牆溜進走廊。`,r:{karma:-1},go:'L2'},ng:{t:`「你要去哪裡？」一個年輕警員擋在走廊口，手按在槍套上。你只好退回來。`,p:{fear:4},stay:1}},
   {l:'翻值班台',need:'evacgone',once:1,stay:1,k:'PER',d:11,s:'感知檢定',ok:{t:`抽屜裡有一張掛著繩子的門禁卡，上面寫著「證物室」，還有兩顆電池。`,r:{flag:'pdcard',items:{battery:2}}},ng:{t:`抽屜裡只有一堆罰單和一個咬了一半的甜甜圈。`}},
@@ -2865,7 +2876,7 @@ PP3:{L:'PP',n:'南岸電廠・柴油發電機房',
  t:`一台貨櫃那麼大的柴油發電機佔了整個房間，側面印著「黑啟動用　禁止移作他用」。旁邊的日用油槽是空的，油位計的指針貼在最底下。\n\n輸油泵的控制箱開著，裡面的保險絲燒得焦黑。`,
  c:[
   {l:'換上保險絲，接通輸油泵',req:'fuse',hide:'ppfuelno',k:'INT',d:12,s:'智力檢定',ok:{t:`你換上保險絲，按下輸油泵的啟動鈕。管子裡傳來咕嚕咕嚕的聲音，日用油槽的指針慢慢爬上來。\n\n你拉下發電機的啟動桿。機器咳了兩聲，然後轟地一聲轉了起來，整個房間都在震。這個聲音，整座廠區都聽得到。`,r:{use:'fuse',flag:'ppgen'},p:{alarm:3},get fight(){return ppFt(2)},stay:1},ng:{t:`保險絲裝上去的瞬間，控制箱裡噴出一串火花。你接錯了相位。`,p:{hp:-2,fear:4},stay:1}},
-  {l:'用手搖泵一桶一桶打',need:'ppfuelok',k:'STR',d:12,t:'l',s:'力量檢定：要很久',ok:{t:`你們輪流搖那支手搖泵，一桶一桶把柴油從主油槽打過來，手臂酸得抬不起來。日用油槽終於滿了。\n\n你拉下發電機的啟動桿。機器咳了兩聲，然後轟地一聲轉了起來。這個聲音，整座廠區都聽得到。`,r:{flag:'ppgen'},p:{alarm:3},get fight(){return ppFt(2)},stay:1},ng:{t:`搖到一半，手搖泵的握柄斷了。你們得另外想辦法。`,p:{hp:-1},stay:1}},
+  {l:'用手搖泵一桶一桶打',need:'ppfuelok',k:'STR',d:12,t:'l',s:'力量檢定',ok:{t:`你們輪流搖那支手搖泵，一桶一桶把柴油從主油槽打過來，手臂酸得抬不起來。日用油槽終於滿了。\n\n你拉下發電機的啟動桿。機器咳了兩聲，然後轟地一聲轉了起來。這個聲音，整座廠區都聽得到。`,r:{flag:'ppgen'},p:{alarm:3},get fight(){return ppFt(2)},stay:1},ng:{t:`搖到一半，手搖泵的握柄斷了。你們得另外想辦法。`,p:{hp:-1},stay:1}},
   {l:'從日用油槽放一桶柴油',need:'ppgen',once:1,stay:1,t:'m',s:'淨水廠的備用發電機用得到',ok:{t:`你們找到一個空的鐵桶，從日用油槽的洩油閥放了滿滿一桶柴油。很重，要兩隻手提。`,r:{items:{diesel:1}}}},
   {l:'去油槽看看',need:'pprdblk',ok:{t:`你們從後門出去，往油槽走。`,go:'PP6'}},
   {l:'回汽機廠房',ok:{t:`你們回到汽機廠房。`,go:'PP1'}}]},
@@ -2874,7 +2885,7 @@ PP4:{L:'PP',n:'南岸電廠・鍋爐間',
  t:`鍋爐有十幾層樓高，裡面燒的是整座煤場的煤。控制台的燈號都亮了，就差點火。\n\n<b>點火之後要等好幾個小時</b>，燈一亮、機器一響，附近的東西都會往這裡來。這會是一場硬仗：點火之前，先把傷治好、把彈藥和吃的補好。`,
  c:[
   {l:'先把廠房大門堵起來',hide:'ppbar',k:'STR',d:12,t:'m',s:'力量檢定：用堆高機和鐵板',ok:{t:`你們把一台堆高機開到大門後面，又拖了幾塊鐵板卡在門縫裡。至少不會一次全部擠進來。`,r:{flag:'ppbar'},stay:1},ng:{t:`鐵板太重了，你們只堵住了一半。`,p:{hp:-1},stay:1}},
-  {l:'點火，開始升溫升壓',hide:'ppboil',t:'l',s:'準備好再點：要很久，而且一定會有東西找上門',ok:{t:`你按下點火鈕。爐膛深處傳來一聲悶響，接著是火焰被吸進去的呼嘯聲。廠區的照明一盞一盞全亮了，整座電廠像一座燈塔一樣立在黑暗的河岸上。\n\n然後，外面開始有聲音了。`,r:{flag:'ppfire'},go:'PP4a'}},
+  {l:'點火，開始升溫升壓',hide:'ppboil',t:'l',s:'準備好再點：一定會有東西找上門',ok:{t:`你按下點火鈕。爐膛深處傳來一聲悶響，接著是火焰被吸進去的呼嘯聲。廠區的照明一盞一盞全亮了，整座電廠像一座燈塔一樣立在黑暗的河岸上。\n\n然後，外面開始有聲音了。`,r:{flag:'ppfire'},go:'PP4a'}},
   {l:'先回去整備',ok:{t:`你們離開鍋爐間。`,go:'PP1'}}]},
 PP4a:{L:'PP',n:'南岸電廠・第一波',
  onEnter(){G.flags.ppw1=0;G.flags.ppw2=0},
@@ -2918,7 +2929,7 @@ PP6:{L:'PP',n:'南岸電廠・油槽',
  c:[
   {l:'跟她談，油分一半',hide:'pprd',k:'CHA',d:13,s:'統帥檢定：發電機用不了多少',ok:{t:`你跟她說，你們只要把發電機旁邊那個小油槽灌滿，剩下的都是她的。電廠的電如果送得出去，對留在城裡的人都有好處。\n\n瑪拉看了你很久，然後點點頭：「一半。我讓人幫你們接管子。」她轉身之前又說了一句：「南橋那邊，最近有穿黑衣服的人在架東西。你們如果也想走那條路，動作要快。」`,r:{flag:'pprd'},go:'PP3'},ng:{t:`「說得真好聽。」瑪拉身後的人把槍舉了起來，「油我們全要。你們要的話，拿東西來換。」`,stay:1}},
   {l:'拿錢換',hide:'pprd',usd:20,s:'需要 $20',ok:{t:`瑪拉數了數錢，塞進口袋。「夠了。」她讓人把管子接到你們的油槽，「別說我們搶人。」`,r:{payUsd:20,flag:'pprd'},go:'PP3'}},
-  {l:'幫他們把油罐車灌滿',hide:'pprd',t:'l',s:'要很久；油槽剩下的歸你們',ok:{t:`你們跟著瑪拉的人一起扛管子、開閥門、守著油罐車的油位計。中間有兩隻感染者從煤場晃過來，被瑪拉一槍一個打倒。\n\n天色變了的時候，三台油罐車都灌滿了。瑪拉把一盒霰彈和一包吃的塞給你：「謝了。我們今晚就走。」她看著你們，「你們也該走了，這座城市不會再好了。」`,r:{flag:'pprd',karma:1,items:{shell:4,bar:2}},go:'PP3'}},
+  {l:'幫他們把油罐車灌滿',hide:'pprd',t:'l',s:'油槽剩下的歸你們',ok:{t:`你們跟著瑪拉的人一起扛管子、開閥門、守著油罐車的油位計。中間有兩隻感染者從煤場晃過來，被瑪拉一槍一個打倒。\n\n天色變了的時候，三台油罐車都灌滿了。瑪拉把一盒霰彈和一包吃的塞給你：「謝了。我們今晚就走。」她看著你們，「你們也該走了，這座城市不會再好了。」`,r:{flag:'pprd',karma:1,items:{shell:4,bar:2}},go:'PP3'}},
   {l:'動手',hide:'pprd',s:'車裡有小孩',ok:{t:`你先舉起了武器。瑪拉嘆了一口氣，把霰彈槍抵上肩膀。`,fight:{n:3,mode:'first',names:['拿霰彈槍的瑪拉','拿獵刀的劫匪','劫匪']},win:{r:{flag:'pprd',karma:-2},t:'剩下的人把小孩塞進油罐車，開著車衝出了廠區。沒有人回頭。油槽是你們的了。'},go:'PP3'}},
   {l:'回大門',ok:{t:`你們退回大門那邊。瑪拉的人一直看著你們走遠。`,go:'PP0'}}]}
 });
@@ -2976,7 +2987,7 @@ WP2:{L:'WP',n:'東岸淨水廠・取水站',
  tx:()=>G.flags.wpscreen?'攔汙柵乾淨了，河水穩穩地往裡面流。':'',
  t:`取水站蓋在河面上，底下是一整排鐵柵欄，河水應該從這裡被抽進廠裡。現在柵欄前面堆滿了漂流木、垃圾袋、塑膠桶，還有很多很多泡得發白的東西，全卡在一起。\n\n抽不進水，就什麼都不用談。`,
  c:[
-  {l:'把攔汙柵前面的東西拖開',hide:'wpscreen',k:'STR',d:13,t:'l',s:'力量檢定：要很久',ok:{t:`你們用鐵鉤一樣一樣往上拖：木頭、垃圾、還有人。拖到一半，水底下有一團東西自己動了起來，整個脹成一顆球，朝你們浮過來。`,fight:{n:1,mode:'ambush',names:['泡在水裡的孵化者']},win:{r:{flag:'wpscreen'},t:'最後一團東西被拖上來的時候，河水嘩地一聲灌進了取水口。'},stay:1},ng:{t:`鐵鉤勾到一半斷了，你整個人往後摔在鐵板上。`,p:{hp:-2},stay:1}},
+  {l:'把攔汙柵前面的東西拖開',hide:'wpscreen',k:'STR',d:13,t:'l',s:'力量檢定',ok:{t:`你們用鐵鉤一樣一樣往上拖：木頭、垃圾、還有人。拖到一半，水底下有一團東西自己動了起來，整個脹成一顆球，朝你們浮過來。`,fight:{n:1,mode:'ambush',names:['泡在水裡的孵化者']},win:{r:{flag:'wpscreen'},t:'最後一團東西被拖上來的時候，河水嘩地一聲灌進了取水口。'},stay:1},ng:{t:`鐵鉤勾到一半斷了，你整個人往後摔在鐵板上。`,p:{hp:-2},stay:1}},
   {l:'回沉澱池區',ok:{t:`你們沿著池邊的走道走回去。`,go:'WP1'}}]},
 WP3:{L:'WP',n:'東岸淨水廠・加氯室',
  onEnter(){const F=G.flags;if(!F.wpcl){for(const p of able()){if(maskWorn(p))continue;p.hp=Math.max(1,p.hp-3);out(`${MP()?nm(p)+'：':''}氯氣刮著喉嚨和眼睛，每吸一口都像吞了一把碎玻璃。生命 −3。`,'dmg',true)}}wpTap()},
@@ -3110,7 +3121,7 @@ EVPOOL.push(
  {id:'f_bell',at:['F'],t:`出菜口的服務鈴，叮地響了一聲。
 
 出菜口後面沒有人。`,c:[
-  {l:'走過去看',k:'PER',d:12,s:'感知檢定',ok:{t:`鈴的旁邊壓著一張客房服務單，上面寫著「302 客房服務　23:41」。單子背面沾著一個血手印。你把它折起來收好。`,p:{fear:6}},ng:{t:`你走到出菜口前面的時候，鈴又響了一聲。這次你看清楚了：是天花板滴下來的水打在上面。你不知道為什麼，覺得那不是水。`,p:{fear:8}}},
+  {l:'走過去看',k:'PER',d:12,s:'感知檢定',ok:{t:`鈴的旁邊壓著一張客房服務單，上面寫著「303 客房服務　照門診交代，放門口就好」。單子背面沾著一個血手印。你把它折起來收好。`,p:{fear:6}},ng:{t:`你走到出菜口前面的時候，鈴又響了一聲。這次你看清楚了：是天花板滴下來的水打在上面。你不知道為什麼，覺得那不是水。`,p:{fear:8}}},
   {l:'不理它',ok:{t:`你沒有回頭。鈴聲沒有再響。`,p:{fear:2}}}]},
  {id:'h_dryer',at:['H'],t:`一整排滾筒洗衣機裡，有一台的門自己彈開了。濕衣服從裡面滑出來，攤在地上。`,c:[
   {l:'過去看看',k:'PER',d:11,s:'感知檢定',ok:{t:`滾筒裡除了衣服，還有一件員工背心，口袋裡有一個沒開封的急救包。`,r:{items:{med:1}}},ng:{t:`你彎下腰往滾筒裡看。滾筒深處有一張臉，貼著鐵壁，對你張開了嘴。`,p:{fear:10},fight:{n:1,mode:'ambush',names:['卡在洗衣機裡的感染者']}}},
@@ -3228,9 +3239,9 @@ SA1:{L:'SA',n:'S1・警衛室',
  tx:()=>G.flags.trRoster?'':'警衛室的監視螢幕還亮著，一格一格切換著下面幾層的畫面。收容層的某一格裡，有東西一直在撞玻璃。',
  t:`走廊旁邊是一間玻璃隔間的警衛室。桌上攤著一本登記簿，牆上貼著排班表，一張椅子倒在地上，椅背上掛著一件保全的外套。\n\n走廊的另一頭是貨梯，按鈕旁邊寫著「S2　研究層」「S3　收容層」「S4　核心（需二級授權）」。`,
  c:[
-  {l:'看受試者名冊',hide:'trRoster',t:'m',s:'登記簿',ok:{t:`登記簿的第一頁寫著「第二期　持續共生計畫　受試者名冊」。\n\nB-117、B-118、B-121……每一個編號旁邊都有一個名字、一個「安置地點」，和一個「回診接送時間」。安置地點全是同一個地址：那間旅館，303、305、306。接送時間全是 23:41。\n\n名冊的最後一頁只有一行，用紅筆框起來：\n\n「Z-0　雷摩斯・凱德中士　陸軍　第二期首例　狀態：核心收容　（禁止接觸）」\n\n<b>你又拼上了一塊真相。</b>`,r:{flag:'trRoster'},p:{fear:6},stay:1}},
+  {l:'看受試者名冊',hide:'trRoster',t:'m',s:'登記簿',ok:{t:`登記簿的第一頁寫著「第二期　持續共生計畫　受試者名冊」。\n\nB-117、B-118、B-121……每一個編號旁邊都有一個名字、一個「安置地點」，和一個「轉出日期」。安置地點全是同一個地址：那間旅館，303、305、306。B-118 的轉出日期是三天前。\n\n名冊的最後一頁只有一行，用紅筆框起來：\n\n「Z-0　雷摩斯・凱德中士　陸軍　第二期首例　狀態：核心收容　（禁止接觸）」\n\n<b>你又拼上了一塊真相。</b>`,r:{flag:'trRoster'},p:{fear:6},stay:1}},
   {l:'看名冊最後一頁',job:'liao',need:'trRoster',once:1,stay:1,ok:{t:`雷摩斯・凱德中士。\n\n你在部隊裡叫了他三年的「中士」。那次在海外，直升機把他抬走的時候，他的一條手臂已經不見了，臉上全是燒傷。後來部隊說他轉到國內的醫院，再後來，所有紀錄上都沒有這個人了。\n\n你一個人查了這麼久，最後查到的是這一行紅字。\n\n「核心收容。」`,p:{fear:10}}},
-  {l:'看接送排班表',job:'maggie',once:1,stay:1,ok:{t:`排班表上，每一班 23:41 的接送都登記成「回診」，旁邊附著一張受試者簽過名的同意書影本。\n\n你看得出問題在哪裡。同意書上寫的是「定期回診追蹤」，可是排班表上的目的地欄寫的是「S3」。那不是回診，那是收容。\n\n這不是醫療疏失。這是有人明知道，還一路簽了下去。你把排班表摺好，收進外套內側。`,r:{flag:'mgDoc'}}},
+  {l:'看安置紀錄',job:'maggie',once:1,stay:1,ok:{t:`安置紀錄上，每一位受試者轉出旅館的那一天，都登記成「回診」，旁邊附著一張受試者簽過名的同意書影本。\n\n你看得出問題在哪裡。同意書上寫的是「定期回診追蹤」，可是紀錄上的目的地欄寫的是「S3」。那不是回診，那是收容。\n\n這不是醫療疏失。這是有人明知道，還一路簽了下去。你把紀錄摺好，收進外套內側。`,r:{flag:'mgDoc'}}},
   {l:'翻警衛的置物櫃',once:1,stay:1,t:'m',ok:{t:`置物櫃裡有一盒子彈、一包急救敷料包，還有一張全家福，背面寫著「下班記得買牛奶」。`,r:{items:{ammo9:8,med:1,sbandage:1}}}},
   {l:'搭貨梯下研究層',ok:{t:`貨梯的門關上，往下降了很久。`,go:'SB0'}},
   {l:'回除汙閘門',ok:{t:`你們往回走。`,go:'SA0'}}]},
@@ -3276,7 +3287,7 @@ SC0:{L:'SC',n:'S3・收容層',
   {l:'回研究層',ok:{t:`你們爬上紅色的樓梯間。`,go:'SB0'}}]},
 SC1:{L:'SC',n:'S3・B-118',
  tx:()=>G.flags.b118?(G.flags.b118===1?'B-118 的門開著，裡面沒有人了。':'B-118 的收容室裡很安靜。'):'',
- t:`「你們不是他們的人。」男人隔著對講機說，聲音很沙啞，「他們的人不會這樣看我。」\n\n「我住過那間旅館的 305。每天晚上 23:41，他們來接我『回診』。後來就不讓我回去了。」他捲起袖子。手臂上的皮膚底下，有一束一束灰白色的東西在慢慢地動。\n\n「我還是我。暫時。」他看著你們，「隔壁那個中士，他們說他是第一個。晚上安靜的時候，我聽得到他在牆後面呼吸。電停的那幾天，他沒有聲音。電回來之後……他醒了。」`,
+ t:`「你們不是他們的人。」男人隔著對講機說，聲音很沙啞，「他們的人不會這樣看我。」\n\n「我住過那間旅館的 305。每天晚上都有穿看護制服的人來幫我量體溫。三天前，他們說要帶我去回診。後來就不讓我回去了。」他捲起袖子。手臂上的皮膚底下，有一束一束灰白色的東西在慢慢地動。\n\n「我還是我。暫時。」他看著你們，「隔壁那個中士，他們說他是第一個。晚上安靜的時候，我聽得到他在牆後面呼吸。電停的那幾天，他沒有聲音。電回來之後……他醒了。」`,
  c:[
   {l:'打開門，放他出去',hide:'b118',k:'INT',d:11,s:'智力檢定：門的控制面板',ok:{t:`你找到控制面板，打開了 B-118。他走出來，在走廊上站了很久，像是不記得要怎麼走路。\n\n「謝謝。」他說，「我會往上走。走到我走不動為止。」他沒有回頭。`,r:{karma:1,flag:'b118'},stay:1},ng:{t:`面板跳出紅字：「需要二級授權」。你試了別的方法，門還是沒開。`,stay:1}},
   {l:'他求你們：「在我變成那樣之前」',hide:'b118',s:'他請你們結束這一切',ok:{t:`他把手貼在玻璃上，你們隔著玻璃看著他。過了很久，你打開了給藥口，把鎮定劑放進去。\n\n他點點頭，坐回床上，捲起袖子。\n\n你們沒有留下來看。`,r:{flag:'b118'},p:{fear:10},stay:1}},
@@ -3355,9 +3366,6 @@ BM0:{L:'BM',n:'地鐵站・維修通道',
   {l:'把鐵箱交給他',quest:'bmBox',need:'bmq2give',hide:'bmq2done',stay:1,ok:{t:`他接過箱子，掂了掂重量，沒有打開。「沒人碰過，很好。」他從身後拖出一件防爆背心和一盒步槍子彈。`,r:{flag:'bmq2done',usd:50,items:{ammo308:10,riotvest:1}},questDone:'bmBox'}},
   {l:'接下他的活：德克的帳本',need:'bmq3ok',hide:'bmq3',quest:'bmLedger',stay:1,s:'會得罪購物中心那群人；報酬是 $40 和一個藏貨的地方',ok:{t:`「河景廣場二樓那個叫德克的，」他說，「什麼都記在一本黑色的帳本裡：誰欠他、貨藏在哪。我要那本帳本。」他頓了一下，「拿到之後，他不會再跟你們做生意。你們自己想清楚。」`,r:{flag:'bmq3'}}},
   {l:'把德克的帳本交給他',quest:'bmLedger',need:'bmq3give',hide:'bmq3done',stay:1,ok:{t:`他翻了幾頁，笑了一聲，撕下其中一頁遞給你們。「這一頁我用不到。上面寫的是他在街區裡藏貨的車庫，鑰匙在門口第三個花盆底下。算你們的。」`,r:{flag:['bmq3done','dkstash'],usd:40},questDone:'bmLedger'}},
-  {l:'給他看旅館的入住簿',need:'ledger',hide:'ledgersold',stay:1,s:'他說消息也收',ok:{t:`他翻到註記「ARC 合作門診」的那幾頁，停了很久，用指甲在 23:41 那幾行底下劃了一道。
-
-「這東西外面有人要，很多人要。」他數了錢，把入住簿收進彈藥箱，「誰把這幾間房的人接走，接去哪裡……你們最好別再問了。」`,r:{flag:'ledgersold',usd:30}}},
   {l:'回街區',ok:{t:`你們沿著維修步道走回大廳，避開積水，爬上樓梯回到街上。`,go:'Z0'}}]},
 BQ0:{L:'BQ',n:'封鎖線・探照燈塔',
  t:`封鎖線西段的探照燈塔是用鷹架臨時搭起來的，塔腳壓著四個水泥墩子。燈一直在轉，每轉一圈，白光就從你們藏身的那台公車上掃過去一次。
@@ -4046,7 +4054,7 @@ async function cityEvent(k){const real=DF().num===0;
 const FIRE_END={lab:'天亮了。燃燒彈打不進這麼深的地底，可是地面上的火把空氣抽走了。通風口先是灌進熱風，然後是濃煙，白色的走廊一段一段暗下去。',wp:'天亮了。淨水廠的沉澱池映著天上的火光，一池一池亮起來，像一排鏡子。燃燒彈落在管理大樓上，玻璃全碎了，水面上漂滿了灰。',pp:'天亮了。南岸的兩根煙囪是整座城市最高的東西，第一波燃燒彈就是對著它們落下來的。廠房的鐵皮屋頂一片一片掀開，裡面的機器還在轉。',camp:'天亮了。營地的帳篷早就拆光了，只剩那根煙囪還立在空地中間。第一顆燃燒彈落下來的時候，你們正站在它的影子裡。',
   base:'天亮了。基地早就撤空了，閘門開著，停機坪上只剩一台油罐車。第一團火落在油罐車旁邊，整片水泥地一下子變成白色的。',
   street:'天亮了。第一顆燃燒彈落在街區北口，接著是第二顆、第三顆。火從路口往四面八方推過來，比任何人能跑的都快。你最後看見的，是那個「……MALL」的招牌在火裡一個字母一個字母地被吞掉。',
-  hotel:'天亮了。燃燒彈落在旅館四周的街區，火很快連成一片。旅館的外牆擋住了火，擋不住煙：濃煙從碎掉的大廳玻璃門灌進來，順著樓梯間一層一層往上爬。走廊上的煙霧偵測器同時尖叫，電池一個接一個耗盡。23:41 那班接送車，終究沒有來。',
+  hotel:'天亮了。燃燒彈落在旅館四周的街區，火很快連成一片。旅館的外牆擋住了火，擋不住煙：濃煙從碎掉的大廳玻璃門灌進來，順著樓梯間一層一層往上爬。走廊上的煙霧偵測器同時尖叫，電池一個接一個耗盡。303、305、306 的門，再也沒有人來敲。',
   safe:'你們把門堵好，以為這裡夠安全。天亮的時候，屋頂傳來一聲悶響，接著整片天花板都紅了。門外的火聲，比任何感染者都大。'};
 async function fireEnding(){if(G.over)return;const nd=N[G.node]||{};const key=(LV[G.lv]||{}).fire||(nd.rest?'safe':(LV[G.lv]||{}).ch===1?'hotel':'street');
   G.fight=null;G.over={dead:1,fire:1,mad:0,text:FIRE_END[key]};G.phase='over';stopCd();{const d=shardCalc(null);for(const k of Object.keys(d))d[k]+=(G.bank[k]||0);G.over.sh=d}
@@ -4082,7 +4090,7 @@ function zSeal(cs){if(!G||G.ev!=null||!ZN[G.node]||ZN[G.node].role!=='hub')retur
   return cs.map(c=>c.zp&&((c.zp.k==='room'&&G.flags['v_'+c.zp.room]&&!(c.once&&c.keep&&G.used&&G.used[usedKey(c)]))||c.zp.k==='back')?{...c,_hid:1}:c)}
 function zBudget(cs){if(!G||G.ev!=null||!ZN[G.node]||!['room','hub'].includes(ZN[G.node].role)||zSpent()<zBudgetMax())return cs;
   return cs.map(c=>(zIsSearch(c)||(c.zp&&c.zp.k==='room'))&&!(c.once&&c.keep&&G.used&&G.used[usedKey(c)])?{...c,_hid:1}:c)}
-const choices=()=>darCh(rtView(zBudget(zSeal(zView(searchChoices(curNode()))))));
+const choices=()=>trustCh(darCh(rtView(zBudget(zSeal(zView(searchChoices(curNode())))))));
 // 不搬動原選項索引：仔細搜查留在原位置，簡單尋找附加在陣列尾端。
 const SEARCH_CACHE=new WeakMap();
 function canSearch(c){
@@ -4298,10 +4306,11 @@ async function applyRes(c,res,actor,bad){CURC=c;if(c.darGo)G.guided=1;
   if(res.qte){const sub=await storyQte(res,actor);if(G.over)return;if(sub&&sub.go)res=Object.assign({},res,{go:sub.go});if(sub&&sub.fight)res=Object.assign({},res,{fight:sub.fight})}
   if(res.code){await storyCode(res,actor);if(G.over)return}
   // v0.24.0：區域裡仔細搜查會出聲（簡單尋找很安靜）
-  if(c._searchMode==='careful'&&(ZONES[G.lv]||ROUTE[G.lv]))addAlarm(1,actor);
+  // v0.40.0 翻找會有聲音：仔細搜查 +2、簡單尋找 +1（不寫在選項上，讓玩家自己摸索）
+  if(c._searchMode&&(ZONES[G.lv]||ROUTE[G.lv]))addAlarm(c._searchMode==='careful'?2:1,actor);
   if(c.once||zMark(c)){G.used=G.used||{};G.used[usedKey(c)]=1}
   if(zMark(c)&&zIsSearch(c)||(c.zp&&c.zp.k==='room'&&ZN[G.node]&&ZN[G.node].role==='hub')){G.zb=G.zb||{};G.zb[G.node]=(G.zb[G.node]||0)+1;if(G.zb[G.node]===zBudgetMax())out('能翻的都翻過了，再耗下去只是浪費時間。該往前走了。','rule')}
-  if(res.r&&res.r.shop){openShop(res.r.shop,res.stay||c.stay?null:(res.go||nextId));return}
+  if(res.r&&res.r.shop){await openShop(res.r.shop,res.stay||c.stay?null:(res.go||nextId));return}
   // 留在原地的選項如果打起來，打完回到這個節點（v0.11.0 修正：之前會直接略過戰鬥）
   const stayHere=res.stay||c.stay||(zs&&!res.go&&!c.go)||(srIn&&srMore(sr));
   if(stayHere&&!res.fight)return zStayHere(c);
@@ -4325,7 +4334,7 @@ async function alarmCheck(target,here){
   return false}
 function itemTag(t){return `<span class="pk">${t}</span>`}
 async function outcome(o,actor){
-  const r=o.r||{},p=o.p||{};const got=[];let skipHp=false;
+  const r=o.r||{},p=o.p||{};const got=[];let skipHp=false;const rk=r.karma;/* 善惡值先讀：有些是看旗標決定的（凱文），旗標下面才會改 */
   if(r.items)for(const [k,q] of Object.entries(r.items)){const lf=addI(actor,k,q);got.push(itemTag(`${ITEMS[k].n}${q>1?' ×'+q:''}`));if(lf>0)out(`${MP()?nm(actor)+'的':''}背包放不下，${ITEMS[k].n}${lf>1?' ×'+lf:''}先放在地上（打開背包可以撿）。`,'sys',true)}
   if(r.gear){addGear(actor,r.gear,r.mag);const w=WEAP[r.gear];got.push(itemTag(w.n+(w.kind==='gun'?`（${r.mag||0}／${w.mag}）`:'')))}
   if(got.length&&tr(actor,'scav')&&Math.random()<.3){const mats=Object.keys(ITEMS).filter(k=>ITEMS[k].t==='mat'&&!['deadlight','sewing'].includes(k));const k=pick(r.items?Object.keys(r.items).filter(x=>ITEMS[x].t==='mat').concat(mats.slice(0,6)):mats.slice(0,6));addI(actor,k);got.push(itemTag(ITEMS[k].n+'（多撿到的）'))}
@@ -4342,7 +4351,7 @@ async function outcome(o,actor){
   // 過夜：睡到清晨（時間已在選項扣掉），生命回 50%、恐懼 −35，發瘋的人恢復
   if(r.sleep){for(const q of G.players){if(q.dead||!teamHere(q))continue;if(q.mad){q.mad=0;setFear(q,Math.min(q.fe||100,85));out(`${nm(q)}睡了一覺，醒來時眼神終於對得上焦了。`,'good',true)}if(q.down){q.down=0;q.hp=Math.max(q.hp,1)}const hp=Math.min(q.max-q.hp,Math.ceil(q.max*.5));q.hp+=hp;out(`${MP()?nm(q)+'：':''}生命 +${hp}。`,'good',true);relax(q,35)}}
   if(r.rest){for(const q of able()){const hp=Math.min(q.max-q.hp,r.rest.hp||0);q.hp+=hp;out(`${MP()?nm(q)+'：':''}生命 +${hp}。`,'good',true);if(r.rest.san)relax(q,20,false,1)}}
-  if(r.karma)for(const q of able())q.karma=(q.karma||0)+r.karma;
+  if(rk)for(const q of able())q.karma=(q.karma||0)+rk;
   if(r.use){const keys=r.use==='$req'?reqList(CURC||{}):[r.use];for(const k of keys){const ow=owner(k,actor);if(ow){if(k.startsWith('g:')){const g=ow.gear.find(x=>x.id===k.slice(2));if(g&&WEAP[g.id].kind==='spray'){g.dur--;if(g.dur<=0)rmGear(ow,g.u)}}else takeI(ow,k);break}}}
   if(r.burn){G.pendingBurn=1;await flush();snd('mthrow');await wait(450);await sndW('mimpact',1,1500,.5);
     if(G.lv==='F'&&!G.flags.gasoff){await explode();}}
@@ -4386,14 +4395,19 @@ async function showChapter(ch){const C=CHAPTERS[ch];const c=$('#lvcard');c.inner
 
 /* ================= 商店 ================= */
 // 開店：抽商品、定價；stayAt 為 null 代表關店後回到原本的選項，否則前往那個節點
-function openShop(id,go){const S=SHOPS[id];const pool=[...S.pool];const n=Math.min(pool.length,rnd(S.n0,S.n1));const items=[];
+function openShop(id,go){const S=SHOPS[id];if(S.nice&&evilTeam()){snd('ng',.5);out(S.nice,'bad');return shopLeave(go)}const pool=[...S.pool];const n=Math.min(pool.length,rnd(S.n0,S.n1));const items=[];
   for(let i=0;i<n;i++){const k=pool.splice(rnd(0,pool.length-1),1)[0];const amm=ITEMS[k].t==='ammo',one=['wear','tool'].includes(ITEMS[k].t)||k==='repairkit';items.push({k,q:amm?(S.box?rnd(8,15):rnd(3,8)):one?1:rnd(1,3),p:Math.max(1,Math.round(PRICE[k]*(S.mk||1)*(0.7+Math.random()*0.6)))})}
   G.shop={id,items,ready:{},go:go||null,key:G.rid+'-'+(++G.seq)};G.phase='shop';stopCd();push();draw()}
 function shopBuy(p,i){const S=G.shop;const it=S&&S.items[i];if(!it||it.q<=0)return false;
   const pr=buyPrice(p,it);if((p.usd||0)<pr){msgTo(p,'錢不夠。');return false}if(roomFor(p,it.k)<1){msgTo(p,'背包放不下。');return false}
   p.usd-=pr;it.q--;addI(p,it.k,1);snd('pickup',.6);out(`${MP()?nm(p):'你'}花 $${pr} 買了${ITEMS[it.k].n}。`,'sys',true);S.ready={};return true}
-// 好口才：買東西便宜 20%
-const buyPrice=(p,it)=>tr(p,'talker')?Math.max(1,Math.round(it.p*.8)):it.p;
+/* v0.40.0 隱藏的善惡值（p.karma）：惡值越高買東西越貴，善不影響價錢。−2 以下貴 20%，−4 以下貴 50%；
+   −6 以下一般商人（傑西、蘿絲）不跟你們交易，需要信任的求助選項（trust）要多過一關統帥檢定（主人 2026-11-20） */
+const karmaMul=p=>(p.karma||0)<=-4?1.5:(p.karma||0)<=-2?1.2:1;
+const evilTeam=()=>!!G&&able().some(p=>(p.karma||0)<=-6);
+// 好口才：買東西便宜 20%（跟惡值的加價疊在一起算）
+const buyPrice=(p,it)=>Math.max(1,Math.round(it.p*karmaMul(p)*(tr(p,'talker')?.8:1)));
+function shopLeave(go){if(go)return (async()=>{if(await alarmCheck(go))return;return enterNode(go)})();G.votes={};G.rv={};G.pc=null;makeHints();G.phase='node';startCd();push();draw()}
 /* v0.26.0 燙手貨與賣武器：只有黑市商人收燙手貨（滅菌部隊的槍、制服）；一般商人裡只有流浪商人和德克收武器 */
 const hotG=g=>!!(g&&g.hot&&!g.drop);
 const hotP=p=>!!(p&&p.gear&&p.gear.some(hotG));
@@ -4403,7 +4417,8 @@ function gearSellPrice(g,shopId){const S=SHOPS[shopId],w=WEAP[g.id];if(!S||!w||w
   if(w.dur&&g.dur!=null)v=Math.max(1,Math.ceil(v*g.dur/w.dur));
   if(w.kind==='gun'&&g.mag>0&&w.ammo)v+=g.mag*sellPrice(w.ammo);
   return v}
-const itemSellPrice=(k,shopId)=>HOTITEM(k)?(SHOPS[shopId]&&SHOPS[shopId].hot?20:0):sellPrice(k);
+const shopBuys=(S,k)=>!!S&&(S.hot||S.pool.some(x=>ITEMS[x].t===ITEMS[k].t));
+const itemSellPrice=(k,shopId)=>HOTITEM(k)?(SHOPS[shopId]&&SHOPS[shopId].hot?20:0):shopBuys(SHOPS[shopId],k)?sellPrice(k):0;
 // 一般商人拒收燙手貨：說一句話，順便提到地鐵站那個人（第一次就記進備忘錄）
 function shopRefuse(p,what){const S=SHOPS[G.shop.id];snd('ng',.5);out(`${MP()?nm(p)+'拿出'+what+'。':''}${S.rf||'對方搖頭，不收。'}`,'bad');
   if(!G.flags.bmknown){out('「真想脫手的話，」對方壓低聲音，「地鐵站積水那一層後面有一道維修通道，裡面那個人什麼都收。別說是我講的。」','sys');bmKnow('refuse','有個商人說：地鐵站積水那一層後面的維修通道裡，有個人什麼都收，包括那些穿黑衣服的人的東西。')}
@@ -4467,7 +4482,8 @@ function buildRoute(){
   }
 }
 buildRoute();
-const srMax=()=>Math.max(2,able().length);
+// 旅館走廊只能挑一件事做（主人 2026-11-20：拿了消防斧就不能再進房間）
+const srMax=()=>1;
 const srSt=id=>{G.rs=G.rs||{};return G.rs[id]||(G.rs[id]={n:0,u:{}})};
 // 搜索點還有沒有能做的事（次數還沒用完，而且有沒選過、現在選得了的選項）
 function srLeft(id){const st=(G.rs||{})[id]||{n:0,u:{}};return searchChoices(N[id]).some((c,i)=>!st.u[c._searchBase!=null?c._searchBase:i]&&visible(c)&&choiceOk(c))}
@@ -4535,9 +4551,11 @@ async function zEvent(){if(!zStay())return false;const r=ZN[G.node],Z=ZONES[r.z]
 /* ---- 警戒（PROPOSAL_MAP 第十節，主人 2026-11-16 04:29 同意）：每個區域各自計算 0～10。
    3 有動靜（只有提示）／6 被盯上（下一個動作來一小波：那個區域陣營 1～2 隻普通敵人）／10 驚動（菁英一隻＋依人數加隨從）。
    強敵打完警戒回到 3，這次停留標成「已驚動」不再累積；離開兩小時以上才重新累積。離開區域時記下數字，回來時 −2，每離開一小時再 −1。 */
-function ALV(){G.zal=G.zal||{};return G.zal[G.lv]||(G.zal[G.lv]={})}
+// v0.40.0 警戒跟著整個區域走：首次旅館的每一層樓都算同一個區域，換樓層不會清掉（主人 2026-11-20）
+const alZ=L=>ROUTE[L]?'hotel':L;
+function ALV(){G.zal=G.zal||{};const k=alZ(G.lv);return G.zal[k]||(G.zal[k]={})}
 const zDepth=()=>{const Z=G&&(ZONES[G.lv]||ROUTE[G.lv]);return Z?Z.d:0};
-function zSwap(a,b){G.zal=G.zal||{};const A=G.zal[a]||(G.zal[a]={});A.v=G.alarm||0;A.t=G.clock||0;
+function zSwap(a,b){a=alZ(a);b=alZ(b);if(a===b)return;G.zal=G.zal||{};const A=G.zal[a]||(G.zal[a]={});A.v=G.alarm||0;A.t=G.clock||0;
   const B=G.zal[b]||(G.zal[b]={});let v=B.v||0;if(B.t!=null){const away=(G.clock||0)-B.t;v=Math.max(0,v-2-Math.floor(away/60));if(away>=120){B.roused=0;B.big=0;B.rn=0}}
   if(v<3)B.w3=0;if(v<6)B.w6=0;G.alarm=v}
 function zFac(){const c={};for(const t of dayPool())c[FOES[t].fac]=(c[FOES[t].fac]||0)+1;return Object.keys(c).sort((a,b)=>c[b]-c[a])[0]||'inf'}
@@ -4564,6 +4582,11 @@ let RESTN=null;
 const restNodes=()=>RESTN||(RESTN=Object.keys(N).filter(isRestNode));
 // v0.39.0 單向路線：只指同一段路上去過的休息點（不帶回走過的地點）
 const darLoc=L=>ZONES[L]?'z:'+ZONES[L].loc:'l:'+L;
+// v0.40.0 惡值太高：需要信任的選項多一關統帥檢定（本來就要檢定的難度 +3）。複本要固定，usedKey 才找得到
+const TRUSTC=new WeakMap();
+function trustCh(cs){if(!G||!evilTeam())return cs;return cs.map(c=>{if(!c.trust)return c;let x=TRUSTC.get(c);if(x)return x;
+  x=c.k?Object.assign({},c,{d:c.d+3,s:(c.s||'')+'；他們不太信任你們'}):Object.assign({},c,{k:'CHA',d:14,s:'他們不太信任你們；統帥檢定',ng:{t:'對方看了你們很久，最後搖了搖頭。「我聽說過你們。」',stay:1}});
+  TRUSTC.set(c,x);return x})}
 function darCh(cs){if(!G||!G.dar||G.dar.node!==G.node||G.ev!=null||!N[G.dar.to])return cs;
   return cs.concat([{l:'跟著「祂」的指引走',s:`……往${N[G.dar.to].n}……`,go:G.dar.to,t:'q',tf:()=>rnd(30,60),kind:'移動',darGo:1}])}
 async function darBridge(p){
@@ -4627,6 +4650,8 @@ if(g.fight&&g.fight.foes){const F=g.fight;F.sl=F.sl||{};F.hb=F.hb||{};F.bg=F.bg|
   // v0.39.0 旅館改成單向路線：舊存檔停在區域畫面的，換回那一區原本的出口節點；走過的地點記成路線
   {const OLDHUB={Ah:'A4',Bh:'B2',Ch:'C4',Dh:'D4',Eh:'E2',Fh:'F4',Gh:'G4',Hh:'H4',Ih:'I2',Ph:'P4',Rh:'R4'};
     for(const k of ['node','after','zmove','gnode'])if(OLDHUB[g[k]])g[k]=OLDHUB[g[k]];g.zevGo=null;g.rs=g.rs||{};
+    if(g.flags&&g.flags.c2341){g.flags.csafe=(g.flags.csafe||0)+g.flags.c2341;delete g.flags.c2341}
+    if(g.zal&&!g.zal.hotel){const fl=Object.keys(g.zal).filter(k=>ROUTE[k]);if(fl.length){const H=g.zal.hotel={};for(const k of fl){const z=g.zal[k];if(k===g.lv||(z.v||0)>(H.v||0))Object.assign(H,z);delete g.zal[k]}}}
     if(!g.route)g.route=(g.lvSeen||[]).filter(L=>ROUTE[L]);if(g.lv&&ROUTE[g.lv]&&!g.route.includes(g.lv))g.route.push(g.lv)}
   return g}
 // 讀檔後把舊存檔的人放回地點入口（戰鬥中就等打完再過去）
@@ -5987,7 +6012,7 @@ function syncCodex(g=G,visit=false){
     if(F.v_G4||F.v_Y2)codexNote(g,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','found',visit&&g.node==='Y2'&&F.citypower?'發現一道厚重鐵門，旁邊有讀卡器。門後是往下的白色樓梯。':'門無法開啟，讀卡器沒有正常運作。恢復供電後，或許能再試試。');
     if(F.opslog)codexNote(g,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','opslog','作戰紀錄指出：旅館地下是 S 區入口之一，維生系統依賴市電與市水，開啟還需要 S 區門禁。');
     if(F.labhint)codexNote(g,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','labhint','拘留室的線索指向旅館地下的入口，值得回去查看。');
-    if(F.fzhint)codexNote(g,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','fzhint','冷藏室裡的蘿莎說，經理每晚 23:41 拿著門卡下地下室那扇白色的門。');
+    if(F.fzhint)codexNote(g,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層','fzhint','冷藏室裡的蘿莎說，經理每天晚上等門診的人巡完房，就拿著門卡下地下室那扇白色的門。');
     if((F.power||F.citypower)&&!F.v_SA0)codexNote(g,'hotelDoor','地下室的厚重鐵門','旅館・地下設備層',F.citypower?'power-city':'power-local',F.citypower?'北區供電已恢復，或許值得回去查看鐵門。':'地下設備層的備用供電已恢復，或許值得回去查看讀卡器。');
     if(visit&&g.node==='Y2'){
       const key=F.acru&&!F.ylabclr?'guard':!F.citypower?'city':!F.citywater?'water':!F.labcard?'card':'ready';
@@ -6287,8 +6312,7 @@ function draw(){
       const zl=!ok&&(!!ZN[G.node]||!!RN[G.node])&&G.ev==null;const zs=zNote(c);
       const vts=MP()?voters().filter(q=>G.votes[q.pid]===i).map(q=>av(q)).join(''):'';
       const hn=G.hint&&G.hint[MYPID]&&G.hint[MYPID][i];const tl=G.told&&G.told[i];const hs=hn?`<em class="hint">你察覺：${hn}</em>`:tl?`<em class="hint">${esc(P(tl.pid).name)}說：${tl.t}</em>`:'';const why2=!ok&&c.usd&&teamUsd()<c.usd?`需要 $${c.usd}（全隊有 $${teamUsd()}）`:!ok&&c.karma&&!c.reqN&&!c.req?'他們還不夠信任你們。':!ok&&c.reqN?'需要'+Object.entries(c.reqN).map(([k,q])=>ITEMS[k].n+' ×'+q).join('、'):'';
-      const tk=tKind(c);
-      return chBtn(zl?`data-lock="${i}"`:`data-ch="${i}"`,`<span class="choice-prefix">【${choiceKind(c)}】</span>`+c.l+(tk&&!zUsed(c)?`<small class="tmc ${tk}">（${TLAB[tk]}）</small>`:''),(zs&&zs!==why?`<b class="zst">${zs}</b>`:'')+(why||why2||choiceNote(c))+hs,tag,tag?'t-ck':'',zl?G.busy:(!ok||G.busy),vts?`<span class="vts">${vts}</span>`:'',(G.votes[MYPID]===i?'mine':'')+(zl?' locked':''))+(hn&&MP()&&!tl?`<button class="btn tellb" data-tell="${i}">告知隊友</button>`:'')}).join('')+(MP()?`<p class="note">多數決，同票隨機。再點一次自己投的選項可以取消。</p>`+hostCdBtn():'')+(G.ground.length?`<p class="note">地上有東西，打開背包可以撿。</p>`:'');
+      return chBtn(zl?`data-lock="${i}"`:`data-ch="${i}"`,`<span class="choice-prefix">【${choiceKind(c)}】</span>`+c.l,(zs&&zs!==why?`<b class="zst">${zs}</b>`:'')+(why||why2||choiceNote(c))+hs,tag,tag?'t-ck':'',zl?G.busy:(!ok||G.busy),vts?`<span class="vts">${vts}</span>`:'',(G.votes[MYPID]===i?'mine':'')+(zl?' locked':''))+(hn&&MP()&&!tl?`<button class="btn tellb" data-tell="${i}">告知隊友</button>`:'')}).join('')+(MP()?`<p class="note">多數決，同票隨機。再點一次自己投的選項可以取消。</p>`+hostCdBtn():'')+(G.ground.length?`<p class="note">地上有東西，打開背包可以撿。</p>`:'');
   }else if(G.phase==='shop'&&G.shop){const S=G.shop,sh=SHOPS[S.id];if(S.key!==SHOPKEY){SHOPKEY=S.key;SHOPSHUT=false;SHOPSEL=0;SHOPMODE='buy'}if(OVK==='shop')setTimeout(()=>{if(OVK==='shop')panel('shop')},0);const rd=ctl().filter(q=>S.ready[q.pid]).length;T=sh.n;Pl=`$${m.usd||0}`;
     h=chBtn('data-openshop','回到商店','看看商品、買東西、賣東西','','')+chBtn('data-shopdone',S.ready[MYPID]?'已經準備好，等其他人':'買好了，繼續',`${rd}／${ctl().length} 人準備好`,'','',!!S.ready[MYPID]);
     if(OVK==null&&!SHOPSHUT)setTimeout(()=>{if(G&&G.phase==='shop'&&OVK==null)panel('shop')},0)
@@ -6479,7 +6503,7 @@ function panel(k){
   }else if(k==='shop'){
     if(!G.shop){OVK=null;closeOv();return}const S=G.shop,sh=SHOPS[S.id];const rd=ctl().filter(q=>S.ready[q.pid]).length;const ok=G&&!G.busy&&m&&!m.dead&&!m.down&&!m.mad;
     let left='';
-    if(SHOPMODE==='buy'){left=`<div class="sgrid">${S.items.map((x,i)=>{const it=ITEMS[x.k];const cant=x.q<=0||(m.usd||0)<x.p;return `<div class="scard ${SHOPSEL===i?'on':''}" data-shopsel="${i}"><div class="st"><b>${it.n}</b><small>${CATN[it.t]||''}｜${x.q>0?'剩 '+x.q+' 個':'賣完了'}</small></div><small class="sd">${it.d}</small><div class="sp"><b class="${(m.usd||0)<x.p?'no':''}">$${x.p}</b>${ibt(`data-buy="${i}"`,x.q<=0?'賣完了':(m.usd||0)<x.p?'買不了':'購買',cant,ok)}</div></div>`}).join('')}</div>`}
+    if(SHOPMODE==='buy'){left=`<div class="sgrid">${S.items.map((x,i)=>{const it=ITEMS[x.k];const pr=buyPrice(m,x),cant=x.q<=0||(m.usd||0)<pr;return `<div class="scard ${SHOPSEL===i?'on':''}" data-shopsel="${i}"><div class="st"><b>${it.n}</b><small>${CATN[it.t]||''}｜${x.q>0?'剩 '+x.q+' 個':'賣完了'}</small></div><small class="sd">${it.d}</small><div class="sp"><b class="${(m.usd||0)<pr?'no':''}">$${pr}</b>${ibt(`data-buy="${i}"`,x.q<=0?'賣完了':(m.usd||0)<pr?'買不了':'購買',cant,ok)}</div></div>`}).join('')}</div>`}
     else{const ks=Object.keys(m.items).filter(k=>m.items[k]>0&&(itemSellPrice(k,S.id)||HOTITEM(k)));
       // v0.26.0 武器：收武器的商人列出全部；不收的只列燙手貨（可以「問問看」）
       const gs=m.gear.filter(g=>!g.drop&&(sh.guns?(g.hot&&!sh.hot)||gearSellPrice(g,S.id)>0:g.hot));
@@ -6487,7 +6511,7 @@ function panel(k){
       const irow=k=>{const v=itemSellPrice(k,S.id);return `<div class="irow"><div class="in"><b>${ITEMS[k].n}　×${m.items[k]}</b><small>${ITEMS[k].d}</small></div>${ibt(`data-sell="${k}"`,v?`賣 $${v}`:'問問看',0,ok)}</div>`};
       left=(gs.length||ks.length)?gs.map(grow).join('')+ks.map(irow).join(''):'<p class="note">沒有這裡收的東西。</p>'}
     const x=S.items[SHOPSEL]||S.items[0];const it=x&&ITEMS[x.k];
-    const det=SHOPMODE==='buy'&&it?`<b class="dn">${it.n}</b><small>${CATN[it.t]||''}｜$${x.p}｜${x.q>0?'剩 '+x.q+' 個':'賣完了'}</small>${m.items[x.k]?`<p class="note">你的背包裡已經有 ${m.items[x.k]} 個。</p>`:''}<p>${it.d}</p>`+ibt(`data-buy="${S.items.indexOf(x)}"`,x.q<=0?'賣完了':`買下（$${x.p}）`,x.q<=0||(m.usd||0)<x.p,ok):`<p class="note">賣東西給這裡：價錢是平常的三分之一${sh.guns?'；武器照它的狀況和槍裡剩的子彈算':'；這裡不收武器'}。</p>`;
+    const det=SHOPMODE==='buy'&&it?`<b class="dn">${it.n}</b><small>${CATN[it.t]||''}｜$${buyPrice(m,x)}｜${x.q>0?'剩 '+x.q+' 個':'賣完了'}</small>${m.items[x.k]?`<p class="note">你的背包裡已經有 ${m.items[x.k]} 個。</p>`:''}<p>${it.d}</p>`+ibt(`data-buy="${S.items.indexOf(x)}"`,x.q<=0?'賣完了':`買下（$${buyPrice(m,x)}）`,x.q<=0||(m.usd||0)<buyPrice(m,x),ok):`<p class="note">賣東西給這裡：價錢是平常的五分之一；${sh.hot?'這裡什麼都收':'只收這裡也在賣的那類東西'}${sh.guns?'；武器照它的狀況和槍裡剩的子彈算':'；這裡不收武器'}。</p>`;
     openOv(`<div class="boxhead"><b>${sh.n}</b><span class="hbtns"><span class="smoney">$${m.usd||0}　背包 ${used(m)}／${cap(m)} 格</span><button class="btn" data-shopshut>先收起來</button></span></div><p class="note sintro">${sh.d}</p><div class="shopwrap"><div class="scr2">${left}</div><div class="scr2 sdet">${det}</div></div>
       <div class="sfoot">${ibt('data-shopdone',S.ready[MYPID]?`等其他人（${rd}／${ctl().length}）`:`買好了，繼續（${rd}／${ctl().length} 人準備好）`,!!S.ready[MYPID],ok)}<button class="btn" data-open="bag">打開背包</button><button class="btn ${SHOPMODE==='sell'?'on':''}" data-shopmode>${SHOPMODE==='sell'?'回到商品':'賣東西給這裡'}</button></div>`);
   }else if(k==='settings'){

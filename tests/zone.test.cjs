@@ -15,21 +15,19 @@ test('單向路線：每個地點的卡都存在、照順序接下去；最後�
  assert.deepEqual(bad,[]);
 });
 
-test('搜索點：選過的整個消失、不寫已搜過／還沒進去；次數＝max(2,人數)，用完自動往前',async()=>{const g=setup();
+test('旅館走廊只能挑一件事：拿了消防斧就不能再進房間，也不寫已搜過／還沒進去',async()=>{const g=setup();
  await g.run("enterNode('A4')");assert.equal(g.run('G.node'),'A4');
  assert.deepEqual(labels(g),['302：有光的那間','306：門縫裡有聲音的那間','304：門沒關的那間','打破消防栓箱拿斧頭','不再找了，往前走']);
- await pick(g,'304：門沒關的那間');assert.equal(g.run('G.node'),'A4','就地搜尋做完留在原地');assert.ok(!labels(g).includes('304：門沒關的那間'));
  assert.equal(g.run("choices().filter(visible).map(c=>zNote(c)).join('')"),'');
- await pick(g,'306：門縫裡有聲音的那間');assert.equal(g.run('G.after'),'A4c','先打一場，打完進 306');
- g.run("G.fight=null;G.phase='node'");await g.run("enterNode('A4c')");await pick(g,'收拾推車上的東西就走');
- assert.notEqual(g.run('G.node'),'A4','兩次用完，不回走廊，直接往前');assert.match(log(g),/沒辦法每一間都翻/);assert.doesNotMatch(log(g),/已搜過|還沒進去|你回到三樓走廊/);
+ await pick(g,'打破消防栓箱拿斧頭');assert.notEqual(g.run('G.node'),'A4','做完一件就往前走');
+ assert.match(log(g),/沒辦法每一間都翻/);assert.doesNotMatch(log(g),/已搜過|還沒進去|你回到三樓走廊/);
 });
 
-test('搜索點：房間看完、次數還有就回到搜索點；也可以不找直接往前',async()=>{const g=setup();
- g.run("G.players.push({...G.players[0],pid:'p2',name:'乙',items:{},gear:[]},{...G.players[0],pid:'p3',name:'丙',items:{},gear:[]})");assert.equal(g.run('srMax()'),3,'三個人可以翻三次');
+test('旅館走廊：進了房間，看完直接往前，不回走廊；也可以不找直接往前',async()=>{const g=setup();
+ g.run("G.players.push({...G.players[0],pid:'p2',name:'乙',items:{},gear:[]},{...G.players[0],pid:'p3',name:'丙',items:{},gear:[]})");assert.equal(g.run('srMax()'),1,'人多也只能挑一件');
  await g.run("enterNode('E2')");await pick(g,'行李寄放間');assert.equal(g.run('G.node'),'E2x');await pick(g,'翻找代客泊車的櫃子');
- assert.equal(g.run('G.node'),'E2');assert.match(log(g),/你回到一樓走廊/);assert.ok(!labels(g).includes('行李寄放間'));
- await pick(g,'不再找了，往前走');assert.equal(g.run('G.node'),'E3d','直接走到下一張卡');
+ assert.notEqual(g.run('G.node'),'E2');assert.doesNotMatch(log(g),/你回到一樓走廊/);
+ const g2=setup();await g2.run("enterNode('E2')");await pick(g2,'不再找了，往前走');assert.equal(g2.run('G.node'),'E3d','直接走到下一張卡');
 });
 
 test('分岔：已經走過的地點不會再出現在出口',async()=>{const g=setup();
@@ -62,9 +60,20 @@ test('地圖照樣記錄去過的地點，不出現已搜過／還沒進去',asy
 });
 
 test('警戒每個區域各自計算：離開時記下，回來 −2、每離開一小時再 −1',()=>{const g=setup();
- g.run("G.lv='A';G.alarm=0;G.clock=0;addAlarm(4,null)");assert.equal(g.run('G.alarm'),4);
- g.run("zSwap('A','B');G.lv='B'");assert.equal(g.run('G.alarm'),0,'新的區域從 0 開始');
- g.run("G.clock=90;zSwap('B','A');G.lv='A'");assert.equal(g.run('G.alarm'),1,'4 −2 −1（離開 90 分鐘）');
+ g.run("G.lv='V';G.alarm=0;G.clock=0;addAlarm(4,null)");assert.equal(g.run('G.alarm'),4);
+ g.run("zSwap('V','W');G.lv='W'");assert.equal(g.run('G.alarm'),0,'新的區域從 0 開始');
+ g.run("G.clock=90;zSwap('W','V');G.lv='V'");assert.equal(g.run('G.alarm'),1,'4 −2 −1（離開 90 分鐘）');
+});
+test('首次旅館的每一層樓算同一個區域：換樓層警戒不會清掉，離開旅館才會',()=>{const g=setup();
+ g.run("G.lv='A';G.alarm=0;G.clock=0;addAlarm(4,null);zSwap('A','B');G.lv='B'");assert.equal(g.run('G.alarm'),4);
+ g.run("addAlarm(1,null);zSwap('B','E');G.lv='E'");assert.equal(g.run('G.alarm'),5);
+ g.run("zSwap('E','V');G.lv='V'");assert.equal(g.run('G.alarm'),0);
+});
+test('翻找有聲音：仔細搜查 +2、簡單尋找 +1，選項上不寫數字',async()=>{const g=setup();
+ const ids=JSON.parse(g.run("JSON.stringify(Object.keys(N).filter(k=>ROUTE[N[k].L]&&searchChoices(N[k]).some(c=>c._searchMode)))"));assert.ok(ids.length);
+ for(const [m,n] of [['careful',2],['quick',1]]){const g=setup();g.run(`G.node='${ids[0]}';G.lv=N['${ids[0]}'].L;G.alarm=0;G.zal={}`);
+  const c=JSON.parse(g.run(`JSON.stringify(choices().find(c=>c._searchMode==='${m}'))`));assert.doesNotMatch(c.s||'',/警戒/);await pick(g,c.l);assert.equal(g.run('G.alarm'),n+(g.run('zDepth()')>=2?1:0),m)}
+ assert.ok(!g.run("Object.values(N).some(n=>ROUTE[n.L]&&(n.c||[]).some(c=>/警戒/.test(c.s||'')))"),'旅館選項不寫警戒數字');
 });
 
 test('深處（深度 2 以上）會出聲的動作警戒多 1；仔細搜查在區域裡算 1',()=>{const g=setup();
