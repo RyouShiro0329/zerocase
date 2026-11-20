@@ -1,7 +1,7 @@
 {
-  "version": "0.42.0",
-  "build": 101,
-  "created_at": "2026-11-20T19:53:00+08:00",
+  "version": "0.43.0",
+  "build": 102,
+  "created_at": "2026-11-21T00:18:00+08:00",
   "deployment": "候選版，尚未合併部署",
   "files": {
     ".github/workflows/evacuation-qa.yml": "7613f1f262996c8720b5d27573ac58d90822e2e46239cfed1053bd0c7fe90810",
@@ -23,7 +23,7 @@
     "audit_v0.37.2.json": "2227af2154b262ad1e3b97b083ab1d48652f27857060b3c93da212cd6fdae09d",
     "docs/AI_WORKFLOW.md": "ec92bec5fbb7a51ec30a54657ddd43fe3cdcfd8bbcb7f7114ec6536bbcf1b45f",
     "docs/HOTEL_ROUTE_SPEC.md": "5a656d2bc624a8dd5facc5d7a6f5b75499ea5a3e5596a187a2306c09830e6905",
-    "docs/OUTSIDE_MAP_SPEC.md": "d82c6d46fb50421fd6e31d57aa99a636d1f9d61d45a7a61d5da07910743bf4dd",
+    "docs/OUTSIDE_MAP_SPEC.md": "9d8a0e1ec2ebaa8c8d8687068002db6dd09affb37057894e953a277306c41cf2",
     "docs/QA_v0.35.0.zip": "deea2a7222c0daf8f4cc4dc1996b3e34b3128e69500aca90d6520ceb1ad503de",
     "docs/QA_v0.35.0_RUN_HISTORY.md": "2cda202ee4d5630de1cc40cda8ceafa910825df0369ea3dcc25ecde096826811",
     "docs/QA_v0.36.0.zip": "9df81d87b5c09e1d1e59d66255bd91af7d3e503b2fecc61e6a839cf5b8c94271",
@@ -34,7 +34,7 @@
     "docs/RELEASE_v0.37.2.md": "5a6fa2a2c722fde837b51dbb297f7a34d48e6b9c9bd1c1787cc6504c94f78f60",
     "docs/RULES_GPT.md": "10dd13b50ce4e44cc2e8fbae8efeb8c6f83b75ea5358f506c4aa333df18cbab3",
     "docs/RULES_SONNET.md": "6701574123320b40fe7e7e377068bf93a6e99f71c3075c2e81063b0199a667ac",
-    "docs/VERSIONS.md": "81dfcc43aaf4e9447eb58634e9b014502d4b9938a0770012e5126ddae4198427",
+    "docs/VERSIONS.md": "743df5608426752902adb4641baa247ff063f0375b53617107e650a433421d93",
     "docs/audio/2026-11-15-integration-plan.md": "1d8c7185ad2742e1f1b70279b5f9d274f03c36a1b4104513dc5842d2df9ade8d",
     "docs/audio/ASSET_VALIDATION.json": "190994b75a706198d1f3e3435ee47441cee202e55fe70c3593fab8d55d538d0b",
     "docs/audio/ASSET_VALIDATION_V0.21.10.json": "6d61e118b4a1ebef0708d9e4e687d55afbf48a288d61c98a772f1cb5113c612a",
@@ -106,9 +106,9 @@
     "fonts/README.md": "90982e9334a778f37e2894edd038ba52d55baa9293b065df9fdf4e356970b5d2",
     "fonts/SOURCES.md": "50e65cf66675cbd8d296c5ce7692a834db24e0038add2ac6b90e8b4858623c3a",
     "fonts/SourceSerif4-OFL.txt": "0033731631d08edb134cb282087abd2bca21ed7cfbf374effa749a08ec13feb5",
-    "fonts/coverage.txt": "5ab9672fd0ceb6013b21ce121cf125b8cb8119a1f55bbbe92df020b7c8c7ef24",
+    "fonts/coverage.txt": "db04d96d1330878c155e0c60a1842ce3f11c51441eed3a1a3d92303801a79594",
     "fonts/source-serif-4-latin.woff2": "9314377f84ec3075b440e2295b66810ff2ca3b37ffaf8d10ef9b7f766e16190d",
-    "fonts/tw-kai-game.woff2": "0d4831600e6026948b21c06aa5f9736c8eeb6d8b32f22a62470c732c60fd0ce0",
+    "fonts/tw-kai-game.woff2": "bcb5be4dde11ee4cf22ecd6c5e9a5ccd262e5d050351f38b88724904d5ce68bd",
     "fx/slash-12.webp": "7f1e8dab6290172e4eb7fef05c90aa5fb114d5efb82256ab6819515215545547",
     "img/acru_cap.webp": "7c5b32eab4c4abf2aceb3e199495748af9b856a62438845b720002b13af49c8c",
     "img/acru_cmd.webp": "b2ecf1ab2725c591b72d435ad857bde71ed39ed90804f1007de51897d351adff",
@@ -132,7 +132,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "7c1b38728916382302d22242e53a81a09af75cd98b3a7a95575404a46f608d63",
+    "index.html": "656d2808a52a8b7c896e29662e6ab5ba56c4a34729c14cbc9a7d16ebb9d70992",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -248,7 +248,7 @@
     "tests/topbar-preview.html": "149b060b6e02b8ee522605a093cb9ca2a2d80bd59ec2505beaf6e1fc34640ca5",
     "tests/topbar.test.cjs": "1e37cfd82aac530ab4d5bbacf8e35a177ba06013433230402ae343c27a6e644a",
     "tests/weather.test.cjs": "cc75b126841c5a07a695b7f77d132e30eae97cc3ca4772a0e01e2852011c88ef",
-    "tests/zone.test.cjs": "2a911c6810c81bbd031a8be0baed7b912d57ac8a36a8a36d98da4b38ddcd0fef",
+    "tests/zone.test.cjs": "947b31d690e2ea18f9385bf3b99923f429ec62255f7d48c8ef5b37f80ea46dba",
     "tools/battle-party-setting-browser.cjs": "689524b859bdcd2b677af41bd452810cddc85ef493e919b9944241ba79cb0297",
     "tools/battle-player-cards.cjs": "76dca58b4da6f9fc5b198096d4f265203d00f3a138ee37d9824f73d8e9f5d09e",
     "tools/check_evacuation.cjs": "870849f4d615ba77b9d84258f9aaaf6f3c45faa57f10927cf81242f6fd7b2134",
@@ -260,6 +260,6 @@
     "tools/slash-hit.test.cjs": "3751b72598f28f9f7c80873bf0348220fb27a134e8766b0faf3f430b6d5cd970",
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "6a9219806c4177213c6b5c00e2d51fd7250b37b0e088111494229650833b3a76"
+    "更新說明.txt": "a4c5aaaae2f9635f7ba1562c232c74afcc1f61814dfa40adb9f0940c41ad7cdc"
   }
 }

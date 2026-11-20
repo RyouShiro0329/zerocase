@@ -1,12 +1,12 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=0d483160" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=bcb5be4d" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fx/slash-12.webp" as="image" type="image/webp">
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=0d483160") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=bcb5be4d") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
@@ -684,7 +684,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.42.0", "b": 101, "t": "2026-11-20T19:53:00+08:00"};
+const ZC_VER={"v": "0.43.0", "b": 102, "t": "2026-11-21T00:18:00+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -1158,7 +1158,7 @@ const LV={
  D:{n:'外牆',sub:'消防梯',en:'LEVEL D · FIRE ESCAPE',rule:'無處可躲：戰鬥中不能逃跑。'},
  E:{n:'一樓',sub:'熄燈',en:'LEVEL E · GROUND FLOOR',rule:'一片漆黑：沒有裝手電筒且沒有夜行者天賦時，有效感知 −2；離開黑暗或取得照明後恢復。'},
  F:{n:'員工廚房',sub:'瓦斯',en:'LEVEL F · KITCHEN',rule:'瓦斯外洩：在這裡開槍或用火，會連你一起炸。'},
- G:{n:'地下設備層',sub:'腐植',en:'LEVEL G · BASEMENT',rule:'空氣有毒：每往前一步，感染 +2。'},
+ G:{n:'地下設備層',sub:'腐殖',en:'LEVEL G · BASEMENT',rule:'空氣有毒：每往前一步，感染 +2。'},
  I:{n:'接待大廳',sub:'南門',en:'LEVEL I · THE LOBBY',rule:'門外就是街道。門內，還有東西在等。'}
 };
 /* 節點：t 描寫；c 選項；next 預設下一個節點
@@ -1964,7 +1964,7 @@ J2:{L:'J',n:'街角藥局',next:'J3',
   {l:'把鐵捲門撬起來',req:['g:crowbar','g:fireaxe','g:pipeclub','g:pipespear'],reqAny:1,s:'需要可以撬的長桿',ok:{t:`你把鐵捲門撬高了半公尺，被壓住的人滑了出來。他已經死了。鐵捲門後面的櫃台沒被翻過，藥師的抽屜裡還有一盒抗生素。`,r:{items:{antibiotic:1,bandage:2,sedative:1}},p:{fear:4}}},
   {l:'不要靠近',ok:{t:`你繞到馬路上，從另一邊走過去。藥局裡的燈閃了一下。`}}]},
 J3:{L:'J',ev:1,next:'J4'},
-J4:{L:'J',n:'公車站',next:'J5',
+J4:{L:'J',n:'公車站',next:'J4b',
  t:`公車站的候車亭玻璃碎了一地。站牌上的電子看板還在跑字：「307　即將進站」。它已經即將進站好幾個小時了。
 
 候車亭的長椅上坐著一個穿西裝的上班族，公事包放在腿上，像是還在等車。他的臉被什麼東西啃掉了一半。
@@ -1974,6 +1974,20 @@ J4:{L:'J',n:'公車站',next:'J5',
   {l:'去開那台車',k:'PER',d:12,ok:{t:`你繞了一圈才靠近。後座地上躺著一個人，已經死了，手上還握著一把剪刀。車子沒油了，只是電瓶還有電。你在置物箱找到一張地圖，城東被人用紅筆畫了一個大叉。`,r:{flag:'map2',gear:'scissors'}},ng:{t:`你還沒走到車邊，後座的人就坐了起來。`,fight:{n:1,mode:'normal',names:['後座的感染者']}}},
   {l:'翻上班族的公事包',k:'CON',d:11,ok:{t:`公事包裡有一份文件，封面印著 ARC 的標誌和「第二期追蹤回診通知」。日期是三天前。文件底下壓著一瓶沒開的礦泉水，和一個皮夾。`,r:{items:{water:1},flag:'arcdoc',usd:8},p:{fear:4}},ng:{t:`你一碰到公事包，他的頭就慢慢轉了過來。剩下的那一半臉，對著你笑。`,p:{fear:10},fight:{n:1,mode:'ambush',names:['候車亭的上班族']}}},
   {l:'繼續往前走',ok:{t:`看板上的字換了：「307　末班車已駛離」。`,p:{fear:3}}}]},
+// v0.43.0 公車司機（主人 2026-11-20：救他得到北口的消息和一點東西；不救沒有差別，不扣善惡值）
+J4b:{L:'J',n:'卡在安全島上的公車',next:'J5',
+ t:`再往前一個路口，一台市區公車斜斜地卡在安全島上，車頭撞凹了，前門半開著。
+
+駕駛座上有人在動。司機是個中年男人，制服的褲管被血浸成深色，一隻手死命壓著大腿。他看見你，沒有喊救命，只是把腳邊的滅火器往自己這邊拉了一點。
+
+「我沒被咬，」他說，「是擋風玻璃。」`,
+ c:[
+  {l:'幫司機包紮',req:['bandage','sbandage'],reqAny:1,s:'需要繃帶或消毒繃帶',ok:{t:`你爬上公車，用繃帶把他大腿上的傷口紮緊。他痛得一直吸氣，但一聲都沒叫。
+
+「我本來要載一車人去北口，」他說，「市政府要在北口檢查站辦撤離，國民兵會派車來接。哪一天還沒公布，可是司機的無線電裡已經傳開了。」
+
+他從零錢箱裡抓了一把硬幣塞給你，又從駕駛座底下拿出一瓶水。「我走不動了。你先去北口看看。」`,r:{use:'$req',flag:'busnews',items:{water:1},usd:6}}},
+  {l:'不管他，繼續走',ok:{t:`你從公車旁邊走過去。司機沒有叫你，只是一直看著你走遠。`}}]},
 J5:{L:'J',n:'前街・岔路',
  t:`前面的路分成兩條。
 
@@ -2046,10 +2060,13 @@ M2:{L:'M',n:'倉庫',next:'M3',
 
 門上用麥克筆寫著：「被咬的不准進來」。`,
  c:[
-  {l:'敲門',k:'CHA',d:12,s:'統帥檢定',ok:{t:`開門的是一個年輕的大夜班店員和兩個客人。他們看了你的手臂、脖子，確定你沒被咬，才讓你進去。
+  {l:'敲門',hide:'jessebox',k:'CHA',d:12,s:'統帥檢定',ok:{t:`開門的是一個年輕的大夜班店員和兩個客人。他們看了你的手臂、脖子，確定你沒被咬，才讓你進去。
 
 大夜班店員說，他看見好幾台沒有標示的車往城東開，車上的人穿著全套防護衣，「他們不是來救人的，是來收東西的。」他給了你一些物資，還有一張地鐵路線圖。`,r:{items:{bandage:1,coffee:1,cigarette:2},flag:'metromap'},p:{fear:-6}},ng:{t:`門後的人不肯開門。過了一會兒，門縫底下塞出來一張紙：「我們沒有東西可以給你了，對不起。」`,p:{fear:3}}},
-  {l:'搜倉庫的紙箱',k:'PER',d:11,s:'感知檢定',ok:{t:`紙箱裡有一箱還沒拆封的日用品：膠帶、襪子、打火機，還有一盒釘子。不知道為什麼便利商店會賣釘子，但你很感激。`,r:{items:{tape:1,sock:1,lighter:1,nails:1}}},ng:{t:`你翻開一個紙箱，裡面有東西在動。是老鼠，很多很多老鼠，眼睛都是白的。`,p:{inf:3,fear:6}}},
+  {l:'敲門',need:'jessebox',ok:{t:`門開了一條縫。一個年輕的店員從門縫往外看，視線越過你，停在那幾個被拆開的紙箱上。
+
+「那些是我們的。」他說完就把門關上，上了鎖。你再怎麼敲，門後都沒有人回答。`,p:{fear:3}}},
+  {l:'搜倉庫的紙箱',k:'PER',d:11,s:'感知檢定',once:1,stay:1,ok:{t:`紙箱裡有一箱還沒拆封的日用品：膠帶、襪子、打火機，還有一盒釘子。不知道為什麼便利商店會賣釘子，但你很感激。`,r:{items:{tape:1,sock:1,lighter:1,nails:1},flag:'jessebox'}},ng:{t:`你翻開一個紙箱，裡面有東西在動。是老鼠，很多很多老鼠，眼睛都是白的。`,p:{inf:3,fear:6}}},
   {l:'不打擾他們',ok:{t:`你悄悄退出倉庫。休息室裡的哭聲一直沒有停。`}}]},
 M3:{L:'M',ev:1,next:'M4'},
 M4:{L:'M',n:'停車場',next:'M5',
@@ -2138,16 +2155,20 @@ U2:{L:'U',n:'月台',next:'U3',
   {l:'走軌道旁邊的維修步道',k:'PER',d:12,dark:1,s:'感知檢定',ok:{t:`維修步道很窄，旁邊就是軌道。你一路摸著牆走，在一個維修櫃裡找到一把大鐵鎚。`,r:{gear:'sledge'}},ng:{t:`步道上躺著一個人。你踩到他的時候才發現。`,p:{fear:6},fight:{n:1,mode:'ambush',names:['步道上的維修工']}}},
   {l:'聽廣播的內容',k:'INT',d:11,s:'智力檢定',ok:{t:`廣播重複播著同一段，但在第三次之後，插進了一段不一樣的錄音，是一個男人的聲音：「……地下通道往十字路口的出口還能走……不要往市政廳方向……那邊已經……」錄音斷了。`,r:{flag:'metrohint'}},ng:{t:`廣播裡的聲音越拖越長，越來越走音，最後停了。月台上只剩積水滴下來的聲音。`,p:{fear:6}}}]},
 U3:{L:'U',ev:1,next:'U4'},
+// v0.43.0 網改成腐殖核心（主人 2026-11-20）：不燒掉就過不去，可以退回地面改走封鎖線
 U4:{L:'U',n:'轉乘通道',next:'U5',
- t:`轉乘通道的牆上長滿了東西。灰白色的根狀組織從天花板垂下來，一條一條，像是倒過來的森林。
+ t:`轉乘通道的牆上長滿了東西。鮮紅色的根從天花板垂下來，一條一條鼓脹著，像是剝了皮的血管。
 
-通道的地上，那些根纏在一起，形成一張很大的網。網的中間有東西在呼吸，一起一伏，像一顆很大的心臟。
+那些根在地上纏成一張很大的網，把整條通道封死了。網的正中央包著一團東西，一下一下地跳動，像一顆很大的心臟；又像一個繭，裡面有什麼正在長大。所有的根，都是從它身上長出去的。
+
+這是腐殖核心。
 
 網的旁邊，散落著好幾個背包。有些人走到這裡，就沒有再往前了。`,
  c:[
-  {l:'燒掉那張網',req:['molotov','g:flamer','fuel'],reqAny:1,s:'需要燃燒瓶、噴火器或燃料',ok:{t:`火一碰到網，整條通道就尖叫了起來。不是聲音，是那些根在火裡扭動、收縮、爆開。你摀著口鼻跑過去，身後的火光把整條通道照成橘紅色。`,r:{use:'$req',flag:'burnednest'},p:{fear:6}}},
-  {l:'撿那些背包',k:'CON',d:12,ok:{t:`你屏住呼吸，靠過去拖了兩個背包回來。裡面有水、食物，還有一支沒用過的抗生素。`,r:{items:{water:1,bar:1,antibiotic:1}},p:{inf:4}},ng:{t:`你靠得太近了。網動了，一條根纏上你的手腕，你用力扯斷它，手腕上留下一圈發黑的痕跡。`,p:{inf:10,fear:8}}},
-  {l:'貼著另一側的牆走過去',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你貼著牆，一步一步移過去，那張網一直在你旁邊呼吸。`},ng:{t:`你的腳踩到一條根。整張網突然收縮了一下，從裡面爬出東西來。`,fight:{n:2,mode:'ambush',names:['網裡的東西','網裡的東西']}}}]},
+  {l:'燒掉腐殖核心',req:['molotov','g:flamer','fuel'],reqAny:1,s:'需要燃燒瓶、噴火器或燃料',ok:{t:`火一碰到核心，整條通道就尖叫了起來。不是聲音，是那些根在火裡扭動、收縮、爆開。核心裂開的時候，噴出來的不是血，是又黑又燙的汁液。你摀著口鼻從燒焦的網中間衝過去，身後的火光把整條通道照成橘紅色。`,r:{use:'$req',flag:'burnednest'},p:{fear:6}}},
+  {l:'撿那些背包',k:'CON',d:12,once:1,stay:1,ok:{t:`你屏住呼吸，靠過去拖了兩個背包回來。裡面有水、食物，還有一支沒用過的抗生素。`,r:{items:{water:1,bar:1,antibiotic:1}},p:{inf:4}},ng:{t:`你靠得太近了。網動了，一條根纏上你的手腕，你用力扯斷它，手腕上留下一圈發黑的痕跡。`,p:{inf:10,fear:8}}},
+  {l:'退回地面，改走封鎖線',ok:{t:`這條路過不去。你退回月台，扶著欄杆爬回地面，繞到封鎖線那一頭。`,go:'Q1'}}]},
+
 U5:{L:'U',n:'地下道・出口',
  t:`通道的盡頭是一座往上的樓梯，樓梯口的指標寫著：「4 號出口　往十字路口」。
 
@@ -2248,7 +2269,7 @@ N.K2.c.splice(2,0,{l:'在一樓的空房歇一下',once:1,stay:1,ok:{get t(){ret
 你把門反鎖，坐在沙發上。牆上的時鐘在走，這是你這幾天來第一次聽見正常的秒針聲。`},r:{rest:{hp:5,san:3}},p:{alarm:1}}});
 // 便利商店：敲門成功後進入員工休息室（商人＋休息）
 N.M2.c[0].ok.go='M2t';N.M2.c[0].ok.r.karma=1;
-N.M2.c.splice(2,0,{l:'趁他們不注意，搬走門口的物資',k:'AGI',d:11,ok:{t:`休息室門口堆著幾個紙箱，大概是他們囤的東西。你把能拿的全塞進背包，躡手躡腳退出倉庫。
+N.M2.c.splice(3,0,{l:'趁他們不注意，搬走門口的物資',k:'AGI',d:11,ok:{t:`休息室門口堆著幾個紙箱，大概是他們囤的東西。你把能拿的全塞進背包，躡手躡腳退出倉庫。
 
 門後的哭聲停了一下。然後有人說：「剛剛外面是不是有聲音？」`,r:{items:{water:2,noodle:1,bandage:1},karma:-2}},ng:{t:`紙箱倒了。門猛地打開，大夜班店員拿著拖把柄站在門口，看著你手裡的東西。
 
@@ -2349,9 +2370,10 @@ Z2:{L:'Z',n:'便利商店・員工休息室',rest:1,
   {...sleepC('在休息室過夜',''),ok:{get t(){return `傑西和那位媽媽輪流守夜。你在折疊桌旁邊躺下，${pwNow()?'冰箱還在嗡嗡地響':'冰箱已經不響了，整個房間安靜得只剩呼吸聲'}。\n\n天亮的時候，傑西還坐在門邊，手裡握著那根拖把柄。`},r:{sleep:1}}},
   {l:'回街上',ok:{t:`傑西在你身後把門鎖上。`,go:'Z0'}}]},
 Z3:{L:'X',n:'北口檢查站',
+ tx:()=>G.flags.evacinfo||G.flags.evacgone?'':'你問了門口的國民兵，他只說撤離車的時間還沒公布，叫你等廣播。',
  t:`北口用鐵絲網和沙包圍了一大圈。穿國民兵制服的人在入口一個一個量體溫、看手臂和脖子，旁邊一張折疊桌上堆滿了被沒收的東西。等著上車的人排成好幾列，沒有人說話。`,
  c:[
-  {l:'排隊等撤離車',tf:()=>(G.sch?G.sch.evac:0)-G.clock,t:'l',hide:'evacgone',ok:{t:`你們在隊伍裡坐下來。天黑了又亮，隊伍一點一點往前移。有人在半夜被帶出隊伍，再也沒有回來。`,go:'Z3b'}},
+  {l:'排隊等撤離車',need:'evacinfo',tf:()=>(G.sch?G.sch.evac:0)-G.clock,t:'l',hide:'evacgone',ok:{t:`你們在隊伍裡坐下來。天黑了又亮，隊伍一點一點往前移。有人在半夜被帶出隊伍，再也沒有回來。`,go:'Z3b'}},
   {l:'先回街區',ok:{t:`你離開隊伍，往回走。`,go:'Z0'}}]},
 Z3b:{L:'X',n:'檢查站・最後一關',
  onEnter(){const st=able().filter(p=>p.inf>=40);G.flags.evstop=st.length?1:0;G.flags.evsome=st.length&&st.length<able().length?1:0;G.flags.evnames=st.map(p=>p.name).join('、')},
@@ -3335,17 +3357,24 @@ const ZONES={};
    lock：條件不夠時不藏起來，變灰、點了說明缺什麼。節點的 cond：旗標條件，不符合就跳過這張卡（例：凱文死了才會在坡道遇到他）。
    d：深度（警戒用，同原本的區域）。其他地圖之後照這個格式加。 */
 const ROUTE={
- A:{loc:'旅館',d:1,seq:['A1','A2','A3','A3x','A4','A5','A6d','A6'],search:{A4:['A4b','A4c']}},
- B:{loc:'旅館',d:1,seq:['B1','B3','B2','B2x','B4'],search:{B2:[]}},
- C:{loc:'旅館',d:2,seq:['C1','C2','C2x','C3','C4']},
- D:{loc:'旅館',d:1,seq:['D1','D2','D2x','D3','D4']},
- E:{loc:'旅館',d:1,seq:['E1','E3','E2','E3d','E4'],search:{E2:['E2o','E2s','E2x']}},
- F:{loc:'旅館',d:2,seq:['F1','F2','F2x','F3','F4']},
- G:{loc:'旅館',d:3,seq:['G1','G2','G2x','G3','G4'],lock:{'G4|看看那扇鐵門':{t:'地下室的厚重鐵門',why:'讀卡器是熄著的，這扇門現在沒有電。',nomemo:1}}},
- H:{loc:'旅館',d:2,seq:['H1','H2','H3','H4'],lock:{'H1|在布巾架翻找':{t:'洗衣房的布巾架',why:'布巾架的櫃門上了鎖，要找到鑰匙。'}}},
- I:{loc:'旅館',d:0,seq:['I1','I2']},
- P:{loc:'旅館',d:2,seq:['P1','P1k','P2','P3','P4'],lock:{'P4|開車衝出去':{t:'B2-17 的銀色轎車',why:'車門鎖著，沒有車鑰匙。'}}},
- R:{loc:'旅館',d:2,seq:['R1','R2','R3','R4']}
+ A:{loc:'旅館',az:'hotel',d:1,seq:['A1','A2','A3','A3x','A4','A5','A6d','A6'],search:{A4:['A4b','A4c']}},
+ B:{loc:'旅館',az:'hotel',d:1,seq:['B1','B3','B2','B2x','B4'],search:{B2:[]}},
+ C:{loc:'旅館',az:'hotel',d:2,seq:['C1','C2','C2x','C3','C4']},
+ D:{loc:'旅館',az:'hotel',d:1,seq:['D1','D2','D2x','D3','D4']},
+ E:{loc:'旅館',az:'hotel',d:1,seq:['E1','E3','E2','E3d','E4'],search:{E2:['E2o','E2s','E2x']}},
+ F:{loc:'旅館',az:'hotel',d:2,seq:['F1','F2','F2x','F3','F4']},
+ G:{loc:'旅館',az:'hotel',d:3,seq:['G1','G2','G2x','G3','G4'],lock:{'G4|看看那扇鐵門':{t:'地下室的厚重鐵門',why:'讀卡器是熄著的，這扇門現在沒有電。',nomemo:1}}},
+ H:{loc:'旅館',az:'hotel',d:2,seq:['H1','H2','H3','H4'],lock:{'H1|在布巾架翻找':{t:'洗衣房的布巾架',why:'布巾架的櫃門上了鎖，要找到鑰匙。'}}},
+ I:{loc:'旅館',az:'hotel',d:0,seq:['I1','I2']},
+ P:{loc:'旅館',az:'hotel',d:2,seq:['P1','P1k','P2','P3','P4'],lock:{'P4|開車衝出去':{t:'B2-17 的銀色轎車',why:'車門鎖著，沒有車鑰匙。'}}},
+ R:{loc:'旅館',az:'hotel',d:2,seq:['R1','R2','R3','R4']},
+ // v0.43.0 街道段搬進路線（OUTSIDE_MAP_SPEC 第 3 節）：整段共用一個警戒區域 street
+ J:{loc:'街區',az:'street',d:1,seq:['J1','J2','J3','J4','J4b','J5']},
+ K:{loc:'街區',az:'street',d:1,seq:['K1','K2','K3','K4','K5']},
+ M:{loc:'街區',az:'street',d:1,seq:['M1','M2','M3','M4','M5']},
+ Q:{loc:'街區',az:'street',d:1,seq:['Q1','Q2','Q3','Q4','Q5']},
+ U:{loc:'街區',az:'street',d:1,seq:['U1','U2','U3','U4','U5']},
+ V:{loc:'街區',az:'street',d:1,seq:['V1','V2','V3']}
 };
 /* ================= v0.26.0 黑市商人、燙手貨、三個黑市任務 =================
    主人 2026-11-16 22:13／11-17 00:00：不報名字的黑市商人，是唯一收燙手貨（滅菌部隊身上搜到的槍、他們的制服）的人；任務很難、報酬豐厚。
@@ -3396,6 +3425,8 @@ BQ0:{L:'BQ',n:'封鎖線・探照燈塔',
  {l:'去封鎖線的探照燈塔找那個箱子',need:'bmq2go',t:'m',ok:{t:`你們繞了一大段路，從封鎖線西側的死角摸過去，躲在一台廢棄的公車後面。`,go:'BQ0'}},
  {l:'去帳本上寫的那間車庫',need:'dkstash',once:1,stay:1,t:'m',ok:{t:`車庫在兩條街外的一排舊公寓後面。鑰匙真的壓在第三個花盆底下。捲門拉起來，裡面堆著德克他們搶來還沒賣掉的東西。`,r:{items:{ammo9:8,shell:4,antibiotic:1,med:1,water:2,bar:2}}}});
  const o=N.Z0.onEnter;N.Z0.onEnter=function(){if(o)o.call(this);const F=G.flags;F.bmq2go=F.bmq2&&!F.bmbox&&F.acru?1:0}}
+// v0.43.0 救了公車司機：廣播之前就能去北口看看，但要等廣播才能排隊
+{const i=N.Z0.c.findIndex(c=>c.l==='到北口檢查站');N.Z0.c.splice(i+1,0,{l:'到北口檢查站',need:'busnews',hide:'evacinfo',ok:{t:`你照公車司機說的，往北口走。路上的人還不多。`,go:'Z3'}})}
 {const s=N.S2;const o=s.onEnter;s.onEnter=function(){if(o)o.call(this);const F=G.flags;F.bmq3go=F.mboss&&F.bmq3&&!F.bmledger?1:0};
  const t=s.c.find(c=>c.l==='跟德克交易');if(t&&!t.hide)t.hide='dkoff';
  const RD=['劫匪','拿獵刀的劫匪','拿霰彈槍的劫匪'];
@@ -4533,11 +4564,11 @@ function buildRoute(){
 }
 buildRoute();
 // 旅館走廊只能挑一件事做（主人 2026-11-20：拿了消防斧就不能再進房間）
-const srMax=()=>1;
+const srMax=id=>((ROUTE[(N[id]||{}).L]||{}).sn)||1;
 const srSt=id=>{G.rs=G.rs||{};return G.rs[id]||(G.rs[id]={n:0,u:{}})};
 // 搜索點還有沒有能做的事（次數還沒用完，而且有沒選過、現在選得了的選項）
 function srLeft(id){const st=(G.rs||{})[id]||{n:0,u:{}};return searchChoices(N[id]).some((c,i)=>!st.u[c._searchBase!=null?c._searchBase:i]&&visible(c)&&choiceOk(c))}
-const srMore=id=>((G.rs||{})[id]||{n:0}).n<srMax()&&srLeft(id);
+const srMore=id=>((G.rs||{})[id]||{n:0}).n<srMax(id)&&srLeft(id);
 // 這張卡要不要跳過：沒有合適隨機事件的地方、條件不符合的卡、已經翻完的搜索點
 function rtSkip(id){const nd=N[id];if(!nd||!nd.next)return false;if(nd.ev)return !evCands(nd).length;if(nd.cond&&!flagOk(nd.cond))return true;return !!(nd.sr&&G.flags['v_'+id]&&!srMore(id))}
 // 單向路線的選項：走過的地點從出口消失；搜索點選過的消失，最後加「不再找了」
@@ -4602,7 +4633,7 @@ async function zEvent(){if(!zStay())return false;const r=ZN[G.node],Z=ZONES[r.z]
    3 有動靜（只有提示）／6 被盯上（下一個動作來一小波：那個區域陣營 1～2 隻普通敵人）／10 驚動（菁英一隻＋依人數加隨從）。
    強敵打完警戒回到 3，這次停留標成「已驚動」不再累積；離開兩小時以上才重新累積。離開區域時記下數字，回來時 −2，每離開一小時再 −1。 */
 // v0.40.0 警戒跟著整個區域走：首次旅館的每一層樓都算同一個區域，換樓層不會清掉（主人 2026-11-20）
-const alZ=L=>ROUTE[L]?'hotel':L;
+const alZ=L=>ROUTE[L]?(ROUTE[L].az||L):L;
 function ALV(){G.zal=G.zal||{};const k=alZ(G.lv);return G.zal[k]||(G.zal[k]={})}
 const zDepth=()=>{const Z=G&&(ZONES[G.lv]||ROUTE[G.lv]);return Z?Z.d:0};
 function zSwap(a,b){a=alZ(a);b=alZ(b);if(a===b)return;G.zal=G.zal||{};const A=G.zal[a]||(G.zal[a]={});A.v=G.alarm||0;A.t=G.clock||0;
