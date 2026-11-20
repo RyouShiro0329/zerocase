@@ -1,6 +1,7 @@
 // 受控隊伍狀態的瀏覽器驗收；不替代真實多人連線與手機實機驗收。
 const {chromium}=require('playwright');const fs=require('node:fs');const assert=require('node:assert/strict');
 const URL=process.env.ZC_QA_URL||'http://localhost:8768/index.html';
+const ZC_VER=JSON.parse(fs.readFileSync(require('node:path').join(__dirname,'..','index.html'),'utf8').match(/const ZC_VER=(\{.*?\});/)[1]),VER_TXT=`v${ZC_VER.v}・Build ${ZC_VER.b}`;
 (async()=>{fs.mkdirSync('qa-output',{recursive:true});const browser=await chromium.launch();const report={url:URL,checks:[],errors:[],sizes:[],multiplayer_network:'未測試：使用受控隊伍狀態，沒有連線到正式房間',phone:'待主人實機驗收'};
 const check=(name,ok)=>{report.checks.push({name,result:ok?'通過':'失敗'});assert.ok(ok,name)};
 try{for(const [width,height] of [[844,390],[393,690]]){const tag=`${width}x${height}`,context=await browser.newContext({viewport:{width,height},hasTouch:true});const page=await context.newPage();
@@ -8,7 +9,7 @@ page.on('pageerror',e=>report.errors.push(`${tag}: ${e.message}`));
 page.on('console',m=>{if(m.type()==='error'&&!/Failed to load|net::|fonts|favicon|firebase|gstatic|ERR_/i.test(m.text()))report.errors.push(`${tag}: ${m.text()}`)});
 await page.addInitScript(()=>{localStorage.setItem('zc5-ui',JSON.stringify({snd:0,bgm:0,spd:.3,orient:'auto'}));setInterval(()=>{for(const s of ['#dice','#lvcard']){const el=document.querySelector(s);if(el&&!el.hidden)el.click()}},100)});
 await page.goto(URL);await page.click('#gateNo');
-check(tag+' 主選單版本',await page.locator('.ver').innerText()==='v0.37.2・Build 92');
+check(tag+' 主選單版本',await page.locator('.ver').innerText()===VER_TXT);
 await page.click('[data-cat="custom"]');await page.fill('#cname','撤離測試');await page.click('[data-ctab="tal"]');await page.click('[data-tal="keen"]');await page.click('[data-ctab="sk"]');
 await page.click('[data-csk="evacroute"]');await page.locator('[data-csk="evacroute"]').scrollIntoViewIfNeeded();await page.evaluate(()=>document.fonts.ready);
 await page.screenshot({path:`qa-output/skill-${tag}.png`});check(tag+' 初始技能選取',await page.locator('[data-csk="evacroute"]').getAttribute('class').then(s=>s.includes('on')));
