@@ -67,3 +67,17 @@ test('麥琪的內心話只送給麥琪玩家，不進共用紀錄',()=>{const g
  assert.equal(g.run("JSON.stringify(SENT)"),JSON.stringify([['pv',{to:'mg',h:'秘密',c:'lore'}]]));assert.equal(g.run('LOG.length'),0);
  assert.equal(g.run("SENT=[];outMe([],'秘密','lore');SENT.length+LOG.length"),0);
 });
+test('一局 30 天分五個世界階段，城市事件依序落在對應的天數',()=>{const g=setup({});
+  assert.equal(g.run('[1,3,4,8,9,16,17,23,24,30].map(d=>wStage(d)).join()'),'1,1,2,2,3,3,4,4,5,5');
+  const day=g.run('JSON.stringify(Object.fromEntries(CITY_EV.map(k=>[k,Math.floor((G.sch[k]+t0())/1440)+1])))');
+  assert.deepEqual(JSON.parse(day),{blackout:2,nosignal:3,nowater:4,broadcast:6,evacgone:8,raid:9,shadow:17,sweep:24,curfew:26,warn:30,fire:30});
+  assert.ok(g.run('CITY_EV.every((k,i)=>!i||G.sch[k]>=G.sch[CITY_EV[i-1]])'));
+  assert.equal(g.run('G.dl'),30)});
+test('夜間巡邏之後，晚上的街上隨機牌只抽 A.C.R.U.，白天照舊',()=>{const g=setup({acru:1,curfew:1});
+  g.run('G.clock=atm(26,23)');assert.equal(g.run("evCands({L:'Z'}).map(i=>EVPOOL[i].id).join()"),'acru1,acru2');
+  g.run('G.clock=atm(26,12)');assert.ok(g.run("evCands({L:'Z'}).some(i=>EVPOOL[i].need!=='acru')"))});
+test('沒有新版天數標記的存檔不能讀，提示重開',()=>{const g=setup({});
+  g.run("globalThis.__t='';toast=m=>{__t=m};showMenu=()=>{};showGame=()=>{};const sv={G:JSON.parse(JSON.stringify(G))};LS.get=k=>k==='zc7-save'?sv:null;resumeSolo()");
+  assert.equal(g.run('__t'),'');
+  g.run("globalThis.__t='';const sv2={G:JSON.parse(JSON.stringify(G))};delete sv2.G.dl;LS.get=k=>k==='zc7-save'?sv2:null;showGame=()=>{throw new Error('不該進遊戲')};resumeSolo()");
+  assert.match(g.run('__t'),/舊版本的存檔，請重新開一局/)});
