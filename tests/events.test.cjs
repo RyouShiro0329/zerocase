@@ -67,3 +67,9 @@ test('物品與備用武器不必先選取就能放到地上',()=>{const g=game(
 test('滿包時手持武器可直接放到地上，無須先收進背包',()=>{const g=game();g.run("p.items.water=65;p.gear.push(newGear('hammer'));equip(p,1,'R')");/* v0.27.0 手上的武器在「裝備」頁 */const h=g.run("MYPID='p1';panel('gear');document.querySelector('#ov').innerHTML");assert.match(h,/data-dropg="1"[^>]*>放到地上/);assert.equal(g.run("dropItem(p,{u:1})"),true);assert.equal(g.run('p.hand.R'),null);assert.equal(g.run('G.ground[0].g.id'),'hammer');assert.equal(g.run('p.items.water'),65)});
 test('滿包失敗保留地面物品，放下一整疊最後一個後可騰格再撿取',()=>{const g=game();g.run("p.st.STR=0;p.items={water:1,bar:5,bandage:5,cloth:5,tape:5,lighter:5,coffee:5,painkiller:5};G.ground=[{k:'iodine',q:2}]");assert.equal(g.run('used(p)'),8);assert.equal(g.run('pickGround(p,0)'),false);assert.equal(g.run('G.ground[0].q'),2);g.run("dropItem(p,{k:'water'})");assert.equal(g.run('used(p)'),7);assert.equal(g.run('pickGround(p,0)'),true);assert.equal(g.run('p.items.iodine'),2);assert.equal(g.run('G.ground.length'),1);assert.equal(g.run('G.ground[0].k'),'water');assert.match(g.log(),/礦泉水.*地上/);assert.match(g.log(),/優碘.*背包/)});
 test('戰鬥中地面區明示限制，沒有可繞過回合的丟棄按鈕',()=>{const g=game();g.run("p.items.water=1;G.ground=[{k:'bandage',q:1}];G.fight={};myTurn=()=>true");const h=bagHTML(g);assert.match(h,/戰鬥中.*不能.*撿取/);assert.doesNotMatch(h,/data-drop(?:g)?=/);assert.match(h,/data-pick="0" disabled/)});
+test('街道段的選項小字只寫需要什麼或哪種檢定',()=>{const g=game();
+ const bad=JSON.parse(g.run(`JSON.stringify((()=>{const L='JKMQUV',o=[];const chk=(w,c)=>{if(c.s&&!/^(需要[^，。→]*|..檢定)$/.test(c.s))o.push(w+'：'+c.s)};
+  for(const [k,n] of Object.entries(N))if(L.includes(n.L)&&ROUTE[n.L])(n.c||[]).forEach(c=>chk(k,c));
+  for(const e of EVPOOL)if(e.ch===2&&e.at&&e.at.every(x=>L.includes(x)))e.c.forEach(c=>chk(e.id,c));return o})())`));
+ assert.deepEqual(bad,[]);
+});

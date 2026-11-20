@@ -145,3 +145,18 @@ test('地鐵站的腐殖核心：不燒掉過不去，可以退回地面改走�
  const g2=setup();await g2.run("enterNode('U4')");g2.run("G.players[0].items={molotov:1}");await pick(g2,'燒掉腐殖核心');
  assert.equal(g2.run('G.node'),'U5');assert.equal(g2.run('G.flags.burnednest'),1);
 });
+
+// v0.43.1 街道段（二）（OUTSIDE_MAP_SPEC 第 3.1、3.4 節）
+test('街道段每段都有一個搜索點，只能挑一件，挑完往前走',async()=>{const g=setup();
+ for(const L of ['J','K','M','Q','U','V']){const ss=JSON.parse(g.run(`JSON.stringify(Object.keys(ROUTE.${L}.search||{}))`));assert.equal(ss.length,1,L);assert.equal(g.run(`srMax('${ss[0]}')`),1,L)}
+ await g.run("enterNode('J2s')");assert.ok(labels(g).includes('不再找了，往前走'));await pick(g,'仔細搜查：翻報攤的抽屜');
+ assert.notEqual(g.run('G.node'),'J2s','挑了一件就往前');assert.equal(g.run('G.players[0].items.battery'),2);
+});
+test('街道段的隨機牌：每段有自己的牌；地鐵站抽不到戶外的牌，街區中段照樣抽得到',()=>{const g=setup();
+ const ids=L=>JSON.parse(g.run(`JSON.stringify(evCands({L:'${L}'}).map(i=>EVPOOL[i].id))`));
+ for(const L of ['J','K','M','Q','U','V'])assert.ok(EVn(g,L)>=2,L);
+ assert.ok(ids('U').every(id=>/^su_/.test(id)),'地鐵站只有地鐵站的牌：'+ids('U'));
+ for(const id of ['scooter','drone','pack','rain'])assert.ok(ids('Z').includes(id),'街區中段還有 '+id);
+ assert.ok(!ids('J').some(id=>/^s[kmquv]_/.test(id)),'別段的牌不會跑到前街');
+});
+function EVn(g,L){return g.run(`EVPOOL.filter(e=>e.ch===2&&e.at&&e.at.length===1&&e.at[0]==='${L}').length`)}
