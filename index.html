@@ -1,12 +1,12 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=1b5172b2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=0d483160" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fx/slash-12.webp" as="image" type="image/webp">
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=1b5172b2") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=0d483160") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
@@ -196,7 +196,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 #cbar{flex-direction:column;align-items:stretch;gap:4px}
 #foes{display:flex;gap:6px;flex-wrap:nowrap;align-items:stretch;overflow-x:auto;scrollbar-width:none}
 .bars{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px 8px}
-.hu u{background:#a7894f}.th u{background:#4f8a96}.fe u{background:#76609a}.in u{background:#6f8f4a}.du u{background:#8d8a7e}
+.hu u{background:#a7894f}.th u{background:#4f8a96}.fg u{background:#8a6f5a}.fe u{background:#76609a}.in u{background:#6f8f4a}.du u{background:#8d8a7e}
 .tabs{display:flex;gap:6px;margin-bottom:8px}.tabs .btn{flex:1;padding:6px;min-height:34px;font-size:.88rem}.tabs .on{border-color:var(--gold);color:var(--gold)}
 .bagwrap{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:12px}
 .cat{font:10px var(--label);letter-spacing:2px;color:var(--muted);margin:6px 0 3px}
@@ -684,7 +684,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.41.0", "b": 100, "t": "2026-11-20T18:21:54+08:00"};
+const ZC_VER={"v": "0.42.0", "b": 101, "t": "2026-11-20T19:53:00+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -702,8 +702,8 @@ const ITEMS={
  splint:{n:'夾板',t:'med',d:'固定骨折的腿，治好骨折。',frac:1,snd:'heal'},
  // 食物與飲水
  water:{n:'礦泉水',t:'food',d:'口渴 +4。',thi:4},
- cola:{n:'可樂',t:'food',d:'口渴 +2，飢餓 +1。',thi:2,hun:1},
- coffee:{n:'罐裝咖啡',t:'food',d:'口渴 +2，稍微平復恐懼。',thi:2,san:2},
+ cola:{n:'可樂',t:'food',d:'口渴 +2，飢餓 +1，減輕一點疲勞。',thi:2,hun:1,fat:-1},
+ coffee:{n:'罐裝咖啡',t:'food',d:'口渴 +2，稍微平復恐懼，減輕疲勞。',thi:2,san:2,fat:-2},
  whiskey:{n:'迷你瓶威士忌',t:'food',d:'壓下恐懼，口渴 −1，喝完留下空瓶。也能拿來消毒布條。',san:3,thi:-1,leaves:'bottle'},
  cigarette:{n:'香菸',t:'food',d:'需要打火機。壓下恐懼。',san:3,needs:'lighter',verb:'抽了一根'},
  bar:{n:'能量棒',t:'food',d:'飢餓 +3。',hun:3},
@@ -2958,7 +2958,21 @@ EVPOOL.push({id:'water1',ch:2,d0:3,need:'blackout',hide:'citywater',t:`街角排
  for(const k of ['M2t','Z2','Z4','T0'])N[k].c.splice(N[k].c.length-1,0,...tapC.map(c=>Object.assign({},c)));
  const y=N.Y0;const o=y.onEnter;y.onEnter=function(){if(o)o.call(this);const F=G.flags;F.tapY=F.tapok&&!F.acru?1:0;F.taprY=F.tapraw&&!F.acru?1:0};
  y.c.splice(y.c.length-1,0,Object.assign({},tapC[0],{need:'tapY'}),Object.assign({},tapC[1],{need:'taprY'}))}
-const wpTap=()=>{const F=G.flags;if(!F.citywater)return;F.wpraw=F.wpcl?0:1;F.tapok=F.wpcl?1:0;F.tapraw=F.wpcl?0:1};
+/* v0.42.0 停水以前（主人 2026-11-20）：休息點的水龍頭還有水，水壓一天比一天小；停水或淨水廠接手後就收掉 */
+{const tapE={l:'用水龍頭裝水',hide:'tapoff',stay:1,t:'q',ok:{get t(){return dayN()<=2?'你轉開水龍頭。水壓比平常小，但還是流得出來。你把空瓶裝滿。':'你轉開水龍頭。水流得很細，斷斷續續的，裝滿一瓶要等很久。'},r:{items:{water:1}}}};
+ for(const k of ['M2t','Z2','Z4','T0','Y0']){const cs=N[k].c,j=cs.findIndex(c=>c.l==='用水龍頭裝水');cs.splice(j<0?cs.length-1:j,0,Object.assign({},tapE))}}
+/* v0.42.0 睡覺（主人 2026-11-20）：一律睡 8 小時、小睡 4 小時，白天晚上都能睡，不睏不能睡；
+   原本的睡前文字保留，「天亮了」那句只在清晨醒來時出現，其他時間換成照時間寫的句子；最後的轟炸警報會把人叫醒 */
+let SLPING=0,SLPWAKE=0,SLP0=null,SLPM=null;
+const wakeLine=()=>SLPWAKE?'你猛然驚醒，心臟跳得很快。':{dawn:'醒來的時候，天剛亮。',day:'醒來的時候，外面已經是大白天了。',dusk:'醒來的時候，天色已經開始暗了。',night:'醒來的時候，外面一片漆黑，還是半夜。'}[periodOf(hourN())];
+function slpText(full){if(!SLPWAKE&&periodOf(hourN())==='dawn')return full;const ps=String(full||'').split('\n\n');return [...(SLP0==='night'||SLP0==='dusk'?ps.slice(0,-1):ps.slice(0,1)),wakeLine()].filter(Boolean).join('\n\n')}
+for(const nd of Object.values(N)){const cs=nd&&nd.c;if(!Array.isArray(cs))continue;let napped=0;
+  for(let i=cs.length-1;i>=0;i--){const c=cs[i];if(c.t!=='sleep')continue;
+    delete c.night;c.fat=4;c.l=c.l.replace('睡到天亮','睡一覺').replace(/過夜$/,'睡一覺');
+    const d=Object.getOwnPropertyDescriptor(c.ok,'t'),raw=d&&d.get?d.get:()=>d&&d.value;
+    Object.defineProperty(c.ok,'t',{get(){return slpText(raw.call(this))},configurable:true,enumerable:true});
+    if(!napped){napped=1;cs.splice(i+1,0,{l:'小睡一下',t:'nap',fat:2,stay:1,hide:c.hide,need:c.need,ok:{get t(){return `你靠著牆坐下，想說只閉一下眼睛。外面的聲音一直沒停。\n\n${wakeLine()}`},r:{nap:1}}})}}}
+const wpTap=()=>{const F=G.flags;if(!F.citywater)return;F.tapoff=1;F.wpraw=F.wpcl?0:1;F.tapok=F.wpcl?1:0;F.tapraw=F.wpcl?0:1};
 Object.assign(N,{
 WP0:{L:'WP',n:'東岸淨水廠・大門',
  onEnter(){const F=G.flags;F.wpgang=wpGang()?1:0;F.wpopen=(F.wpgang?F.wpin:F.acru?F.wpa:1)?1:0},
@@ -3526,7 +3540,11 @@ function statEffects(p){const a=[],L=G&&LV[G.lv]||{},fx=L.fx||{},dark=!toolOn(p,
   if(fx.per)add('env-per',L.n,L.n+'：'+(G.lv==='R'?'強風吹拂，聽不清四周':'環境影響'),{PER:fx.per});
   if(fx.dark&&dark)add('env-dark','黑暗',L.n+'：環境黑暗，沒有裝手電筒且沒有夜行者天賦',{PER:-2});
   if(fx.agi)add('env-agi','地板濕滑',L.n+'：地板濕滑',{AGI:fx.agi});
-  if(p.hun<=0||p.thi<=0)add('starved','飢渴',p.hun<=0&&p.thi<=0?'飢餓與口渴都已耗盡（合計只扣一次）':p.hun<=0?'飢餓已耗盡':'口渴已耗盡',Object.fromEntries(Object.keys(STN).map(s=>[s,-2])));
+  {const th={},hu={};if(p.thi<=1)for(const k in STN)th[k]=-2;else if(p.thi<=3){th.PER=-2;th.INT=-2}
+   if(p.hun<=0)for(const k of ['STR','CON'])if(!th[k])hu[k]=-2;
+   const both=p.hun<=0&&p.thi<=1;if(Object.keys(th).length)add('thirst',both?'飢渴':'口渴',both?(p.thi<=0?'飢餓與口渴都已耗盡':'飢餓已耗盡，也快脫水了')+'（合計只扣一次）':p.thi<=0?'脫水':p.thi<=1?'快脫水了':'很渴',th);
+   if(Object.keys(hu).length)add('hunger','飢餓','餓壞了',hu)}
+  {const f=p.fat||0;if(f>=4){const v=f>=6?-2:-1;add('fatigue','疲勞',fatStg(p),Object.fromEntries(Object.keys(STN).map(k=>[k,v])),true)}}
   if(G&&G.flags&&G.flags.blackout&&L.indoor&&!(G.flags.citypower||(G.flags.streetpower&&(L.ch||1)===2))&&dark)add('blackout','停電','室內停電，沒有裝手電筒且沒有夜行者天賦',{PER:-1});
   if(fstg(p)>=2)add('fear-per','恐懼','恐懼達到驚恐以上',{PER:-2});
   if(fstg(p)>=3)add('fear-cha','恐懼','恐懼達到崩潰邊緣以上',{CHA:-2});
@@ -3974,7 +3992,7 @@ function skyClockMarkup(){
 // 到下一個清晨 05:00 還有幾分鐘（過夜用）
 const untilDawn=()=>{const m=absMin()%1440;return (300-m+1440)%1440||1440};
 // 選項要花多少時間：資料可以直接寫 t:'q'|'m'|'l'；沒寫的照內容判斷
-function tKind(c){if(!c)return null;if(c._searchMode)return c._searchMode==='quick'?'sq':'sd';if(c.t)return c.t==='sleep'?'l':c.t;
+function tKind(c){if(!c)return null;if(c._searchMode)return c._searchMode==='quick'?'sq':'sd';if(c.t)return c.t==='sleep'||c.t==='nap'?'l':c.t;
   const ok=c.ok||{};const r=ok.r||{};
   if(r.rest||r.sleep)return 'l';if(r.shop)return 'm';
   if(/翻|搜|找|檢查|櫃|抽屜|箱子|紙箱|袋|架上|仔細|^等/.test(c.l))return 'm';
@@ -3982,17 +4000,21 @@ function tKind(c){if(!c)return null;if(c._searchMode)return c._searchMode==='qui
   // 換區域：要一陣子；夜裡在街上（第二章起）移動，要很久
   if(nd&&nd.L!==G.lv)return isNight()&&(LV[nd.L].ch||1)>=2&&(LV[G.lv].ch||1)>=2?'l':'m';
   return 'q'}
-function tMin(c){const k=tKind(c);if(!k)return 0;if(c.t==='sleep')return untilDawn();if(typeof c.tf==='function')return Math.max(10,c.tf());const [a,b]=TCOST[k];return rnd(a,b)}
+function tMin(c){const k=tKind(c);if(!k)return 0;if(c.t==='sleep')return 480;if(c.t==='nap')return 240;if(typeof c.tf==='function')return Math.max(10,c.tf());const [a,b]=TCOST[k];return rnd(a,b)}
 // 時間流逝：飢渴跟著時間走；跨過時段時提示。回傳 true 代表遊戲結束
+const FATMSG={4:'開始覺得累了，眼皮有點重。',6:'很累了，注意力一直散掉。',8:'撐不住了，站著都快睡著。'};
 async function passTime(min){if(!G||G.clock==null||!min||G.over)return false;
   const p0=periodOf(hourN()),d0=dayN();G.clock+=min;draw();
   const fs=1+.25*DF().food;const ti=Math.round(240*fs),hi=Math.round(360*fs);
   for(const p of able()){
     p.tT=(p.tT||0)+min;p.tH=(p.tH||0)+min;
-    while(p.tT>=ti){p.tT-=ti;p.thi=Math.max(0,p.thi-1);if(p.thi===2)out(`${MP()?nm(p)+'的':''}喉嚨乾得發痛。需要喝水。`,'sys')}
+    while(p.tT>=ti){p.tT-=ti;p.thi=Math.max(0,p.thi-1);if(p.thi===2)out(`${MP()?nm(p)+'的':''}喉嚨乾得發痛。需要喝水。`,'sys');if(p.thi===1)out(`${MP()?nm(p)+'的':''}嘴唇裂開了，頭一陣一陣地痛。`,'sys')}
     while(p.tH>=hi){p.tH-=hi;p.hun=Math.max(0,p.hun-1);if(p.hun===2)out(`${MP()?nm(p)+'的':''}胃在抽痛。需要吃點東西。`,'sys')}
-    // 餓過頭、渴過頭：每 2 小時生命 −1
-    if(p.hun<=0||p.thi<=0){p.tS=(p.tS||0)+min;const n=Math.floor(p.tS/120);if(n){p.tS-=n*120;p.hp-=n;out(`${nm(p)}${p.thi<=0?'嚴重脫水，眼前一陣陣發黑':'餓得手腳發軟'}。生命 −${n}。`,'dmg')}}else p.tS=0;
+    // v0.42.0 疲勞：醒著每 3 小時 +1，很餓或很渴時每 2 小時；6 格起恐懼慢慢上升
+    if(!SLPING){const fi=p.hun<=3||p.thi<=3?120:180;p.tF=(p.tF||0)+min;while(p.tF>=fi){p.tF-=fi;const f0=p.fat||0;p.fat=Math.min(8,f0+1);if(p.fat>=6)setFear(p,(p.fe||0)+4);if(p.fat!==f0&&FATMSG[p.fat])out(`${MP()?nm(p)+'：':''}${FATMSG[p.fat]}`,'sys')}}
+    // 脫水：每 1 小時生命 −2；餓壞了：每 6 小時生命 −2
+    if(p.thi<=0){p.tS=(p.tS||0)+min;const n=Math.floor(p.tS/60);if(n){p.tS-=n*60;p.hp-=2*n;out(`${nm(p)}嚴重脫水，眼前一陣陣發黑。生命 −${2*n}。`,'dmg')}}else p.tS=0;
+    if(p.hun<=0){p.tSh=(p.tSh||0)+min;const n=Math.floor(p.tSh/360);if(n){p.tSh-=n*360;p.hp-=2*n;out(`${nm(p)}餓得手腳發軟。生命 −${2*n}。`,'dmg')}}else p.tSh=0;
   }
   toxTime(min);
   const p1=periodOf(hourN()),d1=dayN();
@@ -4048,7 +4070,7 @@ async function cityTick(){if(!G.sch)return false;G.fired=G.fired||{};
 async function cityEvent(k){const real=DF().num===0;
   if(k==='blackout'){G.flags.blackout=1;snd('click',.6);out('啪的一聲，所有的燈同時熄了。冰箱的嗡嗡聲停了，遠處的警報器也停了。整座城市一下子安靜得可怕。<b>停電了</b>：室內更暗；沒有裝手電筒且沒有夜行者天賦時，有效感知再 −1。','rule')}
   else if(k==='nosignal'){G.flags.nosignal=1;out('手機的訊號格一格一格掉光，最後只剩「無服務」三個字。網路也斷了。從現在起，只能靠收音機、無線電，還有遇到的人打聽消息。','rule')}
-  else if(k==='nowater'){G.flags.nowater=1;if(!G.flags.citywater)out('牆裡的水管咕嚕咕嚕響了一陣，然後安靜了。停電之後水壓一天比一天低，到今天，整座城市的水龍頭都轉不出水了。<b>停水了</b>。','rule')}
+  else if(k==='nowater'){G.flags.nowater=1;G.flags.tapoff=1;if(!G.flags.citywater)out('牆裡的水管咕嚕咕嚕響了一陣，然後安靜了。停電之後水壓一天比一天低，到今天，整座城市的水龍頭都轉不出水了。<b>停水了</b>。','rule')}
   else if(k==='broadcast'){G.flags.evacinfo=1;out(real?'街上的廣播車一遍一遍地放著同一段錄音：「市政府將在後天一早進行最後一次撤離，請民眾前往街區北口檢查站集合，由國民兵護送出城。」錄音很舊，雜訊很多。':'街上的廣播車一遍一遍地放著同一段錄音：「最後一班撤離車將於<b>後天早上六點</b>從街區北口檢查站出發。請攜帶身分證件，所有人都要接受檢查。」','rule')}
   else if(k==='evacgone'){G.flags.evacgone=1;out('北邊傳來一長串喇叭聲，然後是引擎聲，越來越遠。最後一班撤離車開走了。','rule')}
   else if(k==='raid'){G.flags.raiders=1;out('秩序撐不住了。街上開始有人成群結隊地砸門、搶東西，有些人手上有刀，有些人有槍。從現在起，街上不只有感染者。','rule')}
@@ -4056,7 +4078,7 @@ async function cityEvent(k){const real=DF().num===0;
   // v0.15.0 A.C.R.U. 不公開：第 8 天起秘密介入（控制、滅口、銷毀證據）；不廣播、不幫街區接電，旅館被佔領
   else if(k==='sweep'){G.flags.acru=1;out('天還沒亮，街上傳來一長串沒有開燈的車隊引擎聲。沒有廣播，沒有警笛。之後的一整個早上，你聽見好幾個地方響起短促的槍聲，每一次都只響幾下，就安靜了。','rule')}
   else if(k==='curfew'){G.flags.curfew=1;out('天黑之後，街上多了一種聲音：沒有開燈的車慢慢開過去，停一下，再往前開。手電筒的光偶爾從窗戶掃進來。從現在起，<b>晚上在街上</b>很容易撞見那些穿黑色制服的人。','rule')}
-  else if(k==='warn'){G.flags.warn=1;out('東邊的天空開始泛白。很高很高的地方，傳來飛機引擎低沉的聲音，不只一架。','rule')}
+  else if(k==='warn'){G.flags.warn=1;if(SLPING)SLPWAKE=1;out('東邊的天空開始泛白。很高很高的地方，傳來飛機引擎低沉的聲音，不只一架。','rule')}
   else if(k==='fire'){await fireEnding();return true}
   if(k==='blackout'||k==='raid'||k==='sweep')hotelAuto();
   push();draw();return false}
@@ -4149,6 +4171,7 @@ function choiceOk(c){
   if(c.usd&&teamUsd()<c.usd)return false;
   if(reqList(c).length&&!reqHolders(c).length)return false;
   if(c.karma&&able().some(p=>(p.karma||0)<c.karma))return false;
+  if(c.fat&&!able().some(p=>(p.fat||0)>=c.fat))return false;
   if(c.need&&!flagOk(c.need))return false;return true}
 function visible(c){if(c._hid||c._dup)return false;if(c.stg&&!c.stg.includes(hotelStage()))return false;if(c.hot!=null&&!!c.hot!==hotNow())return false;if(c.night&&!isNight())return false;if(c.once&&G.used&&G.used[usedKey(c)])return !!c.keep;if(c.job&&!G.players.some(p=>!p.dead&&!p.away&&teamHere(p)&&[].concat(c.job).includes(p.kind)))return false;if(c.hide&&flagOk(c.hide))return false;if(c.need&&!flagOk(c.need)&&!c.req&&!c.lock)return false;return true}
 function nameOf(k){return k==='gun'?'槍械':k.startsWith('g:')?WEAP[k.slice(2)].n:ITEMS[k].n}
@@ -4283,22 +4306,39 @@ async function doChoice(i,actor){
   if(reqList(c).length&&el.length){if(MP()&&el.length>1){G.phase='roller';G.pc=i;G.rv={};startCd();return}actor=el.includes(actor)?actor:el[0]}
   return doPlain(i,actor);
 }
+// v0.42.0 睡覺分段走時間，碰到最後的轟炸警報會醒（SLPWAKE）；睡著時不累積疲勞
+async function spendTime(c){const m=tMin(c);if(c.t!=='sleep'&&c.t!=='nap')return passTime(m);
+  SLPING=1;SLPWAKE=0;SLP0=periodOf(hourN());let done=0;
+  try{while(done<m&&!SLPWAKE){const s=Math.min(30,m-done);done+=s;if(await passTime(s))return true}}finally{SLPING=0}
+  SLPM=done;return false}
+// 撐不住了（疲勞 8 格）：在休息點有一半機會不小心睡著，自動小睡 4 小時
+async function dozeCheck(){if(!G||G.over||G.phase!=='node'||G.fight||G.ev!=null||!isRestNode(G.node))return;
+  const t=able().filter(p=>(p.fat||0)>=8);if(!t.length||Math.random()>=.5)return;
+  out(`${MP()?t.map(nm).join('、')+'撐不住了，':'你撐不住了，'}靠著牆一坐下就睡著了。`,'sys');
+  if(await spendTime({t:'nap'}))return;out(wakeLine(),'sys');sleepFx(true);push();draw()}
+function sleepFx(nap){const full=(nap?4:8)*60,m=SLPM==null?full:SLPM,k=Math.min(1,m/full),h=Math.floor(m/60);SLPM=null;
+  for(const q of G.players){if(q.dead||!teamHere(q))continue;
+    if(!nap){if(q.mad){q.mad=0;setFear(q,Math.min(q.fe||100,85));out(`${nm(q)}睡了一覺，醒來時眼神終於對得上焦了。`,'good',true)}if(q.down){q.down=0;q.hp=Math.max(q.hp,1)}}
+    const hp=Math.min(q.max-q.hp,Math.ceil(q.max*(nap?.2:.5)*k));if(hp>0){q.hp+=hp;out(`${MP()?nm(q)+'：':''}生命 +${hp}。`,'good',true)}relax(q,Math.round((nap?15:35)*k));
+    const f=q.fat||0;q.fat=Math.max(q.thi<=1?Math.min(2,f):0,f-h);q.tF=0}}
 async function doPlain(i,actor){
   const c=choices()[i];
   if(MP()&&reqList(c).length)out(`由${nm(actor)}來。`,'sys',true);
   snd(/翻|櫃|抽屜|箱|袋|架|找|搜/.test(c.l)?'drawer':'rummage',.6,1800);
-  if(await passTime(tMin(c)))return;
+  if(await spendTime(c))return;
   await applyRes(c,c.ok,actor);
+  await dozeCheck();
 }
 async function doCheck(i,roller){
   const c=choices()[i];let extra=0;const notes=[];
   if(c.bonusFlag&&G.flags[c.bonusFlag]){extra+=3;notes.push('先前的觀察 +3')}
   // v0.30.0（主人 2026-11-17 16:45）：全隊投票的檢定沒有協助 +2（推能力最高的人擲，配點才有意義）；協助留給之後的分頭行動
   if(MP())out(`由${nm(roller)}來。${notes.length?notes.join('，')+'。':''}`,'sys',true);else if(notes.length)out(notes.join('，')+'。','sys',true);
-  if(await passTime(tMin(c)))return;
+  if(await spendTime(c))return;
   const r=await check(roller,c.k,c.d,c.l,extra);
   const res=r.ok?c.ok:c.ng;
   await applyRes(c,res,roller,!r.ok);
+  await dozeCheck();
 }
 let CURC=null;
 async function applyRes(c,res,actor,bad){CURC=c;if(c.darGo)G.guided=1;
@@ -4359,7 +4399,7 @@ async function outcome(o,actor){
   syncCodex();syncAmbience();
   if(r.pay)for(const [k,q] of Object.entries(r.pay)){let left=q;for(const ow of able()){const n=Math.min(left,ow.items[k]||0);if(n){takeI(ow,k,n);left-=n}if(!left)break}}
   // 過夜：睡到清晨（時間已在選項扣掉），生命回 50%、恐懼 −35，發瘋的人恢復
-  if(r.sleep){for(const q of G.players){if(q.dead||!teamHere(q))continue;if(q.mad){q.mad=0;setFear(q,Math.min(q.fe||100,85));out(`${nm(q)}睡了一覺，醒來時眼神終於對得上焦了。`,'good',true)}if(q.down){q.down=0;q.hp=Math.max(q.hp,1)}const hp=Math.min(q.max-q.hp,Math.ceil(q.max*.5));q.hp+=hp;out(`${MP()?nm(q)+'：':''}生命 +${hp}。`,'good',true);relax(q,35)}}
+  if(r.sleep||r.nap)sleepFx(!r.sleep);
   if(r.rest){for(const q of able()){const hp=Math.min(q.max-q.hp,r.rest.hp||0);q.hp+=hp;out(`${MP()?nm(q)+'：':''}生命 +${hp}。`,'good',true);if(r.rest.san)relax(q,20,false,1)}}
   if(rk)for(const q of able())q.karma=(q.karma||0)+rk;
   if(r.use){const keys=r.use==='$req'?reqList(CURC||{}):[r.use];for(const k of keys){const ow=owner(k,actor);if(ow){if(k.startsWith('g:')){const g=ow.gear.find(x=>x.id===k.slice(2));if(g&&WEAP[g.id].kind==='spray'){g.dur--;if(g.dur<=0)rmGear(ow,g.u)}}else takeI(ow,k);break}}}
@@ -5429,7 +5469,7 @@ async function useItem(p,k,to){
     const who=MP()?nm(p):'你',tw=other?nm(T):who;const pre=other?`${who}替${nm(T)}`:who;
   if(k==='photo'){if(p.photoLv===G.levels){out(`${who}看著照片。這次沒能讓心情好一點。`,'sys');return false}p.photoLv=G.levels}
   else takeI(p,k);
-  if(it.t==='food'||it.t==='misc'){await sndW(it.thi>0&&!it.hun?'gulp':'eat',1,800,.8);{const bs=tr(T,'bigstomach')?1.5:1;T.hun=clamp(T.hun+Math.ceil((it.hun||0)*(it.hun>0?bs:1)),0,10);T.thi=clamp(T.thi+Math.ceil((it.thi||0)*(it.thi>0?bs:1)),0,10)}if(it.leaves)addI(p,it.leaves);if(it.inf){const b0=T.inf;addInf(T,it.inf);if(T.inf>b0)out(`${MP()?nm(T)+'：':''}水裡有一股河泥的腥味。感染 +${T.inf-b0}。`,'dmg',true)}
+  if(it.t==='food'||it.t==='misc'){await sndW(it.thi>0&&!it.hun?'gulp':'eat',1,800,.8);{const bs=tr(T,'bigstomach')?1.5:1;T.hun=clamp(T.hun+Math.ceil((it.hun||0)*(it.hun>0?bs:1)),0,10);T.thi=clamp(T.thi+Math.ceil((it.thi||0)*(it.thi>0?bs:1)),0,10)}if(it.fat&&(T.fat||0)>0){T.fat=Math.max(0,T.fat+it.fat);out(`${MP()?nm(T)+'：':''}精神好一點了。`,'good',true)}if(it.leaves)addI(p,it.leaves);if(it.inf){const b0=T.inf;addInf(T,it.inf);if(T.inf>b0)out(`${MP()?nm(T)+'：':''}水裡有一股河泥的腥味。感染 +${T.inf-b0}。`,'dmg',true)}
     out(`${other?`${who}把${it.n}給${nm(T)}，${nm(T)}`:who}${it.verb||(it.thi>0&&!it.hun?'喝了':'吃了')}${other?'':it.n}。${it.hun?`飢餓 ${it.hun>0?'+':''}${it.hun}　`:''}${it.thi?`口渴 ${it.thi>0?'+':''}${it.thi}　`:''}${it.leaves?`　留下一個${ITEMS[it.leaves].n}。`:''}`,'good');if(it.san)relax(T,S2F(it.san))}
   else{
     const k2=tr(p,'firstaid')?1.5:1,k3=tr(p,'medic')&&(k==='surgkit'||k==='antibiotic')?1.5:1;
@@ -5942,7 +5982,7 @@ function isCodexMemoId(id){return id==='hotelDoor'||id==='blackmarket'||/^lock:/
 function choiceKind(c){
   if(c.kind)return c.kind;
   const l=c.l||'',r=c.ok&&c.ok.r||{};
-  if(c.t==='sleep'||r.rest||r.sleep||/歇一下|休息|過夜|睡到/.test(l))return '休息';
+  if(c.t==='sleep'||c.t==='nap'||r.rest||r.sleep||r.nap||/歇一下|休息|過夜|睡到/.test(l))return '休息';
   if(c.quest&&CODEX_QUESTS[c.quest])return '任務';
   if(/^(跟.+(?:談|說話)|問|詢問|告訴|隔著小窗說話|說服|請他)/.test(l))return '對話';
   if(/^(看|讀|檢查|調查|把.+(?:看清楚|看完))/.test(l))return '調查';
@@ -6191,6 +6231,7 @@ function hpRun(root){const t=Date.now(),R=root||document;if(!R||typeof R.querySe
 /* v0.24.2 背包的生命、飢餓、口渴、感染、恐懼：用條和階段，不寫數字 */
 function hpStg(p){if(p.dead)return '死亡';if(p.down||p.hp<=0)return '倒地';const r=p.hp/p.max;return r>=1?'完好':r>=.7?'輕傷':r>=.4?'受傷':r>=.15?'重傷':'垂危'}
 const hunStg=p=>p.hun>=7?'飽足':p.hun>=4?'還好':p.hun>=1?'肚子餓':'餓壞了';
+const fatStg=p=>{const f=p.fat||0;return f>=8?'撐不住了':f>=6?'很累':f>=4?'有點累':'精神還好'};
 const thiStg=p=>p.thi>=7?'不渴':p.thi>=4?'還好':p.thi>=1?'很渴':'脫水';
 const infStg=p=>p.inf<=0?'沒有':p.inf<20?'輕微':p.inf<40?'加重':p.inf<70?'嚴重':'危急';
 /* v0.24.3 狀態下拉也改成階段（主人選 A） */
@@ -6199,7 +6240,7 @@ const vbd=(x,t)=>x?`<em class="bad">${t}</em>`:t;
 const shdStg=p=>!holdsCase(p)?'離手':p.shd<=0?'已破':p.shd>=p.shdMax?'完整':p.shd>=p.shdMax*.5?'受損':'將破';
 const shdBar=(p,sp)=>p.kind==='dar'&&G&&G.fight&&p.shdMax>0?bar('shd','箱中靈',Math.max(0,p.shd||0),p.shdMax,(sp||'')+vbd(!shdOn(p),shdStg(p))):'';
 function vitBars(p){const bd=vbd;
-  return `<div class="vit">${bar('hp','生命',Math.max(0,p.hp),p.max,bd(p.hp<p.max*.4,hpStg(p)),'p'+p.pid)}${shdBar(p)}${bar('fe fs'+fstg(p),'恐懼',fstg(p),4,fstgN(p))}${bar('in','感染',p.inf,100,bd(p.inf>=40,infStg(p)))}${bar('hu','飢餓',p.hun,10,bd(p.hun<=3,hunStg(p)))}${bar('th','口渴',p.thi,10,bd(p.thi<=3,thiStg(p)))}</div>`}
+  return `<div class="vit">${bar('hp','生命',Math.max(0,p.hp),p.max,bd(p.hp<p.max*.4,hpStg(p)),'p'+p.pid)}${shdBar(p)}${bar('fe fs'+fstg(p),'恐懼',fstg(p),4,fstgN(p))}${bar('in','感染',p.inf,100,bd(p.inf>=40,infStg(p)))}${bar('hu','飢餓',p.hun,10,bd(p.hun<=3,hunStg(p)))}${bar('th','口渴',p.thi,10,bd(p.thi<=3,thiStg(p)))}${bar('fg','疲勞',p.fat||0,8,bd((p.fat||0)>=4,fatStg(p)))}</div>`}
 // v0.24.9（主人）：標籤和說明一律放在第二行（.cm），不再有時跟在標題後面、有時掉到下一行
 const chBtn=(attr,l,s,tag,tc,dis,extra,cls)=>`<button class="ch ${cls||''}" ${attr} ${dis?'disabled':''}><span class="cl">${l}</span>${extra||''}${tag||s?`<span class="cm">${tag?`<span class="tag ${tc}">${tag}</span>`:''}${s?`<span class="cs">${s}</span>`:''}</span>`:''}</button>`;
 // 屬性需求統一放在標籤；真實模式保留標籤，只隱藏判定數字。
@@ -6322,7 +6363,7 @@ function draw(){
       // v0.24.0：區域裡不能選的點位不藏起來，變灰但點得下去（播鎖門聲、說明缺什麼）
       const zl=!ok&&(!!ZN[G.node]||!!RN[G.node])&&G.ev==null;const zs=zNote(c);
       const vts=MP()?voters().filter(q=>G.votes[q.pid]===i).map(q=>av(q)).join(''):'';
-      const hn=G.hint&&G.hint[MYPID]&&G.hint[MYPID][i];const tl=G.told&&G.told[i];const hs=hn?`<em class="hint">你察覺：${hn}</em>`:tl?`<em class="hint">${esc(P(tl.pid).name)}說：${tl.t}</em>`:'';const why2=!ok&&c.usd&&teamUsd()<c.usd?`需要 $${c.usd}（全隊有 $${teamUsd()}）`:!ok&&c.karma&&!c.reqN&&!c.req?'他們還不夠信任你們。':!ok&&c.reqN?'需要'+Object.entries(c.reqN).map(([k,q])=>ITEMS[k].n+' ×'+q).join('、'):'';
+      const hn=G.hint&&G.hint[MYPID]&&G.hint[MYPID][i];const tl=G.told&&G.told[i];const hs=hn?`<em class="hint">你察覺：${hn}</em>`:tl?`<em class="hint">${esc(P(tl.pid).name)}說：${tl.t}</em>`:'';const why2=!ok&&c.usd&&teamUsd()<c.usd?`需要 $${c.usd}（全隊有 $${teamUsd()}）`:!ok&&c.karma&&!c.reqN&&!c.req?'他們還不夠信任你們。':!ok&&c.fat&&!able().some(q=>(q.fat||0)>=c.fat)?'還不睏':!ok&&c.reqN?'需要'+Object.entries(c.reqN).map(([k,q])=>ITEMS[k].n+' ×'+q).join('、'):'';
       return chBtn(zl?`data-lock="${i}"`:`data-ch="${i}"`,`<span class="choice-prefix">【${choiceKind(c)}】</span>`+c.l,(zs&&zs!==why?`<b class="zst">${zs}</b>`:'')+(why||why2||choiceNote(c))+hs,tag,tag?'t-ck':'',zl?G.busy:(!ok||G.busy),vts?`<span class="vts">${vts}</span>`:'',(G.votes[MYPID]===i?'mine':'')+(zl?' locked':''))+(hn&&MP()&&!tl?`<button class="btn tellb" data-tell="${i}">告知隊友</button>`:'')}).join('')+(MP()?`<p class="note">多數決，同票隨機。再點一次自己投的選項可以取消。</p>`+hostCdBtn():'')+(G.ground.length?`<p class="note">地上有東西，打開背包可以撿。</p>`:'');
   }else if(G.phase==='shop'&&G.shop){const S=G.shop,sh=SHOPS[S.id];if(S.key!==SHOPKEY){SHOPKEY=S.key;SHOPSHUT=false;SHOPSEL=0;SHOPMODE='buy'}if(OVK==='shop')setTimeout(()=>{if(OVK==='shop')panel('shop')},0);const rd=ctl().filter(q=>S.ready[q.pid]).length;T=sh.n;Pl=`$${m.usd||0}`;
     h=chBtn('data-openshop','回到商店','看看商品、買東西、賣東西','','')+chBtn('data-shopdone',S.ready[MYPID]?'已經準備好，等其他人':'買好了，繼續',`${rd}／${ctl().length} 人準備好`,'','',!!S.ready[MYPID]);
@@ -6407,7 +6448,7 @@ function teamExtra(p){const effects=statEffects(p);const at=Object.keys(STN).map
   return `<div class="chips"><span>現金 $${p.usd||0}</span></div><div class="chips tat">${at}${p.pts?`<span style="color:var(--gold)">可加點 ${p.pts}</span>`:''}</div>${ch?`<div class="chips"><span>選了：${esc(ch)}</span></div>`:''}${tl.length?`<div class="chips"><span>告知：「${esc(tl[tl.length-1])}」</span></div>`:''}`}
 function drawDD(){const d=$('#tdd');if(!G){d.hidden=true;return}
   d.innerHTML=[...G.players].sort((a,b)=>(b.pid===MYPID)-(a.pid===MYPID)).map(p=>`<div class="tcard ${p.down?'dn':''} ${p.dead?'dd':''}">${av(p,1)}<div><div class="nm2"><b>${esc(p.name)}</b>${tallyMk(p,'sm')}<small>Lv${p.lv}　${roleN(p)}${MP()&&p.pid===MYPID?'（你）':''}　${p.dead?'死亡':p.leftBehind?'脫隊・等待離開區域':evacWaiting(p)?'已撤離・安全區等待':p.down?'瀕死':p.mad?'<span class="bad">發瘋</span>':''}</small></div>
-   <div class="b2">${bar('hp','生命',Math.max(0,p.hp),p.max,' '+vbd(p.hp<p.max*.4,hpStg(p)),'p'+p.pid)}${shdBar(p,' ')}${bar('fe fs'+fstg(p),'恐懼',fstg(p),4,` ${fstgN(p)}`)}${bar('in','感染',p.inf,100,' '+vbd(p.inf>=40,infStg(p)))}${bar('hu','飢餓',p.hun,10,' '+vbd(p.hun<=3,hunStg(p)))}${bar('th','口渴',p.thi,10,' '+vbd(p.thi<=3,thiStg(p)))}</div>
+   <div class="b2">${bar('hp','生命',Math.max(0,p.hp),p.max,' '+vbd(p.hp<p.max*.4,hpStg(p)),'p'+p.pid)}${shdBar(p,' ')}${bar('fe fs'+fstg(p),'恐懼',fstg(p),4,` ${fstgN(p)}`)}${bar('in','感染',p.inf,100,' '+vbd(p.inf>=40,infStg(p)))}${bar('hu','飢餓',p.hun,10,' '+vbd(p.hun<=3,hunStg(p)))}${bar('th','口渴',p.thi,10,' '+vbd(p.thi<=3,thiStg(p)))}${bar('fg','疲勞',p.fat||0,8,' '+vbd((p.fat||0)>=4,fatStg(p)))}</div>
    <div class="chips"><span>${handTxt(p)}</span>${p.bleed?`<span class="bad">${p.bleed>1?'重度流血':'流血'}</span>`:''}${p.unbal?'<span class="bad">失衡</span>':''}${p.frac?'<span class="bad">骨折</span>':''}${p.humus?`<span class="bad">腐殖 ${p.humus}</span>`:''}${p.burn?`<span class="bad">燃燒 ${p.burn}</span>`:''}${p.held?'<span class="bad">被抓住</span>':''}${G.alarm&&p.pid===MYPID?`<span>警戒 ${G.alarm}／10</span>`:''}${p.pts&&p.pid===MYPID?`<span style="color:var(--gold)">可加點 ${p.pts}</span>`:''}</div>${teamExtra(p)}</div></div>`).join('');d.hidden=false;hpRun(d)}
 /* ---- 面板 ---- */
 function renderLog(){const l=$('#log');if(!l)return;l.innerHTML=LOG.filter(([h,c])=>c!=='hd'||h&&!/^[\s—─–-]+$/.test(h)).map(([h,c])=>`<p class="${c}">${h}</p>`).join('');scrollLog()}
@@ -6538,9 +6579,9 @@ function saveGame(){if(!G||G.over)return;if(busy||G.busy){toast('等這段結束
   const k=ROLE==='host'?'zc7-mpsave':'zc7-save';const d={v:7,t:Date.now(),G:JSON.parse(JSON.stringify(G)),LOG:LOG.slice(-80)};if(d.G.cd)d.G.cd=null;
   LS.set(k,d);const ok=LS.get(k,null);toast(ok?'已存檔。':'存檔失敗：瀏覽器不允許儲存。');sfx('ok',.6)}
 // v0.16.0 休息、過夜要先確認（只在自己的畫面，不影響別人投票）
-function longAsk(i){const c=G&&choices()[i];if(!c||!visible(c)||!choiceOk(c))return false;const r=(c.ok&&c.ok.r)||{};const sl=c.t==='sleep'||!!r.sleep;if(!sl&&!r.rest)return false;
+function longAsk(i){const c=G&&choices()[i];if(!c||!visible(c)||!choiceOk(c))return false;const r=(c.ok&&c.ok.r)||{};const sl=c.t==='sleep'||!!r.sleep,np=!!r.nap;if(!sl&&!np&&!r.rest)return false;
   const low=live().some(p=>p.hun<=3||p.thi<=3);sfx('click',.4);
-  $('#cfm').innerHTML=`<div class="cf"><b>${sl?'要睡到天亮嗎？':'要停下來休息嗎？'}</b><p>${sl?'會一直睡到明天清晨。這段時間城市裡發生的事，你們都不會知道。':'休息要很久。外面的時間照樣在走。'}${low?'<br><span class="f">有人肚子餓或口渴，最好先吃點東西、喝點水。</span>':''}</p><div class="cfb"><button class="btn" data-cfno>先不要</button><button class="btn on" data-cfok="${i}">${sl?'睡吧':'休息'}</button></div></div>`;
+  $('#cfm').innerHTML=`<div class="cf"><b>${sl?'要睡一覺嗎？':np?'要小睡一下嗎？':'要停下來休息嗎？'}</b><p>${sl||np?`會睡 ${sl?8:4} 小時。這段時間城市裡發生的事，你們都不會知道。`:'休息要很久。外面的時間照樣在走。'}${low?'<br><span class="f">有人肚子餓或口渴，最好先吃點東西、喝點水。</span>':''}</p><div class="cfb"><button class="btn" data-cfno>先不要</button><button class="btn on" data-cfok="${i}">${sl||np?'睡吧':'休息'}</button></div></div>`;
   $('#cfm').hidden=false;return true}
 document.addEventListener('click',e=>{
   if(!e.target.closest('button')){const r=e.target.closest('[data-sel]');if(r){SEL=SEL===r.dataset.sel&&!SELM?null:r.dataset.sel;SELM=null;FIXK=null;sfx('click',.4);panel('bag');return}}
