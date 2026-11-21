@@ -1,8 +1,8 @@
 {
-  "version": "0.45.1",
-  "build": 109,
-  "created_at": "2026-11-21T20:04:54+08:00",
-  "deployment": "已部署，正式網站驗證通過",
+  "version": "0.45.2",
+  "build": 110,
+  "created_at": "2026-11-21T22:54:26+08:00",
+  "deployment": "準備部署，部署後未驗證",
   "files": {
     ".github/workflows/evacuation-qa.yml": "7613f1f262996c8720b5d27573ac58d90822e2e46239cfed1053bd0c7fe90810",
     ".github/workflows/pierce-audio-qa.yml": "92e74230b07493d95e14c1ce0f6925526146d67a4323fb014efd16788e717063",
@@ -42,7 +42,7 @@
     "docs/RELEASE_v0.37.2.md": "5a6fa2a2c722fde837b51dbb297f7a34d48e6b9c9bd1c1787cc6504c94f78f60",
     "docs/RULES_GPT.md": "c226ef72e8fce945f3a49c74f71e4a64d73fc70df3506ce72ab776e88b16f0ed",
     "docs/RULES_SONNET.md": "6701574123320b40fe7e7e377068bf93a6e99f71c3075c2e81063b0199a667ac",
-    "docs/VERSIONS.md": "b221b53443f13346a0563cdc16f99beb961d3310ebcc2b350b1649b576a5b2e9",
+    "docs/VERSIONS.md": "6783076b01289c9cc194028624ae522279230cf3a57acf2ec9e3d339d8b90f07",
     "docs/audio/2026-11-15-integration-plan.md": "1d8c7185ad2742e1f1b70279b5f9d274f03c36a1b4104513dc5842d2df9ade8d",
     "docs/audio/ASSET_VALIDATION.json": "190994b75a706198d1f3e3435ee47441cee202e55fe70c3593fab8d55d538d0b",
     "docs/audio/ASSET_VALIDATION_V0.21.10.json": "6d61e118b4a1ebef0708d9e4e687d55afbf48a288d61c98a772f1cb5113c612a",
@@ -127,7 +127,7 @@
     "fonts/coverage.txt": "f7b5f922b85b60566306f2e1732676f601f4d372cc4a3e4ed437d280136f12a9",
     "fonts/source-serif-4-latin.woff2": "9314377f84ec3075b440e2295b66810ff2ca3b37ffaf8d10ef9b7f766e16190d",
     "fonts/tw-kai-game.woff2": "2167e02b5040337587df66d779c111295fdf969d10f0fc2020f1aac854abc7cf",
-    "fx/blunt-12.webp": "72a36dd093421f94b159af83934813f5cc8f3269ad19086d1326e48453065344",
+    "fx/blunt-12.webp": "b6a5f154d5912396b5087fb27cf8a77b9dc99ecb2bef5bb2491d1c6acbe3252e",
     "fx/pierce-12.webp": "17c567d870d0bdaba6b1b3065573d6922837ce6754d06f47205cf4dc7709fa37",
     "fx/slash-12.webp": "7f1e8dab6290172e4eb7fef05c90aa5fb114d5efb82256ab6819515215545547",
     "img/acru_cap.webp": "7c5b32eab4c4abf2aceb3e199495748af9b856a62438845b720002b13af49c8c",
@@ -152,7 +152,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "048b7062ff3fad8d85440abc8b7e27c5ac9f1bc44bbe2447c30884c938f9cc1e",
+    "index.html": "171843c96b8540c4bf9382423622f4927f93acc2aad89a375f4497bc85d44a8e",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -271,7 +271,7 @@
     "tests/zone.test.cjs": "2bf30425a82be5bc005c616f50a4da30f6b56961102debacf6532d6125b44fac",
     "tools/battle-party-setting-browser.cjs": "689524b859bdcd2b677af41bd452810cddc85ef493e919b9944241ba79cb0297",
     "tools/battle-player-cards.cjs": "76dca58b4da6f9fc5b198096d4f265203d00f3a138ee37d9824f73d8e9f5d09e",
-    "tools/blunt-hit-browser.cjs": "49eaf1550dc2b13e336f36347b4bec02ac6a34e351d41b9f43068ba13b59e2ba",
+    "tools/blunt-hit-browser.cjs": "939483da77f4dba9fdc7ebb7c43b90a1a0be21d4e724c17a117a4a8b2174266c",
     "tools/blunt-hit.test.cjs": "20d250544a2c75bd20df73e08961f994c4099417c6aa4d41eae33bcbdf313f62",
     "tools/check_evacuation.cjs": "870849f4d615ba77b9d84258f9aaaf6f3c45faa57f10927cf81242f6fd7b2134",
     "tools/evacuation-browser.cjs": "3d9dcb29fd00b4847da8094b3b23395bc34658dfabac67cb7a6319ba818cd376",
@@ -284,6 +284,6 @@
     "tools/slash-hit.test.cjs": "3751b72598f28f9f7c80873bf0348220fb27a134e8766b0faf3f430b6d5cd970",
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "b6c35bb02dd621764b67d7974db07fdaf6c522fe49e04e6747d9daa4a5d015e1"
+    "更新說明.txt": "e2d657345017d86e05fc2e9551897c2069dc854af42f5733b4f05abaf608c062"
   }
 }
