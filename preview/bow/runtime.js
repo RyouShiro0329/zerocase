@@ -6,7 +6,7 @@
  const api=window.ZCBOWPV={ready:false,playing:false,frames:[],events:[],mode:'bow'};
  const sounds={bowdraw:'sfx/bowdraw.mp3',bowimpact:'sfx/bowimpact.mp3'};
  async function audioReady(){const ac=audio();await ac.resume();for(const [k,path] of Object.entries(sounds))if(!BUF[k]){const bytes=await (await fetch(path)).arrayBuffer();BUF[k]=await ac.decodeAudioData(bytes)}}
- function controls(){const ch=document.getElementById('choices');ch.innerHTML='<p class="note">'+(api.mode==='bow'?'弓':'弩')+'射擊動畫預覽・未部署</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="zc-bow-preview-bow">播放弓射擊</button><button class="btn" id="zc-bow-preview-crossbow">播放弩射擊</button></div><p class="note">箭矢由下往上射入血條；沿用各自原音效。可重複播放。</p>';ch.querySelector('#zc-bow-preview-bow').onclick=()=>play('bow');ch.querySelector('#zc-bow-preview-crossbow').onclick=()=>play('crossbow')}
+ function controls(){const ch=document.getElementById('choices');ch.innerHTML='<p class="note">'+(api.mode==='bow'?'弓':'弩')+'射擊動畫預覽・未部署</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="zc-bow-preview-bow">播放弓射擊</button><button class="btn" id="zc-bow-preview-crossbow">播放弩射擊</button></div><p class="note">箭矢由下往上射入血條；弓弩共用原弓音效。可重複播放。</p>';ch.querySelector('#zc-bow-preview-bow').onclick=()=>play('bow');ch.querySelector('#zc-bow-preview-crossbow').onclick=()=>play('crossbow')}
  function frameAt(elapsed,durations){let end=0;for(let f=0;f<12;f++){end+=durations[f];if(elapsed<end)return f}return -1}
  async function play(mode){
   if(api.playing||!api.ready)return;api.playing=true;api.mode=mode;api.frames=[];api.events=[];
@@ -24,7 +24,7 @@
     const fin=card.querySelector('.fin'),hp=card.querySelector('.fhp .hpb');let cx=hp.offsetWidth*.52,cy=hp.offsetHeight/2;for(let e=hp;e&&e!==card;e=e.offsetParent){cx+=e.offsetLeft;cy+=e.offsetTop}
     ctx.beginPath();ctx.rect(fin.offsetLeft,0,fin.clientWidth,h);ctx.clip();
     const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches,f=elapsed<launch?-1:reduced?(elapsed>=impact?5:-1):frameAt(elapsed-launch,durations),size=Math.min(h*1.55,fin.clientWidth*1.10);
-    if(f>=0){ctx.drawImage(atlas,f%4*362,Math.floor(f/4)*362,362,362,cx-size*.5,cy-size*.25,size,size);if(last!==f){last=f;api.frames.push({f,at:elapsed})}}
+    if(f>=0){ctx.drawImage(atlas,f%4*362,Math.floor(f/4)*362,362,362,cx-size*.5,cy+(f<5?[.70,.52,.35,.16,.025][f]*h:0)-size*(f<5?[279,211,161,111,61][f]/362:.235),size,size);if(last!==f){last=f;api.frames.push({f,at:elapsed})}}
     const portrait=card.querySelector('.fpic'),ink=ctx.getImageData(0,0,Math.floor(portrait.offsetWidth*d),canvas.height).data;if(ink.some((v,i)=>i%4===3&&v))api.portraitInk=true;
     requestAnimationFrame(render);
    }render()});
