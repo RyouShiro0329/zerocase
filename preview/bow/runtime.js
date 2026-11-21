@@ -11,7 +11,7 @@
  async function play(mode){
   if(api.playing||!api.ready)return;api.playing=true;api.mode=mode;api.frames=[];api.events=[];
   try{
-   await audioReady();UI.snd=1;stopSfx();stopAmbience();const target=G.fight.foes[0];target.hp=target.max;draw();controls();document.querySelectorAll('#choices button').forEach(e=>e.disabled=true);
+   UI.snd=1;await audioReady();stopSfx();stopAmbience();const target=G.fight.foes[0];target.hp=target.max;draw();controls();document.querySelectorAll('#choices button').forEach(e=>e.disabled=true);
    const start=performance.now(),launch=mode==='bow'?1010:0,durations=mode==='bow'?[80,80,80,80,80,65,50,50,50,50,50,65]:[40,40,40,40,40,65,50,50,50,50,50,65],impact=launch+durations.slice(0,5).reduce((a,b)=>a+b,0),end=launch+durations.reduce((a,b)=>a+b,0);let hit=false,last=-1;
    api.start=start;api.impact=impact;api.events.push({name:'sound',at:0});sfx(mode==='bow'?'bowhit':'whoosh',1);
    await new Promise(resolve=>{function render(){
