@@ -19,7 +19,7 @@ async function setup(b,width,height,video=false,broken=false){
 try{
  for(const [w,h] of (process.env.ZC_DEMO_ONLY?[]:[[844,390],[393,690]])){
   const {ctx,p}=await setup(b,w,h),tag=w+'x'+h;
-  check(tag+' 12格透明圖正確載入',await p.evaluate(()=>BLUNT_VFX.image.naturalWidth===1448&&BLUNT_VFX.image.naturalHeight===1086));
+  check(tag+' 12格透明圖正確載入',await p.evaluate(()=>BLUNT_VFX.image.naturalWidth===1856&&BLUNT_VFX.image.naturalHeight===1386));
   await p.evaluate(()=>{window.__attack=attack(me(),'R',null,0)});await p.waitForFunction(()=>!!BLUNT_VFX.active);const t=await p.evaluate(()=>BLUNT_VFX.active.t);
   await p.waitForTimeout(210);await p.screenshot({path:OUT+'/hit-'+tag+'.png'});
   await p.evaluate(()=>__attack);
