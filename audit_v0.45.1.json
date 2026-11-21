@@ -1,0 +1,62 @@
+{
+  "version": "0.45.1",
+  "build": 109,
+  "created_at": "2026-11-21T20:04:54+08:00",
+  "timezone": "Asia/Taipei",
+  "baseline_commit": "b600f6d99bca2b8e5f84f2ff4a340eefd23f8217",
+  "authorization": "主人明確指示妲爾穿刺技能共用目前動畫；沿用本輪已授權的修正部署流程",
+  "deployment": {
+    "status": "準備部署，部署後未驗證",
+    "url": "https://ryoushiro0329.github.io/zerocase/"
+  },
+  "changes": [
+    "取消專武近戰穿刺動畫排除",
+    "妲爾撕咬共用既有圖集、音效與演出",
+    "技能數值、次數、耐久與擊倒護盾效果不變",
+    "同步更正GPT工作流程適用範圍"
+  ],
+  "design_rule_changes": [],
+  "tests": {
+    "node": {
+      "result": "通過",
+      "pass": 219,
+      "todo": 1
+    },
+    "attack_tools": {
+      "result": "通過",
+      "pass": 76
+    },
+    "browser": {
+      "result": "通過",
+      "pierce_including_dar_checks": 27,
+      "audio_checks": 17,
+      "game_errors": 0,
+      "views": [
+        "844x390",
+        "393x690"
+      ],
+      "visual_review": "通過；兩尺寸妲爾撕咬截圖已親眼檢查，血條特效、文字與主要操作完整"
+    },
+    "phone": "待主人實機驗收",
+    "network": "未測試（正式多人實連）",
+    "regression": {
+      "result": "通過",
+      "smoke_steps_per_view": 40,
+      "views": 3,
+      "long_route_actions": 220,
+      "nodes": 75,
+      "areas": 18
+    },
+    "ci_runs": [
+      44902371780,
+      44902371738
+    ],
+    "local_browser": {
+      "result": "未測試",
+      "reason": "本機瀏覽器受限；同來源雲端完整驗收通過"
+    }
+  },
+  "handoff": "docs/DAR_PIERCE_FIX_v0.45.1.md",
+  "audit_at": "2026-11-21T20:17:09+08:00",
+  "source_commit": "2e3e809a9942049d811b95b9a2cf60a104747d50"
+}
