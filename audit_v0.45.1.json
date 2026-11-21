@@ -1,0 +1,37 @@
+{
+  "version": "0.45.1",
+  "build": 109,
+  "created_at": "2026-11-21T20:04:54+08:00",
+  "timezone": "Asia/Taipei",
+  "baseline_commit": "b600f6d99bca2b8e5f84f2ff4a340eefd23f8217",
+  "authorization": "主人明確指示妲爾穿刺技能共用目前動畫；沿用本輪已授權的修正部署流程",
+  "deployment": {
+    "status": "準備部署，部署後未驗證",
+    "url": "https://ryoushiro0329.github.io/zerocase/"
+  },
+  "changes": [
+    "取消專武近戰穿刺動畫排除",
+    "妲爾撕咬共用既有圖集、音效與演出",
+    "技能數值、次數、耐久與擊倒護盾效果不變",
+    "同步更正GPT工作流程適用範圍"
+  ],
+  "design_rule_changes": [],
+  "tests": {
+    "node": {
+      "result": "通過",
+      "pass": 219,
+      "todo": 1
+    },
+    "attack_tools": {
+      "result": "通過",
+      "pass": 76
+    },
+    "browser": {
+      "result": "未測試",
+      "reason": "本機瀏覽器受限，待雲端CI"
+    },
+    "phone": "待主人實機驗收",
+    "network": "未測試（正式多人實連）"
+  },
+  "handoff": "docs/DAR_PIERCE_FIX_v0.45.1.md"
+}

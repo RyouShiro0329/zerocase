@@ -17,6 +17,11 @@ try{for(const [width,height] of [[844,390],[393,690]]){
  check(tag+'主要操作按鈕完整',await p.locator('#choices button').evaluateAll(bs=>bs.slice(0,3).every(e=>{const r=e.getBoundingClientRect(),s=document.querySelector('#stage').getBoundingClientRect();return r.width>0&&r.left>=s.left-1&&r.right<=s.right+1&&r.top>=s.top-1&&r.bottom<=s.bottom+1})));
  await p.evaluate(()=>{UI.snd=0;const state=snap();state.fight.foes[0].hp-=3;enqueue({t:'pierce',seq:100,d:{id:0,state}})});await p.waitForFunction(()=>!qRun&&!PIERCE_VFX.active);check(tag+'遠端事件更新血量',await p.evaluate(()=>G.fight.foes[0].hp===94));
  await p.emulateMedia({reducedMotion:'reduce'});await p.evaluate(()=>{window.__fx=playPierceHit({id:0,state:snap()})});await p.evaluate(()=>__fx);check(tag+'減少動態與靜音仍完成清除',await p.evaluate(()=>!PIERCE_VFX.active&&!document.querySelector('.zc-pierce-fx')));
+ await p.emulateMedia({reducedMotion:'no-preference'});
+ await p.evaluate(()=>{const p=me();p.kind='dar';p.name='妲爾';p.st.PER=4;p.gear=[];p.hand={R:null,L:null};const g=newGear('darcase');p.gear.push(g);equip(p,g.u,'R');p.skUsed={};darStart(p);for(const f of G.fight.foes){f.hp=f.max=100;f.stun=50}UI.snd=1;__frames=[];__sounds=[];__impacts=[];draw();window.__darDur=g.dur;window.__darAttack=attack(p,'R','dbite',0)});
+ await p.waitForFunction(()=>!!PIERCE_VFX.active);await p.waitForTimeout(265);await p.screenshot({path:OUT+'/dar-hit-'+tag+'.png'});await p.evaluate(()=>__darAttack);
+ const dar=await p.evaluate(()=>({frames:__frames,sounds:__sounds.length,used:me().skUsed.dbite,dur:me().gear[0].dur,before:__darDur,hp:G.fight.foes[0].hp,shd:me().shd,shdMax:me().shdMax,clean:!PIERCE_VFX.active&&!document.querySelector('.zc-pierce-fx')}));
+ check(tag+'妲爾撕咬完整共用十二格',new Set(dar.frames.map(x=>x.frame)).size===12&&dar.frames.every(x=>x.id===0&&!x.portraitInk));check(tag+'妲爾原音效一次、技能次數與耐久不變',dar.sounds===1&&dar.used===1&&dar.dur===dar.before-1);check(tag+'妲爾原傷害6且未擊倒不補盾',dar.hp===94&&dar.shd===dar.shdMax);check(tag+'妲爾技能演出正常清除',dar.clean);
  await ctx.close();}
  check('頁面沒有程式錯誤',report.errors.length===0);
 }finally{await b.close();fs.writeFileSync(OUT+'/report.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2))}
