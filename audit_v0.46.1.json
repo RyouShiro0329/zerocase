@@ -28,9 +28,32 @@
       "reason": "Playwright 瀏覽器執行檔缺少；系統 Chromium socket 權限限制"
     },
     "cloud": {
-      "result": "未測試",
-      "reason": "待 PR 雲端驗收",
-      "first_attempt": "44948364594 失敗：驗收腳本未解鎖麥琪，卡在選角，尚未進入戰鬥；改用一般自訂角色，不改遊戲或測試判定"
+      "result": "通過",
+      "first_attempt": "44948364594 失敗：驗收腳本未解鎖麥琪，卡在選角，尚未進入戰鬥；改用一般自訂角色，不改遊戲或測試判定",
+      "validated_game_head": "56aa706cc7cbc7e58f6fd84b3c2745ec403a1daa",
+      "validated_browser_head": "344b5d3a97c416b5b12e5ab7f99f5e5330655807",
+      "runs": [
+        44948364551,
+        44948364563,
+        44948595600,
+        44948595646
+      ],
+      "full_regression": "bash tests/run_all.sh 通過；三尺寸各40步、長路線220動作，74節點、18區域。219通過、0失敗、1既有TODO。後續只改驗收腳本與文件，遊戲檔未變。",
+      "focused_browser": {
+        "result": "通過",
+        "checks": 15,
+        "errors": 0,
+        "artifact_id": 14724980849,
+        "zip_sha256": "4cb256bbc432d274c15029545d44d89ead4795870eca97a5a4be00c4a0715678"
+      },
+      "visual_review": {
+        "result": "通過",
+        "sizes": [
+          "844x390",
+          "393x690"
+        ],
+        "observations": "逐張目視；格擋與掩蔽文字和按鈕完整可見，沒有閃躲按鈕。"
+      }
     },
     "phone": "待主人實機驗收",
     "multiplayer": {

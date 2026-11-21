@@ -292,8 +292,8 @@
     "tools/slash-hit.test.cjs": "3751b72598f28f9f7c80873bf0348220fb27a134e8766b0faf3f430b6d5cd970",
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "0a325a287291e074320347b21ea0babda3c9f69e3e67762f269f9058a5da47b1",
-    "audit_v0.46.1.json": "d6064b33ede5b19ca06a0f2aac163d8a02bd64d4204c70fbd06abcb5c075fee5",
+    "更新說明.txt": "59ff4184478071b541072d5c490f43e24b300a6bc04e60437fd2298e28b4e55d",
+    "audit_v0.46.1.json": "8a8aa3c8cda1e5f1c2a0ecde2d29a9e929047a2273f75eeacd44834eed700541",
     "tools/remove-dodge.test.cjs": "29e37cac24f6eb4fb62508b49955280cd0222956c3dba1517f10be99ec99416e",
     "tools/remove-dodge-browser.cjs": "db6719616d9b8596bc5f025d5087b5f12c6847f5f13c010af79a8771a2e972c3",
     ".github/workflows/remove-dodge-qa.yml": "84e6436c9fc64ec03f77c557114c9c3e1623f27e9e95665100ff45e0d7ceec24"
