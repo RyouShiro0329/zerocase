@@ -650,7 +650,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 #foes .zc-slash-react{transform:translate(var(--zc-slash-x,0px),var(--zc-slash-y,0px))}
 #foes .zc-slash-react .fpic img{transform:translateX(-50%) translate(var(--zc-slash-px,0px),var(--zc-slash-y,0px)) rotate(var(--zc-slash-tilt,0deg))}
 #foes .foe.dead.zc-slash-react{filter:none;opacity:1}
-#foes .zc-blunt-react .fpic img{transform:translateX(-50%) translateX(var(--zc-blunt-x,0px)) rotate(var(--zc-blunt-tilt,0deg))}
+#foes .zc-blunt-react .hpb{transform:translateX(var(--zc-blunt-x,0px))}
 #foes .foe.dead.zc-blunt-react{filter:none;opacity:1}
 #foes .zc-blunt-fx{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
 #foes .zc-slash-fx{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
@@ -688,7 +688,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.44.0", "b": 106, "t": "2026-11-21T17:19:33+08:00"};
+const ZC_VER={"v": "0.44.1", "b": 107, "t": "2026-11-21T17:50:26+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3565,7 +3565,7 @@ N.W0.c.find(c=>c.l==='把鐵門扳開').ng.audio='doorlocked';
 EVPOOL.find(e=>e.id==='radio').audio='radiostatic';
 {const c=N.WP4.c.find(c=>c.ok&&c.ok.r&&c.ok.r.flag==='wpgen');c.ok.audio='genstart';c.ok.audioFlag='wpgen'}
 {const original=N.WP5b.onEnter;N.WP5b.onEnter=function(){original();if(G.flags.wpfail)snd('pumpstop',1,8000)}}
-const CREDITS=`音效沿用《零號病例》原專案素材。其中：“Headshot 2” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；“GROSS IMPACT” by magnuswaker（Freesound，CC0）；“Monster Bite on Armor WAV” by OGsoundFX（Freesound，CC BY 4.0）；“Acid Breath Attack” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；裝備切換音效取自 Ryan Conway “putting coat on and off with zippers”（Freesound，CC BY 4.0）。新增音效（CC0）：glassbreak—RangoAnimations（613879）、firealarm—simonjeffery13（792484）、genstart／genloop—jameswrowles（516759）、dryfire—serøutōnin--deprivəd（674568）、woodknock—RoyalRose（560295）、woodimpact—qubodup（160213）。<a href="docs/audio/LICENSES_AND_ORIGINS.md" target="_blank" rel="noopener">作者、Freesound 原始網址與授權紀錄</a>。第二批 CC0：踩玻璃 LukaCafuka（757830）、管線水聲 HenKonen（797674）、水泵 unfa（221551）、無線電雜訊 harrisonlace（812929）。人聲：VoiceBosch「RADIO SOLDIER」，降一個半音、切段、調整音量；衍生音檔採 <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>，<a href="https://voicebosch.itch.io/radio-soldier-announcer-audio-pack" target="_blank" rel="noopener">作者來源</a>。以上音效作者與本作品無關，也未替本作品背書。穿刺命中音效：“Sword Stab Body Hit” by <a href="https://freesound.org/people/-GeorgeDiamond-/sounds/718259/" target="_blank" rel="noopener">-GeorgeDiamond-（Freesound 718259）</a>，<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>；轉為 MP3，播放時調整音量。鈍擊命中音效：OpenAI ChatGPT 為本專案製作的原創程式合成聲，未使用外部錄音；合成配方採 CC0，<a href="https://github.com/RyouShiro0329/zerocase/blob/main/index.html" target="_blank" rel="noopener">來源程式</a>與<a href="https://creativecommons.org/publicdomain/zero/1.0/" target="_blank" rel="noopener">授權</a>。骰子音效為程式即時合成。<br><br>中文字型：全字庫正楷體（國家發展委員會，2018）；英文字型：Source Serif 4。<a href="fonts/SOURCES.md" target="_blank" rel="noopener">字型來源與授權</a>。`;
+const CREDITS=`音效沿用《零號病例》原專案素材。其中：“Headshot 2” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；“GROSS IMPACT” by magnuswaker（Freesound，CC0）；“Monster Bite on Armor WAV” by OGsoundFX（Freesound，CC BY 4.0）；“Acid Breath Attack” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；裝備切換音效取自 Ryan Conway “putting coat on and off with zippers”（Freesound，CC BY 4.0）。新增音效（CC0）：glassbreak—RangoAnimations（613879）、firealarm—simonjeffery13（792484）、genstart／genloop—jameswrowles（516759）、dryfire—serøutōnin--deprivəd（674568）、woodknock—RoyalRose（560295）、woodimpact—qubodup（160213）。<a href="docs/audio/LICENSES_AND_ORIGINS.md" target="_blank" rel="noopener">作者、Freesound 原始網址與授權紀錄</a>。第二批 CC0：踩玻璃 LukaCafuka（757830）、管線水聲 HenKonen（797674）、水泵 unfa（221551）、無線電雜訊 harrisonlace（812929）。人聲：VoiceBosch「RADIO SOLDIER」，降一個半音、切段、調整音量；衍生音檔採 <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>，<a href="https://voicebosch.itch.io/radio-soldier-announcer-audio-pack" target="_blank" rel="noopener">作者來源</a>。以上音效作者與本作品無關，也未替本作品背書。穿刺命中音效：“Sword Stab Body Hit” by <a href="https://freesound.org/people/-GeorgeDiamond-/sounds/718259/" target="_blank" rel="noopener">-GeorgeDiamond-（Freesound 718259）</a>，<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>；轉為 MP3，播放時調整音量。骰子音效為程式即時合成。<br><br>中文字型：全字庫正楷體（國家發展委員會，2018）；英文字型：Source Serif 4。<a href="fonts/SOURCES.md" target="_blank" rel="noopener">字型來源與授權</a>。`;
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
 let UI=Object.assign({snd:1,bgm:1,spd:1,orient:'auto',diff:'normal',qkey:'wasd'},LS.get('zc5-ui',{}));
 // 戰鬥友軍卡為本機偏好，不跟隨帳號的介面設定同步；iPad 桌面版識別也視為行動裝置。
@@ -3749,7 +3749,7 @@ const SFX_TYPES={
   ui:['click','ok','crit','rattle','land','dry'],
   movement:['stairs','step','zstep','dooropen','doorclose'],
   foley:['heal','pill','rummage','zipper','drawer','pickup','equip','craft','eat','gulp'],
-  combat:['blunthit','piercehit','bowdraw','bowimpact','beretta','berettaReload','revolver','revolverCock','casing','fist','claw','knife','headshot','mthrow','mimpact','death','fal','falReload','mp5','mp5Reload','rifle','bolt','bite','smash','splat','spit','thud','squish','bhit','shotgun','whoosh','groan','hurt','ext','zap'],
+  combat:['piercehit','bowdraw','bowimpact','beretta','berettaReload','revolver','revolverCock','casing','fist','claw','knife','headshot','mthrow','mimpact','death','fal','falReload','mp5','mp5Reload','rifle','bolt','bite','smash','splat','spit','thud','squish','bhit','shotgun','whoosh','groan','hurt','ext','zap'],
   system:['level','ng','fumble','miss'],
   environment:['rain_indoor_loop','rain_outdoor_loop','thunder_distant_01','thunder_distant_02','glassbreak','woodknock','woodimpact','genstart','genloop','firealarm','dryfire','glassstep','waterpipe','pumpmix','pumpstop','radiostatic','radio02','radio23','radio24','doorlocked']
 };
@@ -3847,7 +3847,6 @@ function play(n,vol=1,max=4000,delay=0){const a=audio();if(!a||!BUF[n])return nu
 function noise(t,dur,f,q,vol,type){const a=audio();if(!a)return;const s=a.createBufferSource();s.buffer=NB;const fl=a.createBiquadFilter();fl.type=type||'bandpass';fl.frequency.value=f;fl.Q.value=q||1;const g=a.createGain();g.gain.setValueAtTime(Math.max(.0005,vol*SFX_SYN_SCALE),a.currentTime+t);g.gain.exponentialRampToValueAtTime(.0005,a.currentTime+t+dur);s.connect(fl);fl.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(s,g);s.start(a.currentTime+t,Math.random()*.5);s.stop(a.currentTime+t+dur+.02)}
 function tone(t,f,dur,vol,type,f2){const a=audio();if(!a)return;const o=a.createOscillator();o.type=type||'sine';o.frequency.setValueAtTime(f,a.currentTime+t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,a.currentTime+t+dur);const g=a.createGain();g.gain.setValueAtTime(.0001,a.currentTime+t);g.gain.linearRampToValueAtTime(Math.max(.0005,vol*SFX_SYN_SCALE),a.currentTime+t+.008);g.gain.exponentialRampToValueAtTime(.0005,a.currentTime+t+dur);o.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(o,g);o.start(a.currentTime+t);o.stop(a.currentTime+t+dur+.03)}
 const SYN={
- blunthit(){noise(0,.055,1500,.7,.24);noise(0,.18,320,.8,.52,'lowpass');tone(0,135,.22,.3,'sine',43);noise(.025,.11,2400,1.2,.1);return 260},
  humanstep(){noise(0,.06,550,1,.22,'lowpass');noise(.28,.06,650,1,.2,'lowpass');return 360},
  infectedstep(){noise(0,.28,240,.7,.23,'lowpass');noise(.4,.22,380,.7,.19,'lowpass');return 660},
  doorlocked(){noise(0,.04,1700,3,.18);noise(.12,.05,1100,2,.18);tone(.02,240,.13,.07,'triangle',170);return 200},
@@ -6346,7 +6345,7 @@ async function playSlashHit(d,remote=false,seq=0){
 async function slashAttack(f){const d={id:f.id,state:snap()};E('slash',d);await playSlashHit(d)}
 loadSlashVfx();
 /* v0.44.0 鈍擊12格；同步序號沿用戰鬥演出水位，避免舊事件覆蓋新狀態。 */
-const BLUNT_TIMING={frames:[35,30,25,45,55,55,50,50,50,50,50,45],impact:90,total:540};
+const BLUNT_TIMING={frames:[35,30,25,45,55,55,50,50,50,50,50,45],impact:200,total:540};
 const BLUNT_VFX={image:null,ready:null,active:null};
 function bluntFrame(ms){if(!Number.isFinite(ms)||ms<0)return -1;let end=0;for(let f=0;f<12;f++){end+=BLUNT_TIMING.frames[f];if(ms<end)return f}return -1}
 function loadBluntVfx(){if(typeof Image!=='function')return Promise.resolve(null);if(!BLUNT_VFX.ready){const img=BLUNT_VFX.image=new Image();BLUNT_VFX.ready=new Promise(ok=>{img.onload=()=>ok(img);img.onerror=()=>ok(null)});img.src='fx/blunt-12.webp'}return BLUNT_VFX.ready}
@@ -6359,11 +6358,13 @@ function renderBluntVfx(fx){
   if(card){let canvas=card.querySelector('.zc-blunt-fx');if(!canvas){canvas=document.createElement('canvas');canvas.className='zc-blunt-fx';canvas.setAttribute('aria-hidden','true');card.appendChild(canvas)}
     const w=card.clientWidth,h=card.clientHeight,d=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.round(w*d);canvas.height=Math.round(h*d);
     const ctx=canvas.getContext('2d');if(ctx){ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,w,h);
-      const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches,f=reduced?4:bluntFrame(elapsed),size=Math.min(h*.95,w*.62),pw=card.querySelector('.fpic'),cx=pw?pw.offsetWidth*.65:w*.25,hit=elapsed-BLUNT_TIMING.impact;
+      const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches,f=reduced?5:bluntFrame(elapsed),fin=card.querySelector('.fin'),hp=card.querySelector('.fhp .hpb'),size=Math.min(h*.8,(fin?fin.clientWidth:w*.6)*.75),hit=elapsed-BLUNT_TIMING.impact;
+      let cx=w*.6,cy=h*.35;if(hp){cx=hp.offsetWidth/2;cy=hp.offsetHeight/2;for(let e=hp;e&&e!==card;e=e.offsetParent){cx+=e.offsetLeft;cy+=e.offsetTop}}
+      if(fin){ctx.beginPath();ctx.rect(fin.offsetLeft,0,fin.clientWidth,h);ctx.clip()}
       fx.frame=f;
-      ctx.globalAlpha=reduced?Math.min(1,elapsed/90)*Math.max(0,1-elapsed/BLUNT_TIMING.total):1;
-      if(f>=0)ctx.drawImage(BLUNT_VFX.image,f%4*362,Math.floor(f/4)*362,362,362,Math.max(0,cx-size/2),(h-size)/2,size,size);
-      if(!reduced){card.classList.add('zc-blunt-react');const x=hit>=0?Math.sin(hit*.1)*Math.exp(-hit/65)*Math.min(5,w*.025):0;card.style.setProperty('--zc-blunt-x',x+'px');card.style.setProperty('--zc-blunt-tilt',x*.5+'deg')}
+      ctx.globalAlpha=reduced?Math.min(1,elapsed/120)*Math.max(0,1-elapsed/BLUNT_TIMING.total):1;
+      if(f>=0)ctx.drawImage(BLUNT_VFX.image,f%4*362,Math.floor(f/4)*362,362,362,cx-size/2,cy-size/2,size,size);
+      if(!reduced){card.classList.add('zc-blunt-react');const x=hit>=0?Math.sin(hit*.1)*Math.exp(-hit/65)*Math.min(5,w*.025):0;card.style.setProperty('--zc-blunt-x',x+'px')}
     }
   }
   fx.raf=requestAnimationFrame(()=>renderBluntVfx(fx));
@@ -6371,12 +6372,12 @@ function renderBluntVfx(fx){
 async function playBluntHit(d,remote=false,seq=0){
   if(!d||!G||!d.state||G.rid!==d.state.rid||G.node!==d.state.node||G.clock!==d.state.clock||!G.fight||remote&&(!Number.isSafeInteger(seq)||seq<=SLASH_VFX.stateSeq))return;
   const battle=G.fight,valid=()=>G&&G.rid===d.state.rid&&G.fight===battle;
-  const impact=()=>{if(!valid())return;if(remote){if(seq<=SLASH_VFX.stateSeq)return;SLASH_VFX.stateSeq=seq;setG(d.state)}else{push();draw()}sfx('blunthit',.9,300)};
+  const impact=()=>{if(!valid())return;if(remote){if(seq<=SLASH_VFX.stateSeq)return;SLASH_VFX.stateSeq=seq;setG(d.state)}else{push();draw()}};
   const img=await Promise.race([loadBluntVfx(),wait(400).then(()=>null)]);
   if(!valid())return;
-  if(!img||!img.naturalWidth||typeof requestAnimationFrame!=='function'||document.hidden||FAST){impact();return}
+  if(!img||!img.naturalWidth||typeof requestAnimationFrame!=='function'||document.hidden||FAST){sfx('fist',.9,900);impact();return}
   const fx={id:d.id,rid:G.rid,battle,t:performance.now(),raf:0};BLUNT_VFX.active=fx;
-  try{renderBluntVfx(fx);await wait(Math.max(0,BLUNT_TIMING.impact-(performance.now()-fx.t)));impact();if(remote&&G&&G.rid===fx.rid)fx.battle=G.fight;await wait(Math.max(0,BLUNT_TIMING.total-(performance.now()-fx.t)))}
+  try{sfx('fist',.9,900);renderBluntVfx(fx);await wait(Math.max(0,BLUNT_TIMING.impact-(performance.now()-fx.t)));impact();if(remote&&G&&G.rid===fx.rid)fx.battle=G.fight;await wait(Math.max(0,BLUNT_TIMING.total-(performance.now()-fx.t)))}
   finally{cancelAnimationFrame(fx.raf);if(BLUNT_VFX.active===fx){BLUNT_VFX.active=null;clearBluntVfx()}}
 }
 async function bluntAttack(f){const d={id:f.id,state:snap()};E('blunt',d);await playBluntHit(d)}

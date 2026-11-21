@@ -1,0 +1,85 @@
+{
+  "version": "0.44.1",
+  "build": 107,
+  "created_at": "2026-11-21T17:50:26+08:00",
+  "audit_at": "2026-11-21T17:57:32+08:00",
+  "timezone": "Asia/Taipei",
+  "baseline_commit": "2aa7cc42c9c6c9f2c2e4ac0531134782839a42a4",
+  "authorization": "主人本輪指示：恢復 然後直接部署；包含恢復音效與特效移到血條",
+  "deployment": {
+    "status": "準備部署，部署後未驗證",
+    "url": "https://ryoushiro0329.github.io/zerocase/"
+  },
+  "changes": [
+    "恢復既有sfx/fist.mp3，原檔與音量參數不變",
+    "12格鈍擊定位敵人血條中心，排除立繪區域",
+    "原音效200ms主要撞擊對齊第6格與血條更新，總長540ms"
+  ],
+  "design_rule_changes": [],
+  "tests": {
+    "regression": "通過",
+    "node": {
+      "result": "通過",
+      "pass": 219,
+      "fail": 0,
+      "todo": 1,
+      "todo_reason": "既有恐懼紀錄數字為主人允許暫時保留的TODO，未修改"
+    },
+    "attack_tools": {
+      "result": "通過",
+      "pass": 59,
+      "fail": 0
+    },
+    "blunt_browser": {
+      "result": "通過",
+      "checks": 22,
+      "errors": [],
+      "views": [
+        "844x390",
+        "393x690"
+      ],
+      "portrait_pixels": "每格立繪區域無不透明特效像素"
+    },
+    "smoke": {
+      "result": "通過",
+      "views": [
+        "393x690",
+        "844x390",
+        "1280x720"
+      ],
+      "steps_per_view": 40
+    },
+    "long_route": {
+      "result": "通過",
+      "actions": 220,
+      "elapsed_seconds": 241,
+      "day": 7,
+      "nodes": 68,
+      "regions": 16
+    },
+    "phone": "待主人實機驗收",
+    "multiplayer_network": "未測試（未進行正式多人實連；已驗證接收事件與過期事件）"
+  },
+  "audio": {
+    "file": "sfx/fist.mp3",
+    "sha256": "e820c711f82a67c246ac299338c8248fa838a7f5626f12b9733fef21fc98939f",
+    "matches_v0_43_3": true,
+    "file_modified": false,
+    "volume_parameter": 0.9,
+    "max_ms": 900,
+    "peak_alignment_ms": 200,
+    "synth_removed": true
+  },
+  "screenshots": [
+    "docs/blunt/v0.44.1/hit-844x390.png",
+    "docs/blunt/v0.44.1/hit-393x690.png"
+  ],
+  "demo": {
+    "filename": "zerocase_blunt_hpbar_v0.44.1.mp4",
+    "duration_seconds": 14.428,
+    "viewport": "844x390",
+    "video": "H.264",
+    "audio": "AAC",
+    "note": "實際遊戲畫面與Web Audio輸出；測試只固定命中、裝備與敵人血量，未加入遊戲本體"
+  }
+}
