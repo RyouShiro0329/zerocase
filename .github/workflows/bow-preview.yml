@@ -1,0 +1,31 @@
+name: 弓弩動畫預覽
+on:
+  pull_request:
+    branches: [main]
+    paths: ["preview/bow/**", ".github/workflows/bow-preview.yml"]
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install chromium
+      - run: python3 preview/bow/build.py
+      - name: 手機預覽驗收與原音錄影
+        run: |
+          python3 -m http.server 8768 >/tmp/bow-preview.log 2>&1 &
+          NODE_PATH=$(npm root -g) node preview/bow/browser.cjs
+      - run: sudo apt-get update -qq && sudo apt-get install -y ffmpeg
+      - run: python3 preview/bow/video.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bow-crossbow-preview
+          path: |
+            qa-output/bow-preview/
