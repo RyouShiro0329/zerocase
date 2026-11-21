@@ -22,6 +22,8 @@ jobs:
         run: |
           python3 -m http.server 8768 >/tmp/zc-blunt-preview.log 2>&1 &
           ZC_QA_OUT=qa-output/blunt-redesign NODE_PATH=$(npm root -g) node tools/blunt-redesign-preview.cjs
+      - name: 安裝影片轉檔程式
+        run: sudo apt-get update -qq && sudo apt-get install -y ffmpeg
       - name: 合成有聲遊戲影片
         run: python3 tools/blunt-preview-video.py
       - uses: actions/upload-artifact@v4
