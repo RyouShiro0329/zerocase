@@ -1,0 +1,34 @@
+name: 鈍擊重畫有聲預覽
+on:
+  pull_request:
+    branches: [main]
+    paths: ["fx/blunt-12.webp", "tools/blunt-redesign-preview.cjs", "tools/blunt-preview-video.py", ".github/workflows/blunt-redesign-preview.yml"]
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install chromium
+      - name: 邏輯與原設計規則
+        run: node --test tests/*.test.cjs
+      - name: 實際攻擊、兩種手機尺寸及原音效錄影
+        run: |
+          python3 -m http.server 8768 >/tmp/zc-blunt-preview.log 2>&1 &
+          ZC_QA_OUT=qa-output/blunt-redesign NODE_PATH=$(npm root -g) node tools/blunt-redesign-preview.cjs
+      - name: 合成有聲遊戲影片
+        run: python3 tools/blunt-preview-video.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: blunt-redesign-preview
+          path: |
+            qa-output/blunt-redesign/*.mp4
+            qa-output/blunt-redesign/*.png
+            qa-output/blunt-redesign/report.json
