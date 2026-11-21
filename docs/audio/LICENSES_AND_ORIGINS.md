@@ -64,4 +64,4 @@
 
 2026-11-22（Asia/Taipei）核對作者原始頁面，明確標示Attribution 4.0。原始單聲道44.1kHz／16位元／0.749796秒。原始SHA-256：`004802859c7c89fc2129da0ae89e074cec4b7b594730397462699ff04b9b0754`；衍生SHA-256：`2eb69134e1b5959e582ef2c1160607f5c5cc7ba2cbc69f49d2691ca24bc2210c`。
 
-改作用於弩的發射聲，弓不變；命中仍使用既有bowimpact。預覽內的「製作與授權」已補作者、來源、CC BY 4.0與改作說明，作者未替遊戲背書。正式index.html尚未修改，正式整合時必須將此署名一併加入Credits。處理可由 `preview/bow/process-crossbow.py INPUT.wav OUTPUT.wav` 重現。
+改作用於弩的發射聲，亦依主人後續指示在弓放弦時疊加同一乾爽發射聲；命中仍使用既有bowimpact。預覽內的「製作與授權」已補作者、來源、CC BY 4.0與改作說明，作者未替遊戲背書。正式index.html尚未修改，正式整合時必須將此署名一併加入Credits。處理可由 `preview/bow/process-crossbow.py INPUT.wav OUTPUT.wav` 重現。

@@ -6,14 +6,14 @@
  const api=window.ZCBOWPV={ready:false,playing:false,frames:[],events:[],mode:'bow'};
  const sounds={bowdraw:'sfx/bowdraw.mp3',bowimpact:'sfx/bowimpact.mp3',crossbowshot:'preview/bow/crossbow-dry.wav'};
  async function audioReady(){const ac=audio();await ac.resume();for(const [k,path] of Object.entries(sounds))if(!BUF[k]){const bytes=await (await fetch(path)).arrayBuffer();BUF[k]=await ac.decodeAudioData(bytes)}}
- function controls(){const ch=document.getElementById('choices');ch.innerHTML='<p class="note">'+(api.mode==='bow'?'弓':'弩')+'射擊動畫預覽・俐落版・未部署</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="zc-bow-preview-bow">播放弓射擊</button><button class="btn" id="zc-bow-preview-crossbow">播放弩射擊</button></div><p class="note">箭矢由下往上射入血條；弓保留原音；弩改用乾爽發射聲、不播放拉弦。</p>';ch.querySelector('#zc-bow-preview-bow').onclick=()=>play('bow');ch.querySelector('#zc-bow-preview-crossbow').onclick=()=>play('crossbow')}
+ function controls(){const ch=document.getElementById('choices');ch.innerHTML='<p class="note">'+(api.mode==='bow'?'弓':'弩')+'射擊動畫預覽・俐落版・未部署</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="zc-bow-preview-bow">播放弓射擊</button><button class="btn" id="zc-bow-preview-crossbow">播放弩射擊</button></div><p class="note">箭矢由下往上射入血條；弓放弦疊加乾爽發射聲；弩不播放拉弦。命中改為黑紅刺入碎痕。</p>';ch.querySelector('#zc-bow-preview-bow').onclick=()=>play('bow');ch.querySelector('#zc-bow-preview-crossbow').onclick=()=>play('crossbow')}
  function frameAt(elapsed,durations){let end=0;for(let f=0;f<12;f++){end+=durations[f];if(elapsed<end)return f}return -1}
  async function play(mode){
   if(api.playing||!api.ready)return;api.playing=true;api.mode=mode;api.frames=[];api.events=[];
   try{
    UI.snd=1;await audioReady();stopSfx();stopAmbience();const target=G.fight.foes[0];target.hp=target.max;draw();controls();document.querySelectorAll('#choices button').forEach(e=>e.disabled=true);
    const start=performance.now(),launch=mode==='bow'?1010:100,durations=[25,25,25,25,30,25,20,20,20,20,25,30],impact=launch+durations.slice(0,5).reduce((a,b)=>a+b,0),end=launch+durations.reduce((a,b)=>a+b,0);let hit=false,last=-1;
-   api.start=start;api.impact=impact;api.events.push({name:'sound',source:mode==='bow'?'bowdraw':'crossbowshot',at:0});if(mode==='bow')sfx('bowdraw',1);else window.play('crossbowshot',sfxLevel('bowdraw',1),1000);window.play('bowimpact',sfxLevel('bowimpact',1),2000,mode==='bow'?.91:0);
+   api.start=start;api.impact=impact;api.events.push({name:'sound',source:mode==='bow'?'bowdraw':'crossbowshot',at:0});if(mode==='bow'){sfx('bowdraw',1);window.play('crossbowshot',sfxLevel('bowdraw',1),1000,1.01)}else window.play('crossbowshot',sfxLevel('bowdraw',1),1000);window.play('bowimpact',sfxLevel('bowimpact',1),2000,mode==='bow'?.91:0);
    await new Promise(resolve=>{function render(){
     const elapsed=performance.now()-start;
     if(!hit&&elapsed>=impact){hit=true;target.hp-=6;draw();controls();document.querySelectorAll('#choices button').forEach(e=>e.disabled=true);api.events.push({name:'hit',at:elapsed})}
