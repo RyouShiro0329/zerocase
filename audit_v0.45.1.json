@@ -6,8 +6,37 @@
   "baseline_commit": "b600f6d99bca2b8e5f84f2ff4a340eefd23f8217",
   "authorization": "主人明確指示妲爾穿刺技能共用目前動畫；沿用本輪已授權的修正部署流程",
   "deployment": {
-    "status": "準備部署，部署後未驗證",
-    "url": "https://ryoushiro0329.github.io/zerocase/"
+    "status": "已部署，正式網站驗證通過",
+    "url": "https://ryoushiro0329.github.io/zerocase/",
+    "source_commit": "15f383b824018b40b668a8d8e3bac714e1a17f8c",
+    "deployed_at": "2026-11-21T20:17:37+08:00",
+    "verified_at": "2026-11-21T20:20:42+08:00",
+    "verification": {
+      "result": "通過",
+      "menu_version": "v0.45.1・Build 109",
+      "new_game": true,
+      "actions": [
+        "掀開窗簾往外看",
+        "把書桌拖過去頂住門",
+        "站穩，正面迎戰"
+      ],
+      "location": "三樓走廊",
+      "combat_loaded": true,
+      "console": {
+        "result": "通過",
+        "game_errors": 0,
+        "extension_errors": 17,
+        "note": "chrome-extension來源metadata錯誤另列，不宣稱整個瀏覽器沒有錯誤"
+      },
+      "assets": {
+        "index.html": {
+          "result": "通過",
+          "sha256": "048b7062ff3fad8d85440abc8b7e27c5ac9f1bc44bbe2447c30884c938f9cc1e",
+          "bytes": 871059
+        }
+      },
+      "unchanged_assets": "git差異確認圖集、音效與字型均未修改；本版不重新上傳這些檔案"
+    }
   },
   "changes": [
     "取消專武近戰穿刺動畫排除",
@@ -57,6 +86,6 @@
     }
   },
   "handoff": "docs/DAR_PIERCE_FIX_v0.45.1.md",
-  "audit_at": "2026-11-21T20:17:09+08:00",
+  "audit_at": "2026-11-21T20:20:42+08:00",
   "source_commit": "2e3e809a9942049d811b95b9a2cf60a104747d50"
 }
