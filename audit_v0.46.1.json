@@ -35,10 +35,15 @@
     "multiplayer": {
       "result": "未測試",
       "reason": "未進行正式多人實連"
+    },
+    "attack_tools": {
+      "result": "通過",
+      "pass": 93
     }
   },
   "deployment": {
     "status": "未部署",
     "reason": "先開 PR；未收到本輪部署授權"
-  }
+  },
+  "implementation_commit": "dae5b11e0e90ea6d6fc6d5c1b27817f8c32e3a24"
 }

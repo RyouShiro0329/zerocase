@@ -45,7 +45,7 @@
     "docs/RELEASE_v0.37.2.md": "5a6fa2a2c722fde837b51dbb297f7a34d48e6b9c9bd1c1787cc6504c94f78f60",
     "docs/RULES_GPT.md": "7fd6d36b58854d6fc9c2008a23d71aa4789f4158524a3607d28e99a94e106ca2",
     "docs/RULES_SONNET.md": "6701574123320b40fe7e7e377068bf93a6e99f71c3075c2e81063b0199a667ac",
-    "docs/VERSIONS.md": "af6f087dbc6c44635e7a440a38a3e9261f53049daa68dcdcd347060fe1d2ccfd",
+    "docs/VERSIONS.md": "64bf81733eb865ee732c4a83ac38cc7506f05f300a1ad36437b6c9a26b517f78",
     "docs/audio/2026-11-15-integration-plan.md": "1d8c7185ad2742e1f1b70279b5f9d274f03c36a1b4104513dc5842d2df9ade8d",
     "docs/audio/ASSET_VALIDATION.json": "190994b75a706198d1f3e3435ee47441cee202e55fe70c3593fab8d55d538d0b",
     "docs/audio/ASSET_VALIDATION_V0.21.10.json": "6d61e118b4a1ebef0708d9e4e687d55afbf48a288d61c98a772f1cb5113c612a",
@@ -293,7 +293,7 @@
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
     "更新說明.txt": "0a325a287291e074320347b21ea0babda3c9f69e3e67762f269f9058a5da47b1",
-    "audit_v0.46.1.json": "1de11d8788dedf0550f6bfde79945797f3c2d787f77ad243caaa8bd09aaeca96",
+    "audit_v0.46.1.json": "184ad8d28d096a73a7a96ce92f3c0b62ec5041323a234e7f3bcd6935bc97e8f6",
     "tools/remove-dodge.test.cjs": "29e37cac24f6eb4fb62508b49955280cd0222956c3dba1517f10be99ec99416e",
     "tools/remove-dodge-browser.cjs": "dfd6e2e3de4d2652e9450d0ea0dd15dc7100a56e5abe1dff80b3a77701eeb111",
     ".github/workflows/remove-dodge-qa.yml": "84e6436c9fc64ec03f77c557114c9c3e1623f27e9e95665100ff45e0d7ceec24"
