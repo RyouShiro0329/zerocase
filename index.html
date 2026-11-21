@@ -690,7 +690,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.46.0", "b": 111, "t": "2026-11-22T02:59:59+08:00"};
+const ZC_VER={"v": "0.46.1", "b": 112, "t": "2026-11-22T04:47:32+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -936,7 +936,7 @@ const FOES={
  acru_trooper:{n:'隊員',fac:'acru',hp:14,def:12,hit:6,dmg:4,xp:6,rd:{blunt:1.5,slash:1,pierce:1,ballistic:.5,fire:1},san:0,tdc:0,ter:0,init:3,weak:[],res:[],inf:[0,0],human:1,shooter:1,mag:30,rl:'mp5Reload',loot:{gear:'mp5',items:{ammo9:[4,8]}},d:'A.C.R.U. 的一般隊員，HK MP5A5。不說話、不談條件，兩三人一組同步行動。防彈背心擋得住大部分子彈（槍擊只有一半效果），但被重物砸中容易失去平衡。30 發打完才換彈匣。'},
  acru_captain:{n:'隊長',fac:'acru',hp:28,def:13,hit:7,dmg:6,xp:14,rd:{blunt:1,slash:1.5,pierce:1,ballistic:.5,fire:1},san:0,tdc:0,ter:0,init:4,weak:[],res:[],inf:[0,0],human:1,shooter:1,lead:1,boss:1,mag:20,rl:'falReload',loot:{gear:'fal',items:{ammo762:6}},d:'戴紅色貝雷帽的帶隊者，FN FAL。在場時其他隊員命中 +1；會下令集火、一槍精準射擊就能要人命。20 發打完才換彈匣。'},
  acru_flamer:{n:'噴火兵',fac:'acru',hp:18,def:11,hit:4,dmg:5,xp:9,rd:{blunt:1,slash:1,pierce:1.5,ballistic:.5,fire:.5},san:0,tdc:0,ter:0,init:0,weak:[],res:[],inf:[0,0],human:1,shooter:1,flame:1,loot:{items:{gasmask:1,filter:1}},d:'背著三瓶式噴火器的隊員，沒有副武器。先推進，才噴得到人；噴火打全體、掩蔽擋不住，連噴兩次要加壓一回合。被槍打死時燃料罐會爆炸，炸傷他的同伴。'},
- acru_sniper:{n:'狙擊手',fac:'acru',hp:12,def:12,hit:9,dmg:22,xp:10,rd:{blunt:1,slash:1.5,pierce:1,ballistic:.5,fire:1},san:0,tdc:0,ter:0,init:2,weak:[],res:[],inf:[0,0],human:1,shooter:1,hide:1,mag:5,rl:'bolt',loot:{gear:'r700',items:{ammo308:3}},d:'雷明頓 700。躲在遠處，沒被找到之前打不到他。先用紅點鎖定狀態最差的人，下一次才開槍；穿甲、閃躲沒用。'}
+ acru_sniper:{n:'狙擊手',fac:'acru',hp:12,def:12,hit:9,dmg:22,xp:10,rd:{blunt:1,slash:1.5,pierce:1,ballistic:.5,fire:1},san:0,tdc:0,ter:0,init:2,weak:[],res:[],inf:[0,0],human:1,shooter:1,hide:1,mag:5,rl:'bolt',loot:{gear:'r700',items:{ammo308:3}},d:'雷明頓 700。躲在遠處，沒被找到之前打不到他。先用紅點鎖定狀態最差的人，下一次才開槍；穿甲，要靠掩體避開。'}
 };
 const FAC_N={inf:'感染者',hum:'人類',acru:'A.C.R.U.'};
 // 劇情裡寫的描述名只用來判斷類型；畫面上一律顯示類型名稱
@@ -4805,6 +4805,9 @@ const lurkHid=f=>!!(f&&f.hid&&FOES[f.type]&&FOES[f.type].lurk)
 // 舊存檔：類型換成新名字，舊的變異詞條拿掉
 const OLDTYPE={thin:'infected',dog:'infected',bloated:'incubator',riot:'devourer',looter:'cutter'};
 function migrateG(g){if(!g)return g;
+  // v0.46.1 主人取消獨立閃躲：清除舊姿態與待執行指令，不改其他防守或回合進度
+  for(const p of g.players||[])if(p.stance==='dodge')p.stance=null;
+  if(g.fight&&g.fight.pend)for(const pid of Object.keys(g.fight.pend))if(g.fight.pend[pid]&&g.fight.pend[pid].a==='dodge')delete g.fight.pend[pid];
   // v0.27.0 防毒面具改戴在「臉」；道具欄：舊存檔把身上的道具依序放進兩格。v0.29.0 特殊欄位：舊的道具欄資料只留手電筒、滅火器
   for(const p of g.players||[]){p.eq=p.eq||{};if(!('face' in p.eq))p.eq.face=null;if(p.eq.head&&p.eq.head.k==='gasmask'){p.eq.face=p.eq.head;p.eq.head=null}if(Array.isArray(p.tl))p.tl=p.tl.slice(0,TOOLN).map(k=>TOOLK.includes(k)?k:null);autoTools(p);
     /* v0.32.0 雙手武器只能雙手拿：舊存檔單手拿著的，改成雙手拿 */
@@ -5281,10 +5284,9 @@ async function kill(f,p,melee,nox){if(f.dead)return;
   if(sp&&melee&&p&&!f.nosplash){addInf(p,sp);out(`牠的身體在${MP()?nm(p)+'的':'你的'}面前爆開，腥臭的液體噴得滿臉都是。感染 +${sp}。`,'dmg')}
   push();draw()}
 function bashW(w){return {n:w.n+'（敲擊）',hands:w.hands,dt:['blunt'],st:['STR'],hit:-1,dd:[1,2],ds:'STR',kind:'melee',bash:1,sk:[]}}
-// 防守動作：格擋（近戰傷害減半、防禦 +2；長柄再減 1）、閃躲（防禦 +5）、掩蔽（遠程防禦 +5、傷害減半，對近戰無效）。盲目的敵人無視防守動作
+// 防守動作：格擋（近戰傷害減半、防禦 +2；長柄再減 1）、掩蔽（遠程防禦 +5、傷害減半，對近戰無效）。盲目的敵人無視防守動作
 function stanceOf(t,f,mv){const o={def:0,half:0,cut:0,txt:'',miss:''};const s=t.stance;if(!s||(f&&affIs(f,'blind')))return o;const rng=!!(mv&&mv.rng);
   if(s==='block'&&!rng&&!(mv&&mv.flame)){o.def=2;o.half=1;o.cut=handW(t,'R').w.pole||handW(t,'L').w.pole?1:0;o.txt='格擋住了一大半。';o.miss='架開了這一下。'}
-  else if(s==='dodge'&&!(mv&&mv.nododge)){o.def=5;o.miss='早就看準了，往旁邊一閃。'}
   else if(s==='cover'&&rng){o.def=5;o.half=1;o.txt='掩體擋掉了一大半。';o.miss='縮在掩體後面，打在掩體上。'}
   return o}
 // 雙持：左右手各拿一把單手武器
@@ -5459,6 +5461,7 @@ async function soothe(p,t){if(!teamHere(p)||!skLeft(p,'soothe')||!t||t.dead||t.d
 function brew(p){if(!skLeft(p,'brew')||G.fight)return false;const k=['fuel','alcohol','whiskey'].find(x=>hasI(p,x));if(!k){msgTo(p,'需要外用酒精、威士忌或燃料。');return false}
   skUse(p,'brew');takeI(p,k);addIForce(p,'molotov',1);snd('rummage',.6,1000);out(`${MP()?nm(p):'你'}：<b>臨時調配</b>　把${ITEMS[k].n}灌進瓶子裡、塞上布條。做好一個燃燒瓶。`,'good');return true}
 async function fightAct(pid,a){
+  if(a.a==='dodge')return; // 拒絕舊客戶端指令，不提交或消耗行動
   const F=G.fight;if(!F||G.over||!F.group||F.resolving||!F.group.includes(pid))return;
   const p=P(pid);if(!p||p.dead||p.down||!teamHere(p))return;
   if(a.a==='counter'||a.a==='brace'||(a.a==='csk'&&CSKILL[a.id]&&CSKILL[a.id].free)){await execAct(p,a);push();draw();return}
@@ -5520,7 +5523,6 @@ async function execAct(p,a){
   else if(a.a==='free'){if(!p.held)return false;releaseHold(p);out(`${nm(p)}用力一扭，掙脫了。`,'good')}
   else if(a.a==='pat'){if(!(p.burn>0))return false;p.burn=0;snd('whoosh');out(`${nm(p)}在地上打滾，拍熄了身上的火。`,'good')}
   else if(a.a==='guard'||a.a==='block'){p.stance='block';out(`${nm(p)}舉起手上的東西擋在身前，準備硬接下一擊。`,'sys')}
-  else if(a.a==='dodge'){p.stance='dodge';out(`${nm(p)}放低重心，盯著牠們的動作，隨時準備閃開。`,'sys')}
   else if(a.a==='cover'){if(F.nocover){out('這裡沒有可以躲的地方。','sys');return false}p.stance='cover';out(`${nm(p)}縮到掩體後面，只露出半張臉。`,'sys')}
   else if(a.a==='spot'){const h=G.fight.foes.find(f=>f.hid&&f.hp>0&&!f.dead);if(!h)return false;const c=await check(p,'PER',12,'搜尋');
     if(c.ok&&FT(h).lurk){snd('step',.7);await revealLurk(h,()=>out(`${nm(p)}循著那陣窸窣聲看過去：一個四肢著地的東西貼在暗處，正盯著你們。<b>${h.n}</b>現在可以被攻擊了。`,'good'))}
@@ -5728,7 +5730,7 @@ function handle(pid,a){
   if(a.a==='lock')return run(async()=>{zLockNote(a.i)});
   if(G.phase==='shop'&&G.shop&&!p.down&&!p.mad){if(a.a==='buy')return run(async()=>{shopBuy(p,a.i)});if(a.a==='sell')return run(async()=>{shopSell(p,a.k)});if(a.a==='sellg')return run(async()=>{shopSellG(p,a.u)});if(a.a==='shopdone')return run(()=>shopReady(p))}
   if(G.phase==='gw'&&a.a==='gwgo'&&!p.down&&!p.mad)return run(()=>groundGo(p));
-  if(G.fight&&['atk','tact','reload','unjam','cock','pickup','kick','counter','brace','molotov','ext','flash','flee','use','revive','equip','guard','free','block','dodge','cover','dual','calm','subdue','csk','spot','pat','tool'].includes(a.a))return run(()=>fightAct(pid,a));
+  if(G.fight&&['atk','tact','reload','unjam','cock','pickup','kick','counter','brace','molotov','ext','flash','flee','use','revive','equip','guard','free','block','cover','dual','calm','subdue','csk','spot','pat','tool'].includes(a.a))return run(()=>fightAct(pid,a));
   if(G.fight)return;
   if(p.down)return;
   if(a.a==='use')return run(async()=>{await useItem(p,a.k,a.to)});
@@ -6550,7 +6552,7 @@ function battlePlayerCards(){
     const pr=PRESETS[p.kind]||GUESTS[p.kind],hp=p.dead?0:Math.max(0,p.hp),shield=Math.max(0,p.shd||0),maxShield=Math.max(shield,p.shdMax||0);
     const status=[p.dead?'死亡':p.leftBehind?'脫隊':evacWaiting(p)?'已撤離':p.down?'瀕死':p.mad?'發瘋':'',p.away?'離線':''];
     for(const [k,t] of [['bleed','流血'],['frac','骨折'],['held','被抓住'],['unbal','失衡'],['burn','燃燒'],['humus','腐殖'],['dazed','暈眩'],['skip','無法行動']])if(p[k])status.push(t);
-    if(p.stance)status.push(({block:'格擋',dodge:'閃躲',cover:'掩蔽'})[p.stance]||'');
+    if(p.stance)status.push(({block:'格擋',cover:'掩蔽'})[p.stance]||'');
     if(p.covering)status.push('掩護隊友');
     const current=G.fight.group&&!G.fight.resolving&&G.fight.group.includes(p.pid)&&!p.dead&&!p.down&&!p.away&&teamHere(p);
     return `<div class="foe battle-player ${current?'battle-current':''} ${p.dead||p.down||p.away||!teamHere(p)?'battle-inactive':''}"><div class="fpic">${pr&&pr.img?`<img src="img/${esc(pr.img)}.webp" alt="">`:av(p,1)}</div><div class="fin"><div class="fh"><b>${esc(p.name)}</b></div><div class="fhp"><small>生命</small><div class="hpb" data-hk="p${esc(p.pid)}"><s style="width:${hp/p.max*100}%"></s><u style="width:${hp/p.max*100}%"></u></div><span>${hp}/${p.max}</span></div>${maxShield>0?`<div class="fhp"><small>護盾</small><div class="hpb battle-shield"><u style="width:${shield/maxShield*100}%"></u></div><span>${shield}/${maxShield}</span>${shield<=0?'<small>已破</small>':!shdOn(p)?'<small>離手</small>':''}</div>`:''}<div class="fk"><span>基礎防禦 ${baseDef(p)}</span>${armorOf(p)?`<span>減傷 ${armorOf(p)}</span>`:''}${strBlock(p)?`<span>近戰格擋 ${strBlock(p)}</span>`:''}</div>${status.some(Boolean)?`<div class="fst">${status.filter(Boolean).map(t=>`<span class="bd">${t}</span>`).join('')}</div>`:''}</div></div>`;
@@ -6676,15 +6678,15 @@ function fightMenu(m){
     if(G.fight.foes.some(f=>f.hid&&f.hp>0&&!f.dead))h+=chBtn('data-fa="spot"','搜尋','找出一名躲起來的敵人，找到之後才能攻擊他；用掉這個回合',checkTag('PER',12),'t-ck');
     if(m.burn>0)h+=chBtn('data-fa="pat"','拍熄身上的火',`還會燒 ${m.burn} 次，每次生命 −2；用掉這個回合`,'','t-dg');
     if(m.held)h+=chBtn('data-fa="free"','掙脫',`被${(G.fight.foes[m.held-1]||{}).n||'感染者'}抓住了（防禦 −2、不能逃跑）：花掉這個回合就能掙脫`,'','t-dg');
-    h+='<p class="note">防守（維持到你下次行動）</p>'+chBtn('data-fa="block"','格擋',`擋下近戰攻擊：防禦 +2，近戰傷害減半${handsOf(m).some(x=>x.w.pole)?'，長柄再減 1':''}；對遠程無效`,'','t-x')+chBtn('data-fa="dodge"','閃躲','專心閃避：防禦 +5，被打中時傷害照算','','t-x')+chBtn('data-fa="cover"','掩蔽',G.fight.nocover?'這裡沒有可以躲的地方':'躲到掩體後面：對槍、弓、丟擲物防禦 +5、傷害減半；對近戰無效','','t-x',G.fight.nocover);
+    h+='<p class="note">防守（維持到你下次行動）</p>'+chBtn('data-fa="block"','格擋',`擋下近戰攻擊：防禦 +2，近戰傷害減半${handsOf(m).some(x=>x.w.pole)?'，長柄再減 1':''}；對遠程無效`,'','t-x')+chBtn('data-fa="cover"','掩蔽',G.fight.nocover?'這裡沒有可以躲的地方':'躲到掩體後面：對槍、弓、丟擲物防禦 +5、傷害減半；對近戰無效','','t-x',G.fight.nocover);
     for(const t of able().filter(q=>q!==m&&q.mad)){h+=chBtn(`data-fa="calm" data-to="${t.pid}"`,`安撫${esc(t.name)}`,'成功就讓他恢復意識。每場戰鬥只能試一次',checkTag('CHA',14)+(m.calmUsed?'・已使用':''),'t-ck',m.calmUsed);h+=chBtn(`data-fa="subdue" data-to="${t.pid}"`,`制伏${esc(t.name)}`,'用手上的武器打他；打倒之後救起來就會清醒，但仍在崩潰邊緣','','t-dg')}
     if(!G.fight.noflee){const hd=!!m.held;h+=chBtn('data-fa="flee"','逃跑',hd?'你被抓住了，現在跑不掉':'只判定自己；成功先到安全區等待，失敗消耗行動。不限次數',checkTag('AGI',12),'t-dg',hd)}
     else h+='<p class="note">懸在外牆上，無處可逃。</p>';
     return h+backBtn()}
   const nt=Object.keys(TACT).filter(id=>tactAvail(id,m)).length;
   const hasOther=m.held||G.fight.foes.some(f=>f.hid&&f.hp>0&&!f.dead)||handsOf(m).some(x=>x.g&&((x.w.kind==='gun'&&(x.g.jam||(x.g.mag<x.w.mag&&m.items[x.w.ammo])))||(x.w.cock&&!x.g.cocked)))||m.gear.some(g=>g.drop==='feet');
-  return `<div class="fmenu">${chBtn('data-ftab="atk"','普通攻擊',hs.map(x=>`${x.lab} ${x.w.n}`).join('／'),'','')}${chBtn('data-ftab="skill"','技能','武器、角色、道具技能','','')}${chBtn('data-ftab="tact"','對策',nt?`這裡有 ${nt} 種可以利用`:'看看環境和道具','','',false)}${chBtn('data-open="bag"','物品','用藥、換武器、穿裝備','','')}${chBtn('data-ftab="other"','行動',m.burn>0?'身上著火：拍熄、防守…':m.held?'被抓住了：掙脫、防守…':G.fight.foes.some(f=>f.hid&&f.hp>0&&!f.dead)?'搜尋、防守、協助隊友…':able().some(q=>q.mad)?'有隊友發瘋了：安撫、制伏…':hasOther?'裝填、撿武器、防守、逃跑…':'格擋、閃躲、掩蔽、逃跑','','',false,'',m.held||able().some(q=>q.mad)?'mine':'')}</div>`}
-function actLabel(m,a){if(a.a==='csk')return CSKILL[a.id].n+(a.to&&P(a.to)?' → '+esc(P(a.to).name):'');if(a.a==='flee'&&a.csk)return CSKILL[a.csk]?CSKILL[a.csk].n:'逃跑';if(a.a==='atk'){const x=handsOf(m).find(y=>y.h===(a.h||'R'));return (x?x.lab+'・':'')+(a.csk?CSKILL[a.csk].n:a.sk?SKILL[a.sk].n:'普通攻擊')+(a.t!=null&&G.fight.foes[a.t]?' → '+G.fight.foes[a.t].n:'')}if(a.a==='tact')return TACT[a.id].n;return {reload:'裝填',unjam:'排除卡彈',cock:'上弦',pickup:'撿起武器',kick:'踢回武器',molotov:'丟燃燒瓶',ext:'噴滅火器',flash:'強光照射',flee:'逃跑',free:'掙脫',use:'使用物品',revive:'救隊友',equip:'換武器',guard:'格擋',block:'格擋',dodge:'閃躲',cover:'掩蔽',dual:'雙持攻擊',calm:'安撫隊友',subdue:'制伏隊友'}[a.a]||a.a}
+  return `<div class="fmenu">${chBtn('data-ftab="atk"','普通攻擊',hs.map(x=>`${x.lab} ${x.w.n}`).join('／'),'','')}${chBtn('data-ftab="skill"','技能','武器、角色、道具技能','','')}${chBtn('data-ftab="tact"','對策',nt?`這裡有 ${nt} 種可以利用`:'看看環境和道具','','',false)}${chBtn('data-open="bag"','物品','用藥、換武器、穿裝備','','')}${chBtn('data-ftab="other"','行動',m.burn>0?'身上著火：拍熄、防守…':m.held?'被抓住了：掙脫、防守…':G.fight.foes.some(f=>f.hid&&f.hp>0&&!f.dead)?'搜尋、防守、協助隊友…':able().some(q=>q.mad)?'有隊友發瘋了：安撫、制伏…':hasOther?'裝填、撿武器、防守、逃跑…':'格擋、掩蔽、逃跑','','',false,'',m.held||able().some(q=>q.mad)?'mine':'')}</div>`}
+function actLabel(m,a){if(a.a==='csk')return CSKILL[a.id].n+(a.to&&P(a.to)?' → '+esc(P(a.to).name):'');if(a.a==='flee'&&a.csk)return CSKILL[a.csk]?CSKILL[a.csk].n:'逃跑';if(a.a==='atk'){const x=handsOf(m).find(y=>y.h===(a.h||'R'));return (x?x.lab+'・':'')+(a.csk?CSKILL[a.csk].n:a.sk?SKILL[a.sk].n:'普通攻擊')+(a.t!=null&&G.fight.foes[a.t]?' → '+G.fight.foes[a.t].n:'')}if(a.a==='tact')return TACT[a.id].n;return {reload:'裝填',unjam:'排除卡彈',cock:'上弦',pickup:'撿起武器',kick:'踢回武器',molotov:'丟燃燒瓶',ext:'噴滅火器',flash:'強光照射',flee:'逃跑',free:'掙脫',use:'使用物品',revive:'救隊友',equip:'換武器',guard:'格擋',block:'格擋',cover:'掩蔽',dual:'雙持攻擊',calm:'安撫隊友',subdue:'制伏隊友'}[a.a]||a.a}
 const backBtn=()=>chBtn('data-ftab=""','返回','回到上一層','','');
 function targetBtns(m){const a=PEND.a;let w=null,sk=a.sk;if(a.a==='atk'){const x=atkHands(m).find(y=>y.h===(a.h||'R'));w=x.w}
   return aliveF().map(f=>{let tag='';if(w&&DF().num){const st=bestSt(m,w.st);tag=`命中 ${f.prone?100:hitPct(statMod(m,st)+hitBonus(m,a.h||'R',w,sk),fDef(f,w.kind!=='melee'))}%`}
