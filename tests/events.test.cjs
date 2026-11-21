@@ -73,3 +73,14 @@ test('街道段的選項小字只寫需要什麼或哪種檢定',()=>{const g=ga
   for(const e of EVPOOL)if(e.ch===2&&e.at&&e.at.every(x=>L.includes(x)))e.c.forEach(c=>chk(e.id,c));return o})())`));
  assert.deepEqual(bad,[]);
 });
+// v0.43.3 主人：舊的「歇一下」刪掉，只留睡 8 小時、小睡 4 小時；裝在特殊欄位的道具不佔背包、不在背包清單裡被丟掉
+test('有睡覺的地方不再有舊的休息選項',()=>{const g=game();
+ const bad=JSON.parse(g.run("JSON.stringify(Object.entries(N).filter(([k,n])=>(n.c||[]).some(c=>c.t==='sleep')&&(n.c||[]).some(c=>c.t!=='sleep'&&c.t!=='nap'&&c.ok&&c.ok.r&&c.ok.r.rest&&!c.hide)).map(([k])=>k))"));
+ assert.deepEqual(bad,[]);
+});
+test('特殊欄位裡的手電筒不佔背包，也不能從背包丟掉；收起時背包滿了就放到地上',()=>{const g=game();
+ g.run("p.items={};p.gear=[];p.hand={R:null,L:null};p.items.flashlight=1;p.tl=['flashlight',null]");
+ assert.equal(g.run('used(p)'),0);assert.equal(g.run("dropItem(p,{k:'flashlight'})"),false);
+ g.run("p.items.water=cap(p)*STACK");assert.equal(g.run('used(p)'),g.run('cap(p)'));
+ g.run("toolSet(p,{s:0})");assert.equal(g.run('p.items.flashlight||0'),0);assert.equal(g.run("G.ground.at(-1).k"),'flashlight');
+});

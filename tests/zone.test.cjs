@@ -178,3 +178,19 @@ test('連線：每個人都按了「繼續往前」才走',async()=>{const g=set
  await g.run("groundGo(P('p1'))");assert.equal(g.run('G.node'),'J2','只有一個人按');
  await g.run("groundGo(P('p2'))");assert.equal(g.run('G.node'),'J2s');
 });
+// v0.43.3 主人：搜索點翻完、被「時間不多了」直接帶往下一段時，地上的東西也要先停下來
+test('搜索點次數用完要被跳過時，地上還有東西也先停下來',async()=>{const g=setup();
+ await g.run("enterNode('Q2s')");g.run("G.ground.push({k:'gunoil',q:1});srSt('Q2s').n=srMax('Q2s')");
+ assert.equal(await g.run("enterNode('Q2s')"),undefined);
+ assert.equal(g.run('G.phase'),'gw');assert.equal(g.run('G.node'),'Q2s','還沒走');
+ await g.run("groundGo(G.players[0])");assert.notEqual(g.run('G.node'),'Q2s','按了繼續才往前');
+});
+// v0.43.3 主人：檢定失敗不能一直重骰。不是必經的失敗一次就消失；必經的不再檢定
+test('電廠堵門失敗一次就消失；必經的關卡不再檢定',async()=>{const g=setup();
+ await g.run("enterNode('PP4')");await pick(g,'先把廠房大門堵起來',false);
+ assert.ok(!labels(g).includes('先把廠房大門堵起來'),'失敗後不能再骰');
+ const gates=JSON.parse(g.run(`JSON.stringify([['W1','換上保險絲，重新送電'],['W1','不用保險絲，直接拉旁路'],['PP2','照著程序書送廠用電'],['PP3','換上保險絲，接通輸油泵'],['PP3','用手搖泵一桶一桶打'],['WP2','把攔汙柵前面的東西拖開'],['WP4','照程序啟動送水泵'],['BA5','逼飛行員起飛']].map(([n,l])=>{const c=N[n].c.find(c=>c.l===l);return [l,!!c&&!c.k&&!c.ng]}))`));
+ for(const [l,ok] of gates)assert.ok(ok,l+' 不該有檢定');
+ assert.equal(g.run("N.W1.c.find(c=>c.l==='不用保險絲，直接拉旁路').req"),'pliers');
+ assert.ok(!g.run("N.PP2.c.some(c=>c.l==='憑感覺試著送廠用電')"));
+});
