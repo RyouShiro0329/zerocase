@@ -77,5 +77,6 @@
     "video": "H.264",
     "audio": "AAC",
     "note": "實際遊戲畫面與Web Audio輸出；測試固定命中、鐵鎚與敵人血量，只在驗收腳本注入"
-  }
+  },
+  "game_code_commit": "79153be58d6e0f509e448793d482a9f682f56e8a"
 }
