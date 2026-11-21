@@ -1,0 +1,32 @@
+name: 弓弩正式攻擊驗收
+on:
+  pull_request:
+    branches: [main]
+    paths: [index.html, "fx/arrow-12.webp", "sfx/crossbowshot.wav", "tools/arrow-shot*", ".github/workflows/arrow-shot-qa.yml"]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  arrow-shot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install chromium
+      - name: 正式弓弩與既有攻擊邏輯
+        run: node --test tools/*test.cjs
+      - name: 整包雜湊
+        run: python3 verify_release.py
+      - name: 真實攻擊、音源、手機畫面與同步
+        run: |
+          python3 -m http.server 8768 >/tmp/arrow-shot-http.log 2>&1 &
+          NODE_PATH=$(npm root -g) node tools/arrow-shot-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: arrow-shot-v0.46.0-qa
+          path: qa-output/

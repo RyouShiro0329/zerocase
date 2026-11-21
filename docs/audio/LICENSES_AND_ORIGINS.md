@@ -55,3 +55,13 @@
 依主人指示，鈍擊命中恢復使用原專案既有的 `sfx/fist.mp3`（約 0.81 秒），音量維持原本的 0.9 戰鬥音量參數；未裁切、變速、重新編碼或更換音檔。SHA-256：`e820c711f82a67c246ac299338c8248fa838a7f5626f12b9733fef21fc98939f`，與 v0.43.3 基準一致。
 
 上方 v0.44.0 合成聲說明保留為歷史紀錄；該合成聲已移除，不再用於目前遊戲。原 `fist` 素材的既有來源與署名沿用原專案紀錄，本次未新增外部音訊素材，也未把該既有錄音改標為 CC0。
+
+## v0.46.0 弓／弩發射音效（2026-11-22）
+
+| 素材 | 作者 | 來源頁 | 授權及處理 |
+|---|---|---|---|
+| `sfx/crossbowshot.wav`（bow02.wav 衍生版本） | Erdie | https://freesound.org/people/Erdie/sounds/65734/ | CC BY 4.0：https://creativecommons.org/licenses/by/4.0/ ；主人提供原始WAV；120Hz高通、7.8kHz低通、900／1900Hz輕度等化、130ms後指數衰減、尾端淡出，縮為330ms；不變速、不變調。 |
+
+2026-11-22（Asia/Taipei）核對作者原始頁面，明確標示Attribution 4.0。原始單聲道44.1kHz／16位元／0.749796秒。原始SHA-256：`004802859c7c89fc2129da0ae89e074cec4b7b594730397462699ff04b9b0754`；衍生SHA-256：`2eb69134e1b5959e582ef2c1160607f5c5cc7ba2cbc69f49d2691ca24bc2210c`。
+
+改作用於弩的發射聲，亦依主人後續指示在弓放弦時疊加同一乾爽發射聲；命中仍使用既有bowimpact。遊戲內的「製作與授權」已補作者、來源、CC BY 4.0與改作說明，作者未替遊戲背書。已隨本版整合至正式index.html的Credits。處理可由 `tools/process-crossbow.py INPUT.wav OUTPUT.wav` 重現。
