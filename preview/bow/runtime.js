@@ -6,14 +6,14 @@
  const api=window.ZCBOWPV={ready:false,playing:false,frames:[],events:[],mode:'bow'};
  const sounds={bowdraw:'sfx/bowdraw.mp3',bowimpact:'sfx/bowimpact.mp3'};
  async function audioReady(){const ac=audio();await ac.resume();for(const [k,path] of Object.entries(sounds))if(!BUF[k]){const bytes=await (await fetch(path)).arrayBuffer();BUF[k]=await ac.decodeAudioData(bytes)}}
- function controls(){const ch=document.getElementById('choices');ch.innerHTML='<p class="note">'+(api.mode==='bow'?'弓':'弩')+'射擊動畫預覽・未部署</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="zc-bow-preview-bow">播放弓射擊</button><button class="btn" id="zc-bow-preview-crossbow">播放弩射擊</button></div><p class="note">箭矢由下往上射入血條；弓弩共用原弓音效。可重複播放。</p>';ch.querySelector('#zc-bow-preview-bow').onclick=()=>play('bow');ch.querySelector('#zc-bow-preview-crossbow').onclick=()=>play('crossbow')}
+ function controls(){const ch=document.getElementById('choices');ch.innerHTML='<p class="note">'+(api.mode==='bow'?'弓':'弩')+'射擊動畫預覽・俐落版・未部署</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="zc-bow-preview-bow">播放弓射擊</button><button class="btn" id="zc-bow-preview-crossbow">播放弩射擊</button></div><p class="note">箭矢由下往上射入血條；弓弩共用原弓音效。可重複播放。</p>';ch.querySelector('#zc-bow-preview-bow').onclick=()=>play('bow');ch.querySelector('#zc-bow-preview-crossbow').onclick=()=>play('crossbow')}
  function frameAt(elapsed,durations){let end=0;for(let f=0;f<12;f++){end+=durations[f];if(elapsed<end)return f}return -1}
  async function play(mode){
   if(api.playing||!api.ready)return;api.playing=true;api.mode=mode;api.frames=[];api.events=[];
   try{
    UI.snd=1;await audioReady();stopSfx();stopAmbience();const target=G.fight.foes[0];target.hp=target.max;draw();controls();document.querySelectorAll('#choices button').forEach(e=>e.disabled=true);
-   const start=performance.now(),launch=1010,durations=[80,80,80,80,80,65,50,50,50,50,50,65],impact=launch+durations.slice(0,5).reduce((a,b)=>a+b,0),end=launch+durations.reduce((a,b)=>a+b,0);let hit=false,last=-1;
-   api.start=start;api.impact=impact;api.events.push({name:'sound',at:0});sfx('bowhit',1);
+   const start=performance.now(),launch=1010,durations=[25,25,25,25,30,25,20,20,20,20,25,30],impact=launch+durations.slice(0,5).reduce((a,b)=>a+b,0),end=launch+durations.reduce((a,b)=>a+b,0);let hit=false,last=-1;
+   api.start=start;api.impact=impact;api.events.push({name:'sound',at:0});sfx('bowdraw',1);window.play('bowimpact',sfxLevel('bowimpact',1),2000,.91);
    await new Promise(resolve=>{function render(){
     const elapsed=performance.now()-start;
     if(!hit&&elapsed>=impact){hit=true;target.hp-=6;draw();controls();document.querySelectorAll('#choices button').forEach(e=>e.disabled=true);api.events.push({name:'hit',at:elapsed})}
@@ -28,7 +28,7 @@
     const portrait=card.querySelector('.fpic'),ink=ctx.getImageData(0,0,Math.floor(portrait.offsetWidth*d),canvas.height).data;if(ink.some((v,i)=>i%4===3&&v))api.portraitInk=true;
     requestAnimationFrame(render);
    }render()});
-   await pause(Math.max(0,2200-(performance.now()-start)));
+   await pause(Math.max(0,1900-(performance.now()-start)));
   }finally{api.playing=false;UI.snd=0;controls()}
  }
  api.play=play;
