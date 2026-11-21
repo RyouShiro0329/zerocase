@@ -6,8 +6,46 @@
   "baseline_commit": "7e3fdcf77a6a3d9a4329b0374f0cc92430e873fc",
   "authorization": "主人核准最後碎散預覽，要求開始實作部署並記錄GPT工作流程",
   "deployment": {
-    "status": "準備部署，部署後未驗證",
-    "url": "https://ryoushiro0329.github.io/zerocase/"
+    "status": "已部署，正式網站驗證通過",
+    "url": "https://ryoushiro0329.github.io/zerocase/",
+    "source_commit": "65d635c951d11d0e5ac12832683c9d79f6177daf",
+    "deployed_at": "2026-11-21T19:52:31+08:00",
+    "verified_at": "2026-11-21T19:56:46+08:00",
+    "verification": {
+      "result": "通過",
+      "menu_version": "v0.45.0・Build 108",
+      "new_game": true,
+      "actions": [
+        "掀開窗簾往外看",
+        "把書桌拖過去頂住門",
+        "站穩，正面迎戰"
+      ],
+      "location": "三樓走廊",
+      "combat_loaded": true,
+      "console": {
+        "result": "通過",
+        "game_errors": 0,
+        "extension_errors": 24,
+        "note": "另列chrome-extension來源的metadata錯誤，不宣稱整個瀏覽器沒有錯誤"
+      },
+      "assets": {
+        "index.html": {
+          "result": "通過",
+          "sha256": "b94809bdf183482219af4fab403e9cf6ae79e24ff912e42bf3bf178e7de1a746",
+          "bytes": 871099
+        },
+        "fx/pierce-12.webp": {
+          "result": "通過",
+          "sha256": "17c567d870d0bdaba6b1b3065573d6922837ce6754d06f47205cf4dc7709fa37",
+          "bytes": 488828
+        },
+        "sfx/piercehit.mp3": {
+          "result": "通過",
+          "sha256": "08d10f87f121ed2b7d5c154cd5a8cc3c7fd654d732181def3887434256f4ea81",
+          "bytes": 17996
+        }
+      }
+    }
   },
   "design_rule_changes": [],
   "tests": {
@@ -57,6 +95,6 @@
     "attack_tools_total": 75
   },
   "handoff": "docs/PIERCE_VFX_v0.45.0.md",
-  "audit_at": "2026-11-21T19:52:05+08:00",
+  "audit_at": "2026-11-21T19:56:46+08:00",
   "source_commit": "5b4107ee48a9d2dc0aa754ce6976b05ec1d2396e"
 }
