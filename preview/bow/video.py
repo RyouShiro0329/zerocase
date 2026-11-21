@@ -9,7 +9,7 @@ for i,t in enumerate(starts):
     for j,gain in [(0,.86*.92*.85),(1,.86*.92*.8)]:
         name=f'a{i}{j}';delay=round((t+(.91 if j else 0))*1000);filters.append(f'[{1+j}:a]volume={gain},adelay={delay}:all=1[{name}]');names.append(f'[{name}]')
 duration=(frames[-1]['at']-frames[0]['at'])/1000+.04
-filters.append(''.join(names)+f'amix=inputs={len(names)}:normalize=0,apad,atrim=duration={duration}[a]')
+filters.append(''.join(names)+f'amix=inputs={len(names)}:normalize=0,asetpts=N/SR/TB,apad=pad_dur=0.5[a]')
 filters.append('[0:v]fps=30[v]')
-subprocess.run(['ffmpeg','-hide_banner','-loglevel','warning','-y','-f','concat','-safe','0','-i',str(r/'frames.ffconcat'),'-i','sfx/bowdraw.mp3','-i','sfx/bowimpact.mp3','-filter_complex',';'.join(filters),'-map','[v]','-map','[a]','-c:v','libx264','-crf','17','-pix_fmt','yuv420p','-c:a','aac','-b:a','160k','-movflags','+faststart',str(r/'bow-crossbow-preview.mp4')],check=True)
+subprocess.run(['ffmpeg','-hide_banner','-loglevel','warning','-y','-f','concat','-safe','0','-i',str(r/'frames.ffconcat'),'-i','sfx/bowdraw.mp3','-i','sfx/bowimpact.mp3','-filter_complex',';'.join(filters),'-map','[v]','-map','[a]','-c:v','libx264','-crf','17','-pix_fmt','yuv420p','-c:a','aac','-b:a','160k','-movflags','+faststart','-t',str(duration),str(r/'bow-crossbow-preview.mp4')],check=True)
 (r/'video-timing.json').write_text(json.dumps({'shotStarts':starts,'impactSourceOffset':.91,'audio':'原遊戲音檔依實際播放時鐘對時合成'},ensure_ascii=False,indent=2))
