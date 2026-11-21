@@ -36,11 +36,16 @@
     "multiplayer": {
       "result": "未測試",
       "reason": "未做正式多人實連；受控事件另驗證"
+    },
+    "local_browser": {
+      "result": "未測試",
+      "reason": "本機無Chromium執行檔，run_all.sh的瀏覽器與長路線無法啟動，改由雲端CI驗證"
     }
   },
   "assets": {
     "index.html": "e22d3e8d3bdb444ad0f122425e9c9be119555f9a7eb34a0ef22bbc8ca9a4e798",
     "fx/arrow-12.webp": "910e6224df30a3257b1d9dcf5e4c909326bdec81f1241fbd60004ca7cf5b3cc0",
     "sfx/crossbowshot.wav": "2eb69134e1b5959e582ef2c1160607f5c5cc7ba2cbc69f49d2691ca24bc2210c"
-  }
+  },
+  "source_commit": "f841dd3b8a50966bb43f373a75a4fc0ba5f19ca4"
 }
