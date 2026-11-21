@@ -652,6 +652,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 #foes .foe.dead.zc-slash-react{filter:none;opacity:1}
 #foes .zc-blunt-react .hpb{transform:translateX(var(--zc-blunt-x,0px))}
 #foes .foe.dead.zc-blunt-react{filter:none;opacity:1}
+#foes .zc-pierce-fx{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
 #foes .zc-blunt-fx{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
 #foes .zc-slash-fx{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
 .flt{position:absolute;left:calc(50% + var(--pw) / 2);top:34%;z-index:4;pointer-events:none;white-space:nowrap;font:700 1.15rem var(--label);letter-spacing:.04em;text-shadow:0 1px 2px #000,0 0 6px #000,0 0 10px rgba(0,0,0,.8);animation:fltUp 1.15s ease-out both}
@@ -688,7 +689,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.44.1", "b": 107, "t": "2026-11-21T17:50:26+08:00"};
+const ZC_VER={"v": "0.45.0", "b": 108, "t": "2026-11-21T19:37:49+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -5382,7 +5383,7 @@ async function attack(p,h,sk,ti,counter,csk){
         const TX=lethal?(humK?KBTXT:KILLTXT):HITTXT;
         out(headHit?`子彈正中${x.n}的額頭。`:pick(TX[wdt[0]]||TX.blunt)+(crit?'抓準了破綻，這一下特別重。':''),'');
         const dd=applyDmg(x,d,wdt,p,false,(S&&sk==='pierce')||w.ap);
-        if(x.lastDt==='blunt')await bluntAttack(x);else if(melee){if(x.lastDt==='slash')await slashAttack(x);else if(x.lastDt==='pierce')snd('piercehit',.9,1200);else snd('knife',.9,900)}
+        if(x.lastDt==='blunt')await bluntAttack(x);else if(melee){if(x.lastDt==='slash')await slashAttack(x);else if(x.lastDt==='pierce'){if(w.sig)snd('piercehit',.9,1200);else await pierceAttack(x)}else snd('knife',.9,900)}
         if(melee&&FT(x).human){x.contact=1;if(x.type==='oldhunter')x.hcov=0;if(x.charge&&['collector','oldhunter','quickdraw','arsonist'].includes(x.type)){x.charge=null;out(x.type==='arsonist'?`${x.n}被貼身打中，點著的瓶子摔在地上燒成一灘，這一瓶廢了。`:`${x.n}被貼身打中，瞄準被打斷了。`,'good',true)}}
         if(sk==='scatter'){const o=aliveF().find(y=>y!==x);if(o){applyDmg(o,Math.ceil(d/2),wdt,p,true);out(`散開的彈丸也打中了${o.n}。`,'good',true);if(o.hp<=0)await kill(o,p)}}
         if(sk==='pierce'&&(w.kind==='gun'||w.kind==='ranged')){const o=aliveF().find(y=>y!==x);if(o){applyDmg(o,d,wdt,p,true,true);out(`貫穿過去，連後面的${o.n}也一起打中。`,'good',true);if(o.hp<=0)await kill(o,p)}}
@@ -6080,6 +6081,7 @@ async function pump(){qRun=true;
       else if(o.t==='s'){const ms=sfx(o.d[0],o.d[1],o.d[2]||undefined);if(o.d[0]==='bowhit'||o.d[0]==='bowmiss')await wait(ms||1500)}
       else if(o.t==='slash'){await playSlashHit(o.d,true,o.seq)}
       else if(o.t==='blunt'){await playBluntHit(o.d,true,o.seq)}
+      else if(o.t==='pierce'){await playPierceHit(o.d,true,o.seq)}
       else if(o.t==='c'){await flush();await levelCard(o.d)}
       else if(o.t==='enc'){await flush();await showEnc(o.d)}
       else if(o.t==='cc'){await flush();await showChapter(o.d)}
@@ -6382,6 +6384,43 @@ async function playBluntHit(d,remote=false,seq=0){
 }
 async function bluntAttack(f){const d={id:f.id,state:snap()};E('blunt',d);await playBluntHit(d)}
 loadBluntVfx();
+/* v0.45.0 一般近戰穿刺：核准12格圖集，向上攻擊血條，後六格碎散；音效沿用原事件。 */
+const PIERCE_TIMING={frames:Array(12).fill(60),impact:240,total:720};
+const PIERCE_VFX={image:null,ready:null,active:null};
+function pierceFrame(ms){return Number.isFinite(ms)&&ms>=0&&ms<PIERCE_TIMING.total?Math.floor(ms/60):-1}
+function loadPierceVfx(){if(typeof Image!=='function')return Promise.resolve(null);if(!PIERCE_VFX.ready){const img=PIERCE_VFX.image=new Image();PIERCE_VFX.ready=new Promise(ok=>{img.onload=()=>ok(img);img.onerror=()=>ok(null)});img.src='fx/pierce-12.webp'}return PIERCE_VFX.ready}
+function clearPierceVfx(){document.querySelectorAll('#foes .zc-pierce-fx').forEach(e=>e.remove())}
+function renderPierceVfx(fx){
+  if(PIERCE_VFX.active!==fx)return;
+  const elapsed=performance.now()-fx.t;
+  if(elapsed>=PIERCE_TIMING.total||document.hidden||!G||G.rid!==fx.rid||G.fight!==fx.battle){clearPierceVfx();return}
+  const card=document.querySelector('#foes .foe[data-id="'+fx.id+'"]');
+  if(card){let canvas=card.querySelector('.zc-pierce-fx');if(!canvas){canvas=document.createElement('canvas');canvas.className='zc-pierce-fx';canvas.setAttribute('aria-hidden','true');card.appendChild(canvas)}
+    const w=card.clientWidth,h=card.clientHeight,d=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.round(w*d);canvas.height=Math.round(h*d);
+    const ctx=canvas.getContext('2d');if(ctx){ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,w,h);
+      const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches,f=reduced?5:pierceFrame(elapsed),fin=card.querySelector('.fin'),hp=card.querySelector('.fhp .hpb');
+      let cx=w*.6,cy=h*.35;if(hp){cx=hp.offsetWidth*.52;cy=hp.offsetHeight/2;for(let e=hp;e&&e!==card;e=e.offsetParent){cx+=e.offsetLeft;cy+=e.offsetTop}}
+      if(fin){ctx.beginPath();ctx.rect(fin.offsetLeft,0,fin.clientWidth,h);ctx.clip()}
+      fx.frame=f;
+      const dh=Math.min(w*.73,h*2.15)*282/432*2.4,dw=dh*270/520,approach=Math.min(1,elapsed/240),push=reduced?0:(1-approach*approach)*h*.95,tip=f<4?[375,280,205,185][f]/520:180/520;
+      ctx.globalAlpha=reduced?Math.max(0,1-elapsed/PIERCE_TIMING.total):1;
+      if(f>=0)ctx.drawImage(PIERCE_VFX.image,f%4*270,Math.floor(f/4)*520,270,520,cx-dw/2,cy+push-dh*tip,dw,dh);
+    }
+  }
+  fx.raf=requestAnimationFrame(()=>renderPierceVfx(fx));
+}
+async function playPierceHit(d,remote=false,seq=0){
+  if(!d||!G||!d.state||G.rid!==d.state.rid||G.node!==d.state.node||G.clock!==d.state.clock||!G.fight||remote&&(!Number.isSafeInteger(seq)||seq<=SLASH_VFX.stateSeq))return;
+  const battle=G.fight,valid=()=>G&&G.rid===d.state.rid&&G.fight===battle;
+  const impact=()=>{if(!valid())return;if(remote){if(seq<=SLASH_VFX.stateSeq)return;SLASH_VFX.stateSeq=seq;setG(d.state)}else{push();draw()}};
+  const img=await Promise.race([loadPierceVfx(),wait(400).then(()=>null)]);if(!valid())return;
+  if(!img||!img.naturalWidth||typeof requestAnimationFrame!=='function'||document.hidden||FAST){impact();return}
+  const fx={id:d.id,rid:G.rid,battle,t:performance.now(),raf:0};PIERCE_VFX.active=fx;
+  try{renderPierceVfx(fx);await wait(Math.max(0,PIERCE_TIMING.impact-(performance.now()-fx.t)));impact();if(remote&&G&&G.rid===fx.rid)fx.battle=G.fight;await wait(Math.max(0,PIERCE_TIMING.total-(performance.now()-fx.t)))}
+  finally{cancelAnimationFrame(fx.raf);if(PIERCE_VFX.active===fx){PIERCE_VFX.active=null;clearPierceVfx()}}
+}
+async function pierceAttack(f){await Promise.race([loadPierceVfx(),wait(400).then(()=>null)]);const d={id:f.id,state:snap()};snd('piercehit',.9,1200);E('pierce',d);await playPierceHit(d)}
+loadPierceVfx();
 const HPA={},HPM=260,HPG0=320,HPG1=1000;
 const foeHk=f=>'f'+f.id+'|'+f.n+'|'+f.max;
 /* v0.30.0 敵人卡浮字（主人 2026-11-17）：生命掉了浮出紅色「−N」，被打空浮出白色「未命中」。

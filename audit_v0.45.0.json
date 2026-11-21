@@ -1,0 +1,62 @@
+{
+  "version": "0.45.0",
+  "build": 108,
+  "created_at": "2026-11-21T19:37:49+08:00",
+  "timezone": "Asia/Taipei",
+  "baseline_commit": "7e3fdcf77a6a3d9a4329b0374f0cc92430e873fc",
+  "authorization": "主人核准最後碎散預覽，要求開始實作部署並記錄GPT工作流程",
+  "deployment": {
+    "status": "準備部署，部署後未驗證",
+    "url": "https://ryoushiro0329.github.io/zerocase/"
+  },
+  "design_rule_changes": [],
+  "tests": {
+    "node": {
+      "result": "通過",
+      "pass": 219,
+      "todo": 1
+    },
+    "existing_tools": {
+      "result": "通過",
+      "pass": 59
+    },
+    "pierce_vfx": {
+      "result": "通過",
+      "pass": 16
+    },
+    "browser": {
+      "result": "通過",
+      "pierce_checks": 19,
+      "audio_checks": 17,
+      "game_errors": 0,
+      "views": [
+        "844x390",
+        "393x690"
+      ],
+      "visual_review": "通過；兩尺寸截圖已親眼檢查，特效位置在血條且排除立繪，主要文字與操作完整"
+    },
+    "phone": "待主人實機驗收",
+    "network": "未測試（正式多人實連）",
+    "regression": {
+      "result": "通過",
+      "smoke_steps_per_view": 40,
+      "views": 3,
+      "long_route_actions": 220,
+      "nodes": 66,
+      "areas": 16
+    },
+    "ci_runs": [
+      44900358177,
+      44900358217
+    ],
+    "local_browser": {
+      "result": "未測試",
+      "reason": "本機瀏覽器受限；同版本雲端完整驗收通過"
+    },
+    "asset_pixel_match": "通過：12格透明度與所有可見像素均與核准預覽一致",
+    "attack_tools_total": 75
+  },
+  "handoff": "docs/PIERCE_VFX_v0.45.0.md",
+  "audit_at": "2026-11-21T19:52:05+08:00",
+  "source_commit": "5b4107ee48a9d2dc0aa754ce6976b05ec1d2396e"
+}

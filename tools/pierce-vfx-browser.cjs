@@ -1,0 +1,23 @@
+const {chromium}=require('playwright'),fs=require('fs'),assert=require('node:assert/strict');
+const URL=process.env.ZC_QA_URL||'http://localhost:8768/index.html',OUT='qa-output/pierce-vfx';
+const report={checks:[],errors:[],phone:'待主人實機驗收',network:'未測試（正式多人網路實連）'};
+function check(name,ok){report.checks.push({name,result:ok?'通過':'失敗'});assert.ok(ok,name)}
+(async()=>{fs.mkdirSync(OUT,{recursive:true});const b=await chromium.launch();
+try{for(const [width,height] of [[844,390],[393,690]]){
+ const ctx=await b.newContext({viewport:{width,height},hasTouch:true}),p=await ctx.newPage(),tag=width+'x'+height;p.on('pageerror',e=>report.errors.push(e.message));
+ await p.addInitScript(()=>{localStorage.setItem('zc5-meta',JSON.stringify({shards:0,unlocked:['maggie','liao'],runs:0,clears:0,got:[]}));localStorage.setItem('zc5-ui',JSON.stringify({snd:0,bgm:0,spd:.3,orient:'auto'}));setInterval(()=>{for(const id of ['dice','lvcard','enc']){const e=document.getElementById(id);if(e&&!e.hidden)e.click()}},70)});
+ await p.goto(URL);await p.click('#gateNo');for(const s of ['[data-cat="story"]','[data-rsel="maggie"]','[data-m="rpick"]','[data-m="cdone"]','[data-m="solo"]','[data-m="go"]'])await p.click(s);
+ await p.waitForFunction(()=>G&&G.phase==='node'&&!busy);await p.evaluate(()=>{const p=me();p.st={STR:2,AGI:2,CON:2,PER:1,INT:1,CHA:0};p.gear=[];p.hand={R:null,L:null};const g=newGear('screwdriver');p.gear.push(g);equip(p,g.u,'R');window.__encounter=startFight({n:2,types:['infected'],noMut:1,mode:'first'})});
+ await p.waitForFunction(()=>G&&G.fight&&myTurn()&&!busy&&!G.busy,null,{timeout:60000});
+ await p.evaluate(async()=>{for(const f of G.fight.foes){f.hp=f.max=100;f.aff=null;f.stun=50}UI.partyCards=0;draw();Math.random=()=>.5;UI.snd=1;audio();await loadSounds();window.__frames=[];window.__sounds=[];window.__impacts=[];const render=renderPierceVfx;renderPierceVfx=fx=>{render(fx);const card=document.querySelector('#foes .foe[data-id="'+fx.id+'"]'),canvas=card?.querySelector('.zc-pierce-fx');if(!canvas)return;const pw=Math.floor(card.querySelector('.fpic').offsetWidth*canvas.width/card.clientWidth),data=canvas.getContext('2d').getImageData(0,0,pw,canvas.height).data;__frames.push({frame:fx.frame,portraitInk:data.some((v,i)=>i%4===3&&v>0),id:fx.id})};const snd0=snd;snd=(k,...args)=>{if(k==='piercehit')__sounds.push(performance.now());return snd0(k,...args)};const push0=push;push=(...args)=>{if(PIERCE_VFX.active)__impacts.push(performance.now()-PIERCE_VFX.active.t);return push0(...args)};await document.fonts.ready;});
+ check(tag+'圖集正確解碼',await p.evaluate(()=>PIERCE_VFX.image.naturalWidth===1080&&PIERCE_VFX.image.naturalHeight===1560));
+ await p.evaluate(()=>{window.__before=me().gear[0].dur;window.__attack=attack(me(),'R',null,0)});await p.waitForFunction(()=>!!PIERCE_VFX.active);await p.waitForTimeout(265);await p.screenshot({path:OUT+'/hit-'+tag+'.png'});await p.evaluate(()=>__attack);
+ const r=await p.evaluate(()=>({frames:__frames,sounds:__sounds.length,impacts:__impacts,hp:G.fight.foes[0].hp,dur:me().gear[0].dur,before:__before,clean:!PIERCE_VFX.active&&!document.querySelector('.zc-pierce-fx')}));
+ check(tag+'一次原音效與原傷害3',r.sounds===1&&r.hp===97&&r.dur===r.before-1);check(tag+'十二格完整且只有目標',new Set(r.frames.map(x=>x.frame)).size===12&&r.frames.every(x=>x.id===0));check(tag+'沒有畫到立繪',r.frames.every(x=>!x.portraitInk));check(tag+'血條命中時間240ms',r.impacts.some(t=>Math.abs(t-240)<70));check(tag+'演出清除',r.clean);
+ check(tag+'主要操作按鈕完整',await p.locator('#choices button').evaluateAll(bs=>bs.slice(0,3).every(e=>{const r=e.getBoundingClientRect(),s=document.querySelector('#stage').getBoundingClientRect();return r.width>0&&r.left>=s.left-1&&r.right<=s.right+1&&r.top>=s.top-1&&r.bottom<=s.bottom+1})));
+ await p.evaluate(()=>{UI.snd=0;const state=snap();state.fight.foes[0].hp-=3;enqueue({t:'pierce',seq:100,d:{id:0,state}})});await p.waitForFunction(()=>!qRun&&!PIERCE_VFX.active);check(tag+'遠端事件更新血量',await p.evaluate(()=>G.fight.foes[0].hp===94));
+ await p.emulateMedia({reducedMotion:'reduce'});await p.evaluate(()=>{window.__fx=playPierceHit({id:0,state:snap()})});await p.evaluate(()=>__fx);check(tag+'減少動態與靜音仍完成清除',await p.evaluate(()=>!PIERCE_VFX.active&&!document.querySelector('.zc-pierce-fx')));
+ await ctx.close();}
+ check('頁面沒有程式錯誤',report.errors.length===0);
+}finally{await b.close();fs.writeFileSync(OUT+'/report.json',JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2))}
+})().catch(e=>{console.error(e);process.exit(1)});

@@ -104,3 +104,6 @@
 - `VERSIONS.md` 的 commit 欄：先 commit，再把 hash 填回去，重算 MANIFEST，再 commit 一次。
 - 新增文件要加進 `MANIFEST.json` 的 files，再跑 `python3 verify_release.py`。
 - 給主人試玩：分支 zip，網址格式是 `https://github.com/RyouShiro0329/zerocase/archive/refs/heads/<分支>.zip`。
+
+## 2026-11-21 攻擊特效預覽與部署流程
+GPT 的完整操作流程見 `docs/RULES_GPT.md` 第六節。先用目前遊戲介面與原音效展示，依主人確認的版本局部修改，明確授權後才整合部署。重畫不代表可改風格或方向；已認可項目必須保留。預覽與正式實作的素材、方向、尺寸、收尾需一致，並如實列出未完成的驗收。
