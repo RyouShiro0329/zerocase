@@ -1,0 +1,44 @@
+name: 鈍擊十二格視覺驗收
+on:
+  pull_request:
+    branches: [main]
+    paths: [index.html, "tools/blunt-hit*", ".github/workflows/blunt-visual-qa.yml"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  blunt-visual:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - name: 鈍擊規則與十二格測試
+        run: node --test tools/blunt-hit.test.cjs
+      - name: 兩種手機尺寸與遊戲實際演出
+        run: |
+          python3 -m http.server 8768 >/tmp/zc-blunt-http.log 2>&1 &
+          NODE_PATH=$(npm root -g) ZC_QA_OUT=qa-output/blunt-ink node tools/blunt-hit-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: blunt-ink-qa
+          path: qa-output/blunt-ink
+      - name: 保存兩種手機遊戲截圖到候選分支
+        if: success() && github.event_name == 'pull_request'
+        run: |
+          mkdir -p docs/blunt/v0.44.2
+          cp qa-output/blunt-ink/hit-844x390.png qa-output/blunt-ink/hit-393x690.png docs/blunt/v0.44.2/
+          cp qa-output/blunt-ink/report.json docs/blunt/v0.44.2/QA.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/blunt/v0.44.2/
+          git diff --cached --quiet || { git commit -m '驗收v0.44.2：鈍擊雙尺寸實際遊戲畫面'; git push origin HEAD:${{ github.head_ref }}; }
