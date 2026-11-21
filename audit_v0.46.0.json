@@ -1,0 +1,59 @@
+{
+  "version": "0.46.0",
+  "build": 111,
+  "created_at": "2026-11-22T02:59:59+08:00",
+  "timezone": "Asia/Taipei",
+  "baseline_commit": "d4d23674ab3d54be1661c01cd6d0d2568d14cd35",
+  "approved_preview_commit": "939036563007eab5b6e195df6c8fa6937a7992f7",
+  "authorization": "主人：好就這樣了 開始部署",
+  "deployment": {
+    "status": "部署後未驗證",
+    "url": "https://ryoushiro0329.github.io/zerocase/"
+  },
+  "changes": [
+    "核准弓弩十二格向上射入血條、細銳紅黑碎散",
+    "弓放弦疊加發射、弩不拉弦，核准音量1.5／0.55",
+    "既有傷害、耗彈、上弦與技能規則不變",
+    "同步序號、靜音、素材失敗、減少動態與取消演出",
+    "Erdie來源、CC BY 4.0及改作署名"
+  ],
+  "design_rule_changes": [],
+  "tests": {
+    "node": {
+      "result": "通過",
+      "pass": 219,
+      "todo": 1
+    },
+    "attack_tools": {
+      "result": "通過",
+      "pass": 90
+    },
+    "cloud": {
+      "result": "未測試",
+      "reason": "等候CI結果"
+    },
+    "phone": "待主人實機驗收",
+    "multiplayer": {
+      "result": "未測試",
+      "reason": "未做正式多人實連；受控事件另驗證"
+    },
+    "local_browser": {
+      "result": "未測試",
+      "reason": "本機無Chromium執行檔，run_all.sh的瀏覽器與長路線無法啟動，改由雲端CI驗證"
+    },
+    "cloud_attempts": [
+      {
+        "run_id": 44939375726,
+        "result": "失敗",
+        "reason": "新驗收腳本以先制開戰，未清除既有偷襲必中，落空情境實際命中；僅修驗收前置條件，不改遊戲規則",
+        "code_change": false
+      }
+    ]
+  },
+  "assets": {
+    "index.html": "e22d3e8d3bdb444ad0f122425e9c9be119555f9a7eb34a0ef22bbc8ca9a4e798",
+    "fx/arrow-12.webp": "910e6224df30a3257b1d9dcf5e4c909326bdec81f1241fbd60004ca7cf5b3cc0",
+    "sfx/crossbowshot.wav": "2eb69134e1b5959e582ef2c1160607f5c5cc7ba2cbc69f49d2691ca24bc2210c"
+  },
+  "source_commit": "f841dd3b8a50966bb43f373a75a4fc0ba5f19ca4"
+}
