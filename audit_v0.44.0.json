@@ -2,12 +2,46 @@
   "version": "0.44.0",
   "build": 106,
   "created_at": "2026-11-21T17:19:33+08:00",
-  "audit_at": "2026-11-21T17:31:01+08:00",
+  "audit_at": "2026-11-21T17:34:38+08:00",
   "timezone": "Asia/Taipei",
   "baseline_commit": "b3c79d3910ae19a58631dac75f6d48862b70242a",
   "deployment": {
-    "status": "準備部署，部署後未驗證",
-    "url": "https://ryoushiro0329.github.io/zerocase/"
+    "status": "已部署，正式網站驗證通過",
+    "url": "https://ryoushiro0329.github.io/zerocase/",
+    "source_commit": "1f45811a434c07dfecefa756ae20d4cba2ae3400",
+    "confirmed_online_at": "2026-11-21T17:32:44+08:00",
+    "verified_at": "2026-11-21T17:34:38+08:00",
+    "verification": {
+      "result": "通過",
+      "menu_version": "v0.44.0・Build 106",
+      "new_game": true,
+      "actions": [
+        "掀開窗簾往外看",
+        "把書桌拖過去頂住門",
+        "站穩，正面迎戰"
+      ],
+      "location": "三樓走廊",
+      "combat_loaded": true,
+      "console": {
+        "result": "通過",
+        "game_errors": 0,
+        "extension_errors": 27,
+        "extension_error_message": "Error sending browser metadata to extension: Object",
+        "note": "瀏覽器擴充套件 content-script.bundle.js 的錯誤，未列為遊戲錯誤，也未宣稱整個瀏覽器完全無錯誤"
+      },
+      "assets": {
+        "index.html": {
+          "result": "通過",
+          "sha256": "c7b41709a32b3ce2e28e48c8568434dcffce3dd799c3479f5b72d53fd0f1dfd8",
+          "bytes": 867610
+        },
+        "fx/blunt-12.webp": {
+          "result": "通過",
+          "sha256": "72a36dd093421f94b159af83934813f5cc8f3269ad19086d1326e48453065344",
+          "bytes": 804358
+        }
+      }
+    }
   },
   "changes": [
     "鈍擊實際命中在目標敵人卡播放12格特效",
@@ -46,7 +80,10 @@
     },
     "long_route": {
       "result": "通過",
-      "actions": 220
+      "actions": 220,
+      "nodes": 78,
+      "regions": 18,
+      "elapsed_seconds": 246
     },
     "phone": "待主人實機驗收",
     "multiplayer_network": "未測試（未進行正式多人實連；已驗證接收佇列與過期事件）"
