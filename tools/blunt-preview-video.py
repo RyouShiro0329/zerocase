@@ -8,6 +8,7 @@ frames = capture['frames']
 lines = []
 for i, frame in enumerate(frames):
     lines.append("file '" + str(root / frame['file']) + "'")
+    lines.append('option framerate 1000')
     duration = (frames[i+1]['at']-frame['at'])/1000 if i+1<len(frames) else .04
     lines.append(f'duration {duration:.6f}')
 (root / 'frames.ffconcat').write_text('\n'.join(lines)+'\n')

@@ -34,3 +34,6 @@ jobs:
             qa-output/blunt-redesign/*.mp4
             qa-output/blunt-redesign/*.png
             qa-output/blunt-redesign/report.json
+            qa-output/blunt-redesign/frames.json
+            qa-output/blunt-redesign/audio.webm
+            qa-output/blunt-redesign/frames/
