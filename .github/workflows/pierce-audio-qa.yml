@@ -27,6 +27,13 @@ jobs:
         run: |
           python3 -m http.server 8768 >/tmp/zerocase-pierce-http.log 2>&1 &
           NODE_PATH=$(npm root -g) node tools/pierce-audio-browser.cjs
+      - name: 十二格穿刺邏輯與手機畫面
+        run: |
+          node --test tools/pierce-vfx.test.cjs
+          NODE_PATH=$(npm root -g) node tools/pierce-vfx-browser.cjs
+      - name: 停止專項伺服器
+        if: always()
+        run: pkill -f "^python3 -m http.server 8768$" || true
       - name: 既有完整回歸測試
         if: always()
         run: bash tests/run_all.sh
