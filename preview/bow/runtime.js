@@ -13,7 +13,7 @@
   try{
    UI.snd=1;await audioReady();stopSfx();stopAmbience();const target=G.fight.foes[0];target.hp=target.max;draw();controls();document.querySelectorAll('#choices button').forEach(e=>e.disabled=true);
    const start=performance.now(),launch=mode==='bow'?1010:100,durations=[25,25,25,25,30,25,20,20,20,20,25,30],impact=launch+durations.slice(0,5).reduce((a,b)=>a+b,0),end=launch+durations.reduce((a,b)=>a+b,0);let hit=false,last=-1;
-   api.start=start;api.impact=impact;api.events.push({name:'sound',source:mode==='bow'?'bowdraw':'crossbowshot',at:0});if(mode==='bow'){sfx('bowdraw',1);window.play('crossbowshot',sfxLevel('bowdraw',1),1000,1.01)}else window.play('crossbowshot',sfxLevel('bowdraw',1),1000);window.play('bowimpact',sfxLevel('bowimpact',1),2000,mode==='bow'?.91:0);
+   api.start=start;api.impact=impact;api.events.push({name:'sound',source:mode==='bow'?'bowdraw':'crossbowshot',at:0});if(mode==='bow'){sfx('bowdraw',1);window.play('crossbowshot',sfxLevel('bowdraw',1.5),1000,1.01)}else window.play('crossbowshot',sfxLevel('bowdraw',1.5),1000);window.play('bowimpact',sfxLevel('bowimpact',.55),2000,mode==='bow'?.91:0);
    await new Promise(resolve=>{function render(){
     const elapsed=performance.now()-start;
     if(!hit&&elapsed>=impact){hit=true;target.hp-=6;draw();controls();document.querySelectorAll('#choices button').forEach(e=>e.disabled=true);api.events.push({name:'hit',at:elapsed})}

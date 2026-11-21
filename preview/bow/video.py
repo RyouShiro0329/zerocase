@@ -7,11 +7,11 @@ for i,f in enumerate(frames):
 (r/'frames.ffconcat').write_text('\n'.join(lines)+'\n');filters=[];names=[];starts=[max(0,(shot['at']-frames[0]['at'])/1000) for shot in d['shots']]
 for i,t in enumerate(starts):
     bow=d['shots'][i]['mode']=='bow'
-    for j,gain in [(0,.86*.92*.85),(1,.86*.92*.8)]:
+    for j,gain in [(0,.86*.92*.85*(1 if bow else 1.5)),(1,.86*.92*.8*.55)]:
         name=f'a{i}{j}';delay=round((t+(.91 if j and bow else 0))*1000);source=(1 if bow else 3) if j==0 else 2;filters.append(f'[{source}:a]volume={gain},adelay={delay}:all=1[{name}]');names.append(f'[{name}]')
 for i,t in enumerate(starts):
     if d['shots'][i]['mode']=='bow':
-        name=f'layer{i}';filters.append(f'[3:a]volume={.86*.92*.85},adelay={round((t+1.01)*1000)}:all=1[{name}]');names.append(f'[{name}]')
+        name=f'layer{i}';filters.append(f'[3:a]volume={.86*.92*.85*1.5},adelay={round((t+1.01)*1000)}:all=1[{name}]');names.append(f'[{name}]')
 duration=(frames[-1]['at']-frames[0]['at'])/1000+.04
 filters.append(''.join(names)+f'amix=inputs={len(names)}:normalize=0,asetpts=N/SR/TB,apad=pad_dur=0.5[a]')
 filters.append('[0:v]fps=30[v]')
