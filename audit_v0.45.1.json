@@ -27,11 +27,36 @@
       "pass": 76
     },
     "browser": {
-      "result": "未測試",
-      "reason": "本機瀏覽器受限，待雲端CI"
+      "result": "通過",
+      "pierce_including_dar_checks": 27,
+      "audio_checks": 17,
+      "game_errors": 0,
+      "views": [
+        "844x390",
+        "393x690"
+      ],
+      "visual_review": "通過；兩尺寸妲爾撕咬截圖已親眼檢查，血條特效、文字與主要操作完整"
     },
     "phone": "待主人實機驗收",
-    "network": "未測試（正式多人實連）"
+    "network": "未測試（正式多人實連）",
+    "regression": {
+      "result": "通過",
+      "smoke_steps_per_view": 40,
+      "views": 3,
+      "long_route_actions": 220,
+      "nodes": 75,
+      "areas": 18
+    },
+    "ci_runs": [
+      44902371780,
+      44902371738
+    ],
+    "local_browser": {
+      "result": "未測試",
+      "reason": "本機瀏覽器受限；同來源雲端完整驗收通過"
+    }
   },
-  "handoff": "docs/DAR_PIERCE_FIX_v0.45.1.md"
+  "handoff": "docs/DAR_PIERCE_FIX_v0.45.1.md",
+  "audit_at": "2026-11-21T20:17:09+08:00",
+  "source_commit": "2e3e809a9942049d811b95b9a2cf60a104747d50"
 }
