@@ -293,9 +293,9 @@
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
     "更新說明.txt": "0a325a287291e074320347b21ea0babda3c9f69e3e67762f269f9058a5da47b1",
-    "audit_v0.46.1.json": "184ad8d28d096a73a7a96ce92f3c0b62ec5041323a234e7f3bcd6935bc97e8f6",
+    "audit_v0.46.1.json": "d6064b33ede5b19ca06a0f2aac163d8a02bd64d4204c70fbd06abcb5c075fee5",
     "tools/remove-dodge.test.cjs": "29e37cac24f6eb4fb62508b49955280cd0222956c3dba1517f10be99ec99416e",
-    "tools/remove-dodge-browser.cjs": "dfd6e2e3de4d2652e9450d0ea0dd15dc7100a56e5abe1dff80b3a77701eeb111",
+    "tools/remove-dodge-browser.cjs": "db6719616d9b8596bc5f025d5087b5f12c6847f5f13c010af79a8771a2e972c3",
     ".github/workflows/remove-dodge-qa.yml": "84e6436c9fc64ec03f77c557114c9c3e1623f27e9e95665100ff45e0d7ceec24"
   },
   "deployed_at": "2026-11-22T03:19:53+08:00",
