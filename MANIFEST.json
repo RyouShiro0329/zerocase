@@ -2,7 +2,7 @@
   "version": "0.44.1",
   "build": 107,
   "created_at": "2026-11-21T17:50:26+08:00",
-  "deployment": "準備部署，部署後未驗證",
+  "deployment": "已部署，正式網站驗證通過",
   "files": {
     ".github/workflows/evacuation-qa.yml": "7613f1f262996c8720b5d27573ac58d90822e2e46239cfed1053bd0c7fe90810",
     ".github/workflows/pierce-audio-qa.yml": "f665f7da3d7a94bd3be25a9f4322d6d663ec27a7d91b3026e329911d7efc27e2",
@@ -22,7 +22,7 @@
     "audit_v0.36.1.json": "6e93c419a481c929acd017cbf8c2e665c806a9a91a17cb8d1168256d637c1a1f",
     "audit_v0.37.2.json": "2227af2154b262ad1e3b97b083ab1d48652f27857060b3c93da212cd6fdae09d",
     "audit_v0.44.0.json": "07b7fa5af5f6505006c04bf36b6dbb6bb112958250c55f22c670d30d8278de66",
-    "audit_v0.44.1.json": "2da0670b765d14d1c017950efbbef81a4efeedcaa692edfbdc3c4f10951607a4",
+    "audit_v0.44.1.json": "9fb41915801f7cfba2d861a4f9c547cd6947599720b6953711ef72c8451a94bb",
     "docs/AI_WORKFLOW.md": "ec92bec5fbb7a51ec30a54657ddd43fe3cdcfd8bbcb7f7114ec6536bbcf1b45f",
     "docs/BLUNT_FIX_v0.44.1.md": "16871f95404bb1880a6f20b9be19392cbd395d29e17f31f7cad17d4174da694f",
     "docs/BLUNT_VFX_v0.44.0.md": "7e6eaf67c78b7913e867cff5e9c2820a1122af82310047a15ed8faaf93b63a0e",
@@ -277,6 +277,6 @@
     "tools/slash-hit.test.cjs": "3751b72598f28f9f7c80873bf0348220fb27a134e8766b0faf3f430b6d5cd970",
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "8fe2c85b3d423ab9aa12e89f0eb0fabb66015a9bffcfefbdeff41bd5c5ad52eb"
+    "更新說明.txt": "eed87e7001245bd6b231b461e3c07f3aa72bb9a0a4d3b1b68f69699929f9d08e"
   }
 }

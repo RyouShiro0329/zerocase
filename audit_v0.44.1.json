@@ -2,13 +2,52 @@
   "version": "0.44.1",
   "build": 107,
   "created_at": "2026-11-21T17:50:26+08:00",
-  "audit_at": "2026-11-21T17:57:32+08:00",
+  "audit_at": "2026-11-21T18:00:57+08:00",
   "timezone": "Asia/Taipei",
   "baseline_commit": "2aa7cc42c9c6c9f2c2e4ac0531134782839a42a4",
   "authorization": "主人本輪指示：恢復 然後直接部署；包含恢復音效與特效移到血條",
   "deployment": {
-    "status": "準備部署，部署後未驗證",
-    "url": "https://ryoushiro0329.github.io/zerocase/"
+    "status": "已部署，正式網站驗證通過",
+    "url": "https://ryoushiro0329.github.io/zerocase/",
+    "source_commit": "c6904ffe43c70b906decaee3743ac2443b27dbce",
+    "verified_at": "2026-11-21T18:00:57+08:00",
+    "verification": {
+      "result": "通過",
+      "menu_version": "v0.44.1・Build 107",
+      "new_game": true,
+      "actions": [
+        "掀開窗簾往外看",
+        "把書桌拖過去頂住門",
+        "站穩，正面迎戰"
+      ],
+      "location": "三樓走廊",
+      "combat_loaded": true,
+      "console": {
+        "result": "通過",
+        "game_errors": 0,
+        "extension_errors": 41,
+        "scope_since": "2026-11-21T17:58:20+08:00",
+        "extension_error_message": "Error sending browser metadata to extension: Object",
+        "note": "瀏覽器擴充套件來源的錯誤另列；未宣稱整個瀏覽器完全沒有錯誤"
+      },
+      "assets": {
+        "index.html": {
+          "result": "通過",
+          "sha256": "459e4f2cd13881e7c570e6a0ef29dd95ca0affe2f25915082ebffbb1ba51c256",
+          "bytes": 867266
+        },
+        "sfx/fist.mp3": {
+          "result": "通過",
+          "sha256": "e820c711f82a67c246ac299338c8248fa838a7f5626f12b9733fef21fc98939f",
+          "bytes": 8404
+        },
+        "fx/blunt-12.webp": {
+          "result": "通過",
+          "sha256": "72a36dd093421f94b159af83934813f5cc8f3269ad19086d1326e48453065344",
+          "bytes": 804358
+        }
+      }
+    }
   },
   "changes": [
     "恢復既有sfx/fist.mp3，原檔與音量參數不變",
