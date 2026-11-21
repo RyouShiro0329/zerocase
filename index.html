@@ -688,7 +688,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.44.1", "b": 107, "t": "2026-11-21T17:50:26+08:00"};
+const ZC_VER={"v": "0.44.2", "b": 108, "t": "2026-11-21T18:32:35.821+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -6350,21 +6350,81 @@ const BLUNT_VFX={image:null,ready:null,active:null};
 function bluntFrame(ms){if(!Number.isFinite(ms)||ms<0)return -1;let end=0;for(let f=0;f<12;f++){end+=BLUNT_TIMING.frames[f];if(ms<end)return f}return -1}
 function loadBluntVfx(){if(typeof Image!=='function')return Promise.resolve(null);if(!BLUNT_VFX.ready){const img=BLUNT_VFX.image=new Image();BLUNT_VFX.ready=new Promise(ok=>{img.onload=()=>ok(img);img.onerror=()=>ok(null)});img.src='fx/blunt-12.webp'}return BLUNT_VFX.ready}
 function clearBluntVfx(){document.querySelectorAll('#foes .zc-blunt-fx').forEach(e=>e.remove());document.querySelectorAll('#foes .foe').forEach(e=>{e.classList.remove('zc-blunt-react');e.style.removeProperty('--zc-blunt-x');e.style.removeProperty('--zc-blunt-tilt')})}
+/* 鈍擊的墨筆、撞擊裂紋與暗紅碎屑：透明疊圖，不影響戰鬥規則。 */
+function drawBluntInk(ctx,f,cx,cy,size,fade=1){
+  if(f<0||f>11)return;
+  ctx.save();ctx.translate(cx,cy);ctx.scale(size/100,size/100);
+  const tail=Math.max(0,(f-5)/6),burst=f<5?0:Math.pow(1-tail,1.6);
+  // 從上方壓落、始終圍繞命中點的鈍器墨痕，不呈現飛行物。
+  if(f<6){
+    const progress=[.12,.24,.4,.61,.85,1][f],alpha=[.25,.36,.48,.6,.72,.32][f],bottom=-42+progress*49;
+    ctx.save();ctx.globalAlpha=fade*alpha;
+    const trail=ctx.createLinearGradient(-24,-62,9,bottom);trail.addColorStop(0,'rgba(13,12,12,0)');trail.addColorStop(.34,'#292424');trail.addColorStop(.78,'#534a49');trail.addColorStop(1,'#bba9a3');ctx.fillStyle=trail;
+    ctx.beginPath();ctx.moveTo(-32,-64);ctx.bezierCurveTo(-31,-48,-19,-23,-14,bottom-11);ctx.lineTo(-8,bottom);ctx.lineTo(6,bottom+3);ctx.bezierCurveTo(-1,bottom-14,-8,-44,-17,-66);ctx.closePath();ctx.fill();
+    for(let j=0;j<6;j++){
+      ctx.lineWidth=1+(j%3)*.85;ctx.strokeStyle=j%2?'#7d4a45':'#9b8b83';ctx.globalAlpha=fade*alpha*(.12+(j%3)*.06);
+      ctx.beginPath();ctx.moveTo(-27+j*3,-58+(j%2)*7);ctx.quadraticCurveTo(-16+j*2,-27,-8+j*2,bottom-4+j%3);ctx.stroke();
+    }
+    ctx.restore();
+  }
+  // 第六格是既有音效與血條扣血的同步點；冷白核心配上暗紅裂痕。
+  if(f>=4){
+    const power=f===4?.2:burst;
+    ctx.save();ctx.globalAlpha=fade*power;
+    const dark=ctx.createRadialGradient(1,2,2,0,0,58);dark.addColorStop(0,'rgba(25,5,6,.86)');dark.addColorStop(.53,'rgba(89,12,18,.62)');dark.addColorStop(1,'rgba(5,0,0,0)');ctx.fillStyle=dark;
+    ctx.beginPath();ctx.ellipse(0,1,49,35,-.22,0,Math.PI*2);ctx.fill();
+    const cuts=[[-48,-15,-21,-10],[-37,16,-14,6],[-23,-36,-8,-13],[13,-36,4,-12],[41,-16,16,-4],[44,18,15,8],[18,35,8,13],[-20,33,-9,12]];
+    for(let i=0;i<cuts.length;i++){
+      const q=cuts[i];ctx.lineWidth=i%3===0?3.4:1.7;ctx.strokeStyle=i%4===0?'#e0ccc2':i%3===0?'#c14842':'#69282b';
+      ctx.beginPath();ctx.moveTo(q[2],q[3]);ctx.lineTo((q[2]+q[0])*.54+((i%3)-1)*3,(q[3]+q[1])*.54);ctx.lineTo(q[0],q[1]);ctx.stroke();
+    }
+    for(let i=0;i<13;i++){
+      const ang=i*2.39996-.35,rad=19+((i*17)%24)*(1+tail*.45),x=Math.cos(ang)*rad,y=Math.sin(ang)*rad*.73;
+      const a=3+(i%4)*1.4;ctx.fillStyle=i%4===0?'#d5b9ad':i%3===0?'#9b332e':'#271415';
+      ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+Math.cos(ang)*a*1.9,y+Math.sin(ang)*a);ctx.lineTo(x+Math.cos(ang+1.55)*a*.45,y+Math.sin(ang+1.55)*a*.4);ctx.closePath();ctx.fill();
+    }
+    ctx.restore();
+  }
+  if(f>=5&&f<=8){
+    // 壓碎的鋸齒狀擦痕，避免畫成刀光或規整星形爆炸。
+    const hot=[1,.76,.4,.14][f-5];ctx.save();ctx.globalAlpha=fade*hot;
+    ctx.fillStyle='#d9cfc7';ctx.beginPath();ctx.moveTo(-19,-6);ctx.lineTo(-11,-12);ctx.lineTo(-3,-7);ctx.lineTo(8,-12);ctx.lineTo(13,-5);ctx.lineTo(9,3);ctx.lineTo(17,6);ctx.lineTo(6,10);ctx.lineTo(-1,7);ctx.lineTo(-12,12);ctx.lineTo(-16,4);ctx.lineTo(-11,-1);ctx.closePath();ctx.fill();
+    ctx.fillStyle='#fff6eb';ctx.beginPath();ctx.moveTo(-12,-6);ctx.lineTo(-5,-5);ctx.lineTo(4,-8);ctx.lineTo(8,-2);ctx.lineTo(4,3);ctx.lineTo(11,5);ctx.lineTo(-2,6);ctx.lineTo(-9,3);ctx.closePath();ctx.fill();
+    for(let i=0;i<9;i++){
+      ctx.lineWidth=i%3===0?2.2:1.1;ctx.strokeStyle=i%4===0?'#fff2df':'#a89b91';ctx.globalAlpha=fade*hot*(.4+(i%3)*.12);
+      const x=-24+i*6;ctx.beginPath();ctx.moveTo(x,-8+(i*7)%13);ctx.lineTo(x+9,2+(i*11)%10);ctx.stroke();
+    }
+    ctx.restore();
+  }
+  if(f>=6){
+    const d=Math.max(0,1-(f-6)/6);ctx.save();ctx.globalAlpha=fade*.55*d;
+    for(let i=0;i<18;i++){
+      const ang=i*2.16+1.1,rad=13+(f-5)*(3+(i%5))+(i%3)*8,x=Math.cos(ang)*rad,y=Math.sin(ang)*rad*.66;
+      ctx.fillStyle=i%5===0?'#cec3b6':i%3===0?'#7c292a':'#3d2927';ctx.fillRect(x,y,(i%3===0?2.5:1.2)*d,1.3*d);
+    }ctx.restore();
+  }
+  ctx.restore();
+}
 function renderBluntVfx(fx){
   if(BLUNT_VFX.active!==fx)return;
   const elapsed=performance.now()-fx.t;
   if(elapsed>=BLUNT_TIMING.total||document.hidden||!G||G.rid!==fx.rid||G.fight!==fx.battle){clearBluntVfx();return}
   const card=document.querySelector('#foes .foe[data-id="'+fx.id+'"]');
   if(card){let canvas=card.querySelector('.zc-blunt-fx');if(!canvas){canvas=document.createElement('canvas');canvas.className='zc-blunt-fx';canvas.setAttribute('aria-hidden','true');card.appendChild(canvas)}
-    const w=card.clientWidth,h=card.clientHeight,d=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.round(w*d);canvas.height=Math.round(h*d);
+    const w=card.clientWidth,h=card.clientHeight,d=Math.min(window.devicePixelRatio||1,2),cw=Math.round(w*d),ch=Math.round(h*d);
+    if(canvas.width!==cw||canvas.height!==ch){canvas.width=cw;canvas.height=ch}
     const ctx=canvas.getContext('2d');if(ctx){ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,w,h);
-      const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches,f=reduced?5:bluntFrame(elapsed),fin=card.querySelector('.fin'),hp=card.querySelector('.fhp .hpb'),size=Math.min(h*.8,(fin?fin.clientWidth:w*.6)*.75),hit=elapsed-BLUNT_TIMING.impact;
+      const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches,f=reduced?5:bluntFrame(elapsed),fin=card.querySelector('.fin'),hp=card.querySelector('.fhp .hpb'),size=Math.min(h*1.05,(fin?fin.clientWidth:w*.6)*.87),hit=elapsed-BLUNT_TIMING.impact;
       let cx=w*.6,cy=h*.35;if(hp){cx=hp.offsetWidth/2;cy=hp.offsetHeight/2;for(let e=hp;e&&e!==card;e=e.offsetParent){cx+=e.offsetLeft;cy+=e.offsetTop}}
-      if(fin){ctx.beginPath();ctx.rect(fin.offsetLeft,0,fin.clientWidth,h);ctx.clip()}
+      if(fin){ctx.save();ctx.beginPath();ctx.rect(fin.offsetLeft,0,fin.clientWidth,h);ctx.clip()}
       fx.frame=f;
-      ctx.globalAlpha=reduced?Math.min(1,elapsed/120)*Math.max(0,1-elapsed/BLUNT_TIMING.total):1;
+      const fade=reduced?Math.min(1,elapsed/120)*Math.max(0,1-elapsed/BLUNT_TIMING.total):1;
+      ctx.globalAlpha=fade*(f<5?.18:f<8?.2:.12);
       if(f>=0)ctx.drawImage(BLUNT_VFX.image,f%4*362,Math.floor(f/4)*362,362,362,cx-size/2,cy-size/2,size,size);
+      ctx.globalAlpha=1;drawBluntInk(ctx,f,cx,cy,size*1.35,fade);
+      if(fin)ctx.restore();
       if(!reduced){card.classList.add('zc-blunt-react');const x=hit>=0?Math.sin(hit*.1)*Math.exp(-hit/65)*Math.min(5,w*.025):0;card.style.setProperty('--zc-blunt-x',x+'px')}
+      else{card.classList.remove('zc-blunt-react');card.style.removeProperty('--zc-blunt-x')}
     }
   }
   fx.raf=requestAnimationFrame(()=>renderBluntVfx(fx));
