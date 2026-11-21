@@ -81,5 +81,6 @@
     "video": "H.264",
     "audio": "AAC",
     "note": "實際遊戲畫面與Web Audio輸出；測試只固定命中、裝備與敵人血量，未加入遊戲本體"
-  }
+  },
+  "game_code_commit": "989ee16d6c25400b8996207904c2bfddd0286831"
 }
