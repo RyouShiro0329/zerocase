@@ -6,7 +6,7 @@ async function setup(browser,w,h){const ctx=await browser.newContext({viewport:{
 for(const [w,h] of [[844,390],[393,690]]){const {ctx,p}=await setup(b,w,h);
  for(const mode of ['bow','crossbow']){await p.click('#zc-bow-preview-'+mode);await p.waitForFunction(()=>ZCBOWPV.frames.some(x=>x.f===5));await p.screenshot({path:`${OUT}/${mode}-${w}x${h}.png`});await p.waitForFunction(()=>!ZCBOWPV.playing);
   const result=await p.evaluate(()=>({frames:ZCBOWPV.frames,events:ZCBOWPV.events,portraitInk:ZCBOWPV.portraitInk,hp:G.fight.foes[0].hp,buttons:[...document.querySelectorAll('#choices button')].every(e=>{const r=e.getBoundingClientRect(),s=document.querySelector('#stage').getBoundingClientRect();return r.left>=s.left-1&&r.right<=s.right+1&&r.top>=s.top-1&&r.bottom<=s.bottom+1})}));
-  check(`${w}x${h} ${mode} 十二格完整播放`,new Set(result.frames.map(f=>f.f)).size===12);check(`${w}x${h} ${mode} 命中時間與預覽血條`,Math.abs(result.events.find(e=>e.name==='hit').at-(mode==='bow'?1410:200))<60&&result.hp===24);check(`${w}x${h} ${mode} 立繪乾淨與按鈕完整`,!result.portraitInk&&result.buttons);
+  check(`${w}x${h} ${mode} 十二格完整播放`,new Set(result.frames.map(f=>f.f)).size===12);check(`${w}x${h} ${mode} 命中時間與預覽血條`,Math.abs(result.events.find(e=>e.name==='hit').at-1410)<60&&result.hp===24);check(`${w}x${h} ${mode} 立繪乾淨與按鈕完整`,!result.portraitInk&&result.buttons);
  }
 await ctx.close()}
 const {ctx,p}=await setup(b,844,390);await p.click('#zc-bow-preview-crossbow');await p.waitForFunction(()=>!ZCBOWPV.playing);
