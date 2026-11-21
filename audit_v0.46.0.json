@@ -40,7 +40,15 @@
     "local_browser": {
       "result": "未測試",
       "reason": "本機無Chromium執行檔，run_all.sh的瀏覽器與長路線無法啟動，改由雲端CI驗證"
-    }
+    },
+    "cloud_attempts": [
+      {
+        "run_id": 44939375726,
+        "result": "失敗",
+        "reason": "新驗收腳本以先制開戰，未清除既有偷襲必中，落空情境實際命中；僅修驗收前置條件，不改遊戲規則",
+        "code_change": false
+      }
+    ]
   },
   "assets": {
     "index.html": "e22d3e8d3bdb444ad0f122425e9c9be119555f9a7eb34a0ef22bbc8ca9a4e798",
