@@ -1,0 +1,81 @@
+{
+  "version": "0.44.0",
+  "build": 106,
+  "created_at": "2026-11-21T17:19:33+08:00",
+  "audit_at": "2026-11-21T17:31:01+08:00",
+  "timezone": "Asia/Taipei",
+  "baseline_commit": "b3c79d3910ae19a58631dac75f6d48862b70242a",
+  "deployment": {
+    "status": "準備部署，部署後未驗證",
+    "url": "https://ryoushiro0329.github.io/zerocase/"
+  },
+  "changes": [
+    "鈍擊實際命中在目標敵人卡播放12格特效",
+    "90ms對齊撞擊、血條更新與原創合成音效",
+    "靜音、減少動態、事件序號與素材失敗備援",
+    "完整交接紀錄、測試與手機畫面"
+  ],
+  "design_rule_changes": [],
+  "tests": {
+    "regression": "通過",
+    "node": {
+      "result": "通過",
+      "pass": 219,
+      "fail": 0,
+      "todo": 1,
+      "todo_reason": "恐懼紀錄數字：既有主人允許暫時保留的 TODO，未修改測試"
+    },
+    "attack_tools": {
+      "result": "通過",
+      "pass": 59,
+      "fail": 0
+    },
+    "blunt_browser": {
+      "result": "通過",
+      "checks": 20,
+      "errors": []
+    },
+    "smoke": {
+      "result": "通過",
+      "views": [
+        "393x690",
+        "844x390",
+        "1280x720"
+      ],
+      "steps_per_view": 40
+    },
+    "long_route": {
+      "result": "通過",
+      "actions": 220
+    },
+    "phone": "待主人實機驗收",
+    "multiplayer_network": "未測試（未進行正式多人實連；已驗證接收佇列與過期事件）"
+  },
+  "assets": {
+    "fx/blunt-12.webp": {
+      "sha256": "72a36dd093421f94b159af83934813f5cc8f3269ad19086d1326e48453065344",
+      "width": 1448,
+      "height": 1086,
+      "columns": 4,
+      "rows": 3,
+      "frames": 12,
+      "alpha": true
+    },
+    "sound": {
+      "source": "SYN.blunthit",
+      "license": "CC0，原創程式合成配方，無外部錄音",
+      "duration_ms": 260
+    }
+  },
+  "screenshots": [
+    "docs/blunt/hit-844x390.png",
+    "docs/blunt/hit-393x690.png"
+  ],
+  "demo": {
+    "duration_seconds": 14.43,
+    "viewport": "844x390",
+    "video": "H.264",
+    "audio": "AAC",
+    "note": "實際遊戲畫面與Web Audio輸出；測試固定命中、鐵鎚與敵人血量，只在驗收腳本注入"
+  }
+}

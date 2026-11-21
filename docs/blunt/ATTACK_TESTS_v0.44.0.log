@@ -1,0 +1,364 @@
+TAP version 13
+# Subtest: fist實際鈍擊一次只有一個演出事件
+ok 1 - fist實際鈍擊一次只有一個演出事件
+  ---
+  duration_ms: 33.084021
+  type: 'test'
+  ...
+# Subtest: knuckles實際鈍擊一次只有一個演出事件
+ok 2 - knuckles實際鈍擊一次只有一個演出事件
+  ---
+  duration_ms: 11.25766
+  type: 'test'
+  ...
+# Subtest: darcase實際鈍擊一次只有一個演出事件
+ok 3 - darcase實際鈍擊一次只有一個演出事件
+  ---
+  duration_ms: 13.345502
+  type: 'test'
+  ...
+# Subtest: baton實際鈍擊一次只有一個演出事件
+ok 4 - baton實際鈍擊一次只有一個演出事件
+  ---
+  duration_ms: 13.978566
+  type: 'test'
+  ...
+# Subtest: hammer實際鈍擊一次只有一個演出事件
+ok 5 - hammer實際鈍擊一次只有一個演出事件
+  ---
+  duration_ms: 13.043766
+  type: 'test'
+  ...
+# Subtest: sockmace實際鈍擊一次只有一個演出事件
+ok 6 - sockmace實際鈍擊一次只有一個演出事件
+  ---
+  duration_ms: 12.293714
+  type: 'test'
+  ...
+# Subtest: pipeclub實際鈍擊一次只有一個演出事件
+ok 7 - pipeclub實際鈍擊一次只有一個演出事件
+  ---
+  duration_ms: 14.081212
+  type: 'test'
+  ...
+# Subtest: bat實際鈍擊一次只有一個演出事件
+ok 8 - bat實際鈍擊一次只有一個演出事件
+  ---
+  duration_ms: 11.960361
+  type: 'test'
+  ...
+# Subtest: nailbat實際鈍擊一次只有一個演出事件
+ok 9 - nailbat實際鈍擊一次只有一個演出事件
+  ---
+  duration_ms: 10.562802
+  type: 'test'
+  ...
+# Subtest: nailboard實際鈍擊一次只有一個演出事件
+ok 10 - nailboard實際鈍擊一次只有一個演出事件
+  ---
+  duration_ms: 8.955085
+  type: 'test'
+  ...
+# Subtest: crowbar實際鈍擊一次只有一個演出事件
+ok 11 - crowbar實際鈍擊一次只有一個演出事件
+  ---
+  duration_ms: 12.783233
+  type: 'test'
+  ...
+# Subtest: sledge實際鈍擊一次只有一個演出事件
+ok 12 - sledge實際鈍擊一次只有一個演出事件
+  ---
+  duration_ms: 8.015958
+  type: 'test'
+  ...
+# Subtest: slingshot實際鈍擊一次只有一個演出事件
+ok 13 - slingshot實際鈍擊一次只有一個演出事件
+  ---
+  duration_ms: 9.090881
+  type: 'test'
+  ...
+# Subtest: 鐵鎚保留原傷害5、耐久只減1
+ok 14 - 鐵鎚保留原傷害5、耐久只減1
+  ---
+  duration_ms: 17.072882
+  type: 'test'
+  ...
+# Subtest: knife不誤播鈍擊
+ok 15 - knife不誤播鈍擊
+  ---
+  duration_ms: 9.827282
+  type: 'test'
+  ...
+# Subtest: screwdriver不誤播鈍擊
+ok 16 - screwdriver不誤播鈍擊
+  ---
+  duration_ms: 8.172935
+  type: 'test'
+  ...
+# Subtest: model500不誤播鈍擊
+ok 17 - model500不誤播鈍擊
+  ---
+  duration_ms: 8.350613
+  type: 'test'
+  ...
+# Subtest: pvcbow不誤播鈍擊
+ok 18 - pvcbow不誤播鈍擊
+  ---
+  duration_ms: 13.881009
+  type: 'test'
+  ...
+# Subtest: 落空1沒有撞擊演出
+ok 19 - 落空1沒有撞擊演出
+  ---
+  duration_ms: 8.730216
+  type: 'test'
+  ...
+# Subtest: 落空2沒有撞擊演出
+ok 20 - 落空2沒有撞擊演出
+  ---
+  duration_ms: 7.880914
+  type: 'test'
+  ...
+# Subtest: 推開沒有傷害，不新增撞擊演出
+ok 21 - 推開沒有傷害，不新增撞擊演出
+  ---
+  duration_ms: 7.791129
+  type: 'test'
+  ...
+# Subtest: 12格時間完整且命中點是第4格
+ok 22 - 12格時間完整且命中點是第4格
+  ---
+  duration_ms: 12.469339
+  type: 'test'
+  ...
+# Subtest: 原創合成聲使用戰鬥音量且靜音不發聲
+ok 23 - 原創合成聲使用戰鬥音量且靜音不發聲
+  ---
+  duration_ms: 8.082379
+  type: 'test'
+  ...
+# Subtest: screwdriver命中播放一次穿刺音效並維持傷害與耐久
+ok 24 - screwdriver命中播放一次穿刺音效並維持傷害與耐久
+  ---
+  duration_ms: 30.468494
+  type: 'test'
+  ...
+# Subtest: icepick命中播放一次穿刺音效並維持傷害與耐久
+ok 25 - icepick命中播放一次穿刺音效並維持傷害與耐久
+  ---
+  duration_ms: 9.763636
+  type: 'test'
+  ...
+# Subtest: stake命中播放一次穿刺音效並維持傷害與耐久
+ok 26 - stake命中播放一次穿刺音效並維持傷害與耐久
+  ---
+  duration_ms: 10.835663
+  type: 'test'
+  ...
+# Subtest: mopspear命中播放一次穿刺音效並維持傷害與耐久
+ok 27 - mopspear命中播放一次穿刺音效並維持傷害與耐久
+  ---
+  duration_ms: 11.200144
+  type: 'test'
+  ...
+# Subtest: pipespear命中播放一次穿刺音效並維持傷害與耐久
+ok 28 - pipespear命中播放一次穿刺音效並維持傷害與耐久
+  ---
+  duration_ms: 12.140337
+  type: 'test'
+  ...
+# Subtest: firehook命中播放一次穿刺音效並維持傷害與耐久
+ok 29 - firehook命中播放一次穿刺音效並維持傷害與耐久
+  ---
+  duration_ms: 12.513886
+  type: 'test'
+  ...
+# Subtest: 螺絲起子對感染者保留原有抗性後傷害3
+ok 30 - 螺絲起子對感染者保留原有抗性後傷害3
+  ---
+  duration_ms: 14.400193
+  type: 'test'
+  ...
+# Subtest: icepick技能pierce使用穿刺命中聲
+ok 31 - icepick技能pierce使用穿刺命中聲
+  ---
+  duration_ms: 12.131329
+  type: 'test'
+  ...
+# Subtest: screwdriver技能stab使用穿刺命中聲
+ok 32 - screwdriver技能stab使用穿刺命中聲
+  ---
+  duration_ms: 11.882113
+  type: 'test'
+  ...
+# Subtest: darcase技能dbite使用穿刺命中聲
+ok 33 - darcase技能dbite使用穿刺命中聲
+  ---
+  duration_ms: 12.665996
+  type: 'test'
+  ...
+# Subtest: pvcbow不誤播穿刺音效
+ok 34 - pvcbow不誤播穿刺音效
+  ---
+  duration_ms: 15.254413
+  type: 'test'
+  ...
+# Subtest: compbow不誤播穿刺音效
+ok 35 - compbow不誤播穿刺音效
+  ---
+  duration_ms: 9.165978
+  type: 'test'
+  ...
+# Subtest: handxbow不誤播穿刺音效
+ok 36 - handxbow不誤播穿刺音效
+  ---
+  duration_ms: 10.683754
+  type: 'test'
+  ...
+# Subtest: crossbow不誤播穿刺音效
+ok 37 - crossbow不誤播穿刺音效
+  ---
+  duration_ms: 19.744745
+  type: 'test'
+  ...
+# Subtest: model500不誤播穿刺音效
+ok 38 - model500不誤播穿刺音效
+  ---
+  duration_ms: 8.697427
+  type: 'test'
+  ...
+# Subtest: hammer不誤播穿刺音效
+ok 39 - hammer不誤播穿刺音效
+  ---
+  duration_ms: 9.669273
+  type: 'test'
+  ...
+# Subtest: knife不誤播穿刺音效
+ok 40 - knife不誤播穿刺音效
+  ---
+  duration_ms: 9.377313
+  type: 'test'
+  ...
+# Subtest: 命中骰1落空不播放穿刺命中聲
+ok 41 - 命中骰1落空不播放穿刺命中聲
+  ---
+  duration_ms: 7.219386
+  type: 'test'
+  ...
+# Subtest: 命中骰2落空不播放穿刺命中聲
+ok 42 - 命中骰2落空不播放穿刺命中聲
+  ---
+  duration_ms: 9.064185
+  type: 'test'
+  ...
+# Subtest: 反擊沿用相同穿刺命中聲
+ok 43 - 反擊沿用相同穿刺命中聲
+  ---
+  duration_ms: 9.192573
+  type: 'test'
+  ...
+# Subtest: 素材解碼、戰鬥音量分類與完整播放長度
+ok 44 - 素材解碼、戰鬥音量分類與完整播放長度
+  ---
+  duration_ms: 9.527479
+  type: 'test'
+  ...
+# Subtest: 缺少素材時用既有合成受傷聲備援，靜音不發聲
+ok 45 - 缺少素材時用既有合成受傷聲備援，靜音不發聲
+  ---
+  duration_ms: 13.359673
+  type: 'test'
+  ...
+# Subtest: 隊友透過原有音效事件播放且重送狀態不重播
+ok 46 - 隊友透過原有音效事件播放且重送狀態不重播
+  ---
+  duration_ms: 10.503472
+  type: 'test'
+  ...
+# Subtest: 斬擊命中送出一次對準目標的演出，保持原傷害4與耐久消耗1
+ok 47 - 斬擊命中送出一次對準目標的演出，保持原傷害4與耐久消耗1
+  ---
+  duration_ms: 39.851605
+  type: 'test'
+  ...
+# Subtest: 落空不出現命中斬擊
+ok 48 - 落空不出現命中斬擊
+  ---
+  duration_ms: 12.829963
+  type: 'test'
+  ...
+# Subtest: hammer命中不能誤播斬擊
+ok 49 - hammer命中不能誤播斬擊
+  ---
+  duration_ms: 11.525965
+  type: 'test'
+  ...
+# Subtest: beretta命中不能誤播斬擊
+ok 50 - beretta命中不能誤播斬擊
+  ---
+  duration_ms: 12.358802
+  type: 'test'
+  ...
+# Subtest: 二連擊逐下送出斬擊，仍只消耗原有兩次耐久
+ok 51 - 二連擊逐下送出斬擊，仍只消耗原有兩次耐久
+  ---
+  duration_ms: 10.414938
+  type: 'test'
+  ...
+# Subtest: 致死斬擊先演出再依原規則倒下，只結算一次
+ok 52 - 致死斬擊先演出再依原規則倒下，只結算一次
+  ---
+  duration_ms: 11.71409
+  type: 'test'
+  ...
+# Subtest: 橫掃逐一對準命中的敵人，保持每個目標原有傷害與耐久消耗
+ok 53 - 橫掃逐一對準命中的敵人，保持每個目標原有傷害與耐久消耗
+  ---
+  duration_ms: 14.434826
+  type: 'test'
+  ...
+# Subtest: 過期斬擊事件不能把重同步後的血量與回合還原
+ok 54 - 過期斬擊事件不能把重同步後的血量與回合還原
+  ---
+  duration_ms: 7.933273
+  type: 'test'
+  ...
+# Subtest: 同節點下一場戰鬥不能被上一場斬擊快照替換
+ok 55 - 同節點下一場戰鬥不能被上一場斬擊快照替換
+  ---
+  duration_ms: 9.023459
+  type: 'test'
+  ...
+# Subtest: 透過真正收件流程保留狀態封包序號，拒絕較舊斬擊
+ok 56 - 透過真正收件流程保留狀態封包序號，拒絕較舊斬擊
+  ---
+  duration_ms: 11.870546
+  type: 'test'
+  ...
+# Subtest: 房主交接時依播放佇列切換序號來源，新房主較小序號仍可播放
+ok 57 - 房主交接時依播放佇列切換序號來源，新房主較小序號仍可播放
+  ---
+  duration_ms: 13.818515
+  type: 'test'
+  ...
+# Subtest: 優化逐格先慢後快，335ms進入命中格並停留70ms
+ok 58 - 優化逐格先慢後快，335ms進入命中格並停留70ms
+  ---
+  duration_ms: 9.284953
+  type: 'test'
+  ...
+# Subtest: 收尾逐步消散，755ms完全結束且負時間不畫
+ok 59 - 收尾逐步消散，755ms完全結束且負時間不畫
+  ---
+  duration_ms: 8.051521
+  type: 'test'
+  ...
+1..59
+# tests 59
+# suites 0
+# pass 59
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 397.999223
