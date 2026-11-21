@@ -1,0 +1,29 @@
+name: 移除閃躲驗收
+on:
+  pull_request:
+    branches: [main]
+    paths: [index.html, "tools/remove-dodge*", ".github/workflows/remove-dodge-qa.yml"]
+permissions:
+  contents: read
+jobs:
+  remove-dodge:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - run: node --test tools/remove-dodge.test.cjs
+      - run: python3 verify_release.py
+      - name: 手機行動選單與防守回合
+        run: |
+          python3 -m http.server 8768 >/tmp/remove-dodge-http.log 2>&1 &
+          NODE_PATH=$(npm root -g) node tools/remove-dodge-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: remove-dodge-v0.46.1-qa
+          path: qa-output/remove-dodge/

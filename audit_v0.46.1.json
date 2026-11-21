@@ -1,0 +1,44 @@
+{
+  "version": "0.46.1",
+  "build": 112,
+  "created_at": "2026-11-22T04:47:32+08:00",
+  "timezone": "Asia/Taipei",
+  "baseline_commit": "775489c2615e2750300850ef8a427d52d2fcb84a",
+  "authorization": "主人：刪除閃躲好了",
+  "changes": [
+    "移除獨立閃躲指令與防禦加成",
+    "清理舊存檔姿態與待執行指令，拒絕舊客戶端指令",
+    "保留敏捷基礎防禦、格擋、掩蔽與 QTE"
+  ],
+  "design_rule_changes": [
+    "主人授權取消獨立閃躲及其防禦 +5"
+  ],
+  "tests": {
+    "node": {
+      "result": "通過",
+      "pass": 219,
+      "todo": 1
+    },
+    "focused": {
+      "result": "通過",
+      "pass": 3
+    },
+    "local_browser": {
+      "result": "未測試",
+      "reason": "Playwright 瀏覽器執行檔缺少；系統 Chromium socket 權限限制"
+    },
+    "cloud": {
+      "result": "未測試",
+      "reason": "待 PR 雲端驗收"
+    },
+    "phone": "待主人實機驗收",
+    "multiplayer": {
+      "result": "未測試",
+      "reason": "未進行正式多人實連"
+    }
+  },
+  "deployment": {
+    "status": "未部署",
+    "reason": "先開 PR；未收到本輪部署授權"
+  }
+}
