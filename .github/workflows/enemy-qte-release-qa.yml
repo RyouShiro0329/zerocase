@@ -1,0 +1,32 @@
+name: 敵人規則與統一QTE完整驗收
+on:
+  pull_request:
+    branches: [main]
+    paths: [index.html, "tools/qte-unified*", ".github/workflows/enemy-qte-release-qa.yml"]
+permissions:
+  contents: read
+jobs:
+  full-release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - run: python3 verify_release.py
+      - run: node --test tools/enemy-attack.test.cjs tools/qte-unified.test.cjs tools/gun-shot.test.cjs
+      - run: NODE_PATH=$(npm root -g) bash tests/run_all.sh
+      - name: 敵人、QTE與槍械保留驗收
+        run: |
+          python3 -m http.server 8768 >/tmp/zc49-http.log 2>&1 &
+          NODE_PATH=$(npm root -g) node tools/enemy-attack-browser.cjs
+          NODE_PATH=$(npm root -g) node tools/qte-unified-browser.cjs
+          NODE_PATH=$(npm root -g) node tools/gun-shot-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: enemy-qte-v0.49.0-qa
+          path: qa-output/

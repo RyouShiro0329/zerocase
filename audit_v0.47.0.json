@@ -1,0 +1,104 @@
+{
+  "version": "0.47.0",
+  "build": 113,
+  "created_at": "2026-11-22T12:59:09+08:00",
+  "timezone": "Asia/Taipei",
+  "baseline_commit": "4513baa9605a178ce270c50c2808e80ffcf05867",
+  "authorization": "主人：部署吧，再來處理採用的那個；上限到了繼續處理",
+  "deployment": {
+    "status": "未部署",
+    "reason": "敵人設計為新候選版；v0.46.1已合併發布並驗收"
+  },
+  "changes": [
+    "14種敵人31招與6種近身備用招式分類",
+    "指定控制效果受擊後抵抗，原傷害照算",
+    "近戰格擋與囊泡掩蔽適用QTE失敗減傷",
+    "割喉止血反制、掃射預告目標",
+    "舊存檔蓄力招式標記轉換與完整交接表"
+  ],
+  "design_rule_changes": [
+    "抓住／失衡力量抵抗12；重擊暈眩體質抵抗14",
+    "有效格擋力量控制抵抗+2，體質不加值",
+    "近戰QTE失敗適用力量格擋與主動格擋；囊泡可掩蔽減傷",
+    "割喉不能改打另一流血者",
+    "不同陣營互打採逐招傷害類型"
+  ],
+  "tests": {
+    "node": {
+      "result": "通過",
+      "pass": 219,
+      "todo": 1
+    },
+    "tools": {
+      "result": "通過",
+      "pass": 103,
+      "new_focused": 10
+    },
+    "unchanged_moves": {
+      "result": "通過",
+      "description": "31招移除新增metadata後與4513baa逐欄相等；原傷害、命中、權重、冷卻、QTE與敘述保留"
+    },
+    "local_browser": {
+      "result": "未測試",
+      "reason": "Playwright瀏覽器執行檔缺少"
+    },
+    "cloud": {
+      "result": "通過",
+      "validated_head": "6f5cc315694fdede0dc7def4988b89489c7904ac",
+      "runs": [
+        44988148195,
+        44988148282,
+        44988148234,
+        44988148215,
+        44988148268
+      ],
+      "full_regression": "兩次 bash tests/run_all.sh 全部通過；Node219通過、0失敗、1既有TODO；各三尺寸40步與220動作長路線。",
+      "routes": [
+        {
+          "actions": 220,
+          "nodes": 67,
+          "areas": 18,
+          "seconds": 253
+        },
+        {
+          "actions": 220,
+          "nodes": 74,
+          "areas": 17,
+          "seconds": 263
+        }
+      ],
+      "focused_browser": {
+        "result": "通過",
+        "checks": 13,
+        "errors": 0,
+        "artifact_id": 14741105162,
+        "zip_sha256": "79c12e6212f385ee136065ab46ea36bea8fdb9bc2eb5e2250d49f0989eeadacd"
+      },
+      "visual_review": {
+        "result": "通過",
+        "images": 4,
+        "sizes": [
+          "844x390",
+          "393x690"
+        ],
+        "description": "四張逐張目視，防守按鈕與抵抗視窗完整可見；結算另以實際狀態驗證。"
+      },
+      "legacy": "弓弩、斬擊、穿刺、撤離與移除閃躲驗收通過"
+    },
+    "balance": {
+      "result": "未測試",
+      "reason": "完整路線使用既有無敵模式，數值尚待試玩驗收"
+    },
+    "network": {
+      "result": "未測試",
+      "reason": "未進行正式多人實連"
+    },
+    "phone": "待主人實機驗收",
+    "history": [
+      "首個候選上傳被輸出長度截斷；8581a2c重新分段上傳，遠端與本機SHA-256相同，298檔完整性通過；正式站未受影響。",
+      "44987903556手機專項失敗：腳本使用普通難度但預期困難傷害，改為從介面選擇困難，保留原有傷害斷言，遊戲檔不變。",
+      "44987903547既有畫面驗收失敗：加長防守說明把手機橫向按鈕擠出舞台；縮短說明並保留原測試，另於本輪專項檢查相同幾何條件。"
+    ]
+  },
+  "implementation_commit": "6f5cc315694fdede0dc7def4988b89489c7904ac"
+}
