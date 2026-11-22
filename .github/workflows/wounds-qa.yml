@@ -1,0 +1,30 @@
+name: 四部位傷勢完整驗收
+on:
+  pull_request:
+    branches: [main]
+    paths: [index.html, "tools/wounds*", ".github/workflows/wounds-qa.yml"]
+permissions:
+  contents: read
+jobs:
+  wounds:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - run: python3 verify_release.py
+      - run: node --test tools/wounds.test.cjs tools/enemy-attack.test.cjs tools/resistance.test.cjs tools/qte-unified.test.cjs tools/gun-shot.test.cjs
+      # 完整回歸由同一PR的抵抗制、敵人QTE與穿刺流程執行，傷勢流程聚焦新功能。
+      - name: 手機兩尺寸傷勢與醫療循環
+        run: |
+          python3 -m http.server 8768 >/tmp/wounds-http.log 2>&1 &
+          NODE_PATH=$(npm root -g) node tools/wounds-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: wounds-v0.51.0-qa
+          path: qa-output/
