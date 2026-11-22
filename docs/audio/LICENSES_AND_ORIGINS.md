@@ -93,3 +93,5 @@
 「戰鬥與遭遇配樂改作自 Imminent Threat，原作者 Matthew Pablo；原始素材：https://opengameart.org/content/imminent-threat；授權 CC BY-SA 3.0：https://creativecommons.org/licenses/by-sa/3.0/；《零號病例》版本曾進行混音、剪輯、循環與音量處理。原作者未參與或背書本遊戲。」
 
 正式網站只收錄 bgm_encounter 與 bgm_battle 共四檔；其餘備選保留於原交接包。
+
+作者網站與署名：Music by Matthew Pablo — https://www.matthewpablo.com 。來源頁列明CC BY-SA 3.0，另依作者服務頁的署名格式保留網站連結（https://www.matthewpablo.com/services）。
