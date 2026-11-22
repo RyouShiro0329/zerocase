@@ -45,7 +45,7 @@
   },
   "tests": {
     "node": "通過（219項，原有TODO1項）",
-    "focused": "通過（配樂7組與相關30項）",
+    "focused": "通過（配樂8組與相關30項）",
     "audio_decode": "通過（四檔完整解碼、非靜音，非聽感驗收）",
     "local_browser": "未測試（Chromium執行檔缺少，run_all瀏覽器／長路線無法啟動）",
     "cloud": "未測試（待PR）",

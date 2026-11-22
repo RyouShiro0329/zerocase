@@ -3856,6 +3856,7 @@ for(const [mode,a] of Object.entries(BGM_MIX.tracks)){
 }
 function syncBgmState(){
   const M=BGM_MIX,F=G&&G.fight;
+  if(F&&F.musicIntense==null)F.musicIntense=G.alarmFt===2;
   const id=F&&(F.musicId||G.rid+':legacy');
   if(id!==M.fight){M.fight=id;M.started=false;M.intense=!!(F&&(F.musicIntense==null?G.alarmFt===2:F.musicIntense))}
   if(F&&F.musicIntense)M.intense=true;
