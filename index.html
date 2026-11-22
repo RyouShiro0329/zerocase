@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 220114)
-Total output lines: 7191
-
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
@@ -3399,7 +3396,8 @@ BM0:{L:'BM',n:'地鐵站・維修通道',
   {l:'問他叫什麼名字',once:1,stay:1,ok:{t:`「名字不值錢。」他說，「在這裡，值錢的是你手上的東西。」
 
 他說他在封城之前就在做這一行：把城裡拿得到的東西帶出去，賣給外面的人。現在城被封了，生意反而更好。`}},
-  {l:'接下他的活：帶紅帽子的那把',need:'bmq1ok',hide:'bmq1',quest:'bmFal',stay:1,s:'報酬是 $60 和一套手術包',o…114 tokens truncated…擦了擦機匣上的編號，點點頭。「就是這把。」他數了錢，又從箱子裡拿出一套還封著膜的手術包。`,r:{bm:'fal',flag:'bmq1done',usd:60,items:{surgkit:1}},questDone:'bmFal'}},
+  {l:'接下他的活：帶紅帽子的那把',need:'bmq1ok',hide:'bmq1',quest:'bmFal',stay:1,s:'報酬是 $60 和一套手術包',ok:{t:`他從口袋裡掏出一張拍立得，上面是一個戴紅色貝雷帽的人，背著一把長槍。「那些黑衣服的，帶隊的都戴這種帽子。我要他手上那一把——不是隨便一把，是他的。」他把照片收回去，「外面有人出很高的價錢。」`,r:{flag:'bmq1'}}},
+  {l:'把紅帽子的那把交給他',quest:'bmFal',need:'bmq1give',hide:'bmq1done',stay:1,ok:{t:`他接過槍，把槍身翻過來，用拇指擦了擦機匣上的編號，點點頭。「就是這把。」他數了錢，又從箱子裡拿出一套還封著膜的手術包。`,r:{bm:'fal',flag:'bmq1done',usd:60,items:{surgkit:1}},questDone:'bmFal'}},
   {l:'接下他的活：封鎖線底下的箱子',need:'bmq2ok',hide:'bmq2',quest:'bmBox',stay:1,s:'報酬是 $50、一盒步槍子彈和一件防爆背心',ok:{t:`「封鎖線西段那座探照燈塔，」他說，「塔腳的水泥墩子後面，我塞了一個鐵箱。那些人來得太快，我沒來得及拿。現在塔下天天有人巡，塔上還趴著一個。」他看著你們，「箱子不要打開。」`,r:{flag:'bmq2'}}},
   {l:'把鐵箱交給他',quest:'bmBox',need:'bmq2give',hide:'bmq2done',stay:1,ok:{t:`他接過箱子，掂了掂重量，沒有打開。「沒人碰過，很好。」他從身後拖出一件防爆背心和一盒步槍子彈。`,r:{flag:'bmq2done',usd:50,items:{ammo308:10,riotvest:1}},questDone:'bmBox'}},
   {l:'接下他的活：德克的帳本',need:'bmq3ok',hide:'bmq3',quest:'bmLedger',stay:1,s:'報酬是 $40 和一個藏貨的地方',ok:{t:`「河景廣場二樓那個叫德克的，」他說，「什麼都記在一本黑色的帳本裡：誰欠他、貨藏在哪。我要那本帳本。」他頓了一下，「拿到之後，他不會再跟你們做生意。你們自己想清楚。」`,r:{flag:'bmq3'}}},
