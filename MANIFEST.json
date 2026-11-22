@@ -329,7 +329,7 @@
     ".github/workflows/wounds-qa.yml": "a7c68a75f25bb6aa579f593d6fd261c0d482dbdfb3d1576d9a15000ada8e40d5",
     "docs/WOUNDS_QA_v0.51.0.json": "cff3a9d2d19b0d8ce044b49ffb7a2d0d61809ca62e13b1dde753b9eca4ce3500",
     "tools/bgm.test.cjs": "32191b79e915692cc49a1226fc0281e417a004f0d2d57c6d505706f3af766429",
-    "tools/bgm-browser.cjs": "19bc22f624ef9cab498eeb269ba6b7cd9a55de3a99ca7a47be52c02576863a35",
+    "tools/bgm-browser.cjs": "7058f0b38d8d31d96b970a8dc492029dc2c6fce4b907e5cd38bb9134fc208ab5",
     ".github/workflows/bgm-qa.yml": "9f0e6feec51cde8999089da7b5e7732c5f2c27cf0490acc67d5b42f5262384ed",
     "sfx/bgm_encounter.ogg": "3a9289ba83cab25144cf366c98a509ab1c6032d02f01613f6927f168b569b4c2",
     "sfx/bgm_battle.ogg": "82d34995f97b9680bd2ee693db6c58b389bcb65d01c686d7c8c274ffce6da3a3",
