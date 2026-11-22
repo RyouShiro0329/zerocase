@@ -7,7 +7,7 @@
     "version": "0.50.0",
     "build": 116
   },
-  "authorization": "主人整份核准標準版；實作候選，不部署",
+  "authorization": "主人核准完整標準版，後續明確指示開始部署",
   "scope": [
     "四部位共用生命值",
     "實際傷害門檻與合併抵抗",
@@ -22,9 +22,119 @@
     "screenshots": "通過（844×390及393×690共4張親眼檢視）",
     "phone": "待主人實機驗收",
     "multiplayer": "未測試（未進行正式多人實連）",
-    "balance": "未測試（完整回歸使用既有無敵模式）"
+    "balance": "未測試（完整回歸使用既有無敵模式）",
+    "latest_candidate_cloud": "通過（37beb61八套流程全部通過）"
   },
-  "deployment": "尚未合併或部署",
+  "deployment": {
+    "result": "通過",
+    "version": "0.51.0",
+    "build": 117,
+    "merge_commit": "67ff30338d4a35e723bc89682c5a7c999a7684fa",
+    "deployed_at": "2026-11-22T19:46:05+08:00",
+    "url": "https://ryoushiro0329.github.io/zerocase/",
+    "main_menu": "已觀察v0.51.0・Build117",
+    "new_game": {
+      "mode": "單人／普通",
+      "actions": 3,
+      "locations": [
+        "301號房",
+        "三樓走廊",
+        "製冰機間"
+      ],
+      "checks": "開新局、探索選項及智力檢定正常"
+    },
+    "console_errors": [],
+    "browser_extension_errors": {
+      "count": 24,
+      "source": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js",
+      "message": "Error sending browser metadata to extension: Object",
+      "note": "全部來自瀏覽器擴充套件，非遊戲程式錯誤；保留原始觀察分類。"
+    },
+    "phone": "待主人實機驗收",
+    "candidate_runs": [
+      {
+        "id": 45018118602,
+        "name": "敵人逐招設計驗收",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 12,
+        "jobs_url": "https://api.github.com/repos/RyouShiro0329/zerocase/actions/runs/45018118602/jobs",
+        "logs_url": "https://api.github.com/repos/RyouShiro0329/zerocase/actions/runs/45018118602/logs",
+        "workflow_id": 426541077
+      },
+      {
+        "id": 45018118624,
+        "name": "四部位傷勢完整驗收",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 3,
+        "jobs_url": "https://api.github.com/repos/RyouShiro0329/zerocase/actions/runs/45018118624/jobs",
+        "logs_url": "https://api.github.com/repos/RyouShiro0329/zerocase/actions/runs/45018118624/logs",
+        "workflow_id": 426746523
+      },
+      {
+        "id": 45018118605,
+        "name": "移除閃躲驗收",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 16,
+        "jobs_url": "https://api.github.com/repos/RyouShiro0329/zerocase/actions/runs/45018118605/jobs",
+        "logs_url": "https://api.github.com/repos/RyouShiro0329/zerocase/actions/runs/45018118605/logs",
+        "workflow_id": 426288905
+      },
+      {
+        "id": 45018118610,
+        "name": "弓弩正式攻擊驗收",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 18,
+        "jobs_url": "https://api.github.com/repos/RyouShiro0329/zerocase/actions/runs/45018118610/jobs",
+        "logs_url": "https://api.github.com/repos/RyouShiro0329/zerocase/actions/runs/45018118610/logs",
+        "workflow_id": 426224475
+      },
+      {
+        "id": 45018118629,
+        "name": "穿刺音效驗收",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 62,
+        "jobs_url": "https://api.github.com/repos/RyouShiro0329/zerocase/actions/runs/45018118629/jobs",
+        "logs_url": "https://api.github.com/repos/RyouShiro0329/zerocase/actions/runs/45018118629/logs",
+        "workflow_id": 424202072
+      },
+      {
+        "id": 45018118621,
+        "name": "撤離規則驗收",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 90,
+        "jobs_url": "https://api.github.com/repos/RyouShiro0329/zerocase/actions/runs/45018118621/jobs",
+        "logs_url": "https://api.github.com/repos/RyouShiro0329/zerocase/actions/runs/45018118621/logs",
+        "workflow_id": 422384986
+      },
+      {
+        "id": 45018118627,
+        "name": "抵抗制完整驗收",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 5,
+        "jobs_url": "https://api.github.com/repos/RyouShiro0329/zerocase/actions/runs/45018118627/jobs",
+        "logs_url": "https://api.github.com/repos/RyouShiro0329/zerocase/actions/runs/45018118627/logs",
+        "workflow_id": 426627209
+      },
+      {
+        "id": 45018118625,
+        "name": "敵人規則與統一QTE完整驗收",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 7,
+        "jobs_url": "https://api.github.com/repos/RyouShiro0329/zerocase/actions/runs/45018118625/jobs",
+        "logs_url": "https://api.github.com/repos/RyouShiro0329/zerocase/actions/runs/45018118625/logs",
+        "workflow_id": 426578112
+      }
+    ],
+    "verified_at": "2026-11-22T19:49:23+08:00"
+  },
   "tested_commit": "c3761a7d488945ec4b56294738a8301873ddacf9",
   "qa_record": "docs/WOUNDS_QA_v0.51.0.json"
 }
