@@ -325,8 +325,8 @@
     "docs/WOUNDS_v0.51.0.md": "c698d7e0739215295940840e821928c1b843ac1575939c46ff74302bd289f1fb",
     "audit_v0.51.0.json": "8c31de8471bf181ad064f17aa83a69040b4ca1963947baa1d30c87ff1a7f95b0",
     "tools/wounds.test.cjs": "e317f4eb2d9e5231a80bce670b9d790ca18354d7ed2ad0561381ac6d2c9ff9c3",
-    "tools/wounds-browser.cjs": "33d41d83b7657aec56b6452f9eb55a8163fd3955ea40517c707b370bea773b21",
-    ".github/workflows/wounds-qa.yml": "61a5330f0ec06142c8340538d53eb69e731fa47235746708e3cec1cde2dab8e6"
+    "tools/wounds-browser.cjs": "c4dcc8274fb0140fedb75ad91b1de92d9c905725aed57079fe054ba928db1d18",
+    ".github/workflows/wounds-qa.yml": "a7c68a75f25bb6aa579f593d6fd261c0d482dbdfb3d1576d9a15000ada8e40d5"
   },
   "deployed_at": "2026-11-22T03:19:53+08:00",
   "verified_at": "2026-11-22T03:22:43+08:00",

@@ -18,7 +18,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: python3 verify_release.py
       - run: node --test tools/wounds.test.cjs tools/enemy-attack.test.cjs tools/resistance.test.cjs tools/qte-unified.test.cjs tools/gun-shot.test.cjs
-      - run: NODE_PATH=$(npm root -g) bash tests/run_all.sh
+      # 完整回歸由同一PR的抵抗制、敵人QTE與穿刺流程執行，傷勢流程聚焦新功能。
       - name: 手機兩尺寸傷勢與醫療循環
         run: |
           python3 -m http.server 8768 >/tmp/wounds-http.log 2>&1 &
