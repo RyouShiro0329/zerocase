@@ -693,7 +693,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.53.2", "b": 121, "t": "2026-11-23T03:38:09+08:00"};
+const ZC_VER={"v": "0.54.0", "b": 122, "t": "2026-11-23T04:17:12+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -2415,25 +2415,25 @@ Object.assign(END,{
  END_evac_split:{n:'撤離・分開',shards:30,final:1,t:`巴士開了。你從鐵網的縫隙往後看，留下來的人站在鐵絲網外面，一直看著巴士，直到轉過街角。\n\n沒有人知道他們接下來會怎麼樣。車上沒有人說話。\n\n（結局 A：撤離——有人留在城裡）`}
 });
 /* ---------- 天數事件：劫匪、A.C.R.U. 影子、滅菌巡邏 ---------- */
-for(const e of EVPOOL)if(e.id==='trader1'||e.id==='trader2')e.d1=8;
+for(const e of EVPOOL)if(e.id==='trader1'||e.id==='trader2')e.d1=5;
 EVPOOL.push(
- {id:'raid1',ch:2,d0:9,need:'raiders',hide:'acru',t:`三個人從兩台車中間站起來，攔住了路。帶頭的那個拿著一把獵刀，另外兩個手上是球棒和一根鐵管。\n\n「東西放下，」他說，「我們不想動手。」`,c:[
+ {id:'raid1',ch:2,d0:5,need:'raiders',hide:'acru',t:`三個人從兩台車中間站起來，攔住了路。帶頭的那個拿著一把獵刀，另外兩個手上是球棒和一根鐵管。\n\n「東西放下，」他說，「我們不想動手。」`,c:[
   {l:'把錢給他們',s:'需要 $10',usd:10,ok:{t:`帶頭的數了數，哼了一聲，讓開了路。「下次多帶一點。」`,r:{payUsd:10}}},
   {l:'跟他們談',k:'CHA',d:13,s:'統帥檢定',ok:{t:`你說你們身上沒有他們要的東西，還告訴他們哪一條街的藥局還沒被搬空。他們互看了一眼，讓開了。`,r:{karma:-1}},ng:{t:`「說夠了沒？」他把刀舉起來。`,fight:{n:2,names:['拿獵刀的劫匪','劫匪']}}},
   {l:'先動手',ok:{t:`你沒有等他說完。`,fight:{n:2,mode:'first',names:['拿獵刀的劫匪','劫匪']}}},
   {l:'轉身就跑',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你鑽進旁邊的小巷，翻過一道鐵絲網。他們沒有追過來。`},ng:{t:`你跑了兩步，背後一聲槍響。`,fight:{n:2,mode:'ambush',names:['拿霰彈槍的劫匪','劫匪']}}}]},
- {id:'raid2',ch:2,d0:9,need:'raiders',hide:'acru',t:`一棟公寓的二樓窗戶開著，有人在往下丟東西：衣服、相框、一台電視。樓下兩個人拿著袋子在撿。\n\n他們還沒看到你。`,c:[
+ {id:'raid2',ch:2,d0:5,need:'raiders',hide:'acru',t:`一棟公寓的二樓窗戶開著，有人在往下丟東西：衣服、相框、一台電視。樓下兩個人拿著袋子在撿。\n\n他們還沒看到你。`,c:[
   {l:'等他們走',t:'m',ok:{t:`你躲在車後面等了很久。他們扛著袋子走了，留下一地被翻過的東西。`,r:{items:{cloth:2,battery:1}}}},
   {l:'趁亂撿點東西',k:'AGI',d:13,ok:{t:`你貼著牆過去，從那堆東西裡抽出一個醫藥箱，又悄悄退回來。`,r:{items:{bandage:2,painkiller:1}}},ng:{t:`「喂！」樓上的人看見你了。`,fight:{n:2,names:['劫匪','劫匪']}}}]},
- {id:'shadow1',ch:2,d0:17,need:'shadow',hide:'acru',t:`一台黑色廂型車停在藥局門口，引擎沒熄。兩個穿全套防護衣的人從藥局裡搬出幾個銀色的保溫箱，動作很快，一句話都沒說。\n\n車身上沒有任何標示。`,c:[
+ {id:'shadow1',ch:2,d0:8,need:'shadow',hide:'acru',t:`一台黑色廂型車停在藥局門口，引擎沒熄。兩個穿全套防護衣的人從藥局裡搬出幾個銀色的保溫箱，動作很快，一句話都沒說。\n\n車身上沒有任何標示。`,c:[
   {l:'躲起來看清楚',k:'PER',d:13,s:'感知檢定',ok:{t:`你看清楚了：保溫箱上貼著一個標誌——一根杖，一條蛇，一根針。和旅館地下那扇門上的一模一樣。他們上車的時候，其中一個人朝你這邊看了一眼。`,r:{flag:'acruseen'},p:{fear:8}},ng:{t:`你只看到車子開走。藥局的門開著，裡面的冷藏櫃全是空的。`,p:{fear:4}}},
   {l:'不要靠近',ok:{t:`你換了一條路走。那台車在你身後開走了，沒有開燈。`}}]},
- {id:'acru1',ch:2,d0:24,need:'acru',t:`街角那間社區診所的門口停著兩台沒有標示的黑色廂型車。一排穿黑色制服、戴防毒面具的人從診所裡搬出一箱一箱的病歷，圓形的鏡片透著紅光。最後面那個背著燃料罐，等箱子搬完，就往診所裡噴火。
+ {id:'acru1',ch:2,d0:10,need:'acru',t:`街角那間社區診所的門口停著兩台沒有標示的黑色廂型車。一排穿黑色制服、戴防毒面具的人從診所裡搬出一箱一箱的病歷，圓形的鏡片透著紅光。最後面那個背著燃料罐，等箱子搬完，就往診所裡噴火。
 
 診所的醫生被他們押在牆邊。槍響了一聲。`,c:[
   {l:'躲起來，等他們過去',k:'AGI',d:13,s:'敏捷檢定',ok:{t:`你縮在一台燒過的車底下，看著他們的靴子一雙一雙走過去。有一雙在你面前停了很久，然後走開了。`,p:{fear:8}},ng:{t:`你踩到一片碎玻璃。整排人同時停下來，紅色的鏡片一起轉向你藏身的地方。`,p:{fear:8},go:'ZA'}},
   {l:'往回退，繞遠路',t:'l',ok:{t:`你們退回剛才的巷子，繞了一大圈。等你們繞過去的時候，那條街已經在燒了。`,p:{fear:4}}}]},
- {id:'acru2',ch:2,d0:24,need:'acru',t:`一台漆著市衛生局標誌的廣播車停在路中間，喇叭朝著每一棟公寓：「這裡是市衛生局緊急醫療隊。請所有民眾到路口集合，接受檢查。配合的人會被送到安全的地方。」\n\n路口真的有人在排隊。排在前面的人被帶上一台沒有窗戶的卡車。押車的人穿的不是醫護人員的衣服，是黑色的制服。`,c:[
+ {id:'acru2',ch:2,d0:10,need:'acru',t:`一台漆著市衛生局標誌的廣播車停在路中間，喇叭朝著每一棟公寓：「這裡是市衛生局緊急醫療隊。請所有民眾到路口集合，接受檢查。配合的人會被送到安全的地方。」\n\n路口真的有人在排隊。排在前面的人被帶上一台沒有窗戶的卡車。押車的人穿的不是醫護人員的衣服，是黑色的制服。`,c:[
   {l:'不要過去',ok:{t:`你看著那台卡車關上門開走。沒有人從裡面出來過。`,p:{fear:8}}},
   {l:'看看他們把人帶去哪',k:'PER',d:14,ok:{t:`卡車往旅館的方向開。你想起旅館地下那扇白色的門。`,r:{flag:'acrutruck'},p:{fear:10}},ng:{t:`卡車轉過街角就不見了。`,p:{fear:4}}}]}
 );
@@ -4264,17 +4264,18 @@ const mfTxt=p=>!(p.mf>0)?(hasI(p,'filter')?'沒有裝濾罐（背包裡有）':'
 /* ================= 城市與天數（v0.9.0） =================
    一局 7 天。G.sch：本局各事件發生的時間（G.clock 的分鐘數），開局時決定，小範圍浮動。
    事件依序觸發：停電 → 撤離廣播 → 撤離車離開 → 劫匪 → A.C.R.U. 影子 → 滅菌作戰 → 旅館開始燒 → 預警 → 燃燒彈（硬截止）。 */
-// v0.41.0 一局 30 天、五個世界階段（主人 2026-11-20，docs/OUTSIDE_MAP_SPEC.md 第 2 節）：①爆發 1～3 ②封鎖 4～8 ③失序 9～16 ④變異 17～23 ⑤滅菌 24～30
-const DAYS=30;
-const STAGES=[1,4,9,17,24];
+// v0.41.0 五個世界階段（主人 2026-11-20，docs/OUTSIDE_MAP_SPEC.md 第 2 節）。
+// v0.54.0 一局 12 天（主人 2026-11-23：地圖還不夠深，30 天會變成到處逛）：①爆發 1～2 ②封鎖 3～4 ③失序 5～7 ④變異 8～9 ⑤滅菌 10～12
+const DAYS=12;
+const STAGES=[1,3,5,8,10];
 const wStage=(d=dayN())=>STAGES.filter(x=>d>=x).length||1;
 const atm=(d,h)=>(d-1)*1440+Math.round(h*60)-t0();
 function makeSched(){const df=(G.opts&&G.opts.diff)||'normal';const r=(d,a,b)=>atm(d,a)+rnd(0,Math.round((b-a)*60));
   // v0.15.0 一局 10 天（主人 2026-11-14）：影子期第 6 天、A.C.R.U. 秘密介入第 8 天（旅館被佔領，不再燒）、第 10 天清晨燃燒彈
-  const s={blackout:df==='hard'||df==='real'?r(2,17,20):r(2,20,23),nosignal:r(3,9,15),nowater:r(4,8,16),broadcast:r(6,8,10),evac:atm(8,6),evacgone:atm(8,7),
-    raid:df==='hard'||df==='real'?r(8,17,19):atm(9,7),shadow:r(17,5,7),sweep:r(24,5,7),curfew:atm(26,20),warn:atm(DAYS,5),fire:atm(DAYS,6)};
+  const s={blackout:df==='hard'||df==='real'?r(2,17,20):r(2,20,23),nosignal:r(3,6,8),broadcast:r(3,8,10),nowater:r(4,8,16),evac:atm(5,6),evacgone:atm(5,7),
+    raid:df==='hard'||df==='real'?r(5,17,19):atm(6,7),shadow:r(8,5,7),sweep:r(10,5,7),curfew:atm(11,20),warn:atm(DAYS,5),fire:atm(DAYS,6)};
   return s}
-const CITY_EV=['blackout','nosignal','nowater','broadcast','evacgone','raid','shadow','sweep','curfew','warn','fire'];
+const CITY_EV=['blackout','nosignal','broadcast','nowater','evacgone','raid','shadow','sweep','curfew','warn','fire'];
 // 事件池的條件：d0／d1 天數範圍、need 旗標
 function evCands(nd){const ch=LV[nd.L].ch||1;let m=EVPOOL.map((e,i)=>i).filter(i=>(EVPOOL[i].ch||1)===ch&&evOk(EVPOOL[i])&&(!EVPOOL[i].at||EVPOOL[i].at.includes(nd.L)));
   // v0.41.0 夜間巡邏（curfew）：晚上在街上只會撞見 A.C.R.U.

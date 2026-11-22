@@ -59,7 +59,8 @@ test('QTE 失敗不另外播燃燒瓶聲，燒燙傷用一般受傷聲',()=>{
  assert.notEqual(g("hurtSnd('火焰燒到了你的手臂')"),'mimpact');
 });
 
-test('一局 30 天',()=>{assert.equal(g('DAYS'),30)});
+// 主人 2026-11-23：地圖加深之前先改回 12 天（原 30 天，2026-11-20）
+test('一局 12 天',()=>{assert.equal(g('DAYS'),12)});
 
 test('頂層函式沒有重複宣告（全部檔案共用同一個全域範圍）',()=>{
  const names=[...src.matchAll(/^(?:async\s+)?function\s+([A-Za-z_$][\w$]*)\s*\(/gm)].map(m=>m[1]);
