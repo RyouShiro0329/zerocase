@@ -43,8 +43,47 @@
       "reason": "Playwright瀏覽器執行檔缺少"
     },
     "cloud": {
-      "result": "未測試",
-      "reason": "待PR雲端驗收"
+      "result": "通過",
+      "validated_head": "6f5cc315694fdede0dc7def4988b89489c7904ac",
+      "runs": [
+        44988148195,
+        44988148282,
+        44988148234,
+        44988148215,
+        44988148268
+      ],
+      "full_regression": "兩次 bash tests/run_all.sh 全部通過；Node219通過、0失敗、1既有TODO；各三尺寸40步與220動作長路線。",
+      "routes": [
+        {
+          "actions": 220,
+          "nodes": 67,
+          "areas": 18,
+          "seconds": 253
+        },
+        {
+          "actions": 220,
+          "nodes": 74,
+          "areas": 17,
+          "seconds": 263
+        }
+      ],
+      "focused_browser": {
+        "result": "通過",
+        "checks": 13,
+        "errors": 0,
+        "artifact_id": 14741105162,
+        "zip_sha256": "79c12e6212f385ee136065ab46ea36bea8fdb9bc2eb5e2250d49f0989eeadacd"
+      },
+      "visual_review": {
+        "result": "通過",
+        "images": 4,
+        "sizes": [
+          "844x390",
+          "393x690"
+        ],
+        "description": "四張逐張目視，防守按鈕與抵抗視窗完整可見；結算另以實際狀態驗證。"
+      },
+      "legacy": "弓弩、斬擊、穿刺、撤離與移除閃躲驗收通過"
     },
     "balance": {
       "result": "未測試",
@@ -61,5 +100,5 @@
       "44987903547既有畫面驗收失敗：加長防守說明把手機橫向按鈕擠出舞台；縮短說明並保留原測試，另於本輪專項檢查相同幾何條件。"
     ]
   },
-  "implementation_commit": "8581a2c8bd6131700a62ca1b04404bc36b6474ae"
+  "implementation_commit": "6f5cc315694fdede0dc7def4988b89489c7904ac"
 }

@@ -1,0 +1,92 @@
+{
+  "checks": [
+    {
+      "name": "844x390 格擋與掩蔽保留且無閃躲",
+      "result": "通過"
+    },
+    {
+      "name": "844x390 兩顆防守按鈕完整位於舞台",
+      "result": "通過"
+    },
+    {
+      "name": "844x390 抵抗視窗文字完整位於舞台",
+      "result": "通過"
+    },
+    {
+      "name": "844x390 格擋後仍受4傷害、體質成功避免暈眩",
+      "result": "通過"
+    },
+    {
+      "name": "844x390 無格擋受9傷害、抵抗失敗造成暈眩",
+      "result": "通過"
+    },
+    {
+      "name": "844x390 囊泡掩蔽受5傷害且污染保留",
+      "result": "通過"
+    },
+    {
+      "name": "393x690 格擋與掩蔽保留且無閃躲",
+      "result": "通過"
+    },
+    {
+      "name": "393x690 兩顆防守按鈕完整位於舞台",
+      "result": "通過"
+    },
+    {
+      "name": "393x690 抵抗視窗文字完整位於舞台",
+      "result": "通過"
+    },
+    {
+      "name": "393x690 格擋後仍受4傷害、體質成功避免暈眩",
+      "result": "通過"
+    },
+    {
+      "name": "393x690 無格擋受9傷害、抵抗失敗造成暈眩",
+      "result": "通過"
+    },
+    {
+      "name": "393x690 囊泡掩蔽受5傷害且污染保留",
+      "result": "通過"
+    },
+    {
+      "name": "頁面沒有未處理程式錯誤",
+      "result": "通過"
+    }
+  ],
+  "errors": [],
+  "phone": "待主人實機驗收",
+  "network": "未測試：正式多人實連；使用實際頁面受控戰鬥",
+  "observations": [
+    {
+      "size": "844x390",
+      "hp": 96,
+      "skip": 0,
+      "dazed": 0,
+      "stance": "block",
+      "difficulty": "hard",
+      "multiplier": 1
+    },
+    {
+      "size": "393x690",
+      "hp": 96,
+      "skip": 0,
+      "dazed": 0,
+      "stance": "block",
+      "difficulty": "hard",
+      "multiplier": 1
+    }
+  ],
+  "validated_commit": "6f5cc315694fdede0dc7def4988b89489c7904ac",
+  "workflow_run": 44988148195,
+  "artifact_id": 14741105162,
+  "visual_review": {
+    "result": "通過",
+    "images": [
+      "defence-844x390.png",
+      "resist-844x390.png",
+      "defence-393x690.png",
+      "resist-393x690.png"
+    ],
+    "description": "四張逐張目視：防守文字與按鈕、抵抗視窗均完整可見；抵抗截圖為骰子翻動中的畫面，成功／失敗結算另以實際狀態驗證。"
+  }
+}
