@@ -1,9 +1,9 @@
 const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs');
-const OUT='qa-output/qte-unified',URL=process.env.ZC_QA_URL||'http://localhost:8768/index.html';
+const OUT='qa-output/qte-unified',URL=process.env.ZC_QA_URL||'http://localhost:8768/index.html',EXPECTED=JSON.parse(fs.readFileSync('index.html','utf8').match(/const ZC_VER=(\{[^\n]+\});/)[1]).v;
 (async()=>{fs.mkdirSync(OUT,{recursive:true});const b=await chromium.launch(),report={checks:[],errors:[],phone:'待主人實機驗收'};
 const check=(n,v)=>{report.checks.push({name:n,result:v?'通過':'失敗'});assert.ok(v,n)};
 try{for(const [width,height] of [[844,390],[393,690]]){const tag=`${width}x${height}`,c=await b.newContext({viewport:{width,height},hasTouch:true,isMobile:true}),p=await c.newPage();p.on('pageerror',e=>report.errors.push(e.message));await p.addInitScript(()=>localStorage.setItem('zc5-ui',JSON.stringify({snd:0,bgm:0,orient:'auto'})));await p.goto(URL);await p.click('#gateNo');
-check(tag+' 正式選單版本正確',await p.locator('body').innerText().then(t=>t.includes('0.49.0')));
+check(tag+' 正式選單版本正確',await p.locator('body').innerText().then(t=>t.includes(EXPECTED)));
 check(tag+' 所有角色同速',await p.evaluate(()=>{G={opts:{diff:'normal'}};return [0,2,5,30].every(n=>qtePer({st:{AGI:n,PER:n},frac:1,dazed:1,traits:['athletic']})===527)}));
 await p.evaluate(()=>{window.__qteResult=null;window.__qteTest=qteLocal({t:'巨噬者：震盪重擊——你',per:527,seq:[{z:'A',w:'閃避',rx:.5,ry:.5},{z:'D',w:'後退',rx:.5,ry:.5},{z:'W',w:'側身',rx:.5,ry:.5},{z:'S',w:'站穩',rx:.5,ry:.5}]}).then(r=>window.__qteResult=r)});await p.waitForSelector('#qte .qbx.now');
 check(tag+' 提示與標題不裁切',await p.evaluate(()=>{const s=document.querySelector('#stage').getBoundingClientRect();return ['#qte .qbx','#qte .qhd'].every(q=>{const r=document.querySelector(q).getBoundingClientRect();return r.left>=s.left-1&&r.right<=s.right+1&&r.top>=s.top-1&&r.bottom<=s.bottom+1})}));await p.screenshot({path:`${OUT}/qte-${tag}.png`});
