@@ -150,4 +150,4 @@ GPT 的完整操作流程見 `docs/RULES_GPT.md` 第六節。先用目前遊戲�
 - 保留一般／激戰兩段。一般0～114秒；激戰114～194秒，用於既有警戒滿二番戰（alarmFt===2），不改警戒與敵人生成。
 - 後續攻擊不重播、戰後淡回Evil；無人出手撤離不切戰鬥曲。無額外衝擊聲。
 - musicIntense與本場識別一起保存／同步；舊存檔依alarmFt補判。音樂開關、QTE及戰鬥規則保留。
-- 來源Kevin MacLeod／Hitman／CC BY 4.0，Credits及授權紀錄已列；詳細段落、驗收與未測試項目見docs/BGM_v0.53.0.md。本版為整合候選，尚未部署。
+- 來源Kevin MacLeod／Hitman／CC BY 4.0，Credits及授權紀錄已列；詳細段落、驗收與未測試項目見docs/BGM_v0.53.0.md。九套雲端、44項配樂及六張手機尺寸截圖驗收通過，證據見docs/BGM_QA_v0.53.0.json；Android實機與正式多人實連仍待驗收。本版為整合候選，尚未部署。

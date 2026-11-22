@@ -48,14 +48,19 @@
     "focused": "通過（配樂8組與相關30項）",
     "audio_decode": "通過（四檔完整解碼、非靜音，非聽感驗收）",
     "local_browser": "未測試（Chromium執行檔缺少，run_all瀏覽器／長路線無法啟動）",
-    "cloud": "未測試（待PR）",
-    "screenshots": "未測試（待雲端截圖）",
+    "cloud": "通過（九套雲端工作流程）",
+    "screenshots": "通過（844×390及393×690共六張已親眼檢查）",
     "phone": "待主人實機驗收",
     "multiplayer": "未測試（正式多人網路實連）",
-    "listening": "未測試（Android實機喇叭、耳機與聽感）"
+    "listening": "未測試（Android實機喇叭、耳機與聽感）",
+    "browser": "通過（完整run_all、三尺寸冒煙、220動作長路線）",
+    "bgm": "通過（44項瀏覽器檢查、兩種格式實播循環、兩段各5分鐘自然播放）"
   },
   "deployment": {
     "status": "尚未部署",
     "verification": "部署後未驗證"
-  }
+  },
+  "tested_commit": "1f43c21e785c92c7218e5d99c54f162ca661a2f8",
+  "evidence": "docs/BGM_QA_v0.53.0.json",
+  "qa_archive": "docs/QA_v0.53.0.zip"
 }
