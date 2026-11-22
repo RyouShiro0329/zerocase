@@ -66,8 +66,17 @@
     }
   },
   "deployment": {
-    "status": "未部署",
-    "reason": "先開 PR；未收到本輪部署授權"
+    "status": "通過",
+    "merge_commit": "af8581c8fcd62d2dfbe2b52613e7afc269032b28",
+    "verified_at": "2026-11-22T12:57:45+08:00",
+    "url": "https://ryoushiro0329.github.io/zerocase/?v=0.46.1",
+    "observations": [
+      "正式主選單 v0.46.1・Build112",
+      "新局、掀窗簾、書桌頂門、正面迎戰並進入戰鬥",
+      "行動選單只列格擋、掩蔽、逃跑",
+      "檢視的主控台錯誤均為 Chrome 擴充套件 metadata 錯誤，未看到遊戲來源錯誤"
+    ],
+    "console_extension_error": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js；非遊戲來源"
   },
   "implementation_commit": "dae5b11e0e90ea6d6fc6d5c1b27817f8c32e3a24"
 }
