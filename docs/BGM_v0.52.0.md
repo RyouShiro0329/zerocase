@@ -46,3 +46,5 @@
 補充：單人成功撤離到安全區後，本機淡回探索，不影響留下隊友的戰鬥曲。收割者與割喉攻擊若確實揮空／砸地仍算出手，目標消失後只放下武器則不算。
 
 劇情先投燃燒瓶時，沿既有pendingBurn標記於實際投出前同步並切B2；稍後戰鬥成立承接已出手狀態，驚嚇／先攻不使音樂倒退。瓦斯對策失敗若已爆出回捲火焰，亦算實際攻擊。
+
+雲端首輪完整run_all通過，配樂長度專項失敗：Python簡易伺服器未支援Range，瀏覽器以位元率估計OGG長度（遭遇6.396／戰鬥57.664秒），音檔實際解碼仍為8.067／64.538秒。正式Pages已確認回應206及Accept-Ranges。配樂專項改用tools/bgm-http.cjs模擬正式Range服務並驗證206；長度斷言維持原標準，既有tests/不動。技術依據：https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Configuring_servers_for_Ogg_media 。

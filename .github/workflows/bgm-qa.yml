@@ -20,7 +20,7 @@ jobs:
       - run: node --test tools/bgm.test.cjs tools/wounds.test.cjs tools/resistance.test.cjs tools/enemy-attack.test.cjs tools/qte-unified.test.cjs tools/gun-shot.test.cjs
       - name: 兩尺寸、OGG與MP3實播及10分鐘循環
         run: |
-          python3 -m http.server 8768 >/tmp/bgm-http.log 2>&1 &
+          node tools/bgm-http.cjs >/tmp/bgm-http.log 2>&1 &
           NODE_PATH=$(npm root -g) node tools/bgm-browser.cjs
       - uses: actions/upload-artifact@v4
         if: always()
