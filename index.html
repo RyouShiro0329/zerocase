@@ -3860,7 +3860,7 @@ function syncBgmState(){
   if(id!==M.fight){M.fight=id;M.started=false}
   if(F&&F.musicStarted)M.started=true;
   const waiting=F&&Array.isArray(F.escaped)&&F.escaped.includes(MYPID);
-  let mode=F&&!waiting?(M.started?'battle':'encounter'):'explore';
+  let mode=waiting?'explore':F?(M.started?'battle':'encounter'):G&&G.pendingBurn?'battle':'explore';
   if(M.tracks[mode].zcFailed)mode='explore';
   if(!M.allowed||!UI.bgm||document.hidden||G&&G.over){clearInterval(M.timer);M.timer=null;M.epoch++;for(const a of Object.values(M.tracks))try{a.pause()}catch(e){};return}
   const a=M.tracks[mode],changed=M.mode!==mode;
@@ -4628,7 +4628,7 @@ async function outcome(o,actor){
   if(r.rest){for(const q of able()){const hp=Math.min(q.max-q.hp,r.rest.hp||0);q.hp+=hp;out(`${MP()?nm(q)+'：':''}生命 +${hp}。`,'good',true);if(r.rest.san)relax(q,20,false,1)}}
   if(rk)for(const q of able())q.karma=(q.karma||0)+rk;
   if(r.use){const keys=r.use==='$req'?reqList(CURC||{}):[r.use];for(const k of keys){const ow=owner(k,actor);if(ow){if(k.startsWith('g:')){const g=ow.gear.find(x=>x.id===k.slice(2));if(g&&WEAP[g.id].kind==='spray'){g.dur--;if(g.dur<=0)rmGear(ow,g.u)}}else takeI(ow,k);break}}}
-  if(r.burn){G.pendingBurn=1;await flush();snd('mthrow');await wait(450);await sndW('mimpact',1,1500,.5);
+  if(r.burn){await flush();G.pendingBurn=1;syncBgmState();E('st',snap());snd('mthrow');await wait(450);await sndW('mimpact',1,1500,.5);
     if(G.lv==='F'&&!G.flags.gasoff){await explode();}}
   if(r.gasboom){skipHp=true;if(G.flags.gasoff)out('……什麼都沒有發生。瓦斯總閥剛才已經被關掉了。槍聲在廚房裡迴盪。','good');else await explode()}
   if(p.fear){const n=p.fear;for(const q of able()){if(n>0){if(o.resist==='storyFear')await resistFear(q,n);else scare(q,n)}else relax(q,Math.round(-n*1.5))}}
@@ -5021,7 +5021,7 @@ async function startFight(spec){
   nameFoes(foes);
   for(const p of G.players){if(!teamHere(p))continue;p.combo=0;p.counter=0;p.brace=0;p.actUsed=0;p.defPen=0;p.aimed=0;p.stance=null;p.held=0;if(!p.evacWounds){p.dazed=0;p.humus=0}p.calmUsed=0;p.skUsed={};p.tlUsed={};p.covering=0;p.grit=0}
   for(const p of G.players)if(teamHere(p))darStart(p);
-  G.fight={foes,P:Math.max(1,P0),sl:{},hb:{},bg:{},noise:null,order:[],turn:0,round:1,arrows:{},opening:spec.mode||'normal',first:spec.mode==='first',cur:null,escaped:[],noflee:G.lv==='D',nocover:['D','R'].includes(G.lv),tUsed:{}};
+  G.fight={foes,musicStarted:!!G.pendingBurn,P:Math.max(1,P0),sl:{},hb:{},bg:{},noise:null,order:[],turn:0,round:1,arrows:{},opening:spec.mode||'normal',first:spec.mode==='first',cur:null,escaped:[],noflee:G.lv==='D',nocover:['D','R'].includes(G.lv),tUsed:{}};
   G.phase='fight';beginEncounterBgm();await flush();snd(encounterStep(foes));push();draw();
   if((LV[G.lv].fx||{}).fightAlarm)addAlarm(1,null);
   if(n>spec.n)out(`不只一個。陰影裡還有${n-spec.n===1?'另一個':'更多'}。`,'bad',true);
@@ -5555,7 +5555,7 @@ async function tactic(p,tid,ti){
   if(T.itemAny){const k=T.itemAny.find(x=>hasI(p,x));if(k)takeI(p,k)}
   const dc=T.dc-(tid==='feed'?99:0);
   const c=tid==='feed'?{ok:true}:await check(p,T.st,dc,T.n);
-  if(!c.ok){out(pick(['沒能成功。牠的注意力全轉到了這邊。','差了一點。時機不對。']),'bad');if(tid==='gas'){hurtP(p,4,'火焰回捲過來：')}await deathCheck();return true}
+  if(!c.ok){out(pick(['沒能成功。牠的注意力全轉到了這邊。','差了一點。時機不對。']),'bad');if(tid==='gas'){beginBattleBgmOnce();hurtP(p,4,'火焰回捲過來：')}await deathCheck();return true}
   if(tid==='trip'){beginBattleBgmOnce();t.prone=1;out(`${t.n}被絆倒在地，正掙扎著要爬起來。下一擊一定打得中。`,'good')}
   else if(tid==='door'){beginBattleBgmOnce();t.stun=1;snd('doorclose');out(`門板狠狠夾住${t.n}的手臂，牠卡在門縫裡動彈不得。`,'good')}
   else if(tid==='corner'){beginBattleBgmOnce();t.stun=1;applyDmg(t,3,['blunt'],p,true);out(`${t.n}撲了個空，一頭撞在牆上。`,'good');if(t.hp<=0)await kill(t,p)}

@@ -6,6 +6,8 @@ await p.goto('http://localhost:8768/index.html');await p.click('#gateNo');await 
 await p.waitForFunction(()=>BGM_MIX.mode==='encounter'&&!BGM_MIX.tracks.encounter.paused&&BGM_MIX.tracks.encounter.currentTime>0);check(`${width}×${height} 偷襲前遭遇曲`,await p.evaluate(()=>!G.fight.musicStarted));await p.screenshot({path:`${OUT}/encounter-${width}x${height}.png`});
 await p.evaluate(()=>{window.__atk=attack(me(),'R',null,0)});await p.waitForFunction(()=>BGM_MIX.mode==='battle'&&!BGM_MIX.tracks.battle.paused&&BGM_MIX.tracks.battle.currentTime>0);await p.waitForTimeout(300);check(`${width}×${height} 首攻切B2且只有一首播放`,await p.evaluate(()=>Object.values(BGM_MIX.tracks).filter(a=>!a.paused).length===1));await p.screenshot({path:`${OUT}/battle-${width}x${height}.png`});
 await p.evaluate(()=>window.__atk);
+report.media=await p.evaluate(()=>Object.fromEntries(Object.entries(BGM_MIX.tracks).map(([k,a])=>[k,{src:a.src,duration:String(a.duration),readyState:a.readyState,networkState:a.networkState,buffered:a.buffered.length}])));
+await p.waitForFunction(()=>Number.isFinite(BGM_MIX.tracks.battle.duration)&&BGM_MIX.tracks.battle.duration>0,null,{timeout:90000});
 check('B2解碼長度約64.54秒',await p.evaluate(()=>Math.abs(BGM_MIX.tracks.battle.duration-64.53779)<.06));
 await p.evaluate(()=>{const a=BGM_MIX.tracks.battle;a.currentTime=a.duration-.2;window.__loopAt=Date.now()});await p.waitForFunction(()=>BGM_MIX.tracks.battle.currentTime<2);check('B2實際循環跨接',await p.evaluate(()=>!BGM_MIX.tracks.battle.paused));
 await p.evaluate(()=>{G.fight=null;restoreExploreBgm()});await p.waitForTimeout(1000);check('回探索後僅Evil播放且維持0.55音量',await p.evaluate(()=>BGM_MIX.mode==='explore'&&!BGM.paused&&BGM.volume===.55&&Object.values(BGM_MIX.tracks).filter(a=>!a.paused).length===1));

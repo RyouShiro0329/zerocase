@@ -18,7 +18,6 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: python3 verify_release.py
       - run: node --test tools/bgm.test.cjs tools/wounds.test.cjs tools/resistance.test.cjs tools/enemy-attack.test.cjs tools/qte-unified.test.cjs tools/gun-shot.test.cjs
-      - run: bash tests/run_all.sh
       - name: 兩尺寸、OGG與MP3實播及10分鐘循環
         run: |
           python3 -m http.server 8768 >/tmp/bgm-http.log 2>&1 &
@@ -28,3 +27,14 @@ jobs:
         with:
           name: bgm-v0.52.0-qa
           path: qa-output/
+  regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - run: bash tests/run_all.sh
