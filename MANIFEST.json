@@ -2,7 +2,7 @@
   "version": "0.48.0",
   "build": 114,
   "created_at": "2026-11-22T13:42:33+08:00",
-  "deployment": "候選版；合併部署後補登正式網站驗證",
+  "deployment": "已部署；正式網站新局、戰鬥與槍擊驗證通過",
   "files": {
     ".github/workflows/arrow-shot-qa.yml": "0ed6a93fe426ab66f5da9bb6e11741930483a20726776665403bf9d7f55a3d3c",
     ".github/workflows/evacuation-qa.yml": "7613f1f262996c8720b5d27573ac58d90822e2e46239cfed1053bd0c7fe90810",
@@ -29,7 +29,7 @@
     "audit_v0.45.1.json": "6e14065c0b199d0873edef9647159b9c5e48ba13037faa404cfdb601c5b37d6b",
     "audit_v0.46.0.json": "42eccd2a277780fd2fb7ce8ad131db081f0f06613eb5c09b9adb856942ea03f2",
     "audit_v0.46.1.json": "c33a835c549def6ccb0576d022c59974b1a125f541f608c9eaf79d460cf08c36",
-    "audit_v0.48.0.json": "7534868ceb47cc3287903d72ade1d31d0ba24077cd4ea8d83af784998f775b97",
+    "audit_v0.48.0.json": "7ed14b7f63933e62733ab35d6204e1c0fec8688cb81c54a3da0a5f1d97c2c2e1",
     "docs/AI_WORKFLOW.md": "ba485f0a689dbf82fcad34d5b12e77d777b18333e48747b53b42514898498f77",
     "docs/ARROW_SHOT_v0.46.0.md": "50d346898219beab45e436c8924ecb5bc2058d72d046eebd44f0104f6f207ced",
     "docs/BLUNT_FIX_v0.44.1.md": "16871f95404bb1880a6f20b9be19392cbd395d29e17f31f7cad17d4174da694f",
@@ -303,7 +303,7 @@
     "tools/slash-hit.test.cjs": "3751b72598f28f9f7c80873bf0348220fb27a134e8766b0faf3f430b6d5cd970",
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "69a27ecdf79c9ac16cf7867ada9366d7cb0b47a9c8017adb40c01f1b5f472248"
+    "更新說明.txt": "5f76c3eb08b32e64d02790940b017d8bebcf0efabb89a102d9ac76b8ce8adf0d"
   },
   "deployed_at": "2026-11-22T03:19:53+08:00",
   "verified_at": "2026-11-22T03:22:43+08:00",

@@ -132,5 +132,18 @@
       "reason": "正式多人實連未測；受控同步事件已驗"
     }
   },
-  "deployment": "合併後驗證，結果另行補登"
+  "deployment": {
+    "merge_commit": "929e279e557ab4aa71d671f468b49593a34edf45",
+    "merged_at": "2026-11-22T14:01:48+08:00",
+    "pr": 37,
+    "ci": "arrow-shot、evacuation-qa、pierce-audio、remove-dodge、visual-qa 全部通過",
+    "pages_build": "built 929e279 2026-11-22T14:02:13+08:00",
+    "live": {
+      "result": "通過",
+      "menu": "v0.48.0・Build 114",
+      "gun_browser_qa": "tools/gun-shot-browser.cjs 對正式網站 844x390／393x690 全部通過，錯誤 0",
+      "fx_sha256_match": true,
+      "console_errors": 0
+    }
+  }
 }
