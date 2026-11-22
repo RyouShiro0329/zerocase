@@ -1,0 +1,40 @@
+name: 三階段配樂完整驗收
+on:
+  pull_request:
+    branches: [main]
+    paths: [index.html, 'sfx/bgm*', 'tools/bgm*', '.github/workflows/bgm-qa.yml']
+permissions:
+  contents: read
+jobs:
+  bgm:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - run: python3 verify_release.py
+      - run: node --test tools/bgm.test.cjs tools/wounds.test.cjs tools/resistance.test.cjs tools/enemy-attack.test.cjs tools/qte-unified.test.cjs tools/gun-shot.test.cjs
+      - name: 兩尺寸、OGG與MP3實播及10分鐘循環
+        run: |
+          node tools/bgm-http.cjs >/tmp/bgm-http.log 2>&1 &
+          NODE_PATH=$(npm root -g) node tools/bgm-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bgm-v0.52.0-qa
+          path: qa-output/
+  regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - run: bash tests/run_all.sh
