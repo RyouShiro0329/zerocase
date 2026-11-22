@@ -693,7 +693,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.49.0", "b": 115, "t": "2026-11-22T14:17:27+08:00"};
+const ZC_VER={"v": "0.50.0", "b": 116, "t": "2026-11-22T15:50:18+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3022,7 +3022,7 @@ WP2:{L:'WP',n:'東岸淨水廠・取水站',
   {l:'把攔汙柵前面的東西拖開',hide:'wpscreen',t:'l',ok:{t:`你們用鐵鉤一樣一樣往上拖：木頭、垃圾、還有人。拖到一半，水底下有一團東西自己動了起來，整個脹成一顆球，朝你們浮過來。`,fight:{n:1,mode:'ambush',names:['泡在水裡的孵化者']},win:{r:{flag:'wpscreen'},t:'最後一團東西被拖上來的時候，河水嘩地一聲灌進了取水口。'},stay:1}},
   {l:'回沉澱池區',ok:{t:`你們沿著池邊的走道走回去。`,go:'WP1'}}]},
 WP3:{L:'WP',n:'東岸淨水廠・加氯室',
- onEnter(){const F=G.flags;if(!F.wpcl){for(const p of able()){if(maskWorn(p))continue;p.hp=Math.max(1,p.hp-3);out(`${MP()?nm(p)+'：':''}氯氣刮著喉嚨和眼睛，每吸一口都像吞了一把碎玻璃。生命 −3。`,'dmg',true)}}wpTap()},
+ async onEnter(){await chlorineExposure(0);wpTap()},
  tx:()=>G.flags.wpcl?'新的鋼瓶接上了，加氯機的指示燈亮著。空氣裡只剩一點點漂白水的味道。':'',
  t:`加氯室裡排著一列綠色的氯氣鋼瓶，每一支都有一個人那麼高。其中一支的閥門在嘶嘶地漏，地上那一圈的油漆都褪成了白色，空氣裡有一層看得見的黃綠色。\n\n加氯機的面板上寫著：「鋼瓶更換程序：關閉主閥 → 拆下接頭 → 更換鋼瓶 → 檢漏」。`,
  c:[
@@ -3562,6 +3562,8 @@ N.A2.c.find(c=>c.l==='躲進浴室，鎖上門').ok.audio='woodimpact';
 N.G2.c.find(c=>c.l==='啟動發電機').ok.audio='genstart';N.G2.c[0].ok.audioFlag='power';
 for(const c of N.PP3.c.filter(c=>c.ok&&c.ok.r&&c.ok.r.flag==='ppgen')){c.ok.audio='genstart';c.ok.audioFlag='ppgen'}
 EVPOOL.find(e=>e.id==='smoke').c[0].ok.audioStop='firealarm';
+// v0.50.0 明確指定的恐怖事件；原本調查檢定與獎勵不變。
+for(const e of EVPOOL.filter(e=>['blood','body','mirror','kid','tv','phone'].includes(e.id)))for(const c of e.c)for(const o of [c.ok,c.ng])if(o&&o.p&&o.p.fear>=6&&!o.fight&&!o.qte)o.resist='storyFear';
 // 第二批：只對已核對的結果物件加音效，不掃描顯示文字決定播放。
 N.I1.c.find(c=>c.l==='貼著柱子溜向大門').ng.audio='glassstep';
 EVPOOL.find(e=>e.id==='acru1').c[0].ng.audio='glassstep';
@@ -3977,6 +3979,14 @@ async function check(p,st,dc,label,extra){
   LASTJ=j;
   return {ok,r:R.s,tot,crit:j==='crit',fumble:j==='fumble'};
 }
+// v0.50.0 抵抗：指定效果各自決定避免、減輕或延後；不更動QTE或已承受傷害。
+const RESIST_EFFECTS={
+ control:{mode:'avoid'},fright:{st:'CHA',mode:'reduce'},storyFear:{st:'CHA',dc:12,mode:'reduce',label:'抵抗驚嚇'},
+ chlorine:{st:'CON',dc:12,mode:'reduce',label:'抵抗刺激氣體'},chlorineLong:{st:'CON',dc:12,mode:'delay',unit:3,label:'抵抗持續暴露'}
+};
+function resistValue(rule,ok,amount){const n=Math.max(0,Number(amount)||0);if(!ok)return n;if(rule.mode==='avoid')return 0;if(rule.mode==='reduce')return Math.ceil(n/2);if(rule.mode==='delay')return Math.max(0,n-(rule.unit||n));return n}
+async function resistCheck(p,rule,o={}){const prior=LASTJ;try{const c=await check(p,o.st||rule.st,o.dc??rule.dc,o.label||rule.label,o.bonus||0);return {...c,amount:resistValue(rule,c.ok,o.amount||0)}}finally{LASTJ=prior}}
+async function resistFear(p,n,rule=RESIST_EFFECTS.storyFear){if(!(n>0)||p.dead||p.mad)return;const c=await resistCheck(p,rule,{amount:n,bonus:tr(p,'calm')?3:0});if(c.ok)out(`${nm(p)}穩住呼吸，這次的驚嚇減輕了。`,'good',true);scare(p,c.amount);return c}
 /* v0.31.2 cm：爆擊倍率，只顯示在算式裡（回傳值不含倍率，由呼叫的地方乘） */
 async function dmgRoll(groups,plus,label,foe,cm){/* v0.32.0 傷害骰在背景擲（主人 2026-11-18：只顯示命中骰，傷害寫在事件紀錄） */
   const ds=[];for(const [n,s] of groups)for(let i=0;i<n;i++)ds.push(rnd(1,s));
@@ -4147,6 +4157,7 @@ async function passTime(min){if(!G||G.clock==null||!min||G.over)return false;
     if(p.hun<=0){p.tSh=(p.tSh||0)+min;const n=Math.floor(p.tSh/360);if(n){p.tSh-=n*360;p.hp-=2*n;out(`${nm(p)}餓得手腳發軟。生命 −${2*n}。`,'dmg')}}else p.tSh=0;
   }
   toxTime(min);
+  await chlorineExposure(min);
   const p1=periodOf(hourN()),d1=dayN();
   if(d1!==d0||p1!==p0){
     if(p1==='night')out('天黑了。入夜之後很難看清楚四周，感染者也比白天更躁動。','rule',true);
@@ -4173,6 +4184,17 @@ function toxTime(min){const tox=((LV[G.lv]||{}).fx||{}).toxic;if(!tox)return;
     p.tX=(p.tX||0)+left;const n=Math.floor(p.tX/30);if(!n)continue;p.tX-=n*30;
     let v=n*tox;if(G.flags.mask)v=Math.max(1,Math.round(v/2));const b0=p.inf;addInf(p,v);
     if(p.inf>b0)out(`${MP()?nm(p)+'：':''}空氣裡有東西，每吸一口都黏在喉嚨裡。感染 +${p.inf-b0}${G.flags.mask?'（濕布擋掉了一些）':''}。`,'dmg',true)}}
+// 加氯室：首次未防護暴露減輕判定，之後每累積30分鐘一次階段；離開保留進度。
+async function chlorineExposure(min){if(G.node!=='WP3'||G.flags.wpcl)return;
+  for(const p of able()){let left=Math.max(0,min||0);
+    if(maskWorn(p)){if(!(p.mf>0)&&hasI(p,'filter')){takeI(p,'filter');p.mf=FILTER_MIN;out(`${nm(p)}換上新的濾毒罐。`,'sys',true)}
+      if(!left&&p.mf>0)continue;
+      while(left>0&&p.mf>0){const use=Math.min(left,p.mf);p.mf-=use;left-=use;if(left>0&&!(p.mf>0)&&hasI(p,'filter')){takeI(p,'filter');p.mf=FILTER_MIN;out(`${nm(p)}換上新的濾毒罐。`,'sys',true)}}if(left<=0&&min>0)continue}
+    const all=p.resistExposure||(p.resistExposure={}),e=all.chlorine||(all.chlorine={entered:false,minutes:0});
+    const apply=async(rule,n)=>{const c=await resistCheck(p,rule,{amount:n});const d=c.amount;if(d){p.hp=Math.max(1,p.hp-d);out(`${nm(p)}吸入了刺激性的氣體。`,'dmg',true)}if(c.ok)out(rule.mode==='delay'?`${nm(p)}撐過了這一段，身體的負擔暫時沒有惡化。`:`${nm(p)}及時穩住呼吸，這次的影響減輕了。`,'good',true)};
+    if(!e.entered){e.entered=true;await apply(RESIST_EFFECTS.chlorine,3)}
+    e.minutes+=left;const n=Math.floor(e.minutes/30);e.minutes-=n*30;if(n)await apply(RESIST_EFFECTS.chlorineLong,3*n)}
+}
 // 濾罐狀態只講大概，不寫數字
 const mfTxt=p=>!(p.mf>0)?(hasI(p,'filter')?'沒有裝濾罐（背包裡有）':'沒有濾罐'):p.mf>FILTER_MIN*.66?'濾罐還很新':p.mf>FILTER_MIN*.33?'濾罐用了一半左右':'濾罐快用完了';
 /* ================= 城市與天數（v0.9.0） =================
@@ -4337,7 +4359,7 @@ async function enterNode(id){
     if(typeof lateJoin==='function')lateJoin();
     for(const p of G.players)if(p.down&&!p.dead&&!p.leftBehind&&!p.evacCarry&&DF().wake){p.down=0;if(p.mad){p.mad=0;setFear(p,90)}p.hp=Math.max(1,Math.ceil(p.max*.25));out(`${nm(p)}咳了幾聲，慢慢撐著牆站了起來。生命回到 ${p.hp}。`,'good')}
   }
-  G.node=id;G.gwOk=null;G.ev=null;G.audioVisit=(G.audioVisit||0)+1;G.audioEnteredAt=Date.now();G.votes={};G.rv={};G.pc=null;/* v0.21.0：地上的東西留在原地，回來還撿得到 */G.grounds=G.grounds||{};if(G.gnode&&G.gnode!==id)G.grounds[G.gnode]=G.ground.length?G.ground:undefined;if(G.gnode!==id)G.ground=G.grounds[id]||[];G.gnode=id;G.flags['v_'+id]=1;if(nd.onEnter)nd.onEnter();
+  G.node=id;G.gwOk=null;G.ev=null;G.audioVisit=(G.audioVisit||0)+1;G.audioEnteredAt=Date.now();G.votes={};G.rv={};G.pc=null;/* v0.21.0：地上的東西留在原地，回來還撿得到 */G.grounds=G.grounds||{};if(G.gnode&&G.gnode!==id)G.grounds[G.gnode]=G.ground.length?G.ground:undefined;if(G.gnode!==id)G.ground=G.grounds[id]||[];G.gnode=id;G.flags['v_'+id]=1;if(nd.onEnter)await nd.onEnter();
   if(nd.ev){const ch=LV[nd.L].ch||1;const mine=evCands(nd);const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;if(EVPOOL[i].id==='rain')beginRainAudio();out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
   else if(seen&&zr&&(zr.role==='hub'||(zr.role==='room'&&zDone(zr.z)))){hd(nd.n);out(`你回到${/^\w/.test(nd.n)?' ':''}${nd.n}。`,'lore')}
   else if(seen&&nd.sr){hd(nd.n);if(from!==id)out(`你回到${/^\w/.test(nd.n)?' ':''}${nd.n}。`,'lore')}
@@ -4545,7 +4567,7 @@ async function outcome(o,actor){
   if(r.burn){G.pendingBurn=1;await flush();snd('mthrow');await wait(450);await sndW('mimpact',1,1500,.5);
     if(G.lv==='F'&&!G.flags.gasoff){await explode();}}
   if(r.gasboom){skipHp=true;if(G.flags.gasoff)out('……什麼都沒有發生。瓦斯總閥剛才已經被關掉了。槍聲在廚房裡迴盪。','good');else await explode()}
-  if(p.fear){const n=p.fear;for(const q of able()){if(n>0)scare(q,n);else relax(q,Math.round(-n*1.5))}}
+  if(p.fear){const n=p.fear;for(const q of able()){if(n>0){if(o.resist==='storyFear')await resistFear(q,n);else scare(q,n)}else relax(q,Math.round(-n*1.5))}}
   if(p.hp&&!skipHp){await flush();if(p.hp<0){snd(hurtSnd(o.t),.6);hurtP(actor,-p.hp)}else actor.hp=Math.min(actor.max,actor.hp+p.hp)}
   if(p.inf)addInf(actor,p.inf);
   if(p.hun)actor.hun=clamp(actor.hun+p.hun,0,10);if(p.thi)actor.thi=clamp(actor.thi+p.thi,0,10);
@@ -4808,6 +4830,7 @@ const lurkHid=f=>!!(f&&f.hid&&FOES[f.type]&&FOES[f.type].lurk)
 // 舊存檔：類型換成新名字，舊的變異詞條拿掉
 const OLDTYPE={thin:'infected',dog:'infected',bloated:'incubator',riot:'devourer',looter:'cutter'};
 function migrateG(g){if(!g)return g;
+  for(const p of g.players||[]){const e=p.resistExposure&&p.resistExposure.chlorine;if(e){e.entered=!!e.entered;e.minutes=clamp(Number(e.minutes)||0,0,29)}}
   // v0.46.1 主人取消獨立閃躲：清除舊姿態與待執行指令，不改其他防守或回合進度
   for(const p of g.players||[])if(p.stance==='dodge')p.stance=null;
   if(g.fight&&g.fight.pend)for(const pid of Object.keys(g.fight.pend))if(g.fight.pend[pid]&&g.fight.pend[pid].a==='dodge')delete g.fight.pend[pid];
@@ -4957,10 +4980,10 @@ async function startFight(spec){
 }
 async function fright(fs,act){if(!fs.length)return;act=act||able();if(!act.length)return;
   const tdc=Math.max(...fs.map(f=>FT(f).tdc)),ter=Math.max(...fs.map(f=>FT(f).ter));
-  const ts=act.map(p=>{const R=r2(),m=statMod(p,'CHA')+(tr(p,'calm')?3:0);const j=judge(R,R.s+m,tdc+(fstg(p)>=2?2:0));return {p,R,m,j,ok:j==='ok'||j==='crit'}});
+  const ts=act.map(p=>{const R=r2(),m=statMod(p,'CHA')+(tr(p,'calm')?3:0)+checkBonus(p,'CHA');const j=judge(R,R.s+m,tdc+(fstg(p)>=2?2:0));return {p,R,m,j,ok:j==='ok'||j==='crit'}});
   await dice({label:'驚嚇檢定',sub:`統帥 d20${DF().num?`　難度 ${tdc}`:''}`,quick:true,dice:ts.flatMap(x=>pairDice(x.R,MP()?esc(x.p.name).slice(0,4):'').map(d=>({...d,cls:x.ok?'ok':'ng'}))),
     result:ts.length===1?`${eqS(ts[0].R.a,ts[0].m,ts[0].R.s+ts[0].m)}<span class="${ts[0].ok?'s':'f'}">${ts[0].ok?'穩住了':'動搖'}</span>`:ts.map(x=>`<small class="ln">${esc(x.p.name)}　${x.R.a} ${sgS(x.m)} = ${x.R.s+x.m}　${x.ok?'穩住了':'動搖'}</small>`).join('')});
-  for(const x of ts){const ok=x.ok;if(!ok){out(`${MP()?nm(x.p)+'：':''}${pick(['看到牠的臉，胃裡一陣翻攪。','腦袋一片空白，有好幾秒想不起自己在哪裡。','腿軟了一下，差點站不住。'])}`,'bad',true);loseSan(x.p,ter)}}}
+  for(const x of ts){const ok=x.ok;if(!ok)out(`${MP()?nm(x.p)+'：':''}${pick(['看到牠的臉，胃裡一陣翻攪。','腦袋一片空白，有好幾秒想不起自己在哪裡。','腿軟了一下，差點站不住。'])}`,'bad',true);else if(ter>0)out(`${nm(x.p)}穩住呼吸，這次的驚嚇減輕了。`,'good',true);const n=resistValue(RESIST_EFFECTS.fright,ok,S2F(ter));if(n>0)scare(x.p,n)}}
 // 獵食者現身或被找到：顯示名字與立繪，補一次驚嚇檢定
 async function revealLurk(f,say){f.hid=0;nameFoes(G.fight.foes);if(say)say();push();draw();if(FT(f).ter)await fright([f])}
 async function advance(){
@@ -5058,7 +5081,7 @@ const critX=(f,mv)=>FT(f).fac==='inf'?2:mv.snipe?1:(mv.gun||mv.shot)?1.5:2;
 // v0.47.0：受擊後只抵抗控制效果，不重判傷害或 QTE；力量抵抗可受有效格擋加成。
 async function foeControlSave(f,mv,t,label){if(!mv.save)return false;
   const S=mv.save,bonus=S.st==='STR'&&stanceOf(t,f,mv).half&&t.stance==='block'?2:0;
-  const c=await check(t,S.st,S.dc,'抵抗'+label,bonus);
+  const c=await resistCheck(t,RESIST_EFFECTS.control,{st:S.st,dc:S.dc,label:'抵抗'+label,bonus});
   if(c.ok)out(`${nm(t)}${label==='抓住'?'扯開了伸來的手':label==='失衡'?'撐住身體，沒有倒下':'穩住意識，仍能行動'}。傷害仍然承受。`,'good',true);
   return c.ok}
 async function hitFx(f,mv,t,d,crit){const T=FT(f);const sh=t.shdHit;t.shdHit=null;/* v0.33.0 妲爾的護盾：還有護盾時不吃狀態；整個擋下時不感染 */
