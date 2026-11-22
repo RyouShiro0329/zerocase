@@ -95,3 +95,16 @@
 正式網站只收錄 bgm_encounter 與 bgm_battle 共四檔；其餘備選保留於原交接包。
 
 作者網站與署名：Music by Matthew Pablo — https://www.matthewpablo.com 。來源頁列明CC BY-SA 3.0，另依作者服務頁的署名格式保留網站連結（https://www.matthewpablo.com/services）。
+
+
+## v0.53.0 一般戰鬥與激戰：Hitman
+
+- 作品：Hitman；作者：Kevin MacLeod（https://incompetech.com）。ISRC：USUAN1300013。
+- 官方素材來源：https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1300013
+- 官方系列頁與使用說明：https://incompetech.com/agent-section/
+- 授權：Creative Commons Attribution 4.0（CC BY 4.0），https://creativecommons.org/licenses/by/4.0/ 。2026-11-23（Asia/Taipei）核對官方資料。
+- 署名："Hitman" Kevin MacLeod (incompetech.com), Licensed under Creative Commons: By Attribution 4.0。
+- 主人提供Hitman.mp3；SHA-256：005d6e28345e3c50a0715f5cf887c4cf02c3fa70910cdacc312bf348a3f2a647。
+- 改作：sfx/bgm_hitman_battle.ogg／.mp3使用0～114秒；sfx/bgm_hitman_intense.ogg／.mp3使用114～194秒。分段、各20ms首尾淡化、轉檔；不變速、不變調、不正規化。工具：tools/process-hitman.py。
+- 原曲前奏納入一般段，取消獨立遭遇曲；3:14以後收尾不納入循環。作者未參與或替本遊戲背書。
+- 遊戲Credits已列作品、作者、來源、授權與改作說明。舊Imminent Threat檔案與署名保留，不繼續作為目前戰鬥配樂。

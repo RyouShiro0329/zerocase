@@ -693,7 +693,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.52.0", "b": 118, "t": "2026-11-22T20:04:57+08:00"};
+const ZC_VER={"v": "0.53.0", "b": 119, "t": "2026-11-23T00:39:48+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3572,7 +3572,7 @@ N.W0.c.find(c=>c.l==='把鐵門扳開').ng.audio='doorlocked';
 EVPOOL.find(e=>e.id==='radio').audio='radiostatic';
 {const c=N.WP4.c.find(c=>c.ok&&c.ok.r&&c.ok.r.flag==='wpgen');c.ok.audio='genstart';c.ok.audioFlag='wpgen'}
 {const original=N.WP5b.onEnter;N.WP5b.onEnter=function(){original();if(G.flags.wpfail)snd('pumpstop',1,8000)}}
-const CREDITS=`音效沿用《零號病例》原專案素材。其中：“Headshot 2” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；“GROSS IMPACT” by magnuswaker（Freesound，CC0）；“Monster Bite on Armor WAV” by OGsoundFX（Freesound，CC BY 4.0）；“Acid Breath Attack” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；裝備切換音效取自 Ryan Conway “putting coat on and off with zippers”（Freesound，CC BY 4.0）。新增音效（CC0）：glassbreak—RangoAnimations（613879）、firealarm—simonjeffery13（792484）、genstart／genloop—jameswrowles（516759）、dryfire—serøutōnin--deprivəd（674568）、woodknock—RoyalRose（560295）、woodimpact—qubodup（160213）。<a href="docs/audio/LICENSES_AND_ORIGINS.md" target="_blank" rel="noopener">作者、Freesound 原始網址與授權紀錄</a>。第二批 CC0：踩玻璃 LukaCafuka（757830）、管線水聲 HenKonen（797674）、水泵 unfa（221551）、無線電雜訊 harrisonlace（812929）。人聲：VoiceBosch「RADIO SOLDIER」，降一個半音、切段、調整音量；衍生音檔採 <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>，<a href="https://voicebosch.itch.io/radio-soldier-announcer-audio-pack" target="_blank" rel="noopener">作者來源</a>。以上音效作者與本作品無關，也未替本作品背書。穿刺命中音效：“Sword Stab Body Hit” by <a href="https://freesound.org/people/-GeorgeDiamond-/sounds/718259/" target="_blank" rel="noopener">-GeorgeDiamond-（Freesound 718259）</a>，<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>；轉為 MP3，播放時調整音量。弓／弩發射音效：<a href="https://freesound.org/people/Erdie/sounds/65734/" target="_blank" rel="noopener">“bow02.wav” by Erdie</a>，<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>；濾波、等化、縮尾與音量調整。骰子音效為程式即時合成。戰鬥與遭遇配樂改作自 <a href="https://opengameart.org/content/imminent-threat" target="_blank" rel="noopener">Imminent Threat，Matthew Pablo</a>（Music by Matthew Pablo，<a href="https://www.matthewpablo.com" target="_blank" rel="noopener">www.matthewpablo.com</a>）；改作音訊採 <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>。《零號病例》版本曾進行混音、剪接、循環與音量處理。原作者未參與或背書本遊戲。<br><br>中文字型：全字庫正楷體（國家發展委員會，2018）；英文字型：Source Serif 4。<a href="fonts/SOURCES.md" target="_blank" rel="noopener">字型來源與授權</a>。`;
+const CREDITS=`音效沿用《零號病例》原專案素材。其中：“Headshot 2” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；“GROSS IMPACT” by magnuswaker（Freesound，CC0）；“Monster Bite on Armor WAV” by OGsoundFX（Freesound，CC BY 4.0）；“Acid Breath Attack” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；裝備切換音效取自 Ryan Conway “putting coat on and off with zippers”（Freesound，CC BY 4.0）。新增音效（CC0）：glassbreak—RangoAnimations（613879）、firealarm—simonjeffery13（792484）、genstart／genloop—jameswrowles（516759）、dryfire—serøutōnin--deprivəd（674568）、woodknock—RoyalRose（560295）、woodimpact—qubodup（160213）。<a href="docs/audio/LICENSES_AND_ORIGINS.md" target="_blank" rel="noopener">作者、Freesound 原始網址與授權紀錄</a>。第二批 CC0：踩玻璃 LukaCafuka（757830）、管線水聲 HenKonen（797674）、水泵 unfa（221551）、無線電雜訊 harrisonlace（812929）。人聲：VoiceBosch「RADIO SOLDIER」，降一個半音、切段、調整音量；衍生音檔採 <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>，<a href="https://voicebosch.itch.io/radio-soldier-announcer-audio-pack" target="_blank" rel="noopener">作者來源</a>。以上音效作者與本作品無關，也未替本作品背書。穿刺命中音效：“Sword Stab Body Hit” by <a href="https://freesound.org/people/-GeorgeDiamond-/sounds/718259/" target="_blank" rel="noopener">-GeorgeDiamond-（Freesound 718259）</a>，<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>；轉為 MP3，播放時調整音量。弓／弩發射音效：<a href="https://freesound.org/people/Erdie/sounds/65734/" target="_blank" rel="noopener">“bow02.wav” by Erdie</a>，<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>；濾波、等化、縮尾與音量調整。骰子音效為程式即時合成。舊版戰鬥與遭遇配樂改作自 <a href="https://opengameart.org/content/imminent-threat" target="_blank" rel="noopener">Imminent Threat，Matthew Pablo</a>（Music by Matthew Pablo，<a href="https://www.matthewpablo.com" target="_blank" rel="noopener">www.matthewpablo.com</a>）；改作音訊採 <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>。《零號病例》版本曾進行混音、剪接、循環與音量處理。原作者未參與或背書本遊戲。一般戰鬥與激戰配樂：“Hitman” by <a href="https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1300013" target="_blank" rel="noopener">Kevin MacLeod（incompetech.com）</a>，<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>；分段、首尾短淡化及轉檔，作者未替本遊戲背書。<br><br>中文字型：全字庫正楷體（國家發展委員會，2018）；英文字型：Source Serif 4。<a href="fonts/SOURCES.md" target="_blank" rel="noopener">字型來源與授權</a>。`;
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
 let UI=Object.assign({snd:1,bgm:1,spd:1,orient:'auto',diff:'normal',qkey:'wasd'},LS.get('zc5-ui',{}));
 // 戰鬥友軍卡為本機偏好，不跟隨帳號的介面設定同步；iPad 桌面版識別也視為行動裝置。
@@ -3845,34 +3845,36 @@ function encounterStep(foes){return foes.some(f=>FT(f).fac==='inf')?'zstep':'ste
 function radioLine(id){snd(id,1,4000)}
 function movementSound(from,to){const floors={A:3,B:2,E:1,F:1,G:-1,I:1};return floors[from]!=null&&floors[to]!=null&&floors[from]!==floors[to]?'stairs':'step'}
 function headshotHit(w,aimed,crit,shot,spread,target,primary){return w.kind==='gun'&&aimed>0&&crit&&shot===0&&!spread&&target===primary}
-// 三階段配樂：只有實際出手才標記本場戰鬥；三個固定播放器，最多短暫交叉淡化。
+// 探索沿用Evil；首攻才切一般／激戰配樂，不另播遭遇曲。
 const BGM=new Audio();
-const BGM_MIX={mode:null,allowed:false,timer:null,epoch:0,fight:null,started:false,tracks:{explore:BGM,encounter:new Audio(),battle:new Audio()}};
+const BGM_MIX={mode:null,allowed:false,timer:null,epoch:0,fight:null,started:false,intense:false,tracks:{explore:BGM,battle:new Audio(),intense:new Audio()}};
 for(const [mode,a] of Object.entries(BGM_MIX.tracks)){
   a.loop=true;a.preload='auto';a.volume=mode==='explore'?.55:0;
-  const stem=mode==='explore'?'bgm':'bgm_'+mode;
+  const stem=mode==='explore'?'bgm':mode==='intense'?'bgm_hitman_intense':'bgm_hitman_battle';
   a.src='sfx/'+stem+(a.canPlayType('audio/ogg; codecs="vorbis"')?'.ogg':'.mp3');
   a.onerror=()=>{if(!a.src.endsWith('.mp3')){a.src='sfx/'+stem+'.mp3';syncBgmState()}else{a.zcFailed=true;syncBgmState()}};
 }
 function syncBgmState(){
   const M=BGM_MIX,F=G&&G.fight;
+  if(F&&F.musicIntense==null)F.musicIntense=G.alarmFt===2;
   const id=F&&(F.musicId||G.rid+':legacy');
-  if(id!==M.fight){M.fight=id;M.started=false}
+  if(id!==M.fight){M.fight=id;M.started=false;M.intense=!!(F&&(F.musicIntense==null?G.alarmFt===2:F.musicIntense))}
+  if(F&&F.musicIntense)M.intense=true;
   if(F&&F.musicStarted)M.started=true;
   const waiting=F&&Array.isArray(F.escaped)&&F.escaped.includes(MYPID);
-  let mode=waiting?'explore':F?(M.started?'battle':'encounter'):G&&G.pendingBurn?'battle':'explore';
+  let mode=waiting?'explore':F?(M.started?(M.intense?'intense':'battle'):'explore'):G&&G.pendingBurn?'battle':'explore';
   if(M.tracks[mode].zcFailed)mode='explore';
   if(!M.allowed||!UI.bgm||document.hidden||G&&G.over){clearInterval(M.timer);M.timer=null;M.epoch++;for(const a of Object.values(M.tracks))try{a.pause()}catch(e){};return}
   const a=M.tracks[mode],changed=M.mode!==mode;
-  if(changed){const old=M.mode;M.mode=mode;clearInterval(M.timer);const epoch=++M.epoch,from=Object.values(M.tracks).map(x=>x.volume),keys=Object.keys(M.tracks),at=Date.now(),ms=mode==='explore'?900:mode==='battle'?150:250;
+  if(changed){const old=M.mode;M.mode=mode;clearInterval(M.timer);const epoch=++M.epoch,from=Object.values(M.tracks).map(x=>x.volume),keys=Object.keys(M.tracks),at=Date.now(),ms=mode==='explore'?900:150;
     if(mode!=='explore'||old===null)a.currentTime=0;
     const fade=()=>{if(epoch!==M.epoch)return;const t=Math.min(1,(Date.now()-at)/ms);keys.forEach((k,i)=>{const x=M.tracks[k];x.volume=from[i]+((k===mode?(k==='explore'?.55:.45):0)-from[i])*t;if(t===1&&k!==mode){x.pause();if(k!=='explore')x.currentTime=0}});if(t===1){clearInterval(M.timer);M.timer=null}};
     M.timer=setInterval(fade,25);
   }else if(!M.timer){for(const [k,x] of Object.entries(M.tracks)){if(k===mode)x.volume=k==='explore'?.55:.45;else{x.pause();x.volume=0}}}
   if(a.paused)try{const playEpoch=M.epoch,p=a.play();if(p&&p.then)p.then(()=>{if(playEpoch!==M.epoch&&(M.mode!==mode||!M.allowed||!UI.bgm||document.hidden))a.pause()}).catch(()=>{})}catch(e){}
 }
-function beginEncounterBgm(){if(G&&G.fight&&!G.fight.musicId)G.fight.musicId=G.rid+':'+Date.now();syncBgmState()}
-function beginBattleBgmOnce(){const F=G&&G.fight;if(!F||G.over||F.musicStarted)return;F.musicStarted=true;syncBgmState();E('bgm',{rid:G.rid,id:F.musicId});push()}
+function beginEncounterBgm(){if(G&&G.fight){if(!G.fight.musicId)G.fight.musicId=G.rid+':'+Date.now();if(G.fight.musicIntense==null)G.fight.musicIntense=G.alarmFt===2}syncBgmState()}
+function beginBattleBgmOnce(){const F=G&&G.fight;if(!F||G.over||F.musicStarted)return;F.musicStarted=true;syncBgmState();E('bgm',{rid:G.rid,id:F.musicId,intense:!!F.musicIntense});push()}
 function restoreExploreBgm(){syncBgmState()}
 function startBgm(){BGM_MIX.allowed=true;syncBgmState()}
 function stopBgm(){BGM_MIX.allowed=false;syncBgmState()}
@@ -5021,7 +5023,7 @@ async function startFight(spec){
   nameFoes(foes);
   for(const p of G.players){if(!teamHere(p))continue;p.combo=0;p.counter=0;p.brace=0;p.actUsed=0;p.defPen=0;p.aimed=0;p.stance=null;p.held=0;if(!p.evacWounds){p.dazed=0;p.humus=0}p.calmUsed=0;p.skUsed={};p.tlUsed={};p.covering=0;p.grit=0}
   for(const p of G.players)if(teamHere(p))darStart(p);
-  G.fight={foes,musicStarted:!!G.pendingBurn,P:Math.max(1,P0),sl:{},hb:{},bg:{},noise:null,order:[],turn:0,round:1,arrows:{},opening:spec.mode||'normal',first:spec.mode==='first',cur:null,escaped:[],noflee:G.lv==='D',nocover:['D','R'].includes(G.lv),tUsed:{}};
+  G.fight={foes,musicStarted:!!G.pendingBurn,musicIntense:G.alarmFt===2,P:Math.max(1,P0),sl:{},hb:{},bg:{},noise:null,order:[],turn:0,round:1,arrows:{},opening:spec.mode||'normal',first:spec.mode==='first',cur:null,escaped:[],noflee:G.lv==='D',nocover:['D','R'].includes(G.lv),tUsed:{}};
   G.phase='fight';beginEncounterBgm();await flush();snd(encounterStep(foes));push();draw();
   if((LV[G.lv].fx||{}).fightAlarm)addAlarm(1,null);
   if(n>spec.n)out(`不只一個。陰影裡還有${n-spec.n===1?'另一個':'更多'}。`,'bad',true);
@@ -6211,7 +6213,7 @@ async function pump(){qRun=true;
     if(o.peer&&SLASH_VFX.peer!==o.peer){SLASH_VFX.peer=o.peer;SLASH_VFX.stateSeq=0}
     try{
       if(o.t==='o'){L_out(o.d[0],o.d[1],o.d[2]);if(!FAST)await typing}
-      else if(o.t==='bgm'){if(G&&G.fight&&o.d.rid===G.rid&&o.d.id===G.fight.musicId){G.fight.musicStarted=true;syncBgmState()}}
+      else if(o.t==='bgm'){if(G&&G.fight&&o.d.rid===G.rid&&o.d.id===G.fight.musicId){if(G.fight.musicIntense==null&&typeof o.d.intense==='boolean')G.fight.musicIntense=o.d.intense;G.fight.musicStarted=true;syncBgmState()}}
       else if(o.t==='d'){await showDice(o.d)}
       else if(o.t==='s'){if(o.d[3]&&o.d[3].arrow)await playArrowShot(o.d[3],true,o.seq);else{const ms=sfx(o.d[0],o.d[1],o.d[2]||undefined);if(['bowhit','bowmiss','arrowhit','arrowmiss','xbowhit','xbowmiss'].includes(o.d[0]))await wait(ms||1500)}}
       else if(o.t==='slash'){await playSlashHit(o.d,true,o.seq)}
