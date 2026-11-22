@@ -297,9 +297,9 @@
     "tools/remove-dodge.test.cjs": "29e37cac24f6eb4fb62508b49955280cd0222956c3dba1517f10be99ec99416e",
     "tools/remove-dodge-browser.cjs": "db6719616d9b8596bc5f025d5087b5f12c6847f5f13c010af79a8771a2e972c3",
     ".github/workflows/remove-dodge-qa.yml": "84e6436c9fc64ec03f77c557114c9c3e1623f27e9e95665100ff45e0d7ceec24",
-    "previews/qte/build.py": "5fc299fed42162fd61cbed75e0b11fd6d59efc29bca7ac971aa7caad2f02dba3",
-    "previews/qte/browser.cjs": "3e0f9556bb429fd8e2558cc180fa912df483befdbc81bf5ae124503885d506be",
-    "previews/qte/README.md": "c35708ae3f210a6bc1b0dafd7a8f909089ad040a123ec2d663fdd39170ab2d4a",
+    "previews/qte/build.py": "1638db17a48c80df39c4e20253e0a1e0fc5840d581af40793575ce38f46991c9",
+    "previews/qte/browser.cjs": "670c73319850da88190e17692b741a9e296e2fc91e99f3d6af1542b1ad80eb09",
+    "previews/qte/README.md": "cef7d8990cc6c500cd17ee482f53839a480f27b9f3b94052dc159ef548fb5271",
     ".github/workflows/qte-preview-qa.yml": "4e105e4e0ad1713f1f35550332b4b23746cedfba063efdefd47262343e157a9c"
   },
   "deployed_at": "2026-11-22T03:19:53+08:00",
