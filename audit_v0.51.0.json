@@ -18,11 +18,13 @@
   ],
   "tests": {
     "node": "通過（249項，原有TODO1項）",
-    "cloud": "未測試（執行中）",
-    "screenshots": "未測試（等待產物）",
+    "cloud": "通過（8套工作流程，含完整run_all、冒煙及長路線）",
+    "screenshots": "通過（844×390及393×690共4張親眼檢視）",
     "phone": "待主人實機驗收",
     "multiplayer": "未測試（未進行正式多人實連）",
     "balance": "未測試（完整回歸使用既有無敵模式）"
   },
-  "deployment": "尚未合併或部署"
+  "deployment": "尚未合併或部署",
+  "tested_commit": "c3761a7d488945ec4b56294738a8301873ddacf9",
+  "qa_record": "docs/WOUNDS_QA_v0.51.0.json"
 }
