@@ -39,7 +39,7 @@ markup='''<div id="stage"><div id="app">
 <div class="preview-body"><section class="preview-left panel">
 <div class="preview-foe"><img src="__FOE__" alt="巨噬者"><div><b>巨噬者 · 震盪重擊</b><span>牠把手臂往後拉，盯著你的動作。</span></div></div>
 <h2>看見提示，再按。</h2><p>新版一次只出現一個提示。成功按下後，才會出現下一個；倒數持續，不會重置。</p><p>「現行對照」保留目前兩格預先顯示，方便比較。兩個新版都取消換組停頓。</p>
-<p class="preview-note">手機直拿會自動轉成橫向。錯誤輸入與逾時沿用原判定；這裡不會扣血、不會改存檔。</p></section>
+<p class="preview-note">手機直拿會自動轉成橫向。按錯與逾時沿用原判定；這裡不會扣血、不會改存檔。</p></section>
 <section class="preview-right panel"><div class="preview-modes" role="group" aria-label="節奏選擇">
 <button class="btn" data-preset="current" aria-pressed="false">現行對照</button><button class="btn" data-preset="brisk" aria-pressed="true">稍快・逐個</button><button class="btn" data-preset="tense" aria-pressed="false">更快・逐個</button></div>
 <div class="preview-setting configs"><label>身手 <select id="profile"><option value="standard">一般身手</option><option value="agile">靈活敏捷</option><option value="injured">負傷狀態</option></select></label><label>難度 <select id="difficulty"><option value="normal">普通</option><option value="hard">困難</option></select></label><label>操作 <select id="inputMode"><option value="touch">手機觸控</option><option value="keys">鍵盤 WASD</option></select></label></div>
