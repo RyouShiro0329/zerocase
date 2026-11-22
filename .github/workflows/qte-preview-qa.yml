@@ -1,0 +1,25 @@
+name: QTE逐個提示預覽驗收
+on:
+  pull_request:
+    branches: [main]
+    paths: ["previews/qte/**", ".github/workflows/qte-preview-qa.yml"]
+permissions:
+  contents: read
+jobs:
+  qte-preview:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - run: python3 previews/qte/build.py
+      - run: NODE_PATH=$(npm root -g) node previews/qte/browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qte-sequential-preview-v1
+          path: qa-output/qte-preview/

@@ -1,0 +1,70 @@
+from pathlib import Path
+import base64,re,json,hashlib,sys
+ROOT=Path(__file__).resolve().parents[2]
+src=(ROOT/'index.html').read_text()
+css='\n'.join(re.findall(r'<style>([\s\S]*?)</style>',src))
+def data(path,mime):return 'data:'+mime+';base64,'+base64.b64encode((ROOT/path).read_bytes()).decode()
+css=re.sub(r'fonts/tw-kai-game\.woff2\?v=[a-f0-9]+',data('fonts/tw-kai-game.woff2','font/woff2'),css)
+css=css.replace('fonts/source-serif-4-latin.woff2',data('fonts/source-serif-4-latin.woff2','font/woff2'))
+original=src[src.index('function qteLocal(s){'):src.index('\n/* ---- 隨機意外',src.index('function qteLocal(s){'))]
+original=original.replace('function qteLocal(s){','function qteLocalOriginal(s){',1)
+sequential=original.replace('qteLocalOriginal','qteLocalSequential',1)
+old='s.per*s.seq.length+120*(Math.ceil(s.seq.length/2)-1)';assert sequential.count(old)==1
+sequential=sequential.replace(old,'s.per*s.seq.length')
+assert sequential.count('Math.min(cur+2,s.seq.length)')==1
+sequential=sequential.replace('Math.min(cur+2,s.seq.length)','Math.min(cur+1,s.seq.length)')
+a="""      if(cur%2===0){live=false;setTimeout(()=>{if(fin)return;showPair();live=true},120)}
+      else{const nb=boxes.find(x=>+x.dataset.i===cur);if(nb)nb.classList.add('now')}"""
+assert sequential.count(a)==1
+sequential=sequential.replace(a,"""      live=false;queueMicrotask(()=>{if(fin)return;showPair();live=true})""")
+sequential=sequential.replace('// 顯示下一組（兩格）','// 逐個顯示：成功輸入後才建立下一個提示')
+helpers=src[src.index('const QTE_D='):src.index('// 回傳 true＝反應過來了',src.index('const QTE_D='))]
+helpers=helpers.replace("const qteTouch=()=>matchMedia('(pointer:coarse)').matches&&!matchMedia('(hover:hover)').matches;","const qteTouch=()=>$('#inputMode').value==='touch';")
+layout=src[src.index('function layout(){'):src.index('// 全螢幕並鎖定橫向',src.index('function layout(){'))]
+custom_css='''
+.preview-title{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:40px;border-bottom:1px solid var(--line)}
+.preview-title h1{font-size:1.25rem;color:var(--gold);margin:0}.preview-title small{color:var(--muted)}
+.preview-body{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;flex:1;min-height:0}
+.preview-left,.preview-right{padding:12px;box-sizing:border-box;min-height:0;overflow:auto}.preview-left p{line-height:1.65;margin:8px 0}.preview-left h2{color:var(--gold);font-size:1.05rem;margin:0 0 8px}
+.preview-foe{display:flex;gap:12px;align-items:center}.preview-foe img{height:85px;width:64px;object-fit:cover;object-position:top;border:1px solid #5a3632}.preview-foe b{display:block;color:#cb8075}.preview-foe span{display:block;color:var(--muted);font-size:.83rem;margin-top:7px}
+.preview-modes{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.preview-modes button{padding:9px 3px;min-height:48px;font-size:.92rem}.preview-modes button[aria-pressed=true]{border-color:var(--gold);background:linear-gradient(180deg,#4b3b1d,#17130b);color:#f3d79a}
+.preview-setting{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;margin:9px 0}.preview-setting label{font-size:.86rem;white-space:nowrap}.preview-setting select{background:#151510;color:var(--ink);border:1px solid #5a574e;padding:5px;font-size:.85rem;min-height:32px}
+#start{width:100%;min-height:48px;font-size:1.1rem;margin-top:3px}#result{margin:8px 0 0;min-height:24px;color:var(--gold)}#timing{font-size:.82rem;color:var(--muted);line-height:1.5;margin:8px 0}.preview-note{font-size:.8rem;color:var(--muted)}
+#stage.short .preview-left,#stage.short .preview-right{padding:9px}#stage.short .preview-left p{font-size:.9rem;line-height:1.5;margin:7px 0}#stage.short .preview-foe img{height:70px;width:52px}#stage.short .preview-title{min-height:32px}#stage.short .preview-modes button{min-height:40px;padding:6px 2px}#stage.short #start{min-height:42px}
+#stage.narrow .preview-title small{font-size:.65rem}#stage.narrow .preview-title h1{font-size:1.1rem}.preview-left{display:flex;flex-direction:column;gap:4px}.preview-left .preview-note{margin-top:auto}
+'''
+markup='''<div id="stage"><div id="app">
+<header class="preview-title"><h1>零號病例｜QTE 節奏試玩</h1><small>預覽 v1 · 正式遊戲未修改</small></header>
+<div class="preview-body"><section class="preview-left panel">
+<div class="preview-foe"><img src="__FOE__" alt="巨噬者"><div><b>巨噬者 · 震盪重擊</b><span>牠把手臂往後拉，盯著你的動作。</span></div></div>
+<h2>看見提示，再按。</h2><p>新版一次只出現一個提示。成功按下後，才會出現下一個；倒數持續，不會重置。</p><p>「現行對照」保留目前兩格預先顯示，方便比較。兩個新版都取消換組停頓。</p>
+<p class="preview-note">手機直拿會自動轉成橫向。錯誤輸入與逾時沿用原判定；這裡不會扣血、不會改存檔。</p></section>
+<section class="preview-right panel"><div class="preview-modes" role="group" aria-label="節奏選擇">
+<button class="btn" data-preset="current" aria-pressed="false">現行對照</button><button class="btn" data-preset="brisk" aria-pressed="true">稍快・逐個</button><button class="btn" data-preset="tense" aria-pressed="false">緊迫・逐個</button></div>
+<div class="preview-setting"><label>身手 <select id="profile"><option value="standard">一般身手</option><option value="agile">靈活敏銳</option><option value="injured">負傷狀態</option></select></label><label>難度 <select id="difficulty"><option value="normal">普通</option><option value="hard">困難</option></select></label><label>操作 <select id="inputMode"><option value="touch">手機觸控</option><option value="keys">鍵盤 WASD</option></select></label></div>
+<div class="preview-setting"><label><input type="checkbox" id="fixed">固定路線對照</label><label><input type="checkbox" id="sound">原點按音效</label><span class="preview-note">每組四次反應</span></div>
+<p id="timing"></p><button class="btn" id="start">開始試玩</button><p id="result" role="status" aria-live="polite">預設為「稍快・逐個」。</p>
+<p class="preview-note">普通與困難的提示數與時間完全相同。可切換速度後重試。</p></section></div></div></div>'''.replace('__FOE__',data('img/riot.webp','image/webp'))
+runtime='''
+const $=s=>document.querySelector(s),clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),pick=a=>a[Math.floor(Math.random()*a.length)];
+const UI={orient:'auto',qkey:'wasd'},BOOTED=true;let G={opts:{diff:'normal'}};
+const statMod=(p,st)=>p.st[st]||0,tr=(p,t)=>(p.traits||[]).includes(t);
+let chosen='brisk',running=false,fixedSeq=null;
+const PRESETS={current:{name:'現行對照',factor:1,sequential:false},brisk:{name:'稍快・逐個',factor:.85,sequential:true},tense:{name:'緊迫・逐個',factor:.70,sequential:true}};
+const PROFILES={standard:{st:{AGI:2,PER:2}},agile:{st:{AGI:5,PER:5}},injured:{st:{AGI:2,PER:2},dazed:1,frac:1}};
+const soundClip=new Audio(__CLICK__);soundClip.volume=.7;
+function sfx(k,v){if(!$('#sound').checked)return 0;if(k==='click'){const a=soundClip.cloneNode();a.volume=v??.7;a.play().catch(()=>{});}return 0}
+function settings(){G.opts.diff=$('#difficulty').value;const cfg=PRESETS[chosen],base=qtePer(PROFILES[$('#profile').value]),per=Math.round(base*cfg.factor),n=4,total=per*n+(cfg.sequential?0:120);return {cfg,base,per,n,total}}
+function refresh(){const o=settings();$('#timing').textContent=`${o.cfg.name}：整組 ${(o.total/1000).toFixed(2)} 秒｜每次反應預算 ${o.per} 毫秒${o.cfg.sequential?'｜僅顯示當前提示':'｜目前兩格預顯示'}`;}
+for(const b of document.querySelectorAll('[data-preset]'))b.addEventListener('click',()=>{if(running)return;chosen=b.dataset.preset;for(const x of document.querySelectorAll('[data-preset]'))x.setAttribute('aria-pressed',String(x===b));refresh()});
+for(const id of ['profile','difficulty','fixed'])$('#'+id).addEventListener('change',refresh);
+$('#start').addEventListener('click',async()=>{if(running)return;running=true;const {cfg,per,n}=settings();if(!fixedSeq)fixedSeq=qteSeq(n,['閃避','後退','側身','站穩']);const seq=$('#fixed').checked?fixedSeq:qteSeq(n,['閃避','後退','側身','站穩']);$('#result').textContent='留意牠出手的瞬間……';$('#start').disabled=true;
+try{const r=await (cfg.sequential?qteLocalSequential:qteLocalOriginal)({t:'巨噬者：震盪重擊——你',seq,per});$('#result').textContent=r==='ok'?'反應成功。換一檔速度比較看看。':'反應失敗。可以立即再試一次。';window.lastPreviewResult=r;}finally{running=false;$('#start').disabled=false;$('#start').textContent='再試一次';}});
+refresh();layout();
+'''.replace('__CLICK__',json.dumps(data('sfx/click.mp3','audio/mpeg')))
+html='<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>零號病例 QTE 節奏試玩</title><style>'+css+'\n'+custom_css+'</style></head><body>'+markup+'<script>\n'+helpers+'\n'+original+'\n'+sequential+'\n'+layout+'\n'+runtime+'\n</script></body></html>'
+# layout 事件監聽要在 BOOTED/UI 宣告後執行。
+html=html.replace('<script>\n'+helpers,'<script>\n'+runtime[:runtime.index("const soundClip=")]+'\n'+helpers)
+html=html.replace('\n'+runtime+'\n</script>','\n'+runtime[runtime.index('const soundClip='):]+'\n</script>')
+out=Path(sys.argv[1] if len(sys.argv)>1 else ROOT/'qa-output/qte-preview/zerocase_qte_preview_v1.html');out.parent.mkdir(parents=True,exist_ok=True);out.write_text(html)
+print(json.dumps({'path':str(out),'bytes':out.stat().st_size,'sha256':hashlib.sha256(out.read_bytes()).hexdigest(),'presets':{'current':1,'brisk':.85,'tense':.70}},ensure_ascii=False))
