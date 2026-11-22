@@ -1,0 +1,29 @@
+{
+  "version": "0.52.0",
+  "build": 118,
+  "created_at": "2026-11-22T20:04:57+08:00",
+  "base": {
+    "commit": "47b0d78268e5d1d458c38a6cbec16444f3171cf2",
+    "version": "0.51.0",
+    "build": 117
+  },
+  "authorization": "依主人三階段播放定案實作；先交整合分支與PR，依原流程核准後發布",
+  "scope": [
+    "三階段音樂管理",
+    "實際攻擊觸發",
+    "本場多人標記",
+    "四個音訊檔與署名"
+  ],
+  "design_changes": [],
+  "tests": {
+    "node": "通過（219項，另1項原有TODO）",
+    "focused": "通過（配樂6組及相關30項）",
+    "browser": "未測試（本機socket限制；等待GitHub雲端）",
+    "phone": "待主人實機驗收",
+    "multiplayer": "未測試（正式網路實連；自動測試含回播與快照）"
+  },
+  "deployment": {
+    "result": "未部署",
+    "reason": "候選版待原流程核准"
+  }
+}

@@ -693,7 +693,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.51.0", "b": 117, "t": "2026-11-22T19:10:15+08:00"};
+const ZC_VER={"v": "0.52.0", "b": 118, "t": "2026-11-22T20:04:57+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -3572,7 +3572,7 @@ N.W0.c.find(c=>c.l==='把鐵門扳開').ng.audio='doorlocked';
 EVPOOL.find(e=>e.id==='radio').audio='radiostatic';
 {const c=N.WP4.c.find(c=>c.ok&&c.ok.r&&c.ok.r.flag==='wpgen');c.ok.audio='genstart';c.ok.audioFlag='wpgen'}
 {const original=N.WP5b.onEnter;N.WP5b.onEnter=function(){original();if(G.flags.wpfail)snd('pumpstop',1,8000)}}
-const CREDITS=`音效沿用《零號病例》原專案素材。其中：“Headshot 2” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；“GROSS IMPACT” by magnuswaker（Freesound，CC0）；“Monster Bite on Armor WAV” by OGsoundFX（Freesound，CC BY 4.0）；“Acid Breath Attack” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；裝備切換音效取自 Ryan Conway “putting coat on and off with zippers”（Freesound，CC BY 4.0）。新增音效（CC0）：glassbreak—RangoAnimations（613879）、firealarm—simonjeffery13（792484）、genstart／genloop—jameswrowles（516759）、dryfire—serøutōnin--deprivəd（674568）、woodknock—RoyalRose（560295）、woodimpact—qubodup（160213）。<a href="docs/audio/LICENSES_AND_ORIGINS.md" target="_blank" rel="noopener">作者、Freesound 原始網址與授權紀錄</a>。第二批 CC0：踩玻璃 LukaCafuka（757830）、管線水聲 HenKonen（797674）、水泵 unfa（221551）、無線電雜訊 harrisonlace（812929）。人聲：VoiceBosch「RADIO SOLDIER」，降一個半音、切段、調整音量；衍生音檔採 <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>，<a href="https://voicebosch.itch.io/radio-soldier-announcer-audio-pack" target="_blank" rel="noopener">作者來源</a>。以上音效作者與本作品無關，也未替本作品背書。穿刺命中音效：“Sword Stab Body Hit” by <a href="https://freesound.org/people/-GeorgeDiamond-/sounds/718259/" target="_blank" rel="noopener">-GeorgeDiamond-（Freesound 718259）</a>，<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>；轉為 MP3，播放時調整音量。弓／弩發射音效：<a href="https://freesound.org/people/Erdie/sounds/65734/" target="_blank" rel="noopener">“bow02.wav” by Erdie</a>，<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>；濾波、等化、縮尾與音量調整。骰子音效為程式即時合成。<br><br>中文字型：全字庫正楷體（國家發展委員會，2018）；英文字型：Source Serif 4。<a href="fonts/SOURCES.md" target="_blank" rel="noopener">字型來源與授權</a>。`;
+const CREDITS=`音效沿用《零號病例》原專案素材。其中：“Headshot 2” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；“GROSS IMPACT” by magnuswaker（Freesound，CC0）；“Monster Bite on Armor WAV” by OGsoundFX（Freesound，CC BY 4.0）；“Acid Breath Attack” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；裝備切換音效取自 Ryan Conway “putting coat on and off with zippers”（Freesound，CC BY 4.0）。新增音效（CC0）：glassbreak—RangoAnimations（613879）、firealarm—simonjeffery13（792484）、genstart／genloop—jameswrowles（516759）、dryfire—serøutōnin--deprivəd（674568）、woodknock—RoyalRose（560295）、woodimpact—qubodup（160213）。<a href="docs/audio/LICENSES_AND_ORIGINS.md" target="_blank" rel="noopener">作者、Freesound 原始網址與授權紀錄</a>。第二批 CC0：踩玻璃 LukaCafuka（757830）、管線水聲 HenKonen（797674）、水泵 unfa（221551）、無線電雜訊 harrisonlace（812929）。人聲：VoiceBosch「RADIO SOLDIER」，降一個半音、切段、調整音量；衍生音檔採 <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>，<a href="https://voicebosch.itch.io/radio-soldier-announcer-audio-pack" target="_blank" rel="noopener">作者來源</a>。以上音效作者與本作品無關，也未替本作品背書。穿刺命中音效：“Sword Stab Body Hit” by <a href="https://freesound.org/people/-GeorgeDiamond-/sounds/718259/" target="_blank" rel="noopener">-GeorgeDiamond-（Freesound 718259）</a>，<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>；轉為 MP3，播放時調整音量。弓／弩發射音效：<a href="https://freesound.org/people/Erdie/sounds/65734/" target="_blank" rel="noopener">“bow02.wav” by Erdie</a>，<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>；濾波、等化、縮尾與音量調整。骰子音效為程式即時合成。戰鬥與遭遇配樂改作自 <a href="https://opengameart.org/content/imminent-threat" target="_blank" rel="noopener">Imminent Threat，Matthew Pablo</a>；改作音訊採 <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>。《零號病例》版本曾進行混音、剪接、循環與音量處理。原作者未參與或背書本遊戲。<br><br>中文字型：全字庫正楷體（國家發展委員會，2018）；英文字型：Source Serif 4。<a href="fonts/SOURCES.md" target="_blank" rel="noopener">字型來源與授權</a>。`;
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
 let UI=Object.assign({snd:1,bgm:1,spd:1,orient:'auto',diff:'normal',qkey:'wasd'},LS.get('zc5-ui',{}));
 // 戰鬥友軍卡為本機偏好，不跟隨帳號的介面設定同步；iPad 桌面版識別也視為行動裝置。
@@ -3845,10 +3845,36 @@ function encounterStep(foes){return foes.some(f=>FT(f).fac==='inf')?'zstep':'ste
 function radioLine(id){snd(id,1,4000)}
 function movementSound(from,to){const floors={A:3,B:2,E:1,F:1,G:-1,I:1};return floors[from]!=null&&floors[to]!=null&&floors[from]!==floors[to]?'stairs':'step'}
 function headshotHit(w,aimed,crit,shot,spread,target,primary){return w.kind==='gun'&&aimed>0&&crit&&shot===0&&!spread&&target===primary}
-const BGM=new Audio();BGM.loop=true;BGM.preload='auto';BGM.volume=.55;
-try{BGM.src=(BGM.canPlayType('audio/ogg; codecs="vorbis"')?'sfx/bgm.ogg':'sfx/bgm.mp3')}catch(e){}
-function startBgm(){if(!UI.bgm)return;try{const p=BGM.play();if(p&&p.catch)p.catch(()=>{})}catch(e){}}
-function stopBgm(){try{BGM.pause()}catch(e){}}
+// 三階段配樂：只有實際出手才標記本場戰鬥；三個固定播放器，最多短暫交叉淡化。
+const BGM=new Audio();
+const BGM_MIX={mode:null,allowed:false,timer:null,epoch:0,fight:null,started:false,tracks:{explore:BGM,encounter:new Audio(),battle:new Audio()}};
+for(const [mode,a] of Object.entries(BGM_MIX.tracks)){
+  a.loop=true;a.preload='auto';a.volume=mode==='explore'?.55:0;
+  const stem=mode==='explore'?'bgm':'bgm_'+mode;
+  a.src='sfx/'+stem+(a.canPlayType('audio/ogg; codecs="vorbis"')?'.ogg':'.mp3');
+  a.onerror=()=>{if(!a.src.endsWith('.mp3')){a.src='sfx/'+stem+'.mp3';syncBgmState()}else{a.zcFailed=true;syncBgmState()}};
+}
+function syncBgmState(){
+  const M=BGM_MIX,F=G&&G.fight;
+  const id=F&&(F.musicId||G.rid+':legacy');
+  if(id!==M.fight){M.fight=id;M.started=false}
+  if(F&&F.musicStarted)M.started=true;
+  let mode=F?(M.started?'battle':'encounter'):'explore';
+  if(M.tracks[mode].zcFailed)mode='explore';
+  if(!M.allowed||!UI.bgm||document.hidden||G&&G.over){clearInterval(M.timer);M.timer=null;M.epoch++;for(const a of Object.values(M.tracks))try{a.pause()}catch(e){};return}
+  const a=M.tracks[mode],changed=M.mode!==mode;
+  if(changed){const old=M.mode;M.mode=mode;clearInterval(M.timer);const epoch=++M.epoch,from=Object.values(M.tracks).map(x=>x.volume),keys=Object.keys(M.tracks),at=Date.now(),ms=mode==='explore'?900:mode==='battle'?150:250;
+    if(mode!=='explore'||old===null)a.currentTime=0;
+    const fade=()=>{if(epoch!==M.epoch)return;const t=Math.min(1,(Date.now()-at)/ms);keys.forEach((k,i)=>{const x=M.tracks[k];x.volume=from[i]+((k===mode?(k==='explore'?.55:.45):0)-from[i])*t;if(t===1&&k!==mode){x.pause();if(k!=='explore')x.currentTime=0}});if(t===1){clearInterval(M.timer);M.timer=null}};
+    M.timer=setInterval(fade,25);
+  }else if(!M.timer){for(const [k,x] of Object.entries(M.tracks)){if(k===mode)x.volume=k==='explore'?.55:.45;else{x.pause();x.volume=0}}}
+  if(a.paused)try{const playEpoch=M.epoch,p=a.play();if(p&&p.then)p.then(()=>{if(playEpoch!==M.epoch&&(M.mode!==mode||!M.allowed||!UI.bgm||document.hidden))a.pause()}).catch(()=>{})}catch(e){}
+}
+function beginEncounterBgm(){if(G&&G.fight&&!G.fight.musicId)G.fight.musicId=G.rid+':'+Date.now();syncBgmState()}
+function beginBattleBgmOnce(){const F=G&&G.fight;if(!F||G.over||F.musicStarted)return;F.musicStarted=true;syncBgmState();E('bgm',{rid:G.rid,id:F.musicId});push()}
+function restoreExploreBgm(){syncBgmState()}
+function startBgm(){BGM_MIX.allowed=true;syncBgmState()}
+function stopBgm(){BGM_MIX.allowed=false;syncBgmState()}
 // 播放並回傳「播完」的 Promise（max 為最長等待）
 function play(n,vol=1,max=4000,delay=0){const a=audio();if(!a||!BUF[n])return null;const s=a.createBufferSource();s.buffer=BUF[n];const g=a.createGain();g.gain.value=vol;s.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(s,g);const ms=Math.min(max,BUF[n].duration*1000);s.start(a.currentTime+delay);s.stop(a.currentTime+delay+ms/1000);return ms}
 function noise(t,dur,f,q,vol,type){const a=audio();if(!a)return;const s=a.createBufferSource();s.buffer=NB;const fl=a.createBiquadFilter();fl.type=type||'bandpass';fl.frequency.value=f;fl.Q.value=q||1;const g=a.createGain();g.gain.setValueAtTime(Math.max(.0005,vol*SFX_SYN_SCALE),a.currentTime+t);g.gain.exponentialRampToValueAtTime(.0005,a.currentTime+t+dur);s.connect(fl);fl.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(s,g);s.start(a.currentTime+t,Math.random()*.5);s.stop(a.currentTime+t+dur+.02)}
@@ -4995,7 +5021,7 @@ async function startFight(spec){
   for(const p of G.players){if(!teamHere(p))continue;p.combo=0;p.counter=0;p.brace=0;p.actUsed=0;p.defPen=0;p.aimed=0;p.stance=null;p.held=0;if(!p.evacWounds){p.dazed=0;p.humus=0}p.calmUsed=0;p.skUsed={};p.tlUsed={};p.covering=0;p.grit=0}
   for(const p of G.players)if(teamHere(p))darStart(p);
   G.fight={foes,P:Math.max(1,P0),sl:{},hb:{},bg:{},noise:null,order:[],turn:0,round:1,arrows:{},opening:spec.mode||'normal',first:spec.mode==='first',cur:null,escaped:[],noflee:G.lv==='D',nocover:['D','R'].includes(G.lv),tUsed:{}};
-  G.phase='fight';await flush();snd(encounterStep(foes));push();draw();
+  G.phase='fight';beginEncounterBgm();await flush();snd(encounterStep(foes));push();draw();
   if((LV[G.lv].fx||{}).fightAlarm)addAlarm(1,null);
   if(n>spec.n)out(`不只一個。陰影裡還有${n-spec.n===1?'另一個':'更多'}。`,'bad',true);
   await encounter(foes,spec.mode);
@@ -5008,7 +5034,7 @@ async function startFight(spec){
   // 恐懼檢定
   await fright(foes.filter(f=>!lurkHid(f)),act);
   if(await deathCheck())return;
-  if(G.pendingBurn){G.pendingBurn=0;const d=await dmgRoll([[2,6]],0,'燃燒瓶');for(const f of foes){applyDmg(f,d,['fire'],null);f.burn=3}push();draw();for(const f of foes)if(f.hp<=0)await kill(f,null)}
+  if(G.pendingBurn){beginBattleBgmOnce();G.pendingBurn=0;const d=await dmgRoll([[2,6]],0,'燃燒瓶');for(const f of foes){applyDmg(f,d,['fire'],null);f.burn=3}push();draw();for(const f of foes)if(f.hp<=0)await kill(f,null)}
   let mode=spec.mode;
   if(mode==='ambush'&&!spec.noQte){if(await ambushQte())mode='normal';if(G.over||await deathCheck())return}
   // v0.21.0 主人：先手時，開打前每個人可以先偷襲一下（這一擊必中，敵人還來不及反應），之後才擲先攻
@@ -5155,7 +5181,7 @@ async function qteHit(f,mv,t){
   const ms=mv.flame?0:snd(mv.hs||'claw',.9,1500);hurt(t,d,`${mv.t||pick(BITE)}${SB.half?SB.txt:''}${bk?`（格擋卸掉 ${bk}）`:''}${ar?`（護甲擋掉 ${ar}）`:''}`);wx.damage=Math.max(0,before-t.hp);wx.shield=!!t.shdHit;if(SB.half&&t.stance==='block'&&!wx.shield&&wx.damage>0)wx.block=true;await hitFx(f,mv,t,d,false,wx);await woundImpact(f,mv,t,wx);
   push();draw();await flush();if(ms)await wait(ms*.8*Math.max(.4,UI.spd));return false}
 // 一次攻擊打一個目標：hits 發，每發各自判定（d20）
-async function foeHit(f,mv,t,hits){const F=G.fight,T=FT(f);let firstHit=1;const wx={damage:0,crit:false,shield:false,control:false};
+async function foeHit(f,mv,t,hits){const F=G.fight,T=FT(f);if(!F||!t||t.dead||t.down||t.hp<=0||hits<=0)return;beginBattleBgmOnce();let firstHit=1;const wx={damage:0,crit:false,shield:false,control:false};
   if((mv.qte||mv.cover)&&!(await qteHit(f,mv,t)))return;
   for(let k=0;k<hits;k++){if(t.dead||t.down||t.hp<=0)break;
   const far=f.type==='incubator'&&f.away?3:0;
@@ -5180,6 +5206,7 @@ async function strike(f,mv,ts){const F=G.fight,T=FT(f);if(!G.fight)return;
   F.cur='f'+f.id;push();draw();
   if(mv.gun||mv.flame)addAlarm(mv.flame?1:2,null);
   if(mv.all||ts.length>1){out(`${f.n}：<b>${mv.n}</b>`,'act',true);if(mv.flame)snd('mimpact',.9,1500)}
+  if((!mv.gun||!T.mag||f.mag>0))beginBattleBgmOnce();
   if(mv.pre)await sndW(mv.pre,.9,1800,.65);
   for(const t of ts){if(!G.fight||G.over)break;
     if(t.counter&&!mv.tele&&!mv.all){t.counter=0;if(Math.random()<.7){snd('whoosh');out(`${f.n}撲向${nm(t)}——身體比腦袋先動，側身讓開，順勢反擊。`,'good');await attack(t,'R',null,f.id,true);continue}out(`${nm(t)}想要反制，但慢了半拍。`,'sys',true)}
@@ -5312,7 +5339,7 @@ async function qdAct(f){const F=G.fight,M=MOVES.quickdraw;
   await hitOrRival(f,mv,t)}
 // 縱火客：點燃（預告，鎖定一個陣營）→ 下一次投瓶，最多兩人各自 QTE；貼身時揮打或退開
 async function arsAct(f){const mv=MOVES.arsonist[0];
-  if(f.charge){const c=f.charge;f.charge=null;snd('mthrow');await wait(450);snd('mimpact',1,1500);
+  if(f.charge){const c=f.charge;f.charge=null;beginBattleBgmOnce();snd('mthrow');await wait(450);snd('mimpact',1,1500);
     if(c.rv){const xs=aliveF().filter(x=>x!==f&&FT(x).fac!==FT(f).fac).sort(()=>Math.random()-.5).slice(0,mv.tmax);for(const x of xs)await foeVsFoe(f,mv,x);await deathCheck();return}
     const ts=[...able()].sort(()=>Math.random()-.5).slice(0,mv.tmax);if(!ts.length)return;await strike(f,mv,ts);return}
   if(f.contact){if(Math.random()<.6){const t=foeTarget(f,SWAT);if(t){await strike(f,SWAT,[t]);return}}f.contact=0;out(`${f.n}往後退了好幾步，拉開距離。`,'sys');push();draw();return}
@@ -5326,7 +5353,7 @@ async function ohAct(f){const mv=MOVES.oldhunter[0];
   if(f.mag<=0){f.mag=1;await sndW('bolt',.7,900,.5);if(!f.contact){f.hcov=1;out(`${f.n}拉動槍栓，退回掩體後面裝上下一發。`,'sys')}else out(`${f.n}一邊提防著貼在身邊的人，一邊把下一發壓進槍膛。`,'sys');push();draw();return}
   if(f.contact){if(Math.random()<.6){const t=foeTarget(f,HKNIFE);if(t){await strike(f,HKNIFE,[t]);return}}f.contact=0;f.hcov=1;out(`${f.n}往後一退，又縮回了掩體後面。`,'sys');push();draw();return}
   const t=foeTarget(f,mv);if(!t)return;f.charge={m:mv,to:t.pid};warnTele(f,mv,[t])}
-async function foeVsFoe(f,mv,x){const F=G.fight,T=FT(f),X=FT(x);F.cur='f'+f.id;push();draw();
+async function foeVsFoe(f,mv,x){const F=G.fight,T=FT(f),X=FT(x);beginBattleBgmOnce();F.cur='f'+f.id;push();draw();
   if(mv.gun&&mv.snd)snd(mv.snd,1,1400);if(mv.shot){snd('shotgun',1,1600)}if(mv.pre)await sndW(mv.pre,.9,1800,.65);
   const R=r2(),m=(mv.h??T.hit)+(mv.qte?0:0),tot=R.s+m,def=fDef(x,mv.gun||mv.rng);const j=judge(R,tot,def);const hit=j==='ok'||j==='crit';
   await dice({label:`${f.n}・${mv.n}　→　${x.n}`,sub:`命中 d20 ${sgn(m)}${DF().num?`　防禦 ${def}`:''}`,dice:pairDice(R,'',1),quick:true,result:`${eqS(R.a,m,tot)}<span class="${hit?'s':'f'}">${j==='crit'?'爆擊':hit?'命中':'落空'}</span>`,cls:hit?'ok':'ng'});
@@ -5430,6 +5457,7 @@ async function attack(p,h,sk,ti,counter,csk){
   const st=bestSt(p,w.st);const sm=statMod(p,st);
   const spread=(S&&S.all)||w.kind==='spray';
   let t=F.foes[ti];
+  if((t&&!t.dead&&t.hp>0||aliveF().length)&&!(w.kind==='gun'&&!g.mag)&&!(w.kind==='ranged'&&!hasI(p,w.ammo)))beginBattleBgmOnce();
   /* 槍擊（v0.48.0）：槍械連射只擲一次骰面板、合併成一行紀錄；每一發的命中與傷害仍照原規則分開判定（骰值事先依序擲好）。 */
   const gunBurst=w.kind==='gun'&&shots>1&&!spread&&!A.bash&&g&&GUN_VFX_CFG[g.id];let preR=null;
   if(gunBurst){preR=[];for(let i=0;i<shots;i++)preR.push(r2());
@@ -5527,16 +5555,16 @@ async function tactic(p,tid,ti){
   const dc=T.dc-(tid==='feed'?99:0);
   const c=tid==='feed'?{ok:true}:await check(p,T.st,dc,T.n);
   if(!c.ok){out(pick(['沒能成功。牠的注意力全轉到了這邊。','差了一點。時機不對。']),'bad');if(tid==='gas'){hurtP(p,4,'火焰回捲過來：')}await deathCheck();return true}
-  if(tid==='trip'){t.prone=1;out(`${t.n}被絆倒在地，正掙扎著要爬起來。下一擊一定打得中。`,'good')}
-  else if(tid==='door'){t.stun=1;snd('doorclose');out(`門板狠狠夾住${t.n}的手臂，牠卡在門縫裡動彈不得。`,'good')}
-  else if(tid==='corner'){t.stun=1;applyDmg(t,3,['blunt'],p,true);out(`${t.n}撲了個空，一頭撞在牆上。`,'good');if(t.hp<=0)await kill(t,p)}
+  if(tid==='trip'){beginBattleBgmOnce();t.prone=1;out(`${t.n}被絆倒在地，正掙扎著要爬起來。下一擊一定打得中。`,'good')}
+  else if(tid==='door'){beginBattleBgmOnce();t.stun=1;snd('doorclose');out(`門板狠狠夾住${t.n}的手臂，牠卡在門縫裡動彈不得。`,'good')}
+  else if(tid==='corner'){beginBattleBgmOnce();t.stun=1;applyDmg(t,3,['blunt'],p,true);out(`${t.n}撲了個空，一頭撞在牆上。`,'good');if(t.hp<=0)await kill(t,p)}
   else if(tid==='distance'){t.nosplash=1;t.away=1;out(`你們拉開距離。就算牠爆開，也噴不到任何人；牠下一次丟過來的囊泡也比較難打中。`,'good')}
-  else if(tid==='seam'){t.shell=Math.max(0,(t.shell||0)-2);out(`你找到兩層硬化組織之間的縫，狠狠撬下去。一大片硬殼剝落。硬化層剩 ${t.shell}。`,'good')}
-  else if(tid==='extmask'){t.dazzle=Math.max(t.dazzle||0,4);snd('ext');out(`乾粉灌進${t.n}張開的嘴裡，牠嗆得眼睛睜不開。牠的下一次攻擊命中 −4。`,'good')}
+  else if(tid==='seam'){beginBattleBgmOnce();t.shell=Math.max(0,(t.shell||0)-2);out(`你找到兩層硬化組織之間的縫，狠狠撬下去。一大片硬殼剝落。硬化層剩 ${t.shell}。`,'good')}
+  else if(tid==='extmask'){beginBattleBgmOnce();t.dazzle=Math.max(t.dazzle||0,4);snd('ext');out(`乾粉灌進${t.n}張開的嘴裡，牠嗆得眼睛睜不開。牠的下一次攻擊命中 −4。`,'good')}
   else if(tid==='cart'){for(const f of aliveF())f.weak=5;snd('fumble');out('餐車翻倒，碗盤碎了一地，把走廊擋住了一半。','good')}
-  else if(tid==='gas'){G.flags.gasoff=1;await sndW('mimpact',1,1500,.4);out('你把打火機丟向瓦斯外洩的爐台，往後撲倒。火球在牠們中間炸開。','good');for(const f of aliveF()){applyDmg(f,8,['fire'],p,true);f.burn=3}for(const f of G.fight.foes)if(f.hp<=0&&!f.dead)await kill(f,p)}
+  else if(tid==='gas'){beginBattleBgmOnce();G.flags.gasoff=1;await sndW('mimpact',1,1500,.4);out('你把打火機丟向瓦斯外洩的爐台，往後撲倒。火球在牠們中間炸開。','good');for(const f of aliveF()){applyDmg(f,8,['fire'],p,true);f.burn=3}for(const f of G.fight.foes)if(f.hp<=0&&!f.dead)await kill(f,p)}
   else if(tid==='feed'){const h=aliveF().find(f=>affIs(f,'hungry'));if(h)h.weak=5;out(`你把吃的遠遠丟出去。${h?h.n:'飢餓的那隻'}一直回頭去看，心思全在那包東西上。牠的下一次攻擊 −5。`,'good')}
-  else if(tid==='shock'){snd('mimpact',.8,1200);out('電閘拉下的瞬間，積水裡爆出一串藍白色的火花。','good');for(const f of aliveF()){applyDmg(f,6,['shock'],p,true);f.stun=1}for(const f of G.fight.foes)if(f.hp<=0&&!f.dead)await kill(f,p)}
+  else if(tid==='shock'){beginBattleBgmOnce();snd('mimpact',.8,1200);out('電閘拉下的瞬間，積水裡爆出一串藍白色的火花。','good');for(const f of aliveF()){applyDmg(f,6,['shock'],p,true);f.stun=1}for(const f of G.fight.foes)if(f.hp<=0&&!f.dead)await kill(f,p)}
   return true}
 // 角色技能（不是攻擊的那些）；回傳 'free' 代表不用掉回合
 async function charSkill(p,a,ti){const k=a.id,C=CSKILL[k],F=G.fight;if(!C||!skLeft(p,k)||C.atk||C.auto||k==='brew')return false;
@@ -5594,7 +5622,7 @@ async function execAct(p,a){
   else if(a.a==='counter'){if(p.kind!=='maggie'||p.actUsed)return false;p.actUsed=1;p.counter=1;out(`${nm(p)}放低重心，盯著牠們的肩膀。下一次被攻擊時，有七成機會閃開並反擊。`,'sys');used=false}
   else if(a.a==='brace'){if(p.kind!=='liao'||p.actUsed)return false;p.actUsed=1;p.brace=1;out(`${nm(p)}把槍架穩，呼吸放慢。下一槍命中 +2、傷害 +2。`,'sys');used=false}
   else if(a.a==='molotov'){if(!hasI(p,'molotov'))return false;if(!hasI(p,'lighter')){out(`${MP()?nm(p)+'身上':'身上'}沒有打火機，點不著燃燒瓶。`,'sys');return false}
-    takeI(p,'molotov');snd('mthrow');await wait(450);snd('mimpact',1,1500);
+    beginBattleBgmOnce();takeI(p,'molotov');snd('mthrow');await wait(450);snd('mimpact',1,1500);
     if(G.lv==='F'&&!G.flags.gasoff){await explode()}
     if(G.fight){out('瓶子在牠們腳邊炸開，火舌一下竄了上來。','good');const d=await dmgRoll([[2,6]],0,'燃燒瓶');for(const f of aliveF()){applyDmg(f,d,['fire'],p,true);f.burn=3}for(const f of G.fight.foes)if(f.hp<=0&&!f.dead)await kill(f,p)}}
   else if(a.a==='ext'){p.tlUsed=p.tlUsed||{};if(!toolOn(p,'extinguisher')||p.tlUsed.ext)return false;p.tlUsed.ext=1;takeI(p,'extinguisher');snd('ext');for(const f of aliveF())f.dazzle=Math.max(f.dazzle||0,2);out(`${MP()?nm(p)+'拔掉插銷':'你拔掉插銷'}，對著前面掃了一圈。乾粉噴成一大片白霧，牠們全都嗆得睜不開眼。所有敵人下一次攻擊命中 −2。`,'good')}
@@ -5656,7 +5684,7 @@ async function finishEvacuation(actor,route){const F=G.fight;if(!F)return;
     out(`${nm(p)}還留在原處。撤離的人引開了敵人；等隊伍離開這個區域，才有機會逃出來會合。`,'bad',true);
   }
   if(G.winR&&G.winR.r&&G.winR.r.questDone)finishCodexQuest(G,G.winR.r.questDone,'已中止');
-  G.fight=null;G.winR=null;PEND=null;FTAB=null;snd('doorclose');
+  G.fight=null;restoreExploreBgm();G.winR=null;PEND=null;FTAB=null;snd('doorclose');
   if(G.alarmFt){if(G.alarmFt===2){G.alarm=3;Object.assign(ALV(),{roused:1,w3:1,w6:1})}G.alarmFt=0}
   addAlarm(1,actor);out('撤離的人在安全處會合。傷勢與負面狀態仍在，需要自行修整。','sys',true);
   const go=G.after;G.after=null;
@@ -5675,7 +5703,7 @@ async function endFight(){
   if(F&&F.loot&&F.loot.length&&!G.over)foeLoot(F.loot);
   if(F&&F.foes.some(f=>f.hid&&f.hp>0&&!f.dead&&!FT(f).lurk))out('遠處那點紅光熄掉了。狙擊手換了位置，沒有再開槍。','sys');
   if(F&&F.foes.some(f=>f.hid&&f.hp>0&&!f.dead&&FT(f).lurk))out('暗處那陣窸窣聲遠去了。不管那是什麼，牠沒有追上來。','sys');
-  G.fight=null;stopCd();out('四周安靜下來，只剩粗重的喘氣聲。','sys');if(F&&F.escaped&&F.escaped.length)out('先撤離的人確認四周安全，與打完戰鬥的隊友會合。傷勢沒有因此恢復。','sys',true);
+  G.fight=null;restoreExploreBgm();stopCd();out('四周安靜下來，只剩粗重的喘氣聲。','sys');if(F&&F.escaped&&F.escaped.length)out('先撤離的人確認四周安全，與打完戰鬥的隊友會合。傷勢沒有因此恢復。','sys',true);
   // 被警戒引來的那一場打完：這附近暫時沒有東西了，警戒歸零（不再連續引怪）
   // v0.24.0：被警戒引來的那一場打完。小波：警戒不降，這次升到 6 不再引第二波；強敵：警戒回到 3，這一帶標成已驚動
   if(G.alarmFt){const k=G.alarmFt;G.alarmFt=0;if(k===2){G.alarm=3;Object.assign(ALV(),{roused:1,w3:1,w6:1});out('循聲而來的東西都解決了。這一帶已經被驚動過，暫時不會再有東西找上門。警戒 3／10','rule',true)}else out('找上門的東西解決了。可是聲音還在，附近的東西還在聽。','rule',true)}
@@ -5752,7 +5780,7 @@ async function madAct(p){const F=G.fight;F.cur='p'+p.pid;push();draw();
   if(x.f){const ok=await attack(p,'R',null,x.f.id);if(!ok)out(`${nm(p)}對著手上的東西發呆，什麼也沒做。`,'sys')}else await hitAlly(p,x.q,'');
   if(G.fight)G.fight.cur=null;push();draw();await deathCheck()}
 // 打隊友（發瘋亂打，或把發瘋的人制伏）
-async function hitAlly(p,t,lab){const A=handAtk(p,'R');const {g,w}=A;const st=bestSt(p,w.st);const sm=statMod(p,st)+hitBonus(p,'R',w,null);
+async function hitAlly(p,t,lab){beginBattleBgmOnce();const A=handAtk(p,'R');const {g,w}=A;const st=bestSt(p,w.st);const sm=statMod(p,st)+hitBonus(p,'R',w,null);
   const rng=w.kind!=='melee',S0=stanceOf(t,null,{rng});const R=r2(),tot=R.s+sm,def=baseDef(t)+S0.def;const j=judge(R,tot,def);const hit=j==='ok'||j==='crit';
   if(w.kind==='gun'&&g&&!A.bash){g.mag--;addAlarm(w.noise||2,p);snd(w.snd,1,1600)}else if(w.kind==='ranged'&&!A.bash)takeI(p,w.ammo);
   await dice({label:`${lab||''}${esc(p.name)}・${w.n}　→　${esc(t.name)}`,sub:`${STN[st]}　d20 ${sgn(sm)}${DF().num?`　防禦 ${def}`:''}`,dice:pairDice(R,'',1),quick:true,result:`${eqS(R.a,sm,tot)}<span class="${hit?'f':'s'}">${j==='crit'?'爆擊':hit?'命中':'落空'}</span>`,cls:hit?'ng':'ok'});
@@ -5971,6 +5999,7 @@ async function applyHaz(p,H,ok){
 /* ---- 被偷襲：第一個被撲的人有機會反應 ---- */
 async function ambushQte(){
   const f=aliveF()[0];const p=foeTarget(f);if(!f||!p)return false;
+  beginBattleBgmOnce();
   const t=`${f.n}從暗處撲了出來，直衝${MP()?esc(p.name):'你'}——`;
   out(MP()?`${nm(p)}——${t}`:t,'bad');
   const ok=await qte(p,{t,w:['閃避','格擋','推開','後退']});
@@ -6181,6 +6210,7 @@ async function pump(){qRun=true;
     if(o.peer&&SLASH_VFX.peer!==o.peer){SLASH_VFX.peer=o.peer;SLASH_VFX.stateSeq=0}
     try{
       if(o.t==='o'){L_out(o.d[0],o.d[1],o.d[2]);if(!FAST)await typing}
+      else if(o.t==='bgm'){if(G&&G.fight&&o.d.rid===G.rid&&o.d.id===G.fight.musicId){G.fight.musicStarted=true;syncBgmState()}}
       else if(o.t==='d'){await showDice(o.d)}
       else if(o.t==='s'){if(o.d[3]&&o.d[3].arrow)await playArrowShot(o.d[3],true,o.seq);else{const ms=sfx(o.d[0],o.d[1],o.d[2]||undefined);if(['bowhit','bowmiss','arrowhit','arrowmiss','xbowhit','xbowmiss'].includes(o.d[0]))await wait(ms||1500)}}
       else if(o.t==='slash'){await playSlashHit(o.d,true,o.seq)}
@@ -6762,7 +6792,7 @@ function battlePlayerCards(){
   }).join('');
 }
 function draw(){
-  codexDraw();syncAmbience();
+  codexDraw();syncAmbience();syncBgmState();
   if(!G||!$('#app'))return;
   const m=me(),Lv=LV[G.lv]||LV.A;
   $('#lvN').textContent=G.ev!=null?'意外':(N[G.node]||{}).n||'';
@@ -7377,6 +7407,7 @@ async function enterFull(quiet){
 let BOOTED=false;
 function boot(full){BOOTED=true;$('#gate').hidden=true;audio();startBgm();if(full)enterFull();else layout();loadSounds();showMenu()}
 document.addEventListener('visibilitychange',()=>{if(document.hidden){stopAmbience();stopSfx();stopBgm()}else{if(UI.snd){audio();syncAmbience()}if(UI.bgm)startBgm()}});
+document.addEventListener('pointerdown',()=>{if(BOOTED&&UI.bgm&&!document.hidden&&!(G&&G.over))startBgm()},{passive:true});
 window.addEventListener('pagehide',()=>{stopAmbience();stopSfx();stopBgm()});
 $('#gateGo').addEventListener('click',()=>boot(true));
 $('#gateNo').addEventListener('click',()=>boot(false));

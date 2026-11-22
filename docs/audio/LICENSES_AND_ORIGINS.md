@@ -65,3 +65,31 @@
 2026-11-22（Asia/Taipei）核對作者原始頁面，明確標示Attribution 4.0。原始單聲道44.1kHz／16位元／0.749796秒。原始SHA-256：`004802859c7c89fc2129da0ae89e074cec4b7b594730397462699ff04b9b0754`；衍生SHA-256：`2eb69134e1b5959e582ef2c1160607f5c5cc7ba2cbc69f49d2691ca24bc2210c`。
 
 改作用於弩的發射聲，亦依主人後續指示在弓放弦時疊加同一乾爽發射聲；命中仍使用既有bowimpact。遊戲內的「製作與授權」已補作者、來源、CC BY 4.0與改作說明，作者未替遊戲背書。已隨本版整合至正式index.html的Credits。處理可由 `tools/process-crossbow.py INPUT.wav OUTPUT.wav` 重現。
+
+
+## v0.52.0 遭遇與戰鬥配樂
+
+音樂來源與合法使用資訊（正式整合時請加入 Credits 與素材來源文件）
+
+原始作品：Imminent Threat
+原作曲及作者：Matthew Pablo
+素材頁面：https://opengameart.org/content/imminent-threat
+發表日期：2014-04-04（以來源頁面為準）
+音訊授權：Creative Commons Attribution-ShareAlike 3.0 Unported（CC BY-SA 3.0）
+授權全文：https://creativecommons.org/licenses/by-sa/3.0/
+
+本交接包改作音檔：
+- bgm_encounter.ogg / bgm_encounter.mp3：原始 INTRO Loop Var 2 前段重編成 8.067 秒可循環緊張音樂，調整音量、首尾交疊淡化及編碼。
+- bgm_encounter_5s_optional.*：同一素材改成 5.04 秒短循環；正式專案二擇一。
+- bgm_battle.ogg / bgm_battle.mp3：B2 64.54 秒戰鬥循環，混合原始 INTRO Loop Var 2、Beat A NO GTR Loop、Beat B BEAT ONLY Loop、INTRO LOOP Var，調整音量、等化、動態與首尾循環銜接。
+- battle_entry_impact.*：先前 A1 合成衝擊聲，僅備用，非必要配樂。
+- previews/*：示範音檔屬於編輯改作，僅供驗收，並非〈Evil〉原檔。
+
+請保留上述作者、作品、來源、授權連結、改作說明和無背書聲明。
+這些改作音訊依 CC BY-SA 3.0 分享；整個程式碼專案的授權另按原有授權文件。
+現有 sfx/bgm.ogg / bgm.mp3（〈Evil〉）沒有收錄於本 ZIP，也沒有在此文件中聲稱其著作權或授權情況。
+
+可直接放在 Credits 的文字：
+「戰鬥與遭遇配樂改作自 Imminent Threat，原作者 Matthew Pablo；原始素材：https://opengameart.org/content/imminent-threat；授權 CC BY-SA 3.0：https://creativecommons.org/licenses/by-sa/3.0/；《零號病例》版本曾進行混音、剪輯、循環與音量處理。原作者未參與或背書本遊戲。」
+
+正式網站只收錄 bgm_encounter 與 bgm_battle 共四檔；其餘備選保留於原交接包。
