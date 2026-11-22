@@ -1,0 +1,35 @@
+{
+  "version": "0.53.1",
+  "build": 120,
+  "created_at": "2026-11-23T01:52:39+08:00",
+  "base": {
+    "commit": "2422b43ec4c372421923caa758eafb4608b731ed",
+    "version": "0.53.0",
+    "build": 119
+  },
+  "authorization": "主人在本輪開始部署後更正：碰到戰鬥就切換，延續本輪修正與部署授權",
+  "design_changes": [
+    "進入戰鬥立即切一般／激戰曲，不等首攻",
+    "未出手撤離也由戰鬥曲淡回Evil，取代舊無攻擊不播規則"
+  ],
+  "scope": [
+    "配樂切換時機",
+    "既有配樂專項測試依新規則調整",
+    "交接與版本紀錄"
+  ],
+  "assets": "未改動；音檔與授權沿用v0.53.0",
+  "tests": {
+    "node": "通過（219項，原有TODO1項）",
+    "focused": "通過（配樂9組與相關30項）",
+    "local_browser": "未測試（Chromium執行檔缺少）",
+    "cloud": "未測試（待PR）",
+    "screenshots": "未測試（待PR）",
+    "multiplayer": "未測試（正式多人網路實連）",
+    "phone": "待主人實機驗收",
+    "listening": "未測試（Android喇叭、耳機與實際聽感）"
+  },
+  "deployment": {
+    "status": "尚未部署",
+    "verification": "部署後未驗證"
+  }
+}
