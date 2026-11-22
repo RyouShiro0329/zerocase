@@ -25,7 +25,19 @@
     "enemy": "通過（13項）",
     "guns": "通過（兩尺寸九把槍、素材失敗替代顯示）"
   },
-  "deployment": "部署後未驗證",
+  "deployment": {
+    "result": "通過",
+    "merge_commit": "8271786c577852c78f40342dbfe1b27598c5ff06",
+    "deployed_at": "2026-11-22T14:32:05+08:00",
+    "verified_at": "2026-11-22T14:35:41+08:00",
+    "url": "https://ryoushiro0329.github.io/zerocase/",
+    "menu": "v0.49.0・Build115",
+    "new_run": "通過（301號房查看路線圖、拖桌擋門、三樓走廊正面迎戰）",
+    "combat": "通過（敵人蓄力撲倒、格擋減傷、受傷後力量抵抗失衡、恢復玩家行動）",
+    "console_game_errors": 0,
+    "browser_extension_errors": "瀏覽器擴充套件回報metadata傳送錯誤；來源chrome-extension，非遊戲程式",
+    "phone": "待主人實機驗收"
+  },
   "tested_game_commit": "a5b88d2943ba88885c4578b6a4d757b2e0fd50c9",
   "index_sha256": "034b934911a0dc1008064bedb740688d931a258dedf846cbe33b747a783f37e6",
   "cloud_runs": [
