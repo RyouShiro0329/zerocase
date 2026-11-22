@@ -8,6 +8,7 @@ await p.goto('http://localhost:8768/index.html');await p.click('#gateNo');await 
 // 先走真正的遭遇與先攻，之後只固定骰點／傷害，驗收實際抵抗與減傷函式。
 await p.evaluate(()=>{qteLocal=async()=> 'ok';window.__fight=startFight({n:1,types:['infected'],noMut:1,mode:'first'});});await p.waitForFunction(()=>G&&G.fight&&myTurn()&&!busy&&!G.busy,null,{timeout:60000});
 await p.click('#choices [data-ftab="other"]');check(tag+' 格擋與掩蔽保留且無閃躲',await p.locator('[data-fa="block"]').count()===1&&await p.locator('[data-fa="cover"]').count()===1&&await p.locator('[data-fa="dodge"]').count()===0);
+check(tag+' 兩顆防守按鈕完整位於舞台',await p.evaluate(()=>['block','cover'].every(a=>{const r=document.querySelector(`[data-fa="${a}"]`).getBoundingClientRect(),s=document.querySelector('#stage').getBoundingClientRect();return r.width>0&&r.height>0&&r.left>=s.left-1&&r.right<=s.right+1&&r.top>=s.top-1&&r.bottom<=s.bottom+1})));
 await p.screenshot({path:`${OUT}/defence-${tag}.png`});
 await p.evaluate(()=>{stopCd();window.__autoDismiss=false;const t=me();t.hp=t.max=100;t.st.STR=3;t.st.CON=2;t.stance='block';G.fight.foes[0].type='devourer';G.fight.foes[0].n='巨噬者';qte=async()=>false;foeDmg=async()=>10;armorOf=()=>0;statEffects=()=>[];r2=()=>({a:20,s:20});window.__controlDone=false;window.__control=qteHit(G.fight.foes[0],MOVES.devourer[1],t).then(()=>{window.__controlDone=true});});
 await p.waitForFunction(()=>!document.querySelector('#dice').hidden&&document.querySelector('#dice').textContent.includes('抵抗暈眩'));

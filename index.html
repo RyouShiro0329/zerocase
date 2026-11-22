@@ -6688,7 +6688,7 @@ function fightMenu(m){
     if(G.fight.foes.some(f=>f.hid&&f.hp>0&&!f.dead))h+=chBtn('data-fa="spot"','搜尋','找出一名躲起來的敵人，找到之後才能攻擊他；用掉這個回合',checkTag('PER',12),'t-ck');
     if(m.burn>0)h+=chBtn('data-fa="pat"','拍熄身上的火',`還會燒 ${m.burn} 次，每次生命 −2；用掉這個回合`,'','t-dg');
     if(m.held)h+=chBtn('data-fa="free"','掙脫',`被${(G.fight.foes[m.held-1]||{}).n||'感染者'}抓住了（防禦 −2、不能逃跑）：花掉這個回合就能掙脫`,'','t-dg');
-    h+='<p class="note">防守（維持到你下次行動）</p>'+chBtn('data-fa="block"','格擋',`擋下近戰攻擊：防禦 +2，近戰傷害減半${handsOf(m).some(x=>x.w.pole)?'，長柄再減 1':''}；對遠程無效；近戰反應失敗仍可減傷，力量抵抗 +2`,'','t-x')+chBtn('data-fa="cover"','掩蔽',G.fight.nocover?'這裡沒有可以躲的地方':'躲到掩體後面：對槍、弓、丟擲物防禦 +5、傷害減半；對近戰與火焰無效；囊泡反應失敗仍可減傷','','t-x',G.fight.nocover);
+    h+='<p class="note">防守（維持到你下次行動）</p>'+chBtn('data-fa="block"','格擋',`近戰防禦 +2、傷害減半，反應失敗仍有效${handsOf(m).some(x=>x.w.pole)?'，長柄再減 1':''}；力量抵抗 +2`,'','t-x')+chBtn('data-fa="cover"','掩蔽',G.fight.nocover?'這裡沒有可以躲的地方':'遠程防禦 +5、傷害減半，含囊泡反應失敗；近戰、火焰無效','','t-x',G.fight.nocover);
     for(const t of able().filter(q=>q!==m&&q.mad)){h+=chBtn(`data-fa="calm" data-to="${t.pid}"`,`安撫${esc(t.name)}`,'成功就讓他恢復意識。每場戰鬥只能試一次',checkTag('CHA',14)+(m.calmUsed?'・已使用':''),'t-ck',m.calmUsed);h+=chBtn(`data-fa="subdue" data-to="${t.pid}"`,`制伏${esc(t.name)}`,'用手上的武器打他；打倒之後救起來就會清醒，但仍在崩潰邊緣','','t-dg')}
     if(!G.fight.noflee){const hd=!!m.held;h+=chBtn('data-fa="flee"','逃跑',hd?'你被抓住了，現在跑不掉':'只判定自己；成功先到安全區等待，失敗消耗行動。不限次數',checkTag('AGI',12),'t-dg',hd)}
     else h+='<p class="note">懸在外牆上，無處可逃。</p>';
