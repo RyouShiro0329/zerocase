@@ -55,5 +55,6 @@
       "reason": "未進行正式多人實連"
     },
     "phone": "待主人實機驗收"
-  }
+  },
+  "implementation_commit": "74ee8b43d4afc07e0c980195bfe3b5ee16373d6a"
 }
