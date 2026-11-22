@@ -18,12 +18,39 @@
   "tests": {
     "node": "通過（219項，另1項原有TODO）",
     "focused": "通過（配樂6組及相關30項）",
-    "browser": "未測試（本機socket限制；等待GitHub雲端）",
+    "browser": "通過（雲端完整run_all、三尺寸冒煙、220動作長路線）",
     "phone": "待主人實機驗收",
-    "multiplayer": "未測試（正式網路實連；自動測試含回播與快照）"
+    "multiplayer": "未測試（正式網路實連；自動測試含回播與快照）",
+    "cloud": "通過（九套工作流程，抵抗制重跑後通過）",
+    "bgm": "通過（32項瀏覽器檢查、OGG／MP3實播與循環、實際2／5／10分鐘遭遇曲）",
+    "screenshots": "通過（844×390與393×690共四張已親眼檢查）",
+    "local_browser": "未測試（本機Chromium socket權限限制；以雲端驗收完成）",
+    "listening": "未測試（Android原生瀏覽器、喇叭與耳機聽感待主人實機驗收）"
   },
   "deployment": {
     "result": "未部署",
-    "reason": "候選版待原流程核准"
-  }
+    "reason": "依本次先交整合版及專案核准流程，待主人試玩核准後合併",
+    "pull_request": 41,
+    "url": "https://github.com/RyouShiro0329/zerocase/pull/41"
+  },
+  "verified_at": "2026-11-22T23:21:19+08:00",
+  "validated_commit": "d711ae6cc6c8b2c6f1e3971de57a9f0c13ea5d43",
+  "index_git_blob": "fbe866fc16c8114b3aab8c141928243642b70f68",
+  "historical_failures": [
+    {
+      "result": "失敗",
+      "item": "簡易HTTP服務下的OGG長度斷言",
+      "resolution": "測試服務改為比照Pages支援Range，原長度斷言維持；最終通過"
+    },
+    {
+      "result": "失敗",
+      "item": "抵抗制工作首輪隨機冒煙的直拿選項邊界",
+      "job_id": 137208446649,
+      "resolution": "同一提交不改程式及測試，重跑工作137211607658通過；首次未留當下畫面，不能確定觸發原因"
+    }
+  ],
+  "qa_files": [
+    "docs/BGM_QA_v0.52.0.json",
+    "docs/QA_v0.52.0.zip"
+  ]
 }

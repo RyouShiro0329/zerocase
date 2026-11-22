@@ -2,7 +2,7 @@
   "version": "0.52.0",
   "build": 118,
   "created_at": "2026-11-22T20:04:57+08:00",
-  "deployment": "候選；未部署",
+  "deployment": "候選；雲端驗收通過，未部署",
   "files": {
     ".github/workflows/arrow-shot-qa.yml": "0ed6a93fe426ab66f5da9bb6e11741930483a20726776665403bf9d7f55a3d3c",
     ".github/workflows/evacuation-qa.yml": "7613f1f262996c8720b5d27573ac58d90822e2e46239cfed1053bd0c7fe90810",
@@ -49,7 +49,7 @@
     "docs/RELEASE_v0.37.2.md": "5a6fa2a2c722fde837b51dbb297f7a34d48e6b9c9bd1c1787cc6504c94f78f60",
     "docs/RULES_GPT.md": "2e15837fb6e6f9ef238c7096503b91ff8a101a09dcc6bb1152f967ace1857f62",
     "docs/RULES_SONNET.md": "6701574123320b40fe7e7e377068bf93a6e99f71c3075c2e81063b0199a667ac",
-    "docs/VERSIONS.md": "1eb5d01d24fa1d6a98746f2391878fb17e2f572985c1acbca23284075c4ce753",
+    "docs/VERSIONS.md": "0e8423ee483cc70508df2d9f6164bdc4f4bffa70631527b7bae0a750694c7339",
     "docs/audio/2026-11-15-integration-plan.md": "1d8c7185ad2742e1f1b70279b5f9d274f03c36a1b4104513dc5842d2df9ade8d",
     "docs/audio/ASSET_VALIDATION.json": "190994b75a706198d1f3e3435ee47441cee202e55fe70c3593fab8d55d538d0b",
     "docs/audio/ASSET_VALIDATION_V0.21.10.json": "6d61e118b4a1ebef0708d9e4e687d55afbf48a288d61c98a772f1cb5113c612a",
@@ -303,7 +303,7 @@
     "tools/slash-hit.test.cjs": "3751b72598f28f9f7c80873bf0348220fb27a134e8766b0faf3f430b6d5cd970",
     "tools/split_index.py": "bbb0ee8ae1b40173ad8f6f0fb48b412c9a9a9592487012a06d351ba6cebd8271",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "698321d9cbb9169f46a1104834e7aa950571b12ea25a744eab776a0868cef828",
+    "更新說明.txt": "86143f0514a2ac68983dca9c5fe82760942283b7e38464778155fa97659bf4b1",
     "docs/ENEMY_QTE_v0.49.0.md": "408878a710252959153386a6ac9c5fed1f0f09395df8af4d83da313f932b321b",
     "audit_v0.49.0.json": "8279fd6a8ab0b36b00732ace2bf5c8c875ae14fd7f7b60d5293d096bb35619c6",
     "docs/ENEMY_ATTACK_v0.47.0.md": "d50c8b55283231c83ac35245a910fd1727cc9ada4696fa1021b7213c4ddb4086",
@@ -335,11 +335,12 @@
     "sfx/bgm_battle.ogg": "82d34995f97b9680bd2ee693db6c58b389bcb65d01c686d7c8c274ffce6da3a3",
     "sfx/bgm_battle.mp3": "e4fa54c1489ee5f92e803ebaf4faef3b4c9982c916701403ace7565ae60060be",
     "sfx/bgm_encounter.mp3": "58d8ed1c8fd625880709084e841a0958cb78d4fb8ee8a57d21bbd84d478d1e6c",
-    "docs/BGM_v0.52.0.md": "168d0bcb124997ad919e65279a4b4ba0776c24852bd54aff2244069634fdf9f5",
-    "audit_v0.52.0.json": "c7c2e7dd68fd3bac8df2acc64f53d76203c5a323ac95f62d7e903e461ab76167",
-    "tools/bgm-http.cjs": "7bfbc6770d6b58dc325412bc67b32c716e1b51e319957bdc9efadafea8198ce8"
+    "docs/BGM_v0.52.0.md": "f7ebd93eeecf94b47457d6fb1bdb6db80541284a3b2caca17df6072afc654983",
+    "audit_v0.52.0.json": "01e2e42aff5cfceaf1632ff7dedaa091b7cad7d9b45d80e68b35c55239b629ae",
+    "tools/bgm-http.cjs": "7bfbc6770d6b58dc325412bc67b32c716e1b51e319957bdc9efadafea8198ce8",
+    "docs/BGM_QA_v0.52.0.json": "565570259111f418f6415d2b41978e01eb8ae6c9d0114b8c99d1e16d61a85ace",
+    "docs/QA_v0.52.0.zip": "e378f4e3651a9f4e7e4e85484be60b60a424180bc60045ba1c13132d6c507c1b"
   },
-  "deployed_at": "2026-11-22T19:46:05+08:00",
-  "verified_at": "2026-11-22T03:22:43+08:00",
-  "deployment_commit": "67ff30338d4a35e723bc89682c5a7c999a7684fa"
+  "verified_at": "2026-11-22T23:21:19+08:00",
+  "validated_commit": "d711ae6cc6c8b2c6f1e3971de57a9f0c13ea5d43"
 }
