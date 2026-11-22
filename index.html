@@ -3859,7 +3859,8 @@ function syncBgmState(){
   const id=F&&(F.musicId||G.rid+':legacy');
   if(id!==M.fight){M.fight=id;M.started=false}
   if(F&&F.musicStarted)M.started=true;
-  let mode=F?(M.started?'battle':'encounter'):'explore';
+  const waiting=F&&Array.isArray(F.escaped)&&F.escaped.includes(MYPID);
+  let mode=F&&!waiting?(M.started?'battle':'encounter'):'explore';
   if(M.tracks[mode].zcFailed)mode='explore';
   if(!M.allowed||!UI.bgm||document.hidden||G&&G.over){clearInterval(M.timer);M.timer=null;M.epoch++;for(const a of Object.values(M.tracks))try{a.pause()}catch(e){};return}
   const a=M.tracks[mode],changed=M.mode!==mode;
@@ -5283,7 +5284,7 @@ async function foeAct(f){
   if(T.fac==='acru'){await acruAct(f);return}
   let mv,t;
   if(f.charge){mv=f.charge.m;t=mv.all?null:P(f.charge.to);f.charge=null;
-    if(f.type==='cutter'&&mv.need==='bleed'&&(!t||t.dead||t.down||t.away||!teamHere(t)||!(t.bleed>0))){f.open=1;out(`${f.n}失去了下手的機會，刀鋒劃過空處，自己也露出了破綻。`,'good');push();draw();return}
+    if(f.type==='cutter'&&mv.need==='bleed'&&(!t||t.dead||t.down||t.away||!teamHere(t)||!(t.bleed>0))){beginBattleBgmOnce();f.open=1;out(`${f.n}失去了下手的機會，刀鋒劃過空處，自己也露出了破綻。`,'good');push();draw();return}
     if(!mv.all&&(!t||t.dead||t.down||t.away||!teamHere(t)))t=foeTarget(f,mv);
     if(mv.all){await strike(f,mv,able());return}if(!t)return;await strike(f,mv,[t]);return}
   mv=pickMove(f);t=foeTarget(f,mv);if(!t)return;
@@ -5318,7 +5319,7 @@ async function harvAct(f){const base=!f.lost1;f.lost1=0;
 async function harvOne(f,second){const F=G.fight;
   if(f.charge){const c=f.charge;if(c.r<F.round){f.charge=null;const t=P(c.to);setCd(f,c.m);
       if(!t||t.dead||t.down||t.away||!teamHere(t)){out(`${f.n}的目標不見了，舉起的手臂慢慢垂了下來。`,'sys');push();draw();return}
-      if(!(t.bleed>0)){out(`${nm(t)}的傷口已經止住了。${f.n}那一下落了空，硬化的指骨砸進地板。`,'good');f.open=1;out(`${f.n}收不回力道：到牠下次行動前防禦 −2。`,'good',true);push();draw();return}
+      if(!(t.bleed>0)){beginBattleBgmOnce();out(`${nm(t)}的傷口已經止住了。${f.n}那一下落了空，硬化的指骨砸進地板。`,'good');f.open=1;out(`${f.n}收不回力道：到牠下次行動前防禦 −2。`,'good',true);push();draw();return}
       await strike(f,c.m,[t]);return}}
   const ok=m=>!(m.sweep&&able().length<2)&&!(m.tele&&f.charge);
   const L=(MOVES.harvester||[]).filter(ok);const mv=pickMove(f,L.length?L:[MOVES.harvester[0]]);
