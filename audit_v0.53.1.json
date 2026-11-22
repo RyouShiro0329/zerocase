@@ -22,14 +22,85 @@
     "node": "通過（219項，原有TODO1項）",
     "focused": "通過（配樂9組與相關30項）",
     "local_browser": "未測試（Chromium執行檔缺少）",
-    "cloud": "未測試（待PR）",
-    "screenshots": "未測試（待PR）",
+    "cloud": "通過（九套雲端流程）",
+    "screenshots": "通過（844×390及393×690共六張已親眼檢查）",
     "multiplayer": "未測試（正式多人網路實連）",
     "phone": "待主人實機驗收",
-    "listening": "未測試（Android喇叭、耳機與實際聽感）"
+    "listening": "未測試（Android喇叭、耳機與實際聽感）",
+    "browser": "通過（完整run_all、三尺寸冒煙與220動作長路線）",
+    "bgm": "通過（44項實播檢查，含未攻擊已播放、首攻不重播、OGG／MP3及兩段各5分鐘自然循環）"
   },
   "deployment": {
-    "status": "尚未部署",
-    "verification": "部署後未驗證"
-  }
+    "result": "通過",
+    "version": "0.53.1",
+    "build": 120,
+    "merge_commit": "8bc944d58e5ab72f06b5c031df4c52922be09587",
+    "merged_at": "2026-11-23T02:07:34+08:00",
+    "verified_at": "2026-11-23T02:11:42+08:00",
+    "url": "https://ryoushiro0329.github.io/zerocase/",
+    "main_menu": "已親眼確認v0.53.1・Build120",
+    "new_game": {
+      "mode": "單人／普通",
+      "actions": [
+        "看門背後的逃生路線圖",
+        "把書桌拖過去頂住門",
+        "站穩，正面迎戰"
+      ],
+      "locations": [
+        "301號房",
+        "三樓走廊"
+      ],
+      "result": "通過；驚嚇與先攻完成，進入第一回合玩家行動選單；尚未操作任何攻擊"
+    },
+    "assets": [
+      {
+        "path": "index.html",
+        "http": 200,
+        "bytes": 910109,
+        "sha256": "b343ab51cd41c53aa1b2ef524c79906301cdbf3a5df1a9382e74a411f2167400",
+        "match": true
+      },
+      {
+        "path": "sfx/bgm_hitman_battle.mp3",
+        "http": 200,
+        "bytes": 2738480,
+        "sha256": "0bd92ae7dcf148ec60810ff888042892f27de88d62ce90fddc9deaadc40010e9",
+        "match": true
+      },
+      {
+        "path": "sfx/bgm_hitman_battle.ogg",
+        "http": 200,
+        "bytes": 2322318,
+        "sha256": "a88b15b340c593c00bc73c5d78d0ab29c53c538a524898ff4d091a6a8e773f6c",
+        "match": true
+      },
+      {
+        "path": "sfx/bgm_hitman_intense.mp3",
+        "http": 200,
+        "bytes": 1922209,
+        "sha256": "d2313321a6b9d26562fd9f50f9cfc9d5127f1b23e820508d745add2c7f74ca0f",
+        "match": true
+      },
+      {
+        "path": "sfx/bgm_hitman_intense.ogg",
+        "http": 200,
+        "bytes": 1626858,
+        "sha256": "d610529f2c089e625a23e3a8c58fa1dc3fb3395d1ff7934dab745bb31280513a",
+        "match": true
+      }
+    ],
+    "console_errors": [],
+    "browser_extension_errors": {
+      "count": 17,
+      "url": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js",
+      "message": "Error sending browser metadata to extension: Object",
+      "note": "擴充套件錯誤另列，非遊戲程式錯誤。"
+    },
+    "phone": "待主人實機驗收",
+    "multiplayer": "未測試（正式多人網路實連）",
+    "listening": "未測試（Android喇叭、耳機與實際聽感）；進場實播與不重播由已通過雲端44項驗收佐證，正式站未聲稱人工聽感驗收通過。"
+  },
+  "tested_commit": "36e4b4a13d6ae2ce0f8855e97ae231be98fe67e1",
+  "evidence": "docs/BGM_QA_v0.53.1.json",
+  "qa_archive": "docs/QA_v0.53.1.zip"
 }
