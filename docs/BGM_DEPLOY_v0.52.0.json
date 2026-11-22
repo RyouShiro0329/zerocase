@@ -1,0 +1,81 @@
+{
+  "result": "通過",
+  "version": "0.52.0",
+  "build": 118,
+  "merge_commit": "3132fa3e026009f1895927a0e0b70654da26ebfe",
+  "merge_committed_at": "2026-11-22T23:31:40+08:00",
+  "deployed_at": "2026-11-22T23:34:29+08:00",
+  "verified_at": "2026-11-22T23:36:31+08:00",
+  "url": "https://ryoushiro0329.github.io/zerocase/",
+  "main_menu": "已親眼確認v0.52.0・Build118",
+  "new_game": {
+    "mode": "單人／普通",
+    "actions": 3,
+    "locations": [
+      "301號房",
+      "三樓走廊"
+    ],
+    "choices": [
+      "看門背後的逃生路線圖",
+      "把書桌拖過去頂住門",
+      "站穩，正面迎戰"
+    ],
+    "result": "通過；遭遇感染者、驚嚇及先攻結算後，敵方撲咬完成，進入玩家回合"
+  },
+  "console_errors": [],
+  "browser_extension_errors": {
+    "count": 26,
+    "source": "chrome-extension://kcdongibgcplmaagnmgpjhpjgmmaaaaa/content-script.bundle.js",
+    "message": "Error sending browser metadata to extension: Object",
+    "note": "全部來自擴充套件，非遊戲程式；保留分類紀錄。"
+  },
+  "files": [
+    {
+      "file": "index.html",
+      "http": 200,
+      "sha256": "7448e48d1ce4431ed24e5bb71b3d709187fb619eecf28ddc094a050e90882c5b",
+      "bytes": 909250,
+      "type": "text/html; charset=utf-8",
+      "accept_ranges": "bytes",
+      "matches": true
+    },
+    {
+      "file": "sfx/bgm_encounter.ogg",
+      "http": 200,
+      "sha256": "3a9289ba83cab25144cf366c98a509ab1c6032d02f01613f6927f168b569b4c2",
+      "bytes": 157561,
+      "type": "audio/ogg",
+      "accept_ranges": "bytes",
+      "matches": true
+    },
+    {
+      "file": "sfx/bgm_encounter.mp3",
+      "http": 200,
+      "sha256": "58d8ed1c8fd625880709084e841a0958cb78d4fb8ee8a57d21bbd84d478d1e6c",
+      "bytes": 120082,
+      "type": "audio/mp3",
+      "accept_ranges": "bytes",
+      "matches": true
+    },
+    {
+      "file": "sfx/bgm_battle.ogg",
+      "http": 200,
+      "sha256": "82d34995f97b9680bd2ee693db6c58b389bcb65d01c686d7c8c274ffce6da3a3",
+      "bytes": 1387992,
+      "type": "audio/ogg",
+      "accept_ranges": "bytes",
+      "matches": true
+    },
+    {
+      "file": "sfx/bgm_battle.mp3",
+      "http": 200,
+      "sha256": "e4fa54c1489ee5f92e803ebaf4faef3b4c9982c916701403ace7565ae60060be",
+      "bytes": 1210596,
+      "type": "audio/mp3",
+      "accept_ranges": "bytes",
+      "matches": true
+    }
+  ],
+  "phone": "待主人實機驗收",
+  "multiplayer": "未測試（正式多人網路實連）"
+}
