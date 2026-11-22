@@ -1,6 +1,6 @@
 const {chromium}=require('playwright'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
 const OUT='qa-output/qte-preview';
-(async()=>{const b=await chromium.launch();const report={checks:[],errors:[],phone:'待主人實機驗收',audio:'未測試：手機喇叭實際播放；預覽僅提供現行點按音效',screenshots:[]};
+(async()=>{const b=await chromium.launch();const report={checks:[],errors:[],phone:'待主人實機驗收',audio:'未測試（本預覽無聲，正式音效未修改）',screenshots:[]};
 const check=(name,ok)=>{report.checks.push({name,result:ok?'通過':'失敗'});assert.ok(ok,name)};
 try{for(const [width,height] of [[844,390],[393,690]]){const tag=`${width}x${height}`,ctx=await b.newContext({viewport:{width,height},hasTouch:true}),p=await ctx.newPage();p.on('pageerror',e=>report.errors.push(e.message));const requests=[];p.on('request',r=>{if(!r.url().startsWith('file:')&&!r.url().startsWith('data:'))requests.push(r.url())});
 await p.goto('file://'+path.resolve(OUT,'zerocase_qte_preview_v1.html'));await p.evaluate(()=>document.fonts.ready);check(tag+' 直拿自動轉橫向',await p.evaluate(()=>innerWidth>innerHeight||document.querySelector('#stage').classList.contains('r90')));
