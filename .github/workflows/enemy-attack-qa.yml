@@ -1,0 +1,29 @@
+name: 敵人逐招設計驗收
+on:
+  pull_request:
+    branches: [main]
+    paths: [index.html, "tools/enemy-attack*", ".github/workflows/enemy-attack-qa.yml"]
+permissions:
+  contents: read
+jobs:
+  enemy-attack:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - run: node --test tools/enemy-attack.test.cjs
+      - run: python3 verify_release.py
+      - name: 手機抵抗視窗與實際結算
+        run: |
+          python3 -m http.server 8768 >/tmp/enemy-attack-http.log 2>&1 &
+          NODE_PATH=$(npm root -g) node tools/enemy-attack-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: enemy-attack-v0.47.0-qa
+          path: qa-output/enemy-attack/
