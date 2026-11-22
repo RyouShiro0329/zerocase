@@ -1,0 +1,136 @@
+{
+  "version": "0.48.0",
+  "build": 114,
+  "created_at": "2026-11-22T13:42:33+08:00",
+  "timezone": "Asia/Taipei",
+  "baseline_commit": "4513baa",
+  "version_note": "v0.47.0／Build 113 已由未合併的 PR #35 使用，本版跳號避免重複",
+  "authorization": "主人：槍聲那些幫我都確定好是不是正確的幫我一起改正 然後可以開始部署了（核准預覽 v5）",
+  "changes": [
+    "全部 9 把玩家槍械：同一槍口、落點散布的槍擊演出（程式繪製圖集 fx/gun-bullet-24.webp、fx/gun-pellet-24.webp）",
+    "霰彈槍彈丸扇形、槍口噴煙與彈孔",
+    "連射只擲一次骰面板與一行紀錄，判定仍逐發",
+    "射速依實槍，命中對齊各槍音檔；落空只畫曳光",
+    "槍聲校正：870 beretta→shotgun；MP5／FAL 加退殼；栓動步槍每發拉槍機；排除卡彈用各槍動作聲；演出槍聲改讀 WEAP"
+  ],
+  "sound_audit": {
+    "player": {
+      "beretta": [
+        "beretta",
+        "berettaReload",
+        "casing",
+        "berettaReload"
+      ],
+      "model10": [
+        "revolver",
+        "revolverCock",
+        null,
+        null
+      ],
+      "mp5": [
+        "mp5",
+        "mp5Reload",
+        "casing",
+        "mp5Reload"
+      ],
+      "model500": [
+        "revolver",
+        "revolverCock",
+        null,
+        null
+      ],
+      "r870": [
+        "shotgun",
+        "revolverCock",
+        null,
+        "berettaReload"
+      ],
+      "sbshot": [
+        "shotgun",
+        "revolverCock",
+        null,
+        "berettaReload"
+      ],
+      "fal": [
+        "fal",
+        "falReload",
+        "casing",
+        "falReload"
+      ],
+      "model70": [
+        "rifle",
+        "bolt",
+        "bolt",
+        "bolt"
+      ],
+      "r700": [
+        "rifle",
+        "bolt",
+        "bolt",
+        "bolt"
+      ]
+    },
+    "columns": [
+      "開槍",
+      "裝填",
+      "開槍後",
+      "排除卡彈"
+    ],
+    "enemy": "快槍手 revolver/revolverCock；老獵人 rifle/bolt；索命客 shotgun/revolverCock；隊員 mp5/mp5Reload；隊長 fal/falReload；狙擊手 rifle/bolt；全部正確未改",
+    "missing_files": [
+      "泵動上膛聲",
+      "霰彈裝殼聲",
+      "左輪退彈巢聲",
+      ".500 專用槍聲"
+    ],
+    "new_audio_files": 0,
+    "sfiles": 61
+  },
+  "design_rule_changes": [
+    "連射擲骰一次顯示（主人要求，判定逐發不變）",
+    "870 槍聲改霰彈槍聲",
+    "MP5／FAL 退殼聲、栓動步槍拉槍機聲",
+    "排除卡彈改用各槍動作聲"
+  ],
+  "tests": {
+    "node": {
+      "result": "通過",
+      "pass": 219,
+      "todo": 1
+    },
+    "focused": {
+      "result": "通過",
+      "pass": 99,
+      "new": 6,
+      "file": "tools/gun-shot.test.cjs"
+    },
+    "run_all": {
+      "result": "通過",
+      "detail": "本機 bash tests/run_all.sh：三尺寸各40步、長路線220動作／65節點／17區域"
+    },
+    "browser_qa": {
+      "result": "通過",
+      "file": "tools/gun-shot-browser.cjs",
+      "sizes": [
+        "844x390",
+        "393x690"
+      ],
+      "covers": "9把槍單發與連射、單一骰面板、射速間隔、單一槍口、立繪無墨、槍聲與退殼／拉槍機、落空曳光、遠端3發 ox/oy 精確、過期序號、戰鬥替換清除、減少動態、兩張圖集失敗備援",
+      "errors": 0
+    },
+    "visual_review": {
+      "result": "通過",
+      "sizes": [
+        "844x390",
+        "393x690"
+      ],
+      "observations": "MP5、870、Model 70 命中截圖逐張目視，文字與按鈕完整"
+    },
+    "phone": "待主人實機驗收",
+    "multiplayer": {
+      "result": "未測試",
+      "reason": "正式多人實連未測；受控同步事件已驗"
+    }
+  },
+  "deployment": "合併後驗證，結果另行補登"
+}

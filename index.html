@@ -656,6 +656,9 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 #foes .zc-pierce-fx{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
 #foes .zc-blunt-fx{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
 #foes .zc-slash-fx{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+#foes .zc-gun-react{transform:translate(var(--zc-gun-x,0px),var(--zc-gun-y,0px))}
+#foes .foe.dead.zc-gun-react{filter:none;opacity:1}
+#foes .zc-gun-fx{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
 .flt{position:absolute;left:calc(50% + var(--pw) / 2);top:34%;z-index:4;pointer-events:none;white-space:nowrap;font:700 1.15rem var(--label);letter-spacing:.04em;text-shadow:0 1px 2px #000,0 0 6px #000,0 0 10px rgba(0,0,0,.8);animation:fltUp 1.15s ease-out both}
 .flt.f-dmg{color:#ff4a3d}.flt.f-miss{color:#f4f1e8;font-size:1rem}
 @keyframes fltUp{0%{opacity:0;transform:translate(-50%,8px) scale(.75)}14%{opacity:1;transform:translate(-50%,0) scale(1.18)}28%{transform:translate(-50%,-3px) scale(1)}100%{opacity:0;transform:translate(-50%,-24px) scale(1)}}
@@ -690,7 +693,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.46.1", "b": 112, "t": "2026-11-22T04:47:32+08:00"};
+const ZC_VER={"v": "0.48.0", "b": 114, "t": "2026-11-22T13:42:33+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -874,15 +877,15 @@ const WEAP={
  handxbow:{n:'手弩',hands:1,dt:['pierce'],st:['PER'],hit:1,dd:[1,8],ds:'PER',cock:1,kind:'ranged',ammo:'bolt',sk:['aimed'],d:'單手。射完要花一回合上弦。'},
  crossbow:{n:'十字弓',hands:2,dt:['pierce'],st:['PER'],hit:2,dd:[2,10],ds:'PER',cock:1,kind:'ranged',ammo:'bolt',sk:['aimed','pierce'],d:'雙手。一發很重，射完要花一回合上弦。'},
  flamer:{n:'自製噴火器',hands:2,dt:['fire'],st:['INT'],hit:2,dd:[1,6],ds:'INT',dur:3,kind:'spray',sk:[],d:'髮膠噴罐加打火機。噴向所有敵人，罐子只夠噴 3 次。'},
- beretta:{n:'貝瑞塔 92F',hands:1,dt:['ballistic'],st:['PER'],hit:0,dd:[2,6],kind:'gun',ammo:'ammo9',mag:15,noise:2,snd:'beretta',rl:'berettaReload',sk:['burst','precise'],d:'9×19mm 半自動手槍，彈匣 15 發。'},
+ beretta:{n:'貝瑞塔 92F',hands:1,dt:['ballistic'],st:['PER'],hit:0,dd:[2,6],kind:'gun',ammo:'ammo9',mag:15,noise:2,snd:'beretta',rl:'berettaReload',cs:1,sk:['burst','precise'],d:'9×19mm 半自動手槍，彈匣 15 發。'},
  model10:{n:'S&W Model 10',hands:1,dt:['ballistic'],st:['PER'],hit:0,dd:[2,6],kind:'gun',ammo:'ammo38',mag:6,noise:2,nojam:1,snd:'revolver',rl:'revolverCock',sk:['precise','fan'],d:'.38 特殊彈左輪，彈巢 6 發。不會卡彈，只會啞彈。'},
- mp5:{n:'HK MP5',hands:2,dt:['ballistic'],st:['PER'],hit:0,dd:[2,6],kind:'gun',ammo:'ammo9',mag:30,noise:3,snd:'mp5',rl:'mp5Reload',sk:['auto5','precise'],d:'衝鋒槍，與貝瑞塔共用 9mm 彈藥。'},
+ mp5:{n:'HK MP5',hands:2,dt:['ballistic'],st:['PER'],hit:0,dd:[2,6],kind:'gun',ammo:'ammo9',mag:30,noise:3,snd:'mp5',rl:'mp5Reload',uj:'mp5Reload',cs:1,sk:['auto5','precise'],d:'衝鋒槍，與貝瑞塔共用 9mm 彈藥。'},
  model500:{n:'S&W Model 500',hands:1,dt:['ballistic'],st:['PER'],hit:-2,dd:[4,10],heavy:2,kind:'gun',ammo:'ammo500',mag:5,noise:4,nojam:1,snd:'revolver',rl:'revolverCock',sk:['precise','pierce'],d:'.500 大口徑左輪。力量 2 以下命中再 −2。'},
- r870:{n:'雷明頓 870',hands:2,dt:['ballistic'],st:['PER'],heavy:1,hit:2,dd:[2,12],kind:'gun',ammo:'shell',mag:8,load:2,noise:4,snd:'beretta',rl:'revolverCock',sk:['scatter'],d:'泵動霰彈槍。一次只裝 2 發。'},
+ r870:{n:'雷明頓 870',hands:2,dt:['ballistic'],st:['PER'],heavy:1,hit:2,dd:[2,12],kind:'gun',ammo:'shell',mag:8,load:2,noise:4,snd:'shotgun',rl:'revolverCock',sk:['scatter'],d:'泵動霰彈槍。一次只裝 2 發。'},
  sbshot:{n:'單管霰彈槍',hands:2,dt:['ballistic'],st:['PER'],heavy:1,hit:2,dd:[2,12],kind:'gun',ammo:'shell',mag:1,load:1,noise:4,snd:'shotgun',rl:'revolverCock',sk:['scatter'],d:'劫匪手上那種單管霰彈槍。開一槍就要重裝一發。'},
- fal:{n:'FN FAL',hands:2,dt:['ballistic'],st:['PER'],heavy:1,hit:-1,dd:[2,12],ap:1,kind:'gun',ammo:'ammo762',mag:20,noise:4,snd:'fal',rl:'falReload',sk:['burst3','precise'],d:'戰鬥步槍。穿甲：不吃槍擊抗性。'},
- model70:{n:'溫徹斯特 Model 70',hands:2,dt:['ballistic'],st:['PER'],hit:-2,dd:[6,10],ap:1,kind:'gun',ammo:'ammo308',mag:5,load:1,noise:4,snd:'rifle',rl:'bolt',sk:['aim'],d:'栓動步槍。穿甲；一次只裝 1 發。'},
- r700:{n:'雷明頓 700',hands:2,dt:['ballistic'],st:['PER'],hit:-1,dd:[6,10],ap:1,kind:'gun',ammo:'ammo308',mag:5,load:1,noise:4,snd:'rifle',rl:'bolt',sk:['aim'],d:'裝著瞄準鏡的栓動步槍。穿甲；一次只裝 1 發。'}
+ fal:{n:'FN FAL',hands:2,dt:['ballistic'],st:['PER'],heavy:1,hit:-1,dd:[2,12],ap:1,kind:'gun',ammo:'ammo762',mag:20,noise:4,snd:'fal',rl:'falReload',uj:'falReload',cs:1,sk:['burst3','precise'],d:'戰鬥步槍。穿甲：不吃槍擊抗性。'},
+ model70:{n:'溫徹斯特 Model 70',hands:2,dt:['ballistic'],st:['PER'],hit:-2,dd:[6,10],ap:1,kind:'gun',ammo:'ammo308',mag:5,load:1,noise:4,snd:'rifle',rl:'bolt',uj:'bolt',cy:'bolt',sk:['aim'],d:'栓動步槍。穿甲；一次只裝 1 發。'},
+ r700:{n:'雷明頓 700',hands:2,dt:['ballistic'],st:['PER'],hit:-1,dd:[6,10],ap:1,kind:'gun',ammo:'ammo308',mag:5,load:1,noise:4,snd:'rifle',rl:'bolt',uj:'bolt',cy:'bolt',sk:['aim'],d:'裝著瞄準鏡的栓動步槍。穿甲；一次只裝 1 發。'}
 };
 const KINDN={melee:'近戰',ranged:'遠程',gun:'槍械',spray:'噴射'};
 /* ============ 技能 ============
@@ -5349,6 +5352,17 @@ async function attack(p,h,sk,ti,counter,csk){
   const st=bestSt(p,w.st);const sm=statMod(p,st);
   const spread=(S&&S.all)||w.kind==='spray';
   let t=F.foes[ti];
+  /* 槍擊（v0.48.0）：槍械連射只擲一次骰面板、合併成一行紀錄；每一發的命中與傷害仍照原規則分開判定（骰值事先依序擲好）。 */
+  const gunBurst=w.kind==='gun'&&shots>1&&!spread&&!A.bash&&g&&GUN_VFX_CFG[g.id];let preR=null;
+  if(gunBurst){preR=[];for(let i=0;i<shots;i++)preR.push(r2());
+    const t0=(!t||t.dead||t.hp<=0)?aliveF()[0]:t;
+    if(t0){const def=fDef(t0,true),pm=sm+hb;let pr=!!t0.prone;
+      const J=preR.map(R=>{const tot=R.s+pm,j=judge(R,tot,def),hit=j==='crit'||(j!=='fumble'&&(pr||!!(G.fight&&G.fight.sneak)||tot>=def));if(hit)pr=false;return {R,tot,j,hit}});
+      const jwJ=x=>x.j==='crit'?'爆擊':x.j==='fumble'?'大失敗':x.hit?'命中':'落空',nH=J.filter(x=>x.hit).length,anyC=J.some(x=>x.j==='crit');
+      await dice({label:`${counter?'反擊・':''}${w.n}（${shots} 連發）　→　${t0.n}`,sub:`${STN[st]}　d20 ${sgn(pm)}`,
+        dice:J.map((x,i)=>({sides:20,val:x.R.a,cap:`第${i+1}發`})),
+        result:`<span class="${nH?'s':'f'}">${nH?`命中 ${nH}／${shots}${anyC?'・爆擊':''}`:'落空'}</span>${J.map((x,i)=>`<small class="ln">第${i+1}發　${x.R.a} ${sgS(pm)} = ${x.tot}　${jwJ(x)}</small>`).join('')}`,cls:anyC?'crit':nH?'ok':'ng'});
+      out(`擲骰｜${MP()?esc(p.name)+' ':''}${w.n}（${shots} 連發） ${J.map((x,i)=>`第${i+1}發 d20(<b>${x.R.a}</b>)${pm>=0?'+':'−'}${Math.abs(pm)}＝<b>${x.tot}</b> <span class="${x.hit?'s':'f'}">${jwJ(x)}</span>`).join('；')}`,'roll',true)}}
   for(let s=0;s<shots;s++){
     if(!t||t.dead||t.hp<=0)t=aliveF()[0];if(!t)break;
     if(w.kind==='gun'&&!g.mag){snd('dryfire',1,350);out('扳機扣下去，只剩空響。彈匣空了。','sys');break}
@@ -5356,16 +5370,18 @@ async function attack(p,h,sk,ti,counter,csk){
     const targets=spread?aliveF():[t];
     const rgA=w.kind!=='melee';
     // v0.30.0（主人 2026-11-17）：橫掃、噴火器對每個目標各擲一次命中，各自算爆擊、大失敗（脫手最多一次）
-    const lines=targets.map(x=>{const R=r2(),tot=R.s+sm+hb,j=judge(R,tot,fDef(x,rgA));return {x,R,tot,crit:j==='crit',fum:j==='fumble',hit:j==='crit'||(j!=='fumble'&&(!!x.prone||!!(G.fight&&G.fight.sneak)||tot>=fDef(x,rgA)))}});
+    const lines=targets.map(x=>{const R=preR?preR[s]:r2(),tot=R.s+sm+hb,j=judge(R,tot,fDef(x,rgA));return {x,R,tot,crit:j==='crit',fum:j==='fumble',hit:j==='crit'||(j!=='fumble'&&(!!x.prone||!!(G.fight&&G.fight.sneak)||tot>=fDef(x,rgA)))}});
     const anyH=lines.some(l=>l.hit),fum=lines.some(l=>l.fum),anyC=lines.some(l=>l.crit),L0=lines[0],nH=lines.filter(l=>l.hit).length;
     const jw=l=>l.crit?'爆擊':l.fum?'大失敗':l.hit?'命中':'落空',multi=lines.length>1;
     for(const l of lines)if(!l.hit)l.x.mc=(l.x.mc||0)+1; // v0.30.0 敵人卡浮字：未命中
-    await dice({label:`${counter?'反擊・':''}${w.n}${shots>1?`（${s+1}／${shots}）`:''}　→　${spread?'所有敵人':t.n}`,sub:`${STN[st]}　d20 ${sgn(sm+hb)}`,
+    if(!preR){await dice({label:`${counter?'反擊・':''}${w.n}${shots>1?`（${s+1}／${shots}）`:''}　→　${spread?'所有敵人':t.n}`,sub:`${STN[st]}　d20 ${sgn(sm+hb)}`,
       dice:multi?lines.map(l=>({sides:20,val:l.R.a,cap:l.x.n})):pairDice(L0.R,MP()?esc(p.name):''),
       result:multi?`<span class="${anyH?'s':'f'}">${nH?`命中 ${nH}／${lines.length}${anyC?'・爆擊':''}`:fum?'大失敗':'落空'}</span>${lines.map(l=>`<small class="ln">${l.x.n}　${l.R.a} ${sgS(sm+hb)} = ${l.tot}　${jw(l)}</small>`).join('')}`:`${eqS(L0.R.a,sm+hb,L0.tot)}<span class="${anyH?'s':'f'}">${jw(L0)}</span>`,cls:anyC?'crit':(!anyH&&fum)?'fumble':anyH?'ok':'ng'});
-    out(`擲骰｜${MP()?esc(p.name)+' ':''}${w.n} ${lines.map(l=>`${multi?l.x.n+' ':''}d20(<b>${l.R.a}</b>)${sm+hb>=0?'+':'−'}${Math.abs(sm+hb)}＝<b>${l.tot}</b>　<span class="${l.hit?'s':'f'}">${jw(l)}</span>`).join('；')}`,'roll',true);
+    out(`擲骰｜${MP()?esc(p.name)+' ':''}${w.n} ${lines.map(l=>`${multi?l.x.n+' ':''}d20(<b>${l.R.a}</b>)${sm+hb>=0?'+':'−'}${Math.abs(sm+hb)}＝<b>${l.tot}</b>　<span class="${l.hit?'s':'f'}">${jw(l)}</span>`).join('；')}`,'roll',true)}
+    const useGunVfx=w.kind==='gun'&&g&&GUN_VFX_CFG[g.id]&&!A.bash;
     if(w.kind==='gun'){g.mag--;if(G.lv==='F'&&!G.flags.gasoff){await explode();if(G.over||!G.fight)return true}
-      const ms=snd(w.snd,1,1600);await wait(Math.min(ms||300,420));if(g.id==='beretta')setTimeout(()=>snd('casing',.5),300)}
+      if(!useGunVfx){const ms=snd(w.snd,1,1600);await wait(Math.min(ms||300,420));if(w.cs)setTimeout(()=>snd('casing',.5),300);if(w.cy)setTimeout(()=>snd(w.cy,.55),650)}
+      else if(!anyH){await gunAttack(t,w,{id:g.id,miss:1,shot:s,shots});if(G.over||!G.fight)return true}}
     else if(w.kind==='ranged'){takeI(p,w.ammo);if(isBow(w)){if(!anyH)await arrowAttack(t,w.ammo==='bolt'?'crossbow':'bow',false)}else snd('whoosh');if(w.cock)g.cocked=0}
     else if(w.kind==='spray'){g.dur--;snd('mimpact',.6,900)}
     if(fum&&!anyH){
@@ -5382,12 +5398,12 @@ async function attack(p,h,sk,ti,counter,csk){
         const RD=rollDmg(p,w,sk);let d=RD.d+(C&&C.dmg||0)+(brace?2:0);if(crit)d*=2;
         out(`擲骰｜${esc(p.name)}・${w.n}　→　${x.n}　傷害 ${ddTxt(p,w,sk)}(<b>${RD.r}</b>)${C&&C.dmg?'+'+C.dmg:''}${brace?'+2':''}${crit?'×2':''}＝<b>${d}</b>`,'roll',true);
         const headHit=headshotHit(w,aimed,crit,s,spread,x,t);
-        if(headHit)snd('headshot',.6,900);
+        if(headHit&&!useGunVfx)snd('headshot',.6,900);
         const lethal=x.hp-applyDmg(x,d,wdt,p,'peek',(S&&sk==='pierce')||w.ap)<=0,humK=FT(x).human;
         const TX=lethal?(humK?KBTXT:KILLTXT):HITTXT;
         out(headHit?`子彈正中${x.n}的額頭。`:pick(TX[wdt[0]]||TX.blunt)+(crit?'抓準了破綻，這一下特別重。':''),'');
         const dd=applyDmg(x,d,wdt,p,false,(S&&sk==='pierce')||w.ap);
-        if(isBow(w))await arrowAttack(x,w.ammo==='bolt'?'crossbow':'bow');else if(x.lastDt==='blunt')await bluntAttack(x);else if(melee){if(x.lastDt==='slash')await slashAttack(x);else if(x.lastDt==='pierce')await pierceAttack(x);else snd('knife',.9,900)}
+        if(isBow(w))await arrowAttack(x,w.ammo==='bolt'?'crossbow':'bow');else if(x.lastDt==='blunt')await bluntAttack(x);else if(useGunVfx)await gunAttack(x,w,{id:g.id,head:headHit,shot:s,shots});else if(melee){if(x.lastDt==='slash')await slashAttack(x);else if(x.lastDt==='pierce')await pierceAttack(x);else snd('knife',.9,900)}
         if(melee&&FT(x).human){x.contact=1;if(x.type==='oldhunter')x.hcov=0;if(x.charge&&['collector','oldhunter','quickdraw','arsonist'].includes(x.type)){x.charge=null;out(x.type==='arsonist'?`${x.n}被貼身打中，點著的瓶子摔在地上燒成一灘，這一瓶廢了。`:`${x.n}被貼身打中，瞄準被打斷了。`,'good',true)}}
         if(sk==='scatter'){const o=aliveF().find(y=>y!==x);if(o){applyDmg(o,Math.ceil(d/2),wdt,p,true);out(`散開的彈丸也打中了${o.n}。`,'good',true);if(o.hp<=0)await kill(o,p)}}
         if(sk==='pierce'&&(w.kind==='gun'||w.kind==='ranged')){const o=aliveF().find(y=>y!==x);if(o){applyDmg(o,d,wdt,p,true,true);out(`貫穿過去，連後面的${o.n}也一起打中。`,'good',true);if(isBow(w))await arrowAttack(o,w.ammo==='bolt'?'crossbow':'bow',true,true);if(o.hp<=0)await kill(o,p)}}
@@ -5492,7 +5508,7 @@ async function execAct(p,a){
   else if(a.a==='csk'){used=await charSkill(p,a,ti);if(used==='free')return false}
   else if(a.a==='tact'){used=await tactic(p,a.id,ti)}
   else if(a.a==='reload'){const {g,w}=handW(p,a.h);if(!g||w.kind!=='gun')return false;const n=Math.min(w.mag-g.mag,p.items[w.ammo]||0,w.load||99);if(!n){out('沒有可以裝的子彈。','sys');used=false}else{g.mag+=n;takeI(p,w.ammo,n);await sndW(w.rl,1,1600,.6);out(`${nm(p)}裝填了 ${n} 發。`,'sys')}}
-  else if(a.a==='unjam'){const {g}=handW(p,a.h);if(!g||!g.jam)return false;g.jam=0;await sndW('berettaReload',.7,1200,.5);out(`${nm(p)}拉動滑套，把卡住的彈殼退出來。`,'sys')}
+  else if(a.a==='unjam'){const {g,w}=handW(p,a.h);if(!g||!g.jam)return false;g.jam=0;await sndW(w.uj||'berettaReload',.7,1200,.5);out(`${nm(p)}拉動滑套，把卡住的彈殼退出來。`,'sys')}
   else if(a.a==='cock'){const {g,w}=handW(p,a.h);if(!g||!w.cock||g.cocked)return false;g.cocked=1;await sndW('revolverCock',.7,900,.5);out(`${nm(p)}踩住弩身，用力把弦拉上。`,'sys')}
   else if(a.a==='pickup'){const g=gearOf(p,a.u);if(!g||g.drop!=='feet')return false;const before=handSnapshot(p);g.drop=null;autoEquip(p,g);if(p.hand.R!==g.u&&p.hand.L!==g.u)equip(p,g.u,'R');snd('pickup',.6);out(`${nm(p)}彎腰撿起${WEAP[g.id].n}。`,'sys');reportHands(p,before)}
   else if(a.a==='kick'){const t=P(a.to);const g=t&&gearOf(t,a.u);if(!g||g.drop!=='feet')return false;const before=handSnapshot(t);g.drop=null;autoEquip(t,g);if(t.hand.R!==g.u&&t.hand.L!==g.u)equip(t,g.u,'R');out(`${nm(p)}把${WEAP[g.id].n}踢回${nm(t)}的腳邊，${nm(t)}一把抄起來。`,'sys');reportHands(t,before)}
@@ -6086,6 +6102,7 @@ async function pump(){qRun=true;
       else if(o.t==='slash'){await playSlashHit(o.d,true,o.seq)}
       else if(o.t==='blunt'){await playBluntHit(o.d,true,o.seq)}
       else if(o.t==='pierce'){await playPierceHit(o.d,true,o.seq)}
+      else if(o.t==='gun'){await playGunShot(o.d,true,o.seq)}
       else if(o.t==='c'){await flush();await levelCard(o.d)}
       else if(o.t==='enc'){await flush();await showEnc(o.d)}
       else if(o.t==='cc'){await flush();await showChapter(o.d)}
@@ -6464,6 +6481,107 @@ async function playArrowShot(d,remote=false,seq=0){
 }
 async function arrowAttack(f,mode,hit=true,follow=false){const d={arrow:1,id:f.id,mode,hit,follow,state:snap()};E('s',[hit?'bowhit':'bowmiss',1,0,d]);await playArrowShot(d)}
 loadArrowVfx();
+/* 槍擊演出（v0.48.0，主人核准預覽 v5）：全部槍械共用同一套程式繪製圖集（上半命中層、下半曳光層）。
+   每一發都從卡片正下方同一個槍口原點射出，曳光旋轉指向該發的落點；落點在血條附近散布，連射的後續發散得更開。
+   霰彈槍改用彈丸扇形圖集。gap＝連射間隔（依實槍射速），impact＝依各槍音檔起爆時間對齊。
+   槍聲 snd 一律取自 WEAP（遊戲與演出同一個來源）；after 只放 WEAP 標記的退殼（cs）或拉槍機（cy）。 */
+const GUN_GEO={cw:464,ch:360,hx:250,hy:160,mx:250,my:316};
+function gunCfg(o){const fr=[20,20,...[30,35,40,40,40,35,35,30,30,25].map(x=>Math.round(x*(o.m||1)))],lead=o.impact-50;
+  return Object.assign({sheet:o.pellet?'fx/gun-pellet-24.webp':'fx/gun-bullet-24.webp',frames:fr,lead,total:lead+fr.reduce((a,b)=>a+b,0),scale:1,tw:1,bright:0,gap:200,flash:.13,headFlash:.24},o)}
+const GUN_VFX_CFG={
+  beretta:gunCfg({snd:WEAP.beretta.snd,impact:215,gap:230,shake:4.5,after:['casing',360,.5],spread:[.10,.05,.24,.10]}),
+  model10:gunCfg({snd:WEAP.model10.snd,impact:62,gap:170,scale:.82,tw:.85,shake:3.4,flash:.10,headFlash:.2,spread:[.12,.06,.30,.12]}),
+  mp5:gunCfg({snd:WEAP.mp5.snd,impact:56,gap:75,scale:.95,tw:.95,shake:3.8,flash:.11,headFlash:.22,after:['casing',150,.4],spread:[.12,.05,.34,.13]}),
+  model500:gunCfg({snd:WEAP.model500.snd,impact:64,gap:420,m:1.25,scale:1.45,tw:1.5,bright:.45,shake:9.5,flash:.30,headFlash:.42,spread:[.06,.04,.14,.08]}),
+  r870:gunCfg({snd:WEAP.r870.snd,pellet:1,impact:64,gap:500,m:1.2,scale:1.1,shake:7,flash:.22,headFlash:.3,spread:[.05,.03,.10,.05]}),
+  sbshot:gunCfg({snd:WEAP.sbshot.snd,pellet:1,impact:64,gap:500,m:1.2,scale:1.1,shake:7.5,flash:.22,headFlash:.3,spread:[.05,.03,.10,.05]}),
+  fal:gunCfg({snd:WEAP.fal.snd,impact:108,gap:92,m:1.1,scale:1.22,tw:1.25,bright:.3,shake:7,flash:.2,headFlash:.32,after:['casing',260,.5],spread:[.06,.03,.16,.07]}),
+  model70:gunCfg({snd:WEAP.model70.snd,impact:62,gap:900,m:1.2,scale:1.32,tw:1.4,bright:.35,shake:8.5,flash:.26,headFlash:.38,after:[WEAP.model70.cy,650,.55],spread:[.03,.02,.06,.04]}),
+  r700:gunCfg({snd:WEAP.r700.snd,impact:62,gap:900,m:1.2,scale:1.3,tw:1.4,bright:.35,shake:8.5,flash:.26,headFlash:.38,after:[WEAP.r700.cy,650,.55],spread:[.03,.02,.06,.04]})
+};
+const GUN_VFX={images:{},ready:{},list:new Set(),active:null,lastOx:null};
+function gunFrame(ms,frames){if(!Number.isFinite(ms)||ms<0)return -1;let end=0;for(let f=0;f<frames.length;f++){end+=frames[f];if(ms<end)return f}return -1}
+function gunSpreadPick(shot=0,head=false){
+  if(head)return {ox:(Math.random()*2-1)*.24,oy:(Math.random()*2-1)*.2};
+  let ox=Math.random()*2-1;
+  if(shot>0&&GUN_VFX.lastOx!=null&&Math.abs(ox-GUN_VFX.lastOx)<.45)ox=GUN_VFX.lastOx>=0?-Math.max(.35,Math.random()):Math.max(.35,Math.random());
+  GUN_VFX.lastOx=ox;return {ox,oy:Math.random()*2-1};
+}
+function loadGunVfx(id='beretta'){
+  const cfg=GUN_VFX_CFG[id];if(!cfg||typeof Image!=='function')return Promise.resolve(null);const k=cfg.sheet;
+  if(!GUN_VFX.ready[k]){const img=GUN_VFX.images[k]=new Image();GUN_VFX.ready[k]=new Promise(ok=>{img.onload=()=>ok(img);img.onerror=()=>ok(null)});img.src=k}
+  return GUN_VFX.ready[k];
+}
+function gunFxEnd(fx){if(!GUN_VFX.list.has(fx))return;GUN_VFX.list.delete(fx);cancelAnimationFrame(fx.raf);if(fx.cv)fx.cv.remove();
+  if(![...GUN_VFX.list].some(o=>o.id===fx.id)){const c=document.querySelector('#foes .foe[data-id="'+fx.id+'"]');if(c){c.classList.remove('zc-gun-react');c.style.removeProperty('--zc-gun-x');c.style.removeProperty('--zc-gun-y')}}
+  if(GUN_VFX.active===fx)GUN_VFX.active=[...GUN_VFX.list].pop()||null}
+function clearGunVfx(){for(const fx of [...GUN_VFX.list])gunFxEnd(fx);document.querySelectorAll('#foes .zc-gun-fx').forEach(e=>e.remove());document.querySelectorAll('#foes .foe').forEach(e=>{e.classList.remove('zc-gun-react');e.style.removeProperty('--zc-gun-x');e.style.removeProperty('--zc-gun-y')})}
+function renderGunVfx(fx){
+  if(!GUN_VFX.list.has(fx))return;
+  const cfg=fx.cfg,elapsed=performance.now()-fx.t,Q=GUN_GEO;
+  if(elapsed>=cfg.total||document.hidden||!G||G.rid!==fx.rid||!G.fight||(!fx.remote&&G.fight!==fx.battle)){gunFxEnd(fx);return}
+  const card=document.querySelector('#foes .foe[data-id="'+fx.id+'"]'),img=GUN_VFX.images[cfg.sheet];
+  if(card&&img&&img.naturalWidth){let cv=fx.cv;if(!cv||cv.parentNode!==card){if(cv)cv.remove();cv=fx.cv=document.createElement('canvas');cv.className='zc-gun-fx';cv.setAttribute('aria-hidden','true');card.appendChild(cv)}
+    const w=card.clientWidth,h=card.clientHeight,d=Math.min(window.devicePixelRatio||1,2),cw=Math.round(w*d),ch=Math.round(h*d);
+    if(cv.width!==cw||cv.height!==ch){cv.width=cw;cv.height=ch}
+    const ctx=cv.getContext('2d');
+    if(ctx){ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,w,h);
+      const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches,visMs=elapsed-cfg.lead,f=reduced?(visMs>=0?3:-1):gunFrame(visMs,cfg.frames),fin=card.querySelector('.fin'),hp=card.querySelector('.fhp .hpb'),hit=elapsed-cfg.impact;
+      let cx=w*.6,cy=h*.35,hpW=w*.45;if(hp){hpW=hp.offsetWidth;cx=hpW/2;cy=hp.offsetHeight/2;for(let e=hp;e&&e!==card;e=e.offsetParent){cx+=e.offsetLeft;cy+=e.offsetTop}}
+      const k0=Math.min(w*.73,h*2.15)/432,ox0=cx,oy0=cy+(Q.my-Q.hy)*k0,sp=cfg.spread||[.1,.05,.24,.1],burst=fx.shot>0;
+      let tx,ty;if(fx.miss){tx=cx+fx.ox*hpW*.8;ty=cy-h*.22+fx.oy*h*.08}else{tx=cx+fx.ox*hpW*(burst?sp[2]:sp[0]);ty=cy+fx.oy*h*(burst?sp[3]:sp[1])}
+      let L0=0,R0=w;if(fin){L0=fin.offsetLeft;R0=L0+fin.clientWidth}
+      tx=Math.max(L0+10,Math.min(R0-10,tx));ty=Math.max(4,Math.min(oy0-14,ty));
+      ctx.beginPath();ctx.rect(L0,0,R0-L0,h);ctx.clip();
+      fx.frame=f;fx.tx=tx;fx.ty=ty;fx.ox0=ox0;fx.oy0=oy0;
+      const k=k0*(cfg.scale||1)*(fx.head?1.15:1),row=Math.floor(Math.max(0,f)/4),col=Math.max(0,f)%4;
+      ctx.globalAlpha=reduced?Math.min(1,Math.max(0,visMs)/80)*Math.max(0,1-Math.max(0,visMs)/(cfg.total-cfg.lead)):1;
+      if(f>=0&&!fx.miss){
+        ctx.drawImage(img,col*Q.cw,row*Q.ch,Q.cw,Q.ch,tx-Q.hx*k,ty-Q.hy*k,Q.cw*k,Q.ch*k);
+        if(!reduced&&cfg.bright&&(f===2||f===3)){ctx.save();ctx.globalCompositeOperation='lighter';ctx.globalAlpha=cfg.bright*(f===2?1:.6);ctx.drawImage(img,col*Q.cw,row*Q.ch,Q.cw,Q.ch,tx-Q.hx*k,ty-Q.hy*k,Q.cw*k,Q.ch*k);ctx.restore()}
+      }
+      if(f>=0&&f<=2&&!reduced){const dx=tx-ox0,dy=ty-oy0,len=Math.hypot(dx,dy)*(fx.miss?1.35:1);
+        ctx.save();ctx.translate(ox0,oy0);ctx.rotate(Math.atan2(dx,-dy));ctx.scale(k0*(cfg.tw||1),len/(Q.my-Q.hy));
+        ctx.drawImage(img,col*Q.cw,(3+row)*Q.ch,Q.cw,Q.ch,-Q.mx,-Q.my,Q.cw,Q.ch);ctx.restore()}
+      if(!reduced&&!fx.miss&&hit>=-15&&hit<55){const a=hit<0?(hit+15)/15:1-hit/55;ctx.globalAlpha=(fx.head?cfg.headFlash:cfg.flash)*a;ctx.fillStyle=fx.head?'#fff2cc':'#ffe0b8';ctx.fillRect(0,0,w,h)}
+      ctx.globalAlpha=1;
+      if(!reduced&&!fx.miss&&hit>=0){card.classList.add('zc-gun-react');const r=hit/1000,fall=r<.20?Math.exp(-r*22):0,amp=Math.min(fx.head?cfg.shake*1.22:cfg.shake,w*.045),sx=amp*Math.cos(r*150)*fall,sy=-amp*.45*Math.sin(r*110)*fall;card.style.setProperty('--zc-gun-x',sx+'px');card.style.setProperty('--zc-gun-y',sy+'px')}
+    }
+  }
+  fx.raf=requestAnimationFrame(()=>renderGunVfx(fx));
+}
+async function playGunShot(d,remote=false,seq=0){
+  if(!d||!G||!d.state||G.rid!==d.state.rid||G.node!==d.state.node||G.clock!==d.state.clock||!G.fight||remote&&(!Number.isSafeInteger(seq)||seq<=SLASH_VFX.stateSeq))return;
+  const wid=d.wid||'beretta',cfg=GUN_VFX_CFG[wid];if(!cfg)return;
+  const battle=G.fight,valid=()=>G&&G.rid===d.state.rid&&G.fight&&(remote||G.fight===battle);
+  const impact=()=>{if(!valid())return;if(remote){if(seq<=SLASH_VFX.stateSeq)return;SLASH_VFX.stateSeq=seq;setG(d.state)}else{push();draw()}};
+  const img=await Promise.race([loadGunVfx(wid),wait(400).then(()=>null)]);
+  if(!valid())return;
+  const shot=d.shot||0,last=!(d.shots>1)||shot>=d.shots-1,gap=Math.max(30,cfg.gap||200);
+  const sounds=headAt=>{sfx(cfg.snd,1,1600);if(d.head&&!d.miss)setTimeout(()=>{if(valid())sfx('headshot',.6,900)},headAt);if(cfg.after)setTimeout(()=>{if(valid())sfx(cfg.after[0],cfg.after[2]||.5)},cfg.after[1])};
+  if(!img||!img.naturalWidth||typeof requestAnimationFrame!=='function'||document.hidden||FAST){
+    if(!document.hidden&&!FAST)sounds(0);
+    impact();if(!last&&!document.hidden&&!FAST)await wait(gap);return;
+  }
+  const h0=((d.state.clock||1)*2654435761+(d.id||0)*1597334677+shot*2246822519)>>>0;
+  const ox=Number.isFinite(d.ox)?d.ox:((h0%2001)/1000-1),oy=Number.isFinite(d.oy)?d.oy:((((h0>>>11)%2001)/1000)-1);
+  const fx={id:d.id,wid,cfg,head:!!d.head,miss:!!d.miss,shot,ox,oy,remote,rid:G.rid,battle,t:performance.now(),raf:0};
+  GUN_VFX.list.add(fx);GUN_VFX.active=fx;
+  sounds(Math.max(0,cfg.impact-30));
+  setTimeout(impact,cfg.impact);
+  setTimeout(()=>gunFxEnd(fx),cfg.total+40);
+  renderGunVfx(fx);
+  await wait(last?cfg.total:gap);
+  if(last)gunFxEnd(fx);
+}
+async function gunAttack(f,w,opts){
+  const o=opts||{},wid=o.id||'beretta',shot=o.shot||0,shots=o.shots||1,head=!!o.head,miss=!!o.miss;
+  if(shot===0)GUN_VFX.lastOx=null;
+  const sp=miss?{ox:(Math.random()<.5?-1:1)*(.6+Math.random()*.35),oy:Math.random()*2-1}:gunSpreadPick(shot,head);
+  await Promise.race([loadGunVfx(wid),wait(400).then(()=>null)]);
+  const d={id:f.id,wid,head,miss,shot,shots,ox:sp.ox,oy:sp.oy,state:snap()};E('gun',d);await playGunShot(d);
+}
+loadGunVfx('beretta');loadGunVfx('r870');
 
 const HPA={},HPM=260,HPG0=320,HPG1=1000;
 const foeHk=f=>'f'+f.id+'|'+f.n+'|'+f.max;
