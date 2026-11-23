@@ -4,8 +4,8 @@
 
 **2026-11-23 主人選 A：GitHub 是唯一的正本。** 這份交接、工具（`tools/claude/`）、版本資訊（`tools/claude/RELEASE_IDENTITY.json`）都在倉庫裡，每一版和遊戲一起 commit。Claude 專案只留：入口文件 `zerocase/HANDOFF.md`（很短，指到這裡）、訪客兌換碼 `zerocase/GUEST_CODES.md`（**不能放進倉庫**）、還沒搬進倉庫的設計參考（WORLD_DESIGN、PROPOSAL_*、design/、DATA_SHEET 等，要用時再 project_read）。**發布後不再把 RELEASE_IDENTITY、SHA 清單、CHANGELOG、HANDOFF 存回專案。**
 
-## 現況（2026-11-23 17:10 更新）
-- 目前版本：**v0.57.0／Build 127**（2026-11-23T16:50:10+08:00，Claude：旅館四層「門／窗／瓦斯／車」），分支 feat/hotel-deep-v0.57.0，**PR 開了、還沒合併**（等主人說可以合併／開始部署）。合併後要同步 Claude 連結（字型有重做，連 fonts/tw-kai-game.woff2 一起傳）。
+## 現況（2026-11-23 18:55 更新）
+- 目前版本：**v0.57.0／Build 127**（2026-11-23T16:50:10+08:00，Claude：旅館四層「門／窗／瓦斯／車」；PR #52 merge b8e62eb，主人 18:48 說可以合併，網站已是 v0.57.0）。
 - 上一版：v0.56.1／Build 126（2026-11-23T15:17:41+08:00，醫院地下室停電前後的文字；PR #50 merge 5bace0d；交接搬進倉庫 PR #51 merge 3104e0e）。
 - **下一步**：主人看 v0.57.0 的 PR 決定合併；之後其他地點照同一標準加深（順序再問主人）。主人 16:31 提的「開瓦斯讓旅館燒起來（燃燒的旅館＝另一張地圖、影響回訪）」寫在 Claude 專案 PROPOSAL_HOTEL 的「之後再做」，和「旅館不燒」那條要主人一起決定，這版沒做。**主人 18:23：測試只跑改到的那幾支，不用每次重跑 run_all（太耗流量）**；大改或發布前再問主人要不要跑全部。
 - 再上一版：v0.55.1／Build 124（2026-11-23T13:20:15+08:00，Claude：只有橫向畫面、窄橫向的武器選單），已部署：PR #48 merge 88776d8，網站 ZC_VER＝0.55.1。再上一版 v0.55.0／Build 123（警戒改版、全部選項標時間、搜索逐步深入；PR #47 merge f837933）；v0.54.0／Build 122（一局改回 12 天）；v0.53.2／Build 121（「北口」一律寫成「北口檢查站」）；v0.53.1／Build 120 是 GPT 做的。
@@ -14,8 +14,8 @@
 - **主人的工作方式**：Claude 流量用完時主人改用 GPT 更新，之後也會輪流；**以 Claude 為主**，Claude 負責整合、守設計規則、補紀錄、同步 Claude 連結。主人也會同時開好幾個 Claude 對話。開工前一定先 `git pull` 看最新 commit，不要相信對話開頭說的版本號。
 - **正本是 GitHub 倉庫 RyouShiro0329/zerocase 的 index.html**（網站 https://ryoushiro0329.github.io/zerocase/ ，主人現在玩這個，GitHub Pages 從 main 發布）。每一版的 commit 在 `docs/VERSIONS.md`。
 - **倉庫裡的工作規則**（CLAUDE.md→`AGENTS.md`、`docs/AI_WORKFLOW.md`、`docs/RULES_SONNET.md`）：從最新 main 開分支、一個任務一個分支、開 PR，**合併要主人說可以**（`gh api -X PUT repos/RyouShiro0329/zerocase/pulls/<n>/merge -f merge_method=merge`；gh 的 GraphQL 在這裡不能用，開 PR 用 `gh api repos/RyouShiro0329/zerocase/pulls -f title=… -f head=… -f base=main -F body=@檔案`）。推送權限要用 add_repo 的 access push。
-- **Claude 的遊戲連結（artifact）和 GitHub 同步，v0.56.1**（第 85 版，version id **1795420311-0130**，只換 index.html；字型是 v0.56.0 傳的 ?v=95fd9093；slug fa8c023f-695e-4eef-b531-d8f0ca61c95c，網址 https://claude.ai/artifact/XwSTDnrZwgbtGBywfVrBZD ）。134 個檔案：index.html、img/ 22 張、fonts/ 5 個、fx/ 6 張、sfx/ 99 個、docs/audio/LICENSES_AND_ORIGINS.md。sfx/bgm_battle、bgm_encounter（v0.53.0 起不用）沒有上傳。
-  - 連結上的 index.html＝倉庫 index.html。SHA256SUMS 裡的 zerocase.html 是 build.sh 的產物（不含外層 html），比對連結時用倉庫 index.html（v0.56.1 是 `718fd9b3…25d2`）。
+- **Claude 的遊戲連結（artifact）和 GitHub 同步，v0.57.0**（第 86 版，version id **1795430947-29b2**，換了 index.html 和 fonts/tw-kai-game.woff2〔?v=7ef4f5fd〕；room 能力保留；slug fa8c023f-695e-4eef-b531-d8f0ca61c95c，網址 https://claude.ai/artifact/XwSTDnrZwgbtGBywfVrBZD ）。134 個檔案：index.html、img/ 22 張、fonts/ 5 個、fx/ 6 張、sfx/ 99 個、docs/audio/LICENSES_AND_ORIGINS.md。sfx/bgm_battle、bgm_encounter（v0.53.0 起不用）沒有上傳。
+  - 連結上的 index.html＝倉庫 index.html。SHA256SUMS 裡的 zerocase.html 是 build.sh 的產物（不含外層 html），比對連結時用倉庫 index.html（v0.57.0 是 `2b3b8c17…7bab`）。
   - 發布規則：publish_files、帶 base_version、patch 模式、不傳 capabilities（room 能力保留）；files 放 index.html 和這次改過或新增的素材（字型重做要連字型一起傳）。「載入外部 script」的警告是 firebase 動態載入，連結版不用帳號，忽略。
 - 工具在倉庫 `tools/claude/`（build.sh〔路徑 proto7〕、release.py、mock.js、bot.js、mp.js、RELEASE_IDENTITY.json）。**遊戲原始碼一律從倉庫的 index.html 切出來**。Claude 專案的 `zerocase/src/` 是很舊的備份，不要用。
 
@@ -27,7 +27,7 @@
 5. **GPT 發了新版**（tools/claude/RELEASE_IDENTITY.json 還是舊版號）：切檔後把 RELEASE_IDENTITY 的 version、build、released_at 改成 index.html 的 ZC_VER（build.sh 會用它產生版本行；不要用 release.py 升版），跑 build.sh 確認逐位元相同，在下一個 PR 一起 commit；GPT 改的規則記進這份交接。
 6. 發布 Claude 自己做的新版：照倉庫規則開分支 → release.py 升版（會產生本機 CHANGELOG.md，不用存回專案）→ 把 web/index.html 複製成倉庫的 index.html → 遊戲文字加了新字才跑 `python3 tools/make_font_subset.py`（要 `pip install fonttools brotli --break-system-packages`；原始字型會自動從 GitHub 下載），然後把 proto7/head.html 兩處 `fonts/tw-kai-game.woff2?v=` 換成新字型 SHA-256 前 8 碼再重建；字數沒變就 `git checkout fonts/` → `export NODE_PATH=$(npm root -g)`，在倉庫根目錄 `bash tests/run_all.sh` 全部通過 → `更新說明.txt` 最上面寫這一版、`docs/VERSIONS.md` 表格最上面加一行 → MANIFEST.json 的 version／build／created_at 改好、files 重算雜湊（files＝`git -c core.quotepath=false ls-files` 的全部檔案，不含 MANIFEST.json 自己），`python3 verify_release.py` 通過 → commit → VERSIONS 填 commit、重算 MANIFEST、再 commit → push、開 PR（說明要寫有沒有碰到主人原本的設計規則）→ **commit 前把 proto7 的 RELEASE_IDENTITY.json 複製回 `tools/claude/`、這份交接（現況、測試、決定）一起改好**，同一個 PR → 主人同意後合併 → 等一分鐘 curl 網站確認 ZC_VER → 同步 Claude 連結 → 連結的版本 id 寫回這份交接（直接在 main 上 commit 一個小 commit，或放進下一版的 PR）。不用再存回 Claude 專案。
 7. **同步 Claude 連結**：
-   - 先 list_files 看連結現況；用 `git diff --name-status <上次同步的 commit> HEAD -- img fonts sfx fx docs/audio` 找新素材，再 grep index.html 確認遊戲真的會用到（不用的不傳）。上次同步的 commit：v0.56.1（5bace0d）。
+   - 先 list_files 看連結現況；用 `git diff --name-status <上次同步的 commit> HEAD -- img fonts sfx fx docs/audio` 找新素材，再 grep index.html 確認遊戲真的會用到（不用的不傳）。上次同步的 commit：v0.57.0（b8e62eb）。
    - 字型用 fontTools 完整解析；圖片親眼看。
    - **新音檔**：主人會先聽過，Claude 再檢查一次就可以上傳。ffmpeg 完整解碼，看格式、長度、峰值、真峰值、響度、直流偏移、頭尾空白、標籤；畫頻譜圖親眼看；有人聲的用 faster-whisper（small.en）轉文字和 `docs/audio/RADIO_LINES.json` 等來源紀錄對照；循環音用 Chromium decodeAudioData 確認前後沒有空白。有問題先回報主人，不要自己改檔。
    - 做一個和連結相同的資料夾，開 http.server 8768 跑 `node tests/browser-smoke.cjs 40`，再開音效確認 soundStatus() 的 failed 是空的、配樂請求都 200，截圖看過才發布；發布後 list_files 核對檔案數與雜湊。
