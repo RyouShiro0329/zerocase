@@ -1,13 +1,13 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=a54532e3" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=1807aae4" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fx/slash-12.webp" as="image" type="image/webp">
 <link rel="preload" href="fx/blunt-12.webp" as="image" type="image/webp">
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=a54532e3") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=1807aae4") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
@@ -700,7 +700,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.60.0", "b": 130, "t": "2026-11-24T04:40:58+08:00"};
+const ZC_VER={"v": "0.61.0", "b": 131, "t": "2026-11-24T05:19:32+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -4939,14 +4939,14 @@ Object.assign(ROUTE.A,{v2:1,slots:[4,5],deck:'hotel',
 const GG=()=>{try{return G}catch(e){return null}};/* 載入時有程式會掃 N 的 c、t，那時 G 還沒宣告 */
 const SL=(seg)=>({L:'A',n:'三樓走廊',slot:1,fork:1,seg});
 const NUM=['','一','兩','三','四','五'];
-for(let i=1;i<=10;i++){const id='AK'+i;N[id]=Object.defineProperties(SL(i<=3?'w':i<=7?'m':'e'),Object.getOwnPropertyDescriptors({
-  get t(){const g=GG(),F=g&&g.dk&&g.dk.fk;const k=F&&F.id===id?F.o.length:0;const first=g&&g.dk&&g.dk.fc&&g.dk.fc.A===1&&F&&F.id===id;
-   return (first?`你把門推開一條縫，側身出去。
-
-走廊比房間更暗，緊急照明每隔幾秒閃一次。紅地毯上有一道深色的拖痕，往東邊延伸過去。
-
-`:'')+(k>1?`往前有${NUM[k]}條路：`:'往前只剩一條路：')},
-  get c(){return GG()?forkCs(id):[]}}))}
+/* v0.61.0（主人 05:15 選 A：分支再收束）：路口只有 AK4（西段走完進中段）、AK8（過了馬可進東段），其他格子照順序自動抽一張同段的卡 */
+const JT={AK4:`西邊這一段走到了底，走廊在轉角分岔了。往 307 到 310 那一段，不只一條路走得過去。`,
+ AK8:`過了轉角，東邊這一段的走廊比較寬，往東側樓梯不只一條路。`};
+for(let i=1;i<=10;i++){const id='AK'+i,jn=!!JT[id];const base=SL(i<=3?'w':i<=7?'m':'e');if(!jn){delete base.fork;base.n='三樓走廊'}
+ if(i===1)base.intro=`你把門推開一條縫，側身出去。走廊比房間更暗，緊急照明每隔幾秒閃一次。`;
+ N[id]=jn?Object.defineProperties(base,Object.getOwnPropertyDescriptors({n:'三樓走廊・路口',
+  get t(){const g=GG(),F=g&&g.dk&&g.dk.fk;const k=F&&F.id===id?F.o.length:0;return JT[id]+'\n\n'+(k>1?`往前有${NUM[k]}條路：`:'往前只剩一條路：')},
+  get c(){return GG()?forkCs(id):[]}})):base}
 
 /* ---- 原本的骨架卡變成牌庫卡：分段、線索；做完接回選路格的下一格（舊存檔沒有 ret 時接到 next） ---- */
 const PK={
@@ -6280,7 +6280,7 @@ async function enterNode(id){
   // 這個地方沒有合適的隨機事件就直接過去，不硬抽不合理的
   // v0.59.0 抽牌格：這一局有開的格子從牌庫抽一張卡（做完接回 G.dk.ret），沒開的、抽不到的跳過
   dkPrep(N[id]&&N[id].L);
-  for(let n=0;n<16;n++){const s=N[id];if(s&&s.slot){if(dkOn(id)){if(s.fork){const D=dkSt();if(!(D.fk&&D.fk.id===id))dkFork(id);if(D.fk)break}else{const d=dkDraw(id);if(d){G.dk.ret=s.next;id=d;break}}}id=s.next;continue}
+  for(let n=0;n<16;n++){const s=N[id];if(s&&s.slot){if(dkOn(id)){if(s.fork){const D=dkSt();if(!(D.fk&&D.fk.id===id))dkFork(id);if(D.fk)break}else if(s.seg){const d=dkFork(id,1)[0];if(d){if(s.intro&&!G.flags['in_'+id]){G.flags['in_'+id]=1;out(s.intro,'',true)}forkTake(id,d,[]);id=d;break}}else{const d=dkDraw(id);if(d){G.dk.ret=s.next;id=d;break}}}id=s.next;continue}
     if(!rtSkip(id))break;if(N[id].sr&&srLeft(id))out('時間不多了，沒辦法每一間都翻。該往前走了。','rule');id=N[id].next}
   AUDIO_MOVING=true;stopAmbience();
   // v0.24.1：離開區域前先跑完那一層還沒發生的隨機事件；事件結束（走到原本的出口節點）時接回原本要去的地方
@@ -6843,23 +6843,26 @@ function dkDraw(sid){const L=N[sid].L,D=dkSt();const R=ROUTE[L]||{};
    張數：基本 3～4（這一格的子種子）；有手電筒、夜貓子或被動感知 14 以上 +1；警戒 6 以上 −1。
    分段：格子和牌庫卡標 seg（w／m／e），只翻同一段的卡，沒標的通用卡哪一段都能出現。
    沒被選的放回牌庫，下一格不出現（G.dk.skip）；條件牌一格最多 1 張、一層最多出現 2 張；翻出來的記在 G.dk.fk，讀檔回來一樣。 */
-function dkForkN(){let k=3+Math.floor(subRng(seedKey(G.sd||0,'forkn',G.dk&&G.dk.fkn||0))()*2);
-  if(able().some(p=>hasI(p,'flashlight')||tr(p,'nightowl')||passPer(p)>=14))k++;if((G.alarm||0)>=6)k--;return Math.max(2,Math.min(5,k))}
-function dkFork(sid){const S=N[sid],L=S.L,D=dkSt(),R=ROUTE[L]||{};D.skip=D.skip||[];D.fc=D.fc||{};
-  const rg=subRng(seedKey(G.sd||0,'fork',sid));D.fkn=sid;const k=dkForkN();
+/* v0.61.0（主人 2026-11-24 05:15 選 A：分支再收束）：只有路口（fork:1）讓玩家選，2～3 條路；其他格子照順序自動抽一張（同一段），不用選 */
+function dkForkN(){let k=2+Math.floor(subRng(seedKey(G.sd||0,'forkn',G.dk&&G.dk.fkn||0))()*2);
+  if(able().some(p=>hasI(p,'flashlight')||tr(p,'nightowl')||passPer(p)>=14))k++;if((G.alarm||0)>=6)k--;return Math.max(2,Math.min(3,k))}
+function dkFork(sid,n){const S=N[sid],L=S.L,D=dkSt(),R=ROUTE[L]||{};D.skip=D.skip||[];D.fc=D.fc||{};
+  const rg=subRng(seedKey(G.sd||0,'fork',sid));D.fkn=sid;const k=n||dkForkN();
   const ok=id=>!D.seen.includes(id)&&!D.skip.includes(id)&&(!N[id].seg||N[id].seg===S.seg)&&dkOk(N[id]);
   const pick=(pool,n)=>{pool=pool.slice();const o=[];while(o.length<n&&pool.length){const ws=pool.map(dkW),tot=ws.reduce((a,b)=>a+b,0);let x=tot*rg(),j=pool.length-1;for(let q=0;q<pool.length;q++){x-=ws[q];if(x<0){j=q;break}}o.push(pool.splice(j,1)[0])}return o};
   const loc=dkList(L).filter(ok),cond=(D.cc[L]||0)<2?loc.filter(id=>N[id].cc):[];
+  if(n===1){const o=pick(loc.filter(id=>!N[id].cc).concat(cond),1);const p2=o.length?o:R.deck?pick(dkList(R.deck).filter(id=>ok(id)&&!N[id].cc),1):[];if(p2[0]&&N[p2[0]].cc)D.cc[L]=(D.cc[L]||0)+1;D.fc[L]=(D.fc[L]||0)+1;return p2}/* 照順序自動抽：一般牌、條件牌一起照權重抽一張 */
   let cc=[];if(cond.length){const c=pick(cond,1)[0];if(rg()<Math.min(1,dkW(c)/3))cc=[c]}
   let got=pick(loc.filter(id=>!N[id].cc),k-cc.length);
   if(got.length+cc.length<k&&R.deck)got=got.concat(pick(dkList(R.deck).filter(id=>ok(id)&&!N[id].cc&&!got.includes(id)),k-cc.length-got.length));
   if(cc.length){got.splice(Math.floor(rg()*(got.length+1)),0,cc[0]);D.cc[L]=(D.cc[L]||0)+1}
-  D.fc[L]=(D.fc[L]||0)+1;D.fk=got.length?{id:sid,o:got}:null;return got}
+  D.fc[L]=(D.fc[L]||0)+1;if(!n)D.fk=got.length?{id:sid,o:got}:null;return got}
 // 選路卡的選項：每條路一個，【選路】，時間算移動；同一組翻牌回傳同一個陣列（「做過了」、投票靠索引）
 const FKC={};
 function forkCs(sid){const F=G&&G.dk&&G.dk.fk;if(!F||F.id!==sid)return [];const key=sid+'|'+F.o.join();if(FKC[key])return FKC[key];
   return FKC[key]=F.o.map(id=>{const n=N[id],pk=typeof n.peek==='function'?n.peek():n.peek;const c={t:'mv',kind:'選路',l:pk||n.n,go:id,fork:1};if(n.peek2)c.sign={t:n.peek2.t,dc:n.peek2.dc||12};return c})}
-function forkPick(c){const D=dkSt(),F=D.fk;D.seen.push(c.go);D.skip=F?F.o.filter(x=>x!==c.go):[];D.ret=N[G.node].next;N[c.go].L=N[G.node].L;D.fk=null}
+function forkTake(sid,id,others){const D=dkSt();D.seen.push(id);D.skip=others||[];D.ret=N[sid].next;N[id].L=N[sid].L;D.fk=null}
+function forkPick(c){const F=dkSt().fk;forkTake(G.node,c.go,F?F.o.filter(x=>x!==c.go):[])}
 /* ---- v0.60.0 開場不固定（PROPOSAL_FORK_CARDS 第八節）：301 房間卡最多 3 張，開場事件什麼時候來、來哪一張照種子 ----
    房間卡（op:1）的動作標 opk，做完記 op_<opk>、換下一張房間卡；開門出去（opout）從第 2 張起才看得到；第 3 件做完一定出去。
    G.op＝{n 做了幾件, ev 第幾件之後來（0＝不來）, k 哪一張, done}；開場事件卡標 opev:1，做完回房間（或出門）。 */
