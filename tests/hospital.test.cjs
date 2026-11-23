@@ -55,11 +55,17 @@ test('第一層的選擇留到後面：急診吵了兩次以上，被吵醒的�
  assert.equal(g.run('G.node'),'OBw');assert.equal(g.run('G.flags.hgen'),1);
  const g2=setup();g2.run("G.flags.blackout=1;G.flags.ernoise=1");await g2.run("enterNode('OB2')");await pick(g2,'重設緊急停止，把發電機開起來');await pick(g2,'往前走');assert.equal(g2.run('G.node'),'OB3','沒吵醒就沒有');
 });
-test('地下室的空氣：發電機開著、排風機沒修，每 30 分鐘抵抗廢氣、生命最低留 1；面具加濾罐擋得住；修好排風機就沒事；發電機每小時警戒 +1',async()=>{
+test('地下室的空氣（主人選 B）：整層是污染區，每 30 分鐘感染 +3，面具加濾罐擋得住',async()=>{
+ const run=async(pre)=>{const g=setup();g.run(`G.lv='OB';G.node='OB1';G.zal={};globalThis.pl=G.players[0];pl.inf=0;${pre||''}`);await g.run('passTime(60)');return g};
+ let g=await run();assert.ok(g.run('pl.inf')>0);assert.equal(g.run('pl.inf'),g.run('2*Math.round(3*DF().inf)'),'沒戴面具：兩次 +3（照難度的感染倍率）');
+ g=await run("pl.items.filter=1;pl.eq.face={k:'gasmask'}");assert.equal(g.run('pl.inf'),0,'面具加濾罐');
+ g=await run("G.lv='OF'");assert.equal(g.run('pl.inf'),0,'四樓不是污染區');
+});
+test('地下室的廢氣：發電機開著、排風機沒修，每 30 分鐘抵抗、生命最低留 1；防毒面具擋不住；修好排風機就沒事；發電機每小時警戒 +1',async()=>{
  const run=async(pre)=>{const g=setup();g.run(`G.lv='OB';G.node='OB2';G.zal={};G.alarm=0;G.flags.blackout=1;G.flags.hgen=1;globalThis.pl=G.players[0];pl.hp=pl.max=20;check=async()=>({ok:false});${pre||''}`);await g.run('passTime(60)');return g};
  let g=await run();assert.ok(g.run('pl.hp')<20,'吸到廢氣');assert.match(log(g),/頭開始痛了/);assert.equal(g.run('G.alarm'),2,'響了一小時（地下室是深處，再多 1）');
  g=await run("pl.hp=2;G.hgS=5");assert.equal(g.run('pl.hp'),1,'最低留 1');
- g=await run("pl.items.filter=1;pl.eq.face={k:'gasmask'}");assert.equal(g.run('pl.hp'),20,'面具加濾罐');
+ g=await run("pl.items.filter=1;pl.eq.face={k:'gasmask'}");assert.ok(g.run('pl.hp')<20,'一氧化碳：面具擋不住');assert.match(log(g),/擋不住發電機的廢氣/);
  g=await run("G.flags.hvent=1");assert.equal(g.run('pl.hp'),20,'排風機修好了');assert.equal(g.run('G.alarm'),2,'發電機還是會吵');
  g=await run("G.flags.hgenoff=1");assert.equal(g.run('pl.hp'),20,'關掉了');
  g=await run("G.lv='OF'");assert.equal(g.run('pl.hp'),20,'不在地下室');

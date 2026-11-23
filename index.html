@@ -699,7 +699,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.56.0", "b": 125, "t": "2026-11-23T14:03:01+08:00"};
+const ZC_VER={"v": "0.56.0", "b": 125, "t": "2026-11-23T14:55:35+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -4078,13 +4078,14 @@ N.U2s.c.push({t:'qh',kind:'躲藏',l:'關上站務室的門，等月台安靜',q
 /* ================= v0.56.0 聖瑪莉醫院三層（PROPOSAL_HOSPITAL，主人 2026-11-23 定案；文本由 Claude 寫） =================
    路線：急診（O）→ 四樓（OF）或地下室（OB）。上了四樓可以再下地下室；進了地下室就回不了樓上（防火門只開一個方向），從救護車後門出去。
    規則：急診「聲音」＝警戒倍率 2（ROUTE.O.am）；四樓「伸手可及」＝床頭櫃要檢定，失敗被抓住（QTE）；
-   地下室「空氣」＝發電機開著、排風機沒修，每 30 分鐘體質抵抗廢氣（hspAir，engine_c），發電機每響一小時警戒 +1。
+   地下室「空氣」（主人 2026-11-23 14:54 選 B）：整層是污染區（fx.toxic 3，每 30 分鐘感染 +3，防毒面具加濾罐擋得住、濕布擋一半）；
+   另外發電機開著、排風機沒修時有廢氣（一氧化碳，面具擋不住），每 30 分鐘體質抵抗（hspAir，engine_c），發電機每響一小時警戒 +1。
    第一層的選擇留到後面：急診吵了兩次以上（ernoise），地下室一開發電機，布簾後面的病人就往有光的地方走（OBw）。
    影子期起四樓被搬空（ofempty）；A.C.R.U. 期急診正門進不去，從救護車後門進地下室，樓梯間的門被卡住，可以反過來上四樓。
    離開醫院（hspout）之後再來只剩救護車後門（Orv），地下室沒去過才進得去。 */
 Object.assign(LV,{
  OF:{n:'四樓・4 West',sub:'ARC 臨床合作病房',en:'4 WEST',rule:'每張床都有約束帶。只要不走到床邊，綁著的人就碰不到你。',fx:{},ch:2,indoor:1},
- OB:{n:'地下室',sub:'聖瑪莉醫院',en:'BASEMENT',get rule(){return G&&(pwNow()||G.flags.acru)?'柴油味很重。配電盤上的燈亮著，排風機在轉，有人在這裡開過發電機。':'柴油味很重，空氣是悶的。通風扇沒有在轉。'},fx:{},ch:2,indoor:1}
+ OB:{n:'地下室',sub:'聖瑪莉醫院',en:'BASEMENT',get rule(){return (G&&(pwNow()||G.flags.acru)?'柴油味很重，配電盤上的燈亮著。':'柴油味很重，空氣是悶的，通風扇沒有在轉。')+'太平間那頭飄過來一股甜甜的腐爛味，吸久了喉嚨會黏。'},fx:{toxic:3},ch:2,indoor:1}
 });
 Object.assign(LV_POOL,{OF:['infected'],OB:['infected','incubator']});
 Object.assign(ROUTE,{
@@ -4821,7 +4822,8 @@ async function chlorineExposure(min){if(G.node!=='WP3'||G.flags.wpcl)return;
     e.minutes+=left;const n=Math.floor(e.minutes/30);e.minutes-=n*30;if(n)await apply(RESIST_EFFECTS.chlorineLong,3*n)}
 }
 /* v0.56.0 醫院地下室「空氣」（PROPOSAL_HOSPITAL 第三層）：備用發電機開著、排風機沒修好，廢氣越積越重。
-   每 30 分鐘一階段：沒戴防毒面具（或濾罐用完）的人擲體質抵抗，成功減半；生命最低留 1，同加氯室。發電機每響一小時，警戒 +1。 */
+   廢氣主要是一氧化碳，防毒面具的濾毒罐擋不住（主人 2026-11-23 14:54 選 B：地下室另外是污染區，面具擋的是那個）。
+   每 30 分鐘一階段：每個人擲體質抵抗，成功減半；生命最低留 1，同加氯室。發電機每響一小時，警戒 +1。 */
 RESIST_EFFECTS.exhaust={st:'CON',dc:12,mode:'reduce',label:'抵抗廢氣'};
 const HSP_AIR=['頭開始痛了，太陽穴一跳一跳的。','胃裡一陣一陣地噁心，手指尖有點麻。','眼前的東西開始晃，腳步踩不太穩。','嘴唇發麻，一直想睡。'];
 const hspGen=()=>!!(G&&G.flags.hgen&&!G.flags.hgenoff&&!pwNow()&&!G.flags.acru);
@@ -4832,7 +4834,7 @@ async function hspAir(min){if(!G||G.lv!=='OB'||!min||!hspGen())return;
   G.hgT=(G.hgT||0)+min;
   while(G.hgT>=30){G.hgT-=30;G.hgS=(G.hgS||0)+1;const s=G.hgS;
     for(const p of able()){
-      if(maskWorn(p)){if(!(p.mf>0)&&hasI(p,'filter')){takeI(p,'filter');p.mf=FILTER_MIN;out(`${nm(p)}換上新的濾毒罐。`,'sys',true)}if(p.mf>0){p.mf=Math.max(0,p.mf-30);continue}}
+      if(maskWorn(p)&&!p.hgMask){p.hgMask=1;out(`${MP()?nm(p)+'：':''}面罩擋得住太平間的味道，擋不住發電機的廢氣。`,'rule',true)}
       out(`${MP()?nm(p)+'：':''}${HSP_AIR[Math.min(HSP_AIR.length-1,s-1)]}`,'dmg',true);
       const c=await resistCheck(p,RESIST_EFFECTS.exhaust,{amount:Math.min(8,2*s)});
       if(c.ok)out(`${nm(p)}及時穩住呼吸，這次的影響減輕了。`,'good',true);
