@@ -16,7 +16,7 @@ test('單向路線：每個地點的卡都存在、照順序接下去；最後�
 });
 
 test('旅館走廊只能挑一件事：拿了消防斧就不能再進房間，也不寫已搜過／還沒進去',async()=>{const g=setup();
- await g.run("enterNode('A4')");assert.equal(g.run('G.node'),'A4');
+ g.run("G.flags.rd_r302=0");/* v0.59.0 路況：302 的門沒關好的局另有一個選項 */await g.run("enterNode('A4')");assert.equal(g.run('G.node'),'A4');
  assert.deepEqual(labels(g),['302：有光的那間','306：門縫裡有聲音的那間','304：門沒關的那間','打破消防栓箱拿斧頭','不再找了，往前走']);
  assert.equal(g.run("choices().filter(visible).map(c=>zNote(c)).join('')"),'');
  await pick(g,'打破消防栓箱拿斧頭');assert.notEqual(g.run('G.node'),'A4','做完一件就往前走');
@@ -82,7 +82,7 @@ test('翻找有聲音：快速翻 +1、繼續仔細翻 +2，選項上不寫數�
  assert.ok(!g.run("Object.values(N).some(n=>ROUTE[n.L]&&(n.c||[]).some(c=>/警戒/.test(c.s||'')))"),'旅館選項不寫警戒數字');
 });
 test('繼續仔細翻拿的是快速翻之外的東西：兩次加起來等於原本的全部',async()=>{const g=setup();
- g.run("N.T55S={L:'A',n:'測試',t:'測試',c:[{l:'翻測試櫃',t:'sd',ok:{t:'x',r:{items:{water:1,bandage:2}}}}]};G.node='T55S';G.lv='A';G.players[0].items={}");
+ /* v0.59.0 三樓（A）改成選擇卡、沒有繼續仔細翻（主人 2026-11-24），這裡改用還沒轉換的二樓 B 測 */g.run("N.T55S={L:'B',n:'測試',t:'測試',c:[{l:'翻測試櫃',t:'sd',ok:{t:'x',r:{items:{water:1,bandage:2}}}}]};G.node='T55S';G.lv='B';G.players[0].items={}");
  await pick(g,'翻測試櫃');assert.equal(g.run("Object.values(G.players[0].items).reduce((a,b)=>a+b,0)"),1);
  await pick(g,'繼續仔細翻測試櫃');assert.equal(g.run('G.players[0].items.water||0'),1);assert.equal(g.run('G.players[0].items.bandage||0'),2);
  assert.ok(!g.run("choices().some(c=>visible(c)&&/測試櫃/.test(c.l))"),'都翻完就消失');
@@ -121,7 +121,7 @@ test('最後一波還在路上就逃走：警戒清 0',async()=>{const g=setup()
  assert.ok(g.run('!!G.fight.reinf'));await g.run('finishEvacuation(G.players[0],true)');assert.equal(g.run('G.alarm'),0);
 });
 test('安靜躲一陣子：一個區域一次、警戒 −3、30 分鐘，只放在內容指定的地方',async()=>{const g=setup();
- const at=JSON.parse(g.run("JSON.stringify(Object.entries(N).filter(([k,n])=>(n.c||[]).some(c=>c.quiet)).map(([k])=>k))"));assert.deepEqual(at.sort(),['A4e','E2s','M2','OE6','OF5','U2s'],'v0.56.0 醫院：急診的急救室、四樓的被服間；v0.57.0 旅館三樓的 309（門會自己鎖）');
+ const at=JSON.parse(g.run("JSON.stringify(Object.entries(N).filter(([k,n])=>(n.c||[]).some(c=>c.quiet)).map(([k])=>k))"));assert.deepEqual(at.sort(),['A4h','E2s','M2','OE6','OF5','U2s'],'v0.56.0 醫院：急診的急救室、四樓的被服間；v0.57.0 旅館三樓的 309（門會自己鎖；v0.59.0 改成進 309 的小卡 A4h）');
  assert.ok(g.run("Object.values(N).every(n=>(n.c||[]).every(c=>!c.quiet||c.t==='qh'))"));
  g.run("G.node='E2s';G.lv='E';G.zal={};G.alarm=7;G.clock=600");const c0=g.run('G.clock');
  await g.run("(async()=>{const c=choices().find(c=>c.quiet);await spendTime(c);await applyRes(c,c.ok,G.players[0])})()");assert.equal(g.run('G.alarm'),4);assert.equal(g.run('G.clock')-c0,30);
