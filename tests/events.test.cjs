@@ -35,7 +35,9 @@ test('轉交武器會顯示接收者實際拿在哪一手',()=>{let g=game();g.r
 test('全區域及多種狀態組合與發布基準的有效屬性及檢定加值一致',()=>{
  const STARVED={STR:-2,CON:-2};
  const base=fs.readFileSync(path.join(__dirname,'baseline-v0.21.5.html'),'utf8');
- const before=game(base),after=game();const zones=JSON.parse(after.run('JSON.stringify(Object.keys(LV))'));
+ const before=game(base),after=game();
+ // v0.56.0：基準裡沒有的新區域（醫院四樓 OF、地下室 OB 是室內，會吃停電）沒有東西可以比，跳過；舊區域照樣全部比對
+ const zones=JSON.parse(after.run('JSON.stringify(Object.keys(LV))')).filter(z=>before.run(`!!LV[${JSON.stringify(z)}]`)||!['OF','OB'].includes(z));
  let count=0;
  for(const zone of zones)for(let i=0;i<32;i++){
   const state=hun=>`G.lv=${JSON.stringify(zone)};G.flags={blackout:${i%2},citypower:${i%7===0?1:0},streetpower:${i%11===0?1:0}};p.frac=${(i>>1)%2};p.pk=${i%5===0?1:0};p.hun=${hun};p.thi=${i%4===0?0:7};p.fe=${[0,25,50,75,100][i%5]};p.items=${JSON.stringify(i%6===0?{flashlight:1}:{})};p.tl=['flashlight',null];p.traits=${JSON.stringify(i%9===0?['nightowl','keen','athletic','talker']:[])};JSON.stringify(Object.keys(STN).map(s=>[s,statMod(p,s),checkBonus(p,s)]))`;
