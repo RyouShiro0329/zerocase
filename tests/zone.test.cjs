@@ -17,10 +17,10 @@ test('單向路線：每個地點的卡都存在、照順序接下去；最後�
 
 test('旅館走廊只能挑一件事：拿了消防斧就不能再進房間，也不寫已搜過／還沒進去',async()=>{const g=setup();
  g.run("G.flags.rd_r302=0");/* v0.59.0 路況：302 的門沒關好的局另有一個選項 */await g.run("enterNode('A4')");assert.equal(g.run('G.node'),'A4');
- assert.deepEqual(labels(g),['302：有光的那間','306：門縫裡有聲音的那間','304：門沒關的那間','打破消防栓箱拿斧頭','不再找了，往前走']);
+ /* v0.60.0（主人 2026-11-24 改了決定：三樓選路翻牌）：走廊變成牌庫卡，一張卡一件事，不再是搜索點，沒有「不再找了」 */assert.deepEqual(labels(g),['302：有光的那間','306：門縫裡有聲音的那間','304：門沒關的那間','打破消防栓箱拿斧頭']);
  assert.equal(g.run("choices().filter(visible).map(c=>zNote(c)).join('')"),'');
  await pick(g,'打破消防栓箱拿斧頭');assert.notEqual(g.run('G.node'),'A4','做完一件就往前走');
- assert.match(log(g),/沒辦法每一間都翻/);assert.doesNotMatch(log(g),/已搜過|還沒進去|你回到三樓走廊/);
+ assert.doesNotMatch(log(g),/已搜過|還沒進去|你回到三樓走廊/);
 });
 
 test('旅館走廊：進了房間，看完直接往前，不回走廊；也可以不找直接往前',async()=>{const g=setup();

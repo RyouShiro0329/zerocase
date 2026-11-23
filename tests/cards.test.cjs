@@ -53,13 +53,13 @@ test('藍色選項：條件不成立看不到；職業、天賦、道具、旗�
  assert.deepEqual(JSON.parse(m.run(`JSON.stringify(rollEl(choices()[${idx(m,'房務員都把萬用卡和房務單夾在一起')}]).map(p=>p.pid))`)),['p2']);
 });
 test('牌庫：同一局不重複、本層抽乾才用通用；條件牌只在成立時出現、一層最多 2 張；一般牌至少 9 張',()=>{const g=setup();g.run("G.lv='A';G.flags={};G.dk={on:{},seen:[],cc:{},ret:null}");
- const norm=JSON.parse(g.run("JSON.stringify(dkList('A').filter(id=>!N[id].cc))"));assert.ok(norm.length>=9,'三樓一般牌只有 '+norm.length+' 張');
+ const norm=JSON.parse(g.run("JSON.stringify(dkList('A').filter(id=>!N[id].cc))"));assert.ok(norm.length>=30,'三樓一般牌只有 '+norm.length+' 張');/* v0.60.0 補到 30 張 */
  assert.ok(JSON.parse(g.run("JSON.stringify(dkList('A').filter(id=>N[id].cc))")).length>=5);assert.ok(g.run("dkList('hotel').length")>=3);
  // 條件都不成立（有房卡、警戒低、沒有老夫妻、沒人驚恐）：只會抽到一般牌；被咬的住客是無條件的條件牌
- g.run("G.flags.mkey=1;G.alarm=0;G.players[0].fe=0");const got=[];for(let k=0;k<14;k++){const d=g.run("dkDraw('AK1')");got.push(d)}
+ g.run("G.flags.mkey=1;G.alarm=0;G.players[0].fe=0");const got=[];for(let k=0;k<norm.length+4;k++){const d=g.run("dkDraw('AK1')");got.push(d)}
  assert.equal(new Set(got.filter(Boolean)).size,got.filter(Boolean).length,'不重複');
  const loc=got.filter(d=>d&&N_L(g,d)==='A');assert.ok(!got.some(d=>['AE1','AE2','AE3','AE4'].includes(d)),'條件不成立的條件牌不出現');
- const firstHotel=got.findIndex(d=>/^HG/.test(d||''));assert.ok(firstHotel>=9,'本層一般牌抽乾之後才用通用牌：'+got.join());
+ const firstHotel=got.findIndex(d=>/^HG/.test(d||''));assert.ok(firstHotel>=0&&norm.every(id=>got.slice(0,firstHotel).includes(id)),'本層一般牌抽乾之後才用通用牌：'+got.join());
  assert.ok(g.run("G.dk.cc.A||0")<=2);
  // 條件牌：沒有房卡時伊蓮娜會出現；一層最多 2 張
  const h=setup();h.run("G.lv='A';G.flags={};G.alarm=5;G.players[0].fe=60;G.dk={on:{},seen:[],cc:{},ret:null}");const c=[];for(let k=0;k<14;k++)c.push(h.run("dkDraw('AK1')"));
@@ -68,13 +68,13 @@ test('牌庫：同一局不重複、本層抽乾才用通用；條件牌只在�
  assert.ok(seen>0,'沒有房卡的局，伊蓮娜會出現');
 });
 function N_L(g,id){return g.run(`N[${JSON.stringify(id)}].L`)}
-test('抽牌格：100 個種子，三樓開的格數都在 4～5 格；路況照種子決定，三種都會出現',()=>{const g=setup();const cnt={4:0,5:0},rd={r302:0,rlift:0,rwin:0};
- for(let s=1;s<=100;s++){g.run(`G.sd=${s*31337};G.flags={};G.dk={on:{},seen:[],cc:{},ret:null};dkPrep('A')`);const n=g.run('G.dk.on.A.length');assert.ok(n>=4&&n<=5,'格數 '+n);cnt[n]++;
+test('選路格：三樓 10 格都開；路況照種子決定，三種都會出現（v0.60.0 主人改了決定：抽牌格固定 10 格）',()=>{const g=setup();const rd={r302:0,rlift:0,rwin:0};
+ for(let s=1;s<=100;s++){g.run(`G.sd=${s*31337};G.flags={};G.dk={on:{},seen:[],cc:{},ret:null};dkPrep('A')`);assert.equal(g.run('G.dk.on.A.length'),10);
   for(const k of Object.keys(rd))rd[k]+=g.run(`G.flags.rd_${k}`)}
- assert.ok(cnt[4]>0&&cnt[5]>0,JSON.stringify(cnt));for(const k of Object.keys(rd))assert.ok(rd[k]>10&&rd[k]<90,k+' '+rd[k]);
- // 同一個種子一定一樣（跟按選項的順序無關）
- g.run("G.sd=99;G.flags={};G.dk={on:{},seen:[],cc:{},ret:null};dkPrep('A');globalThis.O1=JSON.stringify([G.dk.on.A,G.flags.rd_r302,G.flags.rd_rlift,G.flags.rd_rwin]);RNG();RNG();G.flags={};G.dk={on:{},seen:[],cc:{},ret:null};dkPrep('A')");
- assert.equal(g.run("JSON.stringify([G.dk.on.A,G.flags.rd_r302,G.flags.rd_rlift,G.flags.rd_rwin])"),g.run('O1'));
+ for(const k of Object.keys(rd))assert.ok(rd[k]>10&&rd[k]<90,k+' '+rd[k]);
+ g.run("G.sd=99;G.flags={};G.dk={on:{},seen:[],cc:{},ret:null};dkPrep('A');globalThis.O1=JSON.stringify([G.flags.rd_r302,G.flags.rd_rlift,G.flags.rd_rwin]);RNG();RNG();G.flags={};G.dk={on:{},seen:[],cc:{},ret:null};dkPrep('A')");
+ assert.equal(g.run("JSON.stringify([G.flags.rd_r302,G.flags.rd_rlift,G.flags.rd_rwin])"),g.run('O1'));
+ assert.deepEqual(JSON.parse(g.run("JSON.stringify(ROUTE.A.seq)")),['A1','AK1','AK2','AK3','AK4','AK5','AK6','A4f','AK7','A6d','AK8','AK9','AK10','A6']);
 });
 test('路況：302 的門沒關好不用房卡；電梯門卡死只能撬；301 的窗戶卡住要工具',()=>{const g=setup();g.run("G.lv='A';G.node='A4';G.flags={rd_r302:1}");
  assert.ok(labels(g).includes('302：門沒關好的那間'));assert.ok(!labels(g).includes('302：有光的那間'));
@@ -97,13 +97,18 @@ test('選擇卡地點（v2）：沒有停留選項、沒有繼續仔細翻；純
  g.run("G.lv='A';G.node='A6b';G.alarm=0");const before=g.run('G.node');
  return g.run(`(async()=>{const c=choices().find(c=>c.l==='從窗簾縫看街上');await applyRes(c,c.ok,G.players[0])})()`).then(()=>assert.notEqual(g.run('G.node'),before,'看完窗外就往前走'));
 });
-test('牌庫卡做完接回抽牌格的下一張；舊存檔停在製冰機間、舊事件格也接得回去；舊存檔補 G.dk',async()=>{const g=setup();
- g.run("G.lv='A';G.route=['A'];G.dk={on:{A:['AK2']},seen:[],cc:{},ret:null};G.flags.v_A4=1");await g.run("enterNode('AK2')");const d=g.run('G.node');assert.match(d,/^(A3x|AD|AE|HG)/);assert.equal(g.run('G.dk.ret'),'A4d');
- await g.run(`(async()=>{const c=choices().find(c=>visible(c)&&choiceOk(c)&&!(c.tb?c.tb[0]:c.ok).fight);G.alarm=0;await applyRes(c,c.tb?c.tb[0]:c.ok,G.players[0])})()`);assert.equal(g.run('G.node'),'A4d');
- // 沒開的格子直接跳過
- g.run("G.dk.on.A=[]");assert.equal(g.run("rtSkip('AK3')"),true);g.run("G.dk.on.A=['AK3']");assert.equal(g.run("rtSkip('AK3')"),false);g.run("G.dk.on.A=[]");await g.run("enterNode('AK3')");assert.equal(g.run('G.node'),'A6d');
- assert.equal(g.run("N.A3x.next"),'A4');assert.equal(g.run("N.A5.next"),'A4e');
+test('選路：選了才進那張卡，做完接回選路格的下一格；沒開成的格子跳過；舊存檔補 G.dk、v0.59.0 的格子重算',async()=>{const g=setup();
+ g.run("G.lv='A';G.route=['A'];G.sd=7;G.dk={on:{},seen:[],cc:{},ret:null}");await g.run("enterNode('AK4')");assert.equal(g.run('G.node'),'AK4','停在選路卡');
+ const o=JSON.parse(g.run('JSON.stringify(G.dk.fk.o)'));assert.equal(g.run('choices().length'),o.length);assert.ok(g.run("choices().every(c=>c.kind==='選路'&&c.t==='mv'&&c.fork)"));
+ await g.run("(async()=>{const c=choices()[0];await applyRes(c,c.ok,G.players[0])})()");assert.equal(g.run('G.node'),o[0]);assert.equal(g.run('G.dk.ret'),'AK5');
+ assert.deepEqual(JSON.parse(g.run('JSON.stringify(G.dk.skip)')),o.slice(1));assert.ok(g.run(`G.dk.seen.includes('${o[0]}')`));
+ await g.run(`(async()=>{const c=choices().find(c=>visible(c)&&choiceOk(c)&&!(c.tb?c.tb[0]:c.ok).fight&&!c.go);G.alarm=0;await applyRes(c,c.tb?c.tb[0]:c.ok,G.players[0])})()`);assert.equal(g.run('G.node'),'AK5','做完接回下一格');
+ const o2=JSON.parse(g.run('JSON.stringify(G.dk.fk.o)'));assert.ok(!o2.some(id=>o.includes(id)),'上一格沒選的、選過的，這一格都不出現');
+ g.run("G.dk.on.A=[]");await g.run("enterNode('AK3')");assert.equal(g.run('G.node'),'A4f','沒開的格子直接跳過');
  const m=JSON.parse(g.run("JSON.stringify(migrateG({players:[],flags:{},sd:5,stp:2}))"));assert.deepEqual(m.dk,{on:{},seen:[],cc:{},ret:null});
+ const m2=JSON.parse(g.run("JSON.stringify(migrateG({players:[],flags:{},sd:5,stp:2,dk:{on:{A:['AK1','AK3','AK4','AK5']},seen:[],cc:{},ret:null}}))"));assert.equal(m2.dk.on.A,undefined,'v0.59.0 開的 4～5 格重算成 10 格');
+ // 舊存檔停在 v0.59.0 的骨架卡：做完接到新流程的格子
+ assert.equal(g.run("N.A3x.next+N.A4.next+N.A4e.next+N.A6b.next"),'AK4AK4A4fA6');
 });
 test('劇情卡結果固定：303 開門、310 老夫妻、轉角的馬可沒有結果表；瓊的藥袋不動善惡值',()=>{const g=setup();
  assert.ok(g.run("!N.A4d.c[0].tb&&N.A4f.c.every(c=>!c.tb)&&N.A6d.c.every(c=>!c.tb)"));
@@ -119,3 +124,58 @@ test('二樓窗邊：退伍軍人數過探照燈（swcount），可以直接走�
  assert.ok(!labels(g).includes('看準探照燈轉開的空檔，直接走過去'));assert.ok(g.run("!N.B1w.c.find(c=>c.need==='swcount').ok.qte"));
 });
 test('藍色選項在畫面上是藍色（.ch.blu）',()=>{const g=setup();assert.match(g.run("document.querySelector?String(chBtn('x','y','','','',false,'','blu')):''"),/class="ch blu"/)});
+
+/* ---- v0.60.0 選路翻牌＋開場不固定（主人 2026-11-24 選 A，Claude 專案 zerocase/PROPOSAL_FORK_CARDS.md、FORK_CARDS_CONTENT.md） ---- */
+const fork=(g,sid)=>JSON.parse(g.run(`JSON.stringify(dkFork('${sid}'))`));
+test('選路張數：基本 3～4；手電筒、夜貓子、被動感知 14 以上 +1；警戒 6 以上 −1；一律 2～5 張；同一個種子同一組',()=>{
+ const low={kind:'custom',pid:'p1',name:'甲',st:{STR:2,AGI:2,CON:2,PER:0,INT:2,CHA:2},load:{}};
+ const cnt=(extra)=>{const n=new Set();for(let s=1;s<=60;s++){const g=setup([low]);g.run(`G.lv='A';G.sd=${s*977};G.flags={mkey:1};G.alarm=0;G.dk={on:{},seen:[],cc:{},ret:null};${extra||''}`);
+   const per=g.run('passPer(G.players[0])');if(!extra)assert.ok(per<14,'這個角色被動感知要低於 14：'+per);n.add(g.run("dkForkN()"))}return [...n].sort()};
+ assert.deepEqual(cnt(),[3,4]);
+ assert.deepEqual(cnt("G.players[0].items.flashlight=1"),[4,5]);assert.deepEqual(cnt("G.players[0].traits.push('nightowl')"),[4,5]);
+ assert.deepEqual(cnt("G.alarm=6"),[2,3]);assert.deepEqual(cnt("G.alarm=6;G.players[0].items.flashlight=1"),[3,4]);
+ const g=setup();g.run("G.lv='A';G.sd=5;G.dk={on:{},seen:[],cc:{},ret:null}");const a=fork(g,'AK1');g.run("G.dk={on:{},seen:[],cc:{},ret:null};RNG();RNG()");assert.deepEqual(fork(g,'AK1'),a,'跟按選項的順序無關');
+ for(const id of a)assert.ok(g.run(`!!N.${id}.peek`),id+' 沒有線索');
+});
+test('分段：西段的格子只翻西段和通用卡，中段、東段一樣；條件牌一格最多 1 張、一層最多 2 張',()=>{
+ for(let s=1;s<=40;s++){const g=setup();g.run(`G.lv='A';G.sd=${s*131};G.flags={};G.alarm=5;G.players[0].fe=60;G.players[0].bleed=1;G.flags.elders=1;G.dk={on:{},seen:[],cc:{},ret:null}`);
+  for(const [sid,seg] of [['AK1','w'],['AK2','w'],['AK4','m'],['AK7','m'],['AK8','e'],['AK10','e']]){const o=fork(g,sid);
+   for(const id of o){const sg=g.run(`N.${id}.seg||''`);assert.ok(sg===''||sg===seg,`${sid} 翻到別段的卡 ${id}（${sg}）`)}
+   assert.ok(o.filter(id=>g.run(`!!N.${id}.cc`)).length<=1,'一格最多 1 張條件牌');g.run(`G.dk.skip=[]`)}
+  assert.ok(g.run('G.dk.cc.A||0')<=2,'一層最多 2 張條件牌')}
+ const g=setup();const seg=JSON.parse(g.run("JSON.stringify(['w','m','e'].map(s=>dkList('A').filter(id=>N[id].seg===s&&!N[id].cc).length))"));
+ assert.deepEqual(seg,[10,10,7],'西 10、中 10、東 7（＋通用）');
+ assert.ok(g.run("dkList('A').every(id=>!!N[id].peek)"),'每張牌庫卡都有線索');
+});
+test('新卡 15 張：表面上是旅館（沒有病床、點滴架）、沒有純運氣；藍色選項用道具為主',()=>{const g=setup();
+ const ids=['AW1','AW2','AW3','AW4','AM1','AM2','AM3','AM4','AM5','AM6','AT1','AT2','AT3','AT4','AT5'];
+ const txt=g.run(`JSON.stringify(${JSON.stringify(ids)}.map(id=>{const n=N[id];return n.t+n.peek+JSON.stringify(n.c)}).join(''))`);
+ assert.doesNotMatch(txt,/病床|點滴|靈異|鬼/);
+ assert.ok(g.run(`${JSON.stringify(ids)}.every(id=>N[id].c.every(c=>!c.luck))`));
+ const blu=JSON.parse(g.run(`JSON.stringify(${JSON.stringify(ids)}.flatMap(id=>N[id].c.filter(c=>c.blu).map(c=>JSON.stringify(c.blu))))`));
+ assert.ok(blu.filter(b=>/item/.test(b)).length>blu.length/2,'藍色選項大多是道具：'+blu.join(' '));
+});
+test('開場：時間和種類照種子（第 1／2／3 件之後、不來都有；5 張都會出現）；開門出去從第 2 張起才有；第 3 件做完一定出去',async()=>{
+ const when={0:0,1:0,2:0,3:0},kind=new Set();
+ for(let s=1;s<=200;s++){const g=setup();g.run(`G.sd=${s*7};delete G.op`);const o=JSON.parse(g.run('JSON.stringify(opSt())'));when[o.ev]++;kind.add(o.k);
+  g.run('delete G.op');assert.equal(g.run('JSON.stringify(opSt())'),JSON.stringify(o),'讀檔一樣')}
+ for(const k of [0,1,2,3])assert.ok(when[k]>10,JSON.stringify(when));assert.equal(kind.size,5);
+ const g=setup();g.run("G.lv='A';G.sd=1;G.op={n:0,ev:0,k:0,done:0}");await g.run("enterNode('A1')");assert.ok(!labels(g).includes('開門出去'));
+ for(let n=1;n<=3;n++){await g.run(`(async()=>{const c=choices().find(c=>visible(c)&&c.opk&&!c.k);await applyRes(c,c.ok,G.players[0])})()`);
+  if(n<3){assert.equal(g.run('G.node'),'A1r');assert.ok(labels(g).includes('開門出去'))}else assert.equal(g.run('G.node'),'AK1','第 3 件做完一定出去')}
+ // 事件在第 1 件之後來，做完回房間；開場事件只出現一次
+ const h=setup();h.run("G.lv='A';G.op={n:0,ev:1,k:2,done:0}");await h.run("enterNode('A1')");await h.run(`(async()=>{const c=choices().find(c=>c.l==='看門背後的逃生路線圖');await applyRes(c,c.ok,G.players[0])})()`);
+ assert.equal(h.run('G.node'),'AO3');assert.equal(h.run('G.flags.opfire'),1);await h.run(`(async()=>{const c=choices().find(c=>c.l==='留在房裡等它停');await applyRes(c,c.tb[0],G.players[0])})()`);assert.equal(h.run('G.node'),'A1r');
+ assert.equal(h.run('dkOk(N.AD3)'),false,'來了火警，這一局不抽煙霧偵測器');
+ // 舊存檔停在撞門那張（沒有 G.op）：做完直接出門
+ const k=setup();k.run("G.lv='A';G.node='A2';delete G.op");await k.run(`(async()=>{const c=N.A2.c[1];await applyRes(c,c.ok,G.players[0])})()`);assert.equal(k.run('G.node'),'AK1');
+});
+test('先做的事會改變開場事件：聽過門、頂過門、看過貓眼、看過窗外各多一個選項；房間裡做過的不再出現在撞門那張',()=>{const g=setup();g.run("G.lv='A';G.node='A2';G.flags={}");
+ const base=labels(g);assert.ok(base.includes('把書桌拖過去頂住門')&&base.includes('從貓眼看清楚外面'));
+ g.run("G.flags={barred:1}");assert.ok(labels(g).includes('書桌頂著，等它撞累'));assert.ok(!labels(g).includes('把書桌拖過去頂住門'));
+ g.run("G.flags={saw:1}");assert.ok(labels(g).includes('它只有一個，退到門邊的牆後面等它'));assert.ok(!labels(g).includes('從貓眼看清楚外面'));
+ g.run("G.flags={heard:1}");assert.ok(labels(g).includes('等它撞完退開的那一下，開門先動手'));
+ g.run("G.node='AO4';G.flags={}");assert.ok(!labels(g).some(l=>/穿制服/.test(l)));g.run("G.flags={saw:1}");assert.ok(labels(g).some(l=>/穿制服/.test(l)));
+ g.run("G.node='AO3';G.flags={sawstreet:1}");assert.ok(labels(g).some(l=>/現在就走/.test(l)));
+ g.run("G.node='AO2';G.flags={heard:1}");assert.equal(labels(g).filter(l=>l==='開門，先對付他後面那個').length,1);g.run("G.flags={heard:1,saw:1}");assert.equal(labels(g).filter(l=>l==='開門，先對付他後面那個').length,1,'兩個都有也只出現一次');
+});
