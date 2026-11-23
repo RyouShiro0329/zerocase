@@ -36,12 +36,11 @@
 5. 寫紀錄：`更新說明.txt` 最上面一段（改了什麼、測試結果、碰到哪些主人原本的規則）；`docs/VERSIONS.md` 表格最上面一行（commit 欄寫「見 commit 訊息」）；`docs/HANDOFF_CLAUDE.md` 的現況和待辦。
 6. 一個 commit（訊息用「v版本：」開頭，之後靠它找這一版），push，開 PR：`gh api repos/RyouShiro0329/zerocase/pulls -f title=… -f head=<分支> -f base=main -F body=@檔案`（gh 的 GraphQL 在這裡不能用）。PR 說明短，細節指向更新說明。
 7. 等「完整測試」結果，回報主人。**不要自己合併。**
-8. 主人說「可以合併」或「開始部署」：`gh api -X PUT repos/RyouShiro0329/zerocase/pulls/<n>/merge -f merge_method=merge`（一般 merge，不用 squash）→ 約一分鐘後確認網站 https://ryoushiro0329.github.io/zerocase/ 的 ZC_VER → 同步 Claude 連結。
+8. 主人說「可以合併」或「開始部署」：`gh api -X PUT repos/RyouShiro0329/zerocase/pulls/<n>/merge -f merge_method=merge`（一般 merge，不用 squash）→ 約一分鐘後確認網站 https://ryoushiro0329.github.io/zerocase/ 的 ZC_VER 是新版。
 
-## 六、同步 Claude 遊戲連結（artifact）
-- slug、網址在 HANDOFF。先 `list_files`；`git diff --name-status <上一版的 commit> HEAD -- img fonts sfx fx docs/audio`（上一版用 `git log --oneline --grep='^v上一版'` 找） 找新素材，grep index.html 確認真的有用到才傳。
-- `publish_files`：帶 `base_version`、patch 模式、不傳 capabilities（room 能力會保留）；傳 index.html 和這次改過或新增的素材。發布後再 `list_files` 核對雜湊和倉庫一樣就完成，不另外跑冒煙測試，也不用把連結的版本號寫回文件。
-- 新音檔要先檢查（ffmpeg 解碼、響度、頭尾空白、頻譜圖親眼看；有人聲的轉文字對照來源紀錄），有問題先回報主人。
+## 六、不用同步 Claude 遊戲連結（主人 2026-11-24）
+- 主人現在都用網站版 https://ryoushiro0329.github.io/zerocase/ 玩，Claude 測試也用倉庫的 index.html。**Claude 的遊戲連結（artifact）不用再同步、不用上傳素材**；合併後確認網站的 ZC_VER 是新版就完成。
+- 新音檔照樣要先檢查（ffmpeg 解碼、響度、頭尾空白、頻譜圖親眼看；有人聲的轉文字對照來源紀錄），有問題先回報主人。
 
 ## 七、回報給主人
 - 中文、短，手機一兩個畫面讀得完。
