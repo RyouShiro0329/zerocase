@@ -1,4 +1,4 @@
-const {test}=require('node:test'),assert=require('node:assert/strict'),{game}=require('../tests/helpers/audio-game.cjs');
+const {test}=require('node:test'),assert=require('node:assert/strict'),{game}=require('./helpers/audio-game.cjs');
 function setup(type='infected'){
  const g=game();let now=0,seq=0;const timers=new Map();g.c.Date=class extends Date{static now(){return now}};g.c.setInterval=f=>{timers.set(++seq,f);return seq};g.c.clearInterval=id=>timers.delete(id);
  g.run(`globalThis.plays={};for(const [k,a] of Object.entries(BGM_MIX.tracks)){a.paused=true;a.currentTime=0;a.play=()=>{plays[k]=(plays[k]||0)+1;a.paused=false;return Promise.resolve()};a.pause=()=>{a.paused=true}};UI.bgm=1;newRun([{pid:'p1',kind:'custom',name:'驗收',st:{STR:3,AGI:3,CON:3,INT:3,PER:3,CHA:3},traits:[],cskills:[],load:{}}],{diff:'normal',cd:'off'},'solo');globalThis.p=G.players[0];G.fight={foes:[newFoe(0,'${type}',1,false)],round:1,order:[],escaped:[],tUsed:{}};G.phase='fight';G.lv='A';globalThis.f=G.fight.foes[0];f.hp=f.max=999;dice=async()=>{};qte=async()=>true;deathCheck=async()=>false;check=async()=>({ok:true});woundDeteriorate=async()=>{};startBgm();beginEncounterBgm();`);

@@ -1,0 +1,23 @@
+# 完整測試（2026-11-23 起取代原本 9 個單一功能的驗收流程，舊的在 docs/archive/workflows/）
+# 每個開到 main 的 PR 自動跑 tests/run_all.sh：Node 測試＋瀏覽器冒煙（三種尺寸）＋長路線。
+# 本機只要跑 Node 測試；瀏覽器的兩項交給這裡跑，看結果就好。
+name: 完整測試
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  run_all:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - name: 完整測試（冒煙 40 步、長路線 480 動作）
+        run: NODE_PATH=$(npm root -g) bash tests/run_all.sh 40 480

@@ -1,29 +1,9 @@
-# 給 Codex 與其他 AI 的工作說明（零號病例）
+# 零號病例：給 AI 的入口
 
-這個倉庫是網頁遊戲《零號病例》。主人（了白）會輪流用 Claude（露涅希亞）和 GPT／Codex 更新，**以 Claude 為主**。開工前一定先完整讀 `docs/AI_WORKFLOW.md` 並照做；這份是最重要的摘要。
+網頁遊戲《零號病例》。正本是根目錄的 `index.html`，GitHub Pages 從 main 發布。主人（了白）輪流用 Claude 和 GPT／Codex 更新，**以 Claude 為主**。
 
-**依你的模型，再讀一份專屬規則（必讀）：**
-- Claude 系列（Sonnet、Opus、Haiku）：`docs/RULES_SONNET.md`
+依你的模型，從頭讀完**一份**規則就可以開工：
+- Claude 系列：`docs/RULES_CLAUDE.md`，再讀 `docs/HANDOFF_CLAUDE.md`
 - GPT 系列（GPT、Codex）：`docs/RULES_GPT.md`
 
-## 開工前
-1. 從最新的 main 開始。先看 `docs/VERSIONS.md` 最上面幾行和 `更新說明.txt`，確認目前版本（也可能是 Claude 剛發的版本）。
-2. 正本是根目錄的 `index.html`，網站由 GitHub Pages 從 main 發布。
-
-## 一定要遵守
-- 所有遊戲文字用**台灣繁體中文用語**，不能有簡體字或中國大陸用語（例如「啟用」不寫「激活」、「爆擊」不寫「暴擊」）。
-- 舞台是 2038 年**美國城市**，不放台灣在地事物；不寫喪屍、殭屍（敵人陣營叫「感染者陣營」）；事件沒有靈異（訪客角色自己的能力除外）。
-- **只改這次要求的東西**，不要順便重構、改名或刪除其他內容。不要改每個模組的第一行標題（切檔工具靠它，清單在 AI_WORKFLOW）。
-- 所有程式共用同一個全域範圍：新增函式、常數、CSS class、劇情節點代號前**先搜尋有沒有撞名**（`.tm`、`.sh` 都曾撞過）。
-- **新系統、改核心規則、刪內容、改劇情走向：先停下來列方案給主人選，不要直接做。**
-- 不要修改 `tests/guard.test.cjs` 去配合改動；它失敗代表改壞了，規則要改先問主人。
-- 遊戲文字加了新字：跑 `python3 tools/make_font_subset.py`，再把 index.html 裡兩處 `fonts/tw-kai-game.woff2?v=` 換成新字型檔 SHA-256 的**前 8 碼**（不換的話玩家用到快取的舊字型，新字會忽大忽小）。
-- 訪客角色的**兌換碼不能寫進程式或任何公開檔案**，程式裡只放雜湊（GUESTS 的 rc）。新增訪客需要代碼時，請主人找 Claude 產生。
-- 不要動 Claude 的遊戲連結（artifact），那由 Claude 同步。
-- 敵人立繪只用主人提供的美術，不自己生成。QTE 只靠玩家反應，不提供擲骰替代。不做跨局記憶、不做配方記錄。
-
-## 發布前
-1. `bash tests/run_all.sh` 全部通過。沒有 playwright 或跑不了的項目，回報寫「未測試」和原因，**不能寫成通過**；手機實機一律寫「待主人實機驗收」。
-2. 版本號照語意化版本：修正、數值、文字＝patch；新系統、新內容＝minor。index.html 裡 `const ZC_VER=` 的版本、Build（加一，永不重複）、時間（Asia/Taipei）要更新。
-3. 更新 `更新說明.txt`（最上面寫這一版）、`docs/VERSIONS.md` 表格最上面加一行（版本｜commit｜說明）、`MANIFEST.json` 重算雜湊後 `python3 verify_release.py` 要通過。
-4. 開 Pull Request，說明裡列出：版本／Build、改了什麼、跑了哪些測試和結果、未測試的項目和原因、**有沒有碰到主人原本的設計規則**（有的話列出來，不要自己決定）。主人會在 GitHub 上合併。
+主人的設計決定在 `docs/DESIGN.md`，只讀這次要改的那一塊。

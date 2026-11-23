@@ -1,5 +1,5 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
-const {game}=require('../tests/helpers/audio-game.cjs');
+const {game}=require('./helpers/audio-game.cjs');
 function setup(id='hammer'){const g=game();g.run(`newRun([{kind:'custom',pid:'p1',name:'測試',tal:'keen',sk:'aid',st:{STR:2,AGI:2,CON:2,PER:1,INT:1,CHA:0},load:{}}],{diff:'normal',cd:'off'},'solo');globalThis.p=G.players[0];out=()=>{};dice=async()=>{};push=()=>{};globalThis.weapon=newGear('${id}',20);p.gear.push(weapon);p.hand.R=weapon.u;p.items.shot=10;G.fight={foes:[Object.assign(newFoe(0,'infected',1,false),{n:'測試敵人',hp:100,max:100})],first:false,noise:null};r2=()=>({a:15,b:15,s:15});Math.random=()=>.5;`);return g}
 for(const id of ['fist','knuckles','darcase','baton','hammer','sockmace','pipeclub','bat','nailbat','nailboard','crowbar','sledge','slingshot'])test(id+'實際鈍擊一次只有一個演出事件',async()=>{const g=setup(id);await g.run("attack(p,'R',null,0)");assert.equal(g.events.filter(e=>e.t==='blunt').length,1);assert.ok(g.run('G.fight.foes[0].hp')<100);assert.equal(g.events.filter(e=>e.t==='s'&&e.d[0]==='fist').length,0)});
 test('鐵鎚保留原傷害5、耐久只減1',async()=>{const g=setup();const n=g.run('weapon.dur');await g.run("attack(p,'R',null,0)");assert.equal(g.run('G.fight.foes[0].hp'),95);assert.equal(g.run('weapon.dur'),n-1)});

@@ -1,7 +1,9 @@
 # 每一版對應的 commit
 
 這個倉庫的 git 歷史保存了每一版的 index.html。要拿某一版：`git checkout <commit> -- index.html`，或在 GitHub 網頁打開那個 commit 的 index.html。
-（這個環境推不上 git tag，所以用這張表代替；commit 是那一版的最後一個 commit。）
+（這個環境推不上 git tag，所以用這張表代替。）
+
+**2026-11-23 起（v0.58.0 之後）不再回填 commit**：發布的 commit 訊息一律用「v版本：」開頭，要找某一版就 `git log --oneline --grep='^v0.58.0'`，表格的 commit 欄寫「見 commit 訊息」。v0.57.0 以前照舊寫 commit。
 
 | 版本 | commit | 說明 |
 |---|---|---|

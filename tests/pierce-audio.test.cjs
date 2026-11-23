@@ -1,6 +1,6 @@
 // 主人提供的穿刺命中音效：驗證實際攻擊事件、原傷害與耐久，以及弓弩排除。
 const {test}=require('node:test'),assert=require('node:assert/strict');
-const {game}=require('../tests/helpers/audio-game.cjs');
+const {game}=require('./helpers/audio-game.cjs');
 function setup(id='screwdriver'){
  const g=game();g.run(`newRun([{kind:'custom',pid:'p1',name:'測試',tal:'keen',sk:'aid',st:{STR:2,AGI:2,CON:2,PER:1,INT:1,CHA:0},load:{}}],{diff:'normal',cd:'off'},'solo');globalThis.p=G.players[0];out=()=>{};dice=async()=>{};push=()=>{};globalThis.weapon=newGear('${id}',20);p.gear.push(weapon);p.hand.R=weapon.u;p.items.arrow=10;p.items.bolt=10;G.fight={foes:[Object.assign(newFoe(0,'infected',1,false),{n:'測試敵人',hp:100,max:100})],first:false,noise:null};r2=()=>({a:15,b:15,s:15});Math.random=()=>.5;`);return g;
 }
