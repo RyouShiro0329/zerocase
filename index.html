@@ -1,13 +1,13 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=5b85d913" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=7ef4f5fd" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fx/slash-12.webp" as="image" type="image/webp">
 <link rel="preload" href="fx/blunt-12.webp" as="image" type="image/webp">
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=5b85d913") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=7ef4f5fd") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
@@ -4112,10 +4112,11 @@ Object.assign(ROUTE,{
    瓦斯：第三層開槍、點火會引爆（gasZone，engine_c）；扳掉總閥（gasoff）就解除。
    車：碰車、照車窗會讓警報響；整層是污染區（fx.toxic），發電機開了、再打開排風機（fanon）才散得掉。
    前面的選擇改變後面：看過窗外（sawwin）二樓有提示；310 的老夫妻（elders／elderstay／elderleft）；
-   二樓窗邊的伴郎（winsaved／winbait）；一樓炸過（hboom）、窗戶被打破（winbait）、發電機的燈（power）都會讓大廳多一隻。
+   二樓窗邊的伴郎（winsaved／winbait，不扣善惡值：叫他關燈是他自己不聽）；善惡值（主人 18:23）：帶走 310 +1、不理 −1；
+   窗的邏輯（主人 18:09）：感染者大部分還是人的樣子，封鎖線分不出誰是活人，被看見的人影就挨子彈；窗戶和手電筒只是讓你被看見；一樓炸過（hboom）、窗戶被打破（winbait）、發電機的燈（power）都會讓大廳多一隻。
    新選項一律加在最後（選項的「做過了」紀錄是用索引記的）。 */
 Object.assign(LV.A,{sub:'客房',rule:'走廊上每一扇門都是關著的。旅館的門會自己關上、自己鎖好——停電了也一樣。'});
-Object.assign(LV.B,{sub:'宴會廳',rule:'宴會廳和走廊有一整排落地窗對著大街。街上的探照燈一下一下掃進來，窗外不時有槍聲。'});
+Object.assign(LV.B,{sub:'宴會廳',rule:'宴會廳和走廊有一整排落地窗對著大街。街上的探照燈一下一下掃進來，窗外不時有槍聲。封鎖線上的人分不出誰是活人，被他們看見的人影，就會挨子彈。'});
 Object.assign(LV.E,{sub:'後場',rule:'一樓聞得到很重的瓦斯味，越往廚房那頭越重。這種地方，一點火星就夠了。整層一片漆黑：沒有裝手電筒且沒有夜行者天賦時，有效感知 −2；離開黑暗或取得照明後恢復。'});
 Object.assign(LV.G,{n:'地下',sub:'設備層・停車場',rule:'地下沒有風。通風扇停了，空氣是悶的，帶著一股甜味。停車場的車一台挨著一台，有一台的方向燈還在一閃一閃。停車場一片漆黑：沒有裝手電筒且沒有夜行者天賦時，有效感知 −2。',
  fx:{get dark(){return /^P/.test(G&&G.node||'')?1:0},fightAlarm:1,get toxic(){return G&&G.flags&&G.flags.power&&G.flags.fanon?0:2}}});
@@ -4183,7 +4184,7 @@ A4f:{L:'A',n:'三樓走廊・310',
  c:[
   {t:'m',l:'叫他們開門，帶他們一起走',ok:{t:`門開了。瓊・哈蒙穿好了外套，已經把兩個人的護照和藥袋都裝進手提包。她先生華特拄著一根拐杖，臉色發灰，可是自己站得起來。
 
-「謝謝你。」他說，「我年輕的時候也在旅館做過，在芝加哥。」他走得很慢，拐杖每點一下地毯，就悶悶地響一聲。`,r:{flag:'elders'},p:{alarm:1}}},
+「謝謝你。」他說，「我年輕的時候也在旅館做過，在芝加哥。」他走得很慢，拐杖每點一下地毯，就悶悶地響一聲。`,r:{flag:'elders',karma:1},p:{alarm:1}}},
   {t:'q',l:'叫他們把門鎖好，不要出來',ok:{t:`「不管聽到什麼都不要開門。」你說，「那些東西不會轉門把。等天亮，等有人來。」
 
 門後面安靜了一下。「好。」瓊說，「你也小心。」毛巾被塞得更緊了。`,r:{flag:'elderstay'}}},
@@ -4191,7 +4192,7 @@ A4f:{L:'A',n:'三樓走廊・310',
 
 「……有人嗎？」
 
-你走過去了。`,r:{flag:'elderleft'},p:{fear:6}}}]},
+你走過去了。`,r:{flag:'elderleft',karma:-1},p:{fear:6}}}]},
 A6b:{L:'A',n:'三樓走廊・盡頭的窗戶',
  t:`走廊盡頭有一扇窗，窗簾拉著一半。探照燈的白光每隔一陣子就從窗簾縫掃進來，在天花板上畫過一條線。
 
@@ -4201,9 +4202,11 @@ A6b:{L:'A',n:'三樓走廊・盡頭的窗戶',
 
 街上有人喊了一聲。槍響了兩下，那扇窗的玻璃整片碎掉，光不見了。
 
-探照燈慢慢轉過來，從這一排窗戶上掃過去。你把窗簾放下。在街上那些人的眼裡，窗戶裡會動、會發光的東西，就是要攔下來的東西。`},r:{flag:'sawwin'},p:{fear:6}}},
+警車的無線電開得很大聲，斷斷續續傳上來：「……剛才那個揮手的也是，走到封鎖線前面才撲上來……麥克的手被咬了……上面說了，封鎖區裡看到人影就打，不要再讓任何人靠近……」
+
+探照燈慢慢轉過來，從這一排窗戶上掃過去。你把窗簾放下。在那些人眼裡，分不出誰是活人。只要被看見，就是要攔下來的東西。`},r:{flag:'sawwin'},p:{fear:6}}},
   {t:'sd',l:'拆開充電座的蓋子',stay:1,ok:{t:`蓋子用指甲就扳得開。裡面是兩顆備用的三號電池，還有電。`,r:{items:{battery:2}}}},
-  {t:'q',l:'把通風窗推開一條縫，聽外面',once:1,stay:1,k:'PER',d:11,s:'感知檢定',ok:{t:`冷風灌進來。底下的擴音器在重複同一段話，聲音被風吹得一截一截的：「……所有住戶……留在室內……遠離窗戶……不要對外發出信號……」
+  {t:'q',l:'把通風窗推開一條縫，聽外面',once:1,stay:1,k:'PER',d:11,s:'感知檢定',ok:{t:`冷風灌進來。底下的擴音器在重複同一段話，聲音被風吹得一截一截的：「……所有住戶……留在室內……熄燈……不要讓人看見你……不要對外發出信號……」
 
 然後是另一個沒拿擴音器的聲音：「二樓那幾扇也盯著，有東西在裡面爬。」`,r:{flag:'sawwin'}},ng:{t:`風太大，擴音器的聲音被吹散了。你只聽得出那是在重複同一段話。`}},
   {t:'mv',l:'往前走',ok:{t:`你放下窗簾，往樓梯那邊走。`}}]},

@@ -82,6 +82,7 @@ test('前面的選擇改變後面：310 的老夫妻、拉下伴郎、手動鏈�
  assert.match(call('elderstay:1'),/我們有照做/);assert.match(call('elderleft:1'),/華特！不要開/);assert.match(call('elders:1'),/是 303/);
  g.run("G.flags={};G.node='B2b';G.lv='B'");assert.ok(!labels(g).includes('讓瓊幫你處理傷口'));g.run("G.flags.elders=1");assert.ok(labels(g).includes('讓瓊幫你處理傷口'));
  g.run("G.flags={};G.node='P4';G.lv='G'");assert.ok(!labels(g).includes('趁警報還在響，從人行通道走'));g.run("G.flags.carlure=1;G.flags.chainknow=1");assert.ok(labels(g).includes('趁警報還在響，從人行通道走'));assert.ok(labels(g).includes('拉手動鏈條，把鐵捲門拉高'));
+ assert.equal(g.run("N.A4f.c[0].ok.r.karma"),1);assert.equal(g.run("N.A4f.c[2].ok.r.karma"),-1,'不理 310 扣 1（主人 18:23）');assert.ok(g.run("N.B2w.c.every(c=>!(c.ok.r||{}).karma)"),'伴郎不扣');
  const g2=setup();g2.run("G.node='B2w';G.lv='B';G.flags={}");await pick(g2,'衝過去把他拉下來');assert.equal(g2.run('G.flags.winsaved'),1);assert.ok(!g2.run('G.flags.winbait'));
 });
 test('菌絲統一成鮮紅色、像血管在跳（主人 2026-11-23）；舊存檔的廚房、停車場轉到新的層',()=>{const g=setup();
