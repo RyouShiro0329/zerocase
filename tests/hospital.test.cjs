@@ -110,3 +110,12 @@ test('舊存檔停在四樓或地下室：換成新的那一層',()=>{const g=se
  g.run("globalThis.o={node:'O3',lv:'O',flags:{},players:G.players,clock:300};o=migrateG(o)");assert.equal(g.run('o.lv'),'OB');
  g.run("globalThis.o2={node:'O2',lv:'O',flags:{},players:G.players,clock:300};o2=migrateG(o2)");assert.equal(g.run('o2.lv'),'OF');
 });
+test('v0.56.1 停電前後的文字一致：停電前機房沒有「不要開」的膠帶、沒有運轉紀錄，太平間的冷藏櫃還是冷的；有電時不寫排風機在轉',()=>{const g=setup();
+ g.run("G.flags={};G.lv='OB';G.node='OB2'");assert.match(g.run('N.OB2.t'),/自動待機/);assert.doesNotMatch(g.run('N.OB2.t'),/不要開|靜止/);
+ assert.ok(!labels(g).includes('看發電機的運轉紀錄'));assert.match(g.run('N.OB6.t'),/壓縮機在嗡嗡地響/);assert.doesNotMatch(g.run('LV.OB.rule'),/通風扇沒有在轉/);
+ g.run("G.node='OB5'");assert.ok(!labels(g).includes('看軟木板上的紙條'));
+ assert.doesNotMatch(g.run("N.OE12n.c.find(c=>c.l==='問她地下室的事').ok.t"),/停電那天晚上/);
+ g.run("G.flags.blackout=1;G.node='OB2'");assert.match(g.run('N.OB2.t'),/不要開/);assert.ok(labels(g).includes('看發電機的運轉紀錄'));
+ assert.match(g.run("N.OE12n.c.find(c=>c.l==='問她地下室的事').ok.t"),/停電那天晚上/);
+ g.run("G.flags.streetpower=1");assert.doesNotMatch(g.run('N.OB2.tx()'),/排風機在轉/);
+});
