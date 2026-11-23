@@ -5,7 +5,7 @@
 // 「有往下走」改成看走過幾個節點（原本數紀錄行數，真實模式碰上長戰鬥會隨機失敗）；一步改成等遊戲空下來才算（原本每 150ms 算一步，大半耗在擲骰動畫）。
 const {chromium}=require('playwright');const {GOD}=require('./helpers/godmode.cjs');
 const STEPS=+(process.argv[2]||40),URL='http://localhost:8768/index.html';
-const VIEWS=[[393,690,'手機直拿（轉橫向）'],[844,390,'手機橫拿'],[1280,720,'電腦']];
+const VIEWS=[[393,690,'手機窄橫向（Claude App 轉向）'],[844,390,'手機橫拿'],[1280,720,'電腦']];
 const DIFFS=['normal','hard','real'];
 (async()=>{const b=await chromium.launch();let fail=0;const say=(ok,n,x)=>{if(!ok)fail++;console.log((ok?'通過':'失敗')+'　'+n+(x?'　'+x:''))};
 for(let i=0;i<VIEWS.length;i++){const [w,h,name]=VIEWS[i],diff=DIFFS[i];
