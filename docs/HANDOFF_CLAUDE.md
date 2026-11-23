@@ -4,10 +4,10 @@
 
 **2026-11-23 主人選 A：GitHub 是唯一的正本。** 這份交接、工具（`tools/claude/`）、版本資訊（`tools/claude/RELEASE_IDENTITY.json`）都在倉庫裡，每一版和遊戲一起 commit。Claude 專案只留：入口文件 `zerocase/HANDOFF.md`（很短，指到這裡）、訪客兌換碼 `zerocase/GUEST_CODES.md`（**不能放進倉庫**）、還沒搬進倉庫的設計參考（WORLD_DESIGN、PROPOSAL_*、design/、DATA_SHEET 等，要用時再 project_read）。**發布後不再把 RELEASE_IDENTITY、SHA 清單、CHANGELOG、HANDOFF 存回專案。**
 
-## 現況（2026-11-23 16:20 更新）
-- 目前版本：**v0.56.1／Build 126**（2026-11-23T15:17:41+08:00，Claude：醫院地下室停電前後的文字），已部署：PR #50 merge 5bace0d，網站 ZC_VER＝0.56.1、首頁和本機逐位元相同。**合併一定要等主人在對話裡說可以合併／開始部署**。
-- 上一版：v0.56.0／Build 125（2026-11-23T14:55:35+08:00，聖瑪莉醫院三層；PR #49 merge 7d9a193）。
-- **下一步：旅館照醫院的標準加深（主人 2026-11-23 15:16 選 A，要開新對話做）**。先讀倉庫 `docs/HOTEL_ROUTE_SPEC.md` 與現在的 ROUTE A～R，寫方案（每層一條符合現實的規則、每層 ≥15 次選擇、回不了頭的點、前面的選擇改變後面、停留卡＋抉擇卡），**先給主人看方案再做**（旅館改法屬於大改：會動到既有劇情、旗標、23:41 改寫後的設定、單向路線測試）。文本由 Claude 寫，文字規則見下面「深地圖標準」。醫院的寫法、測試（tests/hospital.test.cjs 的選擇次數）可以照抄。
+## 現況（2026-11-23 17:10 更新）
+- 目前版本：**v0.57.0／Build 127**（2026-11-23T16:50:10+08:00，Claude：旅館四層「門／窗／瓦斯／車」），分支 feat/hotel-deep-v0.57.0，**PR 開了、還沒合併**（等主人說可以合併／開始部署）。合併後要同步 Claude 連結（字型有重做，連 fonts/tw-kai-game.woff2 一起傳）。
+- 上一版：v0.56.1／Build 126（2026-11-23T15:17:41+08:00，醫院地下室停電前後的文字；PR #50 merge 5bace0d；交接搬進倉庫 PR #51 merge 3104e0e）。
+- **下一步**：主人看 v0.57.0 的 PR 決定合併；之後其他地點照同一標準加深（順序再問主人）。主人 16:31 提的「開瓦斯讓旅館燒起來（燃燒的旅館＝另一張地圖、影響回訪）」寫在 Claude 專案 PROPOSAL_HOTEL 的「之後再做」，和「旅館不燒」那條要主人一起決定，這版沒做。**主人 18:23：測試只跑改到的那幾支，不用每次重跑 run_all（太耗流量）**；大改或發布前再問主人要不要跑全部。
 - 再上一版：v0.55.1／Build 124（2026-11-23T13:20:15+08:00，Claude：只有橫向畫面、窄橫向的武器選單），已部署：PR #48 merge 88776d8，網站 ZC_VER＝0.55.1。再上一版 v0.55.0／Build 123（警戒改版、全部選項標時間、搜索逐步深入；PR #47 merge f837933）；v0.54.0／Build 122（一局改回 12 天）；v0.53.2／Build 121（「北口」一律寫成「北口檢查站」）；v0.53.1／Build 120 是 GPT 做的。
 - **v0.35.0～v0.53.1 是 GPT 做的**（2026-11-18～11-23，19 版），一版一行的摘要和 Claude 的檢查結果在 Claude 專案的 `zerocase/CHANGELOG_6.md`（舊紀錄，到 v0.56.1 為止，之後不再更新）；完整說明在 GitHub 倉庫的 `更新說明.txt`、`docs/` 各版文件。**主人改過的規則**整理在下面「主人的設計決定」，以這份為準；更細的在倉庫 `docs/AI_WORKFLOW.md`（GPT 和 Claude 共用的規則文件，2026-11-20 之後的定案都寫在那裡）。
 - **紀錄（2026-11-23 起）**：每一版寫在倉庫 `更新說明.txt` 最上面、`docs/VERSIONS.md` 加一行、PR 說明；技術細節（改了哪些函式、旗標、測試結果）寫進 `更新說明.txt` 那一版或這份交接。舊紀錄 CHANGELOG～CHANGELOG_6、舊的 SHA 清單都在 Claude 專案，只供查舊版，不再更新。完整性靠 git 和 MANIFEST.json＋verify_release.py。
@@ -35,6 +35,7 @@
 ## 測試
 - **一個指令跑完：在倉庫根目錄 `bash tests/run_all.sh [冒煙步數] [長路線動作數]`**（40／480 約 15 分鐘；`SKIP_LONG=1` 略過長路線時回報寫未測試；不要同時跑兩個，都用 8768 埠；前景指令上限 10 分鐘，用背景執行再等結果）。v0.56.1：Node 242 項通過、1 項 todo（恐懼紀錄數字，主人說先保留）；480 動作長路線到第 9 天、105 個節點，走過醫院三層。`tools/*.test.cjs`（GPT 的驗收腳本）132 項也通過。
 - **醫院**：`tests/hospital.test.cjs`（13 項）。其中一項照劇本走一般路線、數每層的選擇次數（移動、繼續仔細翻、「不再找了」不算，挑病房算），會印出「一般路線的選擇次數」，現在急診 15～19、四樓 16、地下室 16。**加深其他地點時照這個寫法做同樣的測試**。
+- **旅館**：`tests/hotel.test.cjs`（9 項，v0.57.0）。照醫院的寫法照劇本走一般路線（隨機事件拿掉），會印出「一般路線的選擇次數」：三樓 16、二樓 16、一樓走廚房 16／走洗衣房 15、地下 21。另外測門（房卡）、窗（QTE）、瓦斯（gasZone、hboom）、地下污染區（發電機＋排風機）、大廳多一隻可以疊、前後連動、紅色菌絲、舊存檔轉換。
 - **只有橫向畫面（主人 2026-11-23 13:05）**：這是橫向遊戲，不測直式畫面。冒煙測試的 393×690 叫「手機窄橫向（Claude App 轉向）」，測的是轉向後 690×393 的橫向畫面（Claude App 裡就是這個尺寸），要保留。`tests/landscape.test.cjs` 檢查沒有畫面方向設定。
 - **測試用無敵模式**：`tests/helpers/godmode.cjs` 的 GOD（主人 2026-11-16：現在不測平衡）。注意它**不會清 v0.51.0 的部位傷勢**（p.wounds），只補生命、恐懼、感染、飢渴、流血燃燒。
 - **連線測試 mp.js**（tools/claude）：在 proto7 跑 `python3 -m http.server 8767`，`node mp.js 2`；加 `GODM=1` 開無敵（房主開局後注入），`LIM=毫秒` 改時間上限。輸出 maxG、fights、nodes、兩邊的 node／phase／時間／血量、errs。第三位玩家是自訂角色，要先分配 8 點才能按下一步，所以目前只跑 2 人。要從某個地點開始測：在 `await H.evaluate(GOD)` 後面加 `await H.evaluate(()=>{G.busy=1;void enterNode('O0').then(()=>{G.busy=0;G.phase='node';push();draw()})})`。
@@ -46,11 +47,12 @@
 - 測試結果只寫通過／失敗／未測試；Android 實機一律「待主人實機驗收」；正式多人實連（Firebase）目前一直未測試。
 
 ## 檔案結構（依 build.sh 串接的順序）
-head.html、items.js、chars.js、story.js、story2.js、story3.js、story4.js、engine_a.js、engine_b.js、engine_c.js、engine_d.js、qte.js、net.js、ui.js、scr.js。每個檔的第一行是固定標題，`tools/split_index.py` 靠它切檔，**不要改**（清單在 AI_WORKFLOW）。全部共用同一個全域範圍：新函式、常數、CSS class（.tm、.sh 撞過）、節點代號、旗標都要先 grep。LV 代號 A～Z 已用完，新地點用兩個字母。長行改用 Python `assert s.count(舊)==1` 再取代。**不要在節點的 c 陣列中間插選項**（有程式用索引參照，例如 story4 的 `N.X.c[2]`；選項的「做過了」也是用索引記的），要加就 push 到最後。GPT 期間新增的主要函式：ROUTE／srMax（單向路線）、alZ（旅館合成一個警戒區 hotel）、karma（善惡值）、resistCheck（抵抗）、wound*（傷勢）、beginEncounterBgm／BGM_MIX（配樂）、evac*（撤離）、outMe（只給某位玩家看的文字）。v0.55.0 新增：alMul、alarmRaid、alarmJoin、alarmClear、ZRAIDW、deepLabel、sqKey、sqDone、deepSearchRes、srDeep、merchOk、evShop。v0.56.0 新增：hspAir、hspGen、hspLit、HSP_AIR、RESIST_EFFECTS.exhaust（engine_c）；醫院節點在 story4.js「醫院（v0.56.0 深地圖範本）」段落，ROUTE.O／OF／OB 與說明在 story4.js 最後。v0.34.0 以前的檔案內容說明在 CHANGELOG_3～5。
+head.html、items.js、chars.js、story.js、story2.js、story3.js、story4.js、engine_a.js、engine_b.js、engine_c.js、engine_d.js、qte.js、net.js、ui.js、scr.js。每個檔的第一行是固定標題，`tools/split_index.py` 靠它切檔，**不要改**（清單在 AI_WORKFLOW）。全部共用同一個全域範圍：新函式、常數、CSS class（.tm、.sh 撞過）、節點代號、旗標都要先 grep。LV 代號 A～Z 已用完，新地點用兩個字母。長行改用 Python `assert s.count(舊)==1` 再取代。**不要在節點的 c 陣列中間插選項**（有程式用索引參照，例如 story4 的 `N.X.c[2]`；選項的「做過了」也是用索引記的），要加就 push 到最後。GPT 期間新增的主要函式：ROUTE／srMax（單向路線）、alZ（旅館合成一個警戒區 hotel）、karma（善惡值）、resistCheck（抵抗）、wound*（傷勢）、beginEncounterBgm／BGM_MIX（配樂）、evac*（撤離）、outMe（只給某位玩家看的文字）。v0.55.0 新增：alMul、alarmRaid、alarmJoin、alarmClear、ZRAIDW、deepLabel、sqKey、sqDone、deepSearchRes、srDeep、merchOk、evShop。v0.56.0 新增：hspAir、hspGen、hspLit、HSP_AIR、RESIST_EFFECTS.exhaust（engine_c）；v0.57.0 新增：gasZone（engine_c，取代寫死的 G.lv==='F'）、moreFoes 可以吃陣列、evCands 認節點的 at、LV.G 的 fx.dark／fx.toxic 是 getter；旅館四層在 story4.js 最後「v0.57.0 旅館四層」段落；醫院節點在 story4.js「醫院（v0.56.0 深地圖範本）」段落，ROUTE.O／OF／OB 與說明在 story4.js 最後。v0.34.0 以前的檔案內容說明在 CHANGELOG_3～5。
 
 ## 主人（了白）的設計決定（不要違反）
 
 ### 2026-11-18 之後改過的（以這裡為準，舊規則作廢）
+- **旅館四層（v0.57.0，主人 2026-11-23 定案，PROPOSAL_HOTEL）**：三樓客房「門」（房卡鎖停電照樣鎖、感染者不會轉門把；萬用房卡 mkey；302、303 要房卡；309 可以躲；樓梯間那一側沒有門把）→ 二樓宴會廳「窗」（警察對窗裡會動、會發光的東西開槍，失敗 QTE）→ 一樓後場「瓦斯」（舊廚房 F、洗衣房 H 的節點 L 改成 E；整層開槍、點火引爆 gasZone，扳掉總閥 gasoff 解除；炸過 hboom 大廳多一隻）→ 大廳出去；或地下「車」（舊停車場 P 的節點 L 改成 G；碰車、照車窗會響；整層污染區 fx.toxic 2，發電機 power＋排風機 fanon 才散；停車場的黑暗只在 P 開頭的卡）。捷徑：電梯井 C、消防梯 D、頂樓 R。新角色：310 的哈蒙夫婦（華特、瓊，瓊是退休的急診夜班護理師）、伴郎奈特。舊的 F、H、P 專用隨機牌靠節點的 at（F3、H3、P3）照舊抽。**主人 16:28：腐殖的菌絲一律寫成鮮紅色、像人的血管一樣在跳**（不要再寫灰白色的纖維）。**窗的邏輯（主人 18:09）**：封鎖線分不出誰是活人，被看見的人影就挨子彈（不是專打窗戶）。善惡值（主人 18:23）：帶走 310 +1、不理 −1，伴郎不扣。
 - **醫院三層（v0.56.0，主人 2026-11-23 定案，PROPOSAL_HOSPITAL）**：急診「聲音」（ROUTE.O am 2）、四樓 4 West「伸手可及」（床頭櫃要檢定、失敗被抓 QTE）、地下室「空氣」（**主人 14:54 選 B：整層是污染區，每 30 分鐘感染 +3，面具加濾罐擋得住；另外發電機的廢氣是一氧化碳，面具擋不住**）；進了地下室回不了樓上；新角色藥局護理師瑞秋、B-124（丹尼）。主人在對話裡決定：**B-124 不解開不扣善惡值**（後果是他大喊）；**「敲藥局鐵捲門把病人引過去」扣 2**（比照旅館 302）；醫院四樓那位**改編號 B-124**，研究所的 B-118 是另一個人。文本主人說不用先看、玩的時候再看。
 - **警戒（v0.55.0，主人 2026-11-23 定案）**：每區域 0～10。3 有動靜（只預告）／6 被盯上（小波，**只在戰鬥外、一個區域一次**，離開兩小時以上才重新算）／10 驚動（這一帶強敵帶頭的**最後一波**）。戰鬥中到 10＝**亂入**：先一回合預告，下一輪加入戰局（先攻重排、羅馬數字、配樂切激戰段、不同陣營就三方混戰）；打這波時警戒**鎖 10**；**打完或逃走清 0**。戰鬥中越過 6 不另外叫小波。戰鬥外到 10 直接找上門。噪音：快速翻 +1、繼續仔細翻 +2、打破玻璃 +3；開槍等照舊。**安靜躲一陣子**：一個區域一次、−3、30 分，只放在內容指定的合理位置（目前：旅館一樓備品間、便利商店倉庫、地鐵站失物招領、醫院急救室、四樓被服間）。**每層規則可以改警戒倍率**（LV fx.alarmMul／ROUTE am）。
 - **時間（v0.55.0）**：**每個選項都要明確標時間種類**（`t`），沒標測試會失敗。一般 5～15 分、同地點移動 5～15、城市地點之間 30～90（夜裡在街上 2 小時）、要一陣子 30～60、大型工作明確標要很久（3 小時）、快速翻 5～10、繼續仔細翻 30～60、戰鬥 20、睡 8 小時／小睡 4 小時。
@@ -97,7 +99,7 @@ head.html、items.js、chars.js、story.js、story2.js、story3.js、story4.js�
 - **重大改動先跟主人討論**。**主人全部做完才會開始玩**，中間不會實機測試。
 
 ## 下一步與待辦
-- **現在：旅館照醫院範本加深（主人 15:16 選 A）**，先寫方案給主人看。之後其他地點照同一標準，順序再問主人。
+- 旅館加深 v0.57.0 做完（等合併）。之後其他地點照同一標準，順序再問主人。之後再做：燃燒的旅館（主人 16:31 提議，見 PROPOSAL_HOTEL）。
 - 主人在 2026-11-18 01:38 排的順序：② 天賦與技能第一階段（`PROPOSAL_REBUILD.md`）＋輔助道具 → ③ 模擬每種配點、單人多人給主人看。優勢／劣勢（`PROPOSAL_COMBAT2.md`）等穩了再做。GPT 期間做的是地圖單向路線、30 天、戰鬥演出、抵抗、傷勢、配樂，這條順序主人還沒重新排，開工前問主人。
 - 研究所＋boss＋真結局（④）、空襲終局（⑤，配合 12 天與新配樂系統重寫 FIRE_END）。
 - 三陣營還沒做：梟首、零號病例兩階段、作戰指揮官與月台三方戰、劫匪精英；E 表三項（孵化者退開、巨噬者接縫、噴火兵燃料爆炸）。v0.49.0 已逐招整理 14 種敵人，做之前先看倉庫 `docs/ENEMY_QTE_v0.49.0.md`。

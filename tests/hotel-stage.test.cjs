@@ -39,7 +39,8 @@ test('D3 凱文：幫他包紮＝拿到鑰匙和捷徑；鎖門休息＝他死�
 });
 test('D4 路易斯：止血＝他帶你走員工樓梯直接到停車場；三個選項互斥',async()=>{const g=setup({});route(g,'E3d');
  assert.deepEqual(JSON.parse(g.run('JSON.stringify(choices().filter(visible).map(c=>c.l))')),['幫他止血','打開寄放間裡那個在動的箱子','不碰，繼續走']);g.run("G.players[0].items.bandage=1");await pick(g,'幫他止血');
- assert.equal(g.run('G.node'),'E4');assert.ok(opts(g).includes('跟著路易斯走員工樓梯'));assert.equal(g.run("N.E4.c.find(c=>c.l==='跟著路易斯走員工樓梯').ok.go"),'P4');
+ // v0.57.0 旅館四層：一樓的出口改到廚房、洗衣房的盡頭（F4、H4）
+ assert.equal(g.run('G.node'),'E5');for(const x of ['F4','H4'])assert.equal(g.run(`N.${x}.c.find(c=>c.l==='跟著路易斯走員工樓梯').ok.go`),'P4');
 });
 test('D5 發電機：開了燈，大廳的戰鬥多一隻被燈光引來的',async()=>{const g=setup({});route(g,'I1');await pick(g,'趁它們還沒發現，先動手');const n0=g.run('FT_LOG[0].n');
  route(g,'I1');g.run('G.flags.power=1');await pick(g,'趁它們還沒發現，先動手');assert.equal(g.run('FT_LOG[0].n'),n0+1);assert.ok(g.run("FT_LOG[0].names.includes('被燈光引來的感染者')"));

@@ -1,24 +1,24 @@
 {
   "schema_version": 1,
   "project": "ZeroCase-Text",
-  "title": "醫院地下室停電前後的文字",
-  "version": "0.56.1",
-  "build": 126,
-  "level": "patch",
-  "released_at": "2026-11-23T15:17:41+08:00",
+  "title": "旅館四層：門、窗、瓦斯、車",
+  "version": "0.57.0",
+  "build": 127,
+  "level": "minor",
+  "released_at": "2026-11-23T16:50:10+08:00",
   "timezone": "Asia/Taipei",
   "parent": {
-    "version": "0.56.0",
-    "build": 125,
-    "released_at": "2026-11-23T14:55:35+08:00",
-    "html_sha256": "b0564942251f1ce18a86dae49643917efb479c2a4c542cd3384f1f8850779af0"
+    "version": "0.56.1",
+    "build": 126,
+    "released_at": "2026-11-23T15:17:41+08:00",
+    "html_sha256": "38a393fbe76ecc16fad16b48d84f2c9e925ebb6f1e36961a522884a1e7e5befa"
   },
   "release": {
     "html": "zerocase.html",
-    "html_bytes": 991832,
-    "html_sha256": "38a393fbe76ecc16fad16b48d84f2c9e925ebb6f1e36961a522884a1e7e5befa",
-    "sums": "history/sha/SHA256SUMS_v0.56.1.txt",
-    "sums_sha256": "510b910e3a5ffc6886aa968fa008bcbb776d27cb98f6f1bb67247e270b078db3",
+    "html_bytes": 1033967,
+    "html_sha256": "c8c1683a1c1dc30b958d92f5b68c2c5a69eed9b74fad4573848b36a627a3dc1e",
+    "sums": "history/sha/SHA256SUMS_v0.57.0.txt",
+    "sums_sha256": "71cd51d25dc836c3b400c432693e57e6c57e9df25c94e6e918103f54de9b5029",
     "files": 43
   }
 }
