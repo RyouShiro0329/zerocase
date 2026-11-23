@@ -1,7 +1,7 @@
 {
-  "version": "0.56.0",
-  "build": 125,
-  "created_at": "2026-11-23T14:55:35+08:00",
+  "version": "0.56.1",
+  "build": 126,
+  "created_at": "2026-11-23T15:17:41+08:00",
   "deployment": "候選版",
   "files": {
     ".github/workflows/arrow-shot-qa.yml": "0ed6a93fe426ab66f5da9bb6e11741930483a20726776665403bf9d7f55a3d3c",
@@ -79,7 +79,7 @@
     "docs/RESISTANCE_v0.50.0.md": "f076d5d7debd9ee578c9075af26a80232445a623a1b43c183a2a31d526a0728b",
     "docs/RULES_GPT.md": "2e15837fb6e6f9ef238c7096503b91ff8a101a09dcc6bb1152f967ace1857f62",
     "docs/RULES_SONNET.md": "6701574123320b40fe7e7e377068bf93a6e99f71c3075c2e81063b0199a667ac",
-    "docs/VERSIONS.md": "b39c7098afe647f14d0b928aafea319bb24dfce8366e6b9ef3a7ef03b4a5acfd",
+    "docs/VERSIONS.md": "bd4c82a2b4da4efcf11204f76bad0f9542e4eb297769033cdf5b82bdb71bbdc9",
     "docs/WOUNDS_QA_v0.51.0.json": "cff3a9d2d19b0d8ce044b49ffb7a2d0d61809ca62e13b1dde753b9eca4ce3500",
     "docs/WOUNDS_v0.51.0.md": "fc6084e9d6383a6f50c362aa3355fe20c79056699cac4de38af20f30c51ec830",
     "docs/audio/2026-11-15-integration-plan.md": "1d8c7185ad2742e1f1b70279b5f9d274f03c36a1b4104513dc5842d2df9ade8d",
@@ -194,7 +194,7 @@
     "img/quick.webp": "a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a",
     "img/riot.webp": "9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e",
     "img/zero.webp": "55660893ea593027774861bd1235300ba1c1ffc30d7a81b277f9123da1ced3d0",
-    "index.html": "79345205de658b1f60bdf0af8f6b06c05be8bbc0b7b255007e0a4e0df8e70aa3",
+    "index.html": "718fd9b34f4bbf3c66be60ce73ee7dee7a95f83dd89aed9e736ee99b0bd025d2",
     "sfx/airraid_event.mp3": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9",
     "sfx/beretta.mp3": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665",
     "sfx/berettaReload.mp3": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e",
@@ -311,7 +311,7 @@
     "tests/guard.test.cjs": "f74d8dbba300875c5250da7904b9b331b1b04c2fed8647bda69a3b09ba8633fe",
     "tests/helpers/audio-game.cjs": "f0cee031d42306f4649a91f7be90681b8262a73a7ae6057e51066a33ee89bf88",
     "tests/helpers/godmode.cjs": "0c14c88f49185bfe85e35a24931cf4028d9ba1615eaf5a159740b491fc05a21c",
-    "tests/hospital.test.cjs": "fa65da320738154cd0fa78760120568e87bcf7a8ec49bf2d869c185d29e5fb68",
+    "tests/hospital.test.cjs": "4c215f9d1fe6f399f6811347bb72f5837e0decdef7f850e86325ef65edd15070",
     "tests/hotel-stage.test.cjs": "44e359099b914bc1fc665b6dd52a96bd5888a522a4558c9798132cbece67280e",
     "tests/landscape.test.cjs": "582de67e36d166c5d24e823734e74fbca76b53ab29aa30dcd520d2cd25d68a15",
     "tests/long-route.cjs": "416efb1c97a48e3ccb2b6757dfef863ad57e333abacf6c3caa6f7cf9eef8859a",
@@ -358,7 +358,7 @@
     "tools/wounds-browser.cjs": "c4dcc8274fb0140fedb75ad91b1de92d9c905725aed57079fe054ba928db1d18",
     "tools/wounds.test.cjs": "e317f4eb2d9e5231a80bce670b9d790ca18354d7ed2ad0561381ac6d2c9ff9c3",
     "verify_release.py": "f2fef01ae0dc3e8c6d7cbbccc52cd9956c674824fe4d5bbd81860d98325819ee",
-    "更新說明.txt": "bcd262cd9d9084a3de38f3c7997c070f0d3fd8bd06add9a3f73e086e5d5c51d4"
+    "更新說明.txt": "94f876ca038b7710848e526e827eeb49cfbd2f66ac2a7d0e94fb0cb38ed19f4e"
   },
   "verified_at": "2026-11-22T23:36:31+08:00",
   "validated_commit": "d711ae6cc6c8b2c6f1e3971de57a9f0c13ea5d43",
