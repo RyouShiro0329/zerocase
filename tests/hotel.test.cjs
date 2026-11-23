@@ -12,18 +12,21 @@ async function pick(g,l,ok=true){g.run('G.alarm=0;G.ground=[]');const i=g.run(`c
 // 陣列＝確認現在在哪一張卡；{fight:'下一張'}＝這一步會開打（戰鬥在測試裡略過），打完接到下一張卡
 async function walk(g,steps){let n=0;for(const s of steps){if(Array.isArray(s)){assert.equal(g.run('G.node'),s[0],'應該在 '+s[0]);continue}
  if(s&&s.fight){n+=await pick(g,s.l);await g.run(`enterNode(${JSON.stringify(s.fight)})`);continue}n+=await pick(g,s)}return n}
-/* v0.59.0（主人 2026-11-24 改了決定：三樓改成選擇卡，一張卡一件事、中段抽牌、路況）：三樓不再照固定劇本，
+/* v0.60.0（主人 2026-11-24 再改：選路翻牌、開場不固定）：選路不算次數、房間做一件就出門（最少的走法）；開場事件有沒有來照種子。
+   v0.59.0（主人 2026-11-24 改了決定：三樓改成選擇卡，一張卡一件事、中段抽牌、路況）：三樓不再照固定劇本，
    改成 30 個種子 × 8 種路況，每張卡挑一個不開打、不進房間的選項（沒有就照第一個），數到離開三樓為止；正常路線和捷徑各取最少值。 */
 async function walk3F(seed,rd,exit){const g=setup();g.run(`G.sd=${seed};G.dk={on:{},seen:[],cc:{},ret:null};Object.assign(G.flags,${JSON.stringify(rd)});G.players[0].gear.push(newGear('crowbar'))`);
  await g.run("enterNode('A1')");let n=0,seen=[];
- for(let k=0;k<40&&g.run("G.lv")==='A';k++){const id=g.run('G.node');seen.push(id);g.run('G.alarm=0;G.ground=[]');
+ for(let k=0;k<70&&g.run("G.lv")==='A';k++){const id=g.run('G.node');seen.push(id);g.run('G.alarm=0;G.ground=[]');
   const i=g.run(`(()=>{const cs=choices();const ok=cs.map((c,i)=>i).filter(i=>visible(cs[i])&&choiceOk(cs[i])&&!cs[i].srOut);
    const res=c=>c.tb?c.tb[0]:c.ok||{};const dest=c=>c.go||res(c).go;
    if(G.node==='A1'){const m=ok.find(i=>cs[i].l==='看門背後的逃生路線圖');if(m!=null)return m}
+   if(G.node==='A1r'){const m=ok.find(i=>cs[i].l==='開門出去');if(m!=null)return m}/* v0.60.0：最少的走法，房間做一件就出門 */
    if(G.node==='A6'){const want=${JSON.stringify(exit)};const m=ok.find(i=>want==='stairs'?cs[i].l==='東側樓梯':want==='lift'?/電梯/.test(cs[i].l):/消防梯/.test(cs[i].l));return m==null?-1:m}
    const calm=ok.filter(i=>!res(cs[i]).fight&&!(dest(cs[i])&&N[dest(cs[i])]&&N[dest(cs[i])].next===G.node));return calm.length?calm[0]:ok[0]??-1})()`);
   assert.ok(i>=0,`${id} 沒有選得了的選項（種子 ${seed}，路況 ${JSON.stringify(rd)}，出口 ${exit}）`);
-  const f0=g.run('FT_LOG.length');await g.run(`(async()=>{const c=choices()[${i}];const res=c.tb?c.tb[0]:c.ok;await applyRes(c,res,G.players[0],false)})()`);n++;
+  const fk=g.run(`!!N[G.node].fork`);/* v0.60.0：選路不算一次選擇 */
+  const f0=g.run('FT_LOG.length');await g.run(`(async()=>{const c=choices()[${i}];const res=c.tb?c.tb[0]:c.ok;await applyRes(c,res,G.players[0],false)})()`);if(!fk)n++;
   if(g.run('FT_LOG.length')>f0&&g.run('G.node')===id)await g.run('enterNode(G.after)')}
  return {n,seen,lv:g.run('G.lv'),g}}
 const SECOND=[['B1'],{l:'站在原地迎戰',fight:'B1w'},['B1w'],'趴低，從窗台底下爬過去',['B2'],'搜保全的屍體',
