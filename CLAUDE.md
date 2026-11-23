@@ -5,5 +5,6 @@
 1. `AGENTS.md`：最重要的摘要
 2. `docs/AI_WORKFLOW.md`：完整工作方式與主人的設計決定
 3. `docs/RULES_SONNET.md`：給 Claude 的專屬規則
+4. `docs/HANDOFF_CLAUDE.md`：Claude 的開發交接（現況、還原步驟、主人的設計決定、待辦）；工具在 `tools/claude/`
 
 三份有衝突時，以主人在對話裡最新的指示為準；沒有指示就以 `AI_WORKFLOW.md` 為準，並在回報裡寫出衝突。
