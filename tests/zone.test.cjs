@@ -69,30 +69,68 @@ test('首次旅館的每一層樓算同一個區域：換樓層警戒不會清�
  g.run("addAlarm(1,null);zSwap('B','E');G.lv='E'");assert.equal(g.run('G.alarm'),5);
  g.run("zSwap('E','V');G.lv='V'");assert.equal(g.run('G.alarm'),0);
 });
-test('翻找有聲音：仔細搜查 +2、簡單尋找 +1，選項上不寫數字',async()=>{const g=setup();
- const ids=JSON.parse(g.run("JSON.stringify(Object.keys(N).filter(k=>ROUTE[N[k].L]&&searchChoices(N[k]).some(c=>c._searchMode)))"));assert.ok(ids.length);
- for(const [m,n] of [['careful',2],['quick',1]]){const g=setup();g.run(`G.node='${ids[0]}';G.lv=N['${ids[0]}'].L;G.alarm=0;G.zal={}`);
-  const c=JSON.parse(g.run(`JSON.stringify(choices().find(c=>c._searchMode==='${m}'))`));assert.doesNotMatch(c.s||'',/警戒/);await pick(g,c.l);assert.equal(g.run('G.alarm'),n+(g.run('zDepth()')>=2?1:0),m)}
+test('翻找有聲音：快速翻 +1、繼續仔細翻 +2，選項上不寫數字（v0.55.0 搜索逐步深入）',async()=>{
+ const g=setup();const ids=JSON.parse(g.run("JSON.stringify(Object.keys(N).filter(k=>ROUTE[N[k].L]&&!N[k].sr&&searchChoices(N[k]).some(c=>c._searchMode)))"));assert.ok(ids.length);
+ g.run(`G.node='${ids[0]}';G.lv=N['${ids[0]}'].L;G.alarm=0;G.zal={}`);const d=g.run('zDepth()')>=2?1:0;
+ assert.ok(!g.run("choices().some(c=>c._searchMode==='careful'&&visible(c))"),'快速翻之前看不到繼續仔細翻');
+ const q=JSON.parse(g.run(`JSON.stringify(choices().find(c=>c._searchMode==='quick'))`));assert.doesNotMatch(q.s||'',/警戒/);assert.ok(!q.k,'快速翻不檢定');
+ await pick(g,q.l);assert.equal(g.run('G.alarm'),1+d,'quick');
+ const c=JSON.parse(g.run(`JSON.stringify(choices().find(c=>c._searchMode==='careful'&&c._deepOf===${JSON.stringify(q._searchBase)}))`));assert.ok(c.k,'繼續仔細翻要檢定');assert.match(c.l,/^繼續仔細翻/);
+ assert.ok(g.run(`choices().some(c=>c.l===${JSON.stringify(c.l)}&&visible(c))`),'快速翻完才出現繼續仔細翻');
+ await pick(g,c.l);assert.equal(g.run('G.alarm'),1+d+2+d,'careful');
  assert.ok(!g.run("Object.values(N).some(n=>ROUTE[n.L]&&(n.c||[]).some(c=>/警戒/.test(c.s||'')))"),'旅館選項不寫警戒數字');
 });
-
+test('繼續仔細翻拿的是快速翻之外的東西：兩次加起來等於原本的全部',async()=>{const g=setup();
+ g.run("N.T55S={L:'A',n:'測試',t:'測試',c:[{l:'翻測試櫃',t:'sd',ok:{t:'x',r:{items:{water:1,bandage:2}}}}]};G.node='T55S';G.lv='A';G.players[0].items={}");
+ await pick(g,'翻測試櫃');assert.equal(g.run("Object.values(G.players[0].items).reduce((a,b)=>a+b,0)"),1);
+ await pick(g,'繼續仔細翻測試櫃');assert.equal(g.run('G.players[0].items.water||0'),1);assert.equal(g.run('G.players[0].items.bandage||0'),2);
+ assert.ok(!g.run("choices().some(c=>visible(c)&&/測試櫃/.test(c.l))"),'都翻完就消失');
+});
 test('深處（深度 2 以上）會出聲的動作警戒多 1；仔細搜查在區域裡算 1',()=>{const g=setup();
  g.run("G.lv='G';G.alarm=0;addAlarm(1,null)");assert.equal(g.run('G.alarm'),2);
  g.run("G.lv='A';G.alarm=0;addAlarm(1,null)");assert.equal(g.run('G.alarm'),1);
 });
 
-test('三個階段：3 只提示、6 來一小波、10 一波強敵；強敵打完回到 3、這次停留不再累積',async()=>{const g=setup();
+test('三個階段（v0.55.0）：3 只提示、6 小波一區域一次、10 強敵最後一波；打完清 0',async()=>{const g=setup();
  g.run("G.lv='A';G.alarm=2;addAlarm(1,null)");assert.match(log(g),/有動靜/);assert.equal(await g.run('alarmCheck(null,true)'),false,'3 不打');
  g.run('addAlarm(3,null)');assert.equal(await g.run('alarmCheck(null,true)'),true);
  let s=JSON.parse(g.run('JSON.stringify(FT_LOG.at(-1))'));assert.ok(s.types.length>=1&&s.types.length<=2);assert.ok(!s.types.includes('devourer'),'小波不放菁英');
- g.run('G.fight=null;G.phase="node"');assert.equal(await g.run('alarmCheck(null,true)'),false,'同一次升到 6 只來一波');
+ g.run('G.fight=null;G.phase="node";G.alarmFt=0;G.alarm=4');g.run('addAlarm(3,null)');assert.equal(await g.run('alarmCheck(null,true)'),false,'同一個區域小波只來一次');
  g.run('addAlarm(4,null)');assert.equal(g.run('G.alarm'),10);assert.equal(await g.run('alarmCheck(null,true)'),true);
  s=JSON.parse(g.run('JSON.stringify(FT_LOG.at(-1))'));assert.equal(s.types[0],'devourer','旅館是感染者陣營：菁英是巨噬者');assert.equal(g.run('G.alarmFt'),2);
+ g.run('addAlarm(-3,null)');assert.equal(g.run('G.alarm'),10,'打最後一波時警戒鎖在 10');
  g.run("G.fight={foes:[]};G.after=null;deathCheck=async()=>false;enterNode=async()=>{}");await g.run('endFight()');
- assert.equal(g.run('G.alarm'),3);g.run('addAlarm(5,null)');assert.equal(g.run('G.alarm'),3,'已驚動：不再累積');assert.match(log(g),/剛被驚動過/);
- g.run("G.clock=(G.clock||0)+10;zSwap('A','B');G.lv='B';G.clock+=130;zSwap('B','A');G.lv='A';addAlarm(2,null)");assert.ok(g.run('G.alarm')>=2,'離開兩小時以上又會累積');
+ assert.equal(g.run('G.alarm'),0,'打完清 0');g.run('addAlarm(5,null)');assert.equal(g.run('G.alarm'),5,'清 0 之後可以重新累積');
+ assert.equal(await g.run('alarmCheck(null,true)'),false,'小波已經來過，這次越過 6 不再叫');
 });
-
+test('戰鬥中越過 6 不叫小波；戰鬥中滿 10：先預告一回合，下一輪加入戰局，鎖 10，打完清 0',async()=>{const g=setup();
+ g.run("G.lv='A';G.zal={};G.alarm=5;encounter=async()=>{};fright=async()=>{};roundEnd=async()=>{};push=()=>{};draw=()=>{};G.fight={foes:[newFoe(0,'infected',1,false)],order:[{k:'p',id:G.players[0].pid,init:10},{k:'f',id:0,init:5}],turn:0,round:1,escaped:[]};nameFoes(G.fight.foes)");
+ g.run('addAlarm(2,null)');assert.equal(g.run('ALV().w6'),1,'戰鬥中越過 6：小波算用掉了');
+ g.run('addAlarm(4,null)');assert.equal(g.run('G.alarm'),10);assert.ok(g.run('!!G.fight.reinf'),'先預告');assert.equal(g.run('G.fight.foes.length'),1,'這一回合還沒加入');assert.match(log(g),/再撐一下|再過一下/);
+ await g.run('nextTurn()');assert.equal(g.run('G.fight.foes.length'),1);await g.run('nextTurn()');
+ assert.equal(g.run('G.fight.round'),2);assert.ok(g.run('G.fight.foes.length')>=2,'下一輪加入');assert.equal(g.run('G.alarmFt'),2);assert.ok(g.run('G.fight.musicIntense'),'配樂切激戰段');
+ assert.equal(g.run("G.fight.order.filter(o=>o.k==='f').length"),g.run('G.fight.foes.length'),'新敵人排進先攻');
+ assert.ok(g.run("new Set(G.fight.foes.map(f=>f.n)).size===G.fight.foes.length"),'名字不重複（羅馬數字）');
+ g.run('addAlarm(3,null)');assert.equal(g.run('G.alarm'),10);
+ await g.run('nextTurn();nextTurn();nextTurn();nextTurn()');assert.equal(g.run('G.fight.foes.length>=2&&G.fight.reinf.in'),1,'不會再亂入第二次');
+ g.run("G.after=null;deathCheck=async()=>false;enterNode=async()=>{}");await g.run('endFight()');assert.equal(g.run('G.alarm'),0);
+});
+test('最後一波還在路上就逃走：警戒清 0',async()=>{const g=setup();
+ g.run("G.lv='A';G.zal={};G.alarm=9;push=()=>{};draw=()=>{};G.fight={foes:[newFoe(0,'infected',1,false)],order:[],turn:0,round:1,escaped:[]};addAlarm(2,null);enterNode=async()=>{};G.after=null");
+ assert.ok(g.run('!!G.fight.reinf'));await g.run('finishEvacuation(G.players[0],true)');assert.equal(g.run('G.alarm'),0);
+});
+test('安靜躲一陣子：一個區域一次、警戒 −3、30 分鐘，只放在內容指定的地方',async()=>{const g=setup();
+ const at=JSON.parse(g.run("JSON.stringify(Object.entries(N).filter(([k,n])=>(n.c||[]).some(c=>c.quiet)).map(([k])=>k))"));assert.deepEqual(at.sort(),['E2s','M2','U2s']);
+ assert.ok(g.run("Object.values(N).every(n=>(n.c||[]).every(c=>!c.quiet||c.t==='qh'))"));
+ g.run("G.node='E2s';G.lv='E';G.zal={};G.alarm=7;G.clock=600");const c0=g.run('G.clock');
+ await g.run("(async()=>{const c=choices().find(c=>c.quiet);await spendTime(c);await applyRes(c,c.ok,G.players[0])})()");assert.equal(g.run('G.alarm'),4);assert.equal(g.run('G.clock')-c0,30);
+ assert.ok(!g.run('choices().some(c=>c.quiet&&visible(c))'),'用過就不再出現');
+ g.run("G.lv='A'");assert.ok(!g.run('ALV().qh===undefined?false:!ALV().qh'),'旅館各層是同一個區域');
+});
+test('每層規則可以改警戒倍率（LV fx.alarmMul／ROUTE am）',()=>{const g=setup();
+ g.run("G.lv='A';G.zal={};G.alarm=0;LV.A.fx=Object.assign({},LV.A.fx,{alarmMul:2});addAlarm(1,null)");assert.equal(g.run('G.alarm'),2);
+ g.run("LV.A.fx.alarmMul=1;ROUTE.A.am=3;G.alarm=0;addAlarm(1,null)");assert.equal(g.run('G.alarm'),3);g.run('delete ROUTE.A.am');
+});
 test('打槍的噪音接上區域警戒（深處多 1）',async()=>{const g=setup();
  g.run("G.uid=0;G.know={};G.phase='fight';G.lv='G';G.node='G4';G.alarm=0;globalThis.p=G.players[0];p.gear=[newGear('beretta',3)];equip(p,p.gear[0].u,'R');G.fight={foes:[{id:0,type:'infected',n:'測試',hp:999,max:999,bleed:0}],first:false};out=()=>{};dice=async()=>{};push=()=>{};r2=()=>({a:10,s:10})");
  await g.run("attack(p,'R',null,0)");assert.equal(g.run('G.alarm'),3,'貝瑞塔噪音 2，地下設備層最深處 +1');
@@ -149,8 +187,10 @@ test('地鐵站的腐殖核心：不燒掉過不去，可以退回地面改走�
 // v0.43.1 街道段（二）（OUTSIDE_MAP_SPEC 第 3.1、3.4 節）
 test('街道段每段都有一個搜索點，只能挑一件，挑完往前走',async()=>{const g=setup();
  for(const L of ['J','K','M','Q','U','V']){const ss=JSON.parse(g.run(`JSON.stringify(Object.keys(ROUTE.${L}.search||{}))`));assert.equal(ss.length,1,L);assert.equal(g.run(`srMax('${ss[0]}')`),1,L)}
- await g.run("enterNode('J2s')");assert.ok(labels(g).includes('不再找了，往前走'));await pick(g,'仔細搜查：翻報攤的抽屜');
- assert.notEqual(g.run('G.node'),'J2s','挑了一件就往前');assert.equal(g.run('G.players[0].items.battery'),2);
+ await g.run("enterNode('J2s')");assert.ok(labels(g).includes('不再找了，往前走'));await pick(g,'翻報攤的抽屜');
+ assert.equal(g.run('G.node'),'J2s','快速翻完還可以繼續仔細翻');assert.deepEqual(labels(g).sort(),['不再找了，往前走','繼續仔細翻報攤的抽屜'].sort(),'其他搜索點收掉');
+ await pick(g,'繼續仔細翻報攤的抽屜');
+ assert.notEqual(g.run('G.node'),'J2s','翻完往前');assert.equal(g.run('G.players[0].items.battery'),2);
 });
 test('街道段的隨機牌：每段有自己的牌；地鐵站抽不到戶外的牌，街區中段照樣抽得到',()=>{const g=setup();
  const ids=L=>JSON.parse(g.run(`JSON.stringify(evCands({L:'${L}'}).map(i=>EVPOOL[i].id))`));

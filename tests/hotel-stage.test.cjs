@@ -13,10 +13,10 @@ test('舊存檔（沒有 yd 旗標）不會壞：佔領階段只被引導到仍�
 const opts=g=>g.run("choices().filter(visible).map(c=>c.l)");
 async function pick(g,l,ok=true){const i=g.run(`choices().findIndex(c=>c.l===${JSON.stringify(l)}&&visible(c))`);assert.ok(i>=0,'找不到選項：'+l);await g.run(`(async()=>{const c=choices()[${i}];await applyRes(c,${ok}?c.ok:c.ng,G.players[0],${!ok})})()`)}
 function route(g,node){g.run(`G.node='${node}';G.lv=N['${node}'].L;G.ev=null;LOG=[];globalThis.FT_LOG=[];startFight=async s=>{FT_LOG.push(s);G.fight={foes:[]};G.phase='fight'};card=async()=>{};chapterCard=async()=>{};hazard=async()=>false;startCd=()=>{};reportEffects=()=>{};reportGround=()=>{};tickAll=async()=>true;alarmCheck=async()=>false;FAST=1`)}
-test('隨機事件符合所在地：電梯井、外牆有自己的牌，不抽走廊事件；商人移到旅館外的街上',async()=>{const g=setup({});
+test('隨機事件符合所在地：電梯井、外牆有自己的牌，不抽走廊事件；商人只在有休息點的街上',async()=>{const g=setup({});
  for(const L of ['C','D']){const ids=g.run(`evCands({L:'${L}'}).map(i=>EVPOOL[i].id)`);assert.ok(ids.length>=5,L);for(const id of ids)assert.ok(!/smell|tv|kid|mirror|roomservice|phone|floor/.test(id),id)}
  for(const L of ['F','H','G','P'])assert.ok(g.run(`evCands({L:'${L}'}).filter(i=>/^[fhgp]_/.test(EVPOOL[i].id)).length`)>=3,L);
- assert.ok(!g.run("['A','B','E','H'].some(L=>evCands({L}).some(i=>EVPOOL[i].id==='trader1'))"),'旅館裡沒有商人');assert.ok(g.run("evCands({L:'J'}).some(i=>EVPOOL[i].id==='trader1')"));
+ assert.ok(!g.run("['A','B','E','H'].some(L=>evCands({L}).some(i=>EVPOOL[i].id==='trader1'))"),'旅館裡沒有商人');assert.ok(g.run("evCands({L:'K'}).some(i=>EVPOOL[i].id==='trader1')"),'有休息點的後巷抽得到');assert.ok(!g.run("evCands({L:'J'}).some(i=>EVPOOL[i].id==='trader1')"),'v0.55.0 前街沒有休息點，抽不到商人');
  route(g,'C2x');await g.run("enterNode('C3')");assert.equal(g.run('G.node'),'C3');assert.match(g.run('EVPOOL[G.ev].id'),/^c_|^[a-z]/);assert.ok(g.run("EVPOOL[G.ev].at.includes('C')"));
 });
 test('D1 守住走廊：馬可在大廳、停車場幫忙；把聲音引走不用打但警戒 +1',async()=>{const g=setup({});route(g,'A6d');
