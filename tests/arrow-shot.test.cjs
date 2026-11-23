@@ -1,5 +1,5 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
-const {game}=require('../tests/helpers/audio-game.cjs');
+const {game}=require('./helpers/audio-game.cjs');
 function setup(id='compbow'){const g=game();g.run(`newRun([{kind:'custom',pid:'p1',name:'測試',tal:'keen',sk:'vital',st:{STR:2,AGI:2,CON:2,PER:2,INT:1,CHA:0},load:{}}],{diff:'normal',cd:'off'},'solo');globalThis.p=G.players[0];out=()=>{};dice=async()=>{};push=()=>{};globalThis.weapon=newGear('${id}',20);p.gear.push(weapon);p.hand.R=weapon.u;p.items.arrow=10;p.items.bolt=10;weapon.cocked=1;G.fight={foes:[Object.assign(newFoe(0,'infected',1,false),{hp:100,max:100})],first:false};r2=()=>({a:15,b:15,s:15});Math.random=()=>.5;`);return g}
 const shots=g=>g.events.filter(e=>e.t==='s'&&e.d[3]?.arrow);
 for(const id of ['pvcbow','compbow','handxbow','crossbow'])test(id+'實際命中：一次耗彈、不扣近戰耐久、同步核准演出',async()=>{const g=setup(id),before=g.run('weapon.dur');await g.run("attack(p,'R',null,0)");assert.equal(shots(g).length,1);assert.equal(shots(g)[0].d[3].hit,true);assert.equal(shots(g)[0].d[3].mode,id.includes('bow')&&!id.includes('xbow')&&id!=='crossbow'?'bow':'crossbow');assert.equal(g.run('p.items.arrow+p.items.bolt'),19);assert.equal(g.run('weapon.dur'),before);assert.ok(g.run('G.fight.foes[0].hp')<100);if(id==='handxbow'||id==='crossbow')assert.equal(g.run('weapon.cocked'),0)});

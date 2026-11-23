@@ -1,6 +1,7 @@
 #!/bin/bash
+# 版本行（ZC_VER）直接取倉庫 index.html 的那一行；升版用 tools/release.py 改倉庫的 index.html（2026-11-23 起不再用 RELEASE_IDENTITY.json）
 cd /home/claude/proto7
-{ cat head.html; echo '<script>'; python3 -c "import json;d=json.load(open('RELEASE_IDENTITY.json'));print('const ZC_VER='+json.dumps({'v':d['version'],'b':d['build'],'t':d['released_at']})+';')" 2>/dev/null || echo "const ZC_VER={v:'dev',b:0,t:''};"; cat items.js chars.js story.js story2.js story3.js story4.js engine_a.js engine_b.js engine_c.js engine_d.js qte.js net.js ui.js scr.js; echo '</script>'; } > zerocase.html
+{ cat head.html; echo '<script>'; grep -m1 '^const ZC_VER=' /home/claude/zerocase/index.html; cat items.js chars.js story.js story2.js story3.js story4.js engine_a.js engine_b.js engine_c.js engine_d.js qte.js net.js ui.js scr.js; echo '</script>'; } > zerocase.html
 { echo '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>'; sed 's#<script>#<script src="mock.js"></script><script>#' zerocase.html; echo '<script>window.__G=()=>G;window.__act=a=>act(a);window.__me=()=>me();</script></body></html>'; } > test.html
 { echo '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head><body>'; sed 's#<script>#<script src="fbfake.js"></script><script>#' zerocase.html; echo '<script>window.__G=()=>G;window.__act=a=>act(a);window.__me=()=>me();</script></body></html>'; } > test_fb.html
 # 網站版（GitHub Pages）：同一份遊戲，外面包成完整的網頁

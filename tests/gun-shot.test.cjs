@@ -1,5 +1,5 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
-const {game}=require('../tests/helpers/audio-game.cjs');
+const {game}=require('./helpers/audio-game.cjs');
 const GUNS=['beretta','model10','mp5','model500','r870','sbshot','fal','model70','r700'];
 function setup(id){const g=game();g.run(`newRun([{kind:'custom',pid:'p1',name:'測試',tal:'keen',sk:'vital',st:{STR:3,AGI:2,CON:2,PER:3,INT:1,CHA:0},load:{}}],{diff:'normal',cd:'off'},'solo');globalThis.p=G.players[0];globalThis.__outs=[];globalThis.__dice=0;out=(t)=>{__outs.push(String(t))};dice=async()=>{__dice++};push=()=>{};globalThis.weapon=newGear('${id}');weapon.mag=30;p.gear.push(weapon);p.hand.R=weapon.u;G.fight={foes:[Object.assign(newFoe(0,'infected',1,false),{hp:200,max:200,stun:99}),Object.assign(newFoe(1,'infected',1,false),{hp:200,max:200,stun:99})],first:false};r2=()=>({a:16,b:16,s:16});Math.random=()=>.5;`);return g}
 const gunEv=g=>g.events.filter(e=>e.t==='gun');

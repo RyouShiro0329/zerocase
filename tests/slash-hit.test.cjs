@@ -1,6 +1,6 @@
 // 回歸：斬擊演出不能漏播、錯播或改變傷害與耐久。既有 tests/ 不修改。
 const {test}=require('node:test'),assert=require('node:assert/strict');
-const {game}=require(process.env.ZC_TEST_GAME||'../tests/helpers/audio-game.cjs');
+const {game}=require(process.env.ZC_TEST_GAME||'./helpers/audio-game.cjs');
 function setup(id='knife'){
  const g=game();g.run(`newRun([{kind:'custom',pid:'p1',name:'測試',tal:'keen',sk:'aid',st:{STR:2,AGI:2,CON:2,PER:1,INT:1,CHA:0},load:{}}],{diff:'normal',cd:'off'},'solo');globalThis.p=G.players[0];out=()=>{};dice=async()=>{};push=()=>{};globalThis.weapon=newGear('${id}',20);p.gear.push(weapon);p.hand.R=weapon.u;G.fight={foes:[Object.assign(newFoe(0,'infected',1,false),{n:'測試敵人',hp:100,max:100})],first:false,noise:null};r2=()=>({a:15,b:15,s:15});Math.random=()=>.5;`);return g;
 }

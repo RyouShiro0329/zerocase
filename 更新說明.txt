@@ -1,3 +1,12 @@
+2026-11-23 發布流程整理（Claude；沒有改遊戲，不升版）
+- 主人 21:01 定案整套換新：拿掉 MANIFEST.json、verify_release.py、tools/claude/RELEASE_IDENTITY.json、舊的 tools/claude/release.py；升版改用 tools/release.py（Claude、GPT 共用，只改 index.html 的 ZC_VER 和字型網址 ?v=）；build.sh 的版本行直接取倉庫 index.html。
+- VERSIONS.md 不再回填 commit：發布的 commit 訊息用「v版本：」開頭。這個環境推不上 git 標籤。
+- 9 個舊的 GitHub 驗收流程合成 1 個「完整測試」（.github/workflows/test.yml，每個 PR 自動跑 run_all）；舊的流程和瀏覽器腳本搬到 docs/archive/；tools/*.test.cjs（132 項）搬進 tests/，本機 Node 測試現在 384 項。
+- 本機只跑 Node 測試、截改到的畫面；瀏覽器冒煙和長路線交給 GitHub。同步 Claude 連結只核對雜湊，不另外跑冒煙，也不回寫版本號。
+- 規則整理成 docs/RULES_CLAUDE.md、docs/RULES_GPT.md（各自從頭讀完一份就能開工）；設計決定原文搬到 docs/DESIGN.md；AGENTS.md、CLAUDE.md 只剩入口。舊的 RULES_SONNET.md、AI_WORKFLOW.md 在 docs/archive/。
+- 主人 21:05：舊的驗收 zip（約 15MB）和單一版本的 QA 紀錄刪除（git 歷史保留）。
+- 測試：Node 測試全部通過（384 項，原有 TODO 1 項）；從倉庫 index.html 切檔、用新 build.sh 重建逐位元相同；tools/release.py 在複本上試跑過（版本、Build、時間、字型網址都對）。
+
 零號病例 v0.57.0・Build127（Claude）
 Build時間：2026-11-23T16:50:10+08:00（Asia/Taipei）
 上一版：v0.56.1・Build126，main 3104e0e。

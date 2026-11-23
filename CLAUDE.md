@@ -1,10 +1,7 @@
 # 給 Claude（Sonnet／Opus／Haiku）
 
-開工前依序完整讀完並照做：
+開工前依序讀：
+1. `docs/RULES_CLAUDE.md`：唯一要從頭讀完的規則（流程、測試、發布、回報）
+2. `docs/HANDOFF_CLAUDE.md`：現況、還原步驟、待辦
 
-1. `AGENTS.md`：最重要的摘要
-2. `docs/AI_WORKFLOW.md`：完整工作方式與主人的設計決定
-3. `docs/RULES_SONNET.md`：給 Claude 的專屬規則
-4. `docs/HANDOFF_CLAUDE.md`：Claude 的開發交接（現況、還原步驟、主人的設計決定、待辦）；工具在 `tools/claude/`
-
-三份有衝突時，以主人在對話裡最新的指示為準；沒有指示就以 `AI_WORKFLOW.md` 為準，並在回報裡寫出衝突。
+主人的設計決定在 `docs/DESIGN.md`，只讀這次要改的那一塊。規則有衝突時，以主人在對話裡最新的指示為準，並在回報裡寫出衝突。
