@@ -31,8 +31,9 @@ test('旅館走廊：進了房間，看完直接往前，不回走廊；也可�
 });
 
 test('分岔：已經走過的地點不會再出現在出口',async()=>{const g=setup();
- g.run("G.node='H4';G.lv='H';G.route=['A','B','H']");assert.deepEqual(labels(g),['往大廳','往停車場']);
- g.run("G.route=['A','B','E','H']");assert.deepEqual(labels(g),['往停車場'],'從一樓來的，不再回一樓');
+ // v0.57.0 旅館四層（主人 2026-11-23 定案）：洗衣房併進一樓，改用消防梯的二樓平台測同一條規則
+ g.run("G.node='D2';G.lv='D';G.route=['A','D']");assert.ok(labels(g).includes('從開著的窗戶進二樓'));
+ g.run("G.route=['A','B','D']");assert.ok(!labels(g).includes('從開著的窗戶進二樓'),'走過二樓，不再出現進二樓的路');
 });
 
 test('條件卡：凱文死了才會在停車場坡道遇到他，否則直接跳過',async()=>{const g=setup();
@@ -42,7 +43,7 @@ test('條件卡：凱文死了才會在停車場坡道遇到他，否則直接�
 
 test('301 的窗戶：沒看逃生路線圖整條不出現；上鎖的車門變灰，點了說明缺什麼',async()=>{const g=setup();
  g.run("G.node='A6';G.lv='A'");assert.ok(!labels(g).includes('從 301 的窗戶爬到消防梯'));g.run('G.flags.map=1');assert.ok(labels(g).includes('從 301 的窗戶爬到消防梯'));
- g.run("G.node='P4';G.lv='P';globalThis.SFXL=[];globalThis.TOAST='';sfx=(k)=>{SFXL.push(k);return 0};toast=t=>TOAST=t;act=a=>handle('p1',a)");
+ g.run("G.node='P4';G.lv='G';globalThis.SFXL=[];globalThis.TOAST='';sfx=(k)=>{SFXL.push(k);return 0};toast=t=>TOAST=t;act=a=>handle('p1',a)");
  const i=g.run("choices().findIndex(c=>c.l==='開車衝出去')");assert.equal(g.run(`visible(choices()[${i}])`),true);assert.equal(g.run(`choiceOk(choices()[${i}])`),false);
  g.run(`zLockClick(${i})`);await new Promise(r=>setTimeout(r,20));assert.equal(g.run('SFXL.join()'),'doorlocked');assert.match(g.run('TOAST'),/B2-17 的銀色轎車.*沒有車鑰匙/);
  assert.match(g.run("codexMarkup('memo')"),/B2-17 的銀色轎車/);
@@ -120,7 +121,7 @@ test('最後一波還在路上就逃走：警戒清 0',async()=>{const g=setup()
  assert.ok(g.run('!!G.fight.reinf'));await g.run('finishEvacuation(G.players[0],true)');assert.equal(g.run('G.alarm'),0);
 });
 test('安靜躲一陣子：一個區域一次、警戒 −3、30 分鐘，只放在內容指定的地方',async()=>{const g=setup();
- const at=JSON.parse(g.run("JSON.stringify(Object.entries(N).filter(([k,n])=>(n.c||[]).some(c=>c.quiet)).map(([k])=>k))"));assert.deepEqual(at.sort(),['E2s','M2','OE6','OF5','U2s'],'v0.56.0 醫院：急診的急救室、四樓的被服間');
+ const at=JSON.parse(g.run("JSON.stringify(Object.entries(N).filter(([k,n])=>(n.c||[]).some(c=>c.quiet)).map(([k])=>k))"));assert.deepEqual(at.sort(),['A4e','E2s','M2','OE6','OF5','U2s'],'v0.56.0 醫院：急診的急救室、四樓的被服間；v0.57.0 旅館三樓的 309（門會自己鎖）');
  assert.ok(g.run("Object.values(N).every(n=>(n.c||[]).every(c=>!c.quiet||c.t==='qh'))"));
  g.run("G.node='E2s';G.lv='E';G.zal={};G.alarm=7;G.clock=600");const c0=g.run('G.clock');
  await g.run("(async()=>{const c=choices().find(c=>c.quiet);await spendTime(c);await applyRes(c,c.ok,G.players[0])})()");assert.equal(g.run('G.alarm'),4);assert.equal(g.run('G.clock')-c0,30);
