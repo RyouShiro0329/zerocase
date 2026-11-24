@@ -46,7 +46,7 @@ test('旅館是四層單向路線＋捷徑，共用一個警戒區域；每層�
  assert.deepEqual(JSON.parse(g.run("JSON.stringify(Object.keys(ROUTE).filter(L=>ROUTE[L].loc==='旅館'))")).sort(),['A','B','C','D','E','G','I','R'].sort());
  for(const L of ['A','B','E','G']){assert.equal(g.run(`alZ('${L}')`),'hotel');assert.ok(g.run(`!!LV.${L}.rule`),L+' 進場有環境提示')}
  assert.equal(g.run("N.F1.L+N.H2.L+N.P4.L"),'EEG','廚房、洗衣房併進一樓，停車場併進地下');
- assert.match(g.run('LV.A.rule'),/門會自己關上/);assert.match(g.run('LV.B.rule'),/落地窗/);assert.match(g.run('LV.E.rule'),/瓦斯/);assert.match(g.run('LV.G.rule'),/通風扇停了/);
+ assert.match(g.run('LV.A.rule'),/自動閉門器/);/* v0.62.0 主人 11:25：「門會自己關上」很怪，改寫成閉門器 */assert.match(g.run('LV.B.rule'),/落地窗/);assert.match(g.run('LV.E.rule'),/瓦斯/);assert.match(g.run('LV.G.rule'),/通風扇停了/);
 });
 test('三樓（選擇卡）：30 個種子、8 種路況都走得出去，一般路線至少 15 次、捷徑也至少 15 次',async()=>{
  const RD=[];for(let m=0;m<8;m++)RD.push({rd_r302:m&1,rd_rlift:m>>1&1,rd_rwin:m>>2&1});
