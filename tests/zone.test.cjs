@@ -23,11 +23,11 @@ test('旅館走廊只能挑一件事：拿了消防斧就不能再進房間，�
  assert.doesNotMatch(log(g),/已搜過|還沒進去|你回到三樓走廊/);
 });
 
+/* v0.64.0（主人 2026-11-24 改了決定：一樓也改成情境探索）：E2 不再是搜索點，沒有「不再找了」；進了房間做一件事就接下一個情境 */
 test('旅館走廊：進了房間，看完直接往前，不回走廊；也可以不找直接往前',async()=>{const g=setup();
- g.run("G.players.push({...G.players[0],pid:'p2',name:'乙',items:{},gear:[]},{...G.players[0],pid:'p3',name:'丙',items:{},gear:[]})");assert.equal(g.run('srMax()'),1,'人多也只能挑一件');
- await g.run("enterNode('E2')");await pick(g,'行李寄放間');assert.equal(g.run('G.node'),'E2x');await pick(g,'翻找代客泊車的櫃子');
- assert.notEqual(g.run('G.node'),'E2');assert.doesNotMatch(log(g),/你回到一樓走廊/);
- const g2=setup();await g2.run("enterNode('E2')");await pick(g2,'不再找了，往前走');assert.equal(g2.run('G.node'),'E3d','直接走到下一張卡');
+ g.run("G.lv='B';G.sd=3");await g.run("enterNode('E2')");assert.ok(!labels(g).includes('不再找了，往前走'));await pick(g,'行李寄放間');assert.equal(g.run('G.node'),'E2x');await pick(g,'翻找代客泊車的櫃子');
+ assert.ok(!['E2','E2x'].includes(g.run('G.node')),'做完一件就是下一個情境');assert.doesNotMatch(log(g),/你回到一樓走廊/);
+ const g2=setup();g2.run("G.lv='B';G.sd=3");await g2.run("enterNode('E2')");await pick(g2,'公共衛浴');assert.ok(!['E2'].includes(g2.run('G.node')),'不進房間，直接往前');
 });
 
 test('分岔：已經走過的地點不會再出現在出口',async()=>{const g=setup();
@@ -36,9 +36,10 @@ test('分岔：已經走過的地點不會再出現在出口',async()=>{const g=
  g.run("G.route=['A','B','D']");assert.ok(!labels(g).includes('從開著的窗戶進二樓'),'走過二樓，不再出現進二樓的路');
 });
 
-test('條件卡：凱文死了才會在停車場坡道遇到他，否則直接跳過',async()=>{const g=setup();
- await g.run("enterNode('P1k')");assert.equal(g.run('G.node'),'P2');
- g.run('G.flags.kevin_dead=1');await g.run("enterNode('P1k')");assert.equal(g.run('G.node'),'P1k');
+/* v0.64.0：地下也改成情境探索，條件卡由路線表判斷（?P1k），不是 enterNode 跳過 */
+test('條件卡：凱文死了才會在停車場坡道遇到他，否則直接跳過',async()=>{
+ for(const dead of [0,1]){const g=setup();g.run(`G.lv='G';G.sd=7;G.node='P1';delete G.xp;xpSt('G');G.flags.kevin_dead=${dead};G.xp.k=G.xp.q.indexOf('?P1k')`);
+  const id=g.run("xpGen('G')");if(dead)assert.equal(id,'P1k');else assert.notEqual(id,'P1k')}
 });
 
 test('301 的窗戶：沒看逃生路線圖整條不出現；上鎖的車門變灰，點了說明缺什麼',async()=>{const g=setup();
@@ -71,7 +72,8 @@ test('首次旅館的每一層樓算同一個區域：換樓層警戒不會清�
  g.run("zSwap('E','V');G.lv='V'");assert.equal(g.run('G.alarm'),0);
 });
 test('翻找有聲音：快速翻 +1、繼續仔細翻 +2，選項上不寫數字（v0.55.0 搜索逐步深入）',async()=>{
- const g=setup();const ids=JSON.parse(g.run("JSON.stringify(Object.keys(N).filter(k=>ROUTE[N[k].L]&&!N[k].sr&&searchChoices(N[k]).some(c=>c._searchMode)))"));assert.ok(ids.length);
+ /* v0.64.0：旅館整座改成選擇卡（沒有逐步深入），改挑沒有警戒加成的地點來測同一條規則 */
+ const g=setup();const ids=JSON.parse(g.run("JSON.stringify(Object.keys(N).filter(k=>ROUTE[N[k].L]&&!N[k].sr&&!(LV[N[k].L].fx||{}).alarmPlus&&!(LV[N[k].L].fx||{}).alarmMul&&!ROUTE[N[k].L].am&&searchChoices(N[k]).some(c=>c._searchMode)))"));assert.ok(ids.length);
  g.run(`G.node='${ids[0]}';G.lv=N['${ids[0]}'].L;G.alarm=0;G.zal={}`);const d=g.run('zDepth()')>=2?1:0;
  assert.ok(!g.run("choices().some(c=>c._searchMode==='careful'&&visible(c))"),'快速翻之前看不到繼續仔細翻');
  const q=JSON.parse(g.run(`JSON.stringify(choices().find(c=>c._searchMode==='quick'))`));assert.doesNotMatch(q.s||'',/警戒/);assert.ok(!q.k,'快速翻不檢定');
@@ -82,7 +84,7 @@ test('翻找有聲音：快速翻 +1、繼續仔細翻 +2，選項上不寫數�
  assert.ok(!g.run("Object.values(N).some(n=>ROUTE[n.L]&&(n.c||[]).some(c=>/警戒/.test(c.s||'')))"),'旅館選項不寫警戒數字');
 });
 test('繼續仔細翻拿的是快速翻之外的東西：兩次加起來等於原本的全部',async()=>{const g=setup();
- /* v0.59.0 三樓（A）改成選擇卡、沒有繼續仔細翻（主人 2026-11-24），這裡改用還沒轉換的二樓 B 測 */g.run("N.T55S={L:'B',n:'測試',t:'測試',c:[{l:'翻測試櫃',t:'sd',ok:{t:'x',r:{items:{water:1,bandage:2}}}}]};G.node='T55S';G.lv='B';G.players[0].items={}");
+ /* v0.59.0 三樓（A）改成選擇卡、沒有繼續仔細翻（主人 2026-11-24）；v0.64.0 整座旅館都轉換了，改用還沒轉換的街區 K 測 */g.run("N.T55S={L:'K',n:'測試',t:'測試',c:[{l:'翻測試櫃',t:'sd',ok:{t:'x',r:{items:{water:1,bandage:2}}}}]};G.node='T55S';G.lv='K';G.players[0].items={}");
  await pick(g,'翻測試櫃');assert.equal(g.run("Object.values(G.players[0].items).reduce((a,b)=>a+b,0)"),1);
  await pick(g,'繼續仔細翻測試櫃');assert.equal(g.run('G.players[0].items.water||0'),1);assert.equal(g.run('G.players[0].items.bandage||0'),2);
  assert.ok(!g.run("choices().some(c=>visible(c)&&/測試櫃/.test(c.l))"),'都翻完就消失');

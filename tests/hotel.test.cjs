@@ -30,19 +30,6 @@ async function walk3F(seed,rd,exit){const g=setup();g.run(`G.sd=${seed};G.dk={on
   const f0=g.run('FT_LOG.length');await g.run(`(async()=>{const c=choices()[${i}];const res=c.tb?c.tb[0]:c.ok;await applyRes(c,res,G.players[0],false)})()`);if(!fk)n++;
   if(g.run('FT_LOG.length')>f0&&g.run('G.node')===id)await g.run('enterNode(G.after)')}
  return {n,seen,lv:g.run('G.lv'),g}}
-const SECOND=[['B1'],{l:'站在原地迎戰',fight:'B1w'},['B1w'],'趴低，從窗台底下爬過去',['B2'],'搜保全的屍體',
- ['B2p'],'看還亮著的那台監視器','翻保全的置物櫃','看桌上的交班簿','往前走',['B2m'],'看門口的立牌','翻講桌上的資料夾','翻椅子上的外套和包包','往前走',
- ['B2x'],'把推車推到走廊上','到主桌翻看看','闔上那台筆電','往前走',['B2w'],'叫他把燈關掉，自己從另一邊走',
- ['B2b'],'翻吧台後面','拿冰桶裡的水','打開酒櫃下面的櫃子','往前走',['B4']];
-const FIRST=[['E1'],'貼著牆等它過去',['E1g'],'循著味道找漏氣的地方','看牆上的逃生路線圖','往前走',['E2'],'公共衛浴',['E3d'],'不碰，繼續走',
- ['E5'],'翻被撬開的置物櫃','看白板上的排班','往前走',['E6'],'接起閃燈的那一線','看總機旁邊的住房表','往前走',['E7']];
-const KITCHEN=['穿過廚房',['F1'],'先把瓦斯關掉','不管它，先找東西','往前走',['F2'],'用身體把門頂回去',['F2x'],'把圍裙上的字看清楚','不開，讓拖把柄卡著',
- ['F2y'],'翻乾貨架','看那排麵粉腳印','往前走',['F4']];
-const LAUNDRY=['穿過洗衣房',['H1'],'看清楚洗衣機裡那張臉','在籃子裡翻找','往前走',['H2'],'不要停留',['H5'],'翻交誼室的櫃子','看公告欄','在沙發上坐一下，喘口氣','往前走',['H4']];
-const BASEMENT=[['G1'],'用布遮住口鼻再前進','看清楚那個人','不看，直接往前走',['G1c'],'撿地上的工具','看鍋爐上的運轉紀錄','用螺絲起子碰一下那些紅色的東西','往前走',
- ['G2'],'只拿配電室裡的東西','看配電盤上的標示','啟動發電機','打開排風機的開關','往前走',['G2x'],'撕下告示牌','快步走過去',['G4'],'摸門框上的標記','從車道連通門到停車場',
- ['P1'],'照著紙條走',['P2'],'翻後車廂','敲車窗','丟東西砸遠處那台車，讓它叫','繞過這台車',['P2b'],'翻收費亭','打開那個鐵盒子','往前走',['P2c'],'看看那兩個人',['P4']];
-
 test('旅館是四層單向路線＋捷徑，共用一個警戒區域；每層進場有環境提示',()=>{const g=setup();
  assert.deepEqual(JSON.parse(g.run("JSON.stringify(Object.keys(ROUTE).filter(L=>ROUTE[L].loc==='旅館'))")).sort(),['A','B','C','D','E','G','I','R'].sort());
  for(const L of ['A','B','E','G']){assert.equal(g.run(`alZ('${L}')`),'hotel');assert.ok(g.run(`!!LV.${L}.rule`),L+' 進場有環境提示')}
@@ -59,17 +46,33 @@ test('三樓（情境探索）：30 個種子、8 種路況，東側樓梯、電
   assert.equal(w.lv,ex==='stairs'?'B':ex==='lift'?'C':'D');min[ex]=Math.min(min[ex],w.n)}
  console.log('三樓選擇次數（30 種子×8 路況的最少值，走到盡頭的出口）',JSON.stringify({東側樓梯:min.stairs,電梯井:min.lift,消防梯:min.win}));
 });
-test('一般路線：二樓以下每一層至少 15 次選擇（移動、繼續仔細翻不算），走得到出口',async()=>{const g=setup();g.run("G.players[0].items.coin=1;G.route=['A'];G.lv='A'");
- await g.run("enterNode('B1')");
- const b=await walk(g,SECOND);assert.ok(b>=15,'二樓只有 '+b+' 次');
- await pick(g,'西側樓梯');const e0=await walk(g,FIRST);const k=await walk(g,KITCHEN);const e=e0+k;assert.ok(e>=15,'一樓（廚房）只有 '+e+' 次');
- assert.equal(g.run('G.flags.gasoff'),1);
- await pick(g,'走後門旁邊的樓梯下地下設備層');const d=await walk(g,BASEMENT);assert.ok(d>=15,'地下只有 '+d+' 次');
- assert.equal(g.run('G.flags.fanon'),1);await pick(g,'拉手動鏈條，把鐵捲門拉高');
- assert.deepEqual(JSON.parse(g.run('JSON.stringify(G.route)')).slice(0,4),['A','B','E','G'],'出了停車場就到街上');
- // 一樓走洗衣房那一頭
- const g2=setup();g2.run("G.lv='E';G.route=['A','B']");await g2.run("enterNode('E1')");const h=await walk(g2,[...FIRST,...LAUNDRY]);assert.ok(h>=15,'一樓（洗衣房）只有 '+h+' 次');
- console.log('一般路線的選擇次數',JSON.stringify({二樓:b,一樓走廚房:e,一樓走洗衣房:h,地下:d}));
+/* v0.64.0（主人 2026-11-24 20:52 改了決定：整座旅館改成情境探索，長度隨種子浮動）：二樓以下不再照固定劇本數次數，
+   改成每一層 25 個種子 × 幾種走法走到底：一定走得到出口、一張卡只出現一次、每個選擇都換新的情境；關瓦斯、排風機、鐵捲門鏈條這些機制照樣做得到。 */
+async function walkF(seed,start,mode,want,pre){const g=setup();g.run(`G.sd=${seed};G.route=${JSON.stringify(pre||['A'])};G.lv='A';G.players[0].items.coin=1;G.players[0].items.bandage=2;G.players[0].gear.push(newGear('crowbar'))`);
+ await g.run(`enterNode('${start}')`);const L0=g.run('G.lv');const seen=[];let n=0;
+ for(let k=0;k<80&&g.run('G.lv')===L0;k++){const id=g.run('G.node');seen.push(id);g.run('G.alarm=0;G.ground=[]');
+  const i=g.run(`(()=>{const cs=choices();const ok=cs.map((c,i)=>i).filter(i=>visible(cs[i])&&choiceOk(cs[i])&&!(cs[i].ok&&cs[i].ok.code));const W=${JSON.stringify(want||[])},M=${JSON.stringify(mode)};
+   const res=c=>c.tb?c.tb[0]:c.ok||{};for(const w of W){const m=ok.find(i=>cs[i].l===w);if(m!=null)return m}
+   if(M==='rand')return ok.length?ok[(${seed}+G.stp*7)%ok.length]:-1;
+   const calm=ok.filter(i=>!res(cs[i]).fight&&!cs[i].xpx);if(M==='deep'){const s=calm.find(i=>/^s[qd]$/.test(cs[i].t));if(s!=null)return s}
+   return calm.length?calm[0]:ok[0]??-1})()`);
+  assert.ok(i>=0,`${id} 沒有選得了的選項（種子 ${seed}）`);
+  const f0=g.run('FT_LOG.length');await g.run(`(async()=>{const c=choices()[${i}];const res=c.tb?c.tb[0]:c.ok;await applyRes(c,res,G.players[0],false)})()`);n++;
+  if(g.run('FT_LOG.length')>f0)await g.run('enterNode(G.after)');else if(g.run('G.lv')===L0)assert.notEqual(g.run('G.node'),id,`${id} 選了之後還停在同一張卡（種子 ${seed}）`)}
+ return {n,seen,lv:g.run('G.lv'),g}}
+test('一般路線（v0.64.0 情境探索）：二樓、一樓、地下、捷徑每一層都走得到出口；一張卡只出現一次；長度隨種子浮動',async()=>{
+ const st={};const RUNS=[['二樓','B1',['B2']],['一樓','E1',['E2']],['一樓（員工樓梯）','E1s',['E1g']],['地下','G1',['G4']],['電梯井','C1',[]],['消防梯','D1',[]],['頂樓','R1',[]]];
+ for(const [nm,start,must] of RUNS){const ns=[];for(let s=1;s<=25;s++)for(const m of ['calm','deep','rand']){const w=await walkF(s*977,start,m,null,start==='E1s'?['A','B']:null);
+   assert.notEqual(w.lv,w.g.run(`N['${start}'].L`),`${nm} 種子 ${s} ${m} 沒走出去：${w.seen.join('→')}`);
+   const ids=w.seen.filter(x=>!/X[NQ]$/.test(x));assert.deepEqual(ids.filter((x,i)=>ids.indexOf(x)!==i),[],`${nm} 一張卡只出現一次：${w.seen.join('→')}`);
+   for(const x of must)assert.ok(w.seen.includes(x),`${nm} 一定經過 ${x}：${w.seen.join('→')}`);
+   assert.ok(!w.seen.some(x=>/^[BCDEFGHPR]3x?$/.test(x)),'不再走到原本的隨機事件格');if(m==='calm')ns.push(w.n)}
+  st[nm]=Math.min(...ns)+'～'+Math.max(...ns)}
+ console.log('各層選擇次數（25 個種子，一般走法，最少～最多）',JSON.stringify(st));
+ // 機制照樣做得到：關瓦斯、發電機＋排風機、鐵捲門的手動鏈條
+ const k=await walkF(5,'E1','calm',['穿過廚房','扳紅色管子上的把手','先把瓦斯關掉']);assert.equal(k.g.run('G.flags.gasoff'),1,'一樓關得掉瓦斯：'+k.seen.join('→'));
+ const f=await walkF(5,'G1','calm',['啟動發電機','打開排風機的開關','從車道連通門到停車場','打開那個鐵盒子','拉手動鏈條，把鐵捲門拉高']);assert.equal(f.g.run('G.flags.power&&G.flags.fanon'),1,'發電機和排風機：'+f.seen.join('→'));
+ assert.ok(f.seen.includes('G2g'),'發電機發動之後是新的情境');
 });
 test('門：房卡鎖停電照樣鎖，302、303 要萬用房卡；309 可以躲；從樓梯下去就回不了頭',async()=>{const g=setup();
  g.run("G.node='A4';G.lv='A'");let i=g.run("choices().findIndex(c=>c.l==='302：有光的那間')");assert.equal(g.run(`visible(choices()[${i}])`),true);assert.equal(g.run(`choiceOk(choices()[${i}])`),false,'沒有房卡');
