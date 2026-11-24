@@ -81,8 +81,8 @@ test('門：房卡鎖停電照樣鎖，302、303 要萬用房卡；309 可以躲
  assert.equal(g.run("N.A4e.c[1].ok.go"),'A4h');assert.ok(g.run("N.A4h.c.some(c=>c.quiet&&c.t==='qh')"),'309 裡可以安靜躲一陣子');
  assert.match(g.run("N.A6.c.find(c=>c.l==='東側樓梯').ok.t"),/樓梯間這一側沒有門把/);
 });
-test('窗：二樓靠窗的地方失敗會被打（QTE）；看過窗外的人比較好過',()=>{const g=setup();
- const c=JSON.parse(g.run("JSON.stringify(N.B1w.c.map(c=>({k:c.k||'',b:c.bonusFlag||'',q:!!((c.ng&&c.ng.qte)||(c.ok&&c.ok.qte))})))"));
+test('窗：二樓靠窗的地方失敗會被打（敏捷豁免）；看過窗外的人比較好過',()=>{const g=setup();
+ const c=JSON.parse(g.run("JSON.stringify(N.B1w.c.map(c=>({k:c.k||'',b:c.bonusFlag||'',q:!!((c.ng&&c.ng.hz&&c.ng.hz.st==='AGI')||(c.ok&&c.ok.hz&&c.ok.hz.st==='AGI'))})))/* v0.66.0 主人 2026-11-25：二樓窗的槍擊 QTE 改成敏捷豁免 */"));
  assert.deepEqual(c[0],{k:'AGI',b:'sawwin',q:true});assert.equal(c[2].q,true);
  assert.ok(g.run("N.B2w.c.every(c=>c.t)"));
 });

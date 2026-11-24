@@ -1,13 +1,13 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=2f00a404" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=40f06ede" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fx/slash-12.webp" as="image" type="image/webp">
 <link rel="preload" href="fx/blunt-12.webp" as="image" type="image/webp">
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=2f00a404") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=40f06ede") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
@@ -726,7 +726,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.65.0", "b": 138, "t": "2026-11-25T00:45:56+08:00"};
+const ZC_VER={"v": "0.66.0", "b": 139, "t": "2026-11-25T04:03:34+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -1137,7 +1137,7 @@ const AFF={
    grab 抓住目標（不能逃跑、防禦 −2，直到掙脫或隊友打中這隻）、humus 讓目標沾上腐殖物（每回合感染 +1）、heal 打中後自己回血、need/pref 需要／優先流血的目標、hit 命中加減 */
 const MOVES={
  // v0.20.0 三陣營設計包 v1.0.0：d＝原始傷害、h＝總命中（沒寫就用本體）、inf＝固定感染、cd＝冷卻回合、qte＝預告後純反應 QTE（成功 0 傷害，失敗直接受傷）
- infected:[{n:'撲咬',dt:'pierce',w:5,d:5,h:4,inf:3,hs:'bite'},{n:'亂抓',dt:'slash',w:3,d:4,h:4,inf:2,hs:'claw',t:'牠的指甲抓過皮膚，留下幾道火辣辣的傷口。'},{n:'抓住',dt:'blunt',save:{st:'STR',dc:12},w:2,d:1,h:4,inf:0,cd:3,hs:'claw',grab:1,t:'牠一把抓住手臂，指頭陷進肉裡，怎麼甩都甩不掉。'},{n:'撲倒',dt:'blunt',save:{st:'STR',dc:12},qguard:'block',w:2,d:8,inf:5,cd:3,hs:'thud',tele:1,qte:1,unbal:1,qw:['閃避','後退','側身','站穩'],warn:'弓起背，喉嚨裡發出咕嚕聲，盯著',t:'牠整個撲了上來，把人壓倒在地上亂咬。'}],
+ infected:[{n:'撲咬',dt:'pierce',w:5,d:5,h:4,inf:3,hs:'bite'},{n:'亂抓',dt:'slash',w:3,d:4,h:4,inf:2,hs:'claw',t:'牠的指甲抓過皮膚，留下幾道火辣辣的傷口。'},{n:'抓住',dt:'blunt',save:{st:'STR',dc:12},w:2,d:1,h:4,inf:0,cd:3,hs:'claw',grab:1,t:'牠一把抓住手臂，指頭陷進肉裡，怎麼甩都甩不掉。'},{n:'撲倒',dt:'blunt',save:{st:'STR',dc:12},qguard:'block',w:2,d:8,inf:5,cd:3,hs:'thud',qte:1,unbal:1,cue:'弓起背，喉嚨裡一聲低吼，猛然撲了上來——',qw:['閃避','後退','側身','站穩'],t:'牠整個撲了上來，把人壓倒在地上亂咬。'}],
  incubator:[{n:'丟擲囊泡',dt:'blunt',exposure:1,qguard:'cover',w:4,d:2,inf:4,humus:2,hs:'splat',pre:'spit',ws:'squish',tele:1,qte:1,rng:1,qw:['閃避','側身','低頭','閃避'],warn:'從背上扯下一顆鼓脹的囊泡，高高舉起，對準',t:'囊泡砸在身上破開，黏稠的腐殖物糊了一片，又熱又癢。'},{n:'噴吐',dt:null,exposure:1,w:2,d:2,inf:4,cd:4,hs:'splat',pre:'spit',ws:'squish',tele:1,qte:1,all:1,rng:1,qw:['閃避','後退','低頭','遮臉'],warn:'的肚子一陣一陣鼓起來，嘴巴慢慢張大，對著',t:'一大口黃綠色的液體噴了出來。'},{n:'推撞',dt:'blunt',exposure:1,w:3,d:1,h:3,inf:2,near:1,hs:'squish',t:'牠用整個身體撞過來，濕黏的皮膚貼在臉上。'}],
  devourer:[{n:'揮擊',dt:'blunt',w:4,d:4,h:4,inf:2,hs:'smash',t:'那隻腫大的手臂橫掃過來，砸在肋骨上。'},{n:'震盪重擊',dt:'blunt',save:{st:'CON',dc:14},qguard:'block',w:2,d:7,inf:2,cd:3,hs:'smash',tele:1,qte:1,stun:1,qw:['閃避','後退','側身','閃避'],warn:'把那隻腫大的手臂往後拉，整個身體跟著擰過去，對準',t:'整隻手臂砸下來，人被打得撞上牆，眼前一黑。'},{n:'吞咬',dt:'pierce',w:2,d:4,h:3,inf:5,cd:3,hs:'bite',heal:2,healMax:4,t:'牠一把抓住，把人往嘴邊拉，咬下一塊肉。'}],
  cutter:[{n:'刺擊',dt:'pierce',w:4,d:4,h:5,hs:'knife',t:'獵刀從下往上捅過來。'},{n:'劃開',dt:'slash',w:3,d:3,h:5,hs:'knife',bleed:.7,t:'刀鋒一掠而過，傷口過了一秒才開始冒血。'},{n:'割喉',dt:'slash',qguard:'block',w:2,d:8,cd:4,hs:'knife',tele:1,qte:1,need:'bleed',pref:'bleed',after:'open',qw:['後仰','格開','閃避','後退'],warn:'盯著那道還在流血的傷口，刀子反手握著，慢慢貼近',t:'他貼上來，刀子往脖子上抹。'}],
@@ -6120,6 +6120,13 @@ N.AD3.t=`頭頂的煙霧偵測器突然尖叫起來。旁邊一間房的門縫�
 // 地下鐵門：那些紅色的東西是跟著脈搏在鼓，不是朝你過來
 {const c=N.G4.c.find(x=>x.l==='摸門框上的標記');c.ok=XPMRG(c.ok,{t:c.ok.t.replace('門縫裡那些紅色的東西往你的方向鼓了一下。','門縫裡那些紅色的東西剛好鼓了一下，跟脈搏一樣，就貼在你指尖旁邊。')})}
 }
+/* v0.66.0（主人 2026-11-25 ZEROCASE_QTE_COMBAT_PHASE2_FINAL 第 4.1 節，探索方案 B）：劇情裡剩下的 11 筆 QTE 全部改成角色檢定。
+   成功＝原本 QTE 成功的結果、失敗＝原本失敗的結果，文字、數值、旗標、去處不變；由實際做這件事的人擲，背景擲（不跳骰子）。
+   OE10「撲過去接住」是玩家自己選要做的事：照樣跳骰子（vis）。槍擊的那幾筆是及時趴下、躲進窗台底下的事，不是徒手躲子彈。 */
+{const T={J2:['AGI',12,'躲開鐵捲門'],OE10:['AGI',12,'接住點滴架',1],PP5:['AGI',13,'躲開電弧'],AD1:['AGI',12,'躲開天花板'],B1w:['AGI',13,'及時趴下'],B2w:['AGI',13,'及時趴下'],BD1:['AGI',13,'及時趴下'],BD2:['AGI',13,'及時趴下'],BD6:['AGI',13,'及時趴下']};
+ const cv=(r,x)=>{if(!r||typeof r!=='object')return;if(r.qte&&typeof r.qte==='object'){const q=r.qte;r.hz={st:x[0],dc:x[1],l:x[2],t:q.t,ok:q.ok,ng:q.ng};if(x[3])r.hz.vis=1;delete r.qte}};
+ for(const [id,x] of Object.entries(T))for(const c of N[id].c){cv(c.ok,x);cv(c.ng,x);for(const r of c.tb||[])cv(r,x)}
+ N.WP3.c[0].ok.hz.bk='抵抗';/* 氯氣是身體承受：紀錄寫「體質抵抗」 */}
 /* ================= 基礎 ================= */
 const $=s=>document.querySelector(s);
 // v0.58.0 種子（主人 2026-11-24，PLAN_CHOICE_CARDS 第三節）：遊戲裡的亂數走 RNG()，一張卡一個子種子（reseed）。
@@ -6581,13 +6588,17 @@ const eqS=(a,m,tot)=>`<span class="eq">${a} ${sgS(m)} = ${tot}</span>`;
 function judge(R,tot,dc){if(R.a===20)return 'crit';if(R.a===1)return 'fumble';return tot>=dc?'ok':'ng'}
 const JW={crit:'大成功',fumble:'大失敗',ok:'成功',ng:'失敗'};
 const pairDice=(R,cap,foe)=>[{sides:20,val:R.a,cap,foe}];
-async function check(p,st,dc,label,extra){
+/* v0.66.0 背景檢定（主人 2026-11-25 ZEROCASE_QTE_COMBAT_PHASE2_FINAL 第 2 節）：o.bg＝'豁免'／'抵抗' 時不跳骰子畫面，
+   骰源、能力、加值、自然 1／20、結果都和可見的檢定相同；事件紀錄只寫能力與成敗，不寫骰值、難度。 */
+const bgTag=(p,st,kind,j)=>`【${MP()?esc(p.name)+'・':''}${STN[st]}${kind}・<span class="${j==='crit'||j==='ok'?'s':'f'}">${JW[j]}</span>】`;
+async function check(p,st,dc,label,extra,o){
   // 緊繃以上，開鎖、修理、縫合這類精細的事 −1
   const fine=fstg(p)>=1&&/鎖|撬|修|縫|拆|接線|機關|包紮/.test(label||'')?1:0;
   if(fine)out(`${nm(p)}因恐懼緊繃，這次精細操作檢定 −1（${esc(label||STN[st])}）。`,'rule',true);
   const R=r2(),m=statMod(p,st)+checkBonus(p,st)+(extra||0)-fine+woundPenalty(p,woundPartsFor(st,label),st),tot=R.s+m;
   const j=judge(R,tot,dc);const ok=j==='crit'||j==='ok';
   const who=MP()?esc(p.name)+'・':'';
+  if(o&&o.bg){reportEffects();out(bgTag(p,st,o.bg,j),'roll',true);LASTJ=j;return {ok,r:R.s,tot,crit:j==='crit',fumble:j==='fumble'}}
   await dice({label,sub:`${who}${STN[st]}檢定　d20 ${sgn(m)}${DF().num?`　難度 ${dc}`:''}`,dice:pairDice(R,MP()?esc(p.name):''),result:`${eqS(R.a,m,tot)}<span class="${ok?'s':'f'}">${JW[j]}</span>`,cls:j});
   out(`擲骰｜${MP()?esc(p.name)+' ':''}${STN[st]} d20(<b>${R.a}</b>)${m>=0?'+':'−'}${Math.abs(m)}＝<b>${tot}</b>${DF().num?` 對 ${dc}`:''}　<span class="${ok?'s':'f'}">${JW[j]}</span>`,'roll',true);
   LASTJ=j;
@@ -6616,8 +6627,7 @@ async function woundDeteriorate(p){if(!p||p.dead||p.down||p.leftBehind||!teamHer
 function woundRisk(p,mv,x){if(!x||x.shield||p.dead||p.down||p.hp<=0||!['blunt','slash','pierce','ballistic'].includes(mv.dt))return 0;const frac=x.damage/Math.max(1,p.max);return frac>=.4?2:frac>=.25&&(WOUND_MOVES[mv.n]||x.crit)?1:0}
 function woundLocation(mv){if(WOUND_MOVES[mv.n])return WOUND_MOVES[mv.n];const r=RNG();return r<.5?'torso':r<.7?'arm':r<.9?'leg':'head'}
 async function woundJointSave(f,mv,p,dc){const R=r2(),S=mv.save,b=S.st==='STR'&&p.stance==='block'&&stanceOf(p,f,mv).half?2:0,cm=statMod(p,S.st)+checkBonus(p,S.st)+b,wm=statMod(p,'CON')+checkBonus(p,'CON'),cj=judge(R,R.s+cm,S.dc),wj=judge(R,R.s+wm,dc),ok=j=>j==='ok'||j==='crit';
-  await dice({label:'抵抗衝擊與傷勢',sub:`${STN[S.st]}／體質檢定`,dice:pairDice(R,'',1),result:`<small class="ln">控制：${eqS(R.a,cm,R.s+cm)}　${ok(cj)?'抵抗成功':'抵抗失敗'}${DF().num?'　難度 '+S.dc:''}</small><small class="ln">傷勢：${eqS(R.a,wm,R.s+wm)}　${ok(wj)?'抵抗成功':'抵抗失敗'}${DF().num?'　難度 '+dc:''}</small>`,cls:ok(wj)?'ok':'ng'});
-  out(`${nm(p)}抵抗衝擊與傷勢：控制${ok(cj)?'成功':'失敗'}，傷勢${ok(wj)?'成功':'失敗'}。`,'roll',true);return {control:ok(cj),injury:ok(wj)}}
+  /* v0.66.0 背景：同一顆骰各自判定控制與傷勢，不跳骰子畫面 */reportEffects();out(bgTag(p,S.st,'抵抗',cj)+bgTag(p,'CON','抵抗',wj),'roll',true);return {control:ok(cj),injury:ok(wj)}}
 async function woundImpact(f,mv,p,x){if(x.block)woundUse(p,['arm','torso']);const sev=woundRisk(p,mv,x),dc=sev===2?14:12;let control=null,ok=false;
   if(sev&&x.control&&mv.save){const c=await woundJointSave(f,mv,p,dc);control=c.control;ok=c.injury}else if(sev){const c=await resistCheck(p,{st:'CON',dc,mode:'avoid',label:'抵抗傷勢'});ok=c.ok}
   if(x.control)await foeApplyControl(f,mv,p,control);
@@ -6633,7 +6643,7 @@ const RESIST_EFFECTS={
  chlorine:{st:'CON',dc:12,mode:'reduce',label:'抵抗刺激氣體'},chlorineLong:{st:'CON',dc:12,mode:'delay',unit:3,label:'抵抗持續暴露'}
 };
 function resistValue(rule,ok,amount){const n=Math.max(0,Number(amount)||0);if(!ok)return n;if(rule.mode==='avoid')return 0;if(rule.mode==='reduce')return Math.ceil(n/2);if(rule.mode==='delay')return Math.max(0,n-(rule.unit||n));return n}
-async function resistCheck(p,rule,o={}){const prior=LASTJ;try{const c=await check(p,o.st||rule.st,o.dc??rule.dc,o.label||rule.label,o.bonus||0);return {...c,amount:resistValue(rule,c.ok,o.amount||0)}}finally{LASTJ=prior}}
+async function resistCheck(p,rule,o={}){const prior=LASTJ;try{const c=await check(p,o.st||rule.st,o.dc??rule.dc,o.label||rule.label,o.bonus||0,{bg:'抵抗'});return {...c,amount:resistValue(rule,c.ok,o.amount||0)}}finally{LASTJ=prior}}
 async function resistFear(p,n,rule=RESIST_EFFECTS.storyFear){if(!(n>0)||p.dead||p.mad)return;const c=await resistCheck(p,rule,{amount:n,bonus:tr(p,'calm')?3:0});if(c.ok)out(`${nm(p)}穩住呼吸，這次的驚嚇減輕了。`,'good',true);scare(p,c.amount);return c}
 /* v0.31.2 cm：爆擊倍率，只顯示在算式裡（回傳值不含倍率，由呼叫的地方乘） */
 async function dmgRoll(groups,plus,label,foe,cm){/* v0.32.0 傷害骰在背景擲（主人 2026-11-18：只顯示命中骰，傷害寫在事件紀錄） */
@@ -7755,6 +7765,8 @@ function migrateG(g){if(!g)return g;if(g.stg)delete g.stg;
   if((g.node==='O2'||g.node==='O3')&&g.lv==='O')g.lv=N[g.node].L;
   // v0.46.1 主人取消獨立閃躲：清除舊姿態與待執行指令，不改其他防守或回合進度
   for(const p of g.players||[])if(p.stance==='dodge')p.stance=null;
+  // v0.66.0 舊的「全隊偷襲一輪」：已經打過的不退、還沒打的不補，清掉偷襲輪，讀檔後照常擲先攻開始
+  if(g.fight&&g.fight.sneak&&(!g.fight.sneakBy||g.fight.sneak===2)){const F=g.fight,old=!F.sneakBy;F.sneak=0;F.sneakBy=null;F.group=null;F.pend={};F.resolving=0;F.cur=null;F.turn=0;F.first=false;F.initDone=1;F.round=Math.max(1,F.round||0);if(old)F.order=[]}
   if(g.fight&&g.fight.pend)for(const pid of Object.keys(g.fight.pend))if(g.fight.pend[pid]&&g.fight.pend[pid].a==='dodge')delete g.fight.pend[pid];
   // v0.49.0 舊存檔已預告的招式補上分類、抵抗與防守標記，保留既有目標與冷卻。
   for(const f of g.fight&&g.fight.foes||[]){const m=f.charge&&f.charge.m,cur=m&&(MOVES[OLDTYPE[f.type]||f.type]||[]).find(x=>x.n===m.n);if(cur)for(const k of ['dt','exposure','save','qguard']){if(cur[k]===undefined)delete m[k];else m[k]=cur[k]}}
@@ -7838,11 +7850,13 @@ function fillFoes(types,names,n,squad){const pool=dayPool();let fac=types.length
   if(!squad&&!types.length&&n>=2&&facs.length>=2&&RNG()<MIXP){const [a,b]=[...facs].sort(()=>RNG()-.5);
     for(let i=0;i<n;i++){const fc=i%2?b:a;types.push(pick(pool.filter(x=>FOES[x].fac===fc)));names.push('')}return}
   while(types.length<n){let t;if(squad)t='acru_trooper';else{const pp=fac?pool.filter(x=>FOES[x].fac===fac):pool;t=pp.length?pick(pp):(fac==='inf'?'infected':pick(pool))}if(!fac)fac=FOES[t].fac;types.push(t);names.push('')}}
-async function rollInit(mode){
+/* v0.66.0（主人 2026-11-25 第 6.3 節選 C）：敵方突襲只給實際突襲的敵人（f.amb）先攻 +4，只在這場第一次擲先攻加一次；
+   單一突襲者是原本就會撲上來的第一隻（舊 ambushQte 的挑法），事件明確寫集體設伏（fight.amb:'all'）才全體加。不扣血、不反應。 */
+async function rollInit(mode){const F=G.fight,amb=F&&F.opening==='ambush'&&!F.initDone;
   const ps=able().map(p=>({p,r:rnd(1,20),m:statMod(p,'AGI')+0}));
-  const fs=liveF().map(f=>({f,r:rnd(1,20),m:FT(f).init+(isNight()&&FT(f).fac==='inf'?2:0)+(affIs(f,'lame')?-4:0)+(affIs(f,'veteran')?2:0)-(affIs(f,'heavy')?2:0)+(mode==='ambush'?4:0)}));
-  if(!fs.length)return;
-  await dice({label:'擲先攻',sub:`敏捷 d20${mode==='ambush'?'　（被偷襲，敵人 +4）':''}`,quick:true,
+  const fs=liveF().map(f=>({f,r:rnd(1,20),m:FT(f).init+(isNight()&&FT(f).fac==='inf'?2:0)+(affIs(f,'lame')?-4:0)+(affIs(f,'veteran')?2:0)-(affIs(f,'heavy')?2:0)+(amb&&f.amb?4:0)}));
+  if(!fs.length)return;F.initDone=1;const ab=amb?fs.filter(x=>x.f.amb).map(x=>x.f.n):[];
+  await dice({label:'擲先攻',sub:`敏捷 d20${ab.length?`　（${ab.join('、')}突襲，先攻 +4）`:''}`,quick:true,
     dice:[...ps.map(x=>({sides:20,val:x.r,cap:esc(x.p.name).slice(0,4),cls:'ok'})),...fs.map(x=>({sides:20,val:x.r,foe:1,cap:x.f.n}))],
     result:[...ps.map(x=>[esc(x.p.name),x]),...fs.map(x=>[x.f.n,x])].map(([n,x])=>`<small class="ln">${n}　${x.r} ${sgS(x.m)} = ${x.r+x.m}</small>`).join('')});
   // v0.30.0（主人 2026-11-17）：同分時玩家先於敵人；玩家之間同分先比敏捷，再隨機（不再永遠房主先）
@@ -7875,6 +7889,7 @@ async function startFight(spec){
   const mch=0; // v0.20.0 設計包：本輪詞綴生成率 0
   for(const f of foes){if(spec.noMut||FT(f).fac==='acru'||RNG()>=mch)continue;giveAff(f,pick(Object.keys(AFF).filter(k=>AFF[k].fac===FT(f).fac)))}
   nameFoes(foes);
+  if(spec.mode==='ambush'&&foes[0]){if(spec.amb==='all'){for(const f of foes)if(FT(f).fac===FT(foes[0]).fac)f.amb=1}else foes[0].amb=1}/* v0.66.0 突襲者 */
   if(spec.prone0&&foes[0]){foes[0].prone=1;foes[0].stun=1}/* v0.59.0 */
   for(const p of G.players){if(!teamHere(p))continue;p.combo=0;p.counter=0;p.brace=0;p.actUsed=0;p.defPen=0;p.aimed=0;p.stance=null;p.held=0;if(!p.evacWounds){p.dazed=0;p.humus=0}p.calmUsed=0;p.skUsed={};p.tlUsed={};p.covering=0;p.grit=0}
   for(const p of G.players)if(teamHere(p))darStart(p);
@@ -7894,20 +7909,41 @@ async function startFight(spec){
   await fright(foes.filter(f=>!lurkHid(f)),act);
   if(await deathCheck())return;
   if(G.pendingBurn){beginBattleBgmOnce();G.pendingBurn=0;const d=await dmgRoll([[2,6]],0,'燃燒瓶');for(const f of foes){applyDmg(f,d,['fire'],null);f.burn=3}push();draw();for(const f of foes)if(f.hp<=0)await kill(f,null)}
-  let mode=spec.mode;
-  if(mode==='ambush'&&!spec.noQte){if(await ambushQte())mode='normal';if(G.over||await deathCheck())return}
-  // v0.21.0 主人：先手時，開打前每個人可以先偷襲一下（這一擊必中，敵人還來不及反應），之後才擲先攻
-  if(mode==='first'){const F=G.fight;F.sneak=1;F.round=0;F.turn=0;F.order=able().map(p=>({k:'p',id:p.pid,init:0}));
-    out('你們先發現了對方。趁還沒被察覺，每個人可以先偷襲一下：<b>這一擊一定打中</b>。偷襲完才擲先攻。','rule',true);await advance();return}
+  const mode=spec.mode;
+  // v0.66.0（主人 2026-11-25 第 6 節）：開場不再有 QTE、免費攻擊。我方先制：照常擲先攻，再由全隊動作最快的一個人偷襲一次，之後照擲好的順序開始第 1 回合
   await rollInit(mode);if(!G.fight||!G.fight.order.length){await endFight();return}
+  if(mode==='first'&&sneakOpen())return;
   await advance();
 }
+/* ---- v0.66.0 我方先制：全隊只偷襲一次（主人 2026-11-25 第 6.2 節選 B） ----
+   敏捷最高、能合法普通攻擊的人執行（同敏捷比這場的先攻總值，再照隊伍順序）；一次普通攻擊、單一目標、一定打中、不會爆擊，
+   武器原本的消耗照扣；不能雙持、技能、連發。不用掉他自己的回合，其他人沒有額外行動。
+   F.sneak：1＝等執行者選、2＝結算中；F.sneakBy＝執行者。 */
+const sneakCan=p=>!p.mad&&handsOf(p).some(x=>{const A=handAtk(p,x.h);return !(A.base.kind==='gun'&&A.g&&A.g.jam&&!A.bash)&&!(A.base.cock&&A.g&&!A.g.cocked&&!A.bash)});
+const sneakJ=j=>G.fight&&G.fight.sneak?'ok':j;/* 偷襲那一下：一定打中、不爆擊、不會大失敗 */
+function sneakOpen(){const F=G.fight;F.first=false;
+  const ps=able().filter(sneakCan);if(!ps.length){out('你們先發現了對方，可是現在沒有人能出手偷襲。','rule',true);return false}
+  const io=pid=>(F.order.find(o=>o.k==='p'&&o.id===pid)||{init:-99}).init,ix=pid=>G.players.findIndex(q=>q.pid===pid);
+  const p=[...ps].sort((a,b)=>statMod(b,'AGI')-statMod(a,'AGI')||io(b.pid)-io(a.pid)||ix(a.pid)-ix(b.pid))[0];
+  F.sneak=1;F.sneakBy=p.pid;F.group=[p.pid];F.pend={};F.cur=null;F.resolving=0;F.turn=0;
+  out(`你們先發現了對方。趁還沒被察覺，${MP()?nm(p)+'（全隊動作最快）':'你'}可以先偷襲一下：<b>這一擊一定打中</b>。偷襲完照擲好的先攻開始。`,'rule',true);
+  G.phase='fight';stopCd();if(MP()&&G.opts.cd==='force')startTurnCd();push();draw();return true}
+// 房主換人、讀檔：還在等人選就重新開放；已經在結算、或執行者不在了就不補（不能多送一次傷害）
+function sneakResume(){const F=G.fight;if(!F||!F.sneak)return false;const p=P(F.sneakBy);
+  if(F.sneak===1&&p&&able().includes(p)&&sneakCan(p)){F.group=[p.pid];F.pend={};F.resolving=0;F.cur=null;push();draw();return true}
+  sneakDrop(F);return false}
+function sneakDrop(F){F.sneak=0;F.sneakBy=null;F.group=null;F.pend={};F.resolving=0;F.cur=null;F.turn=0;F.round=Math.max(1,F.round||0);F.first=false}
+async function sneakRun(){const F=G.fight;if(!F||F.sneak!==1)return;stopCd();F.sneak=2;F.resolving=1;
+  const p=P(F.sneakBy),a=F.pend[F.sneakBy]||{a:'atk',h:'R'};F.cur=F.sneakBy;push();draw();let used=false;
+  if(a.a==='atk'&&p&&able().includes(p)){const ti=a.t!=null&&F.foes[a.t]&&!F.foes[a.t].dead&&!F.foes[a.t].hid?a.t:(aliveF().find(f=>!f.hid)||aliveF()[0]||{}).id;used=await attack(p,a.h==='L'?'L':'R',null,ti,false,null)}
+  if(!G.fight||G.over)return;
+  if(!used)out(a.a==='pass'?`${p?nm(p):'你們'}沒有出手，等著看對方怎麼動。`:`${p?nm(p):'你們'}錯過了偷襲的機會。`,'sys',true);
+  sneakDrop(F);push();draw();if(!liveF().length){await endFight();return}await advance()}
 async function fright(fs,act){if(!fs.length)return;act=act||able();if(!act.length)return;
   const tdc=Math.max(...fs.map(f=>FT(f).tdc)),ter=Math.max(...fs.map(f=>FT(f).ter));
   const ts=act.map(p=>{const R=r2(),m=statMod(p,'CHA')+(tr(p,'calm')?3:0)+checkBonus(p,'CHA');const j=judge(R,R.s+m,tdc+(fstg(p)>=2?2:0));return {p,R,m,j,ok:j==='ok'||j==='crit'}});
-  await dice({label:'驚嚇檢定',sub:`統帥 d20${DF().num?`　難度 ${tdc}`:''}`,quick:true,dice:ts.flatMap(x=>pairDice(x.R,MP()?esc(x.p.name).slice(0,4):'').map(d=>({...d,cls:x.ok?'ok':'ng'}))),
-    result:ts.length===1?`${eqS(ts[0].R.a,ts[0].m,ts[0].R.s+ts[0].m)}<span class="${ts[0].ok?'s':'f'}">${ts[0].ok?'穩住了':'動搖'}</span>`:ts.map(x=>`<small class="ln">${esc(x.p.name)}　${x.R.a} ${sgS(x.m)} = ${x.R.s+x.m}　${x.ok?'穩住了':'動搖'}</small>`).join('')});
-  for(const x of ts){const ok=x.ok;if(!ok)out(`${MP()?nm(x.p)+'：':''}${pick(['看到牠的臉，胃裡一陣翻攪。','腦袋一片空白，有好幾秒想不起自己在哪裡。','腿軟了一下，差點站不住。'])}`,'bad',true);else if(ter>0)out(`${nm(x.p)}穩住呼吸，這次的驚嚇減輕了。`,'good',true);const n=resistValue(RESIST_EFFECTS.fright,ok,S2F(ter));if(n>0)scare(x.p,n)}}
+  /* v0.66.0 驚嚇是被動的心理抵抗：背景擲（難度、統帥、冷靜 +3、緊繃 +2 難度、成功減半照舊），不跳骰子畫面 */reportEffects();
+  for(const x of ts){out(bgTag(x.p,'CHA','抵抗',x.j),'roll',true);const ok=x.ok;if(!ok)out(`${MP()?nm(x.p)+'：':''}${pick(['看到牠的臉，胃裡一陣翻攪。','腦袋一片空白，有好幾秒想不起自己在哪裡。','腿軟了一下，差點站不住。'])}`,'bad',true);else if(ter>0)out(`${nm(x.p)}穩住呼吸，這次的驚嚇減輕了。`,'good',true);const n=resistValue(RESIST_EFFECTS.fright,ok,S2F(ter));if(n>0)scare(x.p,n)}}
 // 獵食者現身或被找到：顯示名字與立繪，補一次驚嚇檢定
 async function revealLurk(f,say){f.hid=0;nameFoes(G.fight.foes);if(say)say();push();draw();if(FT(f).ter)await fright([f])}
 async function advance(){
@@ -7915,6 +7951,7 @@ async function advance(){
   for(let guard=0;guard<60;guard++){
     if(G.over||!G.fight)return;
     if(!liveF().length){await endFight();return}
+    if(!F.order.length){await rollInit('normal');if(!G.fight||G.over)return;if(!F.order.length){await endFight();return}F.turn=0}/* v0.66.0 舊存檔的偷襲輪轉換後補擲先攻 */
     const o=F.order[F.turn];
     if(o.k==='p'){
       // 發瘋的人自己亂打
@@ -7930,7 +7967,7 @@ async function advance(){
 }
 async function nextTurn(){
   const F=G.fight;if(!F)return;F.turn++;F.cur=null;
-  if(F.turn>=F.order.length){if(F.sneak){F.sneak=0;await rollInit('normal');F.turn=0;F.round=1;return}await roundEnd();F.turn=0;F.round++;await alarmJoin()}
+  if(F.turn>=F.order.length){await roundEnd();F.turn=0;F.round++;await alarmJoin()}
 }
 // v0.55.0 警戒滿了的最後一波亂入：預告的下一輪開始時加入戰局（先攻重排、羅馬數字編號、配樂切激戰段）
 async function alarmJoin(){const F=G.fight;const R=F&&F.reinf;if(!R||R.in||F.round<=R.r||G.over)return;R.in=1;
@@ -8045,9 +8082,10 @@ function hurt(t,d,txt){t.shdHit=null;
     if(d<=0)return;txt='';}
   t.hp-=d;t.taken=(t.taken||0)+d;out(`${MP()?nm(t)+'：':''}${txt}生命 −${d}，剩 ${Math.max(0,t.hp)}。`,'dmg')}
 // 傷害型 QTE：成功 0 傷害、不擲命中骰；失敗擲傷害骰受傷（不會爆擊）
-// v0.65.0 起只剩獵食者飛撲、狙擊手狙擊（掩體）走這裡；其他八招改成危險檢定（hzHit）
+// v0.66.0（主人 2026-11-25 第 3.3 節）：只剩感染者撲倒、獵食者飛撲。攻擊敘述和 QTE 同時出現：敘述直接顯示（不逐字打），前面還在打的字一起補完，不吃掉反應時間
 async function qteHit(f,mv,t){
-  const ok=await qte(t,{t:`${f.n}：${mv.n}——${MP()?esc(t.name):'你'}`,w:mv.qw});
+  if(mv.cue)out(`<b>${f.n}</b>${mv.cue}`,'bad',true);
+  const ok=await qte(t,{t:`${f.n}：${mv.n}——${MP()?esc(t.name):'你'}`,w:mv.qw,now:1});
   if(ok){snd('whoosh');out(`${MP()?nm(t):'你'}${mv.flame?'及時撲倒，火舌從頭頂掃了過去。':mv.cover?'撲進掩體後面，子彈打在水泥上。':'及時反應，躲開了這一下。'}`,'good');return false}
   if(mv.cover)return true; // 硬掩體沒躲到：照一般狙擊擲 d20
   return await bigHit(f,mv,t,0)}
@@ -8062,25 +8100,26 @@ async function bigHit(f,mv,t,part){
    st：沒有有效防守時用的能力；bs：有效防守（g＝格擋 block／掩蔽 cover）時改用的能力並 +2，沒寫＝沒有防守加成；
    k：dodge＝成功完全避開，part＝成功部分命中。DC 普通、困難、真實相同。 */
 const HZMV={
- 'infected/撲倒':{st:'STR',g:'block',bs:'STR',dc:11,k:'dodge'},
  'incubator/丟擲囊泡':{st:'AGI',g:'cover',bs:'AGI',dc:12,k:'dodge'},
  'incubator/噴吐':{st:'AGI',dc:12,k:'part'},
  'devourer/震盪重擊':{st:'AGI',g:'block',bs:'STR',dc:13,k:'dodge'},
  'cutter/割喉':{st:'AGI',g:'block',bs:'STR',dc:14,k:'dodge'},
  'harvester/收割':{st:'AGI',g:'block',bs:'STR',dc:15,k:'dodge'},
  'arsonist/投擲燃燒瓶':{st:'AGI',dc:12,k:'dodge'},
- 'acru_flamer/噴火':{st:'AGI',dc:14,k:'part'}};
+ 'acru_flamer/噴火':{st:'AGI',dc:14,k:'part'},
+ 'acru_sniper/狙擊':{st:'AGI',g:'cover',bs:'AGI',dc:15,k:'dodge'}};/* v0.66.0（主人 2026-11-25 第 3 節）：撲倒改回瞬間 QTE；狙擊改敏捷豁免，有效掩蔽 +2，失敗照原本擲命中 */
 const hzOf=(f,mv)=>f&&mv&&HZMV[f.type+'/'+mv.n]||null;
 // 有效防守：本回合選了對應的防守，而且這一招吃得到（盲目的敵人、遠近不合都不算）；力量高或拿盾牌不會自動算
 const hzGuard=(t,f,mv,H)=>!!(H&&H.g&&H.bs&&t.stance===H.g&&stanceOf(t,f,mv).half);
 const HZPART={'噴吐':'沒有被正面噴中，只濺到一部分。','噴火':'撲向一旁，火舌只掃到邊緣。'};
-const HZOK={STR:'硬是頂住了這一下，沒讓對方得手。',AGI:'及時閃開，躲過了這一下。',fire:'及時撲倒，火舌從頭頂掃了過去。',cover:'縮在掩體後面，囊泡砸在掩體上破開。'};
+const HZOK={STR:'硬是頂住了這一下，沒讓對方得手。',AGI:'及時閃開，躲過了這一下。',fire:'及時撲倒，火舌從頭頂掃了過去。',cover:'縮在掩體後面，囊泡砸在掩體上破開。',snipe:'看到紅點的瞬間整個人趴了下去，子彈從頭頂擦了過去。',snipeCover:'縮進掩體後面，子彈打在水泥上。'};
 // 擲一次危險檢定：回傳 dodge／part／hit；沿用一般檢定（自然 1 失敗、20 成功），不影響劇情主檢定的 LASTJ
 async function hzRoll(f,mv,t,H){const gd=hzGuard(t,f,mv,H),st=gd?H.bs:H.st;const prior=LASTJ;let c;
-  try{c=await check(t,st,H.dc,`${gd?(H.g==='block'?'格擋':'掩蔽'):st==='STR'?'抵住':'躲開'}${mv.n}`,gd?2:0)}finally{LASTJ=prior}
+  try{c=await check(t,st,H.dc,`${gd?(H.g==='block'?'格擋':'掩蔽'):st==='STR'?'抵住':'躲開'}${mv.n}`,gd?2:0,{bg:'豁免'})}finally{LASTJ=prior}
   return c.ok?H.k:'hit'}
 async function hzHit(f,mv,t,H){const r=await hzRoll(f,mv,t,H);if(!G.fight||t.dead||t.down)return false;
-  if(r==='dodge'){const gd=hzGuard(t,f,mv,H);snd('whoosh');out(`${MP()?nm(t):'你'}${mv.flame?HZOK.fire:gd&&H.g==='cover'?HZOK.cover:HZOK[gd?H.bs:H.st]}`,'good');return false}
+  if(r==='dodge'){const gd=hzGuard(t,f,mv,H);snd('whoosh');out(`${MP()?nm(t):'你'}${mv.flame?HZOK.fire:mv.snipe?(gd?HZOK.snipeCover:HZOK.snipe):gd&&H.g==='cover'?HZOK.cover:HZOK[gd?H.bs:H.st]}`,'good');return false}
+  if(mv.cover)return true; // 狙擊：沒躲開照原本擲命中（穿甲、掩蔽防禦照舊），不是必中
   return await bigHit(f,mv,t,r==='part'?1:0)}
 // 一次攻擊打一個目標：hits 發，每發各自判定（d20）
 async function foeHit(f,mv,t,hits){const F=G.fight,T=FT(f);if(!F||!t||t.dead||t.down||t.hp<=0||hits<=0)return;beginBattleBgmOnce();let firstHit=1;const wx={damage:0,crit:false,shield:false,control:false};
@@ -8209,8 +8248,7 @@ async function predAct(f){
   const n=f.lost1?1:2;f.lost1=0;
   for(let i=0;i<n;i++){if(!G.fight||G.over||f.dead||f.hp<=0||!able().length)break;if(i)await ldb();
     const mv=pickMove(f),t=foeTarget(f,mv);if(!t)break;setCd(f,mv);
-    if(mv.cue){out(`<b>${f.n}</b>${mv.cue}`,'bad');push();draw()}
-    await hitOrRival(f,mv,t)}}
+    await hitOrRival(f,mv,t)}}/* v0.66.0 飛撲的敘述改在 qteHit 和 QTE 同時出現 */
 // 收割者：有效負面狀態（流血、燃燒、骨折、失衡、被抓住）
 const negOk=q=>!!q&&(q.bleed>0||q.burn>0||(q.frac&&!q.pk)||q.unbal||q.held);
 async function harvAct(f){const base=!f.lost1;f.lost1=0;
@@ -8365,7 +8403,7 @@ async function attack(p,h,sk,ti,counter,csk){
   if(gunBurst){preR=[];for(let i=0;i<shots;i++)preR.push(r2());
     const t0=(!t||t.dead||t.hp<=0)?aliveF()[0]:t;
     if(t0){const def=fDef(t0,true),pm=sm+hb;let pr=!!t0.prone;
-      const J=preR.map(R=>{const tot=R.s+pm,j=judge(R,tot,def),hit=j==='crit'||(j!=='fumble'&&(pr||!!(G.fight&&G.fight.sneak)||tot>=def));if(hit)pr=false;return {R,tot,j,hit}});
+      const J=preR.map(R=>{const tot=R.s+pm,j=sneakJ(judge(R,tot,def)),hit=j==='crit'||(j!=='fumble'&&(pr||!!(G.fight&&G.fight.sneak)||tot>=def));if(hit)pr=false;return {R,tot,j,hit}});
       const jwJ=x=>x.j==='crit'?'爆擊':x.j==='fumble'?'大失敗':x.hit?'命中':'落空',nH=J.filter(x=>x.hit).length,anyC=J.some(x=>x.j==='crit');
       await dice({label:`${counter?'反擊・':''}${w.n}（${shots} 連發）　→　${t0.n}`,sub:`${STN[st]}　d20 ${sgn(pm)}`,
         dice:J.map((x,i)=>({sides:20,val:x.R.a,cap:`第${i+1}發`})),
@@ -8375,10 +8413,10 @@ async function attack(p,h,sk,ti,counter,csk){
     if(!t||t.dead||t.hp<=0)t=aliveF()[0];if(!t)break;
     if(w.kind==='gun'&&!g.mag){snd('dryfire',1,350);out('扳機扣下去，只剩空響。彈匣空了。','sys');break}
     if(w.kind==='ranged'&&!hasI(p,w.ammo))break;
-    const targets=spread?aliveF():[t];
+    const targets=spread&&!F.sneak?aliveF():[t];/* v0.66.0 偷襲只打一個目標 */
     const rgA=w.kind!=='melee';
     // v0.30.0（主人 2026-11-17）：橫掃、噴火器對每個目標各擲一次命中，各自算爆擊、大失敗（脫手最多一次）
-    const lines=targets.map(x=>{const R=preR?preR[s]:r2(),tot=R.s+sm+hb,j=judge(R,tot,fDef(x,rgA));return {x,R,tot,crit:j==='crit',fum:j==='fumble',hit:j==='crit'||(j!=='fumble'&&(!!x.prone||!!(G.fight&&G.fight.sneak)||tot>=fDef(x,rgA)))}});
+    const lines=targets.map(x=>{const R=preR?preR[s]:r2(),tot=R.s+sm+hb,j=sneakJ(judge(R,tot,fDef(x,rgA)));return {x,R,tot,crit:j==='crit',fum:j==='fumble',hit:j==='crit'||(j!=='fumble'&&(!!x.prone||!!(G.fight&&G.fight.sneak)||tot>=fDef(x,rgA)))}});
     const anyH=lines.some(l=>l.hit),fum=lines.some(l=>l.fum),anyC=lines.some(l=>l.crit),L0=lines[0],nH=lines.filter(l=>l.hit).length;
     const jw=l=>l.crit?'爆擊':l.fum?'大失敗':l.hit?'命中':'落空',multi=lines.length>1;
     for(const l of lines)if(!l.hit)l.x.mc=(l.x.mc||0)+1; // v0.30.0 敵人卡浮字：未命中
@@ -8489,12 +8527,13 @@ async function fightAct(pid,a){
   if(a.a==='dodge')return; // 拒絕舊客戶端指令，不提交或消耗行動
   const F=G.fight;if(!F||G.over||!F.group||F.resolving||!F.group.includes(pid))return;
   const p=P(pid);if(!p||p.dead||p.down||!teamHere(p))return;
+  if(F.sneak){if(F.sneak!==1||pid!==F.sneakBy||!((a.a==='atk'&&!a.sk&&!a.csk)||a.a==='pass'))return;F.pend[pid]=a;push();draw();await resolveGroup();return}/* v0.66.0 偷襲只收執行者的一次普通攻擊或放棄 */
   if(a.a==='counter'||a.a==='brace'||(a.a==='csk'&&CSKILL[a.id]&&CSKILL[a.id].free)){await execAct(p,a);push();draw();return}
   F.pend[pid]=a;push();draw();
   if(F.group.every(x=>F.pend[x]||!able().some(q=>q.pid===x)))await resolveGroup();
 }
 async function resolveGroup(){
-  const F=G.fight;if(!F||!F.group)return;stopCd();F.resolving=1;
+  const F=G.fight;if(!F||!F.group)return;if(F.sneak){await sneakRun();return}stopCd();F.resolving=1;
   for(let i=F.gStart;i<F.gEnd;i++){
     if(!G.fight||G.over)return;
     const o=F.order[i];const p=P(o.id);if(!F.group.includes(o.id)||!p||p.dead||p.down||p.away||!teamHere(p))continue;
@@ -8765,7 +8804,7 @@ function handle(pid,a){
   if(a.a==='lock')return run(async()=>{zLockNote(a.i)});
   if(G.phase==='shop'&&G.shop&&!p.down&&!p.mad){if(a.a==='buy')return run(async()=>{shopBuy(p,a.i)});if(a.a==='sell')return run(async()=>{shopSell(p,a.k)});if(a.a==='sellg')return run(async()=>{shopSellG(p,a.u)});if(a.a==='shopdone')return run(()=>shopReady(p))}
   if(G.phase==='gw'&&a.a==='gwgo'&&!p.down&&!p.mad)return run(()=>groundGo(p));
-  if(G.fight&&['atk','tact','reload','unjam','cock','pickup','kick','counter','brace','molotov','ext','flash','flee','use','revive','equip','guard','free','block','cover','dual','calm','subdue','csk','spot','pat','tool'].includes(a.a))return run(()=>fightAct(pid,a));
+  if(G.fight&&['atk','tact','reload','unjam','cock','pickup','kick','counter','brace','molotov','ext','flash','flee','use','revive','equip','guard','free','block','cover','dual','calm','subdue','csk','spot','pat','tool','pass'].includes(a.a))return run(()=>fightAct(pid,a));
   if(G.fight)return;
   if(p.down)return;
   if(a.a==='use')return run(async()=>{await useItem(p,a.k,a.to,a.part)});
@@ -8785,7 +8824,7 @@ function handle(pid,a){
 }
 
 /* ---- 遭遇：戰鬥開始時亮出敵人的立繪 ---- */
-function encounterMarkup(d,mode){const title=mode==='first'?'我方先制':mode==='ambush'?'敵方突襲':'遭遇戰';const note=mode==='first'?'偷襲完成後再擲先攻':mode==='ambush'?'反應成功可解除敵方先攻加成':'行動順序由先攻決定';
+function encounterMarkup(d,mode){const title=mode==='first'?'我方先制':mode==='ambush'?'敵方突襲':'遭遇戰';const note=mode==='first'?'動作最快的人先偷襲一次':mode==='ambush'?'突襲的敵人先攻佔優勢':'行動順序由先攻決定';
   return `<div class="enc-state">${title}<small>${note}</small></div><div class="row">${d.map(x=>`<figure>${x.img?`<img src="img/${esc(x.img)}.webp" alt="${esc(x.n)}">`:'<i></i>'}<figcaption>${esc(x.n)}</figcaption></figure>`).join('')}</div>`}
 function battleState(){const F=G&&G.fight;if(!F)return '';if(F.sneak)return '我方先制';if(F.round>1)return '戰鬥中';if(F.order&&F.order.length)return F.order[0].k==='f'?'敵人先制':'我方先制';return F.opening==='first'?'我方先制':F.opening==='ambush'?'敵方突襲':'遭遇戰'}
 async function encounter(foes,mode){if(G&&G.stg&&G.stg.k!=='end'){await stgWait(G.stg.id);return}const d=foes.filter(f=>!lurkHid(f)).map(f=>({n:f.n,img:f.img||'',mode:mode||'normal'}));if(!d.some(x=>x.img))return;await flush();E('enc',d);await showEnc(d)}
@@ -8897,7 +8936,7 @@ function qteSeq(n,words){const seq=[];let last=null;
   return seq}
 // 回傳 true＝反應過來了
 async function qte(p,o){
-  await flush();
+  if(o.now)skipType=true;/* v0.66.0 戰鬥瞬間 QTE：還在逐字打的字直接補完，QTE 立刻開始 */await flush();
   const D=QTE_D[G.opts.diff]||QTE_D.hard;const n=clamp((o.n||urnd(D.n[0],D.n[1])),3,D.n[1]);
   const words=o.w&&o.w.length?o.w:['閃避','後退','站穩','閃避'];
   const id=G.rid+'-'+(++QSEQ);const spec={id,to:p.pid,per:qtePer(p),t:o.t,seq:qteSeq(n,words)};
@@ -8958,6 +8997,9 @@ const HAZ={
 };
 // 只標記既有物理意外；不把污染、火焰或持續扣血變成部位傷勢。
 for(const [ch,types] of [[1,['blunt','blunt','blunt','slash','slash']],[2,['blunt','blunt','blunt','blunt','pierce']]])HAZ[ch].forEach((h,i)=>h.woundDt=types[i]);
+/* v0.66.0（主人 2026-11-25 第 4.2 節，選 B）：十種隨機意外改成背景敏捷豁免（不再是 QTE）。通風口的手還沒抓到人，是躲開的事：敏捷。
+   出現機率、挑人、傷害、感染、流血、傷勢、警戒、音效、冷卻都照舊。 */
+for(const [ch,dcs] of [[1,[11,11,12,12,12]],[2,[12,13,12,12,11]]])HAZ[ch].forEach((h,i)=>{h.st='AGI';h.dc=dcs[i]});
 async function hazard(nd){
   if(G.over||G.fight||!nd||nd.noHaz||nd.trade||nd.rest)return false;
   if(G.hazCd>0){G.hazCd--;return false}
@@ -8965,8 +9007,8 @@ async function hazard(nd){
   const ts=able();if(!ts.length)return false;
   G.hazCd=3;const p=pick(ts);const H=pick(HAZ[G.ch>=2?2:1]);
   out(MP()?`${nm(p)}——${H.t}`:H.t,'bad');push();draw();
-  const ok=await qte(p,{t:H.t,w:H.w});
-  await applyHaz(p,H,ok);return !!G.over}
+  const prior=LASTJ;let c;try{c=await check(p,H.st,H.dc,'躲開意外',0,{bg:'豁免'})}finally{LASTJ=prior}
+  await applyHaz(p,H,c.ok);return !!G.over}
 async function applyHaz(p,H,ok){
   if(ok){out(H.ok,'good');await deathCheck();return}
   out(`${MP()?nm(p)+'：':''}${H.ng}`,'dmg');
@@ -8977,18 +9019,7 @@ async function applyHaz(p,H,ok){
   await woundImpact(null,{n:'環境撞擊',dt:H.woundDt||null},p,{damage:d,crit:false,shield:false,control:false});
   if(H.alarm)addAlarm(H.alarm,p);
   loseSan(p,1);push();draw();await deathCheck()}
-/* ---- 被偷襲：第一個被撲的人有機會反應 ---- */
-async function ambushQte(){
-  const f=aliveF()[0];const p=foeTarget(f);if(!f||!p)return false;
-  beginBattleBgmOnce();
-  const t=`${f.n}從暗處撲了出來，直衝${MP()?esc(p.name):'你'}——`;
-  out(MP()?`${nm(p)}——${t}`:t,'bad');
-  const ok=await qte(p,{t,w:['閃避','格擋','推開','後退']});
-  if(ok){out(`${MP()?nm(p):'你'}在最後一刻側身讓開。牠撲了個空，偷襲落空了。`,'good');return true}
-  const T=FT(f);const d=Math.max(1,Math.round(T.dmg*DF().dmg))-armorOf(p);const dd=Math.max(1,d);
-  snd(((MOVES[f.type]||[])[0]||{}).hs||'claw',.9);p.hp-=dd;p.taken=(p.taken||0)+dd;out(`${MP()?nm(p)+'：':''}${pick(BITE)}生命 −${dd}，剩 ${Math.max(0,p.hp)}。`,'dmg');
-  if(T.inf[1]>0){const b=p.inf;addInf(p,rnd(T.inf[0],T.inf[1]));if(p.inf>b)out(`傷口沾到了牠的體液。感染 +${p.inf-b}。`,'dmg',true)}
-  push();draw();await deathCheck();return false}
+/* v0.66.0 偷襲開場的 QTE（ambushQte）拿掉了：敵方突襲只給突襲者先攻 +4，不扣血、不反應（主人 2026-11-25 第 6.3 節選 C） */
 /* ---- 劇情裡寫好的 QTE：結果裡放 qte:{t,lab,ok:{...},ng:{...}} ---- */
 async function storyQte(res,actor){
   const q=res.qte;const p=actor&&!actor.dead&&!actor.down?actor:able()[0];if(!p)return null;
@@ -9003,7 +9034,7 @@ async function storyHz(res,actor){
   if(q.t)out(MP()?`${nm(p)}——${q.t}`:q.t,'bad');
   let sub,good=true;
   if(q.mask&&q.mk&&maskWorn(p)&&p.mf>0)sub=q.mk;
-  else{const prior=LASTJ;let c;try{c=await check(p,q.st,q.dc,q.l||STN[q.st]+'檢定',0)}finally{LASTJ=prior}sub=c.ok?q.ok:q.ng;good=c.ok}
+  else{const prior=LASTJ;let c;try{c=await check(p,q.st,q.dc,q.l||STN[q.st]+'檢定',0,q.vis?null:{bg:q.bk||'豁免'})}finally{LASTJ=prior}sub=c.ok?q.ok:q.ng;good=c.ok}/* v0.66.0 被動的危險在背景擲；vis＝玩家自己選了要做的事，照樣跳骰子 */
   if(sub){if(sub.t)out(sub.t,good?'good':'bad');await outcome(sub,p)}
   return sub}
 
@@ -9136,7 +9167,7 @@ function becomeHost(peers){const old=G.host;ROLE='host';NET.started=1;NET.late={
   // 修復交接時正在進行的流程
   busy=false;RQ.length=0;G.busy=0;
   if(G.stg){const s=G.stg;s.el=Math.min(s.dur,stgPast(s));s.at=Date.now();run(async()=>{await stgWait(s.id);stgClose(s.id)})}
-  if(G.fight){const F=G.fight;F.resolving=0;F.cur=null;F.group=null;F.pend={};if(F.order&&F.order.length)run(advance);else run(async()=>{await rollInit('normal');if(G.fight&&G.fight.order.length)await advance()})}/* v0.65.0 開場演出中換房主：還沒擲先攻就補擲 */
+  if(G.fight){const F=G.fight;F.resolving=0;F.cur=null;F.group=null;F.pend={};if(F.sneak&&sneakResume()){}/* v0.66.0 偷襲還在等人選：重新開放，不補、不重送 */else if(F.order&&F.order.length)run(advance);else run(async()=>{await rollInit('normal');if(G.fight&&G.fight.order.length)await advance()})}/* v0.65.0 開場演出中換房主：還沒擲先攻就補擲 */
   else if(G.phase==='node'&&voters().length&&voters().every(p=>G.votes[p.pid]!=null))resolveVote();
   push();draw();setTimeout(fullSync,300)}
 const LOBBY={opts:{cd:'off',sec:20,diff:'normal'}};
@@ -9801,7 +9832,7 @@ function draw(){
     fltScan(F);
     $('#foes').innerHTML=F.foes.map(f=>{const dead=f.dead||f.hp<=0;const st=dead?[]:foeBadges(f);const hp=dead?0:f.hp;
       return `<div class="foe ${pend&&!dead?'pick':''} ${!dead&&F.cur==='f'+f.id?'tg':''} ${dead?'dead':''}" data-id="${f.id}" ${pend&&!dead?`data-tgt="${f.id}"`:''}><div class="fpic">${f.img&&!lurkHid(f)?`<img src="${foeImg(f)}" alt="">`:'<i>?</i>'}</div><div class="fin"><div class="fh"><b>${f.n}</b></div><div class="fhp"><div class="hpb" data-hk="${foeHk(f)}"><s style="width:${Math.max(0,hp)/f.max*100}%"></s><u style="width:${Math.max(0,hp)/f.max*100}%"></u></div><span>${lurkHid(f)?'？':`${hp}/${f.max}`}</span></div><div class="fk">${DF().num===0||lurkHid(f)?'':`<em>防禦 ${fDef(f)}${f.hcov?`（遠程 ${fDef(f,1)}）`:''}</em>`}${f.defDown?'護甲破損':''}</div><div class="fk fk2">${(lurkHid(f)?'弱點：？':knowTxt(f)).split('　').map(x=>`<span>${x}</span>`).join('')}</div>${dead?(f.fled?'<div class="fst"><span class="bd">離開</span></div>':''):st.length?`<div class="fst">${st.join('')}</div>`:''}</div></div>`}).join('');
-    $('#order').innerHTML=`<span class="rd">${battleState()}</span>`+(F.order.length?`<span class="rd">第 ${F.round} 回合</span>`+F.order.map((o,i)=>{if(o.k==='p'){const p=P(o.id);return `<span class="pl ${o.id===MYPID?'me':''} ${(F.group&&!F.resolving?F.group.includes(o.id):i===F.turn)?'now':''} ${p.dead||p.down||p.away||!teamHere(p)?'gone':''}" style="${MP()?`color:${p.col}`:''}">${esc(p.name)}<em>${o.init}</em></span>`}const f=F.foes[o.id];return `<span class="fo ${i===F.turn?'now':''} ${f.dead||f.hp<=0?'gone':''}">${f.n}<em>${o.init}</em></span>`}).join(''):'<span class="rd">擲骰中</span>');
+    $('#order').innerHTML=`<span class="rd">${battleState()}</span>`+(F.order.length?`<span class="rd">${F.sneak?'偷襲':`第 ${F.round} 回合`}</span>`+F.order.map((o,i)=>{if(o.k==='p'){const p=P(o.id);return `<span class="pl ${o.id===MYPID?'me':''} ${(F.group&&!F.resolving?F.group.includes(o.id):i===F.turn)?'now':''} ${p.dead||p.down||p.away||!teamHere(p)?'gone':''}" style="${MP()?`color:${p.col}`:''}">${esc(p.name)}<em>${o.init}</em></span>`}const f=F.foes[o.id];return `<span class="fo ${i===F.turn?'now':''} ${f.dead||f.hp<=0?'gone':''}">${f.n}<em>${o.init}</em></span>`}).join(''):'<span class="rd">擲骰中</span>');
     hpRun($('#foes'));fltRun($('#foes'));
   }else{cb.hidden=true;for(const k in HPA)if(k[0]==='f')delete HPA[k];for(const k in FPV)delete FPV[k];FLT.length=0}
   for(const p of G.players)hpSet('p'+p.pid,p.dead?0:Math.max(0,p.hp)/p.max);
@@ -9878,6 +9909,8 @@ function cskBtns(m,hs){const k=m.skill,C=CSKILL[k],left=skLeft(m,k);const tag=C.
   return chBtn(`data-fa="csk" data-id="${k}"`,C.n,C.d,tag,'t-x',!left)}
 function fightMenu(m){
   const hs=atkHands(m);
+  if(G.fight.sneak)return '<p class="note">偷襲：選一隻手普通攻擊一次。這一下一定打中，不會爆擊。</p>'+hs.map(x=>{const blocked=(x.base.kind==='gun'&&x.g&&x.g.jam&&!x.bash)||(x.base.cock&&x.g&&!x.g.cocked&&!x.bash);
+      return chBtn(`data-fa="atk" data-h="${x.h}"`,`${x.lab}・${x.w.n}`,wLine(m,x.w,x.bash?null:x.g,x.h)+(blocked?'　（要先處理）':''),'','t-ck',blocked)}).join('')+chBtn('data-fa="pass"','不偷襲','放掉這次機會，照先攻開始','','t-x');/* v0.66.0 */
   if(FTAB==='atk'){return (canDual(m)?chBtn('data-fa="dual"','雙持攻擊',`左右手各普通攻擊一次（${hs.map(x=>x.w.n).join('、')}）；每下命中 −1、傷害 −1，耐久與子彈照扣`,'','t-ck'):'')+hs.map(x=>{const blocked=(x.base.kind==='gun'&&x.g&&x.g.jam&&!x.bash)||(x.base.cock&&x.g&&!x.g.cocked&&!x.bash);
       return chBtn(`data-fa="atk" data-h="${x.h}"`,`${x.lab}・${x.w.n}`,wLine(m,x.w,x.bash?null:x.g,x.h)+(blocked?'　（要先處理）':''),hitTag(m,x.w,x.h,null),'t-ck',blocked)}).join('')+backBtn()}
   if(FTAB==='skill'){let h='<p class="note">武器技能</p>';let any=false;
@@ -10316,7 +10349,7 @@ function startMP(){
     NET.started=1;setPres();
     out('—— 冒險繼續 ——','hd',true);out('上一次的調查中斷了。大家回到中斷前的那個地方，接著走。','sys',true);
     for(const p of G.players)out(p.away?`【連線通知】${nm(p)}尚未連線，暫停參與行動。`:`${nm(p)}（生命 ${Math.max(0,p.hp)}／${p.max}、${fstgN(p)}）`,'sys',true);
-    reportEffects(true);reportGround();fullSync();showGame();if(G.fight&&!G.fight.group)run(advance);else{startCd();push();draw()}
+    reportEffects(true);reportGround();fullSync();showGame();if(G.fight&&G.fight.sneak)sneakResume();if(G.fight&&!G.fight.group)run(advance);else{startCd();push();draw()}
     zRelocate();return}
   newRun(ps.map(p=>Object.assign({},p.build,{pid:p.pid})),LOBBY.opts,'mp');
   NET.started=1;setPres();fullSync();showGame();run(()=>enterNode('A1'));
