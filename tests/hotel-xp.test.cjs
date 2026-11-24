@@ -100,6 +100,9 @@ test('文字合理：生物災難不是靈異，東西不會自己動；停電�
   assert.ok(!txt.includes(s),'旅館文字不該再出現：'+s);
  assert.match(g.run('N.AO4.t'),/外套的肩膀/,'301 貓眼：門外靠著的是一個穿著衣服的人');
  assert.match(g.run('N.AD3.t'),/點東西照明/,'煙霧偵測器有原因');
+ // v0.64.1：瓦斯總閥關掉之後，一樓的文字不能還在漏氣（主人 2026-11-24 23:15）
+ const gasT=()=>g.run("(()=>{const o=[];for(const id of Object.keys(N)){if(N[id].L!=='E'||['E1s','E1g','E7','F1','F2y','ED2','D4'].includes(id))continue;let cs=[];try{cs=N[id].c||[]}catch(e){}for(const c of cs)for(const r of [c.ok,c.ng,...(c.tb||[])]){if(!r)continue;let t='';try{t=r.t||''}catch(e){}if(/嘶嘶|漏氣/.test(t))o.push(id)}}return o.join()})()");
+ g.run('G.flags.gasoff=1');assert.equal(gasT(),'','關了瓦斯還寫嘶嘶聲');g.run('delete G.flags.gasoff');assert.match(gasT(),/ED6/,'沒關的時候照舊');
 });
 
 test('存讀檔、種子：二樓走到一半存檔讀回來，下一個情境一樣；v0.63.1 的舊存檔停在二樓以下，接在走到的地方',async()=>{

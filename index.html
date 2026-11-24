@@ -700,7 +700,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.64.0", "b": 136, "t": "2026-11-24T21:33:28+08:00"};
+const ZC_VER={"v": "0.64.1", "b": 137, "t": "2026-11-24T23:16:50+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -5817,7 +5817,7 @@ ED6:{L:'E',n:'員工廚房・出菜口',deck:'E',seg:'k',
 
 你把單子抽走，退回來。他沒有抬頭。`,p:{fear:4}},ng:{t:`你走到出菜口前面，他的頭抬了起來。`,p:{fear:6},fight:{n:1,mode:'ambush',names:['出菜口後面的服務生']}}},
   {t:'q',l:'伸手把服務鈴拿走',k:'AGI',d:11,s:'敏捷檢定',ok:{t:`你伸長手，把服務鈴從台子上拿下來，塞進一條毛巾裡。鈴聲沒有再響。`},ng:{t:`你的手碰到鈴，叮的一聲，比剛才都響。`,p:{alarm:2}}},
-  {t:'mv',kind:'移動',l:'不理它',ok:{t:`你沒有回頭。鈴又響了兩聲，被廚房的嘶嘶聲蓋過去了。`,p:{alarm:1}}}]},
+  {t:'mv',kind:'移動',l:'不理它',ok:{get t(){const g=GG();return g&&g.flags&&g.flags.gasoff?`你沒有回頭。鈴又響了兩聲，在安靜的廚房裡傳得很清楚。`:`你沒有回頭。鈴又響了兩聲，被廚房的嘶嘶聲蓋過去了。`},p:{alarm:1}}}]},/* v0.64.1 瓦斯關掉之後就沒有嘶嘶聲 */
 ED7:{L:'E',n:'員工廚房・洗碗區',deck:'E',seg:'k',
  t:`洗碗區的水槽滿到溢出來，水面上浮著一層油，碗盤堆在裡面。水龍頭沒關緊，一直在滴。
 
