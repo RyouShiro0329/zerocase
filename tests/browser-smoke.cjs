@@ -2,17 +2,20 @@
 // 需要 playwright（npm i -g playwright 並裝 chromium）。跑法：node tests/browser-smoke.cjs [步數，預設 40]
 // 不會自己架伺服器：run_all.sh 會在倉庫根目錄開 python3 -m http.server 8768。
 // 2026-11-16 主人：現在不測平衡，開測試用無敵模式（tests/helpers/godmode.cjs，只在測試頁注入），戰鬥不會拖住步數；
+// 2026-11-25 QA 升級 PR-A：錯誤改用 tests/helpers/browser-errors.cjs 分類（必要檔案 404 算失敗，不再整類濾掉）；
+//   環境變數 QA_DETAIL＝細節 JSON 檔路徑（run_all.sh 會給）；失敗時截圖到 test-results/screenshots/；工具自己出錯 exit 3。
 // 「有往下走」改成看走過幾個節點（原本數紀錄行數，真實模式碰上長戰鬥會隨機失敗）；一步改成等遊戲空下來才算（原本每 150ms 算一步，大半耗在擲骰動畫）。
-const {chromium}=require('playwright');const {GOD}=require('./helpers/godmode.cjs');
-const STEPS=+(process.argv[2]||40),URL='http://localhost:8768/index.html';
+const {chromium}=require('playwright');const {GOD}=require('./helpers/godmode.cjs');const BE=require('./helpers/browser-errors.cjs');const fs=require('node:fs');
+const STEPS=+(process.argv[2]||40),ORIGIN=process.env.QA_ORIGIN||'http://localhost:8768',URL=ORIGIN+'/index.html';
 const VIEWS=[[393,690,'手機窄橫向（Claude App 轉向）'],[844,390,'手機橫拿'],[1280,720,'電腦']];
 const DIFFS=['normal','hard','real'];
-(async()=>{const b=await chromium.launch();let fail=0;const say=(ok,n,x)=>{if(!ok)fail++;console.log((ok?'通過':'失敗')+'　'+n+(x?'　'+x:''))};
+const detail={steps:STEPS,views:[],checks:[]};
+(async()=>{const b=await chromium.launch();let fail=0;const say=(ok,n,x)=>{if(!ok)fail++;detail.checks.push({ok,name:n,note:x||''});console.log((ok?'通過':'失敗')+'　'+n+(x?'　'+x:''))};
 for(let i=0;i<VIEWS.length;i++){const [w,h,name]=VIEWS[i],diff=DIFFS[i];
  const ctx=await b.newContext({viewport:{width:w,height:h},hasTouch:w<1000});
  await ctx.addInitScript(()=>{setInterval(()=>{const q=document.querySelector('#qte .qbx.now:not(.done)');if(q)q.dispatchEvent(new PointerEvent('pointerdown',{bubbles:true}));const k=document.querySelector('#qcode [data-k="no"]');if(k)k.click()},120)});
- const p=await ctx.newPage();const errs=[];
- p.on('pageerror',e=>errs.push(e.message));p.on('console',m=>{if(m.type()==='error'&&!/Failed to load|net::|fonts|favicon|firebase|gstatic|ERR_/i.test(m.text()))errs.push(m.text())});
+ await BE.serve(ctx,ORIGIN,__dirname+'/..');
+ const p=await ctx.newPage();const rec=BE.watch(p,ORIGIN);const V={name,diff,viewport:[w,h],errors:rec};detail.views.push(V);
  await p.goto(URL);
  await p.evaluate(()=>{localStorage.clear();localStorage.setItem('zc5-ui',JSON.stringify({snd:0,bgm:0,spd:.3,orient:'auto'}));localStorage.setItem('zc5-meta',JSON.stringify({shards:0,unlocked:['maggie','liao'],runs:0,clears:0,got:[]}))});
  await p.reload();
@@ -21,7 +24,7 @@ for(let i=0;i<VIEWS.length;i++){const [w,h,name]=VIEWS[i],diff=DIFFS[i];
   const d=await p.$(`[data-dif="${diff}"]`);if(d)await d.click();await p.click('[data-m="go"]');
   await p.waitForFunction(()=>typeof G!=='undefined'&&G&&G.phase==='node',null,{timeout:30000});
   await p.evaluate(GOD);
- }catch(e){say(false,`${name}：開局`,e.message.split('\n')[0]);await ctx.close();continue}
+ }catch(e){say(false,`${name}：開局`,e.message.split('\n')[0]);V.shot=await BE.shot(p,'smoke-'+w+'x'+h+'-start');await ctx.close();continue}
  const nodes=new Set();let fights=0,steps=0,over=null;const log0=await p.evaluate(()=>LOG.length);
  for(;steps<STEPS;steps++){
   const st=await p.evaluate(()=>({node:G.node,over:G.over&&(G.over.dead?'死亡':G.over.end||'結束'),fight:!!G.fight}));
@@ -41,9 +44,13 @@ for(let i=0;i<VIEWS.length;i++){const [w,h,name]=VIEWS[i],diff=DIFFS[i];
  }
  // 選項按鈕要在畫面內（沒有被裁掉）
  const vis=await p.evaluate(()=>{const s=document.querySelector('#stage')||document.body;const R=s.getBoundingClientRect();const bs=[...document.querySelectorAll('#choices button')].slice(0,3);return bs.every(b=>{const r=b.getBoundingClientRect();return r.width>0&&r.left>=R.left-1&&r.right<=R.right+1})});
- say(errs.length===0,`${name}（${diff}）：${steps} 步沒有程式錯誤`,errs.slice(0,3).join(' | '));
+ say(rec.required.length===0,`${name}（${diff}）：${steps} 步沒有程式錯誤、必要檔案都載入成功`,BE.brief(rec));
+ if(rec.optional.length)console.log(`　（只記錄：外部連線等 ${rec.optional.length} 筆）`);
  const grew=await p.evaluate(n=>LOG.length-n,log0);
  say((nodes.size>=8&&grew>0)||!!over,`${name}：遊戲有往下走（走過 8 個節點以上）`,`紀錄多了 ${grew} 行、走過 ${nodes.size} 個節點、戰鬥中 ${fights} 步${over?'、結束：'+over:''}`);
  say(vis,`${name}：選項按鈕在畫面內`);
+ Object.assign(V,{steps,nodes:nodes.size,fights,over});
+ if(detail.checks.some(c=>!c.ok&&c.name.startsWith(name)))V.shot=await BE.shot(p,'smoke-'+w+'x'+h);
  await ctx.close()}
-await b.close();console.log(fail?`失敗 ${fail} 項`:'全部通過');process.exit(fail?1:0)})();
+await b.close();detail.failed=detail.checks.filter(c=>!c.ok).map(c=>c.name+(c.note?'：'+c.note:''));if(process.env.QA_DETAIL)fs.writeFileSync(process.env.QA_DETAIL,JSON.stringify(detail,null,1));
+console.log(fail?`失敗 ${fail} 項`:'這個階段的檢查都通過');process.exit(fail?1:0)})().catch(e=>{console.log('冒煙測試工具出錯：'+(e&&e.stack||e));process.exit(3)});

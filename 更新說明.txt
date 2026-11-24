@@ -1,3 +1,13 @@
+測試工具・QA 升級 PR-A 結果真實性（Claude，2026-11-25；不升版，遊戲仍是 v0.67.1・Build141）
+主人 2026-11-25 06:32 定案（基準 v0.67.1、不升版、DEEP 只手動、這次只做 QA-01、02、03、29）；說明：docs/QA_SYSTEM.md。
+- QA-01：run_all.sh 分 fast／full。每個階段只會是通過／失敗／略過／未測試／測試工具出錯（個別項目另有暫緩）。原本沒有 playwright 或 SKIP_LONG 時照樣印「全部通過」，現在只有每個階段都通過才會寫。
+- QA-02：產生 test-results/report.json、report.md（版本、Build、commit、index.html SHA-256、各階段秒數、失敗與暫緩項目）；GitHub 完整測試上傳報告與失敗截圖（artifact「test-results」），摘要顯示在 Summary。
+- QA-03：防弱化檢查：tests/guard.test.cjs 和 main 有任何不同就失敗；測試檔被刪、test 變少、skip／todo 變多出警告。
+- QA-29：瀏覽器錯誤改成逐筆分類。同網域的圖片、音效、字型 404 算失敗（以前被正規式整類吞掉）；外部連線、favicon、瀏覽器自己取消的請求只記錄。
+- 自我驗收 tests/qa-selfcheck.sh（V01～V04、V11～V13，在暫存目錄製造失敗），CI 每次都跑。
+- 沒改：index.html（和 main 逐位元相同）、素材、tests/guard.test.cjs、所有 *.test.cjs。冒煙、長路線原本的檢查項目、步數、點選邏輯都沒改，只換錯誤收集與輸出。
+- 測試：FAST 通過（防弱化檢查通過；Node 459 項：通過 458、暫緩 1）。自我驗收 8 項通過；另外把錯誤分類、run_all 故意改壞，V01、V13 會失敗（已還原）。本機用 QA_SERVE=route 跑過短版 full（冒煙 5 步、長路線 30 步）確認報告、截圖都有產生（步數太短，「走過 8 個節點」「走出旅館」照預期失敗）。完整 full 40／480 交給 GitHub。未測試：Android 實機（沒改遊戲，不需要）。
+
 零號病例 v0.67.1・Build141（Claude）
 Build時間：2026-11-25T06:05:38+08:00（Asia/Taipei）
 上一版：v0.67.0・Build140，main 4836d27（PR #67）。

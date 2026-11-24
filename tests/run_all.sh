@@ -1,19 +1,66 @@
 #!/bin/bash
-# 一次跑完全部回歸測試。用法：bash tests/run_all.sh [冒煙步數，預設 40] [長路線動作數，預設 220]
-# 1) Node 邏輯測試（tests/*.test.cjs，不需要瀏覽器，幾秒鐘）
-# 2) 瀏覽器冒煙測試（需要 playwright；沒有就標「未測試」，不算通過；約 2 分鐘）
-# 3) 長路線測試（tests/long-route.cjs：測試用無敵模式，從旅館往城裡走；約 3～4 分鐘；SKIP_LONG=1 可略過，略過就寫未測試）
-# 2、3 都開測試用無敵模式（tests/helpers/godmode.cjs，只在測試頁注入，遊戲本體沒有）：現在不測平衡（主人 2026-11-16）。
+# 一次跑完回歸測試（2026-11-25 QA 升級 PR-A 改寫：結果真實性＋結構化報告）
+# 用法：
+#   bash tests/run_all.sh fast                  FAST：防弱化檢查＋Node 邏輯測試（本機平常用這個，約 1 分鐘）
+#   bash tests/run_all.sh full [冒煙步數] [長路線動作數]   完整：再加瀏覽器冒煙（三種尺寸）＋長路線（GitHub「完整測試」跑這個）
+#   bash tests/run_all.sh 40 480                舊寫法，等於 full 40 480
+# 每個階段只會是：通過 PASS／失敗 FAIL／略過 SKIP／未測試 NOT_RUN／測試工具出錯 ERROR（個別項目另有暫緩 TODO）。
+# 只有每個階段都通過才寫「全部通過」。缺 playwright＝未測試，SKIP_LONG=1＝略過，都不會當成通過。
+# 報告：test-results/report.json（版本、Build、commit、index.html SHA-256、各階段秒數與細節）、report.md；失敗截圖在 test-results/screenshots/。
+# 環境變數：QA_BASE（防弱化比對的基準，預設 origin/main）、QA_OUT（報告資料夾）、SKIP_LONG=1、
+#           QA_SERVE=route（不開本機伺服器，由 playwright 直接讀檔；本機不能開埠時用）
+# 瀏覽器兩項都開測試用無敵模式（tests/helpers/godmode.cjs，只在測試頁注入，遊戲本體沒有）：現在不測平衡（主人 2026-11-16）。
 cd "$(dirname "$0")/.." || exit 1
-echo "== 1. Node 邏輯測試"
-node --test tests/*.test.cjs 2>&1 | grep -E "^not ok|^# (tests|pass|fail|todo)" | grep -v "# TODO" ; R1=${PIPESTATUS[0]}
-echo "== 2. 瀏覽器冒煙測試"
-if NODE_PATH=${NODE_PATH:-$(npm root -g 2>/dev/null)} node -e "require('playwright')" 2>/dev/null; then
-  python3 -m http.server 8768 >/dev/null 2>&1 & SV=$!; sleep 1
-  NODE_PATH=${NODE_PATH:-$(npm root -g)} node tests/browser-smoke.cjs "${1:-40}"; R2=$?
-  echo "== 3. 長路線測試（無敵模式）"
-  if [ -n "$SKIP_LONG" ]; then echo "未測試：SKIP_LONG 略過"; R3=0
-  else NODE_PATH=${NODE_PATH:-$(npm root -g)} node tests/long-route.cjs "${2:-220}"; R3=$?; fi
-  kill $SV 2>/dev/null
-else echo "未測試：這個環境沒有 playwright"; R2=0; R3=0; fi
-[ $R1 -eq 0 ] && [ $R2 -eq 0 ] && [ $R3 -eq 0 ] && echo "== 全部通過" || { echo "== 有失敗"; exit 1; }
+MODE=full
+case "$1" in fast|full) MODE=$1; shift;; esac
+SMOKE=${1:-40}; LONG=${2:-220}
+OUT=${QA_OUT:-test-results}; export QA_OUT=$OUT
+REP="node tests/helpers/test-reporter.cjs"
+now(){ date +%s.%N; }
+sec(){ awk "BEGIN{printf \"%.1f\", $(now)-$1}"; }
+$REP init "$MODE" "$SMOKE" "$LONG" || { echo "測試工具出錯：報告無法初始化"; exit 1; }
+echo "== 模式：$([ "$MODE" = fast ] && echo FAST || echo 完整)"
+
+echo "== 1. 防弱化檢查（和 ${QA_BASE:-origin/main} 比對）"
+T=$(now); node tests/helpers/integrity.cjs "$OUT/integrity.json"; R=$?
+case $R in 0) S=PASS; N="guard 沒改";; 1) S=FAIL; N="guard 被改或刪";; 4) S=NOT_RUN; N="找不到基準分支";; *) S=ERROR; N="exit $R";; esac
+$REP stage integrity "防弱化檢查" $S "$(sec $T)" "$N" "$OUT/integrity.json"
+
+echo "== 2. Node 邏輯測試"
+T=$(now); node --test --test-reporter=tap tests/*.test.cjs > "$OUT/node-tap.txt" 2>&1; R=$?
+$REP node "$OUT/node-tap.txt" $R "$(sec $T)"
+
+NP=${NODE_PATH:-$(npm root -g 2>/dev/null)}
+if [ "$MODE" = fast ]; then
+  $REP stage smoke "瀏覽器冒煙" SKIP 0 "FAST 模式不跑"
+  $REP stage long "長路線" SKIP 0 "FAST 模式不跑"
+elif ! NODE_PATH=$NP node -e "require('playwright')" 2>/dev/null; then
+  echo "== 3、4. 瀏覽器測試：這個環境沒有 playwright"
+  $REP stage smoke "瀏覽器冒煙" NOT_RUN 0 "這個環境沒有 playwright"
+  if [ -n "$SKIP_LONG" ]; then $REP stage long "長路線" SKIP 0 "SKIP_LONG 略過"
+  else $REP stage long "長路線" NOT_RUN 0 "這個環境沒有 playwright"; fi
+else
+  SV=""
+  if [ "$QA_SERVE" != route ]; then
+    python3 -m http.server 8768 --bind 127.0.0.1 >/dev/null 2>&1 & SV=$!
+    for i in $(seq 1 20); do curl -fs -o /dev/null http://localhost:8768/index.html && break; sleep 0.5; done
+  fi
+  if [ -n "$SV" ] && ! curl -fs -o /dev/null http://localhost:8768/index.html; then
+    $REP stage smoke "瀏覽器冒煙" ERROR 0 "本機伺服器 8768 沒有起來"
+    $REP stage long "長路線" ERROR 0 "本機伺服器 8768 沒有起來"
+  else
+    echo "== 3. 瀏覽器冒煙測試（$SMOKE 步 × 三種尺寸）"
+    T=$(now); rm -f "$OUT/browser-smoke.json"; QA_DETAIL="$OUT/browser-smoke.json" NODE_PATH=$NP node tests/browser-smoke.cjs "$SMOKE"; R=$?
+    case $R in 0) S=PASS; N="$SMOKE 步×3 種尺寸";; 1) S=FAIL; N="見細節";; *) S=ERROR; N="exit $R";; esac
+    $REP stage smoke "瀏覽器冒煙" $S "$(sec $T)" "$N" "$OUT/browser-smoke.json"
+    if [ -n "$SKIP_LONG" ]; then $REP stage long "長路線" SKIP 0 "SKIP_LONG 略過"
+    else
+      echo "== 4. 長路線測試（$LONG 動作，無敵模式）"
+      T=$(now); rm -f "$OUT/long-route.json"; QA_DETAIL="$OUT/long-route.json" NODE_PATH=$NP node tests/long-route.cjs "$LONG"; R=$?
+      case $R in 0) S=PASS; N="$LONG 動作";; 1) S=FAIL; N="見細節";; *) S=ERROR; N="exit $R";; esac
+      $REP stage long "長路線" $S "$(sec $T)" "$N" "$OUT/long-route.json"
+    fi
+  fi
+  [ -n "$SV" ] && kill $SV 2>/dev/null
+fi
+$REP finish
