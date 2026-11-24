@@ -726,7 +726,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.67.0", "b": 140, "t": "2026-11-25T05:39:54+08:00"};
+const ZC_VER={"v": "0.67.1", "b": 141, "t": "2026-11-25T06:05:38+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -6144,7 +6144,7 @@ const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 const COLS=['#c8ad70','#8fb0d4','#8fbf98','#c88a9e','#d49a6a','#a99bd6','#7fc4c0','#c9c27a'];
 const MAXP=8;
 // 音效 v4：只標註已核對的劇情結果，不變更遊戲結果。
-// 撬販賣機是金屬機殼變形，未取得對應素材前不硬套玻璃聲。
+// 撬販賣機是金屬機殼變形，未取得對應素材前不硬套玻璃聲（v0.67.1：三樓販賣機玻璃整片碎掉那一筆例外，見下方標記）。
 {const c=N.A4.c.find(c=>c.l.includes('消防栓箱'));for(const o of [c.ok,c.ng,...(c.tb||[])])if(o)o.audio='glassbreak'}
 for(const label of ['用身體抵住門','從貓眼看清楚外面'])N.A2.c.find(c=>c.l===label).ng.audio='woodimpact';
 N.A2.c.find(c=>c.l==='躲進浴室，鎖上門').ok.audio='woodimpact';
@@ -6194,7 +6194,7 @@ EVPOOL.find(e=>e.id==='radio').audio='radiostatic';
   'ev:raid1/3/ng':'shot1','K2/0/ng':'shot1','L0/3/ng':'shotsglass','ZA/0/ok':'farmp5','ZA/0/ng':'mp5',
   'BA0/4/ok':'rifle','BA0/4/ng':['rifle','farrifle'],
   /* 真的碎了才播玻璃聲；踩到碎玻璃是另一個聲音 */
-  'U2/0/ng':'glassbreak','BD4/0/ng':'glassstep','YD4/1/ng':'glassstep',
+  'A3x/1/tb1':'glassbreak',/* v0.67.1 主人選 A：卡住的玻璃整片碎掉才播；只裂開一塊（tb0）不播 */'U2/0/ng':'glassbreak','BD4/0/ng':'glassstep','YD4/1/ng':'glassstep',
   /* 無線電：聲音都來自看得到的設備或拿著它的人 */
   'AM3/0/tb0':'radiostatic','AM3/0/tb1':'radiostatic','AM3/1/tb0':'radiostatic','AM3/1/tb1':'radiostatic','AM3/1/tb2':'radiostatic','AM3/2/ok':'radiostatic',
   'RD2/1/tb2':'radiostatic','CA4/1/ok':'radiostatic','ev:yh4a/0/ng':'radiostatic'};
