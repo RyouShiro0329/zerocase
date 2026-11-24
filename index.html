@@ -1,13 +1,13 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=22c52a45" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=2d3f4fc3" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fx/slash-12.webp" as="image" type="image/webp">
 <link rel="preload" href="fx/blunt-12.webp" as="image" type="image/webp">
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=22c52a45") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=2d3f4fc3") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
@@ -700,7 +700,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.63.0", "b": 134, "t": "2026-11-24T17:19:39+08:00"};
+const ZC_VER={"v": "0.63.1", "b": 135, "t": "2026-11-24T17:54:08+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -5521,6 +5521,73 @@ const AUSCS=[0,1].map(v=>[
 N.AUs=Object.defineProperties({L:'A',split:1},Object.getOwnPropertyDescriptors({
  get n(){return RM().n+' 號房'},get t(){return AUST[RM().v]},get c(){return AUSCS[RM().v]}}));
 }
+
+/* ================= v0.63.1 301 號房改成情境探索（主人 2026-11-24 17:46：開場還是在原地把動作一個一個點完；文本由 Claude 寫） =================
+   醒來（A1）只決定先往哪裡去：窗邊、迷你吧和書桌、門邊。到了那裡，房間的情況已經變了，只剩那個位置做得到的事；
+   做完一件就到門後準備出去（A1z）。逃生路線圖（map）在門背後，也印在書桌上服務手冊的最後一頁。開場事件（A2、AO2～AO5）照舊、照種子插進來。 */
+{
+const GG=()=>{try{return G}catch(e){return null}};
+const old=N.A1.c,L=l=>{const c=old.find(x=>x.l===l);if(!c)throw new Error('301 找不到選項：'+l);return c};
+const WIN=L('掀開窗簾往外看'),BAR=L('翻迷你吧和抽屜'),MAP=L('看門背後的逃生路線圖'),EAR=L('貼著門聽外面'),DESK=L('把書桌拖過去頂住門'),EYE=L('從貓眼看外面');
+const MAPT=MAP.ok.t,EART={ok:EAR.ok,ng:EAR.ng};
+N.A1.c=[
+ {t:'q',l:'掀開窗簾往外看',ok:WIN.ok,opgo:'A1w'},
+ {t:'sd',l:'摸黑翻迷你吧和抽屜',ok:BAR.ok,opgo:'A1m'},
+ {t:'mv',kind:'移動',l:'摸黑走到門邊',ok:{t:`你扶著牆，一步一步摸到門邊。地毯吸掉了你的腳步聲。`},opgo:'A1d'}];
+Object.assign(N,{
+A1w:{L:'A',n:'301 號房・窗邊',op:1,
+ t:`你把窗簾放下來，房間又暗了。底下的尖叫聲隔著玻璃，悶悶的。
+
+走廊上有人在跑，跑過你的門口，一路往東邊去。跑步聲後面跟著另一種聲音：拖著腳，很慢，可是一直沒有停。`,
+ c:[
+  {t:'mv',kind:'移動',l:'趁那陣聲音還沒過來，摸到門邊',ok:{t:`你繞過床尾，摸到門邊。拖行聲經過你的門口，沒有停，往走廊另一頭去了。`},opgo:'A1d'},
+  {t:'q',l:'把窗簾縫拉緊，先把迷你吧裡能帶的塞進口袋',ok:{t:`你把窗簾的縫拉緊，蹲到迷你吧前面。小冰箱已經不冷了，裡面還有一瓶礦泉水和一小瓶旅館附的威士忌，旁邊的抽屜裡躺著一個印著旅館名字的打火機。
+
+你把它們塞進口袋。拖行聲經過你的門口，往走廊另一頭去了。`,r:{items:{water:1,whiskey:1,lighter:1}}},opgo:'A1z'}]},
+A1m:{L:'A',n:'301 號房・書桌',op:1,
+ t:`書桌就在門邊，桌上攤著一本旅館的服務手冊，椅背上掛著你傍晚脫下的外套。
+
+門外有拖著腳走路的聲音經過，在走廊的某個地方停了下來。`,
+ c:[
+  {t:'q',l:'把書桌拖過去頂住門',ok:DESK.ok,opgo:'A1z'},
+  {t:'q',l:'翻到服務手冊的最後一頁',ok:{t:`手冊最後一頁印著這一層的逃生路線圖，跟門背後貼的是同一張。你用手機的光照著看：三樓東側有一座逃生樓梯；電梯旁邊印著「火災時請勿搭乘」；301 的窗戶外面，標著一個小小的梯子符號。
+
+窗外有消防梯。`,r:{flag:'map'}},opgo:'A1z'},
+  {t:'q',l:'靠到門上，聽外面',k:'PER',d:11,s:'感知檢定',ok:EART.ok,ng:EART.ng,opgo:'A1z'}]},
+A1d:{L:'A',n:'301 號房・門邊',op:1,
+ t:`門背後貼著一張逃生路線圖，門鏈還扣著。貓眼透進一點紅光，一閃，一閃。
+
+走廊上很吵：有人在拍門，有人在跑，然後一下子全停了。`,
+ c:[
+  {t:'q',l:'用手機的光看門背後的逃生路線圖',ok:{t:MAPT,r:{flag:'map'}},opgo:'A1z'},
+  {t:'q',l:'貼著門聽外面',k:'PER',d:11,s:'感知檢定',ok:EART.ok,ng:EART.ng,opgo:'A1z'},
+  {t:'q',l:'從貓眼看外面',k:'PER',d:11,s:'感知檢定',ok:EYE.ok,ng:EYE.ng,opgo:'A1z'}]},
+A1z:{L:'A',n:'301 號房・門後',op:1,
+ get t(){const f=(GG()&&GG().flags)||{};let s=`你站在門後，手搭在門把上。`;
+  if(f.barred)s+=`書桌斜卡在門後，行李箱壓著桌腳。`;
+  if(f.heard)s+=`\n\n303 門口那個東西還在刮牆，一下，一下。`;else if(f.saw)s+=`\n\n貓眼裡，303 門口那個穿制服的人還背對著這邊。`;
+  return s+`\n\n窗外又是一串槍響，比剛才遠了一點。再待下去，走廊上的東西隨時會走到這扇門前。`},
+ c:[
+  {t:'mv',kind:'移動',l:'開門出去',hide:'barred',opout:1,ok:{t:`你深吸一口氣，轉開門把。`}},
+  {t:'mv',kind:'移動',l:'把書桌挪開一截，側身出去',need:'barred',opout:1,ok:{t:`你把書桌往旁邊拖開一截，剛好夠一個人側身擠出去。桌腳在地毯上刮了一聲，你停下來聽，外面沒有動靜。`}},
+  {t:'q',l:'先從貓眼確認走廊，再開門',k:'PER',d:11,s:'感知檢定',hide:'saw',opout:1,ok:{get t(){const b=GG()&&GG().flags.barred;return `你把眼睛湊上貓眼。303 門口站著一個人，背對著這邊，穿著旅館的制服，頭歪向一邊。走廊上只有他一個。
+
+`+(b?`你把書桌拖開一截，等緊急照明暗下去的那一下，側身擠出去。`:`你等緊急照明暗下去的那一下，轉開門把。`)},r:{flag:'saw'}},ng:{get t(){return `走廊太暗了，貓眼裡只有一片紅。`+(GG()&&GG().flags.barred?`你把書桌拖開一截，咬著牙側身擠出去。`:`你咬著牙，轉開門把。`)},p:{fear:3}}}]}
+});
+N.A1r=N.A1z;/* 舊存檔：migrateG 把停在 A1r 的改到 A1z */
+/* ---- 出口：徒手扳電梯門失敗不再原樣回到同一張卡 ---- */
+{const c=N.A6.c.find(x=>x.l==='徒手扳開電梯門');c.ng.r={flag:['liftfail','rd_rlift','rdn_rlift']};/* 扳過一次，門縫被彈回來的門擋卡死了：跟路況「電梯門卡死」一樣，只能撬 */
+ const t0=N.A6.t;Object.defineProperty(N.A6,'t',{get(){const g=GG();return g&&g.flags&&g.flags.liftfail?`電梯門又彈回去合上了，你的手指還在發麻。門縫闔得死緊，光靠手是扳不開了。
+
+拖行聲越來越近。剩下的路：東側樓梯的逃生燈還亮著；手上有工具的話，電梯門還撬得開；301 的窗戶外面，如果真有消防梯的話。`:t0},configurable:true})}
+/* ---- 未知客房：空房的門閂還在，確認沒有人、能從裡面閂上，才可以安靜躲一陣子（沿用一個區域一次、警戒 −3） ---- */
+{const RM=()=>{const g=GG();return (g&&g.xp&&g.xp.rm)||{n:'311',k:'empty',v:0}};
+ const d=Object.getOwnPropertyDescriptor(N.AUe,'t');Object.defineProperty(N.AUe,'t',{get(){const r=RM();return d.get.call(this)+'\n\n'+(r.lk?`門後的門閂還好好的，從裡面扣得上。`:`門後的門閂被扯掉了，門框上只剩兩個螺絲孔。`)},configurable:true});
+ const dc=Object.getOwnPropertyDescriptor(N.AUe,'c');const REST={t:'qh',kind:'躲藏',l:'扣上門閂，安靜躲一陣子',quiet:1,need:'xp_lk',ok:{t:`你把門閂扣上，背靠著門坐在地毯上。走廊上有東西拖著腳經過，在門外停了一下，又走開了。
+
+你數著自己的呼吸，等心跳慢下來。`}};
+ const C2=new Map();Object.defineProperty(N.AUe,'c',{get(){const b=dc.get.call(this);if(!C2.has(b)){C2.set(b,b.concat([REST]))}return C2.get(b)},configurable:true})}
+}
 /* ================= 基礎 ================= */
 const $=s=>document.querySelector(s);
 // v0.58.0 種子（主人 2026-11-24，PLAN_CHOICE_CARDS 第三節）：遊戲裡的亂數走 RNG()，一張卡一個子種子（reseed）。
@@ -7041,11 +7108,14 @@ function exNext(c,res){const X=exSt(),D=dkSt(),a=c.exa,okd=!c.k||res===c.ok;
   forkTake('AX'+EXS(X.p),id,skip);D.ret='AH';return id}
 const OPEV=['A2','AO2','AO3','AO4','AO5'];
 function opSt(){if(!G.op){const rg=subRng(seedKey(G.sd||0,'open','A'));const a=rg(),b=rg();G.op={n:0,ev:a<.3?1:a<.65?2:a<.85?3:0,k:Math.min(4,Math.floor(b*5)),done:0}}return G.op}
+/* v0.63.1（主人 2026-11-24 17:46）：301 也改成情境探索。房間是一串會變的情境：醒來（A1）→ 窗邊（A1w）／書桌旁（A1m）／門邊（A1d）→ 準備出去（A1z）；
+   選項標 opgo＝下一個情境，選了就換卡，不回到剩下的動作清單。開場事件照種子插在第 1 個（ev 1）或第 2 個選擇（ev 2、3）之後，打斷原本要去的情境，結束後接回去（G.op.nx）。 */
 function opNext(c){const nd=N[G.node];if(!G.op&&nd.opev)G.op={n:3,ev:0,k:0,done:1};/* 舊存檔停在撞門那張：做完直接出門 */const o=opSt(),out=N.A1.next;
   if(c.opout)return out;
-  if(nd.opev)return o.n>=3?out:'A1r';
-  if(c.opk){o.n++;G.flags.op_any=1;G.flags['op_'+c.opk]=1;if(!o.done&&o.ev===o.n){o.done=1;return OPEV[o.k]}return o.n>=3?out:'A1r'}
-  return out}
+  if(nd.opev){const nx=o.nx||(o.n>=3?'OUT':'A1z');o.nx=null;return nx==='OUT'?out:nx}
+  const nx=c.opgo||'OUT';o.n++;G.flags.op_any=1;
+  if(!o.done&&o.ev&&Math.min(2,o.ev)===o.n&&nx!=='OUT'){o.done=1;o.nx=nx;return OPEV[o.k]}
+  return nx==='OUT'?out:nx}
 /* ---- v0.63.0 情境探索（主人 2026-11-24 與 GPT 討論定案，ZEROCASE_HOTEL_EXPLORATION_SPEC；第一階段只有首次旅館三樓） ----
    取消 v0.62.0 的常駐四個基本行動（AH）。每次有效選擇結算後，原卡所有選項關閉，直接進下一個情境。
    地理固定：301 → 西段（301～306）→ 轉角（305 前）→ 中段（307～310）→ 防火門 → 東段 → 走廊盡頭的出口（A6）。
@@ -7078,7 +7148,7 @@ function xpDraw(seg){const X=G.xp,rg=subRng(seedKey(G.sd||0,'xpd',X.k));
   if(!pool.length)return null;
   const ws=pool.map(id=>id==='AU'?1.5:dkW(id)),tot=ws.reduce((a,b)=>a+b,0);let x=tot*rg(),id=pool[pool.length-1];for(let i=0;i<pool.length;i++){x-=ws[i];if(x<0){id=pool[i];break}}
   if(id==='AU'){const nums={m:['311','312'],e:['313','315','317']}[seg],r=rg();const n=nums[Math.floor(rg()*nums.length)];
-   X.rooms[seg]=n;X.rm=X.rooms['r'+n]={n,k:r<.35?'foe':r<.8?'empty':'surv',v:rg()<.5?0:1,heard:0};return 'AU'}
+   X.rooms[seg]=n;X.rm=X.rooms['r'+n]={n,k:r<.35?'foe':r<.8?'empty':'surv',v:rg()<.5?0:1,heard:0,lk:rg()<.6?1:0};return 'AU'}
   X.seen.push(id);if(N[id].cc)X.cc++;N[id].L='A';return id}
 // 走進下一個情境：路線表往前走到第一張成立的卡；沒有合格的情境就照地理走到下一段，最後一定到出口
 function xpGen(){const X=xpSt();
@@ -7097,7 +7167,7 @@ function xpDeepRes(res){const T=G.xp&&G.xp.dq&&G.xp.dq.took;if(!T||!res||!res.r)
   return Object.assign({},res,{r,t:res.t+(cut?'\n\n剛才已經拿走的，這次沒有再算進去。':'')})}
 function xpNext(c,res){const X=xpSt();const a=c.xpa;if(c===XP_RUN)xpRun();
   if(a==='listen'){X.rm.heard=res===c.ok?2:1;return 'AUl'}
-  if(a==='in')return X.rm.k==='surv'?'AUs':'AUe';
+  if(a==='in'){if(X.rm.lk&&X.rm.k==='empty')G.flags.xp_lk=1;else delete G.flags.xp_lk;return X.rm.k==='surv'?'AUs':'AUe'}
   if(c.t==='sq'&&res&&!res.fight&&!res.go&&res.g!=='bad'&&!XP_SOLO){const d=xpDeepSrc(G.node);if(d.length){X.dq={from:G.node,took:xpTook(res)};return 'AQ'}}
   if(G.node==='AQ')X.dq=null;
   return 'AN'}
@@ -7145,6 +7215,7 @@ function migrateG(g){if(!g)return g;
   {const m=/^AK(\d+)$/.exec(g.node||''),r=/^AK(\d+)$/.exec(g.dk.ret||'');/* v0.62.0 三樓改成走廊行動卡：停在選路格或接回選路格的舊存檔，改回走廊，進度照格子估 */
    const P=[0,1,2,3,4,5,5,7,9,10,11];if(m||r){g.ex=g.ex||{p:Math.max(0,(P[+(m||r)[1]]||1)-1),fresh:1,nx:null,quiet:0};if(m)g.node='AH';if(r)g.dk.ret='AH';g.dk.fk=null}}
   if(g.lv==='A'&&g.ex&&!g.xp){g.xp={k:0,seg:null,ne:0,seen:(g.dk.seen||[]).slice(),rooms:{},cc:0,mig:Math.max(1,g.ex.p||0)};if(/^A[SX][wme]$/.test(g.dk.ret||'')||g.dk.ret==='AH')g.dk.ret=null}/* v0.63.0 三樓改成情境探索：v0.62.0 的走廊進度轉成路線表上的段落 */
+  if(g.node==='A1r')g.node='A1z';/* v0.63.1 301 改成情境：停在舊的房間第 2 張，接到準備出去 */
   if(g.sd==null){g.sd=newSeed();g.stp=0}RSTATE=seedKey(g.sd,g.stp||0,'idle');
   for(const p of g.players||[])woundMigrate(p);
   for(const p of g.players||[]){const e=p.resistExposure&&p.resistExposure.chlorine;if(e){e.entered=!!e.entered;e.minutes=clamp(Number(e.minutes)||0,0,29)}}

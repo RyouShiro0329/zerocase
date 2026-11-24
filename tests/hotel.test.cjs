@@ -20,8 +20,9 @@ async function walk3F(seed,rd,exit){const g=setup();g.run(`G.sd=${seed};G.dk={on
  for(let k=0;k<70&&g.run("G.lv")==='A';k++){const id=g.run('G.node');seen.push(id);g.run('G.alarm=0;G.ground=[]');
   const i=g.run(`(()=>{const cs=choices();const ok=cs.map((c,i)=>i).filter(i=>visible(cs[i])&&choiceOk(cs[i])&&!cs[i].srOut);
    const res=c=>c.tb?c.tb[0]:c.ok||{};const dest=c=>c.go||res(c).go;
-   if(G.node==='A1'){const m=ok.find(i=>cs[i].l==='看門背後的逃生路線圖');if(m!=null)return m}
-   if(G.node==='A1r'){const m=ok.find(i=>cs[i].l==='開門出去');if(m!=null)return m}/* v0.60.0：最少的走法，房間做一件就出門 */
+   if(G.node==='A1'){const m=ok.find(i=>cs[i].l==='摸黑走到門邊');if(m!=null)return m}/* v0.63.1：301 改成情境，到門邊看逃生路線圖、再出門 */
+   if(G.node==='A1d'){const m=ok.find(i=>/逃生路線圖/.test(cs[i].l));if(m!=null)return m}
+   if(G.node==='A1z'||G.node==='A1w'||G.node==='A1m'){const m=ok.find(i=>cs[i].opout||cs[i].opgo==='A1z');if(m!=null)return m}
    if(G.node==='A6'){const want=${JSON.stringify(exit)};const m=ok.find(i=>want==='stairs'?cs[i].l==='東側樓梯':want==='lift'?/電梯/.test(cs[i].l):/消防梯/.test(cs[i].l));return m==null?-1:m}
    const calm=ok.filter(i=>!res(cs[i]).fight&&!(dest(cs[i])&&N[dest(cs[i])]&&N[dest(cs[i])].next===G.node));return calm.length?calm[0]:ok[0]??-1})()`);
   assert.ok(i>=0,`${id} 沒有選得了的選項（種子 ${seed}，路況 ${JSON.stringify(rd)}，出口 ${exit}）`);

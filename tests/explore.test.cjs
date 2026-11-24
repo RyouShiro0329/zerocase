@@ -11,8 +11,9 @@ async function walk(seed,mode,rd){const g=setup();g.run(`G.sd=${seed};G.dk={on:{
  for(let k=0;k<90&&g.run('G.lv')==='A';k++){const id=g.run('G.node');seen.push(id);g.run('G.alarm=0;G.ground=[]');
   const i=g.run(`(()=>{const cs=choices();const ok=cs.map((c,i)=>i).filter(i=>visible(cs[i])&&choiceOk(cs[i]));const M=${JSON.stringify(mode)};
    const res=c=>c.tb?c.tb[0]:c.ok||{};const f=i=>ok.find(j=>f0(cs[j]));let f0;
-   if(G.node==='A1'){const m=ok.find(i=>cs[i].l==='看門背後的逃生路線圖');if(m!=null&&!G.flags.map)return m;const o=ok.find(i=>cs[i].opout);if(o!=null)return o}
-   if(G.node==='A1r'){const o=ok.find(i=>cs[i].opout);if(o!=null)return o}
+   if(G.node==='A1'){const m=ok.find(i=>cs[i].l==='摸黑走到門邊');if(m!=null)return m}
+   if(G.node==='A1d'){const m=ok.find(i=>/逃生路線圖/.test(cs[i].l));if(m!=null)return m}
+   if(/^A1[wmz]$/.test(G.node)){const m=ok.find(i=>cs[i].opout||cs[i].opgo==='A1z');if(m!=null)return m}
    if(G.node==='A6'){const m=ok.find(i=>M==='lift'?/電梯/.test(cs[i].l):M==='win'?/消防梯/.test(cs[i].l):cs[i].l==='東側樓梯');return m==null?-1:m}
    if(M==='win'){const w=ok.find(i=>cs[i].xpx&&/窗戶/.test(cs[i].l));if(w!=null)return w}
    if(M==='stairs'){const r=ok.find(i=>cs[i].xpx&&/東側樓梯/.test(cs[i].l));if(r!=null)return r}
@@ -29,8 +30,8 @@ async function walk(seed,mode,rd){const g=setup();g.run(`G.sd=${seed};G.dk={on:{
 test('E01／E02：選了一個選項，原卡的選項全部關閉、直接出現新的情境；沒有常駐的四個基本行動，也不會回到走廊卡',async()=>{
  for(let s=1;s<=20;s++){const w=await walk(s*977,'stairs');assert.equal(w.lv,'B',`種子 ${s} 沒走出三樓：${w.seen.join('→')}`);
   assert.ok(!w.seen.includes('AH'),'不回到 v0.62.0 的走廊行動卡');assert.ok(!w.seen.includes('AN'),'AN 只是記號，不會停在上面');
-  const ids=w.seen.filter(id=>!['A1','A1r','AU','AUl','AUe','AUs'].includes(id));/* 未知客房一段一間，用同一張卡 */const dup=ids.filter((x,i)=>ids.indexOf(x)!==i);assert.deepEqual(dup,[],'一張卡只出現一次：'+w.seen.join('→'))}
- const g=setup();g.run("G.lv='A';G.sd=3");await g.run("enterNode('A1')");await pickL(g,'看門背後的逃生路線圖');await g.run("(async()=>{const c=choices().find(c=>c.opout&&visible(c));await applyRes(c,c.ok,G.players[0])})()");
+  const ids=w.seen.filter(id=>!['AU','AUl','AUe','AUs'].includes(id));/* 未知客房一段一間，用同一張卡 */const dup=ids.filter((x,i)=>ids.indexOf(x)!==i);assert.deepEqual(dup,[],'一張卡只出現一次：'+w.seen.join('→'))}
+ const g=setup();g.run("G.lv='A';G.sd=3;G.op={n:0,ev:0,k:0,done:0}");await g.run("enterNode('A1')");await pickL(g,'摸黑走到門邊');await pickL(g,'用手機的光看門背後的逃生路線圖');await pickL(g,'開門出去');
  assert.equal(g.run('G.node'),'A3','開門出去就是走廊上的第一個情境');for(const l of ['往前走','停下來觀察四周','搜索這裡','找一間空房躲起來休息'])assert.ok(!labels(g).includes(l),'沒有常駐的「'+l+'」');
  const before=JSON.stringify(labels(g));await pickL(g,'站穩，正面迎戰');await g.run('enterNode(G.after)');assert.notEqual(g.run('G.node'),'A3');assert.notEqual(JSON.stringify(labels(g)),before);
 });
@@ -71,7 +72,7 @@ test('E04／E05：快速翻完換一張新的卡（繼續仔細翻／帶著東�
  const k=setup();k.run("G.lv='A';G.sd=5;delete G.xp;xpSt();G.xp.seg='w';G.xp.k=3;G.node='AW2'");await pickL(k,'不碰');assert.notEqual(k.run('G.node'),'AQ','不碰就直接走');
  // 休息只在能躲的地方（309、兩頭夾擊時閃進空房）；三樓其他卡沒有休息、睡覺
  const rest=JSON.parse(g.run("JSON.stringify(Object.keys(N).filter(id=>N[id].L==='A'&&id!=='AH'&&!/^AS[wme]$/.test(id)).flatMap(id=>{let cs=[];try{cs=N[id].c||[]}catch(e){}return cs.filter(c=>!c._hid&&(c.quiet||c.t==='sleep'||c.t==='nap'||/休息/.test(c.l))).map(c=>id)}))"));
- assert.deepEqual([...new Set(rest)].sort(),['A4h'],'三樓能休息的地方：'+rest.join());
+ assert.deepEqual([...new Set(rest)].sort(),['A4h','AUe'],'三樓能休息的地方（309、門閂扣得上的空房）：'+rest.join());
 });
 test('E06／E08：310 的老夫妻、轉角的馬可不保證遇到；錯過不扣善惡值；自己敲 310 的門一定見到',async()=>{
  let met=0,miss=0,marco=0;
@@ -112,4 +113,27 @@ test('E14／E15：多人分頭翻同一間房：各自的動作各自結算、�
  const dt=g.run('G.clock')-c0;assert.ok(dt<=60+15,'兩件同時做，時間只算一次：'+dt);
  // 舊畫面：上一張卡的按鈕送過來不算
  g.run("G.node='A4b';G.phase='node';G.votes={};busy=false;globalThis.ST0=G.stp");g.run("handle('p2',{a:'vote',i:0,s:ST0-1})");assert.equal(g.run('G.votes.p2'),undefined);g.run("handle('p2',{a:'vote',i:0,s:ST0})");assert.equal(g.run('G.votes.p2'),0);
+});
+
+test('301 號房（v0.63.1 主人 17:46）：每個選擇都換一張新的情境，不回到剩下的動作清單；三條路各有不同的選項；開場事件、逃生路線圖、旗標照舊',async()=>{
+ const seen=new Set();
+ for(let s=1;s<=40;s++){const g=setup();g.run(`G.lv='A';G.sd=${s*17}`);await g.run("enterNode('A1')");const path=[];
+  for(let k=0;k<8&&g.run('G.lv')==='A'&&!/^A[3-6]/.test(g.run('G.node'));k++){const id=g.run('G.node');path.push(id);const ls=labels(g);
+   const i=g.run(`(()=>{const cs=choices();const ok=cs.map((c,i)=>i).filter(i=>visible(cs[i])&&choiceOk(cs[i]));return ok[${s}%ok.length]})()`);
+   const f0=g.run('FT_LOG.length');await g.run(`(async()=>{const c=choices()[${i}];const r=c.tb?c.tb[0]:c.ok;await applyRes(c,r,G.players[0],false)})()`);
+   if(g.run('FT_LOG.length')>f0&&g.run('G.node')===id)await g.run('enterNode(G.after)');/* 打完接下一個情境 */
+   if(g.run('G.node')===id)assert.fail('同一張卡沒有換：'+id)}
+  const room=path.filter(id=>/^A1/.test(id));assert.equal(new Set(room).size,room.length,'房間的情境不重複：'+path.join('→'));assert.ok(room.length<=4,'房間最多四個情境（醒來、窗邊、門邊、門後）：'+path.join('→'));path.forEach(x=>seen.add(x))}
+ for(const id of ['A1w','A1m','A1d','A1z'])assert.ok(seen.has(id),id+' 有走到');assert.ok([...seen].some(id=>/^(A2|AO[2-5])$/.test(id)),'開場事件照舊');
+ const g=setup();g.run("G.lv='A';G.op={n:0,ev:0,k:0,done:0}");await g.run("enterNode('A1')");await pickL(g,'摸黑翻迷你吧和抽屜');assert.equal(g.run('G.node'),'A1m');
+ await pickL(g,'翻到服務手冊的最後一頁');assert.equal(g.run('G.flags.map'),1,'書桌上的服務手冊也印著逃生路線圖');assert.equal(g.run('G.node'),'A1z');
+ const b=setup();b.run("G.lv='A';G.op={n:0,ev:0,k:0,done:0};G.node='A1m'");await pickL(b,'把書桌拖過去頂住門');assert.ok(labels(b).includes('把書桌挪開一截，側身出去'));assert.ok(!labels(b).includes('開門出去'),'頂著書桌就要先挪開');
+ const o=JSON.parse(g.run("JSON.stringify(migrateG({players:[],flags:{},sd:5,stp:2,lv:'A',node:'A1r',op:{n:1,ev:0,k:0,done:0}}))"));assert.equal(o.node,'A1z','舊存檔停在 A1r 接到門後');
+});
+test('三樓沒有回到同一張卡的停留選項：徒手扳電梯門失敗後選項消失、文字更新；空房能閂上門才可以安靜躲（一個區域一次）',async()=>{
+ const g=setup();g.run("G.lv='A';G.node='A6';G.flags={}");await pickL(g,'徒手扳開電梯門','bad');assert.equal(g.run('G.node'),'A6');assert.ok(!labels(g).includes('徒手扳開電梯門'));assert.match(g.run('N.A6.t'),/扳不開了/);
+ const h=setup();h.run("G.lv='A';G.sd=4;delete G.xp;xpSt();G.xp.seg='m';G.xp.rm={n:'311',k:'empty',v:0,heard:0,lk:1};G.node='AU'");await pickL(h,'推開門進去');assert.equal(h.run('G.node'),'AUe');
+ assert.ok(labels(h).includes('扣上門閂，安靜躲一陣子'));assert.match(h.run('N.AUe.t'),/門閂還好好的/);const a0=5;h.run(`G.alarm=${a0}`);await pickL(h,'扣上門閂，安靜躲一陣子');assert.equal(h.run('G.alarm'),a0-3);
+ h.run("G.node='AUe'");assert.ok(!labels(h).includes('扣上門閂，安靜躲一陣子'),'一個區域只能躲一次');
+ const k=setup();k.run("G.lv='A';G.sd=4;delete G.xp;xpSt();G.xp.seg='m';G.xp.rm={n:'311',k:'empty',v:0,heard:0,lk:0};G.node='AU'");await pickL(k,'推開門進去');assert.ok(!labels(k).includes('扣上門閂，安靜躲一陣子'),'門閂壞了不能躲');assert.match(k.run('N.AUe.t'),/螺絲孔/);
 });

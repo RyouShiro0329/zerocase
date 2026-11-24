@@ -145,12 +145,16 @@ test('開場：時間和種類照種子（第 1／2／3 件之後、不來都有
  for(let s=1;s<=200;s++){const g=setup();g.run(`G.sd=${s*7};delete G.op`);const o=JSON.parse(g.run('JSON.stringify(opSt())'));when[o.ev]++;kind.add(o.k);
   g.run('delete G.op');assert.equal(g.run('JSON.stringify(opSt())'),JSON.stringify(o),'讀檔一樣')}
  for(const k of [0,1,2,3])assert.ok(when[k]>10,JSON.stringify(when));assert.equal(kind.size,5);
- const g=setup();g.run("G.lv='A';G.sd=1;G.op={n:0,ev:0,k:0,done:0}");await g.run("enterNode('A1')");assert.ok(labels(g).includes('開門出去'),'v0.62.0 主人 11:25：開門出去一開始就看得到');
- for(let n=1;n<=3;n++){await g.run(`(async()=>{const c=choices().find(c=>visible(c)&&c.opk&&!c.k);await applyRes(c,c.ok,G.players[0])})()`);
-  if(n<3){assert.equal(g.run('G.node'),'A1r');assert.ok(labels(g).includes('開門出去'))}else{assert.equal(g.run('G.node'),'A3','第 3 件做完一定出去，到走廊上的第一個情境（v0.63.0）');assert.match(g.run("LOG.map(x=>x.t||x).join('')"),/你把門推開一條縫/)}}
- // 事件在第 1 件之後來，做完回房間；開場事件只出現一次
- const h=setup();h.run("G.lv='A';G.op={n:0,ev:1,k:2,done:0}");await h.run("enterNode('A1')");await h.run(`(async()=>{const c=choices().find(c=>c.l==='看門背後的逃生路線圖');await applyRes(c,c.ok,G.players[0])})()`);
- assert.equal(h.run('G.node'),'AO3');assert.equal(h.run('G.flags.opfire'),1);await h.run(`(async()=>{const c=choices().find(c=>c.l==='留在房裡等它停');await applyRes(c,c.tb[0],G.players[0])})()`);assert.equal(h.run('G.node'),'A1r');
+ /* v0.63.1（主人 2026-11-24 17:46 改了決定：301 也改成情境，不再是同一張動作清單點完三件）：醒來 → 窗邊／書桌／門邊 → 門後 → 走廊 */
+ const g=setup();g.run("G.lv='A';G.sd=1;G.op={n:0,ev:0,k:0,done:0}");await g.run("enterNode('A1')");assert.deepEqual(labels(g),['掀開窗簾往外看','摸黑翻迷你吧和抽屜','摸黑走到門邊']);
+ await g.run(`(async()=>{const c=choices().find(c=>c.l==='摸黑走到門邊');await applyRes(c,c.ok,G.players[0])})()`);assert.equal(g.run('G.node'),'A1d');
+ await g.run(`(async()=>{const c=choices().find(c=>c.l==='用手機的光看門背後的逃生路線圖');await applyRes(c,c.ok,G.players[0])})()`);assert.equal(g.run('G.node'),'A1z');assert.equal(g.run('G.flags.map'),1);
+ assert.ok(!labels(g).some(l=>/逃生路線圖|貼著門聽/.test(l)),'不回到剩下的動作清單');
+ await g.run(`(async()=>{const c=choices().find(c=>c.l==='開門出去');await applyRes(c,c.ok,G.players[0])})()`);assert.equal(g.run('G.node'),'A3');assert.match(g.run("LOG.map(x=>x.t||x).join('')"),/你把門推開一條縫/);
+ // 事件在第 1 個選擇之後來：打斷原本要去的窗邊，做完接回窗邊；開場事件只出現一次
+ const h=setup();h.run("G.lv='A';G.op={n:0,ev:1,k:2,done:0}");await h.run("enterNode('A1')");await h.run(`(async()=>{const c=choices().find(c=>c.l==='掀開窗簾往外看');await applyRes(c,c.ok,G.players[0])})()`);
+ assert.equal(h.run('G.node'),'AO3');assert.equal(h.run('G.flags.opfire'),1);await h.run(`(async()=>{const c=choices().find(c=>c.l==='留在房裡等它停');await applyRes(c,c.tb[0],G.players[0])})()`);assert.equal(h.run('G.node'),'A1w');
+ await h.run(`(async()=>{const c=choices().find(c=>/迷你吧/.test(c.l));await applyRes(c,c.ok,G.players[0])})()`);assert.equal(h.run('G.node'),'A1z','事件只來一次');
  assert.equal(h.run('dkOk(N.AD3)'),false,'來了火警，這一局不抽煙霧偵測器');
  // 舊存檔停在撞門那張（沒有 G.op）：做完直接出門
  const k=setup();k.run("G.lv='A';G.node='A2';delete G.op");await k.run(`(async()=>{const c=N.A2.c[1];await applyRes(c,c.ok,G.players[0])})()`);assert.equal(k.run('G.node'),'A3','接到走廊上的第一個情境');

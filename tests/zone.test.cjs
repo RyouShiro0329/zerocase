@@ -121,7 +121,7 @@ test('最後一波還在路上就逃走：警戒清 0',async()=>{const g=setup()
  assert.ok(g.run('!!G.fight.reinf'));await g.run('finishEvacuation(G.players[0],true)');assert.equal(g.run('G.alarm'),0);
 });
 test('安靜躲一陣子：一個區域一次、警戒 −3、30 分鐘，只放在內容指定的地方',async()=>{const g=setup();
- const at=JSON.parse(g.run("JSON.stringify(Object.entries(N).filter(([k,n])=>(n.c||[]).some(c=>c.quiet)).map(([k])=>k))"));assert.deepEqual(at.sort(),['A4h','E2s','M2','OE6','OF5','U2s'],'v0.56.0 醫院：急診的急救室、四樓的被服間；v0.57.0 旅館三樓的 309（門會自己鎖；v0.59.0 改成進 309 的小卡 A4h）');
+ const at=JSON.parse(g.run("JSON.stringify(Object.entries(N).filter(([k,n])=>(n.c||[]).some(c=>c.quiet)).map(([k])=>k))"));assert.deepEqual(at.sort(),['A4h','AUe','E2s','M2','OE6','OF5','U2s'],/* v0.63.1 主人 17:46：三樓確認安全、門閂扣得上的空房也可以躲 */'v0.56.0 醫院：急診的急救室、四樓的被服間；v0.57.0 旅館三樓的 309（門會自己鎖；v0.59.0 改成進 309 的小卡 A4h）');
  assert.ok(g.run("Object.values(N).every(n=>(n.c||[]).every(c=>!c.quiet||c.t==='qh'))"));
  g.run("G.node='E2s';G.lv='E';G.zal={};G.alarm=7;G.clock=600");const c0=g.run('G.clock');
  await g.run("(async()=>{const c=choices().find(c=>c.quiet);await spendTime(c);await applyRes(c,c.ok,G.players[0])})()");assert.equal(g.run('G.alarm'),4);assert.equal(g.run('G.clock')-c0,30);
