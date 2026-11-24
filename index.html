@@ -8805,7 +8805,7 @@ const STGL={
  'enc/intense':{v:1,dur:2972,m:{img:1463,name:1858,ui:2601}},
  'raid/intense':{v:1,dur:2972,m:{img:1463,name:1858,ui:2601}},
  'end/explore':{v:1,dur:1400,m:{txt:200,ui:900}}};
-const STGV={id:null,anchor:0,shown:null,sync:null,end:0,ev:null,evAt:0};let STGN=0;
+const STGV={id:null,anchor:0,shown:null,sync:null,end:0,st:0,ev:null,evAt:0};let STGN=0;
 const stgT=s=>STGL[s.k+'/'+s.seg]||STGL['enc/battle'];
 // 房主端：這場演出實際經過了多久（暫停中的不算）
 function stgEl(s,now=Date.now()){return s?Math.min(s.dur,(s.el||0)+(s.at?Math.max(0,now-s.at):0)):0}
@@ -8843,7 +8843,7 @@ function stgMarkup(s){const d=s.d||{};
 const stgRaf=f=>typeof requestAnimationFrame==='function'?requestAnimationFrame(f):setTimeout(f,50);
 function stgDraw(){const el=$('#stg');if(!el)return;const s=G&&!G.over&&G.stg;
   if(!s){if(STGV.shown&&STGV.shown!=='evac'){STGV.shown=null;el.hidden=true;el.innerHTML='';el.className=''}stgEvac(el);return}
-  if(STGV.shown!==s.id){STGV.shown=s.id;el.className='k-'+s.k;el.innerHTML=stgMarkup(s);el.hidden=false;stgFirst(s);stgRaf(stgTick)}}
+  if(STGV.shown!==s.id){STGV.shown=s.id;STGV.st=Date.now();el.className='k-'+s.k;el.innerHTML=stgMarkup(s);el.hidden=false;stgFirst(s);stgRaf(stgTick)}}
 function stgTick(){const el=$('#stg');if(!el||el.hidden)return;
   if(STGV.shown==='evac'){const t=Date.now()-STGV.evAt;el.classList.toggle('m-txt',t>=200);el.classList.toggle('m-ui',t>=900);if(t>=1400){STGV.shown=null;el.hidden=true;el.innerHTML='';el.className='';return}stgRaf(stgTick);return}
   const v=stgView();if(!v||v.s.id!==STGV.shown)return;const T=stgT(v.s);
@@ -8861,7 +8861,7 @@ function stgEvac(el){const F=G&&!G.over&&G.fight;if(!F||!MP()||!Array.isArray(F.
   if(typeof document!=='undefined'&&document.addEventListener){
     document.addEventListener('pointerdown',()=>{pd=Date.now()},true);
     document.addEventListener('visibilitychange',()=>{const s=G&&G.stg;if(!s||MP()||ROLE==='client')return;if(document.hidden){if(s.at){s.el=stgEl(s);s.at=null}}else if(!s.at)s.at=Date.now()});/* 單人切到背景：演出時間停住，回來接著演 */
-    document.addEventListener('click',e=>{if(STGV.end&&pd&&pd<STGV.end&&Date.now()-STGV.end<2000&&!(e.target.closest&&e.target.closest('#stg'))){e.preventDefault();e.stopPropagation()}},true);
+    document.addEventListener('click',e=>{if(STGV.end&&STGV.st&&pd>=STGV.st&&pd<STGV.end&&Date.now()-STGV.end<2000&&!(e.target.closest&&e.target.closest('#stg'))){e.preventDefault();e.stopPropagation()}},true);
     window.addEventListener('keydown',e=>{if(!e.repeat)kd=Date.now();const tg=e.target;if(tg&&(tg.tagName==='INPUT'||tg.tagName==='TEXTAREA'))return;if(document.getElementById('qte'))return;
       if(stgOn()||(e.repeat&&STGV.end&&kd<STGV.end)){e.preventDefault();e.stopPropagation()}},true)}}
 
