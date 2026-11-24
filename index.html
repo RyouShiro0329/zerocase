@@ -1,13 +1,13 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=40f06ede" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=07d960ad" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fx/slash-12.webp" as="image" type="image/webp">
 <link rel="preload" href="fx/blunt-12.webp" as="image" type="image/webp">
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=40f06ede") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=07d960ad") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
@@ -298,7 +298,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .ldleft{position:sticky;top:0;z-index:2;background:#0d0d0b;padding:6px 0;border-bottom:1px solid #3a372f;font:13px var(--label);color:var(--muted)}.ldleft b{color:var(--gold);font-size:1.05rem}
 .strow .cost{display:inline-block;margin-left:6px;padding:0 6px;border:1px solid #6b5e3e;border-radius:3px;color:var(--gold);font:11px/1.6 var(--label);vertical-align:middle}
 .vts{display:inline-flex;gap:3px;margin-left:auto;flex:none}
-.ch.blu{border-color:#4f86c6}.ch.blu .cl{color:#8fc4ff}
+/* v0.67.0：特殊選項只留藍字，外框、背景和一般選項一樣（主人實玩回饋） */.ch.blu .cl{color:#8fc4ff}
 .ch.mine{border-color:var(--gold);box-shadow:inset 0 0 14px #000,0 0 8px rgba(200,173,112,.3)}
 .ch .vts+.tag{margin-left:6px}
 #log .nm{font-weight:700}#log .who{color:var(--muted);font-size:.82em}
@@ -726,7 +726,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.66.0", "b": 139, "t": "2026-11-25T04:03:34+08:00"};
+const ZC_VER={"v": "0.67.0", "b": 140, "t": "2026-11-25T05:39:54+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -1884,7 +1884,7 @@ A6d:{L:'A',n:'三樓走廊・轉角',
 
 你從 304 的門縫看出去。305 的門開著，馬可沒有來得及關上。
 
-你聽見他叫了一聲。只有一聲。`,r:{flag:'corr_lured',karma:-2},p:{fear:10,alarm:1}}}
+你聽見他叫了一聲，接著走廊就安靜了。`,r:{flag:'corr_lured',karma:-2},p:{fear:10,alarm:1}}}
  ]},
 E3d:{L:'E',n:'一樓走廊・寄放間前',
  t:`行李寄放間的門半開著，裡面那個箱子還在一下一下地動。
@@ -3789,12 +3789,12 @@ EVPOOL.push(
   {t:'q',l:'把收音機關掉',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你衝下去按掉了開關。整層樓一下子安靜下來，你在櫃台後面蹲了很久，才聽見外面的腳步聲慢慢散去。`},ng:{t:`你還沒摸到開關，有人已經先進了大廳。`,p:{alarm:2}}},
   {t:'sd',l:'趁聲音掩護搜東西',dl:'繼續仔細翻客房',ok:{t:`廣播的聲音蓋過了你的腳步。你在一間又一間客房裡，匆匆抓走了繩子和幾盒釘子。`,r:{items:{rope:1,nails:1}},p:{alarm:1}}}]},
  {id:'yh4a',z:'Y',stg:[4],t:`走廊上的地毯被人用水沖過。客房的門一間一間貼上了白色的封條，封條上只有一串編號。`,c:[
-  {t:'q',l:'撕開封條',k:'PER',d:12,s:'感知檢定',ok:{t:`房間裡的東西被清得乾乾淨淨，只有浴室的排水孔旁邊，掉了一小瓶消毒用的酒精。`,r:{items:{alcohol:1}}},ng:{t:`封條撕開的瞬間，走廊盡頭的對講機響了一聲。`,p:{alarm:2}}},
+  {t:'q',l:'撕開封條',k:'PER',d:12,s:'感知檢定',ok:{t:`房間裡的東西被清得乾乾淨淨，只有浴室的排水孔旁邊，掉了一小瓶消毒用的酒精。`,r:{items:{alcohol:1}}},ng:{t:`封條撕開的瞬間，走廊盡頭有人轉過了轉角，他肩上的對講機響了一聲。`,p:{alarm:2}}},
   {t:'q',l:'不碰，繼續往前',ok:{t:`你把手縮回來。有些東西，一旦動了就再也瞞不住。`}}]},
  {id:'yh4b',z:'Y',stg:[4],t:`樓梯間的垃圾袋堆在轉角，袋口露出一角黑色的布料，和幾個空的針劑盒。`,c:[
   {t:'q',l:'翻垃圾袋',k:'INT',d:12,s:'智力檢定',ok:{t:`針劑盒上的標籤都被刮掉了。袋子底下有一捲膠帶、兩顆電池，和一條沒用過的布。`,r:{items:{tape:1,battery:2,cloth:1}}},ng:{t:`袋子被你扯倒了，滿地的空盒子嘩啦響了一聲。`,p:{alarm:1}}},
   {t:'q',l:'繞過去',ok:{t:`你貼著牆邊走過，沒有回頭。`}}]},
- {id:'yh4c',z:'Y',stg:[4],t:`走廊另一頭的對講機在說話：「……三樓清完了。換班前再看一遍。」腳步聲往這邊走來。`,c:[
+ {id:'yh4c',z:'Y',stg:[4],t:`走廊另一頭有兩個人往這邊走，其中一個肩上的對講機在說話：「……三樓清完了。換班前再看一遍。」`,c:[
   {t:'q',l:'躲進旁邊的客房',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你從門縫看著兩雙靴子走過去，停在電梯前面。他們把一個袋子放進電梯，按了往下的鈕。`},ng:{t:`門板在你身後輕輕響了一聲。腳步聲停了。`,p:{fear:4},fight:{n:2,mode:'ambush',names:['A.C.R.U. 隊員','A.C.R.U. 隊員']}}},
   {t:'q',l:'先下手為強',ok:{t:`你沒有等他們走近。`,fight:{n:2,mode:'first',names:['A.C.R.U. 隊員','A.C.R.U. 隊員']}}}]}
 );
@@ -4230,7 +4230,7 @@ A6b:{L:'A',n:'三樓走廊・盡頭的窗戶',
 
 街上有人喊了一聲。槍響了兩下，那扇窗的玻璃整片碎掉，光不見了。
 
-警車的無線電開得很大聲，斷斷續續傳上來：「……剛才那個揮手的也是，走到封鎖線前面才撲上來……麥克的手被咬了……上面說了，封鎖區裡看到人影就打，不要再讓任何人靠近……」
+車門後面一個警察對著肩上的對講機大吼，吼得整條街都聽得到，斷斷續續傳上來：「……剛才那個揮手的也是，走到封鎖線前面才撲上來……麥克的手被咬了……上面說了，封鎖區裡看到人影就打，不要再讓任何人靠近……」
 
 探照燈慢慢轉過來，從這一排窗戶上掃過去。你把窗簾放下。在那些人眼裡，分不出誰是活人。只要被看見，就是要攔下來的東西。`},r:{flag:'sawwin'},p:{fear:6}}},
   {t:'sd',l:'拆開充電座的蓋子',stay:1,ok:{t:`蓋子用指甲就扳得開。裡面是兩顆備用的三號電池，還有電。`,r:{items:{battery:2}}}},
@@ -4705,7 +4705,7 @@ N.A6d.c.push({t:'q',l:'在走廊最窄的地方拉一條絆腳繩',blu:{item:['r
 
 你在心裡數。一圈二十二秒，掃過這一面牆的時候有六秒是空的。二樓那一排落地窗也在同一面牆上。
 
-警車的無線電斷斷續續傳上來：「……封鎖區裡看到人影就打……」你把窗簾放下。`,r:{flag:['sawwin','swcount']},p:{fear:4}}});
+底下有個警察又對著對講機吼了一次，聲音傳得上來：「……封鎖區裡看到人影就打……」你把窗簾放下。`,r:{flag:['sawwin','swcount']},p:{fear:4}}});
 }
 // 二樓窗邊：數過探照燈的人，不用賭運氣
 {const c=N.B1w.c;c[2].hide='swcount';
@@ -4917,9 +4917,7 @@ AE4:{L:'A',n:'三樓走廊・撞門聲',deck:'A',cc:1,dcond:{fn:()=>able().some(
 
 可是你分不清是哪一扇門。左邊、右邊、前面、後面，每一扇門好像都在撞，聲音在走廊裡來回彈，越來越大聲。`,
  c:[
-  {t:'m',l:'靠著牆，深呼吸',ok:{t:`你靠著牆蹲下來，閉上眼睛，數自己的呼吸。一、二、三……數到四十的時候，撞門聲變回一個了。
-
-是前面那一扇。只有一扇。`,p:{fear:-12}}},
+  {t:'m',l:'靠著牆，深呼吸',ok:{t:`你靠著牆蹲下來，閉上眼睛，數自己的呼吸。一、二、三……數到四十的時候，撞門聲只剩一個，是前面那一扇。`,p:{fear:-12}}},
   {t:'q',l:'摀住耳朵往前走',tb:[
    {g:'mid',w:2,t:`你摀住耳朵，低著頭往前走。撞門聲被悶住了，你走過了那一段。`},
    {g:'bad',w:1,t:`你摀著耳朵，沒聽到旁邊那扇開著的門裡有腳步聲。`,p:{fear:6},fight:{n:1,mode:'ambush',names:['開著的門裡的感染者']}}]},
@@ -6163,6 +6161,49 @@ N.W0.c.find(c=>c.l==='把鐵門扳開').ng.audio='doorlocked';
 EVPOOL.find(e=>e.id==='radio').audio='radiostatic';
 {const c=N.WP4.c.find(c=>c.ok&&c.ok.r&&c.ok.r.flag==='wpgen');c.ok.audio='genstart';c.ok.audioFlag='wpgen'}
 {const original=N.WP5b.onEnter;N.WP5b.onEnter=function(){original();if(G.flags.wpfail)snd('pumpstop',1,8000)}}
+/* ===== v0.67.0 事件音效標記（主人實玩回饋 SPEC_POLISH_AFTER_v0.66.0 第三～四、七節）=====
+   原本劇情受傷聲是看結果文字猜（hurtSnd），玻璃割傷會播成刀砍、重物也常被當成刀刃。改成每一筆逐條標好：
+   audio＝事件本身的聲音（槍響、玻璃碎、無線電），成功失敗只要事情發生了就響；hs＝扣血時的受傷聲，''＝前面的事件音效已經是這一下，不再疊。
+   沒標 hs 的扣血結果播一般受傷聲（hurt）。路徑：節點/選項索引/ok|ng|hz|tbN…；ev:事件代號 是隨機事件。找不到路徑就在載入時報錯（測試會抓到）。 */
+{const ZAUD=(path,o)=>{const seg=path.split('/');let x=seg[0].startsWith('ev:')?EVPOOL.find(e=>e.id===seg[0].slice(3)):N[seg[0]];
+  for(const k of seg.slice(1)){if(!x)break;x=/^\d+$/.test(k)?x.c[+k]:/^tb\d+$/.test(k)?x.tb[+k.slice(2)]:x[k]}
+  if(!x||typeof x!=='object')throw new Error('音效標記找不到：'+path);Object.assign(x,o)};
+ const T={
+  /* 撞擊、摔倒、被砸：鈍擊（thud） */
+  thud:['ev:lights/1/ng','ev:blood/0/ng','ev:c_cable/0/ng','ev:c_cable/1/ng','ev:c_drop/0/ng','ev:d_curtain/0/ng','ev:d_ladder/0/ng','ev:p_crawl/1/ng','ev:yh2a/0/ng','ev:sk_ladder/0/ng','ev:su_flood/0/ng','ev:su_flood/1/ng',
+   'C1/0/ng','C2/1/ng','D4/0/ng','R4/2/ng','P4/0/ng','J2/0/ok/hz/ng','M1/2/ng','U1/0/ng','OE12/1/ng','OB7/4/ng','P2c/0/ng','AD1/0/tb1/hz/ng','AE1/1/tb0','HG3/0/ng','AM1/2/tb2','AT1/0/tb2',
+   'BD6/1/ng/hz/ng','PD2/1/ng','CD1/0/ng','CD1/1/ng','CD5/0/ng','DD2/0/ng','DD3/0/ng','B1w/2/ok/hz/ng','RD1/1/tb1'],
+  /* 擦傷、割傷（已經碎掉的玻璃、鐵絲、釘子）、夾到、嗆到、燙到：一般受傷聲；不播刀砍、槍彈命中 */
+  hurt:['ev:floor/0/ng','ev:yh1b/0/ng','ev:yh3a/0/ng','ev:d_ladder/1/ng','ev:f_grease/0/ng','ev:g_pipe/0/ng','ev:sq_speaker/0/ng',
+   'A4c/0/tb2','A6/2/ng','C2/1/ok/hz/ng','D2x/0/ng','R4/0/ng','Q1/1/ng','OB2/3/ng','OB3/1/ng','W0/2/ng','L0/2/ng','BA0/4/ng','PP0/0/ng','PP4/0/ng','WP1/1/ng',
+   'WP3/0/ok/hz/ok','WP3/0/ok/hz/ng','P2b/1/ng','HG2/0/ng','AM2/1/tb2','AM6/0/tb2','GD1/0/ng','DD3/1/ng'],
+  bite:['ev:su_rats/1/ng','OF2a/1/ng/hz/ng','OF2a/2/ng/hz/ng','OF4b/0/ng/hz/ng','OF6/0/ng/hz/ng'],
+  claw:['AT5/3/tb2'],
+  zap:['OB3/0/ng','W1/1/ok','N0/1/ng','PP5/1/ok/hz/ng'],
+  /* 事件音效已經是這一下（門板砸臉、玻璃碎、鎖死的鐵門、槍聲），不再疊受傷聲 */
+  '':['A2/0/ng','A4/3/tb2','W0/1/ng','F2/2/ok','B1w/0/ng/hz/ng','B2w/0/ng/hz/ng','B2w/2/ng/hz/ng','BD1/1/ng/hz/ng','BD2/1/tb1/hz/ng','L0/3/ng']};
+ for(const [hs,ps] of Object.entries(T))for(const p of ps)ZAUD(p,{hs});
+ /* 槍聲：窗外、街上的槍擊用遠處短連射（2～4 發，壓低）；真的碎了玻璃才接玻璃聲。避開了槍擊，已經響過的槍聲照樣聽得到 */
+ const A={
+  'B1w/0/ng/hz':'farshotsglass',/* 白光停在身上→槍響→窗框上的玻璃碎了（成敗都碎） */
+  'B1w/2/ok/hz/ng':'farshots',/* 子彈從玻璃穿進來，玻璃沒有整片碎 */
+  'B2w/0/ok':'farshotsglass','B2w/0/ng/hz':'farshotsglass','B2w/1/ok':'farshots2glass','B2w/2/ng/hz':'farshotsglass',
+  'BD1/1/ng/hz':'farshots','BD1/1/ng/hz/ng':'glassbreak',/* 成功：子彈打進牆裡；失敗：窗玻璃碎了 */
+  'BD2/1/tb1/hz':'farshots','BD2/1/tb1/hz/ng':'glassbreak',
+  'RD1/1/tb1':'farshots','A1/0/ok':'farshots','A6b/0/ok':'farshots2glassfar',/* 對面大樓那扇窗：兩槍、遠處的玻璃 */
+  'ev:raid1/3/ng':'shot1','K2/0/ng':'shot1','L0/3/ng':'shotsglass','ZA/0/ok':'farmp5','ZA/0/ng':'mp5',
+  'BA0/4/ok':'rifle','BA0/4/ng':['rifle','farrifle'],
+  /* 真的碎了才播玻璃聲；踩到碎玻璃是另一個聲音 */
+  'U2/0/ng':'glassbreak','BD4/0/ng':'glassstep','YD4/1/ng':'glassstep',
+  /* 無線電：聲音都來自看得到的設備或拿著它的人 */
+  'AM3/0/tb0':'radiostatic','AM3/0/tb1':'radiostatic','AM3/1/tb0':'radiostatic','AM3/1/tb1':'radiostatic','AM3/1/tb2':'radiostatic','AM3/2/ok':'radiostatic',
+  'RD2/1/tb2':'radiostatic','CA4/1/ok':'radiostatic','ev:yh4a/0/ng':'radiostatic'};
+ for(const [p,audio] of Object.entries(A))ZAUD(p,{audio});
+ /* 場景描寫裡已經發生的聲音（第一次走進來時響） */
+ Object.assign(N.A1,{audio:'streetshots3glassfar'});N.A1r.audio='farshots';N.A1z.audio='farshots';N.V3.audio='farshot1';
+ N.AM3.audio='radiostatic';N.L1.audio='radiostatic';N.CA4.audio='radiostatic';
+ EVPOOL.find(e=>e.id==='acru1').audio='farshot1';EVPOOL.find(e=>e.id==='yh4c').audio='radiostatic';
+ N.WP3.c[0].ok.hz.audio='ext';/* 氯氣鋼瓶漏氣的嘶聲（滅火器噴氣的合成嘶聲，同樣是高壓氣體） */}
 const CREDITS=`音效沿用《零號病例》原專案素材。其中：“Headshot 2” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；“GROSS IMPACT” by magnuswaker（Freesound，CC0）；“Monster Bite on Armor WAV” by OGsoundFX（Freesound，CC BY 4.0）；“Acid Breath Attack” by Dylan Kelk／SilverIllusionist（Freesound，CC BY 4.0）；裝備切換音效取自 Ryan Conway “putting coat on and off with zippers”（Freesound，CC BY 4.0）。新增音效（CC0）：glassbreak—RangoAnimations（613879）、firealarm—simonjeffery13（792484）、genstart／genloop—jameswrowles（516759）、dryfire—serøutōnin--deprivəd（674568）、woodknock—RoyalRose（560295）、woodimpact—qubodup（160213）。<a href="docs/audio/LICENSES_AND_ORIGINS.md" target="_blank" rel="noopener">作者、Freesound 原始網址與授權紀錄</a>。第二批 CC0：踩玻璃 LukaCafuka（757830）、管線水聲 HenKonen（797674）、水泵 unfa（221551）、無線電雜訊 harrisonlace（812929）。人聲：VoiceBosch「RADIO SOLDIER」，降一個半音、切段、調整音量；衍生音檔採 <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">CC BY-SA 4.0</a>，<a href="https://voicebosch.itch.io/radio-soldier-announcer-audio-pack" target="_blank" rel="noopener">作者來源</a>。以上音效作者與本作品無關，也未替本作品背書。穿刺命中音效：“Sword Stab Body Hit” by <a href="https://freesound.org/people/-GeorgeDiamond-/sounds/718259/" target="_blank" rel="noopener">-GeorgeDiamond-（Freesound 718259）</a>，<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>；轉為 MP3，播放時調整音量。弓／弩發射音效：<a href="https://freesound.org/people/Erdie/sounds/65734/" target="_blank" rel="noopener">“bow02.wav” by Erdie</a>，<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>；濾波、等化、縮尾與音量調整。骰子音效為程式即時合成。舊版戰鬥與遭遇配樂改作自 <a href="https://opengameart.org/content/imminent-threat" target="_blank" rel="noopener">Imminent Threat，Matthew Pablo</a>（Music by Matthew Pablo，<a href="https://www.matthewpablo.com" target="_blank" rel="noopener">www.matthewpablo.com</a>）；改作音訊採 <a href="https://creativecommons.org/licenses/by-sa/3.0/" target="_blank" rel="noopener">CC BY-SA 3.0</a>。《零號病例》版本曾進行混音、剪接、循環與音量處理。原作者未參與或背書本遊戲。一般戰鬥與激戰配樂：“Hitman” by <a href="https://incompetech.com/music/royalty-free/index.html?Search=Search&isrc=USUAN1300013" target="_blank" rel="noopener">Kevin MacLeod（incompetech.com）</a>，<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>；分段、首尾短淡化及轉檔，作者未替本遊戲背書。<br><br>中文字型：全字庫正楷體（國家發展委員會，2018）；英文字型：Source Serif 4。<a href="fonts/SOURCES.md" target="_blank" rel="noopener">字型來源與授權</a>。`;
 const LS={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
 let UI=Object.assign({snd:1,bgm:1,spd:1,orient:'auto',diff:'normal',qkey:'wasd'},LS.get('zc5-ui',{}));
@@ -6430,7 +6471,7 @@ function resultAudio(o){
   if(!o)return;
   if(o.audioStop==='firealarm'){G.audioAlarmOff=G.audioVisit||0;syncAmbience()}
   if(o.audio==='genstart'){if(G.flags[o.audioFlag])return;G.audioGenAt=Date.now();G.audioGenNode=G.node;snd('genstart',1,7500)}
-  else if(o.audio)snd(o.audio,1);
+  else if(o.audio)for(const k of [].concat(o.audio))snd(k,1);/* v0.67.0 可以是陣列 */
 }
 function foeStep(f){return FT(f).fac==='inf'?'zstep':'step'}
 function encounterStep(foes){return foes.some(f=>FT(f).fac==='inf')?'zstep':'step'}
@@ -6506,6 +6547,7 @@ function sfx(k,v,max){
   if(k==='pumpstop'&&G){PUMP_STOP_VISIT=G.rid+':'+G.node+':'+(G.audioVisit||0);if(AMBIENT&&AMBIENT.id==='pumpmix')stopAmbience()}
   if(!UI.snd||document.hidden)return 0;
   if(k==='bowhit'||k==='bowmiss')return playBowShot(k==='bowhit',v);
+  if(SCUE[k]){try{return shotCue(k,v)}catch(e){console.warn('[ZeroCase audio] 音效播放失敗',k,e);return 0}}
   if(['arrowhit','arrowmiss','xbowhit','xbowmiss'].includes(k))return playArrowAudio(k.startsWith('xbow')?'crossbow':'bow',k.endsWith('hit'),false,v);
   try{
     if(/^radio\d{2}$/.test(k)&&Date.now()<RADIO_UNTIL)return 0;
@@ -6528,6 +6570,33 @@ function playBowShot(hit,v=1){
   return Math.max(shot||0,impact?1180+impact:0);
 }
 async function bowAttackAudio(hit,mode='bow'){await loadArrowSound();const ms=snd(mode==='crossbow'?(hit?'xbowhit':'xbowmiss'):(hit?'arrowhit':'arrowmiss'),1);await wait(ms||(mode==='bow'?1900:1000))}
+/* v0.67.0 組合音效（主人實玩回饋 SPEC_POLISH_AFTER_v0.66.0 第四節）：遠處槍聲用現有的 beretta／mp5／rifle 排成短連射，
+   壓低音量、濾掉高頻，像從室外傳進來；glass 接在最後一發後面（far＝遠處的玻璃，一樣壓低）。間隔是畫面亂數（不吃種子），不鎖操作、不碰 BGM。
+   這是演出，發數不代表實際攻擊次數。素材沒載入就不播（不換成別的聲音）。 */
+const SCUE={
+ farshot1:{gun:'beretta',n:[1,1],far:1},
+ farshots:{gun:'beretta',n:[2,4],far:1},
+ farshots2:{gun:'beretta',n:[2,2],far:1},
+ farshotsglass:{gun:'beretta',n:[2,4],far:1,glass:'near'},
+ farshots2glass:{gun:'beretta',n:[2,2],far:1,glass:'near'},
+ farshots2glassfar:{gun:'beretta',n:[2,2],far:1,glass:'far'},
+ streetshots3glassfar:{gun:'beretta',n:[3,3],far:.5,glass:'far'},
+ shot1:{gun:'beretta',n:[1,1],far:0},
+ shotsglass:{gun:'beretta',n:[3,4],far:0,glass:'near'},
+ farmp5:{gun:'mp5',n:[1,1],far:1,len:2.8},
+ farrifle:{gun:'rifle',n:[1,1],far:1,len:1.7}
+};
+const SCUE_FAR={1:{g:.38,lp:1500},.5:{g:.62,lp:2600}};
+function cueAt(n,vol,t,lp,len){const a=audio();if(!a||!BUF[n])return 0;const s=a.createBufferSource();s.buffer=BUF[n];const g=a.createGain();g.gain.value=vol;
+  if(lp){const f=a.createBiquadFilter();f.type='lowpass';f.frequency.value=lp;s.connect(f);f.connect(g)}else s.connect(g);
+  g.connect(SFX_MASTER||a.destination);trackSfx(s,g);const at=a.currentTime+t,dur=Math.min(len||BUF[n].duration,BUF[n].duration);
+  s.start(at);if(len&&len<BUF[n].duration){g.gain.setValueAtTime(vol,at+Math.max(0,dur-.12));g.gain.linearRampToValueAtTime(.0001,at+dur)}s.stop(at+dur);return dur}
+function shotCue(k,v=1){const C=SCUE[k];if(!C||!audio()||!BUF[C.gun])return 0;const F=SCUE_FAR[C.far]||{g:1,lp:0};
+  const n=C.n[0]+Math.floor(Math.random()*(C.n[1]-C.n[0]+1));let t=0,last=0;
+  for(let i=0;i<n;i++){cueAt(C.gun,sfxLevel(C.gun,v)*F.g,t,F.lp,C.len||(n>1?.55:0));last=t;t+=.16+Math.random()*.2}
+  let end=last+Math.min(C.len||.55,BUF[C.gun].duration);
+  if(C.glass&&BUF.glassbreak){const gt=last+.14,far=C.glass==='far';const d=cueAt('glassbreak',sfxLevel('glassbreak',v)*(far?.42:1),gt,far?2200:0);end=Math.max(end,gt+d)}
+  return Math.round(end*1000)}
 async function sfxW(k,v,max,ratio=1){const ms=sfx(k,v,max);if(ms)await wait(ms*ratio*Math.max(.4,UI.spd))}
 /* ================= 擲骰（本機演出） ================= */
 /* ============ 擲骰 ============ */
@@ -7072,7 +7141,7 @@ async function enterNode(id){
   if(nd.ev){const ch=LV[nd.L].ch||1;const mine=evCands(nd);const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;if(EVPOOL[i].id==='rain')beginRainAudio();out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
   else if(seen&&zr&&(zr.role==='hub'||(zr.role==='room'&&zDone(zr.z)))){hd(nd.n);out(`你回到${/^\w/.test(nd.n)?' ':''}${nd.n}。`,'lore')}
   else if(seen&&nd.sr){hd(nd.n);if(from!==id)out(`你回到${/^\w/.test(nd.n)?' ':''}${nd.n}。`,'lore')}
-  else{hd(nd.n+(CKIND[nd.kind]?'　｜'+CKIND[nd.kind]:''));out(nd.t,'lore');if(nd.tx){const x=nd.tx();if(x)out(x,'lore')}if(nd.tm)outMe(G.players.filter(p=>p.kind==='maggie'&&teamHere(p)),nd.tm,'lore')}
+  else{hd(nd.n+(CKIND[nd.kind]?'　｜'+CKIND[nd.kind]:''));out(nd.t,'lore');if(nd.tx){const x=nd.tx();if(x)out(x,'lore')}if(nd.tm)outMe(G.players.filter(p=>p.kind==='maggie'&&teamHere(p)),nd.tm,'lore');if(nd.audio)resultAudio({audio:nd.audio})/* v0.67.0 場景描寫裡已經發生的聲音（槍聲、無線電） */}
   for(const f of afterScene)f();
   if(id==='WP5')G.flags.wpfail=0;AUDIO_MOVING=false;syncAmbience();if(id==='A2')snd('woodimpact',1,2400);
   syncCodex(G,true);reportEffects();reportGround();
@@ -7295,7 +7364,7 @@ async function outcome(o,actor){
     if(gasZone()){await explode();}}
   if(r.gasboom){skipHp=true;if(G.flags.gasoff)out('……什麼都沒有發生。瓦斯總閥剛才已經被關掉了。槍聲在廚房裡迴盪。','good');else await explode()}
   if(p.fear){const n=p.fear;for(const q of able()){if(n>0){if(o.resist==='storyFear')await resistFear(q,n);else scare(q,n)}else relax(q,Math.round(-n*1.5))}}
-  if(p.hp&&!skipHp){await flush();if(p.hp<0){snd(hurtSnd(o.t),.6);hurtP(actor,-p.hp)}else{const h=Math.min(actor.max-actor.hp,p.hp);actor.hp+=h;if(h>0)out(`${MP()?nm(actor)+'：':''}生命 +${h}。`,'good',true)}}/* v0.64.0 回血也寫進紀錄（跟休息一樣的格式） */
+  if(p.hp&&!skipHp){await flush();if(p.hp<0){/* v0.67.0 受傷聲照結果上標的 hs（''＝事件音效已經有了，不另外播），不再看文字猜 */const hs=o.hs===undefined?'hurt':o.hs;if(hs)snd(hs,.6);hurtP(actor,-p.hp)}else{const h=Math.min(actor.max-actor.hp,p.hp);actor.hp+=h;if(h>0)out(`${MP()?nm(actor)+'：':''}生命 +${h}。`,'good',true)}}/* v0.64.0 回血也寫進紀錄（跟休息一樣的格式） */
   if(p.inf)addInf(actor,p.inf);
   if(p.hun)actor.hun=clamp(actor.hun+p.hun,0,10);if(p.thi)actor.thi=clamp(actor.thi+p.thi,0,10);
   if(p.hun||p.thi)out(`${MP()?nm(actor)+'：':''}${p.hun?`飢餓 ${p.hun>0?'+':''}${p.hun}　`:''}${p.thi?`口渴 ${p.thi>0?'+':''}${p.thi}`:''}`.trim(),p.hun<0||p.thi<0?'dmg':'good',true);/* v0.64.0 吃東西、喝水的結算照吃道具的格式寫出來 */
@@ -8994,36 +9063,68 @@ function qteLocal(s){
 /* ---- 隨機意外：到了一個地方之後，偶爾會有東西突然砸下來 ---- */
 const HAZ={
  1:[
-  {t:'頭頂傳來「啪」的一聲。天花板的燈管連著支架，整排垂了下來——',w:['閃避','翻滾','起身','後退'],hp:3,bleed:.4,ok:'你往旁邊一撲。燈管砸在剛剛站的地方，碎玻璃濺了一地。',ng:'燈管砸在肩膀上，碎玻璃劃開了皮膚。'},
-  {t:'走廊盡頭，一台載滿行李的推車自己滑了過來，越來越快——',w:['閃避','貼牆','站穩','後退'],hp:3,ok:'你貼著牆讓開。推車撞上安全門，行李箱彈開，衣服散了一地。',ng:'推車撞在腿上，你整個人被掀倒在地。'},
-  {t:'腳下的地毯突然往下一陷。底下的木板早就爛了——',w:['跳開','抓住','撐起','爬開'],hp:3,frac:.2,ok:'你在地板塌下去之前跳開了。洞底黑漆漆的，聽得到水聲。',ng:'一條腿陷了進去，斷掉的木板刮過小腿。'},
-  {t:'通風口的鐵網「哐」地被撞開，一隻灰白的手伸了出來，往你的脖子抓——',w:['後仰','格擋','推開','後退'],hp:2,inf:5,ok:'你往後一仰，指甲擦過下巴。那隻手在空中抓了幾下，縮了回去。',ng:'那隻手抓住了你的衣領，指甲陷進脖子。你用力掙脫，留下幾道血痕。'},
-  {t:'旁邊的窗戶突然整片爆開——',w:['護臉','轉身','蹲下','後退'],hp:2,bleed:.6,ok:'你及時用手臂擋住臉。玻璃碎片打在袖子上，沙沙作響。',ng:'碎玻璃打在臉上和手上，到處都是細小的傷口。'}],
+  {id:'tube',env:'tube',audio:'glassbreak',hs:'thud',t:'頭頂傳來「啪」的一聲。早就鬆脫的吊架撐不住了，天花板的燈管連著支架，整排垂了下來——',w:['閃避','翻滾','起身','後退'],hp:3,bleed:.4,ok:'你往旁邊一撲。燈管砸在剛剛站的地方，碎玻璃濺了一地。',ng:'燈管砸在肩膀上，碎玻璃劃開了皮膚。'},
+  {id:'cart',env:'cart',hs:'thud',t:'走廊另一端傳來撞擊聲。一名感染者撞上停在牆邊的推車，推車失去平衡，朝你的方向滑了過來——',w:['閃避','貼牆','站穩','後退'],hp:3,ok:'你貼著牆讓開。推車撞上牆角翻倒，車上的東西散了一地。撞到推車的那個身影晃了晃，拖著腳往另一頭走開了。',ng:'推車撞在腿上，你整個人被掀倒在地。'},
+  {id:'floor',env:'floor',audio:'woodimpact',hs:'thud',t:'腳下的地板突然往下一陷。泡了水的木板底下早就爛了——',w:['跳開','抓住','撐起','爬開'],hp:3,frac:.2,ok:'你在地板塌下去之前跳開了。洞底黑漆漆的，聽得到水聲。',ng:'一條腿陷了進去，斷掉的木板刮過小腿。'},
+  {id:'vent',env:'vent',hs:'claw',t:'牆上那個大型通風口的鐵網「哐」地被撞開。有東西順著風管爬了過來，一隻灰白的手伸出來，往你的脖子抓——',w:['後仰','格擋','推開','後退'],hp:2,inf:5,ok:'你往後一仰，指甲擦過下巴。那隻手在空中抓了幾下，縮了回去。',ng:'那隻手抓住了你的衣領，指甲陷進脖子。你用力掙脫，留下幾道血痕。'},
+  {id:'window',env:'window',audio:'farshotsglass',hs:'',t:'外面傳來幾聲槍響，旁邊的窗戶整片爆開——',w:['護臉','轉身','蹲下','後退'],hp:2,bleed:.6,ok:'你及時用手臂擋住臉。玻璃碎片打在袖子上，沙沙作響。',ng:'碎玻璃打在臉上和手上，到處都是細小的傷口。'}],
  2:[
-  {t:'頭頂傳來金屬斷裂的聲音。一塊生鏽的招牌從三樓脫落，直直砸下來——',w:['閃避','撲倒','翻滾','起身'],hp:4,ok:'你往前一撲。招牌砸在背後，碎片彈到小腿上。',ng:'招牌的邊角擦過頭頂，你眼前一黑，跪倒在地上。'},
-  {t:'引擎的怒吼從轉角傳來。一台沒人駕駛的貨車失控衝上人行道——',w:['跳開','翻滾','爬開','起身'],hp:5,frac:.25,ok:'你往旁邊的公車候車亭一跳。貨車撞進便利商店的玻璃門，警報器響個不停。',ng:'後照鏡掃過你的身體，你被撞飛出去，摔在柏油路上。',alarm:1},
-  {t:'樓上一台窗型冷氣從窗框裡滑了出來，直直往下掉——',w:['閃避','後退','站穩','閃避'],hp:4,ok:'冷氣砸在腳邊，外殼碎成兩半。你的心跳好一陣子才慢下來。',ng:'冷氣的邊角砸中了你的手臂，整條手臂都麻了。'},
-  {t:'工地的鷹架開始搖晃。上面的鋼管一根接一根滑落——',w:['閃避','掩護','翻滾','爬開'],hp:3,bleed:.3,ok:'你縮到一台汽車後面。鋼管砸在引擎蓋上，叮叮噹噹滾了一地。',ng:'一根鋼管彈起來，打在你的背上。'},
-  {t:'一隻眼睛發白的烏鴉從電線上俯衝下來，直撲你的臉——',w:['揮開','護臉','格擋','後退'],hp:2,inf:4,ok:'你一揮手，牠撞在路燈上，掉進水溝裡不動了。',ng:'牠的爪子抓破了你的臉頰，嘴裡有股腐爛的味道。'}]
+  {id:'sign',env:'sign',hs:'thud',t:'頭頂傳來金屬斷裂的聲音。一塊招牌的固定架鏽斷了，招牌從三樓脫落，直直砸下來——',w:['閃避','撲倒','翻滾','起身'],hp:4,ok:'你往前一撲。招牌砸在背後，碎片彈到小腿上。',ng:'招牌的邊角擦過頭頂，你眼前一黑，跪倒在地上。'},
+  {id:'truck',env:'truck',okA:'glassbreak',hs:'thud',t:'引擎的怒吼從轉角傳來。一台貨車失控衝上人行道，駕駛趴在方向盤上一動也不動——',w:['跳開','翻滾','爬開','起身'],hp:5,frac:.25,ok:'你往旁邊的公車候車亭一跳。貨車撞進路邊店面的玻璃門，警報器響個不停。',ng:'後照鏡掃過你的身體，你被撞飛出去，摔在柏油路上。',alarm:1},
+  {id:'ac',env:'ac',hs:'thud',t:'樓上一台窗型冷氣連著鏽掉的支架，從窗框裡滑了出來，直直往下掉——',w:['閃避','後退','站穩','閃避'],hp:4,ok:'冷氣砸在腳邊，外殼碎成兩半。你的心跳好一陣子才慢下來。',ng:'冷氣的邊角砸中了你的手臂，整條手臂都麻了。'},
+  {id:'pipe',env:'pipe',hs:'thud',t:'旁邊臨時搭的鷹架被風吹得一直搖晃，上面沒綁牢的鋼管一根接一根滑落——',w:['閃避','掩護','翻滾','爬開'],hp:3,bleed:.3,ok:'你縮到一台車後面。鋼管砸在引擎蓋上，叮叮噹噹滾了一地。',ng:'一根鋼管彈起來，打在你的背上。'},
+  {id:'crow',env:'crow',hs:'claw',t:'一隻眼睛發白的烏鴉從電線上俯衝下來，直撲你的臉——',w:['揮開','護臉','格擋','後退'],hp:2,inf:4,ok:'你一揮手，牠撞在路燈上，掉進水溝裡不動了。',ng:'牠的爪子抓破了你的臉頰，嘴裡有股腐爛的味道。'}]
 };
 // 只標記既有物理意外；不把污染、火焰或持續扣血變成部位傷勢。
 for(const [ch,types] of [[1,['blunt','blunt','blunt','slash','slash']],[2,['blunt','blunt','blunt','blunt','pierce']]])HAZ[ch].forEach((h,i)=>h.woundDt=types[i]);
 /* v0.66.0（主人 2026-11-25 第 4.2 節，選 B）：十種隨機意外改成背景敏捷豁免（不再是 QTE）。通風口的手還沒抓到人，是躲開的事：敏捷。
    出現機率、挑人、傷害、感染、流血、傷勢、警戒、音效、冷卻都照舊。 */
 for(const [ch,dcs] of [[1,[11,11,12,12,12]],[2,[12,13,12,12,11]]])HAZ[ch].forEach((h,i)=>{h.st='AGI';h.dc=dcs[i]});
+/* v0.67.0 隨機意外的場所條件（主人實玩回饋 SPEC_POLISH_AFTER_v0.66.0 第五節）：
+   每一筆 HAZ 的 env 要在這個地方的環境標記裡才會抽到；標記照節點（HZN）→ 地點（HZL）的順序查，沒寫就是沒有。
+   tube 天花板有燈管、cart 有推車的走廊或工作區、floor 泡水爛掉的木頭地板、vent 大型通風口或風管、window 靠窗（窗外有槍聲）、
+   sign 有店家招牌的街道、truck 有車會開過來的路邊、ac 樓上有窗型冷氣、pipe 臨時搭的鷹架、crow 戶外。
+   301 出生客房（還在房裡的開場）一律不出通用意外（HZBAN）。同一個地方同一種意外只發生一次（G.hzDone，舊存檔沒有就當作空的）。
+   機率、冷卻、DC、傷害都沒動；抽人、抽意外照舊走 RNG（種子）。 */
+const HZBAN=['A1','A2','A1r','A1w','A1m','A1d','A1z','AO2','AO3','AO4','AO5'];
+const HZL={A:['cart'],B:['cart'],C:[],D:['ac','crow','window'],E:['tube','cart'],G:['tube','vent'],I:['cart'],R:['crow'],Y:['cart'],
+ J:['sign','truck','ac','crow'],K:['ac','crow'],M:['tube'],Q:['crow','pipe'],BQ:['crow','pipe'],U:['tube','vent'],V:['sign','truck','ac','crow'],Z:['sign','truck','ac','crow'],X:['crow'],
+ T:['tube'],O:['tube','cart'],OF:['tube','cart'],OB:['tube','cart','vent'],L:['tube'],S:['tube','cart'],N:['tube'],CA:['crow','pipe'],BA:['crow'],PP:['tube'],WP:['crow'],W:['crow'],BM:['crow'],
+ SA:['tube','vent'],SB:['tube','vent'],SC:['tube','vent']};
+const HZN={
+ /* 三樓：客房、樓梯、小隔間沒有推車；靠窗的地方才有窗 */
+ A3x:[],A4b:[],A4c:[],A4h:[],AUe:[],AUs:[],A6e:[],AT3:[],ASw:[],ASe:[],AQ:[],
+ ASm:['window'],AT2:['window'],A6b:['window','cart'],AD1:['tube','floor','cart'],HG3:['floor','cart'],
+ /* 二樓：窗邊的槍擊都是寫好的劇情，不再疊隨機的窗戶 */
+ B2p:[],B2m:[],B2b:[],BD3:[],BD5:[],BXQ:[],
+ /* 一樓後場 */
+ E2o:['tube'],E2s:['tube'],E1s:[],E5:['tube'],E6:['tube'],ED1:['tube'],H5:['tube'],EXQ:[],
+ /* 地下：停車場只有燈管；排風口、設備層才有大型風管 */
+ P1:['tube'],P2:['tube'],P4:['tube'],P1k:['tube'],P2b:['tube'],PD1:['tube'],PD2:['tube'],PD3:['tube'],PD4:['tube'],P2c:['tube','vent'],G2:['tube'],G2g:['tube'],G1c:['tube'],GD4:['tube'],GXQ:[],
+ CXQ:[],DXQ:[],RXQ:[],K4:['crow'],
+ M1:['tube','window'],M4:['crow'],M3s:['tube','crow'],M5:['sign','truck','crow'],
+ J2:['tube'],T2:['crow'],O0:['crow'],Orv:['crow'],OE6:['tube'],OB2:['tube','vent'],L0:['crow'],S0:['cart'],S1:['tube','cart','window'],S3:['tube','vent'],
+ BA2:['tube'],BA3:['tube'],BA4:['tube'],PP0:['crow'],PP5:['crow'],PP5t:['crow'],PP5w:['crow'],PP6:['crow'],WP3:['tube'],WP4:['tube'],WP5:['tube'],WP5b:['tube'],
+ CA3:[],CA4:[],CA5:[],Q2:[],Q4:['crow']};
+const hzBanned=id=>HZBAN.includes(id);
+function hzEnvOf(id,L){return HZN[id]||HZL[L]||[]}
+function hzCands(id,L){const env=hzEnvOf(id,L),done=(G.hzDone&&G.hzDone[id])||[];return [...HAZ[1],...HAZ[2]].filter(h=>env.includes(h.env)&&!done.includes(h.id))}
+function hzMark(id,H){if(!id)return;G.hzDone=G.hzDone||{};(G.hzDone[id]=G.hzDone[id]||[]).push(H.id)}
 async function hazard(nd){
   if(G.over||G.fight||!nd||nd.noHaz||nd.trade||nd.rest)return false;
+  if(hzBanned(G.node))return false;/* v0.67.0 301 出生客房（還在房裡的開場）不出通用意外，冷卻也不動 */
   if(G.hazCd>0){G.hazCd--;return false}
+  const cs=hzCands(G.node,G.lv);if(!cs.length)return false;/* v0.67.0 這裡沒有合理的意外就略過，不設冷卻 */
   if(RNG()>=DF().haz)return false;
   const ts=able();if(!ts.length)return false;
-  G.hazCd=3;const p=pick(ts);const H=pick(HAZ[G.ch>=2?2:1]);
-  out(MP()?`${nm(p)}——${H.t}`:H.t,'bad');push();draw();
+  G.hazCd=3;const p=pick(ts);const H=pick(cs);hzMark(G.node,H);
+  out(MP()?`${nm(p)}——${H.t}`:H.t,'bad');if(H.audio)snd(H.audio,1);push();draw();
   const prior=LASTJ;let c;try{c=await check(p,H.st,H.dc,'躲開意外',0,{bg:'豁免'})}finally{LASTJ=prior}
   await applyHaz(p,H,c.ok);return !!G.over}
 async function applyHaz(p,H,ok){
-  if(ok){out(H.ok,'good');await deathCheck();return}
+  if(ok){if(H.okA)snd(H.okA,1);out(H.ok,'good');await deathCheck();return}
   out(`${MP()?nm(p)+'：':''}${H.ng}`,'dmg');
-  const d=Math.max(1,Math.round(H.hp*DF().dmg));snd(hurtSnd(H.ng),.7);hurtP(p,d);p.taken=(p.taken||0)+d;
+  const d=Math.max(1,Math.round(H.hp*DF().dmg));if(H.hs)snd(H.hs,.7);hurtP(p,d);/* v0.67.0 受傷聲照每一筆標好的 hs，不看文字 */p.taken=(p.taken||0)+d;
   if(H.inf){const b=p.inf;addInf(p,H.inf);if(p.inf>b)out(`感染 +${p.inf-b}。`,'dmg',true)}
   if(H.bleed&&RNG()<H.bleed){p.bleed=Math.min(2,p.bleed+1);out('傷口開始流血。','dmg',true)}
   if(false&&H.frac){p.frac=1;out(`<b>骨折</b>：${MP()?nm(p)+'的':''}腿使不上力。有效敏捷 −3，連帶影響相關攻防、先攻；用夾板固定或止痛藥生效期間解除。`,'dmg',true)}
@@ -9035,18 +9136,18 @@ async function applyHaz(p,H,ok){
 async function storyQte(res,actor){
   const q=res.qte;const p=actor&&!actor.dead&&!actor.down?actor:able()[0];if(!p)return null;
   const ok=await qte(p,{t:q.t,w:q.w,n:q.n});const sub=ok?q.ok:q.ng;
-  if(sub){if(sub.t)out(sub.t,ok?'good':'bad');await outcome(sub,p)}
+  if(sub){resultAudio(sub);if(sub.t)out(sub.t,ok?'good':'bad');await outcome(sub,p)}
   return sub}
 
 /* ---- v0.65.0 劇情裡的危險檢定：結果裡放 hz:{st,dc,l,t,ok:{...},ng:{...}}（主人 2026-11-24 定案：身體對抗、身體承受改用能力檢定，不在 QTE 裡加骰子）
    由實際做這件事的人擲；mask＋mk：戴著有濾罐的防毒面具就直接走 mk，不擲。檢定沿用一般檢定，不覆蓋劇情主檢定的 LASTJ。 */
 async function storyHz(res,actor){
   const q=res.hz;const p=actor&&!actor.dead&&!actor.down?actor:able()[0];if(!p)return null;
-  if(q.t)out(MP()?`${nm(p)}——${q.t}`:q.t,'bad');
+  if(q.t)out(MP()?`${nm(p)}——${q.t}`:q.t,'bad');if(q.audio)resultAudio(q);/* v0.67.0 已經發生的事（槍響、玻璃碎）先響，成敗都聽得到 */
   let sub,good=true;
   if(q.mask&&q.mk&&maskWorn(p)&&p.mf>0)sub=q.mk;
   else{const prior=LASTJ;let c;try{c=await check(p,q.st,q.dc,q.l||STN[q.st]+'檢定',0,q.vis?null:{bg:q.bk||'豁免'})}finally{LASTJ=prior}sub=c.ok?q.ok:q.ng;good=c.ok}/* v0.66.0 被動的危險在背景擲；vis＝玩家自己選了要做的事，照樣跳骰子 */
-  if(sub){if(sub.t)out(sub.t,good?'good':'bad');await outcome(sub,p)}
+  if(sub){resultAudio(sub);if(sub.t)out(sub.t,good?'good':'bad');await outcome(sub,p)}
   return sub}
 
 /* ---- 輸入密碼：由選這個選項的人自己輸入（不會替玩家記住任何東西） ---- */
@@ -9067,7 +9168,7 @@ async function storyCode(res,actor){
   const q=res.code;const p=actor&&!actor.dead&&!actor.down?actor:able()[0];if(!p)return null;
   const v=await askCode(p,q.t);const ok=v===q.ans;
   out(v?`轉盤：${v.split('').join('，')}。`:'你放開了轉盤。','sys',true);
-  const sub=v?(ok?q.ok:q.ng):null;if(sub){if(sub.t)out(sub.t,ok?'good':'bad');await outcome(sub,p)}
+  const sub=v?(ok?q.ok:q.ng):null;if(sub){resultAudio(sub);if(sub.t)out(sub.t,ok?'good':'bad');await outcome(sub,p)}
   return sub}
 /* ================= 連線 =================
    在 claude.ai 用 artifact 的 room 功能；在自己的網站（GitHub Pages）改用 Firebase 即時資料庫，介面相同（fbRoomApi）。房主 join('zc-房號')。
