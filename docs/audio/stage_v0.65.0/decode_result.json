@@ -1,0 +1,22 @@
+{
+ "bgm_hitman_battle.ogg": {
+  "dur": "114.0000",
+  "firstSoundMs": "24.0",
+  "firstPeakMs": "66.3"
+ },
+ "bgm_hitman_battle.mp3": {
+  "dur": "114.0000",
+  "firstSoundMs": "24.0",
+  "firstPeakMs": "86.5"
+ },
+ "bgm_hitman_intense.ogg": {
+  "dur": "80.0000",
+  "firstSoundMs": "5.2",
+  "firstPeakMs": "16.4"
+ },
+ "bgm_hitman_intense.mp3": {
+  "dur": "80.0000",
+  "firstSoundMs": "5.2",
+  "firstPeakMs": "16.4"
+ }
+}

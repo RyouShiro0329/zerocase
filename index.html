@@ -1,13 +1,13 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=565d71ee" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=2f00a404" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fx/slash-12.webp" as="image" type="image/webp">
 <link rel="preload" href="fx/blunt-12.webp" as="image" type="image/webp">
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=565d71ee") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=2f00a404") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
@@ -481,6 +481,32 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 #enc .enc-state small{display:block;font-size:.72rem;letter-spacing:.05em;color:var(--muted)}
 #enc figcaption{color:#e9b9a8;font-weight:700;font-size:.95rem;text-shadow:0 2px 6px #000;padding:4px 0 10px;white-space:nowrap}
 #enc.go img{animation:encin .5s ease-out both}
+/* v0.65.0 戰鬥演出：遭遇、亂入、結束（不能點掉；時間點跟著戰鬥曲的重拍） */
+#stg{position:absolute;inset:0;z-index:49;background:radial-gradient(ellipse at 50% 60%,rgba(52,8,8,.9),rgba(0,0,0,.97));display:flex;align-items:flex-end;justify-content:center;touch-action:none;user-select:none;-webkit-user-select:none;animation:stgin .3s ease-out both}
+#stg[hidden]{display:none}
+#stg.k-raid{background:radial-gradient(ellipse at 50% 60%,rgba(96,12,6,.9),rgba(0,0,0,.96))}
+#stg.k-end{background:rgba(0,0,0,.6);align-items:center}
+#stg .row{display:flex;gap:2vw;align-items:flex-end;justify-content:safe center;height:86%;padding:0 4%;width:100%;max-width:100%;overflow:hidden;box-sizing:border-box}
+#stg figure{margin:0;display:flex;flex-direction:column;align-items:center;min-width:0;flex:0 1 auto;height:100%;justify-content:flex-end;opacity:0}
+#stg img{height:min(560px,88%);width:auto;max-width:100%;object-fit:contain;filter:drop-shadow(0 0 18px rgba(0,0,0,.9))}
+#stg figure i{display:block;width:60px;height:60%}
+#stg .enc-state{position:absolute;top:3%;left:0;right:0;text-align:center;color:var(--gold);font-size:1.5rem;letter-spacing:.2em;text-shadow:0 2px 8px #000}
+#stg .enc-state small{display:block;font-size:.72rem;letter-spacing:.05em;color:var(--muted)}
+#stg.k-raid .enc-state{color:#ff9a7a;animation:stgpulse .37s ease-in-out 4 alternate}
+#stg figcaption{color:#e9b9a8;font-weight:700;font-size:.95rem;text-shadow:0 2px 6px #000;padding:4px 0 10px;white-space:nowrap;visibility:hidden}
+#stg.m-img figure{opacity:1;animation:encin .5s ease-out both}
+#stg.m-name figcaption{visibility:visible;animation:stgin .25s ease-out both}
+#stg.m-ui{animation:stgout .42s ease-in forwards}
+#stg.k-end.m-ui{animation:stgout .5s ease-in forwards}
+#stg .stg-end p{margin:0 6%;padding:10px 22px;border-radius:6px;background:rgba(0,0,0,.82);box-shadow:0 0 24px 10px rgba(0,0,0,.7);color:#cfc6b6;font-size:1rem;letter-spacing:.06em;text-align:center;white-space:nowrap;opacity:0;transition:opacity .3s}
+#stg .stg-end{display:flex;justify-content:center;width:100%}
+#stg.m-txt .stg-end p{opacity:1}
+#stg .stg-ui{position:absolute;top:max(8px,var(--st));right:max(10px,var(--sr));display:flex;gap:6px;opacity:.8}
+#stg .stg-ui .btn{min-height:32px;padding:4px 10px;font-size:.8rem}
+@keyframes stgin{from{opacity:0}to{opacity:1}}
+@keyframes stgout{to{opacity:0}}
+@keyframes stgpulse{from{opacity:.55}to{opacity:1}}
+@media (prefers-reduced-motion:reduce){#stg,#stg.m-img figure,#stg.k-raid .enc-state{animation:none}}
 @keyframes encin{from{transform:translateY(12%);opacity:0;filter:brightness(3) drop-shadow(0 0 18px #000)}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){#enc.go img{animation:none}}
 /* 保險箱密碼 */
@@ -696,11 +722,11 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="scr" hidden></div>
 <div id="ov" class="ov" hidden></div>
 <div id="toast" hidden></div>
-<div id="lvcard" hidden></div><div id="cfm" hidden></div><div id="enc" hidden></div><div id="vig"></div><div id="vig2"></div>
+<div id="lvcard" hidden></div><div id="cfm" hidden></div><div id="enc" hidden></div><div id="stg" hidden></div><div id="vig"></div><div id="vig2"></div>
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.64.1", "b": 137, "t": "2026-11-24T23:16:50+08:00"};
+const ZC_VER={"v": "0.65.0", "b": 138, "t": "2026-11-25T00:45:56+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -2334,7 +2360,8 @@ N.Q4.c.splice(1,0,{t:'q',l:'問他那間旅館的人送去哪裡了',need:'acrul
 
 他看著你，看了很久。「你是那間旅館的房客？那你更不應該在這裡。」他塞給你兩支鎮定劑，指了指十字路口的方向。`,r:{items:{sedative:2},flag:'arcroute'},p:{fear:3}}});
 /* ================= 劇情裡的 QTE ================= */
-N.C2.c[1].ok.qte={t:'頭頂傳來一聲悶響。電梯車廂往下一沉，鋼索在你手裡猛地一抽——',w:['抓緊','踩穩','抓緊','撐住'],
+/* v0.65.0 抓住鋼索是力量的事：改成力量檢定（主人 2026-11-24 定案：身體對抗用能力檢定） */
+N.C2.c[1].ok.hz={st:'STR',dc:12,l:'抓緊鋼索',t:'頭頂傳來一聲悶響。電梯車廂往下一沉，鋼索在你手裡猛地一抽——',
  ok:{t:'你整個人掛在鋼索上，手掌磨得發燙，但沒有鬆手。車廂停住了，離你的腳只有一個手掌寬。'},
  ng:{t:'鋼索從手裡滑出去一截。你往下掉了兩公尺才重新抓住，手掌被磨掉一層皮。',p:{hp:-3}}};
 for(const nd of Object.values(N))for(const c of (nd.c||[]))if(c.l==='鑽進藥局'&&c.ok)c.ok.qte={t:'你剛把東西塞進背包，頭頂的鐵捲門發出一聲尖響，彈簧斷了。整片門開始往下滑——',w:['翻身','滾出去','爬','起身'],
@@ -2763,10 +2790,10 @@ OF2a:{L:'OF',n:'401：白板寫著「觀察第 9 日」',
 他的右手腕上纏著紗布，紗布是黑的。`,p:{fear:4}}},
   {t:'q',l:'拿床頭櫃上的藥袋',k:'AGI',d:12,bonusFlag:'ofpeek',s:'敏捷檢定',ok:{t:`你蹲低，從床頭櫃的另一邊伸手，兩根手指夾住藥袋，慢慢拉過來。他的右手在床欄上猛地一扯，約束帶繃得直直的，指尖離你的袖子只差一點。
 
-藥袋裡是抗生素和止痛藥。`,r:{items:{antibiotic:1,painkiller:1}}},ng:{t:`你伸手去拿藥袋，他的右手比你快。`,qte:{t:'一隻手扣住你的手腕，把你往床邊拉——',w:['扭開','後退','甩開','掰開'],ok:{t:'你把手腕轉了半圈，從他的指縫裡抽出來，往後跌坐在地上。藥袋掉在床邊，你沒有再去撿。',p:{fear:6}},ng:{t:'他把你拉到床邊，頭一偏，牙齒咬進你的前臂。你用另一隻手撐著床欄拚命往後扯，才把手抽回來。',p:{hp:-3,inf:6,fear:8}}}}},
+藥袋裡是抗生素和止痛藥。`,r:{items:{antibiotic:1,painkiller:1}}},ng:{t:`你伸手去拿藥袋，他的右手比你快。`,hz:{st:'STR',dc:12,l:'掙脫',t:'一隻手扣住你的手腕，把你往床邊拉——',ok:{t:'你把手腕轉了半圈，從他的指縫裡抽出來，往後跌坐在地上。藥袋掉在床邊，你沒有再去撿。',p:{fear:6}},ng:{t:'他把你拉到床邊，頭一偏，牙齒咬進你的前臂。你用另一隻手撐著床欄拚命往後扯，才把手抽回來。',p:{hp:-3,inf:6,fear:8}}}}},
   {t:'q',l:'拿他的手機',k:'AGI',d:13,s:'敏捷檢定',ok:{t:`手機在床頭櫃最靠近他的那一邊。你等他的頭轉向另一邊，才一把抓過來。
 
-螢幕裂了，還有一點電。最後一則訊息是一個叫「蘿倫」的人傳的：「醫院說你轉去休養了，可是他們不讓我知道在哪裡。你在哪裡？」`,p:{fear:4}},ng:{t:`你的手剛碰到手機，他的頭就轉了過來。`,qte:{t:'他的手指勾住你的袖口，把你往床邊扯——',w:['扭開','後退','甩開','掰開'],ok:{t:'袖口撕開一條口子，你跌回走廊上。手機掉在地上，螢幕又多了一道裂痕。',p:{fear:6}},ng:{t:'他把你扯到床邊，牙齒咬在你的手背上。你一腳蹬在床欄上，才把手抽出來。',p:{hp:-3,inf:6,fear:8}}}}}]},
+螢幕裂了，還有一點電。最後一則訊息是一個叫「蘿倫」的人傳的：「醫院說你轉去休養了，可是他們不讓我知道在哪裡。你在哪裡？」`,p:{fear:4}},ng:{t:`你的手剛碰到手機，他的頭就轉了過來。`,hz:{st:'STR',dc:12,l:'掙脫',t:'他的手指勾住你的袖口，把你往床邊扯——',ok:{t:'袖口撕開一條口子，你跌回走廊上。手機掉在地上，螢幕又多了一道裂痕。',p:{fear:6}},ng:{t:'他把你扯到床邊，牙齒咬在你的手背上。你一腳蹬在床欄上，才把手抽出來。',p:{hp:-3,inf:6,fear:8}}}}}]},
 OF2b:{L:'OF',n:'403：白板是空白的',
  t:`403 的病床是空的。約束帶有一條斷了，斷口不是剪的，是被拉斷的，邊緣全是毛邊。床單上有一大片褐色的痕跡，一路拖到病房裡的廁所門口。
 
@@ -2839,7 +2866,7 @@ OF4b:{L:'OF',n:'四樓・呼叫鈴',cond:'ofpre',
 
 410 的床上，病人被約束帶綁著，臉朝著牆。他的右手壓在床欄上的呼叫鈴上，壓著不放，手指一下一下地抽。`,
  c:[
-  {t:'q',l:'進去把呼叫鈴從他手底下抽出來',k:'AGI',d:12,bonusFlag:'ofpeek',s:'敏捷檢定',ok:{t:`你從床頭櫃那一側彎腰過去，抓住呼叫鈴的線，一口氣從他的手掌底下抽出來。他的手指在空中抓了兩下，抓到的是床單。叮咚聲停了。`},ng:{t:`你的手才碰到線，他的手就翻了過來。`,qte:{t:'他的手指扣住你的手背，指甲陷進肉裡——',w:['扭開','後退','甩開','掰開'],ok:{t:'你把手抽回來，手背上留下四道紅痕。呼叫鈴也跟著被你扯了下來，叮咚聲停了。',p:{fear:5}},ng:{t:'他把你的手拉到嘴邊。你用另一隻手扳開他的下巴，才把手抽出來，手背上一圈齒痕在滲血。呼叫鈴終於被扯斷了。',p:{hp:-3,inf:6,fear:8}}}}},
+  {t:'q',l:'進去把呼叫鈴從他手底下抽出來',k:'AGI',d:12,bonusFlag:'ofpeek',s:'敏捷檢定',ok:{t:`你從床頭櫃那一側彎腰過去，抓住呼叫鈴的線，一口氣從他的手掌底下抽出來。他的手指在空中抓了兩下，抓到的是床單。叮咚聲停了。`},ng:{t:`你的手才碰到線，他的手就翻了過來。`,hz:{st:'STR',dc:12,l:'掙脫',t:'他的手指扣住你的手背，指甲陷進肉裡——',ok:{t:'你把手抽回來，手背上留下四道紅痕。呼叫鈴也跟著被你扯了下來，叮咚聲停了。',p:{fear:5}},ng:{t:'他把你的手拉到嘴邊。你用另一隻手扳開他的下巴，才把手抽出來，手背上一圈齒痕在滲血。呼叫鈴終於被扯斷了。',p:{hp:-3,inf:6,fear:8}}}}},
   {t:'m',l:'回護理站把呼叫系統關掉',k:'INT',d:11,s:'智力檢定',ok:{t:`護理站櫃台底下有一台呼叫系統的主機。你找到電源開關，按了下去。整層樓的叮咚聲一起停了，只剩下 410 門口那盞紅燈，還在一閃一閃。`},ng:{t:`主機上全是按鍵和代碼，你按了好幾個，叮咚聲換成了更急的嗶嗶聲。你只好拔掉主機的插頭。`,p:{alarm:1}}},
   {t:'q',l:'不管它，繼續走',ok:{t:`你們從 410 門口走過去。叮咚聲一直跟在身後，響遍整條走廊。
 
@@ -2855,7 +2882,7 @@ OF6:{L:'OF',n:'四樓・走廊上的輪床',cond:'ofpre',
 
 輪床兩邊各剩下不到一個肩膀寬的空隙。`,
  c:[
-  {t:'q',l:'從床尾那一頭擠過去',k:'AGI',d:11,bonusFlag:'ofpeek',s:'敏捷檢定',ok:{t:`你從輪床的床尾那一側側身擠過去，離他的腳踝只有一個拳頭。他的腳被扣著，只踢得到床欄。`},ng:{t:`你擠到一半，他的頭甩了過來。`,qte:{t:'他的手指勾住你的衣角，把你往床邊扯——',w:['扭開','後退','甩開','掰開'],ok:{t:'你一把扯回衣角，布料撕開一條口子，人跌到牆邊。',p:{fear:5}},ng:{t:'他把你扯到床邊，牙齒咬在你的肩膀上，隔著外套還是咬進了肉裡。',p:{hp:-3,inf:6,fear:8}}}}},
+  {t:'q',l:'從床尾那一頭擠過去',k:'AGI',d:11,bonusFlag:'ofpeek',s:'敏捷檢定',ok:{t:`你從輪床的床尾那一側側身擠過去，離他的腳踝只有一個拳頭。他的腳被扣著，只踢得到床欄。`},ng:{t:`你擠到一半，他的頭甩了過來。`,hz:{st:'STR',dc:12,l:'掙脫',t:'他的手指勾住你的衣角，把你往床邊扯——',ok:{t:'你一把扯回衣角，布料撕開一條口子，人跌到牆邊。',p:{fear:5}},ng:{t:'他把你扯到床邊，牙齒咬在你的肩膀上，隔著外套還是咬進了肉裡。',p:{hp:-3,inf:6,fear:8}}}}},
   {t:'q',l:'把輪床推進旁邊的病房',k:'STR',d:11,s:'力量檢定',ok:{t:`你繞到床尾，抓住床尾的欄杆，把輪床一路推進旁邊的空病房，再把門帶上。輪子很響，但走廊空出來了。`,p:{alarm:1}},ng:{t:`輪床的煞車是踩著的，你推不動，只推得它在原地打轉。床上的人整個往你這邊甩過來。`,p:{alarm:1,fear:6}}},
   {t:'q',l:'從旁邊的病房繞過去',ok:{t:`409 和 411 中間有一扇連通門。你們穿過 409，床上的人掙了一下，約束帶繃緊。你們貼著另一邊的牆走過去，從 411 出來，已經在輪床的另一頭了。`,p:{fear:4}}}]},
 OF7:{L:'OF',n:'四樓・那台電梯',
@@ -3557,7 +3584,7 @@ WP3:{L:'WP',n:'東岸淨水廠・加氯室',
  tx:()=>G.flags.wpcl?'新的鋼瓶接上了，加氯機的指示燈亮著。空氣裡只剩一點點漂白水的味道。':'',
  t:`加氯室裡排著一列綠色的氯氣鋼瓶，每一支都有一個人那麼高。其中一支的閥門在嘶嘶地漏，地上那一圈的油漆都褪成了白色，空氣裡有一層看得見的黃綠色。\n\n加氯機的面板上寫著：「鋼瓶更換程序：關閉主閥 → 拆下接頭 → 更換鋼瓶 → 檢漏」。`,
  c:[
-  {l:'關掉漏氣的鋼瓶，換上新的',hide:'wpcl',t:'m',ok:{t:`你蹲下去握住主閥，往順時針一點一點轉。`,qte:{t:'閥門卡住了。你用力一扳——接頭「噗」地噴出一大團黃綠色的氣——',w:['閉氣','別開臉','關緊','退開'],ok:{t:'你別開臉、閉住氣，把閥門轉到底。嘶嘶聲停了。你們把漏氣的那支推開，接上新的鋼瓶，檢漏，加氯機的燈亮了。'},ng:{t:'那團氣直接噴在你臉上。你跪在地上咳到眼前發黑，好不容易才把閥門轉緊，接上新的鋼瓶。',p:{hp:-4,fear:6}}},r:{flag:'wpcl'},go:'WP3'}},
+  {l:'關掉漏氣的鋼瓶，換上新的',hide:'wpcl',t:'m',ok:{t:`你蹲下去握住主閥，往順時針一點一點轉。`,hz:{st:'CON',dc:12,l:'抵抗刺激氣體',mask:1,t:'閥門卡住了。你用力一扳——接頭「噗」地噴出一大團黃綠色的氣——',mk:{t:'那團氣整片噴在面罩上，鏡片蒙上一層黃綠色。濾毒罐擋住了。你閉著眼睛把閥門轉到底，嘶嘶聲停了。你們把漏氣的那支推開，接上新的鋼瓶，檢漏，加氯機的燈亮了。'},ok:{t:'你別開臉、閉住氣，還是吸進了一口，喉嚨像被燙過。你咳著把閥門轉到底，嘶嘶聲停了。你們把漏氣的那支推開，接上新的鋼瓶，檢漏，加氯機的燈亮了。',p:{hp:-2,fear:3}},ng:{t:'那團氣直接噴在你臉上。你跪在地上咳到眼前發黑，好不容易才把閥門轉緊，接上新的鋼瓶。',p:{hp:-4,fear:6}}},r:{flag:'wpcl'},go:'WP3'}},
   {t:'q',l:'退出去',ok:{t:`你們退出加氯室，把鐵門關上，靠在牆上咳了很久。`,go:'WP1'}}]},
 WP4:{L:'WP',n:'東岸淨水廠・中央控制室',
  onEnter(){const F=G.flags;F.wpgang=wpGang()?1:0;F.wppow=F.eastpower||F.wpgen?1:0;F.wpguard=F.acru&&!F.wpa2&&!F.citywater?1:0;
@@ -6120,7 +6147,7 @@ N.G2.c.find(c=>c.l==='啟動發電機').ok.audio='genstart';N.G2.c[0].ok.audioFl
 for(const c of N.PP3.c.filter(c=>c.ok&&c.ok.r&&c.ok.r.flag==='ppgen')){c.ok.audio='genstart';c.ok.audioFlag='ppgen'}
 EVPOOL.find(e=>e.id==='smoke').c[0].ok.audioStop='firealarm';
 // v0.50.0 明確指定的恐怖事件；原本調查檢定與獎勵不變。
-for(const e of EVPOOL.filter(e=>['blood','body','mirror','kid','tv','phone'].includes(e.id)))for(const c of e.c)for(const o of [c.ok,c.ng])if(o&&o.p&&o.p.fear>=6&&!o.fight&&!o.qte)o.resist='storyFear';
+for(const e of EVPOOL.filter(e=>['blood','body','mirror','kid','tv','phone'].includes(e.id)))for(const c of e.c)for(const o of [c.ok,c.ng])if(o&&o.p&&o.p.fear>=6&&!o.fight&&!o.qte&&!o.hz)o.resist='storyFear';
 // 第二批：只對已核對的結果物件加音效，不掃描顯示文字決定播放。
 N.I1.c.find(c=>c.l==='貼著柱子溜向大門').ng.audio='glassstep';
 EVPOOL.find(e=>e.id==='acru1').c[0].ng.audio='glassstep';
@@ -6933,7 +6960,7 @@ const SEARCH_CACHE=new WeakMap();
 function canSearch(c){
   if(!c||c.job||c.tf||(c.k&&c.k!=='PER')||c.t==='sleep'||!/(翻|搜|找)/.test(c.l)||/翻過|不要找|快速/.test(c.l))return false;
   const o=c.ok,r=o&&o.r;
-  if(!r||!r.items||o.go||c.go||o.fight||o.qte||o.code)return false;
+  if(!r||!r.items||o.go||c.go||o.fight||o.qte||o.hz||o.code)return false;
   if(['fuse','diesel','spreader','gloves'].some(k=>r.items[k]))return false;
   if(Object.keys(r).some(k=>!['items','gear','mag','usd','usdAll'].includes(k)))return false;
   const units=Object.values(r.items).reduce((a,n)=>a+n,0);
@@ -7192,6 +7219,7 @@ async function applyRes(c,res,actor,bad){CURC=c;if(c.darGo)G.guided=1;
   await outcome(res,actor);
   if(actor&&c.t!=='sleep'&&c.t!=='nap'){const label=c.l||'',hard=c.k==='STR'||/攀|爬|跳|逃/.test(label),parts=hard?(c.k==='STR'?['arm','torso']:['arm','leg','torso']):woundPartsFor(c.k,label);if(parts.length)woundUse(actor,parts,hard?2:1);await woundDeteriorate(actor)}
   if(G.over)return;
+  if(res.hz){const sub=await storyHz(res,actor);if(G.over)return;if(sub&&sub.go)res=Object.assign({},res,{go:sub.go});if(sub&&sub.fight)res=Object.assign({},res,{fight:sub.fight})}
   if(res.qte){const sub=await storyQte(res,actor);if(G.over)return;if(sub&&sub.go)res=Object.assign({},res,{go:sub.go});if(sub&&sub.fight)res=Object.assign({},res,{fight:sub.fight})}
   if(res.code){await storyCode(res,actor);if(G.over)return}
   // v0.24.0：區域裡仔細搜查會出聲（簡單尋找很安靜）
@@ -7418,7 +7446,7 @@ function zLeave(id){const cr=G.ev==null&&ZN[G.node];if(!cr||!zDone(cr.z)||!zEvPe
   const tl=END[id]?null:N[id]&&N[id].L;if(tl===cr.z)return id;G.zevGo={z:cr.z,to:id};return ZONES[cr.z].ev}
 // 目前是不是「留在原地」的區域畫面：hub，或是區域走過之後的房間
 function zStay(){if(!G||G.ev!=null)return false;const r=ZN[G.node];return !!r&&(r.role==='hub'||(r.role==='room'&&zDone(r.z)))}
-const zNoop=c=>!c.k&&!c.req&&!c.need&&!c.go&&!c.stay&&!c.t&&!c.hide&&(!c.ok||(!c.ok.r&&!c.ok.p&&!c.ok.go&&!c.ok.fight&&!c.ok.qte&&!c.ok.code&&!c.ok.stay));
+const zNoop=c=>!c.k&&!c.req&&!c.need&&!c.go&&!c.stay&&!c.t&&!c.hide&&(!c.ok||(!c.ok.r&&!c.ok.p&&!c.ok.go&&!c.ok.fight&&!c.ok.qte&&!c.ok.hz&&!c.ok.code&&!c.ok.stay));
 function zEff(c){const zp=c.zp;if(!zp)return c;
   if(zp.k==='room'&&zp.first&&G.flags['v_'+zp.room])return {...c,l:N[zp.room].n,k:null,d:null,ok:{go:zp.room},ng:null,req:null,need:null,lock:null,door:0,s:'',sign:null,t:'q'};
   if(zp.k==='exit'&&zp.to&&!c.each&&(c.opens?flagOk(c.opens):zDone(zp.to)))return {...c,k:null,d:null,ok:{go:ZONES[zp.to].hub},ng:null,req:null,reqAny:null,need:null,hide:null,lock:null,door:0,s:'',sign:null,t:null};
@@ -7710,7 +7738,7 @@ function nameFoes(fs){const c={},k={};for(const f of fs)c[f.type]=(c[f.type]||0)
 const lurkHid=f=>!!(f&&f.hid&&FOES[f.type]&&FOES[f.type].lurk)
 // 舊存檔：類型換成新名字，舊的變異詞條拿掉
 const OLDTYPE={thin:'infected',dog:'infected',bloated:'incubator',riot:'devourer',looter:'cutter'};
-function migrateG(g){if(!g)return g;
+function migrateG(g){if(!g)return g;if(g.stg)delete g.stg;
   // v0.58.0 種子：舊存檔沒有就新給一個，從讀進來的這張卡開始照新規則
   if(!g.dk)g.dk={on:{},seen:[],cc:{},ret:null};/* v0.59.0 牌庫、抽牌格（路況在進地點時照種子補） */
   if(g.dk.on&&g.dk.on.A&&g.dk.on.A.length<10)delete g.dk.on.A;/* v0.60.0 三樓改成 10 個選路格，v0.59.0 開的 4～5 格重算 */
@@ -7851,10 +7879,11 @@ async function startFight(spec){
   for(const p of G.players){if(!teamHere(p))continue;p.combo=0;p.counter=0;p.brace=0;p.actUsed=0;p.defPen=0;p.aimed=0;p.stance=null;p.held=0;if(!p.evacWounds){p.dazed=0;p.humus=0}p.calmUsed=0;p.skUsed={};p.tlUsed={};p.covering=0;p.grit=0}
   for(const p of G.players)if(teamHere(p))darStart(p);
   G.fight={foes,musicStarted:!!G.pendingBurn,musicIntense:G.alarmFt===2,P:Math.max(1,P0),sl:{},hb:{},bg:{},noise:null,order:[],turn:0,round:1,arrows:{},opening:spec.mode||'normal',first:spec.mode==='first',cur:null,escaped:[],noflee:G.lv==='D',nocover:['D','R'].includes(G.lv),tUsed:{}};
-  G.phase='fight';beginEncounterBgm();await flush();snd(encounterStep(foes));push();draw();
+  G.phase='fight';const stgId=stgOpen('enc',G.fight.musicIntense?'intense':'battle',{mode:spec.mode||'normal',foes:foes.filter(f=>!lurkHid(f)).map(f=>({n:f.n,img:f.img||''}))},!G.pendingBurn);
+  beginEncounterBgm();await flush();snd(encounterStep(foes));push();draw();
   if((LV[G.lv].fx||{}).fightAlarm)addAlarm(1,null);
   if(n>spec.n)out(`不只一個。陰影裡還有${n-spec.n===1?'另一個':'更多'}。`,'bad',true);
-  await encounter(foes,spec.mode);
+  await encounter(foes,spec.mode);stgClose(stgId);
   for(const f of foes)if(f.aff)out(`<b>${f.n}</b>：${AFF[f.aff].d}`,'bad',true);
   if(mixed)out('他們不是一夥的。兩邊也互相看到了對方：他們會打你們，也會打彼此。想打誰，由你們自己挑。','rule',true);
   if(foes.some(f=>FT(f).fac==='acru')){radioLine('radio02');out('其中一人的對講機傳出：「Hostiles inbound.（敵方正在接近。）」紅色的鏡片同時轉向你們，槍口跟著對了過來。','bad');if(foes.some(f=>f.hid))out('遠處的高樓上，好像有什麼東西反了一下光。','sys');out(`他們是受過訓練的部隊：每一回合最多 ${acruCap()} 次射擊，同一個人一回合最多被打兩次；其他人會包抄、換位置。看到預告就要準備。`,'rule',true)}
@@ -7907,14 +7936,16 @@ async function nextTurn(){
 async function alarmJoin(){const F=G.fight;const R=F&&F.reinf;if(!R||R.in||F.round<=R.r||G.over)return;R.in=1;
   const spec=bigWave(),wet=['U','G'].includes(G.lv),np=Math.max(1,able().length),base=F.foes.length;
   const nf=spec.types.map((t,i)=>newFoe(base+i,t,np,wet));F.foes.push(...nf);nameFoes(F.foes);
-  G.alarmFt=2;Object.assign(ALV(),{big:1,w3:1,w6:1});F.musicIntense=true;
+  const was=BGM_MIX.mode==='intense'||!!F.musicIntense;G.alarmFt=2;Object.assign(ALV(),{big:1,w3:1,w6:1});F.musicIntense=true;
+  const vis=nf.filter(f=>!lurkHid(f));const stgId=stgOpen('raid','intense',{foes:vis.map(f=>({n:f.n,img:f.img||''}))},!was);syncBgmState();/* v0.65.0 亂入：先切激戰段、亮出新敵人，演完才重排先攻 */
   snd('zstep');snd('groan');out(ZBIG[R.f]||ZBIG.inf,'bad');
   if(new Set(liveF().map(x=>FT(x).fac)).size>1&&!F.mixNote){F.mixNote=1;out('新來的和原本的不是一夥的。牠們會打你們，也會打彼此。想打誰，由你們自己挑。','rule',true)}
   const ins=nf.map(f=>({k:'f',id:f.id,init:rnd(1,20)+FT(f).init+(isNight()&&FT(f).fac==='inf'?2:0)}));
-  F.order=[...F.order,...ins].sort((a,b)=>b.init-a.init||(a.k==='p'?0:1)-(b.k==='p'?0:1));F.turn=0;
+  F.order=[...F.order,...ins].sort((a,b)=>b.init-a.init||(a.k==='p'?0:1)-(b.k==='p'?0:1));F.turn=0;/* 先排好（房主中途斷線時接手的人照樣有新的順序），演完才公布 */
+  push();draw();await encounter(vis,'raid');stgClose(stgId);if(G.over||!G.fight)return;
   out(`擲骰｜先攻　${F.order.map(o=>`${o.k==='p'?esc(P(o.id).name):F.foes[o.id].n} <b>${o.init}</b>`).join('　')}`,'roll',true);
   push();draw();
-  const vis=nf.filter(f=>!lurkHid(f));await encounter(vis,'normal');if(G.over||!G.fight)return;await fright(vis);await deathCheck()}
+  await fright(vis);await deathCheck()}
 // v0.20.0 設計包：流血／燃燒每完整回合結算一次（回合結束時），三次後結束；同類取較高並刷新，不疊加
 function giveBleed(x,v){x.bleed=Math.max(x.bleed||0,v);x.bleedN=3}
 function giveBurn(x){x.burn=3}
@@ -7996,15 +8027,15 @@ async function foeApplyControl(f,mv,t,shared=null){
   if(mv.unbal&&!(shared==null?await foeControlSave(f,mv,t,'失衡'):shared)){t.unbal=1;out(`${nm(t)}被撲倒在地，失去平衡：到下次行動前防禦 −2。`,'dmg',true)}
   if(mv.stun&&!(shared==null?await foeControlSave(f,mv,t,'暈眩'):shared)){t.dazed=1;t.skip=1;out(`${nm(t)}頭暈目眩，下一次行動會被跳過。`,'dmg',true)}
 }
-async function hitFx(f,mv,t,d,crit,wx){const T=FT(f);const sh=t.shdHit;t.shdHit=null;/* v0.33.0 妲爾的護盾：還有護盾時不吃狀態；整個擋下時不感染 */
-  if(mv.inf&&T.fac==='inf'&&!(sh&&sh.full)){const b0=t.inf;addInf(t,mv.inf*(affIs(f,'carrier')?2:1));if(t.inf>b0)out(`傷口沾到了牠的體液。感染 +${t.inf-b0}。`,'dmg',true)}
+async function hitFx(f,mv,t,d,crit,wx,part){const T=FT(f);const sh=t.shdHit;t.shdHit=null;/* v0.33.0 妲爾的護盾：還有護盾時不吃狀態；整個擋下時不感染 */
+  if(mv.inf&&T.fac==='inf'&&!(sh&&sh.full)){const b0=t.inf,n0=mv.inf*(affIs(f,'carrier')?2:1);addInf(t,part?Math.ceil(n0/2):n0);if(t.inf>b0)out(`傷口沾到了牠的體液。感染 +${t.inf-b0}。`,'dmg',true)}
   // v0.24.1 主人：一般命中不加恐懼，只有爆擊或一下打掉三成以上生命才加（原本每次命中一半機率加，累積太快）
   if(T.san&&(crit||d>=Math.ceil((t.max||20)*.3)))loseSan(t,T.san);
   if(!sh){
   if(mv.bleed&&RNG()<mv.bleed){giveBleed(t,mv.hbleed?2:1);out('傷口開始流血。','dmg',true)}
   if(mv.humus){t.humus=Math.max(t.humus||0,mv.humus);t.humusV=1;out(`${nm(t)}身上沾滿腐殖物：接下來 ${mv.humus} 回合，每回合感染 +1。用優碘、酒精、消毒繃帶或抗生素可以清掉。`,'dmg',true)}
   if(wx)wx.control=true;else await foeApplyControl(f,mv,t);
-  if(mv.flame){giveBurn(t);out(`${nm(t)}身上著火了：接下來 3 回合，每回合生命 −2。花一次行動可以拍熄。`,'dmg',true)}}
+  if(mv.flame&&!part){giveBurn(t);out(`${nm(t)}身上著火了：接下來 3 回合，每回合生命 −2。花一次行動可以拍熄。`,'dmg',true)}}
   else if(mv.bleed||mv.humus||mv.grab||mv.unbal||mv.stun||mv.flame)out('「箱中靈」擋在前面，這一下沒有留下其他後果。','sys',true);
   if(mv.heal&&f.hp<f.max&&!f.burn&&!f.bleed){const v=Math.min(mv.heal,f.max-f.hp,(mv.healMax||99)-(f.healed||0));if(v>0){f.hp+=v;f.healed=(f.healed||0)+v;out(`${f.n}嚥下那塊肉，身上的傷口收了一點。生命 +${v}。`,'bad',true)}}}
 function hurt(t,d,txt){t.shdHit=null;
@@ -8014,17 +8045,46 @@ function hurt(t,d,txt){t.shdHit=null;
     if(d<=0)return;txt='';}
   t.hp-=d;t.taken=(t.taken||0)+d;out(`${MP()?nm(t)+'：':''}${txt}生命 −${d}，剩 ${Math.max(0,t.hp)}。`,'dmg')}
 // 傷害型 QTE：成功 0 傷害、不擲命中骰；失敗擲傷害骰受傷（不會爆擊）
+// v0.65.0 起只剩獵食者飛撲、狙擊手狙擊（掩體）走這裡；其他八招改成危險檢定（hzHit）
 async function qteHit(f,mv,t){
   const ok=await qte(t,{t:`${f.n}：${mv.n}——${MP()?esc(t.name):'你'}`,w:mv.qw});
   if(ok){snd('whoosh');out(`${MP()?nm(t):'你'}${mv.flame?'及時撲倒，火舌從頭頂掃了過去。':mv.cover?'撲進掩體後面，子彈打在水泥上。':'及時反應，躲開了這一下。'}`,'good');return false}
   if(mv.cover)return true; // 硬掩體沒躲到：照一般狙擊擲 d20
-  const raw=await foeDmg(f,mv,`${f.n}・${mv.n}　→　${esc(t.name)}`),SB=mv.qguard===t.stance?stanceOf(t,f,mv):{half:0,cut:0,txt:''};const ar=mv.ap?0:armorOf(t),bk=!mv.rng&&!mv.flame?strBlock(t):0;let d=Math.max(1,Math.floor(raw*DF().dmg/(SB.half?2:1)+1e-9)-SB.cut-ar-bk);if(t.grit)d=Math.max(1,d-3);if(ar)wearHit(t,FT(f).human);
+  return await bigHit(f,mv,t,0)}
+// 特殊攻擊完整命中（part＝部分命中：生命傷害、感染增量各減半，向上取整；不新增燃燒）
+async function bigHit(f,mv,t,part){
+  const raw=await foeDmg(f,mv,`${f.n}・${mv.n}　→　${esc(t.name)}`),SB=mv.qguard===t.stance?stanceOf(t,f,mv):{half:0,cut:0,txt:''};const ar=mv.ap?0:armorOf(t),bk=!mv.rng&&!mv.flame?strBlock(t):0;let e=Math.floor(raw*DF().dmg/(SB.half?2:1)+1e-9);if(part)e=Math.ceil(e/2);let d=Math.max(1,e-SB.cut-ar-bk);if(t.grit)d=Math.max(1,d-3);if(ar)wearHit(t,FT(f).human);
   const before=t.hp,wx={damage:0,crit:false,shield:false,control:false};
-  const ms=mv.flame?0:snd(mv.hs||'claw',.9,1500);hurt(t,d,`${mv.t||pick(BITE)}${SB.half?SB.txt:''}${bk?`（格擋卸掉 ${bk}）`:''}${ar?`（護甲擋掉 ${ar}）`:''}`);wx.damage=Math.max(0,before-t.hp);wx.shield=!!t.shdHit;if(SB.half&&t.stance==='block'&&!wx.shield&&wx.damage>0)wx.block=true;await hitFx(f,mv,t,d,false,wx);await woundImpact(f,mv,t,wx);
+  const ms=mv.flame?0:snd(mv.hs||'claw',.9,1500);hurt(t,d,`${part?HZPART[mv.n]||'':''}${mv.t||pick(BITE)}${SB.half?SB.txt:''}${bk?`（格擋卸掉 ${bk}）`:''}${ar?`（護甲擋掉 ${ar}）`:''}`);wx.damage=Math.max(0,before-t.hp);wx.shield=!!t.shdHit;if(SB.half&&t.stance==='block'&&!wx.shield&&wx.damage>0)wx.block=true;await hitFx(f,mv,t,d,false,wx,part);await woundImpact(f,mv,t,wx);
   push();draw();await flush();if(ms)await wait(ms*.8*Math.max(.4,UI.spd));return false}
+/* v0.65.0 危險檢定（主人 2026-11-24 定案：ZEROCASE_QTE_BGM_REWORK_SPEC 第 3 節逐招表）
+   鍵＝敵人種類／招式名稱（招式沒有另外的代號；舊存檔蓄力中的招式也照這張表）。
+   st：沒有有效防守時用的能力；bs：有效防守（g＝格擋 block／掩蔽 cover）時改用的能力並 +2，沒寫＝沒有防守加成；
+   k：dodge＝成功完全避開，part＝成功部分命中。DC 普通、困難、真實相同。 */
+const HZMV={
+ 'infected/撲倒':{st:'STR',g:'block',bs:'STR',dc:11,k:'dodge'},
+ 'incubator/丟擲囊泡':{st:'AGI',g:'cover',bs:'AGI',dc:12,k:'dodge'},
+ 'incubator/噴吐':{st:'AGI',dc:12,k:'part'},
+ 'devourer/震盪重擊':{st:'AGI',g:'block',bs:'STR',dc:13,k:'dodge'},
+ 'cutter/割喉':{st:'AGI',g:'block',bs:'STR',dc:14,k:'dodge'},
+ 'harvester/收割':{st:'AGI',g:'block',bs:'STR',dc:15,k:'dodge'},
+ 'arsonist/投擲燃燒瓶':{st:'AGI',dc:12,k:'dodge'},
+ 'acru_flamer/噴火':{st:'AGI',dc:14,k:'part'}};
+const hzOf=(f,mv)=>f&&mv&&HZMV[f.type+'/'+mv.n]||null;
+// 有效防守：本回合選了對應的防守，而且這一招吃得到（盲目的敵人、遠近不合都不算）；力量高或拿盾牌不會自動算
+const hzGuard=(t,f,mv,H)=>!!(H&&H.g&&H.bs&&t.stance===H.g&&stanceOf(t,f,mv).half);
+const HZPART={'噴吐':'沒有被正面噴中，只濺到一部分。','噴火':'撲向一旁，火舌只掃到邊緣。'};
+const HZOK={STR:'硬是頂住了這一下，沒讓對方得手。',AGI:'及時閃開，躲過了這一下。',fire:'及時撲倒，火舌從頭頂掃了過去。',cover:'縮在掩體後面，囊泡砸在掩體上破開。'};
+// 擲一次危險檢定：回傳 dodge／part／hit；沿用一般檢定（自然 1 失敗、20 成功），不影響劇情主檢定的 LASTJ
+async function hzRoll(f,mv,t,H){const gd=hzGuard(t,f,mv,H),st=gd?H.bs:H.st;const prior=LASTJ;let c;
+  try{c=await check(t,st,H.dc,`${gd?(H.g==='block'?'格擋':'掩蔽'):st==='STR'?'抵住':'躲開'}${mv.n}`,gd?2:0)}finally{LASTJ=prior}
+  return c.ok?H.k:'hit'}
+async function hzHit(f,mv,t,H){const r=await hzRoll(f,mv,t,H);if(!G.fight||t.dead||t.down)return false;
+  if(r==='dodge'){const gd=hzGuard(t,f,mv,H);snd('whoosh');out(`${MP()?nm(t):'你'}${mv.flame?HZOK.fire:gd&&H.g==='cover'?HZOK.cover:HZOK[gd?H.bs:H.st]}`,'good');return false}
+  return await bigHit(f,mv,t,r==='part'?1:0)}
 // 一次攻擊打一個目標：hits 發，每發各自判定（d20）
 async function foeHit(f,mv,t,hits){const F=G.fight,T=FT(f);if(!F||!t||t.dead||t.down||t.hp<=0||hits<=0)return;beginBattleBgmOnce();let firstHit=1;const wx={damage:0,crit:false,shield:false,control:false};
-  if((mv.qte||mv.cover)&&!(await qteHit(f,mv,t)))return;
+  if(mv.qte||mv.cover){const H=hzOf(f,mv);if(!(await (H?hzHit(f,mv,t,H):qteHit(f,mv,t))))return}
   for(let k=0;k<hits;k++){if(t.dead||t.down||t.hp<=0)break;
   const far=f.type==='incubator'&&f.away?3:0;
   const R=r2(),m=(mv.h??T.hit)+foeHitMod(f)-far-(f.weak||0)-(f.contact&&(mv.gun||mv.shot)&&f.type!=='quickdraw'?2:0)+(f.type==='harvester'&&t.bleed>0?1:0)+DF().hit,tot=R.s+m,SB=stanceOf(t,f,mv),def=baseDef(t)+SB.def-(t.unbal?2:0)-(t.held?2:0);const j=judge(R,tot,def);const hit=j==='ok'||j==='crit';f.weak=0;
@@ -8056,7 +8116,7 @@ async function strike(f,mv,ts){const F=G.fight,T=FT(f);if(!G.fight)return;
     await foeHit(f,mv,t,h)}
   if(mv.after==='open'){f.open=1;out(`${f.n}這一下貼得太近，自己也露出了破綻：到${pn(f)}下次行動前防禦 −2。`,'good',true)}
   F.cur=null;push();draw();await deathCheck()}
-function warnTele(f,mv,ts){snd(mv.ws||foeStep(f),mv.ws?.5:.7);out(`<b>${f.n}</b>${mv.warn}${mv.all&&(!ts.length||ts.length===able().length)?'你們所有人':ts.map(nm).join('、')}。<span class="f">${pn(f)}在準備什麼${mv.qte||mv.cover?'——下一回合要反應':''}。</span>`,'bad');push();draw()}
+function warnTele(f,mv,ts){snd(mv.ws||foeStep(f),mv.ws?.5:.7);out(`<b>${f.n}</b>${mv.warn}${mv.all&&(!ts.length||ts.length===able().length)?'你們所有人':ts.map(nm).join('、')}。<span class="f">${pn(f)}在準備什麼${(mv.qte||mv.cover)&&!hzOf(f,mv)?'——下一回合要反應':''}。</span>`,'bad');push();draw()}
 // 帶隊指令（隊長）：先指令、後武器；掩護（有人半血以下）＞集火＞攻勢，各冷卻 3
 async function command(f){const F=G.fight;const al=aliveF().filter(x=>x!==f&&FT(x).fac==='acru');if(!al.length)return;f.ccd=f.ccd||{};const ok=k=>!(f.ccd[k]>F.round);
   if(ok('cov')&&al.some(x=>x.hp<=x.max/2)){const xs=[...al].sort((a,b)=>a.hp/a.max-b.hp/b.max).slice(0,2);for(const x of xs)x.cov=f.id+1;f.ccd.cov=F.round+3;radioLine('radio23');
@@ -8087,7 +8147,7 @@ async function acruAct(f){const F=G.fight,T=FT(f),R=F.round;
     const mv=MOVES.acru_flamer[0];
     if(f.near===2){if(!slotFree(R)){flank(f);return}const ts=able();slotTake(R,ts.map(p=>p.pid));f.streak=(f.streak||0)+1;if(f.streak>=2)f.press=1;await strike(f,mv,ts);return}
     if(!slotFree(R+1)){flank(f);return}const ts=able();slotTake(R+1,ts.map(p=>p.pid));f.charge={m:mv,all:1};snd('step',.8);
-    out(`<b>${f.n}</b>壓低身子，頂著噴嘴往前逼近。藍色的引火在噴嘴前發抖。<span class="f">他下一次行動就會噴火——到時要反應。</span>`,'bad');push();draw();return}
+    out(`<b>${f.n}</b>壓低身子，頂著噴嘴往前逼近。藍色的引火在噴嘴前發抖。<span class="f">他下一次行動就會噴火。</span>`,'bad');push();draw();return}
   if(f.contact&&!f.hid){if(RNG()<.6){const bt=f.type==='acru_captain'?BUTT4:BUTT;const pool=able().filter(p=>slotOkFor(R,p.pid));if(pool.length&&slotFree(R)){const t=foeTarget(f,bt,pool);slotTake(R,[t.pid]);await strike(f,bt,[t]);return}}
     f.contact=0;out(`${f.n}往後退開，槍口重新對了過來。`,'sys');push();draw();return}
   const mv=pickMove(f);
@@ -8187,7 +8247,7 @@ async function arsAct(f){const mv=MOVES.arsonist[0];
   if(f.contact){if(RNG()<.6){const t=foeTarget(f,SWAT);if(t){await strike(f,SWAT,[t]);return}}f.contact=0;out(`${f.n}往後退了好幾步，拉開距離。`,'sys');push();draw();return}
   const rv=aliveF().filter(x=>x!==f&&FT(x).fac!==FT(f).fac);const toRv=rv.length&&RNG()<rv.length/(rv.length+able().length);
   f.charge={m:mv,rv:toRv?1:0};snd('click',.6);
-  out(`<b>${f.n}</b>${mv.warn}${toRv?rv.map(x=>x.n).join('、'):'你們'}。<span class="f">他下一次行動就會丟出去——到時要反應。</span>`,'bad');push();draw()}
+  out(`<b>${f.n}</b>${mv.warn}${toRv?rv.map(x=>x.n).join('、'):'你們'}。<span class="f">他下一次行動就會丟出去。</span>`,'bad');push();draw()}
 // 老獵人：瞄準 → 射擊（失去掩體）→ 裝填（沒被貼身就回到掩體）；貼身時獵刀或退回掩體
 async function ohAct(f){const mv=MOVES.oldhunter[0];
   if(f.charge){const c=f.charge;f.charge=null;const t=P(c.to);if(!t||t.dead||t.down||t.away||!teamHere(t)){out(`${f.n}的目標不見了，槍口慢慢移開。`,'sys');push();draw();return}
@@ -8526,9 +8586,10 @@ async function finishEvacuation(actor,route){const F=G.fight;if(!F)return;
     out(`${nm(p)}還留在原處。撤離的人引開了敵人；等隊伍離開這個區域，才有機會逃出來會合。`,'bad',true);
   }
   if(G.winR&&G.winR.r&&G.winR.r.questDone)finishCodexQuest(G,G.winR.r.questDone,'已中止');
-  G.fight=null;restoreExploreBgm();G.winR=null;PEND=null;FTAB=null;snd('doorclose');
+  G.fight=null;restoreExploreBgm();G.winR=null;PEND=null;FTAB=null;snd('doorclose');const stgId=G.over?null:stgOpen('end','explore',{t:'撤離的人在安全處會合。'});
   // v0.55.0：最後一波（或還在路上的那一波）時逃走，警戒清成 0
   {const big=G.alarmFt===2||(F.reinf&&!F.reinf.in);G.alarmFt=0;if(big){alarmClear();out('你們甩掉了循聲而來的東西。這一帶暫時安靜下來。警戒 0／10','rule',true)}else addAlarm(1,actor)}out('撤離的人在安全處會合。傷勢與負面狀態仍在，需要自行修整。','sys',true);
+  if(stgId){push();draw();await stgWait(stgId);stgClose(stgId)}
   const go=G.after;G.after=null;
   if(!go){G.phase='node';startCd();autoSave();push();draw();return}
   G.phase='busy';if(await groundWait(go))return;if(await alarmCheck(go))return;await enterNode(go);
@@ -8542,16 +8603,17 @@ async function endFight(){
   const F=G.fight;
   recoverDrops(false);
   for(const p of G.players){if(p.leftBehind)continue;p.aimed=0;p.held=0;if(!p.evacWounds){p.humus=0;p.burn=0}p.shd=0;if(p.jamGuard>0)p.jamGuard--}
-  if(F&&F.loot&&F.loot.length&&!G.over)foeLoot(F.loot);
   if(F&&F.foes.some(f=>f.hid&&f.hp>0&&!f.dead&&!FT(f).lurk))out('遠處那點紅光熄掉了。狙擊手換了位置，沒有再開槍。','sys');
   if(F&&F.foes.some(f=>f.hid&&f.hp>0&&!f.dead&&FT(f).lurk))out('暗處那陣窸窣聲遠去了。不管那是什麼，牠沒有追上來。','sys');
-  G.fight=null;restoreExploreBgm();stopCd();out('四周安靜下來，只剩粗重的喘氣聲。','sys');if(F&&F.escaped&&F.escaped.length)out('先撤離的人確認四周安全，與打完戰鬥的隊友會合。傷勢沒有因此恢復。','sys',true);
+  G.fight=null;restoreExploreBgm();stopCd();const stgId=G.over?null:stgOpen('end','explore',{t:'四周安靜下來，只剩粗重的喘氣聲。'});out('四周安靜下來，只剩粗重的喘氣聲。','sys');if(F&&F.escaped&&F.escaped.length)out('先撤離的人確認四周安全，與打完戰鬥的隊友會合。傷勢沒有因此恢復。','sys',true);
   // 被警戒引來的那一場打完：這附近暫時沒有東西了，警戒歸零（不再連續引怪）
   // v0.24.0：被警戒引來的那一場打完。小波：警戒不降，這次升到 6 不再引第二波；強敵：警戒回到 3，這一帶標成已驚動
   // v0.55.0：最後一波打完，警戒清成 0
   if(G.alarmFt){const k=G.alarmFt;G.alarmFt=0;if(k===2){alarmClear();out('循聲而來的東西都解決了。這一帶暫時安靜下來。警戒 0／10','rule',true)}else out('找上門的東西解決了。可是聲音還在，附近的東西還在聽。','rule',true)}
   const raidLate=!!(F&&F.reinf&&!F.reinf.in);
   G.phase='busy';push();draw();
+  if(stgId){await stgWait(stgId);stgClose(stgId)}/* v0.65.0 演完才給戰利品、開放後續選項 */
+  if(F&&F.loot&&F.loot.length&&!G.over)foeLoot(F.loot);
   if(G.winR){const w=G.winR;G.winR=null;if(!G.over&&able().length){if(w.t)out(w.t,'good');await outcome(w,able()[0]);push();draw()}}
   const go=G.after;G.after=null;
   // 預告過的最後一波還沒趕到戰鬥就打完了：牠們照樣找上門
@@ -8692,6 +8754,7 @@ function recipeText(r){return r.in.map(nameOf).join('＋')+(r.tools?'＋'+r.tool
 function handle(pid,a){
   if(!G||!a)return;const p=P(pid);if(p&&!teamHere(p))return;
   if(a.a==='qte')return qteAns(pid,a);
+  if(stgOn())return;/* v0.65.0 演出期間：會改變遊戲的指令一律作廢、不排隊 */
   if(a.a==='vote'){if(a.s!=null&&G.stp!=null&&a.s!==G.stp)return;/* v0.63.0 舊畫面的按鈕（上一張卡）不算 */return vote(pid,a.i)}
   if(a.a==='rv')return rvote(pid,a.t);
   if(a.a==='cdgo'){if(pid===G.host&&G.opts.cd==='host'&&(G.phase==='node'||G.phase==='roller')&&!G.cd){startCd(true);push();draw()}return}
@@ -8725,10 +8788,82 @@ function handle(pid,a){
 function encounterMarkup(d,mode){const title=mode==='first'?'我方先制':mode==='ambush'?'敵方突襲':'遭遇戰';const note=mode==='first'?'偷襲完成後再擲先攻':mode==='ambush'?'反應成功可解除敵方先攻加成':'行動順序由先攻決定';
   return `<div class="enc-state">${title}<small>${note}</small></div><div class="row">${d.map(x=>`<figure>${x.img?`<img src="img/${esc(x.img)}.webp" alt="${esc(x.n)}">`:'<i></i>'}<figcaption>${esc(x.n)}</figcaption></figure>`).join('')}</div>`}
 function battleState(){const F=G&&G.fight;if(!F)return '';if(F.sneak)return '我方先制';if(F.round>1)return '戰鬥中';if(F.order&&F.order.length)return F.order[0].k==='f'?'敵人先制':'我方先制';return F.opening==='first'?'我方先制':F.opening==='ambush'?'敵方突襲':'遭遇戰'}
-async function encounter(foes,mode){const d=foes.filter(f=>!lurkHid(f)).map(f=>({n:f.n,img:f.img||'',mode:mode||'normal'}));if(!d.some(x=>x.img))return;await flush();E('enc',d);await showEnc(d)}
+async function encounter(foes,mode){if(G&&G.stg&&G.stg.k!=='end'){await stgWait(G.stg.id);return}const d=foes.filter(f=>!lurkHid(f)).map(f=>({n:f.n,img:f.img||'',mode:mode||'normal'}));if(!d.some(x=>x.img))return;await flush();E('enc',d);await showEnc(d)}
 async function showEnc(data){const c=$('#enc');if(!c)return;const d=Array.isArray(data)?data:data.foes,mode=Array.isArray(data)?(data[0]&&data[0].mode||'normal'):data.mode;
   c.innerHTML=encounterMarkup(d,mode);c.hidden=false;c.classList.remove('go');void c.offsetWidth;c.classList.add('go');
   await Promise.race([wait((FAST?700:1700)*Math.max(.5,UI.spd)),new Promise(r=>{c.onclick=r})]);c.hidden=true}
+
+/* ================= v0.65.0 戰鬥演出（主人 2026-11-24 定案：ZEROCASE_QTE_BGM_REWORK_SPEC 第 7、8 節） =================
+   一般遭遇（enc）、警戒亂入（raid）、戰鬥結束（end）三種演出：時間不長，但不能點掉、不能用任何操作提前略過。
+   時間點來自實際分析現有音檔（docs/BGM_STAGE_v0.65.0.md）：一般段、激戰段開頭的重拍出立繪、名字、展開戰鬥介面；
+   結束接原本 900ms 淡回探索曲（戰鬥曲可能停在任何一個循環位置，不假設固定的曲尾）。
+   房主（單人就是自己）是權威：G.stg 記演出種類、識別、總長、已經過的時間；隊友照房主送來的剩餘時間接上，不等每個人回報，
+   晚到的人從目前進度接著看、不從頭重播。沒有音樂、音檔載入失敗、瀏覽器不讓播時，照同一條時間軸演完、正常解鎖。
+   演出期間不接受會改變遊戲的指令（房主收到也作廢、不排隊）；只能開關音樂、音效。單人切到背景會暫停，回來把剩下的演完；多人不暫停。 */
+const STGL={
+ 'enc/battle':{v:1,dur:2531,m:{img:882,name:1695,ui:2113}},
+ 'enc/intense':{v:1,dur:2972,m:{img:1463,name:1858,ui:2601}},
+ 'raid/intense':{v:1,dur:2972,m:{img:1463,name:1858,ui:2601}},
+ 'end/explore':{v:1,dur:1400,m:{txt:200,ui:900}}};
+const STGV={id:null,anchor:0,shown:null,sync:null,end:0,ev:null,evAt:0};let STGN=0;
+const stgT=s=>STGL[s.k+'/'+s.seg]||STGL['enc/battle'];
+// 房主端：這場演出實際經過了多久（暫停中的不算）
+function stgEl(s,now=Date.now()){return s?Math.min(s.dur,(s.el||0)+(s.at?Math.max(0,now-s.at):0)):0}
+// 鎖：演出還在（房主還沒解除）。演完後超過 8 秒還沒解除，視為異常放行，不會永遠卡住
+function stgOn(){const s=G&&!G.over&&G.stg;if(!s)return false;const el=ROLE==='client'?Date.now()-STGV.anchor:stgEl(s);return el<s.dur+8000}
+function stgOpen(k,seg,d,ms){if(ROLE==='client'||!G)return null;const T=STGL[k+'/'+seg]?STGL[k+'/'+seg]:STGL[k==='end'?'end/explore':k+'/intense']||STGL['enc/battle'];
+  G.stg={id:G.rid+':'+k+':'+Date.now().toString(36)+':'+(++STGN),k,seg,v:T.v,dur:T.dur,el:0,at:Date.now(),ms:ms?1:0,fid:G.fight&&G.fight.musicId||null,d:d||{}};
+  STGV.end=0;push();stgDraw();return G.stg.id}
+async function stgWait(id){let acc=0;/* acc：實際等過的時間（跟時鐘取大的那個；測試把 wait 換成立即完成時也會走完） */
+  while(G&&G.stg&&G.stg.id===id&&!G.over&&ROLE!=='client'){const s=G.stg;
+    if(!MP()&&document.hidden){if(s.at){s.el=stgEl(s);s.at=null}await wait(200);continue}
+    if(!s.at)s.at=Date.now();
+    const left=s.dur-Math.max(stgEl(s),acc);if(left<=0)break;const t=Math.min(left,250);await wait(t);acc+=t}}
+function stgClose(id){if(ROLE==='client'||!G||!G.stg||(id&&G.stg.id!==id))return;G.stg=null;STGV.end=Date.now();push();stgDraw()}
+// 隊友端：房主送來的狀態裡有演出，照剩餘時間對上自己的時鐘（差太多才重對，不會一直跳）
+// 收到的快照裡，這場演出已經過了多久：房主送出時的進度＋路上花掉的時間（裝置時鐘差太多就不算路上的時間，只當參考、不拿來解鎖）
+function stgPast(s){const lat=s.hs?Date.now()-s.hs:0;return (s.dur-Math.max(0,Math.min(s.dur,s.left==null?s.dur:s.left)))+(lat>0&&lat<5000?lat:0)}
+function stgSyncIn(g){const s=g&&g.stg;if(!s){if(STGV.id){STGV.id=null;STGV.end=Date.now()}return}
+  const anchor=Date.now()-stgPast(s);
+  if(STGV.id!==s.id){STGV.id=s.id;STGV.anchor=anchor}else if(Math.abs(anchor-STGV.anchor)>300)STGV.anchor=anchor}
+// 畫面用的進度：有在播這一段戰鬥曲、而且是這場演出開始時切進來的，就跟著音樂實際的播放位置走
+function stgView(){const s=G&&G.stg;if(!s)return null;let el=ROLE==='client'?Math.max(0,Date.now()-STGV.anchor):stgEl(s);
+  const a=s.seg&&s.seg!=='explore'&&BGM_MIX.tracks[s.seg];
+  if(a&&STGV.sync===s.id&&BGM_MIX.mode===s.seg&&!a.paused){const ae=a.currentTime*1000;if(Math.abs(ae-el)<400)el=ae}
+  return {s,el:Math.min(el,s.dur)}}
+function stgFirst(s){STGV.sync=null;const a=s.seg&&s.seg!=='explore'&&BGM_MIX.tracks[s.seg];if(!a||!s.ms)return;
+  let n=0;const tryIt=()=>{const v=stgView();if(!v||v.s.id!==s.id)return;if(BGM_MIX.mode!==s.seg||a.paused){if(++n<8)setTimeout(tryIt,120);return}/* 音樂還沒真的開始播：先照時鐘，再試幾次 */
+    const d=v.el-a.currentTime*1000;if(d>300&&v.el<v.s.dur-200)try{a.currentTime=v.el/1000}catch(e){}/* 晚收到的人：音樂從目前進度接上，只校正這一次 */
+    STGV.sync=s.id};setTimeout(tryIt,150)}
+function stgMarkup(s){const d=s.d||{};
+  const ui=`<div class="stg-ui"><button class="btn" data-stgui="bgm">音樂：${UI.bgm?'開':'關'}</button><button class="btn" data-stgui="snd">音效：${UI.snd?'開':'關'}</button></div>`;
+  if(s.k==='end')return `<div class="stg-end"><p>${esc(d.t||'')}</p></div>${ui}`;
+  if(s.k==='raid')return `<div class="enc-state">敵人亂入<small>新來的敵人加入戰局，行動順序重新排列</small></div><div class="row">${(d.foes||[]).map(x=>`<figure>${x.img?`<img src="img/${esc(x.img)}.webp" alt="${esc(x.n)}">`:'<i></i>'}<figcaption>${esc(x.n)}</figcaption></figure>`).join('')}</div>${ui}`;
+  return encounterMarkup(d.foes||[],d.mode||'normal')+ui}
+const stgRaf=f=>typeof requestAnimationFrame==='function'?requestAnimationFrame(f):setTimeout(f,50);
+function stgDraw(){const el=$('#stg');if(!el)return;const s=G&&!G.over&&G.stg;
+  if(!s){if(STGV.shown&&STGV.shown!=='evac'){STGV.shown=null;el.hidden=true;el.innerHTML='';el.className=''}stgEvac(el);return}
+  if(STGV.shown!==s.id){STGV.shown=s.id;el.className='k-'+s.k;el.innerHTML=stgMarkup(s);el.hidden=false;stgFirst(s);stgRaf(stgTick)}}
+function stgTick(){const el=$('#stg');if(!el||el.hidden)return;
+  if(STGV.shown==='evac'){const t=Date.now()-STGV.evAt;el.classList.toggle('m-txt',t>=200);el.classList.toggle('m-ui',t>=900);if(t>=1400){STGV.shown=null;el.hidden=true;el.innerHTML='';el.className='';return}stgRaf(stgTick);return}
+  const v=stgView();if(!v||v.s.id!==STGV.shown)return;const T=stgT(v.s);
+  for(const [k,t] of Object.entries(T.m))el.classList.toggle('m-'+k,v.el>=t);
+  el.classList.toggle('done',v.el>=v.s.dur);stgRaf(stgTick)}
+// 多人時自己一個人先撤離：只在自己的畫面演一次結束（不鎖、不影響還在打的隊友）
+function stgEvac(el){const F=G&&!G.over&&G.fight;if(!F||!MP()||!Array.isArray(F.escaped)||!F.escaped.includes(MYPID)||STGV.ev===F.musicId)return;
+  STGV.ev=F.musicId;STGV.evAt=Date.now();STGV.shown='evac';el.className='k-end';el.innerHTML=`<div class="stg-end"><p>你甩開了追來的敵人，先退到安全區等待。</p></div>`;el.hidden=false;stgRaf(stgTick)}
+// 演出期間：點按、長按、鍵盤都不會推進遊戲；觸控從演出中開始、演完才放開的那一下也不算
+{let pd=0,kd=0;const st=$('#stg');
+  if(st&&st.addEventListener){
+    st.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-stgui]');e.preventDefault();e.stopPropagation();if(!b)return;
+      const k=b.dataset.stgui;UI[k]=UI[k]?0:1;saveUI();if(k==='snd')setSoundEnabled(UI.snd);if(k==='bgm'){if(UI.bgm)startBgm();else stopBgm()}b.textContent=(k==='bgm'?'音樂：':'音效：')+(UI[k]?'開':'關')});
+    st.addEventListener('contextmenu',e=>e.preventDefault())}
+  if(typeof document!=='undefined'&&document.addEventListener){
+    document.addEventListener('pointerdown',()=>{pd=Date.now()},true);
+    document.addEventListener('visibilitychange',()=>{const s=G&&G.stg;if(!s||MP()||ROLE==='client')return;if(document.hidden){if(s.at){s.el=stgEl(s);s.at=null}}else if(!s.at)s.at=Date.now()});/* 單人切到背景：演出時間停住，回來接著演 */
+    document.addEventListener('click',e=>{if(STGV.end&&pd&&pd<STGV.end&&Date.now()-STGV.end<2000&&!(e.target.closest&&e.target.closest('#stg'))){e.preventDefault();e.stopPropagation()}},true);
+    window.addEventListener('keydown',e=>{if(!e.repeat)kd=Date.now();const tg=e.target;if(tg&&(tg.tagName==='INPUT'||tg.tagName==='TEXTAREA'))return;if(document.getElementById('qte'))return;
+      if(stgOn()||(e.repeat&&STGV.end&&kd<STGV.end)){e.preventDefault();e.stopPropagation()}},true)}}
 
 /* ================= v0.33.0 訪客妲爾：箱中靈護盾 =================
    開戰時手上拿著手提箱：護盾＝感知×2（每場重給）；敵人傷害照順序算完後先扣護盾（hurt），扣不完的才扣生命；
@@ -8861,6 +8996,17 @@ async function storyQte(res,actor){
   if(sub){if(sub.t)out(sub.t,ok?'good':'bad');await outcome(sub,p)}
   return sub}
 
+/* ---- v0.65.0 劇情裡的危險檢定：結果裡放 hz:{st,dc,l,t,ok:{...},ng:{...}}（主人 2026-11-24 定案：身體對抗、身體承受改用能力檢定，不在 QTE 裡加骰子）
+   由實際做這件事的人擲；mask＋mk：戴著有濾罐的防毒面具就直接走 mk，不擲。檢定沿用一般檢定，不覆蓋劇情主檢定的 LASTJ。 */
+async function storyHz(res,actor){
+  const q=res.hz;const p=actor&&!actor.dead&&!actor.down?actor:able()[0];if(!p)return null;
+  if(q.t)out(MP()?`${nm(p)}——${q.t}`:q.t,'bad');
+  let sub,good=true;
+  if(q.mask&&q.mk&&maskWorn(p)&&p.mf>0)sub=q.mk;
+  else{const prior=LASTJ;let c;try{c=await check(p,q.st,q.dc,q.l||STN[q.st]+'檢定',0)}finally{LASTJ=prior}sub=c.ok?q.ok:q.ng;good=c.ok}
+  if(sub){if(sub.t)out(sub.t,good?'good':'bad');await outcome(sub,p)}
+  return sub}
+
 /* ---- 輸入密碼：由選這個選項的人自己輸入（不會替玩家記住任何東西） ---- */
 async function askCode(p,t){
   await flush();const id=G.rid+'-c'+(++QSEQ);const spec={id,to:p.pid,kind:'code',t};
@@ -8962,10 +9108,11 @@ let pushT=null;
 function push(){
   if(G&&ROLE!=='client')syncCodex();
   if(ROLE!=='host')return;if(pushT)return;pushT=setTimeout(()=>{pushT=null;if(G)E('st',snap())},80)}
-function snap(){if(G&&ROLE!=='client')syncCodex();const s=JSON.parse(JSON.stringify(G));if(s.cd)s.cd.left=Math.max(0,s.cd.end-Date.now());return s}
+function snap(){if(G&&ROLE!=='client')syncCodex();const s=JSON.parse(JSON.stringify(G));if(s.cd)s.cd.left=Math.max(0,s.cd.end-Date.now());if(s.stg){s.stg.left=Math.max(0,s.stg.dur-stgEl(G.stg));delete s.stg.at;s.stg.el=s.stg.dur-s.stg.left;s.stg.hs=Date.now()}return s}
 function fullSync(){if(ROLE==='host'&&G){send({t:'full',d:{G:snap(),log:LOG.slice(-40)}});sendAllAv()}}
 // 本機或隊友送出指令
 function act(a){
+  if(a&&a.a!=='qte'&&stgOn())return;/* v0.65.0 演出期間的點按直接作廢，不排到演出結束後 */
   if(ROLE==='client'){NET.acts.push(Object.assign({n:++NET.aseq},a));NET.acts=NET.acts.slice(-10);setPres();return}
   handle(MYPID,a);
 }
@@ -8988,7 +9135,8 @@ function becomeHost(peers){const old=G.host;ROLE='host';NET.started=1;NET.late={
   out(`【連線通知】原房主連線中斷，已由<b>${nm(me())}</b>接任房主。`,'rule',true);setPres();
   // 修復交接時正在進行的流程
   busy=false;RQ.length=0;G.busy=0;
-  if(G.fight){const F=G.fight;F.resolving=0;F.cur=null;F.group=null;F.pend={};run(advance)}
+  if(G.stg){const s=G.stg;s.el=Math.min(s.dur,stgPast(s));s.at=Date.now();run(async()=>{await stgWait(s.id);stgClose(s.id)})}
+  if(G.fight){const F=G.fight;F.resolving=0;F.cur=null;F.group=null;F.pend={};if(F.order&&F.order.length)run(advance);else run(async()=>{await rollInit('normal');if(G.fight&&G.fight.order.length)await advance()})}/* v0.65.0 開場演出中換房主：還沒擲先攻就補擲 */
   else if(G.phase==='node'&&voters().length&&voters().every(p=>G.votes[p.pid]!=null))resolveVote();
   push();draw();setTimeout(fullSync,300)}
 const LOBBY={opts:{cd:'off',sec:20,diff:'normal'}};
@@ -9077,7 +9225,7 @@ async function pump(){qRun=true;
   }
   FAST=0;qRun=false}
 let cdAt=0;
-function setG(g){AUDIO_MOVING=false;const first=!G||G.rid!==g.rid;G=g;syncAmbience();cdAt=Date.now();if(first&&typeof showGame==='function')showGame();if(G.over)creditShards();draw()}
+function setG(g){AUDIO_MOVING=false;const first=!G||G.rid!==g.rid;stgSyncIn(g);G=g;syncAmbience();cdAt=Date.now();if(first&&typeof showGame==='function')showGame();if(G.over)creditShards();draw()}
 function requestSync(){NET.needN++;setPres()}
 /* ================= v0.22.0 探索紀錄：只記錄隊伍已知資訊 ================= */
 const CODEX_ROUTES={"A6":["東側樓梯","撬開電梯門，爬電梯井","從 301 的窗戶爬到消防梯"],"S1":["上二樓美食街","下維修區","回入口"],"B4":["西側樓梯","員工專用門","走員工通道"],"C4":["推開維修門"],"D2":["從開著的窗戶進二樓"],"D4":["跳下去，進廚房後門"],"E2":["辦公室"],"E4":["接待大廳","地下室樓梯","往地下停車場"],"F4":["雙開門，去大廳","後門，從後巷離開"],"G4":["搭貨梯上去","看看那扇鐵門","從車道連通門到停車場"],"I2":["看一眼入住簿再走","推開大門"],"R4":["撬開機房，走維修樓梯"],"H4":["往大廳","往停車場"],"P4":["丟東西引開牠們"],"J5":["走進後巷","去便利商店"],"K5":["往封鎖線走","走進地鐵站"],"M5":["往封鎖線走","走進地鐵站"],"Q5":["走向十字路口"],"U5":["走上去"],"V3":["在街區找個落腳的地方"],"Z0":["去消防局","去醫院","抄近路到醫院","去配電站","去警察局","去購物中心","去卡特槍械","到北口檢查站","去便利商店找傑西","回紅磚公寓","去城北的舊貨運場","去北郊的陸軍後備中心","去南岸的火力發電廠","去東岸的淨水廠","回旅館"],"Z2":["回街上"],"Z3":["先回街區"],"Z3b":["一起留下來"],"Z4":["回街上"],"Y0":["上樓搜一搜客房","下到地下室那扇鐵門","回街區"],"T0":["去裝備室","上屋頂的瞭望台","走到購物中心","回街區"],"T1":["回車庫"],"T2":["回車庫"],"O0":["繞到後面，從救護車後門進地下室","走到隔壁的警察局","回街區"],"OE13":["上四樓","搭電梯上四樓","下地下室","放棄，從救護車道回街區"],"OF9":["下地下室","從另一頭的逃生梯下樓，回街區"],"OBa":["不進去了，回街區"],"OB7":["從鐵捲門底下鑽出去","按按鈕把鐵捲門打開","拉手動鏈條","用赫克特的鑰匙開邊門","撞開邊門","從樓梯上四樓"],"Orv":["繞到後面，從救護車後門進地下室","走到隔壁的警察局","回街區"],"W0":["用工具撬開鐵門","從撬開的鐵門進去","回街區"],"W1":["回街區"],"W2":["回街區"],"L0":["舉起手走過去","用工具剪開鐵鍊","走到醫院","回街區"],"L1":["去紀錄室","回門口"],"L2":["刷門禁卡進證物室","用破拆工具撐開證物室的門","打開門禁面板的維修模式","回大廳","從後門出去"],"L3":["回紀錄室"],"S0":["從縫裡鑽進去","從燒穿的大門走進去","繳過路費","從地下停車場的鐵捲門進去","走到消防局","回街區"],"S2":["回一樓"],"S3":["回一樓","從停車場出去"],"N0":["用店主的鑰匙開側門","用破拆工具撐開捲門","從撞開的地方鑽進去","回街區"],"N1":["進工作區","回店門"],"N2":["回店面"],"CA0":["從開著的門走進去","回街區"],"CA1":["去煙囪那邊","去掛紅十字的帳篷","去天線最多的帳篷","去最大的那頂帳篷","從原路溜出去"],"CA2":["回隔離區"],"CA3":["回隔離區"],"CA4":["回隔離區"],"CA5":["退出去","回隔離區"],"BA0":["刷隊長的門禁卡","趁亂走進去","回街區"],"BA1":["進軍械庫","進指揮大樓","去營舍後面的拘留區","去停機坪","離開基地"],"BA2":["回車道"],"BA3":["回車道"],"BA4":["回車道"],"BA5":["回車道"],"PP0":["去油槽那邊","回街區"],"PP1":["去主控室","去柴油發電機房","去鍋爐間","去開關場","回大門"],"PP2":["回汽機廠房"],"PP3":["去油槽看看","回汽機廠房"],"PP4":["先回去整備"],"PP4b":["回去重新點火"],"PP4c":["去開關場","回去重新點火"],"PP5":["回汽機廠房"],"PP5t":["回廠房"],"PP5w":["回廠房","回街區"],"PP6":["回大門"],"WP0":["從大門走進去","付錢進去","回街區"],"WP1":["去取水站","去加氯室","去中央控制室","回大門"],"WP2":["回沉澱池區"],"WP3":["退出去"],"WP4":["回沉澱池區"],"WP5b":["回控制室","回沉澱池區","回街區"],"Y2":["感應 S 區門禁卡","回大廳"],"SA0":["照指示除汙","回旅館地下室"],"SA0d":["走進去"],"SA1":["搭貨梯下研究層","回除汙閘門"],"SB0":["進實驗室","進主任辦公室","進會議室","下到收容層","搭貨梯回 S1"],"SB1":["回走廊"],"SB2":["回走廊"],"SB3":["回走廊"],"SC0":["B-118：有人在敲窗戶的那間","B-121：一直在撞門的那間","走到核心的門前","回研究層"],"SC1":["離開"],"SC2":["離開這扇門"],"SC3":["回環形走廊"]};
@@ -9170,7 +9318,7 @@ function syncCodex(g=G,visit=false){
   if(g.node&&N[g.node]){C.places[g.node]={visited:true};
     // 只讀眼前可見的移動選項；不遍歷成功／失敗支線，也不預先抽取隨機事件。
     if(g===G&&g.ev==null)for(const c of choices()){
-      if(!(CODEX_ROUTES[g.node]||[]).includes(c.l)||!visible(c)||!choiceOk(c)||c.k||c.ok&&c.ok.qte||c.ok&&c.ok.code)continue;
+      if(!(CODEX_ROUTES[g.node]||[]).includes(c.l)||!visible(c)||!choiceOk(c)||c.k||c.ok&&c.ok.qte||c.ok&&c.ok.hz||c.ok&&c.ok.code)continue;
       const id=codexDestination(c);if(!N[id])continue;
       if(!C.places[id])C.places[id]={visited:false,label:c.l,from:g.node};
     }
@@ -9639,7 +9787,7 @@ function battlePlayerCards(){
   }).join('');
 }
 function draw(){
-  codexDraw();syncAmbience();syncBgmState();
+  codexDraw();syncAmbience();syncBgmState();stgDraw();
   if(!G||!$('#app'))return;
   const m=me(),Lv=LV[G.lv]||LV.A;
   $('#lvN').textContent=G.ev!=null?'意外':(N[G.node]||{}).n||'';

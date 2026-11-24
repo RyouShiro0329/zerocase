@@ -70,9 +70,10 @@ test('地下室的廢氣：發電機開著、排風機沒修，每 30 分鐘抵�
  g=await run("G.flags.hgenoff=1");assert.equal(g.run('pl.hp'),20,'關掉了');
  g=await run("G.lv='OF'");assert.equal(g.run('pl.hp'),20,'不在地下室');
 });
-test('伸手可及：床尾的東西安全，床頭櫃要檢定，失敗被抓住（QTE）',()=>{const g=setup();
- const c=JSON.parse(g.run("JSON.stringify(N.OF2a.c.map(c=>({l:c.l,k:c.k||'',q:!!(c.ng&&c.ng.qte)})))"));
- assert.deepEqual(c[0],{l:'拿床尾的病歷夾',k:'',q:false});assert.ok(c.slice(1).every(x=>x.k==='AGI'&&x.q),'床頭櫃：敏捷檢定、失敗 QTE');
+/* v0.65.0（主人 2026-11-24 改了決定：被抓住改用力量掙脫，不再是 QTE） */
+test('伸手可及：床尾的東西安全，床頭櫃要檢定，失敗被抓住（力量掙脫）',()=>{const g=setup();
+ const c=JSON.parse(g.run("JSON.stringify(N.OF2a.c.map(c=>({l:c.l,k:c.k||'',q:!!(c.ng&&c.ng.hz&&c.ng.hz.st==='STR'&&!c.ng.qte)})))"));
+ assert.deepEqual(c[0],{l:'拿床尾的病歷夾',k:'',q:false});assert.ok(c.slice(1).every(x=>x.k==='AGI'&&x.q),'床頭櫃：敏捷檢定、失敗被抓住要用力量掙脫');
  assert.equal(g.run("srMax('OF2')"),2,'病房挑兩間');
 });
 test('B-124：解開他，之後在地下室遇到他；不解開不扣善惡值，但他大喊；問話不會用掉這張卡',async()=>{const g=setup();

@@ -1,0 +1,212 @@
+{
+ "844x390": {
+  "lock": {
+   "before": {
+    "stg": true,
+    "phase": "fight",
+    "busy": true
+   },
+   "still": true,
+   "pend": "{}",
+   "acts": 0
+  },
+  "stageMs": 2630,
+  "marks": [
+   {
+    "cls": "k-enc",
+    "dt": 7,
+    "stEl": 1,
+    "audio": 0,
+    "mode": "battle",
+    "paused": false
+   },
+   {
+    "cls": "k-enc m-img",
+    "dt": 956,
+    "stEl": 951,
+    "audio": 0.891,
+    "mode": "battle",
+    "paused": false
+   },
+   {
+    "cls": "k-enc m-img m-name",
+    "dt": 1773,
+    "stEl": 1767,
+    "audio": 1.708,
+    "mode": "battle",
+    "paused": false
+   },
+   {
+    "cls": "k-enc m-img m-name m-ui",
+    "dt": 2189,
+    "stEl": 2184,
+    "audio": 2.124,
+    "mode": "battle",
+    "paused": false
+   },
+   {
+    "cls": "k-enc m-img m-name m-ui done",
+    "dt": 2606,
+    "stEl": 2531,
+    "audio": 2.541,
+    "mode": "battle",
+    "paused": false
+   },
+   {
+    "cls": "",
+    "dt": 2624,
+    "stEl": null,
+    "audio": 2.559,
+    "mode": "battle",
+    "paused": false
+   }
+  ],
+  "raidMs": 4354,
+  "raidMusic": "intense",
+  "endMs": 1426,
+  "afterEnd": {
+   "mode": "explore",
+   "phase": "node"
+  },
+  "errs": []
+ },
+ "1280x720": {
+  "lock": {
+   "before": {
+    "stg": true,
+    "phase": "fight",
+    "busy": true
+   },
+   "still": true,
+   "pend": "{}",
+   "acts": 0
+  },
+  "stageMs": 2654,
+  "marks": [
+   {
+    "cls": "k-enc",
+    "dt": 6,
+    "stEl": 1,
+    "audio": 0,
+    "mode": "battle",
+    "paused": false
+   },
+   {
+    "cls": "k-enc m-img",
+    "dt": 974,
+    "stEl": 969,
+    "audio": 0.89,
+    "mode": "battle",
+    "paused": false
+   },
+   {
+    "cls": "k-enc m-img m-name",
+    "dt": 1790,
+    "stEl": 1785,
+    "audio": 1.706,
+    "mode": "battle",
+    "paused": false
+   },
+   {
+    "cls": "k-enc m-img m-name m-ui",
+    "dt": 2206,
+    "stEl": 2202,
+    "audio": 2.122,
+    "mode": "battle",
+    "paused": false
+   },
+   {
+    "cls": "",
+    "dt": 2638,
+    "stEl": null,
+    "audio": 2.554,
+    "mode": "battle",
+    "paused": false
+   }
+  ],
+  "raidMs": 4345,
+  "raidMusic": "intense",
+  "endMs": 1427,
+  "afterEnd": {
+   "mode": "explore",
+   "phase": "node"
+  },
+  "errs": []
+ },
+ "690x393": {
+  "lock": {
+   "before": {
+    "stg": true,
+    "phase": "fight",
+    "busy": true
+   },
+   "still": true,
+   "pend": "{}",
+   "acts": 0
+  },
+  "stageMs": 2638,
+  "marks": [
+   {
+    "cls": "k-enc",
+    "dt": 7,
+    "stEl": 0,
+    "audio": 0,
+    "mode": "battle",
+    "paused": false
+   },
+   {
+    "cls": "k-enc m-img",
+    "dt": 972,
+    "stEl": 965,
+    "audio": 0.888,
+    "mode": "battle",
+    "paused": false
+   },
+   {
+    "cls": "k-enc m-img m-name",
+    "dt": 1788,
+    "stEl": 1782,
+    "audio": 1.704,
+    "mode": "battle",
+    "paused": false
+   },
+   {
+    "cls": "k-enc m-img m-name m-ui",
+    "dt": 2205,
+    "stEl": 2198,
+    "audio": 2.121,
+    "mode": "battle",
+    "paused": false
+   },
+   {
+    "cls": "",
+    "dt": 2630,
+    "stEl": null,
+    "audio": 2.546,
+    "mode": "battle",
+    "paused": false
+   }
+  ],
+  "raidMs": 4347,
+  "raidMusic": "intense",
+  "endMs": 1429,
+  "afterEnd": {
+   "mode": "explore",
+   "phase": "node"
+  },
+  "errs": []
+ },
+ "nobgm": {
+  "ms": 2639,
+  "errs": []
+ },
+ "loadfail": {
+  "ms": 2626,
+  "failed": {
+   "explore": false,
+   "battle": true,
+   "intense": true
+  },
+  "errs": []
+ }
+}
