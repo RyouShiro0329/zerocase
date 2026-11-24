@@ -46,16 +46,17 @@ test('旅館是四層單向路線＋捷徑，共用一個警戒區域；每層�
  assert.deepEqual(JSON.parse(g.run("JSON.stringify(Object.keys(ROUTE).filter(L=>ROUTE[L].loc==='旅館'))")).sort(),['A','B','C','D','E','G','I','R'].sort());
  for(const L of ['A','B','E','G']){assert.equal(g.run(`alZ('${L}')`),'hotel');assert.ok(g.run(`!!LV.${L}.rule`),L+' 進場有環境提示')}
  assert.equal(g.run("N.F1.L+N.H2.L+N.P4.L"),'EEG','廚房、洗衣房併進一樓，停車場併進地下');
- assert.match(g.run('LV.A.rule'),/自動閉門器/);/* v0.62.0 主人 11:25：「門會自己關上」很怪，改寫成閉門器 */assert.match(g.run('LV.B.rule'),/落地窗/);assert.match(g.run('LV.E.rule'),/瓦斯/);assert.match(g.run('LV.G.rule'),/通風扇停了/);
+ assert.match(g.run('LV.A.rule'),/停電/);assert.doesNotMatch(g.run('LV.A.rule'),/自己關上|閉門器/);/* v0.63.0 spec 7.1：不再強迫寫每扇門都會自己關上 */assert.match(g.run('LV.B.rule'),/落地窗/);assert.match(g.run('LV.E.rule'),/瓦斯/);assert.match(g.run('LV.G.rule'),/通風扇停了/);
 });
-test('三樓（選擇卡）：30 個種子、8 種路況都走得出去，一般路線至少 15 次、捷徑也至少 15 次',async()=>{
+/* v0.63.0（主人 2026-11-24 改了決定：出口長度浮動，不卡最少 15 次；捷徑可以很短）：三樓的長度與出口改在 tests/explore.test.cjs 驗收。
+   這裡保留「30 個種子、8 種路況都走得出去」。 */
+test('三樓（情境探索）：30 個種子、8 種路況，東側樓梯、電梯井、消防梯都走得出去',async()=>{
  const RD=[];for(let m=0;m<8;m++)RD.push({rd_r302:m&1,rd_rlift:m>>1&1,rd_rwin:m>>2&1});
  const min={stairs:99,lift:99,win:99};
  for(let s=1;s<=30;s++)for(const rd of RD)for(const ex of ['stairs','lift','win']){const w=await walk3F(s*7919,rd,ex);
   assert.notEqual(w.lv,'A',`沒有走出三樓（種子 ${s}，${JSON.stringify(rd)}，${ex}）：${w.seen.join('→')}`);
   assert.equal(w.lv,ex==='stairs'?'B':ex==='lift'?'C':'D');min[ex]=Math.min(min[ex],w.n)}
- assert.ok(min.stairs>=15,'三樓一般路線最少只有 '+min.stairs+' 次');assert.ok(min.lift>=15,'電梯井最少只有 '+min.lift+' 次');assert.ok(min.win>=15,'消防梯最少只有 '+min.win+' 次');
- console.log('三樓選擇次數（30 種子×8 路況的最少值）',JSON.stringify({東側樓梯:min.stairs,電梯井:min.lift,消防梯:min.win}));
+ console.log('三樓選擇次數（30 種子×8 路況的最少值，走到盡頭的出口）',JSON.stringify({東側樓梯:min.stairs,電梯井:min.lift,消防梯:min.win}));
 });
 test('一般路線：二樓以下每一層至少 15 次選擇（移動、繼續仔細翻不算），走得到出口',async()=>{const g=setup();g.run("G.players[0].items.coin=1;G.route=['A'];G.lv='A'");
  await g.run("enterNode('B1')");

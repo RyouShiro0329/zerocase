@@ -1,13 +1,13 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=c497cc57" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=22c52a45" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fx/slash-12.webp" as="image" type="image/webp">
 <link rel="preload" href="fx/blunt-12.webp" as="image" type="image/webp">
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=c497cc57") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=22c52a45") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
@@ -700,7 +700,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.62.1", "b": 133, "t": "2026-11-24T16:04:12+08:00"};
+const ZC_VER={"v": "0.63.0", "b": 134, "t": "2026-11-24T17:19:39+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -5429,6 +5429,98 @@ LV.A.rule='走廊上每一扇房門都關著。旅館的房門裝了自動閉門
 if(!N.AE1.t.includes('門後有人在哭，壓得很低。'))throw new Error('AE1 文字變了');N.AE1.t=N.AE1.t.replace('門後有人在哭，壓得很低。','門後有人在哭，聲音壓得很低，像是摀著嘴。');
 Object.assign(ROUTE.A,{slots:[0,0],seq:['A1','AH','A6']});
 }
+
+/* ================= v0.63.0 三樓：情境探索（主人 2026-11-24 與 GPT 討論定案的 ZEROCASE_HOTEL_EXPLORATION_SPEC；文本由 Claude 寫） =================
+   取消 v0.62.0 的走廊行動卡（AH 四個基本行動）。每個選擇結算後直接進下一個情境（引擎在 engine_c 的 xpGen／xpNext）。
+   地理：301 → 西段（A3 穿制服的人、房務推車、302／304／306 與消防栓、303 都在這一段）→ 轉角（305 的馬可，不一定遇到）
+   → 中段（307～310 那一排、310 的哈蒙夫婦不一定遇到）→ 防火門（路障，看路況）→ 東段 → 走廊盡頭的出口。
+   未知客房（AU）：門後有什麼在抽到那一刻照種子定好，聽門、推門看到的是同一個房間。 */
+{
+const GG=()=>{try{return G}catch(e){return null}};
+const RM=()=>{const g=GG();return (g&&g.xp&&g.xp.rm)||{n:'311',k:'empty',v:0,heard:0}};
+N.A1.next='AN';
+for(const s of ['w','m','e'])N['AS'+s].next='AN';
+// 舊存檔停在 v0.62.0 的走廊（AH）：給一張接回來的卡，之後照新流程
+N.AH={L:'A',n:'三樓走廊',t:`走廊上暫時沒有動靜。緊急照明一閃一閃，前面還有一段路。`,c:[{t:'mv',kind:'移動',l:'沿著牆繼續往前',ok:{t:`你貼著牆往前走。`,go:'AN'}}]};
+N.AN={L:'A',n:'三樓走廊',t:'',c:[]};/* 只是一個記號：enterNode 走到這裡時換成下一個情境 */
+// 環境提示（主人：不要強迫每扇門都會自己關上）：只講停電與聲音；房卡鎖、門鏈這些在相關的卡上寫
+LV.A.rule='停電了，整層只剩緊急照明的紅光，每隔幾秒閃一次。走廊很安靜，一點聲音都傳得很遠。';
+N.AD8.seg='e';/* 318 在東段（311～318） */
+ROUTE.A.road=(ROUTE.A.road||[]).concat([{id:'rbar',p:.5}]);
+Object.assign(ROUTE.A,{seq:['A1','AN','A6']});
+
+/* ---- 310：路過時老太太敲門（A4f），或是自己先敲 ---- */
+N.A4e.c.push({t:'q',l:'蹲下來，輕輕敲 310 的門',ok:{t:`你蹲在 310 門口，用指節在門板上敲了兩下。門縫底下的毛巾動了一下。`,r:{flag:'knk310'},go:'A4f'}});
+{const t0=N.A4f.t,p1='310 的門後面有人在敲，很輕，兩下。一個老太太的聲音隔著門板傳出來：「外面的……是人嗎？」';if(!t0.startsWith(p1))throw new Error('A4f 開頭變了');
+ Object.defineProperty(N.A4f,'t',{get(){const g=GG();return g&&g.flags&&g.flags.knk310?t0.replace(p1,'門後面安靜了很久，然後有人回敲了兩下，很輕。一個老太太的聲音隔著門板傳出來：「外面的……是人嗎？」'):`你走到 310 門口的時候，${p1}`},configurable:true})}
+
+/* ---- 多人分頭做：同一間房裡各翻各的（spot 一樣的只能一個人） ---- */
+const SOLO=(id,spots)=>{N[id].split=1;N[id].c.forEach((c,i)=>{if(spots[i]){c.solo=1;c.spot=spots[i]}})};
+SOLO('A4b',['shelf','bags','bags','bags']);SOLO('A4c',['body','cart','body','body']);SOLO('A4h',[null,'bag',null]);
+
+/* ---- 搜索深挖（快速翻完，這裡還有仔細翻的地方才出現） ---- */
+const AQC=new Map(),AQL={t:'mv',kind:'移動',l:'帶著拿到的東西離開',ok:{t:`你把拿到的東西收好，沒有再翻下去。`}};
+N.AQ=Object.defineProperties({L:'A',n:'三樓・繼續翻'},Object.getOwnPropertyDescriptors({
+ get t(){return `看得到的你先拿了。底下、夾層和角落還有沒翻到的地方，要翻下去，得再多花上一陣子。`},
+ get c(){const g=GG(),from=g&&g.xp&&g.xp.dq&&g.xp.dq.from;if(!from||!N[from])return [AQL];if(AQC.has(from))return AQC.get(from);
+  const cs=(N[from].c||[]).filter(c=>c.t==='sd'&&!c._hid).map(c=>Object.assign({},c,{_xpDeep:1,solo:undefined,spot:undefined}));const o=cs.concat([AQL]);AQC.set(from,o);return o}}));
+
+/* ---- 未知客房：虛掩的門（AU）→ 聽門（AUl）→ 空房（AUe）／有人（AUs）；房裡有感染者直接開打 ---- */
+const FOEW=[{t:`它倒在床邊。房間裡沒有別人。床頭櫃的抽屜開著，裡面有一卷繃帶。`,r:{items:{bandage:1}}},{t:`它倒在床邊。房間裡沒有別人。迷你吧的門開著，裡面還剩一瓶礦泉水和一包餅乾。`,r:{items:{water:1,cookie:1}}}];
+const PUSH={
+ foe:{t:'q',l:'推開門進去',sign:{t:'門縫底下的地毯有一道濕的拖痕，拖進房間裡。',dc:12},ok:{get t(){return `你推開門。窗簾拉著，房間裡比走廊還暗。床和牆之間蹲著一個人，背對著門，聽到門軸的聲音，才慢慢站了起來。`},fight:{n:1,mode:'normal',names:['房裡的感染者']},get win(){return FOEW[RM().v]}}},
+ empty:{t:'q',l:'推開門進去',xpa:'in',ok:{t:`你推開門，側身進去，再把門虛掩回去。`}},
+ surv:{t:'q',l:'推開門進去',xpa:'in',sign:{t:'門縫裡有一點手機螢幕的光，一下就被遮住了。',dc:12},ok:{t:`你推開門。房間裡有人倒抽了一口氣。`}}};
+const LISTEN={t:'q',l:'貼著門縫聽一下',k:'PER',d:11,s:'感知檢定',xpa:'listen',ok:{t:`你蹲下來，把耳朵貼近門縫，屏住呼吸。`},ng:{t:`你把耳朵貼在門縫上，可是走廊另一頭一直有拖著腳的聲音，你分不出門後有沒有動靜。`}};
+const PASS={t:'mv',kind:'移動',l:'不進去，繼續走',ok:{t:`你從那扇門前走過去，沒有碰它。`}};
+const AUC={};for(const k of Object.keys(PUSH))AUC[k]=[PUSH[k],LISTEN,PASS];
+N.AU=Object.defineProperties({L:'A'},Object.getOwnPropertyDescriptors({
+ get n(){return '三樓走廊・'+RM().n},
+ get t(){return `${RM().n} 的門沒有關緊，門板和門框之間留著一指寬的縫。門鎖的小燈是暗的，電池大概沒電了，鎖舌沒有彈出來。
+門縫裡很暗，看不出裡面有什麼。`},
+ get c(){return AUC[RM().k]}}));
+const HEARD={foe:`門後有呼吸聲，很慢，濕濕的。偶爾有東西碰到床架，喀的一聲。裡面那個不管是誰，都沒有在睡覺。`,
+ empty:`門後很安靜。你聽了很久，只聽到浴室的水管偶爾滴一聲。`,
+ surv:`門後有人在小聲講電話，講一句停很久：「……還是打不通……我會等……」是活人的聲音。`};
+const AULC={
+ foe2:[{t:'q',l:'推門，趁它還沒轉過來先動手',ok:{t:`你算準門後那陣呼吸聲離門最遠的時候，一把推開門衝進去。它還蹲在床和牆中間，來不及站起來。`,fight:{n:1,mode:'first',names:['房裡的感染者']},get win(){return FOEW[RM().v]}}},
+  {t:'mv',kind:'移動',l:'把門輕輕帶上，繼續走',ok:{t:`你把門慢慢拉回去，讓它貼著門框，沒有發出一點聲音。門後的呼吸聲沒有變。`}}],
+ empty2:[{t:'mv',kind:'移動',l:'進去看看',xpa:'in',ok:{t:`你推開門，側身進去，再把門虛掩回去。`}},PASS],
+ surv2:[{t:'q',l:'輕輕敲門，說你是活人',xpa:'in',ok:{t:`你用指節敲了兩下，壓低聲音說你是住客，沒有受傷。講電話的聲音停了。過了很久，門從裡面被拉開。`}},PASS],
+ foe1:[PUSH.foe,PASS],empty1:[PUSH.empty,PASS],surv1:[PUSH.surv,PASS]};
+N.AUl=Object.defineProperties({L:'A'},Object.getOwnPropertyDescriptors({
+ get n(){return '三樓走廊・'+RM().n},
+ get t(){const r=RM();return r.heard===2?HEARD[r.k]:`門縫還是那一指寬。你聽不出裡面有沒有人。`},
+ get c(){const r=RM();return AULC[r.k+(r.heard===2?2:1)]}}));
+const AUEL=[{bag:{water:1},room:{bandage:1,painkiller:1},mid:{cloth:1}},{bag:{cookie:1},room:{bar:1,tape:1},mid:{cloth:1}}];
+const AUET=[`房間裡沒有人。床單被扯到地上，一只行李箱攤開在行李架上，衣服翻得到處都是。浴室的門開著，洗手台上排著住客的盥洗用品。`,
+ `房間裡沒有人。床鋪得平平的，只有書桌的椅子被拉到窗邊，窗簾拉開了一條縫。一只行李箱靠在衣櫃旁邊，拉鍊沒拉。`];
+const AUECS=[0,1].map(v=>{const L=AUEL[v];return [
+ {t:'sq',kind:'搜尋',l:'翻那只行李箱',solo:1,spot:'bag',tb:[{g:'good',w:1,t:`你拉開行李箱，只翻最上面那一層。衣服底下塞著能用的東西。`,r:{items:L.bag}},{g:'mid',w:1,t:`最上面那一層只有換洗衣服和一雙拖鞋。`}]},
+ {t:'sd',kind:'搜尋',l:'把衣櫃、浴室和抽屜都翻一遍',k:'PER',d:11,s:'感知檢定',solo:1,spot:'room',tb:[
+  {g:'good',w:2,t:`你從衣櫃翻到浴室，再翻書桌的抽屜。浴室的鏡櫃裡有住客自己帶的東西，抽屜最裡面還塞著一些。`,r:{items:Object.assign({},L.bag,L.room)}},
+  {g:'mid',w:2,t:`衣櫃裡只有旅館的浴袍，抽屜是空的。你在浴室架子上拿了一條乾淨的毛巾。`,r:{items:L.mid}},
+  {g:'bad',w:1,t:`你拉開衣櫃的時候，整排衣架嘩啦一聲掉了下來。你僵在原地等了很久，走廊上有東西停下來，又慢慢走開了。`,p:{alarm:1}}]},
+ {t:'mv',kind:'移動',l:'退回走廊',ok:{t:`你把門帶上，回到走廊上。`}}]});
+N.AUe=Object.defineProperties({L:'A',split:1},Object.getOwnPropertyDescriptors({
+ get n(){return RM().n+' 號房'},get t(){return AUET[RM().v]},get c(){return AUECS[RM().v]}}));
+const AUST=[`浴室的門後縮著一個穿運動外套的年輕女人，手上握著一根從衣架上拆下來的鐵桿，對著你。
+「別過來。」她的聲音在抖，「你……你有沒有被咬？」`,
+ `床和窗戶之間的地上坐著一個穿西裝的中年男人，領帶鬆開了，身邊排著三瓶喝空的迷你酒。他抬頭看你，看了很久才開口：「你是從哪邊過來的？」`];
+const AUSTIP=[`她說傍晚的時候，她從門縫看到一群人往東側樓梯跑，後來就沒有人再上來過。
+「電梯不要碰，」她說，「我按過一次，裡面有東西在撞門。」`,
+ `他說一個小時前，他從走廊盡頭的窗戶往下看過：東側樓梯的燈還亮著，二樓那一排窗戶外面一直有探照燈在掃。
+「下去以後別靠窗。」他說，「他們什麼都打。」`];
+const AUSCS=[0,1].map(v=>[
+ {t:'q',l:'跟對方說外面的情況，問有沒有看到別的路',solo:1,spot:'talk',ok:{t:AUSTIP[v],r:{flag:'srvtip'}}},
+ {t:'q',l:'問能不能分一點水和吃的',k:'CHA',d:12,s:'統帥檢定',solo:1,spot:'ask',tb:[
+  {g:'good',w:1,t:`對方猶豫了很久，從行李箱裡拿出一瓶水和一包餅乾，推到你面前。「就這些。我還不知道要在這裡待多久。」`,r:{items:{water:1,cookie:1}}},
+  {g:'mid',w:2,t:`對方只肯分你一瓶水，眼睛一直盯著你的手。`,r:{items:{water:1}}},
+  {g:'bad',w:1,t:`「出去！」對方抓起手邊的東西朝你丟過來，砸在門框上，聲音一路傳到走廊。`,p:{alarm:1}}]},
+ {t:'mv',kind:'移動',l:'叫對方把門鎖好，自己離開',ok:{t:`你叫對方把門頂好，不管聽到什麼都不要開。你退回走廊，聽見身後的門鎖輕輕扣上。`}}]);
+N.AUs=Object.defineProperties({L:'A',split:1},Object.getOwnPropertyDescriptors({
+ get n(){return RM().n+' 號房'},get t(){return AUST[RM().v]},get c(){return AUSCS[RM().v]}}));
+}
 /* ================= 基礎 ================= */
 const $=s=>document.querySelector(s);
 // v0.58.0 種子（主人 2026-11-24，PLAN_CHOICE_CARDS 第三節）：遊戲裡的亂數走 RNG()，一張卡一個子種子（reseed）。
@@ -6263,7 +6355,7 @@ function zSeal(cs){if(!G||G.ev!=null||!ZN[G.node]||ZN[G.node].role!=='hub')retur
   return cs.map(c=>c.zp&&((c.zp.k==='room'&&G.flags['v_'+c.zp.room]&&!(c.once&&c.keep&&G.used&&G.used[usedKey(c)]))||c.zp.k==='back')?{...c,_hid:1}:c)}
 function zBudget(cs){if(!G||G.ev!=null||!ZN[G.node]||!['room','hub'].includes(ZN[G.node].role)||zSpent()<zBudgetMax())return cs;
   return cs.map(c=>(zIsSearch(c)||(c.zp&&c.zp.k==='room'))&&!(c.once&&c.keep&&G.used&&G.used[usedKey(c)])?{...c,_hid:1}:c)}
-const choices=()=>trustCh(darCh(rtView(zBudget(zSeal(zView(searchChoices(curNode())))))));
+const choices=()=>xpCh(trustCh(darCh(rtView(zBudget(zSeal(zView(searchChoices(curNode()))))))));
 // 不搬動原選項索引：快速翻留在原位置，繼續仔細翻附加在陣列尾端（_deepOf 指回原位置）。
 const SEARCH_CACHE=new WeakMap();
 function canSearch(c){
@@ -6336,6 +6428,7 @@ async function enterNode(id){
   // 這個地方沒有合適的隨機事件就直接過去，不硬抽不合理的
   // v0.59.0 抽牌格：這一局有開的格子從牌庫抽一張卡（做完接回 G.dk.ret），沒開的、抽不到的跳過
   dkPrep(N[id]&&N[id].L);
+  if(id==='AN')id=xpGen();/* v0.63.0 三樓：真的走進去才決定下一個情境 */
   for(let n=0;n<16;n++){const s=N[id];if(s&&s.slot){if(dkOn(id)){if(s.fork){const D=dkSt();if(!(D.fk&&D.fk.id===id))dkFork(id);if(D.fk)break}else if(s.seg){const d=dkFork(id,1)[0];if(d){if(s.intro&&!G.flags['in_'+id]){G.flags['in_'+id]=1;out(s.intro,'',true)}forkTake(id,d,[]);id=d;break}}else{const d=dkDraw(id);if(d){G.dk.ret=s.next;id=d;break}}}id=s.next;continue}
     if(!rtSkip(id))break;if(N[id].sr&&srLeft(id))out('時間不多了，沒辦法每一間都翻。該往前走了。','rule');id=N[id].next}
   AUDIO_MOVING=true;stopAmbience();
@@ -6419,6 +6512,7 @@ function tell(p,i){const h=G.hint&&G.hint[p.pid]&&G.hint[p.pid][i];if(!h||G.phas
 function voters(){return live().filter(p=>!p.mad)}
 function vote(pid,i){
   if(G.phase!=='node'||busy||G.over)return;if(P(pid)&&P(pid).mad)return;const c=choices()[i];if(!c||!visible(c)||!choiceOk(c))return;
+  if(xpSplit()&&G.votes[pid]!==i&&!xpSoloOk(pid,i)){sfx('click',.2);return}/* v0.63.0 分頭做：同一個地方已經有隊友在翻 */
   // v0.23.2：再點一次自己投的選項＝取消投票（所有人都投完就立刻結算，來不及取消）
   if(G.votes[pid]===i){delete G.votes[pid];sfx('click',.3);push();draw();return}
   G.votes[pid]=i;sfx('click',.4);push();draw();
@@ -6427,7 +6521,8 @@ function vote(pid,i){
 let TIE=false;
 function tally(v,valid){TIE=false;const cnt={};for(const k of Object.values(v))cnt[k]=(cnt[k]||0)+1;const keys=Object.keys(cnt);if(!keys.length)return valid.length?pick(valid):null;const mx=Math.max(...keys.map(k=>cnt[k]));const top=keys.filter(k=>cnt[k]===mx);TIE=top.length>1;return pick(top)}
 function resolveVote(){
-  stopCd();const cs=choices();const valid=cs.map((c,i)=>i).filter(i=>visible(cs[i])&&choiceOk(cs[i]));
+  stopCd();if(xpSplit()&&Object.values(G.votes).some(i=>choices()[i]&&choices()[i].solo)){G.phase='busy';run(xpSplitResolve);return}
+  const cs=choices();const valid=cs.map((c,i)=>i).filter(i=>visible(cs[i])&&choiceOk(cs[i]));
   const i=+tally(G.votes,valid);if(isNaN(i))return;
   const tie=TIE;
   const actor=voters().filter(p=>G.votes[p.pid]===i&&!p.down)[0]||ctl()[0];
@@ -6513,7 +6608,9 @@ async function applyRes(c,res,actor,bad){CURC=c;if(c.darGo)G.guided=1;
   if(c.fork&&G.ev==null)forkPick(c);
   let nextId=c.go||((N[G.node].deck||N[G.node].dsub)&&G.ev==null&&G.dk&&G.dk.ret)||N[G.node].next;
   if(N[G.node].op&&G.ev==null&&!c.go&&!(res&&res.go))nextId=opNext(c);/* v0.60.0 301 房間、開場事件 */
-  if(N[G.node].hub&&G.ev==null&&!c.go&&!(res&&res.go))nextId=exNext(c,res);/* v0.62.0 三樓走廊的基本行動 */
+  if(N[G.node].hub&&G.ev==null&&!c.go&&!(res&&res.go))nextId=exNext(c,res);/* v0.62.0 三樓走廊的基本行動（v0.63.0 起不再用） */
+  if(c._xpDeep&&res)res=xpDeepRes(res);
+  if(xpOn()&&!c.go&&!(res&&res.go))nextId=xpNext(c,res);/* v0.63.0 三樓情境探索：原卡關閉，進下一個情境 */
   // v0.39.0 搜索點：記下選過的（之後消失）；就地翻找的選項做完留在原地，次數用完才往前
   const sr=G.ev==null&&N[G.node].sr&&!c.srOut?G.node:null,srIn=!!sr&&!c.go&&!(res&&res.go);
   if(sr){const st=srSt(sr);st.u[c._searchBase!=null?c._searchBase:choices().indexOf(c)]=1;if(c._deepOf==null&&!c.quiet)st.n++;if(srIn)nextId=sr}
@@ -6949,6 +7046,90 @@ function opNext(c){const nd=N[G.node];if(!G.op&&nd.opev)G.op={n:3,ev:0,k:0,done:
   if(nd.opev)return o.n>=3?out:'A1r';
   if(c.opk){o.n++;G.flags.op_any=1;G.flags['op_'+c.opk]=1;if(!o.done&&o.ev===o.n){o.done=1;return OPEV[o.k]}return o.n>=3?out:'A1r'}
   return out}
+/* ---- v0.63.0 情境探索（主人 2026-11-24 與 GPT 討論定案，ZEROCASE_HOTEL_EXPLORATION_SPEC；第一階段只有首次旅館三樓） ----
+   取消 v0.62.0 的常駐四個基本行動（AH）。每次有效選擇結算後，原卡所有選項關閉，直接進下一個情境。
+   地理固定：301 → 西段（301～306）→ 轉角（305 前）→ 中段（307～310）→ 防火門 → 東段 → 走廊盡頭的出口（A6）。
+   每局不同：每一段裡的隨機情境張數、順序、哪幾張、未知客房（AU）裡有什麼，都照種子；固定房號的劇情只在自己那一段。
+   G.xp＝{q 這一層的路線表, k 走到第幾格, seg 現在哪一段, ne 東段走過幾張, seen 這一局出過的, rm 現在這扇門, rooms, dq 搜索深挖, cc 條件牌張數}
+   路線表的格子：卡片代號（固定）、'R'（從這一段的牌庫抽一張）、'?代號'（條件成立才出現）、'@段'（換段，印一段走路的描寫）。
+   下一張在真的走進去（enterNode('AN')）時才決定：戰鬥、警戒波次打完，照當下的狀態重新判斷。 */
+const XPFIX=['A3','A3c','A4','A4d','A4e','A4f','A6d','AT1','A6','A6e'];
+const XPSEGT={w:`你把門推開一條縫，側身出去。走廊比房間更暗，緊急照明每隔幾秒閃一次紅光，紅地毯在光裡忽明忽暗。`,
+ m:`你貼著牆走到轉角。轉過去，307 到 310 那一排房門就在前面，空氣裡有一股悶悶的鐵鏽味。`,
+ e:`東段的走廊比較寬，盡頭的窗簾縫透進街上的白光，東側樓梯的綠色標示燈就在那一頭。`};
+const xpOn=()=>!!(G&&G.lv==='A'&&G.ev==null&&N[G.node]&&!N[G.node].op&&!['A6','A6e','A5'].includes(G.node)&&G.node!=='AH');
+function xpSt(){if(!G.xp)G.xp={k:0,seg:null,ne:0,seen:[],rooms:{},cc:0};const X=G.xp;if(!X.q)X.q=xpPlan(X);return X}
+function xpPlan(X){const rg=subRng(seedKey(G.sd||0,'xplan','A'));const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(rg()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+  const R=(a,b)=>Array(a+Math.floor(rg()*(b-a+1))).fill('R');
+  const w=sh(['A3c','A4','A4d',...R(2,3)]),mr=R(2,3),at=Math.floor(rg()*(mr.length+1));mr.splice(at,0,'A4e','?A4f');
+  const q=['@w','A3',...w,'?A6d','@m',...mr,'?AT1','@e',...R(1,3),'A6'];
+  if(X.mig){/* 舊存檔（v0.62.0 走廊）：照原本走到的步數，跳過已經走過的那幾段 */const s=X.mig<=3?0:X.mig<=7?q.indexOf('@m'):q.indexOf('@e');X.k=Math.max(X.k||0,s);X.seg=X.mig<=3?'w':X.mig<=7?'m':'e';delete X.mig}
+  return q}
+function xpCond(id){const X=G.xp,f=G.flags,rg=subRng(seedKey(G.sd||0,'xpc',id));
+  if(X.seen.includes(id))return false;
+  if(id==='A4f')return rg()<(f.h310?.7:.5);/* 310 的老太太聽到有人經過才敲門；聽過門的人更會停下來 */
+  if(id==='A6d')return rg()<(f.m305||f.rs305?.8:.55);/* 轉角的馬可：拖行聲剛好轉過轉角、305 的人探頭 */
+  if(id==='AT1')return !!f.rd_rbar;
+  return true}
+function xpDraw(seg){const X=G.xp,rg=subRng(seedKey(G.sd||0,'xpd',X.k));
+  const ok=id=>!X.seen.includes(id)&&!XPFIX.includes(id)&&(!N[id].seg||N[id].seg===seg)&&dkOk(N[id])&&(!N[id].cc||X.cc<2);
+  let pool=dkList('A').filter(ok);if(seg!=='w'&&!X.rooms[seg])pool.push('AU');
+  if(!pool.length)pool=dkList('hotel').filter(id=>!X.seen.includes(id));
+  if(!pool.length)return null;
+  const ws=pool.map(id=>id==='AU'?1.5:dkW(id)),tot=ws.reduce((a,b)=>a+b,0);let x=tot*rg(),id=pool[pool.length-1];for(let i=0;i<pool.length;i++){x-=ws[i];if(x<0){id=pool[i];break}}
+  if(id==='AU'){const nums={m:['311','312'],e:['313','315','317']}[seg],r=rg();const n=nums[Math.floor(rg()*nums.length)];
+   X.rooms[seg]=n;X.rm=X.rooms['r'+n]={n,k:r<.35?'foe':r<.8?'empty':'surv',v:rg()<.5?0:1,heard:0};return 'AU'}
+  X.seen.push(id);if(N[id].cc)X.cc++;N[id].L='A';return id}
+// 走進下一個情境：路線表往前走到第一張成立的卡；沒有合格的情境就照地理走到下一段，最後一定到出口
+function xpGen(){const X=xpSt();
+  for(let n=0;n<40&&X.k<X.q.length;n++){const t=X.q[X.k++];
+   if(t[0]==='@'){X.seg=t.slice(1);if(t==='@e'){const s=G.flags.rd_rbar?'':'走廊中段的防火門開著一半，門擋卡在地毯上。你從門邊側身過去。';out(s+XPSEGT.e,'',true)}else out(X.seg==='w'&&G.node==='AO3'?XPSEGT.w.replace('你把門推開一條縫，側身出去。',''):XPSEGT[X.seg],'',true);continue}/* 火警時衝出門的人，不是推開一條縫 */
+   if(t==='R'){const d=xpDraw(X.seg);if(d){if(X.seg==='e')X.ne++;return d}continue}
+   const id=t[0]==='?'?t.slice(1):t;if(t[0]==='?'&&!xpCond(id))continue;if(X.seen.includes(id))continue;
+   X.seen.push(id);if(X.seg==='e'&&id!=='A6')X.ne++;return id}
+  return 'A6'}
+// 搜索深挖：快速翻完，這張卡如果還有仔細翻的地方，換一張新的卡（繼續深入／帶著所得離開），原卡不再出現
+const xpDeepSrc=id=>(N[id]&&N[id].c||[]).filter(c=>c.t==='sd'&&!c._hid&&visible(c));
+function xpTook(res){const r=(res&&res.r)||{};return {items:Object.assign({},r.items||{}),gear:r.gear||null,usd:r.usd||0}}
+function xpDeepRes(res){const T=G.xp&&G.xp.dq&&G.xp.dq.took;if(!T||!res||!res.r)return res;const r=Object.assign({},res.r);let cut=0;
+  if(r.items){const it=Object.assign({},r.items);for(const [k,q] of Object.entries(T.items))if(it[k]){const x=Math.min(q,it[k]);it[k]-=x;cut+=x;if(it[k]<=0)delete it[k]}if(Object.keys(it).length)r.items=it;else delete r.items}
+  if(T.gear&&r.gear===T.gear){delete r.gear;delete r.mag;cut++}if(T.usd&&r.usd){r.usd=Math.max(0,r.usd-T.usd);if(!r.usd)delete r.usd;cut++}
+  return Object.assign({},res,{r,t:res.t+(cut?'\n\n剛才已經拿走的，這次沒有再算進去。':'')})}
+function xpNext(c,res){const X=xpSt();const a=c.xpa;if(c===XP_RUN)xpRun();
+  if(a==='listen'){X.rm.heard=res===c.ok?2:1;return 'AUl'}
+  if(a==='in')return X.rm.k==='surv'?'AUs':'AUe';
+  if(c.t==='sq'&&res&&!res.fight&&!res.go&&res.g!=='bad'&&!XP_SOLO){const d=xpDeepSrc(G.node);if(d.length){X.dq={from:G.node,took:xpTook(res)};return 'AQ'}}
+  if(G.node==='AQ')X.dq=null;
+  return 'AN'}
+// 卡片上依地理多出來的移動：西段知道窗外有消防梯，可以退回 301；東段已經看得到樓梯口，可以不再停留
+const XP_WIN={t:'mv',kind:'移動',l:'退回 301，從窗戶爬到消防梯',xpx:1,ok:{t:`你轉身沿著牆退回 301，把門在身後帶上。房間裡還是你離開時的樣子。
+你推開窗戶。冷風灌進來，帶著焦味和遠處的警報聲。窗台外一公尺，就是生鏽的消防梯。`,go:'D1'}};
+const XP_WIN2={t:'mv',kind:'移動',l:'退回 301，從窗戶爬到消防梯',xpx:1,s:'需要鐵撬或消防斧',req:['g:fireaxe','g:crowbar'],reqAny:1,ok:{t:`你轉身沿著牆退回 301，把門在身後帶上。窗框只往上滑了一指寬就卡死了，滑軌裡全是油漆。
+你把工具卡進窗縫，用全身的重量往上撬。窗框嘎的一聲彈了上去。冷風灌進來，窗台外一公尺，就是生鏽的消防梯。`,go:'D1'}};
+const XP_RUN={t:'mv',kind:'移動',l:'不再停留，直接往東側樓梯那頭走',xpx:1,ok:{t:`你沒有再看兩邊的房門，貼著牆一路往綠色的標示燈走過去。`}};
+function xpCh(cs){if(!xpOn()||!G.xp||!G.xp.q||N[G.node].hub)return cs;const X=G.xp,o=[];
+  if(X.seg==='w'&&X.k>2&&G.flags.map)o.push(G.flags.rd_rwin?XP_WIN2:XP_WIN);
+  if(X.seg==='e'&&(X.ne>=1||['radiotip','ph318','srvtip'].some(f=>G.flags[f])))o.push(XP_RUN);/* 聽說過東梯還能走的人，一進東段就直接過去 */
+  return o.length?cs.concat(o):cs}
+function xpRun(){const X=xpSt();const i=X.q.indexOf('A6');if(i>=0)X.k=i}
+/* ---- 多人：同一個場景裡分頭做（spec 第 9 節）。卡片標 split:1，選項標 solo:1（各自做）與 spot（同一個地方只能一個人）。
+   沒標 solo 的選項（離開、躲起來）照全隊投票。全員送出後：各自做的依隊伍順序結算，時間只算最長的那一件；
+   有人選了全隊的選項就照多數決，沒有的話一起往下一個情境。中途打起來，還沒輪到的人不算做過。 */
+let XP_SOLO=0;
+const xpSplit=()=>!!(MP()&&G&&G.ev==null&&N[G.node]&&N[G.node].split);
+function xpSoloOk(pid,i){const cs=choices(),c=cs[i];if(!c||!c.solo)return true;const p=P(pid);if(c.blu||reqList(c).length){if(!rollEl(c).includes(p))return false}
+  for(const [q,j] of Object.entries(G.votes||{}))if(q!==pid&&cs[j]&&cs[j].solo&&cs[j].spot===c.spot)return false;return true}
+async function xpSplitResolve(){const cs=choices();const vs=voters().filter(p=>G.votes[p.pid]!=null);
+  const solo=G.players.filter(p=>vs.includes(p)&&cs[G.votes[p.pid]].solo&&!p.down);const grp={};for(const p of vs)if(!cs[G.votes[p.pid]].solo)grp[p.pid]=G.votes[p.pid];
+  const mx=Math.max(0,...solo.map(p=>tMin(cs[G.votes[p.pid]])));
+  if(solo.length){out(`大家分頭動手：${solo.map(p=>`${nm(p)}${cs[G.votes[p.pid]].l}`).join('；')}。`,'sys',true);if(await passTime(mx))return}
+  XP_SOLO=1;try{for(const p of solo){const i=G.votes[p.pid],c=cs[i];reseed(G.stp||0,G.node,'',i,p.pid);out(`<span class="me">▸ ${c.l}</span><small class="who">　${esc(p.name)}</small>`,'act',true);
+    const r=c.k?await check(p,c.k,c.d,c.l,0):null;let res=c.tb?pickRes(c,r?(r.crit?'crit':r.fumble?'fumble':r.ok?'ok':'fail'):null,i):r?(r.ok?c.ok:c.ng):c.ok;const bad=c.tb?res.g==='bad':r?!r.ok:false;
+    if(!res)continue;resultAudio(res);if(res.t)out(res.t,bad?'bad':'');await outcome(res,p);if(G.over)return;
+    if(res.fight){XP_SOLO=0;G.after=xpNext(c,res);G.winR=res.win||null;await startFight(moreFoes(res.fight));return}}}finally{XP_SOLO=0}
+  const g=Object.keys(grp).length?+tally(grp,[]):null;
+  if(g!=null){const actor=vs.find(p=>grp[p.pid]===g)||ctl()[0];return doChoice(g,actor)}
+  const nx='AN';if(await alarmCheck(nx))return;return enterNode(nx)}
 /* ================= 戰鬥 ================= */
 /* 敵人名稱：只用類型名稱（詞綴只放在卡片標籤），同類型有多隻時加羅馬數字（感染者 I、感染者 II） */
 const ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX','X'];
@@ -6963,6 +7144,7 @@ function migrateG(g){if(!g)return g;
   if(g.dk.on&&g.dk.on.A&&g.dk.on.A.length<10)delete g.dk.on.A;/* v0.60.0 三樓改成 10 個選路格，v0.59.0 開的 4～5 格重算 */
   {const m=/^AK(\d+)$/.exec(g.node||''),r=/^AK(\d+)$/.exec(g.dk.ret||'');/* v0.62.0 三樓改成走廊行動卡：停在選路格或接回選路格的舊存檔，改回走廊，進度照格子估 */
    const P=[0,1,2,3,4,5,5,7,9,10,11];if(m||r){g.ex=g.ex||{p:Math.max(0,(P[+(m||r)[1]]||1)-1),fresh:1,nx:null,quiet:0};if(m)g.node='AH';if(r)g.dk.ret='AH';g.dk.fk=null}}
+  if(g.lv==='A'&&g.ex&&!g.xp){g.xp={k:0,seg:null,ne:0,seen:(g.dk.seen||[]).slice(),rooms:{},cc:0,mig:Math.max(1,g.ex.p||0)};if(/^A[SX][wme]$/.test(g.dk.ret||'')||g.dk.ret==='AH')g.dk.ret=null}/* v0.63.0 三樓改成情境探索：v0.62.0 的走廊進度轉成路線表上的段落 */
   if(g.sd==null){g.sd=newSeed();g.stp=0}RSTATE=seedKey(g.sd,g.stp||0,'idle');
   for(const p of g.players||[])woundMigrate(p);
   for(const p of g.players||[]){const e=p.resistExposure&&p.resistExposure.chlorine;if(e){e.entered=!!e.entered;e.minutes=clamp(Number(e.minutes)||0,0,29)}}
@@ -7937,7 +8119,7 @@ function recipeText(r){return r.in.map(nameOf).join('＋')+(r.tools?'＋'+r.tool
 function handle(pid,a){
   if(!G||!a)return;const p=P(pid);if(p&&!teamHere(p))return;
   if(a.a==='qte')return qteAns(pid,a);
-  if(a.a==='vote')return vote(pid,a.i);
+  if(a.a==='vote'){if(a.s!=null&&G.stp!=null&&a.s!==G.stp)return;/* v0.63.0 舊畫面的按鈕（上一張卡）不算 */return vote(pid,a.i)}
   if(a.a==='rv')return rvote(pid,a.t);
   if(a.a==='cdgo'){if(pid===G.host&&G.opts.cd==='host'&&(G.phase==='node'||G.phase==='roller')&&!G.cd){startCd(true);push();draw()}return}
   if(!p||p.dead)return;
@@ -8945,7 +9127,7 @@ function draw(){
       const zl=!ok&&(!!ZN[G.node]||!!RN[G.node])&&G.ev==null;const zs=zNote(c);
       const vts=MP()?voters().filter(q=>G.votes[q.pid]===i).map(q=>av(q)).join(''):'';
       const hn=G.hint&&G.hint[MYPID]&&G.hint[MYPID][i];const tl=G.told&&G.told[i];const hs=hn?`<em class="hint">你察覺：${hn}</em>`:tl?`<em class="hint">${esc(P(tl.pid).name)}說：${tl.t}</em>`:'';const why2=!ok&&c.usd&&teamUsd()<c.usd?`需要 $${c.usd}（全隊有 $${teamUsd()}）`:!ok&&c.karma&&!c.reqN&&!c.req?'他們還不夠信任你們。':!ok&&c.fat&&!able().some(q=>(q.fat||0)>=c.fat)?'還不睏':!ok&&c.reqN?'需要'+Object.entries(c.reqN).map(([k,q])=>ITEMS[k].n+' ×'+q).join('、'):'';
-      return chBtn(zl?`data-lock="${i}"`:`data-ch="${i}"`,`<span class="choice-prefix">【${choiceKind(c)}】</span>`+c.l,(zs&&zs!==why?`<b class="zst">${zs}</b>`:'')+(why||why2||choiceNote(c))+hs,tag,tag?'t-ck':'',zl?G.busy:(!ok||G.busy),vts?`<span class="vts">${vts}</span>`:'',(G.votes[MYPID]===i?'mine':'')+(zl?' locked':'')+(c.blu?' blu':''))+(hn&&MP()&&!tl?`<button class="btn tellb" data-tell="${i}">告知隊友</button>`:'')}).join('')+(MP()?`<p class="note">多數決，同票隨機。再點一次自己投的選項可以取消。</p>`+hostCdBtn():'')+(G.ground.length?`<p class="note">地上有東西，打開背包可以撿。</p>`:'');
+      return chBtn(zl?`data-lock="${i}"`:`data-ch="${i}"`,`<span class="choice-prefix">【${choiceKind(c)}】</span>`+c.l,(zs&&zs!==why?`<b class="zst">${zs}</b>`:'')+(why||why2||choiceNote(c))+hs,tag,tag?'t-ck':'',zl?G.busy:(!ok||G.busy),vts?`<span class="vts">${vts}</span>`:'',(G.votes[MYPID]===i?'mine':'')+(zl?' locked':'')+(c.blu?' blu':''))+(hn&&MP()&&!tl?`<button class="btn tellb" data-tell="${i}">告知隊友</button>`:'')}).join('')+(MP()?`<p class="note">${xpSplit()?'可以分頭做：每人各選一件，同一個地方只能一個人翻；離開、躲起來照多數決。':'多數決，同票隨機。'}再點一次自己投的選項可以取消。</p>`+hostCdBtn():'')+(G.ground.length?`<p class="note">地上有東西，打開背包可以撿。</p>`:'');
   }else if(G.phase==='shop'&&G.shop){const S=G.shop,sh=SHOPS[S.id];if(S.key!==SHOPKEY){SHOPKEY=S.key;SHOPSHUT=false;SHOPSEL=0;SHOPMODE='buy'}if(OVK==='shop')setTimeout(()=>{if(OVK==='shop')panel('shop')},0);const rd=ctl().filter(q=>S.ready[q.pid]).length;T=sh.n;Pl=`$${m.usd||0}`;
     h=chBtn('data-openshop','回到商店','看看商品、買東西、賣東西','','')+chBtn('data-shopdone',S.ready[MYPID]?'已經準備好，等其他人':'買好了，繼續',`${rd}／${ctl().length} 人準備好`,'','',!!S.ready[MYPID]);
     if(OVK==null&&!SHOPSHUT)setTimeout(()=>{if(G&&G.phase==='shop'&&OVK==null)panel('shop')},0)
@@ -9175,11 +9357,11 @@ document.addEventListener('click',e=>{
   const b=e.target.closest('button,[data-tgt]');if(!b){if(DD&&!e.target.closest('#tdd')){DD=false;$('#tdd').hidden=true}return}const d=b.dataset;
   if(b.closest('#scr'))return onScr(b,d);
   if(b.hasAttribute('data-dd')){DD=!DD;if(DD)drawDD();else $('#tdd').hidden=true;sfx('click',.5);return}
-  if(d.cfok!=null){$('#cfm').hidden=true;act({a:'vote',i:+d.cfok});return}
+  if(d.cfok!=null){$('#cfm').hidden=true;act({a:'vote',i:+d.cfok,s:G&&G.stp});return}
   if(b.hasAttribute('data-cfno')){$('#cfm').hidden=true;sfx('click',.4);return}
   if(d.tell!=null)act({a:'tell',i:+d.tell});
   else if(d.lock!=null)zLockClick(+d.lock);
-  else if(d.ch!=null){if(G&&G.votes&&G.votes[MYPID]===+d.ch)act({a:'vote',i:+d.ch});else if(!longAsk(+d.ch))act({a:'vote',i:+d.ch})}
+  else if(d.ch!=null){if(G&&G.votes&&G.votes[MYPID]===+d.ch)act({a:'vote',i:+d.ch,s:G.stp});else if(!longAsk(+d.ch))act({a:'vote',i:+d.ch,s:G&&G.stp})}
   else if(d.rv)act({a:'rv',t:d.rv});
   else if(b.hasAttribute('data-cdgo'))act({a:'cdgo'});
   else if(d.ftab!=null){FTAB=d.ftab||null;sfx('click',.4);draw()}

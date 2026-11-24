@@ -4,8 +4,9 @@
 
 **2026-11-23 主人選 A：GitHub 是唯一的正本。** 這份交接、工具（`tools/claude/`、`tools/release.py`）都在倉庫裡，每一版和遊戲一起 commit；版本只看 index.html 的 ZC_VER。Claude 專案只留：入口文件 `zerocase/HANDOFF.md`（很短，指到這裡）、訪客兌換碼 `zerocase/GUEST_CODES.md`（**不能放進倉庫**）、還沒搬進倉庫的設計參考（WORLD_DESIGN、PROPOSAL_*、design/、DATA_SHEET 等，要用時再 project_read）。**發布後不用存任何東西回專案。**
 
-## 現況（2026-11-24 11:40 更新）
-- 目前版本：**v0.62.0／Build 132**（2026-11-24T11:36:19+08:00，Claude：三樓改成四個基本行動）。上一版 v0.61.0／Build 131（三樓分支再收束）。這個環境推不上 git 標籤；找某一版用 `docs/VERSIONS.md` 或 `git log --grep='^v版本'`。
+## 現況（2026-11-24 17:20 更新）
+- 目前版本：**v0.63.0／Build 134**（2026-11-24T17:19:39+08:00，Claude：三樓改成情境探索）。上一版 v0.62.1／Build 133（GPT：配樂音量）。這個環境推不上 git 標籤；找某一版用 `docs/VERSIONS.md` 或 `git log --grep='^v版本'`。
+- **旅館情境探索（主人 2026-11-24 17:01 交付的 ZEROCASE_HOTEL_EXPLORATION_SPEC，分階段）**：第一階段（三樓＋共用引擎）在 v0.63.0 做完。引擎在 engine_c 最後「v0.63.0 情境探索」段落（xpGen／xpNext 等，說明在註解），三樓內容在 story4.js 最後「v0.63.0 三樓：情境探索」段落。三樓的驗收在 `tests/explore.test.cjs`。**下一步**：主人實機玩過三樓覺得對了，才做第二階段（二樓：宴會廳、探照燈、奈特、哈蒙夫婦後續），再一樓、地下、全圖驗收。待主人決定：多人分頭做的規則（先選先得、隊伍順序、時間算最長）、未知空房能不能安靜躲。
 - **選擇卡改版（主人 2026-11-24 定案）**：正式方案在 Claude 專案 `zerocase/PLAN_CHOICE_CARDS.md`，三樓試做內容在 `zerocase/PROPOSAL_CHOICE_CARDS_3F.md`，選路翻牌＋開場不固定在 `zerocase/PROPOSAL_FORK_CARDS.md`（卡片內容 `zerocase/FORK_CARDS_CONTENT.md`）。版本：v0.58.0 種子與自動存檔 → v0.59.0 引擎＋三樓試做 → v0.60.0 三樓選路翻牌＋開場不固定（主人玩過：每格都五條路很怪、沒有推進感）→ v0.61.0 分支再收束（主人玩過：還是奇怪，越來越迷茫）→ v0.62.0 狐霖式四個基本行動：走廊常駐往前走／觀察四周／搜索這裡／休息，只有往前走推進（Claude 專案 `zerocase/PROPOSAL_BASIC_ACTIONS.md`；做完，等主人玩）→ 之後：多人分開做＋私人卡 → 迷失與感染病程（數字先給主人看）→ NPC 隊伍。原本「其他地點照深地圖標準加深」暫停。**寫卡守則（主人 2026-11-24 04:18）**：三樓表面上是旅館，走廊上不放病床、點滴架這類醫療設備（門診的痕跡只藏在單據、行李、看護的私人物品裡）；怪聲、怪狀況都在同一張卡寫出看得到的原因，不寫靈異。
 - **2026-11-23 21:01 主人定案：發布流程整套換新**（PR「發布流程整理」）：拿掉 MANIFEST.json、verify_release.py、RELEASE_IDENTITY.json、舊的 tools/claude/release.py、VERSIONS 回填 commit、連結同步前的冒煙測試；9 個舊的 GitHub 驗收合成 1 個「完整測試」；舊驗收 zip 和單一版本 QA 紀錄刪掉；規則整理成 `docs/RULES_CLAUDE.md`、`docs/RULES_GPT.md`，設計決定搬到 `docs/DESIGN.md`；舊規則文件在 `docs/archive/`。
 - **下一步**：主人玩三樓（v0.62.0）覺得對了，才把四個基本行動推到二樓以下，再做多人分開行動（走廊上的觀察、搜索、休息各自做；往前走、事件、換樓層全隊投票）。待主人決定：一層 12 步的長度、安靜機率 20%。被動感知門檻 14 照舊（實際開局：麥琪 10、護理師 11、保全 12、了白 14、退伍軍人 14；v0.60.0 回報說「一般角色約 15」是錯的，那是測試角色自動帶了觀察入微）。燃燒的旅館（`zerocase/PROPOSAL_HOTEL.md` 第八節）等改版後再說。
