@@ -103,7 +103,7 @@ if(cmd==='init'){
 }else if(cmd==='finish'){
  const r=load();
  const rep={schema:1,tool:'tests/run_all.sh',mode:r.mode,args:r.args,started:r.started,finished:taipei(),seconds:Math.round((Date.now()-r.t0)/100)/10,
-  game:gameMeta(),commit:process.env.GITHUB_SHA||git('rev-parse HEAD'),branch:process.env.GITHUB_HEAD_REF||git('rev-parse --abbrev-ref HEAD'),dirty:!!git('status --porcelain'),
+  game:gameMeta(),commit:git('rev-parse HEAD')||process.env.GITHUB_SHA||null,branch:process.env.GITHUB_HEAD_REF||git('rev-parse --abbrev-ref HEAD'),dirty:!!git('status --porcelain'),
   ci:process.env.GITHUB_ACTIONS?{run:process.env.GITHUB_RUN_ID,event:process.env.GITHUB_EVENT_NAME,base:process.env.GITHUB_BASE_REF||null}:null,
   env:{node:process.version,playwright:pwVersion(),platform:process.platform},stages:r.stages};
  rep.summary=summarize(r);
