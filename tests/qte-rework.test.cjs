@@ -4,16 +4,17 @@ const {game}=require('./helpers/audio-game.cjs');
 function setup(type='infected',st='{STR:2,AGI:2,CON:2,PER:2,INT:2,CHA:2}',diff='hard'){const g=game();g.run(`newRun([{kind:'custom',pid:'p1',name:'甲',st:${st},load:{}}],{diff:'${diff}'},'solo');globalThis.p=G.players[0];p.max=100;p.hp=100;p.fe=0;p.inf=0;p.wounds={};globalThis.f={id:0,type:'${type}',n:'敵人',hp:50,max:50};G.fight={foes:[f],round:1,order:[],cur:null};G.phase='fight';G.lv='A';LOG=[];dice=async()=>{};globalThis.QN=0;qte=async()=>{QN++;return false};armorOf=()=>0;statEffects=()=>[];globalThis.saves=[];globalThis.OK=[];check=async(t,st,dc,label,extra)=>{saves.push({st,dc,label,extra});const ok=OK.length?OK.shift():true;return {ok,crit:false,fumble:false}};globalThis.SND=[];snd=(k)=>{SND.push(k);return 0}`);return g}
 const mv=(g,type,n)=>`MOVES['${type}'].find(m=>m.n==='${n}')`;
 // 逐招表（第 3 節）：[種類, 招式, 沒防守能力, 有效防守, 有防守時能力, DC, 成功效果]
-const TABLE=[['infected','撲倒','STR','block','STR',11,'dodge'],['incubator','丟擲囊泡','AGI','cover','AGI',12,'dodge'],['incubator','噴吐','AGI',null,null,12,'part'],
+/* v0.66.0（主人 2026-11-25 第 3 節）：撲倒改回瞬間 QTE、狙擊改敏捷豁免（有效掩蔽 +2） */
+const TABLE=[['acru_sniper','狙擊','AGI','cover','AGI',15,'dodge'],['incubator','丟擲囊泡','AGI','cover','AGI',12,'dodge'],['incubator','噴吐','AGI',null,null,12,'part'],
  ['devourer','震盪重擊','AGI','block','STR',13,'dodge'],['cutter','割喉','AGI','block','STR',14,'dodge'],['harvester','收割','AGI','block','STR',15,'dodge'],
  ['arsonist','投擲燃燒瓶','AGI',null,null,12,'dodge'],['acru_flamer','噴火','AGI',null,null,14,'part']];
 
-test('逐招表：八招改危險檢定、能力與 DC 照表；飛撲、狙擊保留 QTE；三種難度 DC 一樣',async()=>{
+test('逐招表：八招改危險檢定、能力與 DC 照表；撲倒、飛撲是瞬間 QTE；三種難度 DC 一樣',async()=>{
  for(const diff of ['normal','hard','real'])for(const [type,n,s0,,,dc,k] of TABLE){const g=setup(type,undefined,diff);
   assert.deepEqual(JSON.parse(g.run(`JSON.stringify(hzOf(f,${mv(g,type,n)}))`)).k,k);
   await g.run(`foeHit(f,${mv(g,type,n)},p,1)`);assert.equal(g.run('QN'),0,`${n} 不再跳 QTE`);
   const s=JSON.parse(g.run('JSON.stringify(saves[0])'));assert.equal(s.st,s0,n);assert.equal(s.dc,dc,`${n}（${diff}）`);assert.equal(s.extra,0)}
- for(const [type,n] of [['predator','飛撲'],['acru_sniper','狙擊']]){const g=setup(type);assert.equal(g.run(`hzOf(f,${mv(g,type,n)})`),null);g.run("r2=()=>({a:1,s:1})");await g.run(`foeHit(f,${mv(g,type,n)},p,1)`);assert.equal(g.run('QN'),1,n+' 保留 QTE');assert.ok(!g.run('saves').some(x=>x.dc===11||x.label&&/躲開|抵住|格擋|掩蔽/.test(x.label)),n+' 沒有改擲骰')}
+ for(const [type,n] of [['predator','飛撲'],['infected','撲倒']]){const g=setup(type);assert.equal(g.run(`hzOf(f,${mv(g,type,n)})`),null);g.run("r2=()=>({a:1,s:1})");await g.run(`foeHit(f,${mv(g,type,n)},p,1)`);assert.equal(g.run('QN'),1,n+' 保留 QTE');assert.ok(!g.run('saves').some(x=>x.dc===11||x.label&&/躲開|抵住|格擋|掩蔽/.test(x.label)),n+' 沒有改擲骰')}
  // 一般攻擊不變：沒有 qte 的招式走原本的命中骰
  const g=setup();g.run("globalThis.R=0;r2=()=>{R++;return {a:1,s:1}}");await g.run(`foeHit(f,${mv(g,'infected','撲咬')},p,1)`);assert.equal(g.run('R'),1);assert.equal(g.run('saves.length'),0);
  assert.equal(g.run("Object.keys(HZMV).length"),8);
@@ -36,10 +37,12 @@ test('完全避開：沒有傷害、感染、負面狀態、傷勢，不擲控�
 });
 
 test('沒躲開：照原本完整命中；格擋、掩蔽失敗仍有原本的減傷，控制抵抗照舊（一次避傷＋一次抵抗）',async()=>{
- const g=setup('infected','{STR:3,AGI:2,CON:2,PER:2,INT:2,CHA:2}');g.run('OK=[false,false];foeDmg=async()=>10');await g.run(`foeHit(f,${mv(g,'infected','撲倒')},p,1)`);
- assert.equal(g.run('p.hp'),91);assert.ok(g.run('p.inf')>0);assert.equal(g.run('p.unbal'),1);assert.equal(g.run('saves.length'),2,'避傷一次、控制一次');assert.equal(g.run('saves[1].dc'),12);
- const b=setup('infected','{STR:3,AGI:2,CON:2,PER:2,INT:2,CHA:2}');b.run("OK=[false,true];foeDmg=async()=>10;p.stance='block'");await b.run(`foeHit(f,${mv(b,'infected','撲倒')},p,1)`);
- assert.equal(b.run('p.hp'),96,'格擋失敗仍減半');assert.equal(b.run('saves[0].extra'),2);assert.equal(b.run('saves[1].extra'),2,'力量控制抵抗原本的格擋 +2 照舊，是另一顆骰');
+ /* v0.66.0：撲倒改回瞬間 QTE，QTE 沒躲開就不再另擲避傷，只剩控制抵抗 */const g=setup('infected','{STR:3,AGI:2,CON:2,PER:2,INT:2,CHA:2}');g.run('OK=[false];foeDmg=async()=>10');await g.run(`foeHit(f,${mv(g,'infected','撲倒')},p,1)`);
+ assert.equal(g.run('p.hp'),91);assert.ok(g.run('p.inf')>0);assert.equal(g.run('p.unbal'),1);assert.equal(g.run('QN'),1);assert.equal(g.run('saves.length'),1,'QTE 一次、控制一次');assert.equal(g.run('saves[0].dc'),12);
+ const b=setup('infected','{STR:3,AGI:2,CON:2,PER:2,INT:2,CHA:2}');b.run("OK=[true];foeDmg=async()=>10;p.stance='block'");await b.run(`foeHit(f,${mv(b,'infected','撲倒')},p,1)`);
+ assert.equal(b.run('p.hp'),96,'格擋失敗仍減半');assert.equal(b.run('saves[0].extra'),2,'力量控制抵抗原本的格擋 +2 照舊');
+ const d=setup('devourer','{STR:3,AGI:2,CON:2,PER:2,INT:2,CHA:2}');d.run("OK=[false,true];foeDmg=async()=>10;p.stance='block'");await d.run(`foeHit(f,${mv(d,'devourer','震盪重擊')},p,1)`);
+ assert.equal(d.run('p.hp'),96,'格擋豁免失敗仍減半');assert.equal(d.run('saves[0].extra'),2);assert.equal(d.run('saves.length'),2,'避傷一次、控制一次');
  const c=setup('incubator');c.run("OK=[false];foeDmg=async()=>10;p.stance='cover'");await c.run(`foeHit(f,${mv(c,'incubator','丟擲囊泡')},p,1)`);assert.equal(c.run('p.hp'),95,'掩蔽失敗仍減半');assert.ok(c.run('p.humus')>0,'掩蔽不擋腐殖');
 });
 
@@ -58,25 +61,26 @@ test('全體攻擊：每個受影響的人各自擲；敵人互打不擲玩家�
  const h=setup('arsonist');h.run("globalThis.x={id:1,type:'infected',n:'感染者',hp:30,max:30};G.fight.foes.push(x);r2=()=>({a:15,s:15});foeDmg=async()=>4");await h.run(`foeVsFoe(f,${mv(h,'arsonist','投擲燃燒瓶')},x)`);assert.equal(h.run('saves.length'),0);
 });
 
-test('危險檢定沿用一般檢定：自然 1 失敗、20 成功；不蓋掉劇情主檢定的結果（LASTJ）',async()=>{
- const g=setup();const h=game();g.run('check=('+h.run('check.toString()')+')');
- g.run("r2=()=>({a:1,s:1});p.st.STR=30;LASTJ='crit'");assert.equal(await g.run(`hzRoll(f,${mv(g,'infected','撲倒')},p,hzOf(f,${mv(g,'infected','撲倒')}))`),'hit');assert.equal(g.run('LASTJ'),'crit');
- g.run("r2=()=>({a:20,s:20});p.st.STR=-20");assert.equal(await g.run(`hzRoll(f,${mv(g,'infected','撲倒')},p,hzOf(f,${mv(g,'infected','撲倒')}))`),'dodge');
- g.run("r2=()=>({a:10,s:10});p.st.STR=1");assert.equal(await g.run(`hzRoll(f,${mv(g,'infected','撲倒')},p,hzOf(f,${mv(g,'infected','撲倒')}))`),'dodge','10+1＝11 剛好過');
- g.run("p.st.STR=0");assert.equal(await g.run(`hzRoll(f,${mv(g,'infected','撲倒')},p,hzOf(f,${mv(g,'infected','撲倒')}))`),'hit','10 差一點');
+test('危險檢定沿用一般檢定（v0.66.0 改用震盪重擊測，撲倒改回 QTE）：自然 1 失敗、20 成功；不蓋掉劇情主檢定的結果（LASTJ）',async()=>{
+ const g=setup('devourer');const h=game();g.run('check=('+h.run('check.toString()')+')');
+ g.run("r2=()=>({a:1,s:1});p.st.AGI=30;LASTJ='crit'");assert.equal(await g.run(`hzRoll(f,${mv(g,'devourer','震盪重擊')},p,hzOf(f,${mv(g,'devourer','震盪重擊')}))`),'hit');assert.equal(g.run('LASTJ'),'crit');
+ g.run("r2=()=>({a:20,s:20});p.st.AGI=-20");assert.equal(await g.run(`hzRoll(f,${mv(g,'devourer','震盪重擊')},p,hzOf(f,${mv(g,'devourer','震盪重擊')}))`),'dodge');
+ g.run("r2=()=>({a:10,s:10});p.st.AGI=3");assert.equal(await g.run(`hzRoll(f,${mv(g,'devourer','震盪重擊')},p,hzOf(f,${mv(g,'devourer','震盪重擊')}))`),'dodge','10+3＝13 剛好過');
+ g.run("p.st.AGI=2");assert.equal(await g.run(`hzRoll(f,${mv(g,'devourer','震盪重擊')},p,hzOf(f,${mv(g,'devourer','震盪重擊')}))`),'hit','10 差一點');
 });
 
 test('舊存檔蓄力中的招式照新表分類（目標、冷卻保留）；預告不再寫「要反應」',async()=>{const g=setup('devourer');
  g.run(`f.charge={m:JSON.parse(JSON.stringify(${mv(g,'devourer','震盪重擊')})),to:'p1'};G=migrateG(JSON.parse(JSON.stringify(G)));globalThis.f=G.fight.foes[0];globalThis.p=G.players[0];p.hp=100;p.max=100`);
  assert.ok(g.run('!!hzOf(f,f.charge.m)'));assert.equal(g.run('f.charge.to'),'p1');
  g.run(`warnTele(f,${mv(g,'devourer','震盪重擊')},[p])`);assert.doesNotMatch(g.run("LOG.at(-1)[0]"),/要反應/);
- const s=setup('acru_sniper');s.run(`warnTele(f,${mv(s,'acru_sniper','狙擊')},[p])`);assert.match(s.run("LOG.at(-1)[0]"),/要反應/,'狙擊還是 QTE');
+ const s=setup('acru_sniper');s.run(`warnTele(f,${mv(s,'acru_sniper','狙擊')},[p])`);assert.doesNotMatch(s.run("LOG.at(-1)[0]"),/要反應/,'v0.66.0 狙擊改敏捷豁免，預告不再寫要反應');assert.match(s.run("LOG.at(-1)[0]"),/紅光/,'原本的瞄準預告保留');
 });
 
-test('探索：被抓住、抓鋼索改力量檢定，氯氣改體質（戴面具不擲）；其他 QTE 保留，沒有擲骰替代',async()=>{const g=setup();
+test('探索：被抓住、抓鋼索改力量檢定，氯氣改體質（戴面具不擲）；v0.66.0 其他 11 筆也改敏捷檢定，劇情不再有 QTE',async()=>{const g=setup();
  const list=JSON.parse(g.run(`JSON.stringify((()=>{const o={qte:[],hz:[]};const seen=new Set();const walk=(x,p)=>{if(!x||typeof x!=='object'||seen.has(x))return;seen.add(x);if(x.qte&&typeof x.qte==='object')o.qte.push(p);if(x.hz)o.hz.push(p+':'+x.hz.st+x.hz.dc);for(const k of Object.keys(x)){if(k==='qte'||k==='hz')continue;let v;try{v=x[k]}catch(e){continue}walk(v,p+'.'+k)}};walk(N,'N');walk(EVPOOL,'E');return o})())`));
- assert.deepEqual(list.hz.sort(),['N.C2.c.1.ok:STR12','N.OF2a.c.1.ng:STR12','N.OF2a.c.2.ng:STR12','N.OF4b.c.0.ng:STR12','N.OF6.c.0.ng:STR12','N.WP3.c.0.ok:CON12'].sort());
- assert.deepEqual(list.qte.sort(),['N.AD1.c.0.tb.1','N.B1w.c.0.ng','N.B1w.c.2.ok','N.B2w.c.0.ng','N.B2w.c.2.ng','N.BD1.c.1.ng','N.BD2.c.1.tb.1','N.BD6.c.1.ng','N.J2.c.0.ok','N.OE10.c.0.ok','N.PP5.c.1.ok'].sort());
+ assert.deepEqual(list.hz.sort(),['N.C2.c.1.ok:STR12','N.OF2a.c.1.ng:STR12','N.OF2a.c.2.ng:STR12','N.OF4b.c.0.ng:STR12','N.OF6.c.0.ng:STR12','N.WP3.c.0.ok:CON12',
+  'N.AD1.c.0.tb.1:AGI12','N.B1w.c.0.ng:AGI13','N.B1w.c.2.ok:AGI13','N.B2w.c.0.ng:AGI13','N.B2w.c.2.ng:AGI13','N.BD1.c.1.ng:AGI13','N.BD2.c.1.tb.1:AGI13','N.BD6.c.1.ng:AGI13','N.J2.c.0.ok:AGI12','N.OE10.c.0.ok:AGI12','N.PP5.c.1.ok:AGI13'].sort());
+ assert.deepEqual(list.qte,[],'v0.66.0（主人 2026-11-25 第 4.1 節）：劇情 QTE 全部改成檢定');
  // 被抓住：力量成功＝原本 QTE 成功的結果，失敗＝原本失敗的結果；由實際做的人擲
  g.run("p.hp=20;p.max=20;p.inf=0;OK=[false];outcome=async(r,a)=>{if(r.p&&r.p.hp)a.hp+=r.p.hp;if(r.p&&r.p.inf)a.inf+=r.p.inf}");
  await g.run("storyHz(N.OF2a.c[1].ng,p)");assert.equal(g.run('p.hp'),17);assert.equal(g.run('p.inf'),6);assert.equal(g.run('saves.at(-1).st'),'STR');assert.equal(g.run('QN'),0);

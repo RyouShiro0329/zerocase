@@ -1,7 +1,7 @@
 // v0.56.0 聖瑪莉醫院三層（Claude 2026-11-23，PROPOSAL_HOSPITAL 主人定案）：急診「聲音」、四樓「伸手可及」、地下室「空氣」
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const {game}=require('./helpers/audio-game.cjs');
-function setup(){const g=game();g.run("newRun([{kind:'custom',pid:'p1',name:'甲',st:{STR:2,AGI:2,CON:2,PER:2,INT:2,CHA:2},load:{}}],{diff:'normal'},'solo');G.node='Z0';G.lv='Z';G.ev=null;LOG=[];globalThis.FT_LOG=[];startFight=async s=>{FT_LOG.push(s);G.fight={foes:[]};G.phase='fight'};card=async()=>{};chapterCard=async()=>{};hazard=async()=>false;startCd=()=>{};reportEffects=()=>{};reportGround=()=>{};deathCheck=async()=>false;tickAll=async()=>true;qte=async()=>true;FAST=1");return g}
+function setup(){const g=game();g.run("newRun([{kind:'custom',pid:'p1',name:'甲',st:{STR:2,AGI:2,CON:2,PER:2,INT:2,CHA:2},load:{}}],{diff:'normal'},'solo');G.node='Z0';G.lv='Z';G.ev=null;LOG=[];globalThis.FT_LOG=[];startFight=async s=>{FT_LOG.push(s);G.fight={foes:[]};G.phase='fight'};card=async()=>{};chapterCard=async()=>{};hazard=async()=>false;startCd=()=>{};reportEffects=()=>{};reportGround=()=>{};deathCheck=async()=>false;tickAll=async()=>true;qte=async()=>true;check=async()=>({ok:true});FAST=1");return g}/* v0.66.0：OE10 接點滴架從 QTE 改成敏捷檢定；照原本 QTE 一律成功的寫法，檢定也一律成功 */
 const labels=g=>JSON.parse(g.run('JSON.stringify(choices().filter(visible).map(c=>c.l))'));
 const log=g=>g.run("LOG.map(x=>x[0]).join('\\n')");
 // 照劇情結果直接套用（不擲骰）；每一步先把警戒歸零，免得測路線時被警戒打斷
