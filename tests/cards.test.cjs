@@ -83,9 +83,10 @@ test('路況：302 的門沒關好不用房卡；電梯門卡死只能撬；301 
  g.run("G.flags={rd_rwin:0,map:1}");const w2=g.run("choices().findIndex(c=>c.l==='從 301 的窗戶爬到消防梯'&&visible(c))");assert.ok(g.run(`!choices()[${w2}].req`));
  g.run("G.flags={rd_rwin:1}");assert.ok(!labels(g).includes('從 301 的窗戶爬到消防梯'),'不知道有消防梯就看不到');
 });
-test('選擇卡地點（v2）：沒有停留選項、沒有繼續仔細翻；純運氣每層最多 2 個、不放重的壞結果；二樓以下照舊',()=>{const g=setup();
- assert.equal(g.run("isV2('A')"),true);assert.equal(g.run("isV2('B')"),false);
- const bad=JSON.parse(g.run("JSON.stringify(Object.keys(N).filter(id=>N[id].L==='A').flatMap(id=>(N[id].c||[]).filter(c=>!c._hid&&(c.stay||(c.ok&&c.ok.stay))).map(c=>id+'|'+c.l)))"));
+/* v0.64.0（主人 2026-11-24 20:52 改了決定：整座旅館都改成情境探索）：二樓以下不再照舊，旅館每一層都是選擇卡地點 */
+test('選擇卡地點（v2）：沒有停留選項、沒有繼續仔細翻；純運氣每層最多 2 個、不放重的壞結果；v0.64.0 起整座旅館都是',()=>{const g=setup();
+ for(const L of ['A','B','E','G','C','D','R'])assert.equal(g.run(`isV2('${L}')`),true,L);assert.equal(g.run("isV2('O')"),false,'旅館以外照舊');
+ const bad=JSON.parse(g.run("JSON.stringify(Object.keys(N).filter(id=>['A','B','E','G','C','D','R'].includes(N[id].L)).flatMap(id=>{let cs=[];try{cs=N[id].c||[]}catch(e){}return cs.filter(c=>!c._hid&&(c.stay||(c.ok&&c.ok.stay))).map(c=>id+'|'+c.l)}))"));
  assert.deepEqual(bad,[],'v2 地點不能有 stay');
  for(const id of ['A4b','A4c','A3c','AD6']){g.run(`G.lv='A';G.node='${id}';G.players[0].items={cloth:1,flashlight:1,tableleg:1}`);assert.ok(!labels(g).some(l=>/^繼續仔細翻/.test(l)),id);assert.ok(!g.run("choices().some(c=>c._searchMode)"),id)}
  // 搜索點三選一：快速翻／仔細翻／不碰（＋藍色）

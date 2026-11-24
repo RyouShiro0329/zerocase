@@ -1,13 +1,13 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=2d3f4fc3" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=565d71ee" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fx/slash-12.webp" as="image" type="image/webp">
 <link rel="preload" href="fx/blunt-12.webp" as="image" type="image/webp">
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=2d3f4fc3") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=565d71ee") format("woff2");font-style:normal;font-weight:400;font-display:swap}
 @font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
@@ -700,7 +700,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.63.1", "b": 135, "t": "2026-11-24T17:54:08+08:00"};
+const ZC_VER={"v": "0.64.0", "b": 136, "t": "2026-11-24T21:33:28+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -5404,7 +5404,7 @@ N.AH=Object.defineProperties({L:'A',n:'三樓走廊',hub:1,c:HUB},Object.getOwnP
 for(const sg of ['w','m','e'])N['AX'+sg]={L:'A',n:'三樓走廊',seg:sg};/* 抽牌用，不會進去 */
 /* ---- 搜索這裡：每一段一張，每個位置換一間房 ---- */
 const ROOMT={w:[`301 到 306 這一排，有一扇門沒關好。你推開它，房間裡沒有人，床單被扯到地上，行李箱開著。`,`走廊邊的置物櫃門半開著，裡面塞著備品和一個被人丟下的背包。`,`一間客房的門被撐開了一條縫，門後抵著一張椅子。你把椅子推開，擠了進去。`],
- m:[`307 旁邊有一間門沒鎖的客房，電視還開著，沒有畫面，只有雪花的光。`,`走廊轉角有一台被丟下的房務推車，抽屜全被拉開過。`,`一間客房的門開著，房裡的窗簾被扯下來一半，地上散著一包一包的東西。`],
+ m:[`307 旁邊有一間門沒鎖的客房，窗簾拉開了一半，街上的探照燈一下一下照進來。`,`走廊轉角有一台被丟下的房務推車，抽屜全被拉開過。`,`一間客房的門開著，房裡的窗簾被扯下來一半，地上散著一包一包的東西。`],
  e:[`東邊一間客房的門開著，裡面的家具被推到牆角，像是有人在這裡守過。`,`走廊邊的小冰箱間沒上鎖，門後堆著幾箱飲料。`,`一間客房的門被拆了一半，掛在一邊的鉸鏈上。房裡沒有人。`]};
 const LOOT={w:[{water:1},{cookie:1},{bandage:1,painkiller:1}],m:[{cloth:1},{bar:1},{alcohol:1,tape:1}],e:[{water:1},{bar:1},{bandage:1,sewing:1}]};
 for(const sg of ['w','m','e']){const L=LOOT[sg];
@@ -5442,7 +5442,7 @@ N.A1.next='AN';
 for(const s of ['w','m','e'])N['AS'+s].next='AN';
 // 舊存檔停在 v0.62.0 的走廊（AH）：給一張接回來的卡，之後照新流程
 N.AH={L:'A',n:'三樓走廊',t:`走廊上暫時沒有動靜。緊急照明一閃一閃，前面還有一段路。`,c:[{t:'mv',kind:'移動',l:'沿著牆繼續往前',ok:{t:`你貼著牆往前走。`,go:'AN'}}]};
-N.AN={L:'A',n:'三樓走廊',t:'',c:[]};/* 只是一個記號：enterNode 走到這裡時換成下一個情境 */
+N.AN={L:'A',n:'三樓走廊',t:'',c:[],xpm:1};/* 只是一個記號：enterNode 走到這裡時換成下一個情境 */
 // 環境提示（主人：不要強迫每扇門都會自己關上）：只講停電與聲音；房卡鎖、門鏈這些在相關的卡上寫
 LV.A.rule='停電了，整層只剩緊急照明的紅光，每隔幾秒閃一次。走廊很安靜，一點聲音都傳得很遠。';
 N.AD8.seg='e';/* 318 在東段（311～318） */
@@ -5587,6 +5587,511 @@ N.A1r=N.A1z;/* 舊存檔：migrateG 把停在 A1r 的改到 A1z */
 
 你數著自己的呼吸，等心跳慢下來。`}};
  const C2=new Map();Object.defineProperty(N.AUe,'c',{get(){const b=dc.get.call(this);if(!C2.has(b)){C2.set(b,b.concat([REST]))}return C2.get(b)},configurable:true})}
+}
+
+/* ================= v0.64.0 共用情境探索：三樓設定（原本寫在 engine_c 的 xpPlan／xpCond／xpDraw／xpCh 裡，原樣搬過來，行為不變） ================= */
+const XPL={};
+const XPFIX=['A3','A3c','A4','A4d','A4e','A4f','A6d','AT1','A6','A6e'];
+const XPSEGT={w:`你把門推開一條縫，側身出去。走廊比房間更暗，緊急照明每隔幾秒閃一次紅光，紅地毯在光裡忽明忽暗。`,
+ m:`你貼著牆走到轉角。轉過去，307 到 310 那一排房門就在前面，空氣裡有一股悶悶的鐵鏽味。`,
+ e:`東段的走廊比較寬，盡頭的窗簾縫透進街上的白光，東側樓梯的綠色標示燈就在那一頭。`};
+XPL.A={mark:'AN',aq:'AQ',ex:['A6','A6e','A5'],skip:['AH'],last:'A6',cnt:'e',fix:XPFIX,
+ plan(rg,X){const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(rg()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+  const R=(a,b)=>Array(a+Math.floor(rg()*(b-a+1))).fill('R');
+  const w=sh(['A3c','A4','A4d',...R(2,3)]),mr=R(2,3),at=Math.floor(rg()*(mr.length+1));mr.splice(at,0,'A4e','?A4f');
+  const q=['@w','A3',...w,'?A6d','@m',...mr,'?AT1','@e',...R(1,3),'A6'];
+  if(X.mig){/* 舊存檔（v0.62.0 走廊）：照原本走到的步數，跳過已經走過的那幾段 */const s=X.mig<=3?0:X.mig<=7?q.indexOf('@m'):q.indexOf('@e');X.k=Math.max(X.k||0,s);X.seg=X.mig<=3?'w':X.mig<=7?'m':'e';delete X.mig}
+  return q},
+ cond(id,rg){const f=G.flags;
+  if(id==='A4f')return rg()<(f.h310?.7:.5);/* 310 的老太太聽到有人經過才敲門；聽過門的人更會停下來 */
+  if(id==='A6d')return rg()<(f.m305||f.rs305?.8:.55);/* 轉角的馬可：拖行聲剛好轉過轉角、305 的人探頭 */
+  if(id==='AT1')return !!f.rd_rbar;
+  return true},
+ draw(seg,rg,X){
+  const ok=id=>!X.seen.includes(id)&&!XPFIX.includes(id)&&(!N[id].seg||N[id].seg===seg)&&dkOk(N[id])&&(!N[id].cc||X.cc<2);
+  let pool=dkList('A').filter(ok);if(seg!=='w'&&!X.rooms[seg])pool.push('AU');
+  if(!pool.length)pool=dkList('hotel').filter(id=>!X.seen.includes(id));
+  if(!pool.length)return null;
+  const ws=pool.map(id=>id==='AU'?1.5:dkW(id)),tot=ws.reduce((a,b)=>a+b,0);let x=tot*rg(),id=pool[pool.length-1];for(let i=0;i<pool.length;i++){x-=ws[i];if(x<0){id=pool[i];break}}
+  if(id==='AU'){const nums={m:['311','312'],e:['313','315','317']}[seg],r=rg();const n=nums[Math.floor(rg()*nums.length)];
+   X.rooms[seg]=n;X.rm=X.rooms['r'+n]={n,k:r<.35?'foe':r<.8?'empty':'surv',v:rg()<.5?0:1,heard:0,lk:rg()<.6?1:0};return 'AU'}
+  X.seen.push(id);if(N[id].cc)X.cc++;N[id].L='A';return id},
+ segIn(X,t){if(t==='@e')return (G.flags.rd_rbar?'':'走廊中段的防火門開著一半，門擋卡在地毯上。你從門邊側身過去。')+XPSEGT.e;
+  return X.seg==='w'&&G.node==='AO3'?XPSEGT.w.replace('你把門推開一條縫，側身出去。',''):XPSEGT[X.seg]},/* 火警時衝出門的人，不是推開一條縫 */
+ ch(X){const o=[];
+  if(X.seg==='w'&&X.k>2&&G.flags.map)o.push(G.flags.rd_rwin?XP_WIN2:XP_WIN);
+  if(X.seg==='e'&&(X.ne>=1||['radiotip','ph318','srvtip'].some(f=>G.flags[f])))o.push(XP_RUN);/* 聽說過東梯還能走的人，一進東段就直接過去 */
+  return o}};
+// 卡片上依地理多出來的移動：西段知道窗外有消防梯，可以退回 301；東段已經看得到樓梯口，可以不再停留
+const XP_WIN={t:'mv',kind:'移動',l:'退回 301，從窗戶爬到消防梯',xpx:1,ok:{t:`你轉身沿著牆退回 301，把門在身後帶上。房間裡還是你離開時的樣子。
+你推開窗戶。冷風灌進來，帶著焦味和遠處的警報聲。窗台外一公尺，就是生鏽的消防梯。`,go:'D1'}};
+const XP_WIN2={t:'mv',kind:'移動',l:'退回 301，從窗戶爬到消防梯',xpx:1,s:'需要鐵撬或消防斧',req:['g:fireaxe','g:crowbar'],reqAny:1,ok:{t:`你轉身沿著牆退回 301，把門在身後帶上。窗框只往上滑了一指寬就卡死了，滑軌裡全是油漆。
+你把工具卡進窗縫，用全身的重量往上撬。窗框嘎的一聲彈了上去。冷風灌進來，窗台外一公尺，就是生鏽的消防梯。`,go:'D1'}};
+const XP_RUN={t:'mv',kind:'移動',l:'不再停留，直接往東側樓梯那頭走',xpx:1,ok:{t:`你沒有再看兩邊的房門，貼著牆一路往綠色的標示燈走過去。`}};
+
+/* v0.64.0 合併選項結果時保留 getter（有些文字要等遊戲開始才算得出來） */
+const XPMRG=(o,a)=>Object.defineProperties(Object.defineProperties({},Object.getOwnPropertyDescriptors(o||{})),Object.getOwnPropertyDescriptors(a||{}));
+/* ================= v0.64.0 整座旅館改成情境探索（主人 2026-11-24 20:52：三樓 v0.63.1 定為範本，二樓以下、地下、捷徑一次改完；文本由 Claude 寫） =================
+   每一層一份 XPL 設定（地理、路線表、牌庫、出口），共用 engine_c 的情境探索引擎；選了一個選項，原卡關閉，直接進下一個情境。
+   二樓 B：東側樓梯口（B1、保全的屍體 B2）→ 窗邊那一段（B1w、保全室 B2p）→ 宴會廳那一區（楓葉廳 B2m、宴會廳 B2x、奈特 B2w、吧台 B2b）→ 出口 B4。
+   一樓 E：前場走廊（E1、E2、E3d）／員工樓梯下來的人先到員工通道（E1s、E1g）再繞到前場 → 員工通道（E5、E6）→ 岔路 E7
+     → 廚房（F1、F2、F2x、F2y → 出口 F4）或洗衣房（H1、H2、H5 → 出口 H4）。接待大廳 I1、I2 原本就是一個選擇接一個，照舊。
+   地下 G：設備層（G1、鍋爐間 G1c、配電室 G2→發電機在轉 G2g、排水溝 G2x）→ 盡頭 G4 → 停車場（P1、凱文 P1k、P2、收費亭 P2b、排風口 P2c）→ B2-17（P4）。
+   捷徑：電梯井 C（C1→C2→C2x→井底 C4）、消防梯 D（外牆 D1→三樓平台 D2x→二樓平台 D2→底部 D4）、頂樓 R（R1→R2→出口 R4）。
+   各層的隨機情境放在自己的牌庫（deck B／E／G／C／D／R，seg 照地理分段）；原本的隨機事件格（B3、E3、F3、H3、G3、P3、C3、D3、R3）不再用。 */
+{
+const GG=()=>{try{return G}catch(e){return null}};
+const SH=(rg,a)=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(rg()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const RR=(rg,a,b)=>Array(a+Math.floor(rg()*(b-a+1))).fill('R');
+const MARK=(id,L,n)=>{N[id]={L,n,t:'',c:[],xpm:1}};/* 記號節點：enterNode 走到這裡時換成下一個情境 */
+// 繼續翻（搜索深挖）：每一層一張，跟三樓的 AQ 一樣
+const mkAQ=(id,L,n)=>{const C=new Map(),LV0={t:'mv',kind:'移動',l:'帶著拿到的東西離開',ok:{t:`你把拿到的東西收好，沒有再翻下去。`}};
+ N[id]=Object.defineProperties({L,n},Object.getOwnPropertyDescriptors({
+  get t(){return `看得到的你先拿了。底下、夾層和角落還有沒翻到的地方，要翻下去，得再多花上一陣子。`},
+  get c(){const g=GG(),from=g&&g.xp&&g.xp.dq&&g.xp.dq.from;if(!from||!N[from])return [LV0];if(C.has(from))return C.get(from);
+   const cs=(N[from].c||[]).filter(c=>c.t==='sd'&&!c._hid).map(c=>XPMRG(c,{_xpDeep:1,solo:undefined,spot:undefined}));const o=cs.concat([LV0]);C.set(from,o);return o}}))};
+// 多人分頭做：同一個場景裡各做各的（spot 一樣的只能一個人）
+const SOLO=(id,spots)=>{N[id].split=1;N[id].c.forEach((c,i)=>{if(spots[i]){c.solo=1;c.spot=spots[i]}})};
+const RUN=(l,t)=>({t:'mv',kind:'移動',l,xpx:'run',ok:{t}});
+const QTEWIN=(t,okT,ngT,ngP)=>({t,w:['趴下','翻滾','護頭','爬開'],ok:{t:okT,p:{fear:8}},ng:{t:ngT,p:ngP||{hp:-3,bleed:1,fear:10}}});
+
+/* ---------------- 二樓 B ---------------- */
+MARK('BXN','B','二樓走廊');mkAQ('BXQ','B','二樓・繼續翻');
+const BRUN=RUN('不再停留，直接往宴會廳後面的員工門走',`你沒有再停下來，沿著宴會廳外的牆，一路走到最裡面那扇「員工專用」的門前。`);
+XPL.B={mark:'BXN',aq:'BXQ',ex:['B4'],last:'B4',cnt:'m',deck:'B',run:'B4',
+ plan(rg){return ['@w','B1','B2',...RR(rg,1,1),'@x','B1w',...SH(rg,['B2p',...RR(rg,1,2)]),'@m',...SH(rg,['B2m','B2x',...RR(rg,1,2)]),'B2w','B2b',...RR(rg,0,1),'B4']},
+ segIn(X,t){if(t==='@m')return `走廊在保全室那裡轉了個彎，地毯換成深紅色。牆上還掛著今晚婚宴的指示牌，箭頭指著「楓葉廳」和「宴會廳」。`;return null},
+ ch(X){return X.seg==='m'&&X.ne>=2&&!X.seen.includes('B4')&&!(G.flags.elders&&!X.seen.includes('B2b'))?[BRUN]:[]}};/* 帶著哈蒙夫婦的人，要先到吧台讓他們躲進儲藏間 */
+ROUTE.B.seq=['B1','BXN','B4'];delete ROUTE.B.search;ROUTE.B.v2=1;
+// 保全的屍體在東側樓梯口；從消防梯翻進 202 的人，是從房間走出來看到的
+{const t0=N.B2.t;Object.defineProperty(N.B2,'t',{get(){const g=GG();return g&&g.flags&&g.flags.d202?`你從 202 走到走廊上。地毯上散滿了彈殼，一路往西側樓梯延伸，牆上好幾個彈孔。一具穿保全制服的屍體靠著牆坐著，頭垂在胸前，腰上掛著彈藥工具袋，左手緊緊握成拳頭。
+房門大多關著，只有 203 的門板上有一個彈孔，205 的門內側釘著被撞斷的木條。
+
+樓上有拖行聲。你只能停留一下。`:t0.replace('拖行聲在樓上。你只能停留一下。','樓上有拖行聲。你只能停留一下。')},configurable:true})}
+N.D2.c[1].ok.r=XPMRG(N.D2.c[1].ok.r,{flag:'d202'});
+N.B2x.t=N.B2x.t.replace('紅色桌巾、喜糖、印著新人名字的立牌','紅色桌巾、一包一包的婚禮小禮物、印著新人名字的立牌');/* 美國的婚宴沒有喜糖 */
+SOLO('B2',['body','r203','r205','r206']);SOLO('B2p',['mon','locker','book']);SOLO('B2m',['sign','folder','coats']);SOLO('B2x',['cart','table','laptop']);SOLO('B2b',['bar','ice','cab','joan']);
+{const c=N.B2b.c[3];c.ok=XPMRG(c.ok,{r:XPMRG(c.ok.r,{stopBleed:1})})}/* 瓊把傷口清乾淨包好，流血也止住 */
+Object.assign(N,{
+BD1:{L:'B',n:'二樓走廊・204 的窗戶',deck:'B',seg:['w','x'],
+ t:`204 的房門開著，窗簾沒拉。探照燈每轉一圈，白光就穿過整個房間，從門口打到走廊對面的牆上，在地毯上切出一塊長方形的亮光。
+
+要往前走，得從那塊光前面過去。`,
+ c:[
+  {t:'q',l:'蹲在門邊，等光掃過去再走',ok:{t:`你蹲在門邊數。光掃過去，停在對街的大樓上，再轉回來。你算準空檔，從門口走了過去。`}},
+  {t:'q',l:'摸進 204 把窗簾拉上',k:'AGI',d:11,s:'敏捷檢定',ok:{t:`你等光轉開，壓低身子摸進 204，抓住窗簾一把拉上。房間暗了，走廊上那塊光也沒了。`},
+   ng:{t:`你抓住窗簾的時候，光剛好轉回來，整個人被照得發白。`,qte:QTEWIN('街上有人喊了一聲——','你往床邊一撲，子彈打進你頭頂的牆裡。光慢慢移開了，你把窗簾扯上。','你撲倒的時候慢了一點，窗玻璃碎了，碎片劃過你的手臂。',{hp:-3,bleed:1,fear:10})}},
+  {t:'sq',kind:'搜尋',l:'順手翻門口那只行李箱',tb:[{g:'good',w:1,t:`行李箱就擺在門口，最上層有一瓶沒開的礦泉水。你拿了就退回走廊。`,r:{items:{water:1}}},{g:'mid',w:1,t:`行李箱裡只有換洗衣服和一雙拖鞋。`}]},
+  {t:'sd',kind:'搜尋',l:'趁光轉開，把 204 翻一遍',k:'PER',d:11,s:'感知檢定',tb:[
+   {g:'good',w:2,t:`你算著光轉一圈的時間，一次只翻一個地方：床頭櫃、書桌抽屜、浴室的鏡櫃。鏡櫃裡有一卷繃帶，抽屜裡有一包餅乾。`,r:{items:{bandage:1,cookie:1}},p:{alarm:1}},
+   {g:'mid',w:1,t:`床頭櫃和抽屜都是空的。你在浴室找到一條乾淨的毛巾。`,r:{items:{cloth:1}}},
+   {g:'bad',w:1,t:`你翻到一半，探照燈轉了回來，整個房間被照得發白。你趴在床邊，臉貼著地毯，一直等到光轉開才敢爬出來。`,p:{fear:6}}]}]},
+BD2:{L:'B',n:'二樓走廊・掉在地上的手機',deck:'B',seg:['w','x','m'],
+ t:`地毯上有一支手機，螢幕朝上，一直在亮。沒有鈴聲，只有震動，嗡嗡地在地毯上轉著。來電顯示是「媽」。
+
+它離窗戶只有兩步。`,
+ c:[
+  {t:'q',l:'把手機翻過來蓋住',ok:{t:`你蹲下去把它翻面，壓在地毯上。光沒了，震動又持續了很久才停。`}},
+  {t:'q',l:'撿起來看',tb:[
+   {g:'good',w:2,t:`鎖定畫面上全是未接來電和訊息，最上面一則寫著：「看到請回電。新聞說旅館那一區封了，不要出門，不要靠窗。」
+
+你把它關機，放回地上。`,p:{fear:3}},
+   {g:'bad',w:1,t:`你一拿起來，螢幕的光就照亮了你的臉。窗外的探照燈停了下來。`,qte:QTEWIN('白光停在你身上——','你把手機甩開，整個人趴下。子彈打在你身後的牆上，石膏碎片落了你一背。','你趴下的時候慢了半拍，碎玻璃從窗框上濺過來，劃開了你的臉頰。',{hp:-2,bleed:1,fear:10})}]},
+  {t:'mv',kind:'移動',l:'不碰，走過去',ok:{t:`你從手機旁邊走過去。它在你身後又震了很久。`}}]},
+BD3:{L:'B',n:'二樓・衣帽間',deck:'B',seg:'m',
+ t:`宴會廳外有一間衣帽間，半截門開著，衣架上還掛滿了賓客的大衣，每一件都掛著號碼牌。櫃台上放著一個裝號碼牌的小籃子，和一大碗用紗網包成一小包一小包的杏仁糖，是給賓客帶走的婚禮小禮物。`,
+ c:[
+  {t:'sq',kind:'搜尋',l:'快速翻最外面那幾件大衣',tb:[{g:'good',w:1,t:`第二件大衣的口袋裡有一支打火機。`,r:{items:{lighter:1}}},{g:'mid',w:1,t:`口袋裡只有停車票和幾枚硬幣。`,r:{items:{coin:1}}}]},
+  {t:'sd',kind:'搜尋',l:'一件一件翻口袋',k:'PER',d:11,s:'感知檢定',tb:[
+   {g:'good',w:2,t:`你一件一件翻過去：打火機、一小盒止痛藥、一把硬幣，還有一件西裝外套的內袋裡夾著幾張美金。`,r:{items:{lighter:1,painkiller:1,coin:1},usd:5},p:{alarm:1}},
+   {g:'mid',w:1,t:`大多是車鑰匙和面紙。你只翻到一把硬幣。`,r:{items:{coin:1}},p:{alarm:1}},
+   {g:'bad',w:1,t:`你拉衣架的時候，整排衣架順著橫桿滑到底，金屬撞在一起，響成一片。`,p:{alarm:2}}]},
+  {t:'q',l:'抓幾包櫃台上的杏仁糖',ok:{t:`你抓了幾包杏仁糖塞進口袋，拆開一包，放了一顆進嘴裡。甜得發膩，可是你的手總算沒那麼抖了。`,p:{hun:1,fear:-3}}},
+  {t:'mv',kind:'移動',l:'走過去',ok:{t:`你從衣帽間前面走過去。`}}]},
+BD4:{L:'B',n:'二樓・倒下的香檳塔',deck:'B',seg:'m',
+ t:`宴會廳門口的地上是一大片碎玻璃。香檳塔整座倒了，杯子碎成一地，酒在地毯上乾成一圈一圈的黏痕。
+
+要往裡面走，得從這一片上面過去。`,
+ c:[
+  {t:'q',l:'踮著腳，踩著玻璃之間的空隙過去',k:'AGI',d:11,s:'敏捷檢定',ok:{t:`你看準玻璃之間的空隙，一步一步踩過去，鞋底沒有發出一點聲音。`},ng:{t:`你一腳踩下去，碎玻璃在鞋底下嘎吱一聲裂開。那個聲音在空蕩蕩的宴會廳裡傳得很遠。`,p:{alarm:2}}},
+  {t:'m',l:'用鞋側把玻璃慢慢撥開一條路',ok:{t:`你用鞋側把碎玻璃一點一點撥到兩邊。花了不少時間，可是很安靜。`}},
+  {t:'q',l:'挑一片又長又尖的玻璃帶走',ok:{t:`你挑了一片最長的碎片，用一條餐巾包住握的那一頭，再從玻璃比較少的那一邊繞過去。`,r:{items:{glass:1}}}}]},
+BD5:{L:'B',n:'二樓・新娘休息室',deck:'B',seg:'m',
+ t:`宴會廳旁邊有一扇掛著「新娘休息室」牌子的門，門關著。門縫底下透出一點很穩的光，是插在牆上的小夜燈，靠電池撐著。
+
+裡面有人在小聲講話，講一句停一下，像在哄小孩睡覺。`,
+ c:[
+  {t:'q',l:'輕輕敲門，說你是活人',k:'CHA',d:12,s:'統帥檢定',tb:[
+   {g:'good',w:2,t:`門開了一條縫。是一個穿伴娘禮服的女人，懷裡抱著一個睡著的小女孩，小女孩頭上還戴著花童的花圈。
+
+她叫你小聲一點，從桌上拿了一瓶水塞給你：「要下樓的話，走吧台後面那扇員工門。前面的西側樓梯有人開過槍。」`,r:{items:{water:1},flag:'bmaid'},p:{fear:-4}},
+   {g:'mid',w:1,t:`門後安靜了很久，才傳出一句很小的聲音：「我們不開門。對不起。」`,p:{fear:2}},
+   {g:'bad',w:1,t:`門後的人嚇得叫了一聲，小孩跟著哭起來，哭聲在宴會廳裡傳得很遠。`,p:{alarm:2}}]},
+  {t:'q',l:'從門縫底下塞一條能量棒進去',req:'bar',s:'需要能量棒',ok:{t:`你把能量棒從門縫底下推進去。過了一會兒，一個小小的聲音說：「謝謝。」接著是大人摀住她嘴巴的聲音。`,r:{use:'bar'},p:{fear:-6}}},
+  {t:'mv',kind:'移動',l:'不打擾她們，走過去',ok:{t:`你從門前走過去。門後的聲音停了一下，又小聲地繼續。`}}]},
+BD6:{L:'B',n:'二樓走廊・直升機',deck:'B',seg:['x','m'],
+ t:`天花板的吊燈忽然叮叮地震了起來。一架直升機從旅館上空低低地飛過去，螺旋槳的聲音整片壓下來，機腹下的探照燈從落地窗外一路掃過走廊。`,
+ c:[
+  {t:'q',l:'立刻趴下，等它過去',ok:{t:`你趴在地毯上，臉貼著地。白光從你背上滑過去，又滑回來，最後往大街那頭去了。`,p:{fear:4}}},
+  {t:'q',l:'趁螺旋槳的聲音蓋住一切，快步往前走',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`噪音蓋過了你的腳步聲。你趁光轉開的空檔，一口氣走過了這一段。`},
+   ng:{t:`光掃回來的時候，你還站在兩扇窗中間。`,qte:QTEWIN('白光停在你身上——','你往牆邊的陰影一撲。光在你剛才站的地方停了兩秒，移開了。','你撲倒的時候撞上了窗框，玻璃裂開，碎片劃過你的手背。',{hp:-3,bleed:1,fear:10})}}]}
+});
+
+/* ---------------- 一樓 E（前場、員工通道、廚房、洗衣房） ---------------- */
+MARK('EXN','E','一樓');mkAQ('EXQ','E','一樓・繼續翻');
+XPL.E={mark:'EXN',aq:'EXQ',ex:['F4','H4','E4'],last:'F4',deck:'E',
+ plan(rg){return ['@a','E1','@f','E2',...RR(rg,0,1),'E3d','@s','?E1s','E1g',...RR(rg,0,1),'#front','@f2','?E2',...RR(rg,0,1),'?E3d','/',
+  '@c',...SH(rg,['E5','E6',...RR(rg,1,1)]),'E7','@k','F1',...RR(rg,0,1),'F2','F2x','F2y',...RR(rg,0,1),'F4','@l','H1',...RR(rg,0,1),'H2','H5',...RR(rg,0,1),'H4']},
+ gate(g,X){return g==='front'?!X.seen.includes('E2'):true},/* 從員工樓梯下來的人，前場走廊還沒走過，從員工通道繞過去 */
+ segIn(X,t){return {'@s':`你推開櫃台後面那扇「員工專用」的門。門後是員工通道，瓦斯味一下子重了起來。`,
+  '@f2':`員工通道的一側有一扇門，門上的小窗透著一點橘光。你推開門，外面是櫃台後面的前場走廊。`,
+  '@c':`員工通道再往裡走，牆上掛著一台停掉的打卡鐘，旁邊是更衣室和總機室的門。`}[t]||null}};
+ROUTE.E.seq=['E1','EXN','F4'];delete ROUTE.E.search;ROUTE.E.v2=1;
+// 開槍點燃瓦斯之後，不會再跳去隨機事件格（F3）：照地理接下一個情境
+{const c=N.F2.c.find(x=>x.l==='開槍');const o=XPMRG(c.ok);delete o.go;c.ok=o}
+// 冷凍庫的門是從裡面撞開的：步入式冷凍庫裡面有安全推桿，撞到就開（感染者不會轉門把）
+N.F2.t=N.F2.t.replace('門把慢慢往下轉。門開了一條縫，','門裡的安全推桿被撞了一下，喀的一聲，門彈開了一條縫。');
+{const c=N.F1.c[1];c.ok=XPMRG(c.ok,{t:`你從刀架上取下一把菜刀，刀刃很利，刀架底下還壓著一塊磨刀石。料理台的櫃子裡有一包泡麵、一條能量棒和一雙沒拆的免洗竹筷。`})}
+SOLO('E1g',['gas','map']);SOLO('E5',['locker','board']);SOLO('E6',['line','roster']);SOLO('F2y',['shelf','valve','prints']);SOLO('H5',['cab','notice','sofa']);SOLO('H1',['face','linen','basket']);
+Object.assign(N,{
+ED1:{L:'E',n:'一樓・員工餐廳',deck:'E',seg:['s','c'],
+ t:`員工通道旁邊有一間小小的員工餐廳：三張長桌、一台冰箱、一台販賣機。冰箱門開著，裡面的燈是暗的，飄出一股酸掉的牛奶味。
+
+長桌上還擺著吃到一半的外帶餐盒，叉子插在飯上。最裡面那張桌子上，有一盒還沒拆封的員工餐。`,
+ c:[
+  {t:'sq',kind:'搜尋',l:'快速翻一下冰箱',tb:[{g:'good',w:1,t:`冰箱門邊的格子裡還有一罐沒開的可樂。`,r:{items:{cola:1}}},{g:'mid',w:1,t:`冰箱裡只剩幾罐開過的醬料，和一盒已經發酸的牛奶。`}]},
+  {t:'sd',kind:'搜尋',l:'把冰箱、櫃子和販賣機都翻一遍',k:'PER',d:11,s:'感知檢定',tb:[
+   {g:'good',w:2,t:`冰箱裡有一罐可樂，櫃子裡有一包泡麵，販賣機的取物口卡著一盒沒掉下來的蘇打餅乾，你伸手進去掏了出來。`,r:{items:{cola:1,noodle:1,cookie:1}},p:{alarm:1}},
+   {g:'mid',w:1,t:`大部分都被拿走了。你只在櫃子最裡面找到一盒蘇打餅乾。`,r:{items:{cookie:1}},p:{alarm:1}},
+   {g:'bad',w:1,t:`販賣機的玻璃門鬆了，你一拉就整片脫落，砸在地上碎成一地。`,p:{alarm:3}}]},
+  {t:'m',l:'坐下來，把那盒員工餐吃掉',ok:{t:`你把餐盒的蓋子打開。是冷掉的炒飯，你用手抓著吃，吃到一半才發現自己餓壞了。`,p:{hun:3}}},
+  {t:'mv',kind:'移動',l:'不碰，走過去',ok:{t:`你從餐廳門口走過去。`}}]},
+ED2:{L:'E',n:'員工通道・叼著菸的人',deck:'E',seg:['s','c'],dcond:{hide:'gasoff'},w:.6,
+ t:`通道轉角有一個穿行李員制服的年輕人背靠著牆坐在地上，嘴裡叼著一支菸，手上拿著打火機，拇指已經搭在滾輪上。
+
+他還沒看到你。空氣裡的瓦斯味重得讓人頭暈，他大概已經聞不出來了。`,
+ c:[
+  {t:'q',l:'衝過去握住他拿打火機的手',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你衝過去一把握住他的手，打火機掉在地上。他嚇得差點叫出來，你摀住他的嘴，指了指天花板的管線，又指了指自己的鼻子。
+
+他吸了一口氣，臉一下子白了。他把打火機和那包菸都塞給你，扶著牆往大廳那頭走了。`,r:{items:{lighter:1,cigarette:1}}},
+   ng:{t:`你衝到一半，鞋底在地上的油漬滑了一下。他抬起頭的時候，拇指往下一撥，火星亮了一下。`,r:{gasboom:1}}},
+  {t:'q',l:'壓低聲音叫他別點',k:'CHA',d:11,s:'統帥檢定',ok:{t:`「瓦斯，」你壓著聲音說，「別點。」
+
+他愣了一下，抽了抽鼻子，慢慢把菸從嘴上拿下來。「難怪我頭這麼暈……」他把打火機收回口袋，扶著牆站了起來。`},
+   ng:{t:`他被突然出現的聲音嚇了一跳，手一抖，打火機的滾輪擦了一下。`,r:{gasboom:1}}},
+  {t:'mv',kind:'移動',l:'退回去，等他走開',tb:[
+   {g:'mid',w:3,t:`你退回轉角後面。過了一會兒，你聽到他咳了幾聲，罵了一句，把菸收回去走了。他大概也聞到了。`},
+   {g:'bad',w:1,t:`你退到轉角後面，背後傳來打火機喀的一聲。`,r:{gasboom:1}}]}]},
+ED3:{L:'E',n:'一樓・失物招領櫃',deck:'E',seg:['f','f2'],
+ t:`櫃台後面靠牆有一整排失物招領的架子，每一格都貼著日期：雨傘、充電線、一隻孤零零的嬰兒鞋。最上面一格放著一個紙箱，寫著「待寄回」。`,
+ c:[
+  {t:'sq',kind:'搜尋',l:'快速翻最下面那幾格',tb:[{g:'good',w:1,t:`一個遺失的旅行用收納袋裡，有一顆三號電池。`,r:{items:{battery:1}}},{g:'mid',w:1,t:`都是充電線和雨傘。`}]},
+  {t:'sd',kind:'搜尋',l:'把那個紙箱搬下來翻',k:'PER',d:11,s:'感知檢定',tb:[
+   {g:'good',w:2,t:`紙箱裡是一個房客寄回的包裹：一支沒裝電池的手電筒、一盒兩顆裝的三號電池。`,r:{items:{deadlight:1,battery:2}},p:{alarm:1}},
+   {g:'mid',w:1,t:`紙箱裡是幾本書和一顆三號電池。`,r:{items:{battery:1}},p:{alarm:1}},
+   {g:'bad',w:1,t:`紙箱的底一下子破了，裡面的東西全砸在地上。`,p:{alarm:2}}]},
+  {t:'mv',kind:'移動',l:'不碰，走過去',ok:{t:`你從架子前面走過去。`}}]},
+ED4:{L:'E',n:'一樓・卸貨口',deck:'E',seg:'c',
+ t:`員工通道的盡頭有一道卸貨口的鐵捲門，關得死死的，門縫底下透進一線街燈的光。門邊停著一台送貨的手推車，上面還綁著兩箱瓶裝水。
+
+鐵捲門外有東西在撞。撞一下，停很久，又一下。`,
+ c:[
+  {t:'q',l:'從手推車上抽兩瓶水',ok:{t:`你割開箱子外面的膠膜，抽了兩瓶出來。塑膠膜嘶的一聲，你停下來聽，門外的撞擊聲沒有變。`,r:{items:{water:2}}}},
+  {t:'q',l:'貼著鐵捲門聽外面',k:'PER',d:11,s:'感知檢定',ok:{t:`門外是後巷。撞門的不只一個，每撞一下，鐵捲門就往內鼓一點。這道門不能開。`,p:{fear:4}},ng:{t:`你剛貼上去，鐵捲門就被撞了一下，正好撞在你臉頰旁邊，震得你耳朵嗡嗡響。`,p:{fear:6,alarm:1}}},
+  {t:'mv',kind:'移動',l:'離開卸貨口',ok:{t:`你退回員工通道。`}}]},
+ED5:{L:'E',n:'員工廚房・食材儲藏櫃',deck:'E',seg:'k',
+ t:`食材儲藏櫃的門開著一半，裡面的紙箱倒了一地。最裡面的架子上還有東西，架子後面很暗。`,
+ c:[
+  {t:'sq',kind:'搜尋',l:'只撿門口散在地上的',tb:[{g:'good',w:1,t:`地上有一包沒被踩破的泡麵。`,r:{items:{noodle:1}}},{g:'mid',w:1,t:`散在地上的都被踩爛了。`}]},
+  {t:'sd',kind:'搜尋',l:'進去把架子翻一遍',k:'PER',d:11,s:'感知檢定',tb:[
+   {g:'good',w:2,t:`你摸到兩包泡麵和一瓶礦泉水。`,r:{items:{noodle:2,water:1}}},
+   {g:'mid',w:1,t:`架子上大多是麵粉和糖。你只拿到一包泡麵。`,r:{items:{noodle:1}}},
+   {g:'bad',w:1,t:`你伸手往架子後面摸，摸到一隻手。冰的，可是在動。`,p:{fear:8},fight:{n:1,mode:'ambush',names:['躲在儲藏櫃裡的感染者']}}]},
+  {t:'mv',kind:'移動',l:'把門關上',ok:{t:`你把儲藏櫃的門推上，沒有再開。`}}]},
+ED6:{L:'E',n:'員工廚房・出菜口',deck:'E',seg:'k',
+ t:`出菜口的服務鈴叮地響了一聲。
+
+出菜口另一頭是備餐間，有一個人靠在出菜台上，身體一歪一歪的。他的手肘每晃一下，就壓到一次服務鈴。`,
+ c:[
+  {t:'q',l:'走近，從出菜口看清楚',k:'PER',d:12,s:'感知檢定',ok:{t:`是一個穿服務生背心的人，頭垂著，手肘撐在台子上。出菜台上壓著一張客房服務單：「303 客房服務　照門診交代，放門口就好」，背面沾著一個血手印。
+
+你把單子抽走，退回來。他沒有抬頭。`,p:{fear:4}},ng:{t:`你走到出菜口前面，他的頭抬了起來。`,p:{fear:6},fight:{n:1,mode:'ambush',names:['出菜口後面的服務生']}}},
+  {t:'q',l:'伸手把服務鈴拿走',k:'AGI',d:11,s:'敏捷檢定',ok:{t:`你伸長手，把服務鈴從台子上拿下來，塞進一條毛巾裡。鈴聲沒有再響。`},ng:{t:`你的手碰到鈴，叮的一聲，比剛才都響。`,p:{alarm:2}}},
+  {t:'mv',kind:'移動',l:'不理它',ok:{t:`你沒有回頭。鈴又響了兩聲，被廚房的嘶嘶聲蓋過去了。`,p:{alarm:1}}}]},
+ED7:{L:'E',n:'員工廚房・洗碗區',deck:'E',seg:'k',
+ t:`洗碗區的水槽滿到溢出來，水面上浮著一層油，碗盤堆在裡面。水龍頭沒關緊，一直在滴。
+
+水槽下面的櫃門關著，門把上掛著一條抹布。`,
+ c:[
+  {t:'sq',kind:'搜尋',l:'從水槽裡撈一把刀',tb:[{g:'good',w:1,t:`你把手伸進油水裡摸，摸到一把牛排刀，刀刃朝下。你小心地握著刀柄拿了出來。`,r:{gear:'knife'}},{g:'mid',w:1,t:`你只撈到湯匙和叉子。`}]},
+  {t:'sd',kind:'搜尋',l:'打開水槽下面的櫃子',k:'PER',d:11,s:'感知檢定',tb:[
+   {g:'good',w:2,t:`櫃子裡是清潔用品：兩條乾淨的抹布和一瓶外用酒精。`,r:{items:{cloth:2,alcohol:1}}},
+   {g:'mid',w:1,t:`櫃子裡只有洗碗精，和一條還算乾的抹布。`,r:{items:{cloth:1}}},
+   {g:'bad',w:1,t:`櫃門一拉開，裡面縮著一個穿洗碗工圍裙的人，膝蓋抵著下巴。他的眼睛是白的。`,p:{fear:8},fight:{n:1,mode:'ambush',names:['水槽下面的洗碗工']}}]},
+  {t:'mv',kind:'移動',l:'繞過水槽',ok:{t:`你繞過那一灘油水，沒有碰任何東西。`}}]},
+ED8:{L:'E',n:'洗衣房・燙衣間',deck:'E',seg:'l',
+ t:`洗衣房旁邊隔出一間燙衣間，燙衣板一張一張排開，牆上掛滿了燙好的制服，每件都套著透明塑膠袋。角落的工作台上放著針線盒和一大卷布膠帶。`,
+ c:[
+  {t:'sq',kind:'搜尋',l:'拿工作台上的東西',tb:[{g:'good',w:1,t:`你拿了針線盒，順手把那卷布膠帶也帶走。`,r:{items:{sewing:1,tape:1}}},{g:'mid',w:1,t:`針線盒是空的，只剩那卷布膠帶。`,r:{items:{tape:1}}}]},
+  {t:'sd',kind:'搜尋',l:'翻掛著的制服口袋',k:'PER',d:11,s:'感知檢定',tb:[
+   {g:'good',w:2,t:`員工常把東西忘在制服口袋裡：一盒止痛藥、一把硬幣，還有折得很小的幾張美金。`,r:{items:{painkiller:1,coin:1},usd:3},p:{alarm:1}},
+   {g:'mid',w:1,t:`大部分口袋都是空的。你只摸到一把硬幣。`,r:{items:{coin:1}},p:{alarm:1}},
+   {g:'bad',w:1,t:`你一拉，整排塑膠袋嘩啦嘩啦地響，在安靜的洗衣房裡傳得很遠。`,p:{alarm:2}}]},
+  {t:'mv',kind:'移動',l:'不碰，走過去',ok:{t:`你從燙衣間門口走過去。`}}]},
+ED9:{L:'E',n:'洗衣房・晾床單的架子',deck:'E',seg:'l',
+ t:`曬衣架上掛著一整排床單，從天花板一路垂到地上。其中一條床單後面，有一個人的輪廓。`,
+ c:[
+  {t:'q',l:'掀開床單',tb:[{g:'mid',w:2,t:`床單後面是一張立起來的燙衣板，上面披著一件制服。你站在那裡喘了很久。`,p:{fear:6}},
+   {g:'bad',w:1,t:`床單後面站著一個穿洗衣房制服的人，背對著你。你掀開的那一下，他轉過身來。`,p:{fear:8},fight:{n:1,mode:'first',names:['床單後面的感染者']}}]},
+  {t:'q',l:'繞遠路，從另一頭過去',k:'AGI',d:11,s:'敏捷檢定',ok:{t:`你繞了一大圈，貼著牆走過去。那個輪廓一直沒有動。`},ng:{t:`你碰到了一條床單，整排床單都晃了起來。床單後面那個人影被推得往前一傾，接著自己站穩了，朝你走過來。`,p:{fear:8},fight:{n:1,mode:'normal',names:['床單後面的感染者']}}}]},
+ED10:{L:'E',n:'員工通道・被撬開的置物櫃',deck:'E',seg:'l',
+ t:`走廊邊一排員工置物櫃，有一格的鎖被撬開了，櫃門半開。`,
+ c:[
+  {t:'q',l:'翻那一格',ok:{t:`裡面有一件外套、一包菸和半瓶水。外套口袋裡塞著一張排班表，凱文的名字被人用紅筆圈了起來。`,r:{items:{cigarette:1,water:1}}}},
+  {t:'q',l:'把其他格也撬開',k:'STR',d:12,s:'力量檢定',ok:{t:`你一格一格撬開。大部分都是空的，最後一格裡有一盒止痛藥和一卷繃帶。`,r:{items:{painkiller:1,bandage:1}},p:{alarm:2}},ng:{t:`鐵櫃門被你扳得嘎嘎作響，什麼都沒撬開，只是吵。`,p:{alarm:3}}},
+  {t:'mv',kind:'移動',l:'不碰，走過去',ok:{t:`你從置物櫃前面走過去。`}}]}
+});
+
+/* ---------------- 地下 G（設備層、停車場） ---------------- */
+MARK('GXN','G','地下');mkAQ('GXQ','G','地下・繼續翻');
+const GRUN=RUN('不再停留，沿著牆直接往 B2-17 那頭走',`你沒有再看兩邊的車，貼著牆，一根柱子一根柱子地往出口那頭走。`);
+XPL.G={mark:'GXN',aq:'GXQ',ex:['P4','G4z'],last:'P4',cnt:'p',deck:'G',run:'P4',
+ plan(rg){return ['@g','G1',...SH(rg,['G1c','G2',...RR(rg,1,2)]),'G2x',...RR(rg,0,1),'G4','@p','P1','?P1k',...SH(rg,['P2','P2b',...RR(rg,1,2)]),'P2c','P4']},
+ segIn(){return null},
+ ch(X){return X.seg==='p'&&X.ne>=2&&!X.seen.includes('P4')?[GRUN]:[]}};
+ROUTE.G.seq=['G1','GXN','P4'];delete ROUTE.G.search;ROUTE.G.v2=1;
+// 配電室：發電機發動之後是另一個情境（機器在轉、燈亮了、聲音傳出去了），排風機的開關在這時候才扳得動
+{const c=N.G2.c[0];c.ok=XPMRG(c.ok,{go:'G2g'})}
+SOLO('G1c',['tools','log','fiber']);SOLO('P2b',['booth','box']);
+// 摸過鐵門上的標記，換到「鐵門前」：只剩上樓和去停車場兩條路
+{const c=N.G4.c.find(x=>x.l==='摸門框上的標記');c.ok=XPMRG(c.ok,{go:'G4z'})}
+// 雨刷不會自己動：是駕駛座上的人碰到了撥桿
+{const c=N.P2.c[2];c.ok=XPMRG(c.ok,{t:`你繞了一大圈。經過車頭的時候，駕駛座上那個人的手往下一滑，碰到了撥桿，雨刷嘎地刮過擋風玻璃一下。`})}
+{const c=N.P2.c[0];c.ok=XPMRG(c.ok,{t:`行李裡有登山用品：一支手電筒、一卷繩子，還有兩條能量棒。全家出遊的東西。`})}
+{const c=N.P2.c[1];c.ok=XPMRG(c.ok,{t:c.ok.t.replace('他把一盒餅乾和一把螺絲起子給你','他把兩包餅乾和一把螺絲起子給你')})}
+Object.assign(N,{
+G2g:{L:'G',n:'配電室・發電機在轉',
+ t:`發電機轟隆隆地轉著，整間配電室都在震。配電盤上的指示燈亮了一排，天花板的日光燈閃了兩下，亮了。
+
+走廊那頭傳來好幾扇門被撞的聲音。燈光和機器的聲音，都傳出去了。`,
+ c:[
+  {t:'q',l:'打開排風機的開關',hide:'fanon',ok:N.G2.c[3].ok},
+  {t:'q',l:'拿牆角那個維修工具箱',ok:N.G2.c[1].ok},
+  {t:'mv',kind:'移動',l:'趁東西還沒過來，馬上離開',ok:{t:`你退出配電室，順著管線往前走。身後的發電機一直在響。`}}]},
+G4z:{L:'G',n:'地下設備層・鐵門前',
+ t:`你往後退了一步，把手在褲子上擦了又擦。鐵門的門縫還在一下一下地鼓。
+
+貨梯的鐵柵門開著，往上通到一樓大廳的後面；另一頭的車道連通門通往停車場。`,
+ c:[N.G4.c.find(x=>x.l==='搭貨梯上去'),N.G4.c.find(x=>x.l==='從車道連通門到停車場')]},
+GD1:{L:'G',n:'地下設備層・裂開的管線',deck:'G',seg:'g',
+ t:`頭頂的一根熱水管裂開了，一股帶著霉味的溫熱水霧噴出來，正好擋在路中間。地上那些紅色的東西在水霧底下長得特別粗。`,
+ c:[
+  {t:'q',l:'摀住口鼻，衝過去',k:'AGI',d:11,s:'敏捷檢定',ok:{t:`你低著頭衝過水霧。衣服濕了一片，帶著那股甜膩的味道。`,p:{inf:1}},ng:{t:`你衝到一半腳下一滑，整個人跪在水霧正下方，吸了一大口。`,p:{inf:4,hp:-1}}},
+  {t:'q',l:'找閥門把它關掉',k:'INT',d:12,s:'智力檢定',ok:{t:`你順著管線摸到一個生鏽的閥門，用全身的力氣轉緊。水霧慢慢小了。`},ng:{t:`你轉錯了閥門。另一根管線也開始噴，整條走廊都起了霧。`,p:{inf:3,alarm:1}}}]},
+GD2:{L:'G',n:'地下設備層・紅色的地面',deck:'G',seg:'g',
+ t:`這一段的地面幾乎被那些紅色的東西蓋滿了，只剩幾塊水泥露出來。你的鞋子剛踩進去，整團就黏住鞋底，抬腳的時候扯起一大片，還連著地上的那些。`,
+ c:[
+  {t:'q',l:'用力把腳扯出來',k:'STR',d:12,s:'力量檢定',ok:{t:`它們一條一條斷開，發出很輕的、像濕紙撕開的聲音。斷口滲出溫溫的紅色汁液。`,p:{fear:4}},ng:{t:`你扯得太猛，整團被扯破，汁液濺上你的腳踝。等你終於掙脫的時候，腳踝上黏著一圈細細的紅絲。`,p:{inf:4,fear:6}}},
+  {t:'q',l:'蹲下來用刀割開',req:['g:kitchenknife','g:knife'],reqAny:1,s:'需要刀',ok:{t:`你蹲下來，一刀一刀把黏在鞋底的那些割開。刀刃上沾滿了黏稠的東西。`,p:{fear:3}}},
+  {t:'q',l:'踩著露出來的水泥跳過去',k:'AGI',d:11,s:'敏捷檢定',ok:{t:`你看準那幾塊露出來的水泥，一塊一塊跳過去。`},ng:{t:`你跳到一半，踩空了，整隻腳陷進那片紅色裡。`,p:{inf:3,fear:4}}}]},
+GD3:{L:'G',n:'地下設備層・靠牆的維修員',deck:'G',seg:'g',
+ t:`管線底下坐著一個穿維修員制服的人，靠著牆，已經不動了。他的工具袋還掛在腰上。紅色的東西從他的袖口長出來，像血管一樣連到牆裡，還在一下一下地鼓。`,
+ c:[
+  {t:'q',l:'拿他的工具袋',k:'CON',d:11,s:'體質檢定',ok:{t:`你屏住呼吸，解下工具袋就退開。裡面有一捲膠帶、一把鉗子和一顆電池。`,r:{items:{tape:1,pliers:1,battery:1}}},ng:{t:`你解工具袋的時候扯動了那些紅色的東西，整片跟著鼓了起來，連到牆裡的那幾條繃得很緊。你搶了工具袋就退，吸了好幾口那股甜膩的空氣。`,r:{items:{tape:1,battery:1}},p:{inf:4,fear:8}}},
+  {t:'q',l:'不碰他',ok:{t:`你繞過他。經過他面前的時候，他的眼珠跟著你轉了一點。他還活著。`,p:{fear:6}}}]},
+GD4:{L:'G',n:'地下設備層・工程部工具間',deck:'G',seg:'g',
+ t:`一間小小的工具間，門上貼著「工程部」。牆上的掛板畫著每一樣工具的輪廓，一半是空的。工作台上的抽屜關著。`,
+ c:[
+  {t:'sq',kind:'搜尋',l:'拿掛板上剩下的',tb:[{g:'good',w:1,t:`掛板上還剩一把鉗子和一卷膠帶。`,r:{items:{pliers:1,tape:1}}},{g:'mid',w:1,t:`掛板上只剩一卷膠帶。`,r:{items:{tape:1}}}]},
+  {t:'sd',kind:'搜尋',l:'翻工作台的抽屜',k:'PER',d:11,s:'感知檢定',tb:[
+   {g:'good',w:2,t:`抽屜裡有兩顆三號電池、一條強力膠，還有一卷膠帶。`,r:{items:{battery:2,superglue:1,tape:1}},p:{alarm:1}},
+   {g:'mid',w:1,t:`抽屜裡只有螺絲和一顆三號電池。`,r:{items:{battery:1}},p:{alarm:1}},
+   {g:'bad',w:1,t:`抽屜卡住了，你一用力，整個抽了出來，螺絲和墊片撒了一地。`,p:{alarm:2}}]},
+  {t:'mv',kind:'移動',l:'不碰，走過去',ok:{t:`你從工具間門口走過去。`}}]},
+PD1:{L:'G',n:'停車場・響起來的車',deck:'G',seg:'p',
+ t:`前面一台轎車的車尾被什麼東西撞了一下，警報器叫了起來。車頭燈一閃一閃，照亮了整排柱子，也照出了撞車的那個人影，正搖搖晃晃地從車尾走開。`,
+ c:[
+  {t:'q',l:'衝過去拔掉電瓶線',k:'INT',d:12,s:'智力檢定',ok:{t:`你拉開引擎蓋，扯掉電瓶線。警報聲斷了。黑暗裡，很多東西停下了腳步，然後又慢慢散開。`,p:{alarm:1}},ng:{t:`你找不到電瓶線。警報一直響，柱子後面的影子越來越多。`,p:{alarm:3},fight:{n:1,mode:'normal',names:['被警報引來的感染者']}}},
+  {t:'q',l:'趁亂往反方向走',k:'AGI',d:11,s:'敏捷檢定',ok:{t:`所有的東西都朝警報聲走過去。你往另一個方向，一根柱子一根柱子地移動。`},ng:{t:`你走得太急，撞上了另一台車的後照鏡。`,p:{alarm:2,fear:4}}}]},
+PD2:{L:'G',n:'停車場・車底下的手',deck:'G',seg:'p',
+ t:`你經過一台轎車的時候，車底下伸出一隻手，抓住了你的腳踝。車底下趴著一個人，半張臉貼在地上。`,
+ c:[
+  {t:'q',l:'踩開它',k:'STR',d:11,s:'力量檢定',ok:{t:`你用另一隻腳狠狠一踩。手鬆開了，縮回車底下。`,p:{fear:6}},ng:{t:`那隻手把你拖倒在地上。車底下的人爬了出來。`,p:{fear:8},fight:{n:1,mode:'ambush',names:['車底下的感染者']}}},
+  {t:'q',l:'往前撲，掙脫它',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你往前一撲，鞋子留在了那隻手裡，人掙脫了。你沒有回去拿。`,p:{fear:6}},ng:{t:`你撲出去的時候，膝蓋重重撞在水泥地上。那隻手沒有放開。`,p:{hp:-2,fear:8},fight:{n:1,mode:'ambush',names:['車底下的感染者']}}}]},
+PD3:{L:'G',n:'停車場・開著的後車廂',deck:'G',seg:'p',
+ t:`一台休旅車的後車廂開著，裡面塞滿了露營用品。車門上用噴漆寫著：「去河對岸。不要等我們。」`,
+ c:[
+  {t:'sq',kind:'搜尋',l:'只拿最上面那一包',tb:[{g:'good',w:1,t:`最上面是一包能量棒。`,r:{items:{bar:1}}},{g:'mid',w:1,t:`最上面只是睡袋。`}]},
+  {t:'sd',kind:'搜尋',l:'把後車廂翻一遍',k:'PER',d:11,s:'感知檢定',tb:[
+   {g:'good',w:2,t:`你翻出一捲繩子、一包能量棒和兩顆電池。`,r:{items:{rope:1,bar:1,battery:2}}},
+   {g:'bad',w:1,t:`你拉動一個睡袋，一整堆露營鍋稀哩嘩啦地倒了出來。`,p:{alarm:2}}]},
+  {t:'mv',kind:'移動',l:'不碰',ok:{t:`你看了那行字很久，然後繼續往前走。`,p:{fear:3}}}]},
+PD4:{L:'G',n:'停車場・小貨車裡的人',deck:'G',seg:'p',
+ t:`一台小貨車的駕駛座上有人，整個人縮在方向盤底下，只露出半張臉。他看到你，伸出一根手指，在起霧的車窗上寫了兩個字：「安靜」。`,
+ c:[
+  {t:'q',l:'在車窗上寫「出口？」',ok:{t:`他想了一下，在霧上畫了一個箭頭，指向停車場東邊；又畫了一個叉，旁邊寫了一個「C」。
+
+C 區不要走。`,r:{flag:'parknote'},p:{fear:-2}}},
+  {t:'q',l:'敲窗，叫他一起走',k:'CHA',d:12,s:'統帥檢定',tb:[
+   {g:'good',w:1,t:`他搖頭，搖得很用力。他從置物箱裡拿出一瓶水，把車窗搖下一條縫塞給你，又立刻搖上去。`,r:{items:{water:1}}},
+   {g:'bad',w:1,t:`你一敲窗，他嚇得往後一撞，手肘壓到了喇叭。叭的一聲在停車場裡炸開。`,p:{alarm:3}}]},
+  {t:'mv',kind:'移動',l:'不打擾他',ok:{t:`你從小貨車旁邊走過去。車窗上的「安靜」慢慢被新的霧蓋掉了。`}}]}
+});
+
+/* 情境探索的樓層：選項做完一律往下一個情境，原本的「留在原地」標記拿掉（引擎本來就不理它，拿掉免得誤會） */
+const XPSTAY=()=>{for(const id of Object.keys(N)){const n=N[id];if(!['B','E','G','C','D','R'].includes(n.L))continue;let cs;try{cs=n.c}catch(e){continue}if(!Array.isArray(cs))continue;for(const c of cs){if(c.stay)delete c.stay;if(c.ok&&Object.getOwnPropertyDescriptor(c.ok,'stay'))delete c.ok.stay}}};
+/* ---------------- 電梯井 C ---------------- */
+MARK('CXN','C','電梯井');mkAQ('CXQ','C','電梯井・繼續翻');
+XPL.C={mark:'CXN',aq:'CXQ',ex:['C4'],last:'C4',deck:'C',
+ plan(rg){return ['@c','C1',...RR(rg,0,1),'C2','C2x',...RR(rg,0,1),'C4']},segIn(){return null}};
+ROUTE.C.seq=['C1','CXN','C4'];ROUTE.C.v2=1;
+N.C1.t=N.C1.t.replace('井道裡的回音很怪。你每喘一口氣，都會從很深的地方傳回來兩次。','井道是一根又深又窄的水泥管子。你每喘一口氣，回音都會從底下撞回來。');
+Object.assign(N,{
+CD1:{L:'C',n:'電梯井・繃緊的纜繩',deck:'C',env:'shaft',
+ t:`頭頂的鋼索突然繃緊，整條纜繩往上抽了一截。上面某一層有人，或有東西，抓住了它在往上爬。`,
+ c:[
+  {t:'q',l:'抓緊井壁上的維修梯，不要動',k:'CON',d:11,s:'體質檢定',ok:{t:`你把臉貼在冰冷的鐵梯上，數著自己的心跳。纜繩晃了很久，才慢慢停下來。上面的東西沒有下來。`,p:{fear:4}},ng:{t:`纜繩一甩，打在你的手背上。你差點鬆手，指節整片擦破了皮。`,p:{hp:-2,fear:6}}},
+  {t:'q',l:'趁它還在上面，往下滑一段',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你鬆開一隻手，順著維修梯滑下去好幾階，落在一根橫樑上。上面的拉扯聲被你甩在後頭。`},ng:{t:`你落在橫樑上的時候腳一扭，整個人撞在井壁上。`,p:{hp:-3,frac:1}}}]},
+CD2:{L:'C',n:'電梯井・底下的喘氣聲',deck:'C',env:'shaft',
+ t:`黑暗的下方傳來喘氣聲。一口接著一口，很規律。`,
+ c:[
+  {t:'q',l:'停下來，聽清楚',k:'PER',d:12,s:'感知檢定',ok:{t:`你屏住呼吸。喘氣聲還在，可是太規律了，一秒不差。是井底的通風口在抽氣，扇葉每轉一圈就卡一下。你鬆了一口氣，手心全是汗。`,p:{fear:3}},
+   ng:{t:`你聽了太久。底下的聲音停了，接著是鞋子刮過井壁的聲音：底下真的有人，正沿著維修梯往上爬。`,p:{fear:8},fight:{n:1,mode:'ambush',names:['井底爬上來的感染者']}}},
+  {t:'q',l:'丟個東西下去試試',req:['coin','bottle','glass'],reqAny:1,s:'需要可以丟的東西',ok:{t:`你把東西往下丟。過了很久，才傳來一聲落水的悶響。你趁那一聲還在井裡迴盪，往另一側的井壁爬。`,r:{use:'$req'}}}]},
+CD3:{L:'C',n:'電梯井・勾在纜繩上的化妝包',deck:'C',env:'shaft',
+ t:`一條登機箱的背帶勾在纜繩的接頭上，被井裡的風吹得輕輕晃。背帶另一頭吊著一個小小的化妝包。`,
+ c:[
+  {t:'q',l:'伸手把它勾過來',k:'AGI',d:11,s:'敏捷檢定',ok:{t:`你一隻手抓著維修梯，一隻手勾住背帶。化妝包裡有一捲繃帶、一盒止痛藥，還有一張登機證，日期是昨天。`,r:{items:{bandage:1,painkiller:1}}},ng:{t:`你勾到背帶的那一下，化妝包掉了下去，一路撞著井壁往下落，聲音響了好久。`,p:{alarm:2}}},
+  {t:'q',l:'不管它',ok:{t:`你繼續往下。化妝包在你頭頂晃著，越來越小。`}}]},
+CD4:{L:'C',n:'電梯井・上面的手電筒',deck:'C',env:'shaft',
+ t:`井壁上滲出來的油膜反著光。光是從上面來的：上面某一層的電梯門被撬開了一條縫，有人拿著手電筒往井裡照。`,
+ c:[
+  {t:'q',l:'貼著井壁，等光移開',ok:{t:`你把臉貼在井壁上，一動也不動。光從你頭頂掃過去，停了一下，又收了回去。門縫闔上了。`,p:{fear:2}}},
+  {t:'q',l:'往上喊一聲',tb:[
+   {g:'mid',w:2,t:`上面的光晃了一下。有人壓著聲音喊：「下面有人？」接著是爭吵的聲音，然後光不見了，門縫闔上了。`,p:{alarm:1}},
+   {g:'bad',w:1,t:`光一下子收了回去。上面傳來尖叫和撞門的聲音：拿手電筒的人後面，還跟著別的東西。`,p:{alarm:2,fear:6}}]}]},
+CD5:{L:'C',n:'電梯井・掉下來的東西',deck:'C',env:'shaft',
+ t:`上面某一層的電梯門被撬開了一條縫，有人在門縫那頭翻東西。一樣東西從縫裡滑出來，擦過你的肩膀往下掉。`,
+ c:[
+  {t:'q',l:'伸手接住下一個',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`第二樣東西掉下來的時候，你一把抓住。是一支手電筒，開關還是熱的。門縫那頭的人好像沒有發現。`,r:{items:{flashlight:1}},p:{fear:4}},ng:{t:`第二樣東西砸在你的額頭上，是一支手電筒。你眼前一黑，等回過神來，它已經掉到井底了。`,p:{hp:-2,fear:4}}},
+  {t:'q',l:'貼著井壁閃開',ok:{t:`東西一個接一個掉下去，在井底碎成一片。門縫裡的光閃了一下，就熄了。`,p:{alarm:1,fear:3}}}]}
+});
+
+/* ---------------- 消防梯 D ---------------- */
+MARK('DXN','D','消防梯');mkAQ('DXQ','D','消防梯・繼續翻');
+XPL.D={mark:'DXN',aq:'DXQ',ex:['D4'],last:'D4',deck:'D',
+ plan(rg){return ['@d','D1','D2x',...RR(rg,0,1),'D2',...RR(rg,0,1),'D4']},segIn(){return null}};
+ROUTE.D.seq=['D1','DXN','D4'];ROUTE.D.v2=1;
+// 位置：爬出 301 的窗戶就站在三樓平台（D2x），往下才是二樓平台（D2）
+{const c=N.D1.c[1];Object.assign(c,{l:'不看，專心踩穩'});c.ok=XPMRG(c.ok,{t:`你抓緊欄杆，一腳一腳踩穩，跨上消防梯的平台。風聲蓋過了一切。`})}
+{const c=N.D1.c[0];c.ng=XPMRG(c.ng,{t:`風太大了，你的眼睛被吹得睜不開。你只能抓緊扶手，先跨上平台。`})}
+N.D2x.t=N.D2x.t.replace('風把消防梯吹得嘎嘎作響。','你站在三樓的平台上。風把消防梯吹得嘎嘎作響。');
+// 廚房裡滿是瓦斯，不會還點著火
+N.D4.t=N.D4.t.replace('廚房的後門半開著，門內透出一點火光。','廚房的後門半開著，門內一片漆黑，門縫裡飄出一股很重的瓦斯味。');
+{const c=N.D4.c[1];c.ok=XPMRG(c.ok,{t:`你跳進後巷，推開廚房的後門。門內一片漆黑，瓦斯爐的開關全開著，爐口嘶嘶地漏氣。
+
+空氣裡全是瓦斯味。你摸著工作台往裡走。`})}
+Object.assign(N,{
+DD1:{L:'D',n:'消防梯・窗裡的人',deck:'D',
+ t:`你經過一扇窗戶的時候，窗內站著一個人，隔著玻璃看著你。他沒有動，也沒有出聲。`,
+ c:[
+  {t:'q',l:'朝他揮手',k:'CHA',d:11,s:'統帥檢定',ok:{t:`他愣了一下，慢慢把窗戶推開一條縫，塞出來一瓶水和一包餅乾。「下面的巷子有東西，」他說，「跳的時候小心。」然後他把窗戶關上，拉上窗簾。`,r:{items:{water:1,cookie:1}},p:{fear:-3}},
+   ng:{t:`他突然把臉貼上玻璃，開始用力拍窗。那雙眼睛是白的。整排窗戶都在震。`,p:{fear:8,alarm:2}}},
+  {t:'q',l:'別過頭，繼續往下',ok:{t:`你沒有再看那扇窗。往下爬了兩層，你還是覺得背後有人在看。`,p:{fear:3}}}]},
+DD2:{L:'D',n:'消防梯・纏住腳的窗簾',deck:'D',
+ t:`一陣強風把一片窗簾從破窗裡捲了出來，啪地纏住了你的腳踝。`,
+ c:[
+  {t:'q',l:'彎下腰解開',k:'AGI',d:11,s:'敏捷檢定',ok:{t:`你一手抓著扶手，一手把窗簾一圈一圈解開。風停的那一瞬間，你把它塞回了窗裡。`},ng:{t:`你彎腰的時候，風又來了。窗簾一扯，你整個人撞在欄杆上。`,p:{hp:-2,fear:4}}},
+  {t:'q',l:'用力扯斷',k:'STR',d:11,s:'力量檢定',ok:{t:`布料嘶啦一聲裂開。你把扯下來的那一截收了起來，說不定用得上。`,r:{items:{cloth:1}}},ng:{t:`窗簾沒斷，窗簾桿倒是整根被扯鬆了，往下掉了兩層樓，砸在後巷的垃圾桶上。`,p:{alarm:2}}}]},
+DD3:{L:'D',n:'消防梯・斷掉的螺栓',deck:'D',
+ t:`腳下那一段鐵梯發出一聲金屬斷裂的脆響。固定在牆上的螺栓，斷了一根。`,
+ c:[
+  {t:'q',l:'慢慢把重心移到下一階',k:'AGI',d:12,s:'敏捷檢定',ok:{t:`你一點一點往下挪，每一步都先試過才踩實。鐵梯晃得厲害，可是撐住了。`},ng:{t:`你剛把重心移過去，那一段鐵梯就往外傾了。你抓著欄杆吊在半空，整個人被甩在牆上。`,p:{hp:-4,fear:6}}},
+  {t:'q',l:'抓著旁邊的排水管爬過去',k:'STR',d:12,s:'力量檢定',ok:{t:`你換手抓住排水管，用手臂的力氣撐過那一段。身後，那段鐵梯又往下垂了一點。`},ng:{t:`排水管比你想的滑。你一路滑下去半層，掌心整片磨破了。`,p:{hp:-3,bleed:1}}}]},
+DD4:{L:'D',n:'消防梯・卡在平台上的背包',deck:'D',
+ t:`平台角落卡著一個登山背包，背帶纏在欄杆上。旁邊的鐵板上有一灘乾掉的血。`,
+ c:[
+  {t:'q',l:'翻背包',ok:{t:`背包裡有一瓶水、一條能量棒和一捲繃帶。最底下是一本護照，照片上的女人在笑。你把護照留在背包裡。`,r:{items:{water:1,bar:1,bandage:1}},p:{fear:3}}},
+  {t:'q',l:'不管它',ok:{t:`你跨過那灘血，繼續往下。`}}]},
+DD5:{L:'D',n:'消防梯・遠處的警報',deck:'D',
+ t:`遠處響起一長串警報聲，整條街的狗都跟著叫了起來。後巷裡的東西被聲音吵醒，開始動了。`,
+ c:[
+  {t:'q',l:'趁亂加快腳步往下',k:'AGI',d:11,s:'敏捷檢定',ok:{t:`你趁著警報聲蓋過一切的時候，一口氣往下爬了一層。`},ng:{t:`你爬得太急，鞋子踢到欄杆，噹的一聲。後巷裡的東西抬起了頭。`,p:{alarm:2,fear:4}}},
+  {t:'q',l:'貼著牆，等它停下來',ok:{t:`你貼著牆一動也不動。警報聲停了很久之後，後巷裡的腳步聲才慢慢散開。`,p:{fear:4}}}]}
+});
+
+/* ---------------- 頂樓 R ---------------- */
+MARK('RXN','R','頂樓');mkAQ('RXQ','R','頂樓・繼續翻');
+XPL.R={mark:'RXN',aq:'RXQ',ex:['R4'],last:'R4',deck:'R',
+ plan(rg){return ['@r','R1',...RR(rg,0,1),'R2','R4']},segIn(){return null}};
+ROUTE.R.seq=['R1','RXN','R4'];ROUTE.R.v2=1;
+{const c=N.R1.c[0];c.ok=XPMRG(c.ok,{t:`你繞到側面看。他已經死了，脖子上一個咬痕，身體還沒完全冷掉。他大概是逃上來求救的，手上還握著一支對講機，頻道停在 7。
+
+對講機已經沒有反應了。你把它拿起來，拆下裡面那顆還有電的電池。`})}
+// 水塔：繩子是被風吹得拍打鐵皮；喝了水就是喝了水
+N.R2.t=N.R2.t.replace('繩子在動。很輕，很規律，像有人在下面呼吸。','風一陣一陣吹過來，繩子跟著晃，一下一下拍在水塔的鐵皮上。');
+{const c=N.R2.c[0];c.ng=XPMRG(c.ng,{t:`繩子拉到一半卡住了。你用力一扯，綁在末端的東西鬆脫，撲通一聲掉回水塔裡。`,p:{alarm:1}})}
+{const c=N.R2.c[1];c.ok=XPMRG(c.ok,{p:{thi:4}});c.ng=XPMRG(c.ng,{t:`你喝了好幾口才看到：水面上漂著一層紅色的細絲，貼著水塔的內壁一路往下長。`,p:{thi:4,inf:8}})}
+// 撞不開機房就是撞不開：不會一直回到同一張卡再撞一次
+{const c=N.R4.c.find(x=>x.l==='用身體撞開機房');c.hide='roofjam';c.ng=XPMRG(c.ng,{r:{flag:'roofjam'}});
+ const t0=N.R4.t;Object.defineProperty(N.R4,'t',{get(){const g=GG();return g&&g.flags&&g.flags.roofjam?`機房的門紋風不動，你的肩膀還在發麻。
+
+剩下的路：那塊木板，或是找一樣撬得動門的工具。`:t0},configurable:true})}
+Object.assign(N,{
+RD1:{L:'R',n:'頂樓・直升機',deck:'R',
+ t:`一架直升機從城東飛過來，壓得很低，探照燈一棟一棟掃過大樓的頂樓。它正朝這邊來。
+
+頂樓空蕩蕩的，只有水塔和機房可以躲。`,
+ c:[
+  {t:'q',l:'躲到水塔後面',k:'AGI',d:11,s:'敏捷檢定',ok:{t:`你衝到水塔後面，背貼著冰冷的鐵皮。白光從頂樓掃過去，停了兩秒，又移開了。`,p:{fear:4}},
+   ng:{t:`你跑到一半，光已經照在你身上。擴音器的聲音從天上壓下來：「封鎖區內禁止停留，立刻回到室內——」光一直跟著你，直到你躲進水塔的陰影裡。`,p:{fear:8,alarm:3}}},
+  {t:'q',l:'揮手求救',tb:[
+   {g:'mid',w:2,t:`直升機在頂樓上空停了幾秒。擴音器說：「封鎖區內所有人員，回到室內，等候通知。」然後它飛走了。`,p:{fear:4}},
+   {g:'bad',w:1,t:`探照燈停在你身上。接著是一串槍聲，打在你身後的水塔上，水從彈孔裡噴出來。你撲倒在地上，爬回機房的陰影裡。`,p:{hp:-3,fear:12,alarm:2}}]}]},
+RD2:{L:'R',n:'頂樓・冷氣主機旁的旅行袋',deck:'R',
+ t:`冷氣主機旁邊丟著一個旅行袋，袋口開著。旁邊有一圈菸蒂和兩個空水瓶，像是有人在這裡等了很久，最後還是走了。`,
+ c:[
+  {t:'sq',kind:'搜尋',l:'快速翻袋子最上面',tb:[{g:'good',w:1,t:`袋子最上面有一瓶還沒開的礦泉水。`,r:{items:{water:1}}},{g:'mid',w:1,t:`最上面只有一件外套。`}]},
+  {t:'sd',kind:'搜尋',l:'把袋子整個倒出來翻',k:'PER',d:11,s:'感知檢定',tb:[
+   {g:'good',w:2,t:`一瓶礦泉水、一條能量棒，還有一顆三號電池。`,r:{items:{water:1,bar:1,battery:1}}},
+   {g:'mid',w:1,t:`袋子裡只剩一條能量棒。`,r:{items:{bar:1}}},
+   {g:'bad',w:1,t:`袋子底下壓著一支還開著的對講機。你一拿起來，喇叭就爆出一串雜訊，大得連風都蓋不住。`,p:{alarm:2}}]},
+  {t:'mv',kind:'移動',l:'不碰',ok:{t:`你從冷氣主機旁邊走過去。`}}]}
+});
+XPSTAY();
+// 舊存檔停在原本的隨機事件格（B3、E3…）：做完接回這一層的情境探索
+for(const [id,m] of [['B3','BXN'],['B3x','BXN'],['E3','EXN'],['E3x','EXN'],['F3','EXN'],['H3','EXN'],['G3','GXN'],['P3','GXN'],['C3','CXN'],['D3','DXN'],['R3','RXN']])if(N[id])N[id].next=m;
+}
+/* ---- 三樓文字（主人 2026-11-24 20:52：生物災難不是靈異；文字和實際效果要一致） ---- */
+{
+// 301 貓眼：靠在門外的是一個穿著衣服的人
+{const n=N.AO4;n.t=`門外突然安靜下來。拍門聲、腳步聲、尖叫聲，全都停了。
+
+你湊近貓眼。外面看不到走廊：一件深色外套的肩膀整個貼在門上，把貓眼擋住了，近到看得見布上的紋路。
+
+有人背靠著你的門站著。門板隔著一層，傳來很慢的呼吸，每隔幾秒，門就被他的背輕輕壓一下。`;
+ n.c[1].tb[0].t=`你用指節敲了一下門板。門外的人往前走開了一步，貓眼又透進紅光。腳步聲拖著走遠了。`}
+// 305 餐盤：吃了三明治，也喝了柳橙汁
+{const c=N.AW1.c.find(x=>x.l==='拿走餐盤上的東西');c.tb[0].p={hun:2,thi:2};c.tb[1].t=c.tb[1].t.replace('躲到轉角把三明治吃了。','躲到轉角，把三明治吃了，柳橙汁也喝光了。');c.tb[1].p={hun:2,thi:2,fear:2}}
+// 303 門口的人：皮膚底下鼓起來的是血管
+{const c=N.A3.c[0];c.ok=XPMRG(c.ok,{t:c.ok.t.replace('皮膚底下有東西在蠕動。','皮膚底下的血管一條一條鼓起來，一下一下地跳。')})}
+// 停電那一段：緊急照明的電池用完了，不會再自己亮回來
+{const n=N.AD2;n.t=`這一段的緊急照明電池用完了，一盞接一盞暗下去，最後整段走廊一片漆黑。
+
+黑暗裡，有東西在地上拖行。很慢，越來越近。`;
+ n.c[0].tb[0].t=`你屏住呼吸數到二十。拖行聲經過你面前，近得聞得到那股甜膩的味道，然後遠去。你摸著牆，一直走到下一盞還亮著的緊急照明底下。`}
+// 煙霧偵測器：有人在房間裡點東西照明，煙從門縫飄出來
+N.AD3.t=`頭頂的煙霧偵測器突然尖叫起來。旁邊一間房的門縫底下飄出一縷灰煙，聞起來像燒焦的紙：有人在房間裡點東西照明。
+
+兩邊的房門後面，同時傳來了動靜。`;
+// 製冰機旁的販賣機：撬壞了也抓到一包洋芋片
+{const c=N.A3x.c[1];c.tb[1].t=c.tb[1].t.replace('你縮在牆角等了很久，','你只來得及抓出一包洋芋片，縮在牆角等了很久，')}
+// v0.62.0 的搜索卡（只剩舊存檔會走到）：停電了，電視不會亮
+
+// 一樓宿舍：半夜敲門叫的是凱文的名字（凱文自己回來了），不是什麼說不清的聲音
+{const c=N.H2.c.find(x=>x.t==='sleep');const d=Object.getOwnPropertyDescriptor(c.ok,'t');const f=s=>s.replace('有人在敲門，叫著凱文的名字，又像是在叫自己的名字。','有人在敲門，一直叫著凱文的名字。聲音很啞，像是凱文自己。');Object.defineProperty(c.ok,'t',{get(){return f(d.get?d.get.call(this):d.value)},configurable:true,enumerable:true})}
+// 地下鐵門：那些紅色的東西是跟著脈搏在鼓，不是朝你過來
+{const c=N.G4.c.find(x=>x.l==='摸門框上的標記');c.ok=XPMRG(c.ok,{t:c.ok.t.replace('門縫裡那些紅色的東西往你的方向鼓了一下。','門縫裡那些紅色的東西剛好鼓了一下，跟脈搏一樣，就貼在你指尖旁邊。')})}
 }
 /* ================= 基礎 ================= */
 const $=s=>document.querySelector(s);
@@ -6495,7 +7000,7 @@ async function enterNode(id){
   // 這個地方沒有合適的隨機事件就直接過去，不硬抽不合理的
   // v0.59.0 抽牌格：這一局有開的格子從牌庫抽一張卡（做完接回 G.dk.ret），沒開的、抽不到的跳過
   dkPrep(N[id]&&N[id].L);
-  if(id==='AN')id=xpGen();/* v0.63.0 三樓：真的走進去才決定下一個情境 */
+  if(N[id]&&N[id].xpm)id=xpGen(N[id].L);/* v0.63.0 起：真的走進去才決定下一個情境（v0.64.0 每一層各有一個記號節點） */
   for(let n=0;n<16;n++){const s=N[id];if(s&&s.slot){if(dkOn(id)){if(s.fork){const D=dkSt();if(!(D.fk&&D.fk.id===id))dkFork(id);if(D.fk)break}else if(s.seg){const d=dkFork(id,1)[0];if(d){if(s.intro&&!G.flags['in_'+id]){G.flags['in_'+id]=1;out(s.intro,'',true)}forkTake(id,d,[]);id=d;break}}else{const d=dkDraw(id);if(d){G.dk.ret=s.next;id=d;break}}}id=s.next;continue}
     if(!rtSkip(id))break;if(N[id].sr&&srLeft(id))out('時間不多了，沒辦法每一間都翻。該往前走了。','rule');id=N[id].next}
   AUDIO_MOVING=true;stopAmbience();
@@ -6526,7 +7031,7 @@ async function enterNode(id){
     for(const p of G.players)if(p.down&&!p.dead&&!p.leftBehind&&!p.evacCarry&&DF().wake){p.down=0;if(p.mad){p.mad=0;setFear(p,90)}p.hp=Math.max(1,Math.ceil(p.max*.25));out(`${nm(p)}咳了幾聲，慢慢撐著牆站了起來。生命回到 ${p.hp}。`,'good')}
   }
   if(from&&from!==id){for(const p of able()){woundUse(p,['leg']);await woundDeteriorate(p)}}
-  G.node=id;G.gwOk=null;G.ev=null;G.audioVisit=(G.audioVisit||0)+1;G.audioEnteredAt=Date.now();G.votes={};G.rv={};G.pc=null;/* v0.21.0：地上的東西留在原地，回來還撿得到 */G.grounds=G.grounds||{};if(G.gnode&&G.gnode!==id)G.grounds[G.gnode]=G.ground.length?G.ground:undefined;if(G.gnode!==id)G.ground=G.grounds[id]||[];G.gnode=id;G.flags['v_'+id]=1;if(nd.onEnter)await nd.onEnter();
+  G.node=id;G.gwOk=null;G.ev=null;G.audioVisit=(G.audioVisit||0)+1;G.audioEnteredAt=Date.now();G.votes={};G.rv={};G.pc=null;/* v0.21.0：地上的東西留在原地，回來還撿得到 */G.grounds=G.grounds||{};if(G.gnode&&G.gnode!==id)G.grounds[G.gnode]=G.ground.length?G.ground:undefined;if(G.gnode!==id)G.ground=G.grounds[id]||[];G.gnode=id;G.flags['v_'+id]=1;xpSync(id);if(nd.onEnter)await nd.onEnter();
   if(nd.ev){const ch=LV[nd.L].ch||1;const mine=evCands(nd);const pool=mine.filter(i=>!G.evSeen.includes(i));const i=pool.length?pick(pool):pick(mine);G.evSeen.push(i);G.ev=i;if(EVPOOL[i].id==='rain')beginRainAudio();out(EVPOOL[i].t,'lore');if(EVPOOL[i].audio)snd(EVPOOL[i].audio)}
   else if(seen&&zr&&(zr.role==='hub'||(zr.role==='room'&&zDone(zr.z)))){hd(nd.n);out(`你回到${/^\w/.test(nd.n)?' ':''}${nd.n}。`,'lore')}
   else if(seen&&nd.sr){hd(nd.n);if(from!==id)out(`你回到${/^\w/.test(nd.n)?' ':''}${nd.n}。`,'lore')}
@@ -6752,9 +7257,10 @@ async function outcome(o,actor){
     if(gasZone()){await explode();}}
   if(r.gasboom){skipHp=true;if(G.flags.gasoff)out('……什麼都沒有發生。瓦斯總閥剛才已經被關掉了。槍聲在廚房裡迴盪。','good');else await explode()}
   if(p.fear){const n=p.fear;for(const q of able()){if(n>0){if(o.resist==='storyFear')await resistFear(q,n);else scare(q,n)}else relax(q,Math.round(-n*1.5))}}
-  if(p.hp&&!skipHp){await flush();if(p.hp<0){snd(hurtSnd(o.t),.6);hurtP(actor,-p.hp)}else actor.hp=Math.min(actor.max,actor.hp+p.hp)}
+  if(p.hp&&!skipHp){await flush();if(p.hp<0){snd(hurtSnd(o.t),.6);hurtP(actor,-p.hp)}else{const h=Math.min(actor.max-actor.hp,p.hp);actor.hp+=h;if(h>0)out(`${MP()?nm(actor)+'：':''}生命 +${h}。`,'good',true)}}/* v0.64.0 回血也寫進紀錄（跟休息一樣的格式） */
   if(p.inf)addInf(actor,p.inf);
   if(p.hun)actor.hun=clamp(actor.hun+p.hun,0,10);if(p.thi)actor.thi=clamp(actor.thi+p.thi,0,10);
+  if(p.hun||p.thi)out(`${MP()?nm(actor)+'：':''}${p.hun?`飢餓 ${p.hun>0?'+':''}${p.hun}　`:''}${p.thi?`口渴 ${p.thi>0?'+':''}${p.thi}`:''}`.trim(),p.hun<0||p.thi<0?'dmg':'good',true);/* v0.64.0 吃東西、喝水的結算照吃道具的格式寫出來 */
   if(r.stopBleed){const q=able().find(x=>(x.bleed||0)>0);if(q){q.bleed=0;out(`${MP()?nm(q)+'的':''}傷口止住了，不再流血。`,'good',true)}}
   if(p.bleed){actor.bleed=Math.min(2,actor.bleed+p.bleed);out(`${MP()?nm(actor)+'的':''}傷口開始流血。`,'dmg',true)}
   if(p.frac&&!actor.frac&&LASTJ==='fumble'){actor.frac=1;out(`<b>骨折</b>：${MP()?nm(actor)+'的':''}腿使不上力。有效敏捷 −3，連帶影響相關攻防、先攻；用夾板固定或止痛藥生效期間解除。`,'dmg',true)}
@@ -6891,7 +7397,7 @@ const srMore=id=>((G.rs||{})[id]||{n:0}).n<srMax(id)&&srLeft(id)||srDeep(id);
 // 這張卡要不要跳過：沒有合適隨機事件的地方、條件不符合的卡、已經翻完的搜索點
 function rtSkip(id){const nd=N[id];if(!nd||!nd.next)return false;if(nd.slot)return !dkOn(id);if(nd.ev)return !evCands(nd).length;if(nd.cond&&!flagOk(nd.cond))return true;return !!(nd.sr&&G.flags['v_'+id]&&!srMore(id))}
 // 單向路線的選項：走過的地點從出口消失；搜索點選過的消失，最後加「不再找了」
-function rtView(cs){if(!G||G.ev!=null)return cs;const nd=N[G.node];if(!nd||!RN[G.node])return cs;
+function rtView(cs){if(!G||G.ev!=null)return cs;const nd=N[G.node];if(!nd||!(RN[G.node]||XPL[nd.L]))return cs;/* v0.64.0 情境探索的地點：每一張卡都算在路線上 */
   const gone=new Set((G.route||[]).filter(L=>L!==nd.L)),dest=c=>c.go||(c.ok&&c.ok.go);
   const st=nd.sr?(G.rs||{})[G.node]||{n:0,u:{}}:null;
   if(!st&&!cs.some(c=>{const d=dest(c);return d&&N[d]&&gone.has(N[d].L)}))return cs;
@@ -7123,41 +7629,45 @@ function opNext(c){const nd=N[G.node];if(!G.op&&nd.opev)G.op={n:3,ev:0,k:0,done:
    G.xp＝{q 這一層的路線表, k 走到第幾格, seg 現在哪一段, ne 東段走過幾張, seen 這一局出過的, rm 現在這扇門, rooms, dq 搜索深挖, cc 條件牌張數}
    路線表的格子：卡片代號（固定）、'R'（從這一段的牌庫抽一張）、'?代號'（條件成立才出現）、'@段'（換段，印一段走路的描寫）。
    下一張在真的走進去（enterNode('AN')）時才決定：戰鬥、警戒波次打完，照當下的狀態重新判斷。 */
-const XPFIX=['A3','A3c','A4','A4d','A4e','A4f','A6d','AT1','A6','A6e'];
-const XPSEGT={w:`你把門推開一條縫，側身出去。走廊比房間更暗，緊急照明每隔幾秒閃一次紅光，紅地毯在光裡忽明忽暗。`,
- m:`你貼著牆走到轉角。轉過去，307 到 310 那一排房門就在前面，空氣裡有一股悶悶的鐵鏽味。`,
- e:`東段的走廊比較寬，盡頭的窗簾縫透進街上的白光，東側樓梯的綠色標示燈就在那一頭。`};
-const xpOn=()=>!!(G&&G.lv==='A'&&G.ev==null&&N[G.node]&&!N[G.node].op&&!['A6','A6e','A5'].includes(G.node)&&G.node!=='AH');
-function xpSt(){if(!G.xp)G.xp={k:0,seg:null,ne:0,seen:[],rooms:{},cc:0};const X=G.xp;if(!X.q)X.q=xpPlan(X);return X}
-function xpPlan(X){const rg=subRng(seedKey(G.sd||0,'xplan','A'));const sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(rg()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-  const R=(a,b)=>Array(a+Math.floor(rg()*(b-a+1))).fill('R');
-  const w=sh(['A3c','A4','A4d',...R(2,3)]),mr=R(2,3),at=Math.floor(rg()*(mr.length+1));mr.splice(at,0,'A4e','?A4f');
-  const q=['@w','A3',...w,'?A6d','@m',...mr,'?AT1','@e',...R(1,3),'A6'];
-  if(X.mig){/* 舊存檔（v0.62.0 走廊）：照原本走到的步數，跳過已經走過的那幾段 */const s=X.mig<=3?0:X.mig<=7?q.indexOf('@m'):q.indexOf('@e');X.k=Math.max(X.k||0,s);X.seg=X.mig<=3?'w':X.mig<=7?'m':'e';delete X.mig}
-  return q}
-function xpCond(id){const X=G.xp,f=G.flags,rg=subRng(seedKey(G.sd||0,'xpc',id));
-  if(X.seen.includes(id))return false;
-  if(id==='A4f')return rg()<(f.h310?.7:.5);/* 310 的老太太聽到有人經過才敲門；聽過門的人更會停下來 */
-  if(id==='A6d')return rg()<(f.m305||f.rs305?.8:.55);/* 轉角的馬可：拖行聲剛好轉過轉角、305 的人探頭 */
-  if(id==='AT1')return !!f.rd_rbar;
-  return true}
-function xpDraw(seg){const X=G.xp,rg=subRng(seedKey(G.sd||0,'xpd',X.k));
-  const ok=id=>!X.seen.includes(id)&&!XPFIX.includes(id)&&(!N[id].seg||N[id].seg===seg)&&dkOk(N[id])&&(!N[id].cc||X.cc<2);
-  let pool=dkList('A').filter(ok);if(seg!=='w'&&!X.rooms[seg])pool.push('AU');
-  if(!pool.length)pool=dkList('hotel').filter(id=>!X.seen.includes(id));
-  if(!pool.length)return null;
-  const ws=pool.map(id=>id==='AU'?1.5:dkW(id)),tot=ws.reduce((a,b)=>a+b,0);let x=tot*rg(),id=pool[pool.length-1];for(let i=0;i<pool.length;i++){x-=ws[i];if(x<0){id=pool[i];break}}
-  if(id==='AU'){const nums={m:['311','312'],e:['313','315','317']}[seg],r=rg();const n=nums[Math.floor(rg()*nums.length)];
-   X.rooms[seg]=n;X.rm=X.rooms['r'+n]={n,k:r<.35?'foe':r<.8?'empty':'surv',v:rg()<.5?0:1,heard:0,lk:rg()<.6?1:0};return 'AU'}
-  X.seen.push(id);if(N[id].cc)X.cc++;N[id].L='A';return id}
+/* v0.64.0（主人 2026-11-24 20:52）：三樓專屬的地理、節點、出口條件、牌庫設定搬進 XPL.A，其他樓層和之後的地點共用同一套引擎。
+   XPL[地點]＝{mark 記號節點, aq 繼續翻的節點, ex 出口卡（不套情境探索）, skip 不套的卡, last 走到底的那張, cnt 計數的段落,
+     plan(rg,X) 路線表, cond(id,rg,X) 條件卡成立嗎, draw(seg,rg,X) 抽一張（沒寫就照 deck 抽）, deck 牌庫, segIn(X,t) 換段的描寫, ch(X) 依地理多出來的選項, run 不再停留跳到哪一張}
+   三樓的設定原樣搬過來，同一個種子走出來的路線、遇到的卡都和 v0.63.1 一樣（tests/explore.test.cjs、tests/hotel-xp.test.cjs）。 */
+/* 地點設定 XPL 寫在 story4.js（三樓在「v0.64.0 共用情境探索：三樓設定」）；這裡只有共用的引擎 */
+const xpL=()=>G&&XPL[G.lv]?G.lv:null;
+const xpOn=()=>{const L=xpL(),C=L&&XPL[L];return !!(C&&G.ev==null&&N[G.node]&&!N[G.node].op&&!C.ex.includes(G.node)&&!(C.skip||[]).includes(G.node))};
+function xpSt(L){L=L||G.lv;const C=XPL[L];if(!C)return G.xp;
+  if(!G.xp||(G.xp.L||'A')!==L){G.xp={k:0,seg:null,ne:0,seen:[],rooms:{},cc:0};if(L!=='A')G.xp.L=L}/* 三樓的狀態和 v0.63.1 一樣（不加 L）；換到別的樓層才重新開一份 */
+  const X=G.xp;if(!X.q){X.q=xpPlan(X);if(L!=='A')xpResume(X)}
+  return X}
+// 剛走進這一層，或是讀進舊存檔（v0.63.1 以前停在二樓以下）：路線表上已經走過的卡（v_ 旗標）算看過，接在最後走過的那一張後面
+function xpResume(X){let p=-1;X.q.forEach((t,i)=>{const id=t[0]==='?'?t.slice(1):t;if(N[id]&&G.flags['v_'+id]){p=i;if(!X.seen.includes(id))X.seen.push(id)}});
+  if(p>=0){X.k=p+1;for(let i=p;i>=0;i--)if(X.q[i][0]==='@'){X.seg=X.q[i].slice(1);break}}
+  return X}
+function xpPlan(X){const L=X.L||'A';return XPL[L].plan(subRng(seedKey(G.sd||0,'xplan',L)),X)}
+function xpCond(id){const X=G.xp,C=XPL[X.L||'A'];const rg=subRng(seedKey(G.sd||0,'xpc',id));
+  if(X.seen.includes(id))return false;return C.cond?C.cond(id,rg,X):true}
+function xpDraw(seg){const X=G.xp,L=X.L||'A',C=XPL[L],rg=subRng(seedKey(G.sd||0,'xpd',L==='A'?X.k:L+X.k));
+  if(C.draw)return C.draw(seg,rg,X);
+  const ok=id=>!X.seen.includes(id)&&(!N[id].seg||[].concat(N[id].seg).includes(seg))&&dkOk(N[id])&&(!N[id].cc||X.cc<2);
+  const pool=dkList(C.deck).filter(ok);if(!pool.length)return null;
+  const ws=pool.map(dkW),tot=ws.reduce((a,b)=>a+b,0);let x=tot*rg(),id=pool[pool.length-1];for(let i=0;i<pool.length;i++){x-=ws[i];if(x<0){id=pool[i];break}}
+  X.seen.push(id);if(N[id].cc)X.cc++;return id}
 // 走進下一個情境：路線表往前走到第一張成立的卡；沒有合格的情境就照地理走到下一段，最後一定到出口
-function xpGen(){const X=xpSt();
-  for(let n=0;n<40&&X.k<X.q.length;n++){const t=X.q[X.k++];
-   if(t[0]==='@'){X.seg=t.slice(1);if(t==='@e'){const s=G.flags.rd_rbar?'':'走廊中段的防火門開著一半，門擋卡在地毯上。你從門邊側身過去。';out(s+XPSEGT.e,'',true)}else out(X.seg==='w'&&G.node==='AO3'?XPSEGT.w.replace('你把門推開一條縫，側身出去。',''):XPSEGT[X.seg],'',true);continue}/* 火警時衝出門的人，不是推開一條縫 */
-   if(t==='R'){const d=xpDraw(X.seg);if(d){if(X.seg==='e')X.ne++;return d}continue}
-   const id=t[0]==='?'?t.slice(1):t;if(t[0]==='?'&&!xpCond(id))continue;if(X.seen.includes(id))continue;
-   X.seen.push(id);if(X.seg==='e'&&id!=='A6')X.ne++;return id}
-  return 'A6'}
+function xpGen(L){const X=xpSt(L),C=XPL[X.L||'A'];
+  for(let n=0;n<60&&X.k<X.q.length;n++){const t=X.q[X.k++];
+   if(t[0]==='@'){X.seg=t.slice(1);const s=C.segIn?C.segIn(X,t):C.segt&&C.segt[X.seg];if(s)out(s,'',true);continue}
+   if(t==='R'){const d=xpDraw(X.seg);if(d){if(X.seg===C.cnt)X.ne++;return d}continue}
+   if(t[0]==='#'){if(C.gate&&!C.gate(t.slice(1),X)){while(X.k<X.q.length&&X.q[X.k]!=='/')X.k++;X.k++}continue}/* 「#名稱」到「/」是一段只在條件成立時才走的路（例：從員工樓梯下來的人，才從員工通道繞到前場） */
+   if(t==='/')continue;
+   const id=t[0]==='?'?t.slice(1):t;if(t[0]==='?'&&!xpCond(id))continue;if(X.seen.includes(id))continue;if(N[id].cond&&!flagOk(N[id].cond))continue;
+   X.seen.push(id);if(X.seg===C.cnt&&id!==C.last)X.ne++;return id}
+  return C.last}
+// 從別的地方直接走進路線表上的卡（樓梯、窗戶、選項的 go）：接在那張卡後面，前面沒走過的跳過
+function xpSync(id,load){const nd=N[id],C=nd&&XPL[nd.L];if(!C||C.ex.includes(id)&&!load)return;const X=load?G.xp:xpSt(nd.L);if(!X||!X.q)return;
+  const at=t=>t===id||t==='?'+id;if(X.k>0&&at(X.q[X.k-1]))return;/* 剛才就是照路線表走進來的 */
+  let p=-1;for(let i=X.k;i<X.q.length;i++)if(at(X.q[i])){p=i;break}if(p<0)return;
+  X.k=p+1;for(let i=p;i>=0;i--)if(X.q[i][0]==='@'){X.seg=X.q[i].slice(1);break}if(!X.seen.includes(id))X.seen.push(id)}
 // 搜索深挖：快速翻完，這張卡如果還有仔細翻的地方，換一張新的卡（繼續深入／帶著所得離開），原卡不再出現
 const xpDeepSrc=id=>(N[id]&&N[id].c||[]).filter(c=>c.t==='sd'&&!c._hid&&visible(c));
 function xpTook(res){const r=(res&&res.r)||{};return {items:Object.assign({},r.items||{}),gear:r.gear||null,usd:r.usd||0}}
@@ -7165,23 +7675,15 @@ function xpDeepRes(res){const T=G.xp&&G.xp.dq&&G.xp.dq.took;if(!T||!res||!res.r)
   if(r.items){const it=Object.assign({},r.items);for(const [k,q] of Object.entries(T.items))if(it[k]){const x=Math.min(q,it[k]);it[k]-=x;cut+=x;if(it[k]<=0)delete it[k]}if(Object.keys(it).length)r.items=it;else delete r.items}
   if(T.gear&&r.gear===T.gear){delete r.gear;delete r.mag;cut++}if(T.usd&&r.usd){r.usd=Math.max(0,r.usd-T.usd);if(!r.usd)delete r.usd;cut++}
   return Object.assign({},res,{r,t:res.t+(cut?'\n\n剛才已經拿走的，這次沒有再算進去。':'')})}
-function xpNext(c,res){const X=xpSt();const a=c.xpa;if(c===XP_RUN)xpRun();
+function xpNext(c,res){const X=xpSt();const C=XPL[X.L||'A'];const a=c.xpa;if(c.xpx==='run'||c===XP_RUN)xpRun();
   if(a==='listen'){X.rm.heard=res===c.ok?2:1;return 'AUl'}
   if(a==='in'){if(X.rm.lk&&X.rm.k==='empty')G.flags.xp_lk=1;else delete G.flags.xp_lk;return X.rm.k==='surv'?'AUs':'AUe'}
-  if(c.t==='sq'&&res&&!res.fight&&!res.go&&res.g!=='bad'&&!XP_SOLO){const d=xpDeepSrc(G.node);if(d.length){X.dq={from:G.node,took:xpTook(res)};return 'AQ'}}
-  if(G.node==='AQ')X.dq=null;
-  return 'AN'}
-// 卡片上依地理多出來的移動：西段知道窗外有消防梯，可以退回 301；東段已經看得到樓梯口，可以不再停留
-const XP_WIN={t:'mv',kind:'移動',l:'退回 301，從窗戶爬到消防梯',xpx:1,ok:{t:`你轉身沿著牆退回 301，把門在身後帶上。房間裡還是你離開時的樣子。
-你推開窗戶。冷風灌進來，帶著焦味和遠處的警報聲。窗台外一公尺，就是生鏽的消防梯。`,go:'D1'}};
-const XP_WIN2={t:'mv',kind:'移動',l:'退回 301，從窗戶爬到消防梯',xpx:1,s:'需要鐵撬或消防斧',req:['g:fireaxe','g:crowbar'],reqAny:1,ok:{t:`你轉身沿著牆退回 301，把門在身後帶上。窗框只往上滑了一指寬就卡死了，滑軌裡全是油漆。
-你把工具卡進窗縫，用全身的重量往上撬。窗框嘎的一聲彈了上去。冷風灌進來，窗台外一公尺，就是生鏽的消防梯。`,go:'D1'}};
-const XP_RUN={t:'mv',kind:'移動',l:'不再停留，直接往東側樓梯那頭走',xpx:1,ok:{t:`你沒有再看兩邊的房門，貼著牆一路往綠色的標示燈走過去。`}};
-function xpCh(cs){if(!xpOn()||!G.xp||!G.xp.q||N[G.node].hub)return cs;const X=G.xp,o=[];
-  if(X.seg==='w'&&X.k>2&&G.flags.map)o.push(G.flags.rd_rwin?XP_WIN2:XP_WIN);
-  if(X.seg==='e'&&(X.ne>=1||['radiotip','ph318','srvtip'].some(f=>G.flags[f])))o.push(XP_RUN);/* 聽說過東梯還能走的人，一進東段就直接過去 */
+  if(c.t==='sq'&&res&&!res.fight&&!res.go&&res.g!=='bad'&&!XP_SOLO){const d=xpDeepSrc(G.node);if(d.length){X.dq={from:G.node,took:xpTook(res)};return C.aq}}
+  if(G.node===C.aq)X.dq=null;
+  return C.mark}
+function xpCh(cs){if(!xpOn()||!G.xp||!G.xp.q||(G.xp.L||'A')!==G.lv||N[G.node].hub)return cs;const C=XPL[G.lv];const o=C.ch?C.ch(G.xp):[];
   return o.length?cs.concat(o):cs}
-function xpRun(){const X=xpSt();const i=X.q.indexOf('A6');if(i>=0)X.k=i}
+function xpRun(){const X=xpSt(),C=XPL[X.L||'A'];const to=C.run||C.last;const i=X.q.indexOf(to);if(i>=0)X.k=i}
 /* ---- 多人：同一個場景裡分頭做（spec 第 9 節）。卡片標 split:1，選項標 solo:1（各自做）與 spot（同一個地方只能一個人）。
    沒標 solo 的選項（離開、躲起來）照全隊投票。全員送出後：各自做的依隊伍順序結算，時間只算最長的那一件；
    有人選了全隊的選項就照多數決，沒有的話一起往下一個情境。中途打起來，還沒輪到的人不算做過。 */
@@ -7199,7 +7701,7 @@ async function xpSplitResolve(){const cs=choices();const vs=voters().filter(p=>G
     if(res.fight){XP_SOLO=0;G.after=xpNext(c,res);G.winR=res.win||null;await startFight(moreFoes(res.fight));return}}}finally{XP_SOLO=0}
   const g=Object.keys(grp).length?+tally(grp,[]):null;
   if(g!=null){const actor=vs.find(p=>grp[p.pid]===g)||ctl()[0];return doChoice(g,actor)}
-  const nx='AN';if(await alarmCheck(nx))return;return enterNode(nx)}
+  const nx=XPL[G.lv]?XPL[G.lv].mark:'AN';if(await alarmCheck(nx))return;return enterNode(nx)}
 /* ================= 戰鬥 ================= */
 /* 敵人名稱：只用類型名稱（詞綴只放在卡片標籤），同類型有多隻時加羅馬數字（感染者 I、感染者 II） */
 const ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX','X'];
