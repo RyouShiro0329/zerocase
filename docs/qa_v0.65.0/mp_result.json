@@ -1,0 +1,34 @@
+{
+ "normal": {
+  "hostStageMs": 2556,
+  "clientUnlockLagMs": 694,
+  "clientFirstSeenAfterHostMs": 119,
+  "clientFirstViewMs": 109,
+  "hostImgMs": 915,
+  "clientImgMs": 921,
+  "clientQueuedActs": 0,
+  "hostPendAfter": "{}",
+  "errs": []
+ },
+ "delayed": {
+  "hostStageMs": 2547,
+  "clientFirstSeenAfterHostMs": 1318,
+  "clientFirstViewMs": 1312,
+  "clientIds": 1,
+  "errs": []
+ },
+ "handover": {
+  "foesDuringStage": 3,
+  "after": {
+   "foes": 3,
+   "order": 5,
+   "orderFoes": 3,
+   "stg": false,
+   "phase": "fight",
+   "reinfIn": 1
+  },
+  "hostLeftToNewHostMs": 8,
+  "newHostFinishMs": 2183,
+  "errs": []
+ }
+}
