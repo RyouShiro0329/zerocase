@@ -473,11 +473,11 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 /* 敵人立繪 */
 #enc{position:absolute;inset:0;z-index:48;background:radial-gradient(ellipse at 50% 60%,rgba(52,8,8,.9),rgba(0,0,0,.97));display:flex;align-items:flex-end;justify-content:center;cursor:pointer}
 #enc[hidden]{display:none}
-#enc .row{display:flex;gap:2vw;align-items:flex-end;justify-content:safe center;height:86%;padding:0 4%;width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;box-sizing:border-box}
+#enc .row{display:flex;gap:2vw;align-items:flex-end;justify-content:safe center;position:absolute;left:0;right:0;bottom:0;top:calc(max(10px,var(--st)) + 4.6rem);padding:0 4%;width:100%;max-width:100%;overflow-x:auto;overflow-y:hidden;box-sizing:border-box}
 #enc figure{margin:0;display:flex;flex-direction:column;align-items:center;min-width:0;flex:0 0 auto;height:100%;justify-content:flex-end}
-#enc img{height:min(560px,88%);width:auto;max-height:none;max-width:none;flex:none;object-fit:contain;filter:drop-shadow(0 0 18px rgba(0,0,0,.9))}
+#enc img{height:var(--eh,min(560px,88%));width:auto;max-height:none;max-width:none;flex:none;object-fit:contain;filter:drop-shadow(0 0 18px rgba(0,0,0,.9))}
 #enc figure i{display:block;width:60px;height:60%}
-#enc .enc-state{position:absolute;top:3%;left:0;right:0;text-align:center;color:var(--gold);font-size:1.5rem;letter-spacing:.2em;text-shadow:0 2px 8px #000}
+#enc .enc-state{position:absolute;top:max(10px,calc(var(--st) + 6px));left:0;right:0;text-align:center;color:var(--gold);font-size:1.5rem;letter-spacing:.2em;text-shadow:0 2px 8px #000}
 #enc .enc-state small{display:block;font-size:.72rem;letter-spacing:.05em;color:var(--muted)}
 #enc figcaption{color:#e9b9a8;font-weight:700;font-size:.95rem;text-shadow:0 2px 6px #000;padding:4px 0 10px;white-space:nowrap}
 #enc.go img{animation:encin .5s ease-out both}
@@ -486,11 +486,11 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 #stg[hidden]{display:none}
 #stg.k-raid{background:radial-gradient(ellipse at 50% 60%,rgba(96,12,6,.9),rgba(0,0,0,.96))}
 #stg.k-end{background:rgba(0,0,0,.6);align-items:center}
-#stg .row{display:flex;gap:2vw;align-items:flex-end;justify-content:safe center;height:86%;padding:0 4%;width:100%;max-width:100%;overflow:hidden;box-sizing:border-box}
-#stg figure{margin:0;display:flex;flex-direction:column;align-items:center;min-width:0;flex:0 1 auto;height:100%;justify-content:flex-end;opacity:0}
-#stg img{height:min(560px,88%);width:auto;max-width:100%;object-fit:contain;filter:drop-shadow(0 0 18px rgba(0,0,0,.9))}
+#stg .row{display:flex;gap:2vw;align-items:flex-end;justify-content:safe center;position:absolute;left:0;right:0;bottom:0;top:calc(max(10px,var(--st)) + 4.6rem);padding:0 4%;width:100%;max-width:100%;overflow:hidden;box-sizing:border-box}
+#stg figure{margin:0;display:flex;flex-direction:column;align-items:center;min-width:0;flex:0 0 auto;height:100%;justify-content:flex-end;opacity:0}
+#stg img{height:var(--eh,min(560px,88%));width:auto;max-width:none;object-fit:contain;filter:drop-shadow(0 0 18px rgba(0,0,0,.9))}
 #stg figure i{display:block;width:60px;height:60%}
-#stg .enc-state{position:absolute;top:3%;left:0;right:0;text-align:center;color:var(--gold);font-size:1.5rem;letter-spacing:.2em;text-shadow:0 2px 8px #000}
+#stg .enc-state{position:absolute;top:max(10px,calc(var(--st) + 6px));left:0;right:0;text-align:center;color:var(--gold);font-size:1.5rem;letter-spacing:.2em;text-shadow:0 2px 8px #000}
 #stg .enc-state small{display:block;font-size:.72rem;letter-spacing:.05em;color:var(--muted)}
 #stg.k-raid .enc-state{color:#ff9a7a;animation:stgpulse .37s ease-in-out 4 alternate}
 #stg figcaption{color:#e9b9a8;font-weight:700;font-size:.95rem;text-shadow:0 2px 6px #000;padding:4px 0 10px;white-space:nowrap;visibility:hidden}
@@ -8831,7 +8831,7 @@ function encounterMarkup(d,mode){const title=mode==='first'?'我方先制':mode=
 function battleState(){const F=G&&G.fight;if(!F)return '';if(F.sneak)return '我方先制';if(F.round>1)return '戰鬥中';if(F.order&&F.order.length)return F.order[0].k==='f'?'敵人先制':'我方先制';return F.opening==='first'?'我方先制':F.opening==='ambush'?'敵方突襲':'遭遇戰'}
 async function encounter(foes,mode){if(G&&G.stg&&G.stg.k!=='end'){await stgWait(G.stg.id);return}const d=foes.filter(f=>!lurkHid(f)).map(f=>({n:f.n,img:f.img||'',mode:mode||'normal'}));if(!d.some(x=>x.img))return;await flush();E('enc',d);await showEnc(d)}
 async function showEnc(data){const c=$('#enc');if(!c)return;const d=Array.isArray(data)?data:data.foes,mode=Array.isArray(data)?(data[0]&&data[0].mode||'normal'):data.mode;
-  c.innerHTML=encounterMarkup(d,mode);c.hidden=false;c.classList.remove('go');void c.offsetWidth;c.classList.add('go');
+  c.innerHTML=encounterMarkup(d,mode);c.hidden=false;encFit(c);c.classList.remove('go');void c.offsetWidth;c.classList.add('go');
   await Promise.race([wait((FAST?700:1700)*Math.max(.5,UI.spd)),new Promise(r=>{c.onclick=r})]);c.hidden=true}
 
 /* ================= v0.65.0 戰鬥演出（主人 2026-11-24 定案：ZEROCASE_QTE_BGM_REWORK_SPEC 第 7、8 節） =================
@@ -8882,9 +8882,18 @@ function stgMarkup(s){const d=s.d||{};
   if(s.k==='raid')return `<div class="enc-state">敵人亂入<small>新來的敵人加入戰局，行動順序重新排列</small></div><div class="row">${(d.foes||[]).map(x=>`<figure>${x.img?`<img src="img/${esc(x.img)}.webp" alt="${esc(x.n)}">`:'<i></i>'}<figcaption>${esc(x.n)}</figcaption></figure>`).join('')}</div>${ui}`;
   return encounterMarkup(d.foes||[],d.mode||'normal')+ui}
 const stgRaf=f=>typeof requestAnimationFrame==='function'?requestAnimationFrame(f):setTimeout(f,50);
+/* v0.66.0 主人 2026-11-25：遭遇立繪一樣高（全部 560 高，照寬度總和一起縮，不會有一張被擠小），而且不壓到最上面的標題 */
+function encFit(root){const row=root&&root.querySelector('.row');if(!row)return;const ims=[...row.querySelectorAll('img')];
+  const go=()=>{if(!row.isConnected)return;const cs=getComputedStyle(row),n=row.children.length,gap=parseFloat(cs.columnGap)||0;
+    const W=row.clientWidth-(parseFloat(cs.paddingLeft)||0)-(parseFloat(cs.paddingRight)||0)-gap*Math.max(0,n-1);
+    const cap=row.querySelector('figcaption'),ch=cap?cap.offsetHeight:34,Hmax=Math.min(560,row.clientHeight-ch-4);
+    const asp=ims.reduce((a,im)=>a+(im.naturalWidth&&im.naturalHeight?im.naturalWidth/im.naturalHeight:.6),0),fix=row.querySelectorAll('figure > i').length*60;
+    const H=Math.max(40,Math.floor(Math.min(Hmax,asp?(W-fix)/asp:Hmax)));row.style.setProperty('--eh',H+'px')};
+  go();for(const im of ims)if(!im.complete)im.addEventListener('load',go,{once:true})}
+if(typeof addEventListener==='function')addEventListener('resize',()=>{for(const id of ['stg','enc']){const e=$('#'+id);if(e&&!e.hidden)encFit(e)}});
 function stgDraw(){const el=$('#stg');if(!el)return;const s=G&&!G.over&&G.stg;
   if(!s){if(STGV.shown&&STGV.shown!=='evac'){STGV.shown=null;el.hidden=true;el.innerHTML='';el.className=''}stgEvac(el);return}
-  if(STGV.shown!==s.id){STGV.shown=s.id;STGV.st=Date.now();el.className='k-'+s.k;el.innerHTML=stgMarkup(s);el.hidden=false;stgFirst(s);stgRaf(stgTick)}}
+  if(STGV.shown!==s.id){STGV.shown=s.id;STGV.st=Date.now();el.className='k-'+s.k;el.innerHTML=stgMarkup(s);el.hidden=false;encFit(el);stgFirst(s);stgRaf(stgTick)}}
 function stgTick(){const el=$('#stg');if(!el||el.hidden)return;
   if(STGV.shown==='evac'){const t=Date.now()-STGV.evAt;el.classList.toggle('m-txt',t>=200);el.classList.toggle('m-ui',t>=900);if(t>=1400){STGV.shown=null;el.hidden=true;el.innerHTML='';el.className='';return}stgRaf(stgTick);return}
   const v=stgView();if(!v||v.s.id!==STGV.shown)return;const T=stgT(v.s);
