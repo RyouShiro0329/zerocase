@@ -7766,7 +7766,7 @@ function migrateG(g){if(!g)return g;if(g.stg)delete g.stg;
   // v0.46.1 主人取消獨立閃躲：清除舊姿態與待執行指令，不改其他防守或回合進度
   for(const p of g.players||[])if(p.stance==='dodge')p.stance=null;
   // v0.66.0 舊的「全隊偷襲一輪」：已經打過的不退、還沒打的不補，清掉偷襲輪，讀檔後照常擲先攻開始
-  if(g.fight&&g.fight.sneak&&(!g.fight.sneakBy||g.fight.sneak===2)){const F=g.fight,old=!F.sneakBy;F.sneak=0;F.sneakBy=null;F.group=null;F.pend={};F.resolving=0;F.cur=null;F.turn=0;F.first=false;F.initDone=1;F.round=Math.max(1,F.round||0);if(old)F.order=[]}
+  if(g.fight&&g.fight.sneak&&(!g.fight.sneakBy||g.fight.sneak===2)){const F=g.fight,old=!F.sneakBy;F.sneak=0;F.sneakBy=null;F.group=null;F.pend={};F.resolving=0;F.cur=null;F.turn=0;F.first=false;F.round=Math.max(1,F.round||0);if(old)F.order=[]}
   if(g.fight&&g.fight.pend)for(const pid of Object.keys(g.fight.pend))if(g.fight.pend[pid]&&g.fight.pend[pid].a==='dodge')delete g.fight.pend[pid];
   // v0.49.0 舊存檔已預告的招式補上分類、抵抗與防守標記，保留既有目標與冷卻。
   for(const f of g.fight&&g.fight.foes||[]){const m=f.charge&&f.charge.m,cur=m&&(MOVES[OLDTYPE[f.type]||f.type]||[]).find(x=>x.n===m.n);if(cur)for(const k of ['dt','exposure','save','qguard']){if(cur[k]===undefined)delete m[k];else m[k]=cur[k]}}
@@ -7850,13 +7850,11 @@ function fillFoes(types,names,n,squad){const pool=dayPool();let fac=types.length
   if(!squad&&!types.length&&n>=2&&facs.length>=2&&RNG()<MIXP){const [a,b]=[...facs].sort(()=>RNG()-.5);
     for(let i=0;i<n;i++){const fc=i%2?b:a;types.push(pick(pool.filter(x=>FOES[x].fac===fc)));names.push('')}return}
   while(types.length<n){let t;if(squad)t='acru_trooper';else{const pp=fac?pool.filter(x=>FOES[x].fac===fac):pool;t=pp.length?pick(pp):(fac==='inf'?'infected':pick(pool))}if(!fac)fac=FOES[t].fac;types.push(t);names.push('')}}
-/* v0.66.0（主人 2026-11-25 第 6.3 節選 C）：敵方突襲只給實際突襲的敵人（f.amb）先攻 +4，只在這場第一次擲先攻加一次；
-   單一突襲者是原本就會撲上來的第一隻（舊 ambushQte 的挑法），事件明確寫集體設伏（fight.amb:'all'）才全體加。不扣血、不反應。 */
-async function rollInit(mode){const F=G.fight,amb=F&&F.opening==='ambush'&&!F.initDone;
+async function rollInit(mode){
   const ps=able().map(p=>({p,r:rnd(1,20),m:statMod(p,'AGI')+0}));
-  const fs=liveF().map(f=>({f,r:rnd(1,20),m:FT(f).init+(isNight()&&FT(f).fac==='inf'?2:0)+(affIs(f,'lame')?-4:0)+(affIs(f,'veteran')?2:0)-(affIs(f,'heavy')?2:0)+(amb&&f.amb?4:0)}));
-  if(!fs.length)return;F.initDone=1;const ab=amb?fs.filter(x=>x.f.amb).map(x=>x.f.n):[];
-  await dice({label:'擲先攻',sub:`敏捷 d20${ab.length?`　（${ab.join('、')}突襲，先攻 +4）`:''}`,quick:true,
+  const fs=liveF().map(f=>({f,r:rnd(1,20),m:FT(f).init+(isNight()&&FT(f).fac==='inf'?2:0)+(affIs(f,'lame')?-4:0)+(affIs(f,'veteran')?2:0)-(affIs(f,'heavy')?2:0)}));
+  if(!fs.length)return;
+  await dice({label:'擲先攻',sub:'敏捷 d20',quick:true,
     dice:[...ps.map(x=>({sides:20,val:x.r,cap:esc(x.p.name).slice(0,4),cls:'ok'})),...fs.map(x=>({sides:20,val:x.r,foe:1,cap:x.f.n}))],
     result:[...ps.map(x=>[esc(x.p.name),x]),...fs.map(x=>[x.f.n,x])].map(([n,x])=>`<small class="ln">${n}　${x.r} ${sgS(x.m)} = ${x.r+x.m}</small>`).join('')});
   // v0.30.0（主人 2026-11-17）：同分時玩家先於敵人；玩家之間同分先比敏捷，再隨機（不再永遠房主先）
@@ -7909,24 +7907,29 @@ async function startFight(spec){
   await fright(foes.filter(f=>!lurkHid(f)),act);
   if(await deathCheck())return;
   if(G.pendingBurn){beginBattleBgmOnce();G.pendingBurn=0;const d=await dmgRoll([[2,6]],0,'燃燒瓶');for(const f of foes){applyDmg(f,d,['fire'],null);f.burn=3}push();draw();for(const f of foes)if(f.hp<=0)await kill(f,null)}
-  const mode=spec.mode;
-  // v0.66.0（主人 2026-11-25 第 6 節）：開場不再有 QTE、免費攻擊。我方先制：照常擲先攻，再由全隊動作最快的一個人偷襲一次，之後照擲好的順序開始第 1 回合
+  await openStart();
+}
+// v0.66.0（主人 2026-11-25 04:23 改定）：搶到先機的那一方，在第 1 回合前先動一次，之後照擲好的先攻開始。
+// 我方先制＝敏捷最高的一個人做一次完整行動；敵方突襲＝突襲者照牠平常的方式出手一次（照常擲命中，不必中、沒有 +4）。換房主時還沒擲先攻也走這裡。
+async function openStart(){const F=G.fight;if(!F)return;const mode=F.opening;
   await rollInit(mode);if(!G.fight||!G.fight.order.length){await endFight();return}
   if(mode==='first'&&sneakOpen())return;
-  await advance();
-}
-/* ---- v0.66.0 我方先制：全隊只偷襲一次（主人 2026-11-25 第 6.2 節選 B） ----
-   敏捷最高、能合法普通攻擊的人執行（同敏捷比這場的先攻總值，再照隊伍順序）；一次普通攻擊、單一目標、一定打中、不會爆擊，
-   武器原本的消耗照扣；不能雙持、技能、連發。不用掉他自己的回合，其他人沒有額外行動。
-   F.sneak：1＝等執行者選、2＝結算中；F.sneakBy＝執行者。 */
-const sneakCan=p=>!p.mad&&handsOf(p).some(x=>{const A=handAtk(p,x.h);return !(A.base.kind==='gun'&&A.g&&A.g.jam&&!A.bash)&&!(A.base.cock&&A.g&&!A.g.cocked&&!A.bash)});
-const sneakJ=j=>G.fight&&G.fight.sneak?'ok':j;/* 偷襲那一下：一定打中、不爆擊、不會大失敗 */
+  if(mode==='ambush'&&await ambushAct())return;
+  await advance()}
+// 敵方突襲：突襲者先動一次（F.ambDone 先記好，換房主不會再動一次）
+async function ambushAct(){const F=G.fight;if(!F||F.ambDone)return false;F.ambDone=1;
+  for(const f of liveF().filter(x=>x.amb)){if(!G.fight||G.over)return true;out(`${f.n}搶在你們反應過來之前先動了。`,'bad',true);await foeAct(f);f.weak=0;f.defDown=0;f.dazzle=0;if(G.over||await deathCheck())return true}
+  if(!G.fight||G.over)return true;if(!liveF().length){await endFight();return true}return false}
+/* ---- v0.66.0 我方先制：全隊只多一次行動（主人 2026-11-25 第 6.2 節選 B；04:23 改成不限普通攻擊、不必中） ----
+   敏捷最高的人執行（同敏捷比這場的先攻總值，再照隊伍順序）；任何戰鬥行動都可以，照常擲骰（會落空、會爆擊）。
+   不用掉他自己的回合，其他人沒有額外行動。F.sneak：1＝等執行者選、2＝結算中；F.sneakBy＝執行者。 */
+const sneakCan=p=>!p.mad;
 function sneakOpen(){const F=G.fight;F.first=false;
-  const ps=able().filter(sneakCan);if(!ps.length){out('你們先發現了對方，可是現在沒有人能出手偷襲。','rule',true);return false}
+  const ps=able().filter(sneakCan);if(!ps.length){out('你們先發現了對方，可是現在沒有人能搶先行動。','rule',true);return false}
   const io=pid=>(F.order.find(o=>o.k==='p'&&o.id===pid)||{init:-99}).init,ix=pid=>G.players.findIndex(q=>q.pid===pid);
   const p=[...ps].sort((a,b)=>statMod(b,'AGI')-statMod(a,'AGI')||io(b.pid)-io(a.pid)||ix(a.pid)-ix(b.pid))[0];
   F.sneak=1;F.sneakBy=p.pid;F.group=[p.pid];F.pend={};F.cur=null;F.resolving=0;F.turn=0;
-  out(`你們先發現了對方。趁還沒被察覺，${MP()?nm(p)+'（全隊動作最快）':'你'}可以先偷襲一下：<b>這一擊一定打中</b>。偷襲完照擲好的先攻開始。`,'rule',true);
+  out(`你們先發現了對方。趁還沒被察覺，${MP()?nm(p)+'（全隊動作最快）':'你'}可以搶先行動一次，之後照擲好的先攻開始。`,'rule',true);
   G.phase='fight';stopCd();if(MP()&&G.opts.cd==='force')startTurnCd();push();draw();return true}
 // 房主換人、讀檔：還在等人選就重新開放；已經在結算、或執行者不在了就不補（不能多送一次傷害）
 function sneakResume(){const F=G.fight;if(!F||!F.sneak)return false;const p=P(F.sneakBy);
@@ -7934,10 +7937,9 @@ function sneakResume(){const F=G.fight;if(!F||!F.sneak)return false;const p=P(F.
   sneakDrop(F);return false}
 function sneakDrop(F){F.sneak=0;F.sneakBy=null;F.group=null;F.pend={};F.resolving=0;F.cur=null;F.turn=0;F.round=Math.max(1,F.round||0);F.first=false}
 async function sneakRun(){const F=G.fight;if(!F||F.sneak!==1)return;stopCd();F.sneak=2;F.resolving=1;
-  const p=P(F.sneakBy),a=F.pend[F.sneakBy]||{a:'atk',h:'R'};F.cur=F.sneakBy;push();draw();let used=false;
-  if(a.a==='atk'&&p&&able().includes(p)){const ti=a.t!=null&&F.foes[a.t]&&!F.foes[a.t].dead&&!F.foes[a.t].hid?a.t:(aliveF().find(f=>!f.hid)||aliveF()[0]||{}).id;used=await attack(p,a.h==='L'?'L':'R',null,ti,false,null)}
+  const p=P(F.sneakBy),a=F.pend[F.sneakBy]||{a:'atk',h:'R'};F.cur=F.sneakBy;push();draw();
+  if(p&&able().includes(p)){const used=await execAct(p,a);if(!G.fight||G.over)return;if(!used)await execAct(p,{a:'atk',h:'R'})}/* 和一般回合一樣：行動不成立就改普通攻擊 */
   if(!G.fight||G.over)return;
-  if(!used)out(a.a==='pass'?`${p?nm(p):'你們'}沒有出手，等著看對方怎麼動。`:`${p?nm(p):'你們'}錯過了偷襲的機會。`,'sys',true);
   sneakDrop(F);push();draw();if(!liveF().length){await endFight();return}await advance()}
 async function fright(fs,act){if(!fs.length)return;act=act||able();if(!act.length)return;
   const tdc=Math.max(...fs.map(f=>FT(f).tdc)),ter=Math.max(...fs.map(f=>FT(f).ter));
@@ -8403,7 +8405,7 @@ async function attack(p,h,sk,ti,counter,csk){
   if(gunBurst){preR=[];for(let i=0;i<shots;i++)preR.push(r2());
     const t0=(!t||t.dead||t.hp<=0)?aliveF()[0]:t;
     if(t0){const def=fDef(t0,true),pm=sm+hb;let pr=!!t0.prone;
-      const J=preR.map(R=>{const tot=R.s+pm,j=sneakJ(judge(R,tot,def)),hit=j==='crit'||(j!=='fumble'&&(pr||!!(G.fight&&G.fight.sneak)||tot>=def));if(hit)pr=false;return {R,tot,j,hit}});
+      const J=preR.map(R=>{const tot=R.s+pm,j=judge(R,tot,def),hit=j==='crit'||(j!=='fumble'&&(pr||tot>=def));if(hit)pr=false;return {R,tot,j,hit}});
       const jwJ=x=>x.j==='crit'?'爆擊':x.j==='fumble'?'大失敗':x.hit?'命中':'落空',nH=J.filter(x=>x.hit).length,anyC=J.some(x=>x.j==='crit');
       await dice({label:`${counter?'反擊・':''}${w.n}（${shots} 連發）　→　${t0.n}`,sub:`${STN[st]}　d20 ${sgn(pm)}`,
         dice:J.map((x,i)=>({sides:20,val:x.R.a,cap:`第${i+1}發`})),
@@ -8413,10 +8415,10 @@ async function attack(p,h,sk,ti,counter,csk){
     if(!t||t.dead||t.hp<=0)t=aliveF()[0];if(!t)break;
     if(w.kind==='gun'&&!g.mag){snd('dryfire',1,350);out('扳機扣下去，只剩空響。彈匣空了。','sys');break}
     if(w.kind==='ranged'&&!hasI(p,w.ammo))break;
-    const targets=spread&&!F.sneak?aliveF():[t];/* v0.66.0 偷襲只打一個目標 */
+    const targets=spread?aliveF():[t];
     const rgA=w.kind!=='melee';
     // v0.30.0（主人 2026-11-17）：橫掃、噴火器對每個目標各擲一次命中，各自算爆擊、大失敗（脫手最多一次）
-    const lines=targets.map(x=>{const R=preR?preR[s]:r2(),tot=R.s+sm+hb,j=sneakJ(judge(R,tot,fDef(x,rgA)));return {x,R,tot,crit:j==='crit',fum:j==='fumble',hit:j==='crit'||(j!=='fumble'&&(!!x.prone||!!(G.fight&&G.fight.sneak)||tot>=fDef(x,rgA)))}});
+    const lines=targets.map(x=>{const R=preR?preR[s]:r2(),tot=R.s+sm+hb,j=judge(R,tot,fDef(x,rgA));return {x,R,tot,crit:j==='crit',fum:j==='fumble',hit:j==='crit'||(j!=='fumble'&&(!!x.prone||tot>=fDef(x,rgA)))}});
     const anyH=lines.some(l=>l.hit),fum=lines.some(l=>l.fum),anyC=lines.some(l=>l.crit),L0=lines[0],nH=lines.filter(l=>l.hit).length;
     const jw=l=>l.crit?'爆擊':l.fum?'大失敗':l.hit?'命中':'落空',multi=lines.length>1;
     for(const l of lines)if(!l.hit)l.x.mc=(l.x.mc||0)+1; // v0.30.0 敵人卡浮字：未命中
@@ -8527,7 +8529,7 @@ async function fightAct(pid,a){
   if(a.a==='dodge')return; // 拒絕舊客戶端指令，不提交或消耗行動
   const F=G.fight;if(!F||G.over||!F.group||F.resolving||!F.group.includes(pid))return;
   const p=P(pid);if(!p||p.dead||p.down||!teamHere(p))return;
-  if(F.sneak){if(F.sneak!==1||pid!==F.sneakBy||!((a.a==='atk'&&!a.sk&&!a.csk)||a.a==='pass'))return;F.pend[pid]=a;push();draw();await resolveGroup();return}/* v0.66.0 偷襲只收執行者的一次普通攻擊或放棄 */
+  if(F.sneak&&(F.sneak!==1||pid!==F.sneakBy))return;/* v0.66.0 我方先制：只收執行者的指令 */
   if(a.a==='counter'||a.a==='brace'||(a.a==='csk'&&CSKILL[a.id]&&CSKILL[a.id].free)){await execAct(p,a);push();draw();return}
   F.pend[pid]=a;push();draw();
   if(F.group.every(x=>F.pend[x]||!able().some(q=>q.pid===x)))await resolveGroup();
@@ -8804,7 +8806,7 @@ function handle(pid,a){
   if(a.a==='lock')return run(async()=>{zLockNote(a.i)});
   if(G.phase==='shop'&&G.shop&&!p.down&&!p.mad){if(a.a==='buy')return run(async()=>{shopBuy(p,a.i)});if(a.a==='sell')return run(async()=>{shopSell(p,a.k)});if(a.a==='sellg')return run(async()=>{shopSellG(p,a.u)});if(a.a==='shopdone')return run(()=>shopReady(p))}
   if(G.phase==='gw'&&a.a==='gwgo'&&!p.down&&!p.mad)return run(()=>groundGo(p));
-  if(G.fight&&['atk','tact','reload','unjam','cock','pickup','kick','counter','brace','molotov','ext','flash','flee','use','revive','equip','guard','free','block','cover','dual','calm','subdue','csk','spot','pat','tool','pass'].includes(a.a))return run(()=>fightAct(pid,a));
+  if(G.fight&&['atk','tact','reload','unjam','cock','pickup','kick','counter','brace','molotov','ext','flash','flee','use','revive','equip','guard','free','block','cover','dual','calm','subdue','csk','spot','pat','tool'].includes(a.a))return run(()=>fightAct(pid,a));
   if(G.fight)return;
   if(p.down)return;
   if(a.a==='use')return run(async()=>{await useItem(p,a.k,a.to,a.part)});
@@ -8824,7 +8826,7 @@ function handle(pid,a){
 }
 
 /* ---- 遭遇：戰鬥開始時亮出敵人的立繪 ---- */
-function encounterMarkup(d,mode){const title=mode==='first'?'我方先制':mode==='ambush'?'敵方突襲':'遭遇戰';const note=mode==='first'?'動作最快的人先偷襲一次':mode==='ambush'?'突襲的敵人先攻佔優勢':'行動順序由先攻決定';
+function encounterMarkup(d,mode){const title=mode==='first'?'我方先制':mode==='ambush'?'敵方突襲':'遭遇戰';const note=mode==='first'?'動作最快的人先行動一次':mode==='ambush'?'突襲的敵人會先出手一次':'行動順序由先攻決定';
   return `<div class="enc-state">${title}<small>${note}</small></div><div class="row">${d.map(x=>`<figure>${x.img?`<img src="img/${esc(x.img)}.webp" alt="${esc(x.n)}">`:'<i></i>'}<figcaption>${esc(x.n)}</figcaption></figure>`).join('')}</div>`}
 function battleState(){const F=G&&G.fight;if(!F)return '';if(F.sneak)return '我方先制';if(F.round>1)return '戰鬥中';if(F.order&&F.order.length)return F.order[0].k==='f'?'敵人先制':'我方先制';return F.opening==='first'?'我方先制':F.opening==='ambush'?'敵方突襲':'遭遇戰'}
 async function encounter(foes,mode){if(G&&G.stg&&G.stg.k!=='end'){await stgWait(G.stg.id);return}const d=foes.filter(f=>!lurkHid(f)).map(f=>({n:f.n,img:f.img||'',mode:mode||'normal'}));if(!d.some(x=>x.img))return;await flush();E('enc',d);await showEnc(d)}
@@ -9167,7 +9169,7 @@ function becomeHost(peers){const old=G.host;ROLE='host';NET.started=1;NET.late={
   // 修復交接時正在進行的流程
   busy=false;RQ.length=0;G.busy=0;
   if(G.stg){const s=G.stg;s.el=Math.min(s.dur,stgPast(s));s.at=Date.now();run(async()=>{await stgWait(s.id);stgClose(s.id)})}
-  if(G.fight){const F=G.fight;F.resolving=0;F.cur=null;F.group=null;F.pend={};if(F.sneak&&sneakResume()){}/* v0.66.0 偷襲還在等人選：重新開放，不補、不重送 */else if(F.order&&F.order.length)run(advance);else run(async()=>{await rollInit('normal');if(G.fight&&G.fight.order.length)await advance()})}/* v0.65.0 開場演出中換房主：還沒擲先攻就補擲 */
+  if(G.fight){const F=G.fight;F.resolving=0;F.cur=null;F.group=null;F.pend={};if(F.sneak&&sneakResume()){}/* v0.66.0 偷襲還在等人選：重新開放，不補、不重送 */else if(F.order&&F.order.length)run(advance);else run(openStart)}/* v0.65.0 開場演出中換房主：還沒擲先攻就補擲 */
   else if(G.phase==='node'&&voters().length&&voters().every(p=>G.votes[p.pid]!=null))resolveVote();
   push();draw();setTimeout(fullSync,300)}
 const LOBBY={opts:{cd:'off',sec:20,diff:'normal'}};
@@ -9832,7 +9834,7 @@ function draw(){
     fltScan(F);
     $('#foes').innerHTML=F.foes.map(f=>{const dead=f.dead||f.hp<=0;const st=dead?[]:foeBadges(f);const hp=dead?0:f.hp;
       return `<div class="foe ${pend&&!dead?'pick':''} ${!dead&&F.cur==='f'+f.id?'tg':''} ${dead?'dead':''}" data-id="${f.id}" ${pend&&!dead?`data-tgt="${f.id}"`:''}><div class="fpic">${f.img&&!lurkHid(f)?`<img src="${foeImg(f)}" alt="">`:'<i>?</i>'}</div><div class="fin"><div class="fh"><b>${f.n}</b></div><div class="fhp"><div class="hpb" data-hk="${foeHk(f)}"><s style="width:${Math.max(0,hp)/f.max*100}%"></s><u style="width:${Math.max(0,hp)/f.max*100}%"></u></div><span>${lurkHid(f)?'？':`${hp}/${f.max}`}</span></div><div class="fk">${DF().num===0||lurkHid(f)?'':`<em>防禦 ${fDef(f)}${f.hcov?`（遠程 ${fDef(f,1)}）`:''}</em>`}${f.defDown?'護甲破損':''}</div><div class="fk fk2">${(lurkHid(f)?'弱點：？':knowTxt(f)).split('　').map(x=>`<span>${x}</span>`).join('')}</div>${dead?(f.fled?'<div class="fst"><span class="bd">離開</span></div>':''):st.length?`<div class="fst">${st.join('')}</div>`:''}</div></div>`}).join('');
-    $('#order').innerHTML=`<span class="rd">${battleState()}</span>`+(F.order.length?`<span class="rd">${F.sneak?'偷襲':`第 ${F.round} 回合`}</span>`+F.order.map((o,i)=>{if(o.k==='p'){const p=P(o.id);return `<span class="pl ${o.id===MYPID?'me':''} ${(F.group&&!F.resolving?F.group.includes(o.id):i===F.turn)?'now':''} ${p.dead||p.down||p.away||!teamHere(p)?'gone':''}" style="${MP()?`color:${p.col}`:''}">${esc(p.name)}<em>${o.init}</em></span>`}const f=F.foes[o.id];return `<span class="fo ${i===F.turn?'now':''} ${f.dead||f.hp<=0?'gone':''}">${f.n}<em>${o.init}</em></span>`}).join(''):'<span class="rd">擲骰中</span>');
+    $('#order').innerHTML=`<span class="rd">${battleState()}</span>`+(F.order.length?`<span class="rd">${F.sneak?'搶先行動':`第 ${F.round} 回合`}</span>`+F.order.map((o,i)=>{if(o.k==='p'){const p=P(o.id);return `<span class="pl ${o.id===MYPID?'me':''} ${(F.group&&!F.resolving?F.group.includes(o.id):i===F.turn)?'now':''} ${p.dead||p.down||p.away||!teamHere(p)?'gone':''}" style="${MP()?`color:${p.col}`:''}">${esc(p.name)}<em>${o.init}</em></span>`}const f=F.foes[o.id];return `<span class="fo ${i===F.turn?'now':''} ${f.dead||f.hp<=0?'gone':''}">${f.n}<em>${o.init}</em></span>`}).join(''):'<span class="rd">擲骰中</span>');
     hpRun($('#foes'));fltRun($('#foes'));
   }else{cb.hidden=true;for(const k in HPA)if(k[0]==='f')delete HPA[k];for(const k in FPV)delete FPV[k];FLT.length=0}
   for(const p of G.players)hpSet('p'+p.pid,p.dead?0:Math.max(0,p.hp)/p.max);
@@ -9859,7 +9861,7 @@ function draw(){
     else if(m.down)h='<p class="note">你倒在地上，動不了。等隊友用 AED 或腎上腺素救你，或撐到下一個區域。</p>';
     else if(!mine)h=`<p class="note">${F.group&&!F.resolving&&!F.group.includes(MYPID)?'你在這一段沒有行動。':''}輪到別人時，可以先打開背包看看。</p>`;
     else if(PEND){T='選擇目標';Pl=PEND.lab;h=targetBtns(m)}
-    else h=(mp?`<p class="note">你選了：${actLabel(m,mp)}。${MP()&&waitN.length?`還在等 ${waitN.join('、')}。`:''}想改的話直接重選。</p>`:'')+fightMenu(m);
+    else h=(G.fight.sneak?'<p class="note">搶先行動：第 1 回合之前多做一次，什麼行動都可以。</p>':'')/* v0.66.0 */+(mp?`<p class="note">你選了：${actLabel(m,mp)}。${MP()&&waitN.length?`還在等 ${waitN.join('、')}。`:''}想改的話直接重選。</p>`:'')+fightMenu(m);
   }else if((G.phase==='roller'||G.phase==='node')&&m&&m.mad&&!m.dead){T='你發瘋了';Pl='失控';h='<p class="note">你發瘋了，身體不聽使喚，只聽得到自己的笑聲。等隊友用鎮定劑、安撫，或把你制伏再救起來。</p>'
   }else if(G.phase==='roller'){
     const c=choices()[G.pc];T=`由誰來？　${c.l}`;Pl=cl?`${Math.ceil(cl/1000)} 秒`:c.k?checkTag(c.k,c.d):'用誰身上的道具';
@@ -9909,8 +9911,6 @@ function cskBtns(m,hs){const k=m.skill,C=CSKILL[k],left=skLeft(m,k);const tag=C.
   return chBtn(`data-fa="csk" data-id="${k}"`,C.n,C.d,tag,'t-x',!left)}
 function fightMenu(m){
   const hs=atkHands(m);
-  if(G.fight.sneak)return '<p class="note">偷襲：選一隻手普通攻擊一次。這一下一定打中，不會爆擊。</p>'+hs.map(x=>{const blocked=(x.base.kind==='gun'&&x.g&&x.g.jam&&!x.bash)||(x.base.cock&&x.g&&!x.g.cocked&&!x.bash);
-      return chBtn(`data-fa="atk" data-h="${x.h}"`,`${x.lab}・${x.w.n}`,wLine(m,x.w,x.bash?null:x.g,x.h)+(blocked?'　（要先處理）':''),'','t-ck',blocked)}).join('')+chBtn('data-fa="pass"','不偷襲','放掉這次機會，照先攻開始','','t-x');/* v0.66.0 */
   if(FTAB==='atk'){return (canDual(m)?chBtn('data-fa="dual"','雙持攻擊',`左右手各普通攻擊一次（${hs.map(x=>x.w.n).join('、')}）；每下命中 −1、傷害 −1，耐久與子彈照扣`,'','t-ck'):'')+hs.map(x=>{const blocked=(x.base.kind==='gun'&&x.g&&x.g.jam&&!x.bash)||(x.base.cock&&x.g&&!x.g.cocked&&!x.bash);
       return chBtn(`data-fa="atk" data-h="${x.h}"`,`${x.lab}・${x.w.n}`,wLine(m,x.w,x.bash?null:x.g,x.h)+(blocked?'　（要先處理）':''),hitTag(m,x.w,x.h,null),'t-ck',blocked)}).join('')+backBtn()}
   if(FTAB==='skill'){let h='<p class="note">武器技能</p>';let any=false;

@@ -53,38 +53,37 @@ test('探索：十種隨機意外改背景敏捷豁免（DC 照表），機率�
  assert.equal(g.run("typeof ambushQte"),'undefined');
 });
 
-test('敵方突襲：只有突襲者先攻 +4、只加一次；明確集體伏擊全體 +4；不扣血、不 QTE、不豁免',async()=>{
- const roll=async(mode,amb)=>{const g=setup();g.run(`RNG=()=>0.45;for(let i=1;i<3;i++)G.fight.foes.push(newFoe(i,'infected',1,false));G.fight.opening='${mode}';G.fight.foes.forEach((x,i)=>{x.n='感染者'+i;if('${amb}'==='all'||('${amb}'==='one'&&i===0))x.amb=1})`);
-  await g.run("rollInit('${mode}')");return {g,o:JSON.parse(g.run("JSON.stringify(G.fight.order.filter(o=>o.k==='f').map(o=>o.init))"))}};
- const base=(await roll('normal','none')).o[0];
- let r=await roll('ambush','one');assert.deepEqual(r.o.slice().sort((a,b)=>b-a),[base+4,base,base]);
- assert.equal(r.g.run("G.fight.initDone"),1);await r.g.run("rollInit('ambush')");assert.equal(Math.max(...JSON.parse(r.g.run("JSON.stringify(G.fight.order.filter(o=>o.k==='f').map(o=>o.init))"))),base,'+4 只在這場第一次');
- r=await roll('ambush','all');assert.deepEqual(r.o,[base+4,base+4,base+4]);
- // 真的 startFight：突襲標第一隻、沒有開場傷害或 QTE
- const g=setup();g.run("G.fight=null;G.phase='node';passTime=async()=>false;fright=async()=>{};advance=async()=>{};encounter=async()=>{};globalThis.IM=[];const ri=rollInit;rollInit=async m=>{IM.push(m);await ri(m)}");
- await g.run("startFight({n:2,mode:'ambush',names:['感染者','感染者'],noMut:1})");assert.equal(g.run('p.hp'),100);assert.equal(g.run('QN'),0);assert.equal(g.run("G.fight.foes.filter(x=>x.amb).length"),1);assert.equal(g.run("G.fight.foes[0].amb"),1);assert.deepEqual(JSON.parse(g.run('JSON.stringify(IM)')),['ambush']);
- const n=setup();n.run("G.fight=null;G.phase='node';passTime=async()=>false;fright=async()=>{};advance=async()=>{};encounter=async()=>{}");await n.run("startFight({n:1,mode:'normal',names:['感染者'],noMut:1})");assert.equal(n.run("G.fight.foes.some(x=>x.amb)"),false);assert.equal(n.run('QN'),0);assert.equal(n.run('p.hp'),100);
- assert.match(g.run("encounterMarkup([{n:'x',img:'inf_m'}],'ambush')"),/先攻/);assert.doesNotMatch(g.run("encounterMarkup([{n:'x',img:'inf_m'}],'ambush')"),/反應成功/);
+test('敵方突襲：突襲者在第 1 回合前照平常的方式先動一次，不必中、沒有 +4；一般遭遇沒有',async()=>{
+ const roll=async mode=>{const g=setup();g.run(`RNG=()=>0.45;for(let i=1;i<3;i++)G.fight.foes.push(newFoe(i,'infected',1,false));G.fight.opening='${mode}';G.fight.foes.forEach((x,i)=>{x.n='感染者'+i;x.amb=i===0?1:0})`);
+  await g.run("rollInit('${mode}')");return JSON.parse(g.run("JSON.stringify(G.fight.order.filter(o=>o.k==='f').map(o=>o.init))"))};
+ assert.deepEqual(await roll('ambush'),await roll('normal'),'先攻沒有 +4');
+ const mk=(mode,amb)=>{const g=setup();g.run("G.fight=null;G.phase='node';passTime=async()=>false;fright=async()=>{};encounter=async()=>{};globalThis.ADV=0;advance=async()=>{ADV++};globalThis.ACT=[];foeAct=async x=>{ACT.push(x.id)}");return g};
+ const g=mk();await g.run("startFight({n:2,mode:'ambush',names:['感染者','感染者'],noMut:1})");
+ assert.deepEqual(JSON.parse(g.run('JSON.stringify(ACT)')),[0],'只有突襲的那一隻先動一次');assert.equal(g.run('ADV'),1);assert.equal(g.run('G.fight.ambDone'),1);assert.equal(g.run('QN'),0);
+ await g.run('openStart()');assert.equal(g.run('ACT.length'),1,'換房主補跑開場也不會再動一次');
+ const a=mk();await a.run("startFight({n:3,mode:'ambush',amb:'all',names:['感染者','感染者','感染者'],noMut:1})");assert.equal(a.run('ACT.length'),3,'明確集體設伏全體先動');
+ const n=mk();await n.run("startFight({n:1,mode:'normal',names:['感染者'],noMut:1})");assert.equal(n.run('ACT.length'),0);assert.equal(n.run('p.hp'),100);
+ // 先動的那一下照常擲命中（不必中）
+ const h=setup();h.run("G.fight.opening='ambush';f.amb=1;f.cd={};pickMove=()=>MOVES.infected[0];r2=()=>({a:2,s:2});foeDmg=async()=>5;advance=async()=>{}");await h.run('ambushAct()');assert.equal(h.run('p.hp'),100,'骰太低照樣落空');
+ assert.match(g.run("encounterMarkup([{n:'x',img:'inf_m'}],'ambush')"),/先出手/);assert.doesNotMatch(g.run("encounterMarkup([{n:'x',img:'inf_m'}],'ambush')"),/反應成功/);
 });
 
-test('我方先制：先擲先攻，全隊只有敏捷最高的一人偷襲一次；必中不爆擊、單一目標；不占回合、不能雙持或技能',async()=>{
+test('我方先制：先擲先攻，敏捷最高的一人多做一次任何行動（照常擲骰）；不占回合、順序不重擲',async()=>{
  const two=()=>{const g=setup();g.run("Object.assign(makePlayer({kind:'custom',pid:'p2',name:'乙',st:{STR:2,AGI:4,CON:2,PER:2,INT:2,CHA:2},load:{}},1),{max:100,hp:100,wounds:{}});globalThis.q=G.players[1];G.fight=null;G.phase='node';passTime=async()=>false;fright=async()=>{};encounter=async()=>{};globalThis.ADV=0;advance=async()=>{ADV++};globalThis.IM=0;const ri=rollInit;rollInit=async m=>{IM++;await ri(m)}");return g};
  const g=two();await g.run("startFight({n:2,mode:'first',names:['感染者','感染者'],noMut:1})");
- assert.equal(g.run('IM'),1,'正常擲一次先攻');assert.equal(g.run('G.fight.sneak'),1);assert.equal(g.run('G.fight.sneakBy'),'p2','敏捷最高');assert.deepEqual(JSON.parse(g.run('JSON.stringify(G.fight.group)')),['p2']);assert.equal(g.run('ADV'),0);
+ assert.equal(g.run('IM'),1,'正常擲一次先攻');assert.equal(g.run('G.fight.sneak'),1);assert.equal(g.run('G.fight.sneakBy'),'p2','敏捷最高');assert.deepEqual(JSON.parse(g.run('JSON.stringify(G.fight.group)')),['p2']);assert.equal(g.run('ADV'),0);assert.equal(g.run('G.fight.first'),false);
  const ord=g.run('JSON.stringify(G.fight.order)');
- // 別人、雙持、技能都不收
- await g.run("fightAct('p1',{a:'atk',h:'R'})");await g.run("fightAct('p2',{a:'dual'})");await g.run("fightAct('p2',{a:'atk',h:'R',sk:'x'})");assert.equal(g.run('G.fight.sneak'),1);
- g.run("globalThis.AT=[];attack=async(p,h,sk,ti,c,csk)=>{AT.push({p:p.pid,sk,csk,j:sneakJ('fumble'),c:sneakJ('crit')});return true}");
- await g.run("fightAct('p2',{a:'atk',h:'R',t:1})");assert.deepEqual(JSON.parse(g.run('JSON.stringify(AT)')),[{p:'p2',sk:null,csk:null,j:'ok',c:'ok'}]);
- assert.equal(g.run('G.fight.sneak'),0);assert.equal(g.run('G.fight.group'),null);assert.equal(g.run('G.fight.round'),1);assert.equal(g.run('G.fight.turn'),0);assert.equal(g.run('JSON.stringify(G.fight.order)'),ord,'先攻順序不重擲');assert.equal(g.run('ADV'),1);
- assert.equal(g.run("sneakJ('crit')"),'crit','偷襲以外照常爆擊');
- await g.run("fightAct('p2',{a:'atk',h:'R'})");assert.equal(g.run('AT.length'),1,'不能再送一次');
- // 同敏捷比先攻；放棄偷襲
- const h=two();h.run("q.st.AGI=2;RNG=()=>0.45");await h.run("startFight({n:1,mode:'first',names:['感染者'],noMut:1})");const by=h.run('G.fight.sneakBy');assert.equal(by,'p1','同分照隊伍順序');
- await h.run(`fightAct('${by}',{a:'pass'})`);assert.equal(h.run('G.fight.sneak'),0);assert.match(log(h),/沒有出手/);
- // 實際打：一顆 1 也打中、一顆 20 不爆擊、只打一個目標
- for(const a of [1,20]){const k=setup();k.run(`globalThis.f2=newFoe(1,'infected',1,false);f2.hp=f2.max=99;G.fight.foes.push(f2);G.fight.sneak=1;G.fight.sneakBy='p1';G.fight.group=['p1'];G.fight.pend={};G.fight.order=[{k:'p',id:'p1',init:5}];advance=async()=>{};r2=()=>({a:${a},s:${a}});rollDmg=()=>({r:3,rs:[3],d:3})`);
-  await k.run("fightAct('p1',{a:'atk',h:'R',t:0})");assert.ok(k.run('f.hp')<99,'打中 '+a);assert.equal(k.run('f2.hp'),99);assert.ok(k.run('f.hp')>=99-4,'沒有 ×2')}
+ g.run("globalThis.EX=[];execAct=async(p,a)=>{EX.push(p.pid+':'+a.a+(a.sk?'/'+a.sk:''));return true}");
+ await g.run("fightAct('p1',{a:'atk',h:'R'})");assert.equal(g.run('EX.length'),0,'別人不能動');
+ await g.run("fightAct('p2',{a:'atk',h:'R',sk:'shove',t:1})");assert.deepEqual(JSON.parse(g.run('JSON.stringify(EX)')),['p2:atk/shove'],'技能也可以');
+ assert.equal(g.run('G.fight.sneak'),0);assert.equal(g.run('G.fight.group'),null);assert.equal(g.run('G.fight.round'),1);assert.equal(g.run('JSON.stringify(G.fight.order)'),ord,'先攻順序不重擲');assert.equal(g.run('ADV'),1);
+ await g.run("fightAct('p2',{a:'atk',h:'R'})");assert.equal(g.run('EX.length'),1,'不能再送一次');
+ const u=two();await u.run("startFight({n:1,mode:'first',names:['感染者'],noMut:1})");u.run("globalThis.EX=[];execAct=async(p,a)=>{EX.push(a.a);return true}");await u.run("fightAct('p2',{a:'use',k:'bandage',to:'p2'})");assert.deepEqual(JSON.parse(u.run('JSON.stringify(EX)')),['use'],'用道具也可以');
+ // 同敏捷比先攻、再照隊伍順序
+ const h=two();h.run("q.st.AGI=2;RNG=()=>0.45");await h.run("startFight({n:1,mode:'first',names:['感染者'],noMut:1})");assert.equal(h.run('G.fight.sneakBy'),'p1');
+ // 實際打：骰 1 落空、骰 20 爆擊（不必中、照常爆擊）
+ for(const [a,hit] of [[1,false],[20,true]]){const k=setup();k.run(`G.fight.sneak=1;G.fight.sneakBy='p1';G.fight.group=['p1'];G.fight.pend={};G.fight.order=[{k:'p',id:'p1',init:5}];advance=async()=>{};r2=()=>({a:${a},s:${a}});rollDmg=()=>({r:3,rs:[3],d:3})`);
+  await k.run("fightAct('p1',{a:'atk',h:'R',t:0})");assert.equal(k.run('f.hp')<99,hit,'骰 '+a);if(hit)assert.ok(k.run('f.hp')<=99-6,'爆擊 ×2')}
 });
 
 test('舊存檔：舊的全隊偷襲輪不補不退、改回照常擲先攻；結算到一半換房主不重送',async()=>{const g=setup();

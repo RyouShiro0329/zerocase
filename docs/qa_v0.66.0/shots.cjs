@@ -12,11 +12,11 @@ for(const [w,h] of VIEWS){const ctx=await b.newContext({viewport:{width:w,height
  await p.waitForTimeout(900);await p.screenshot({path:`docs/qa_v0.66.0/shots/enc_first_${w}x${h}.png`});
  await p.waitForFunction(()=>G.fight&&G.fight.sneak===1&&!G.stg,null,{timeout:20000});
  await p.evaluate(()=>{for(const s of ['#dice'])if(!document.querySelector(s).hidden)document.querySelector(s).click()});await p.waitForTimeout(600);
- await p.click('[data-ftab="atk"]').catch(()=>{});await p.waitForTimeout(300);
+ await p.waitForTimeout(300);
  await p.screenshot({path:`docs/qa_v0.66.0/shots/sneak_${w}x${h}.png`});
  const menu=await p.evaluate(()=>document.querySelector('#choices').innerText);
  // 打下去
- await p.evaluate(()=>{const b=document.querySelector('[data-fa="atk"]');b&&b.click()});await p.waitForTimeout(300);
+ await p.evaluate(()=>{const t=document.querySelector('[data-ftab="atk"]');t&&t.click()});await p.waitForTimeout(300);await p.evaluate(()=>{const b=document.querySelector('[data-fa="atk"]');b&&b.click()});await p.waitForTimeout(300);
  await p.evaluate(()=>{const b=document.querySelector('[data-tgt]');b&&b.click()});
  await p.waitForFunction(()=>G.fight&&!G.fight.sneak,null,{timeout:20000}).catch(()=>{});
  const st=await p.evaluate(()=>({sneak:G.fight&&G.fight.sneak,round:G.fight&&G.fight.round,hp:G.fight&&G.fight.foes.map(f=>f.hp+'/'+f.max)}));
