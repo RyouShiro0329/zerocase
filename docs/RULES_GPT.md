@@ -25,8 +25,8 @@
 ## 四、測試
 - 一定要跑：`bash tests/run_all.sh fast`（防弱化檢查＋全部 Node 測試，報告在 `test-results/report.json`，說明見 `docs/QA_SYSTEM.md`），Node 測試全部通過。報告裡 SKIP、NOT_RUN、ERROR 都要寫成「未測試（原因）」。`tests/guard.test.cjs` 永遠不改；舊測試只有在主人這次明確改了決定時才能改，PR 要寫出來。
 - 新功能或修正補 1～3 個聚焦的測試，放在 `tests/`。
-- 新增地點、事件節點、隨機事件、意外種類時，要在 `tests/helpers/env-compat.cjs` 的對照表照節點文字分類（室內／戶外、有什麼東西），不然 FAST 會失敗；新音效名稱要有檔案或合成音，不然素材掃描會失敗（2026-11-25 PR-C）。
-- 瀏覽器冒煙和長路線：開 PR 後 GitHub 的「完整測試」會自動跑（`.github/workflows/test.yml`），看結果就好；不用自己再跑一次。報告與失敗截圖在那次執行的 artifact「test-results」。guard 被改，「防弱化檢查」會直接失敗。
+- 新增地點、事件節點、隨機事件、意外種類時，要在 `tests/helpers/env-compat.cjs` 的對照表照節點文字分類（室內／戶外、有什麼東西），不然 FAST 會失敗；新音效名稱要有檔案或合成音，不然素材掃描會失敗（2026-11-25 PR-C）。新音效名稱還要在 `tests/helpers/sfx-map.cjs` 的 DESC 寫一行「聽起來是什麼」，再跑 `node tests/helpers/sfx-map.cjs --md docs/audio/SFX_MAP.md` 更新對應表（PR-D）。
+- 瀏覽器冒煙、長路線、QTE 固定情境、真實瀏覽器音訊：開 PR 後 GitHub 的「完整測試」會自動跑（`.github/workflows/test.yml`），看結果就好；不用自己再跑一次。報告與失敗截圖在那次執行的 artifact「test-results」。guard 被改，「防弱化檢查」會直接失敗。
 - 改到畫面：截改到的畫面親眼看過（844×390；版面有動再加 1280×720、393×690）。
 - 結果只寫通過／失敗／未測試（原因）；手機一律寫「待主人實機驗收」。
 

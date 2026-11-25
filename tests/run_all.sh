@@ -13,6 +13,7 @@
 #           QA_SERVE=route（不開本機伺服器，由 playwright 直接讀檔；本機不能開埠時用）
 # 素材掃描（tests/assets.test.cjs）、事件環境相容（tests/env-compat.test.cjs）是 Node 測試，FAST 就會跑（2026-11-25 PR-C）。
 # 生存路線（tests/survival-route.cjs，PR-C）不開無敵：一般難度短路線＋指定戰鬥（重複結算、戰利品、扣血、回到探索、配樂恢復）。
+# QTE 固定情境（tests/qte-browser.cjs）、真實瀏覽器音訊（tests/browser-audio.cjs）是完整模式第 6、7 階段；音效對應表（tests/sfx-map.test.cjs）是 Node 測試（2026-11-25 PR-D）。
 # 冒煙、長路線開測試用無敵模式（tests/helpers/godmode.cjs，只在測試頁注入，遊戲本體沒有）：現在不測平衡（主人 2026-11-16）。
 cd "$(dirname "$0")/.." || exit 1
 MODE=full
@@ -40,12 +41,16 @@ if [ "$MODE" = fast ]; then
   $REP stage smoke "瀏覽器冒煙" SKIP 0 "FAST 模式不跑"
   $REP stage long "長路線" SKIP 0 "FAST 模式不跑"
   $REP stage survival "生存路線與戰鬥完整性" SKIP 0 "FAST 模式不跑"
+  $REP stage qte "QTE 固定情境" SKIP 0 "FAST 模式不跑"
+  $REP stage audio "真實瀏覽器音訊" SKIP 0 "FAST 模式不跑"
 elif ! NODE_PATH=$NP node -e "require('playwright')" 2>/dev/null; then
   echo "== 3、4. 瀏覽器測試：這個環境沒有 playwright"
   $REP stage smoke "瀏覽器冒煙" NOT_RUN 0 "這個環境沒有 playwright"
   if [ -n "$SKIP_LONG" ]; then $REP stage long "長路線" SKIP 0 "SKIP_LONG 略過"
   else $REP stage long "長路線" NOT_RUN 0 "這個環境沒有 playwright"; fi
   $REP stage survival "生存路線與戰鬥完整性" NOT_RUN 0 "這個環境沒有 playwright"
+  $REP stage qte "QTE 固定情境" NOT_RUN 0 "這個環境沒有 playwright"
+  $REP stage audio "真實瀏覽器音訊" NOT_RUN 0 "這個環境沒有 playwright"
 else
   SV=""
   if [ "$QA_SERVE" != route ]; then
@@ -56,6 +61,8 @@ else
     $REP stage smoke "瀏覽器冒煙" ERROR 0 "本機伺服器 8768 沒有起來"
     $REP stage long "長路線" ERROR 0 "本機伺服器 8768 沒有起來"
     $REP stage survival "生存路線與戰鬥完整性" ERROR 0 "本機伺服器 8768 沒有起來"
+    $REP stage qte "QTE 固定情境" ERROR 0 "本機伺服器 8768 沒有起來"
+    $REP stage audio "真實瀏覽器音訊" ERROR 0 "本機伺服器 8768 沒有起來"
   else
     echo "== 3. 瀏覽器冒煙測試（$SMOKE 步 × 三種尺寸）"
     T=$(now); rm -f "$OUT/browser-smoke.json"; QA_DETAIL="$OUT/browser-smoke.json" NODE_PATH=$NP node tests/browser-smoke.cjs "$SMOKE"; R=$?
@@ -72,6 +79,14 @@ else
     T=$(now); rm -f "$OUT/survival.json"; QA_DETAIL="$OUT/survival.json" NODE_PATH=$NP node tests/survival-route.cjs "$SURV"; R=$?
     case $R in 0) S=PASS; N="$SURV 動作＋指定戰鬥，種子 $QA_SEED";; 1) S=FAIL; N="見細節";; *) S=ERROR; N="exit $R";; esac
     $REP stage survival "生存路線與戰鬥完整性" $S "$(sec $T)" "$N" "$OUT/survival.json"
+    echo "== 6. QTE 固定情境（點擊、鍵盤、觸控、總時限、版面、戰鬥撲倒）"
+    T=$(now); rm -f "$OUT/qte.json"; QA_DETAIL="$OUT/qte.json" NODE_PATH=$NP node tests/qte-browser.cjs; R=$?
+    case $R in 0) S=PASS; N="固定情境，種子 $QA_SEED";; 1) S=FAIL; N="見細節";; *) S=ERROR; N="exit $R";; esac
+    $REP stage qte "QTE 固定情境" $S "$(sec $T)" "$N" "$OUT/qte.json"
+    echo "== 7. 真實瀏覽器音訊（音效、配樂開著，量輸出端）"
+    T=$(now); rm -f "$OUT/browser-audio.json"; QA_DETAIL="$OUT/browser-audio.json" NODE_PATH=$NP node tests/browser-audio.cjs; R=$?
+    case $R in 0) S=PASS; N="解碼、每個音效出聲、配樂切換、背景暫停";; 1) S=FAIL; N="見細節";; *) S=ERROR; N="exit $R";; esac
+    $REP stage audio "真實瀏覽器音訊" $S "$(sec $T)" "$N" "$OUT/browser-audio.json"
   fi
   [ -n "$SV" ] && kill $SV 2>/dev/null
 fi

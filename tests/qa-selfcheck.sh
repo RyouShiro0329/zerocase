@@ -1,5 +1,5 @@
 #!/bin/bash
-# 測試工具自我驗收（Claude 2026-11-25，QA 升級 PR-A；PR-B、PR-C 加項）
+# 測試工具自我驗收（Claude 2026-11-25，QA 升級 PR-A；PR-B、PR-C、PR-D 加項）
 # 在暫存目錄故意製造失敗，確認 run_all.sh 和報告「不會把沒跑、失敗、被弱化的情況寫成通過」。
 # 不碰倉庫裡的任何檔案：每個情境都在 mktemp 的資料夾裡做，用假的小測試代替真正的 Node 測試，幾秒就跑完。
 #   V01 沒有 playwright（完整模式）→ 瀏覽器兩項「未測試」、總結不是全部通過、exit≠0
@@ -16,6 +16,11 @@
 #             資料裡放一個不存在的音效名稱 → 三個都要被抓到、exit 1
 #   （PR-C）V15 事件環境相容：暫存複本讓旅館客房 A4b 會抽到烏鴉、地鐵 U3 會抽到街上的機車事件 → 兩組都要被抓到、exit 1；
 #             對照表缺一個事件（新增事件沒分類）→ 也要失敗
+#   （PR-D）V17 QTE 固定情境（真的開瀏覽器）：暫存複本讓 qte() 不管怎樣都回傳成功 → 不點、點錯、太慢、撲倒沒躲開都要被抓到；
+#             另一份吞掉 QTE 時的 WASD 按鍵 → 鍵盤情境要失敗
+#   （PR-D）V18 真實瀏覽器音訊（真的開瀏覽器）：暫存複本把 sfx/thud.mp3 換成無聲檔、sfx/bite.mp3 換成壞檔 → 解碼檢查要抓到兩個、還要有載入失敗警告；
+#             另一份讓打完仗配樂停在戰鬥、切到背景時遊戲收不到通知 → 配樂、背景兩項都要失敗
+#   （PR-D）V19 音效對應表：暫存複本多一個沒寫說明的合成音名稱 → 要失敗並列出名稱
 #   （PR-C）V16 戰鬥完整性（真的開瀏覽器）：暫存複本分別故意做成 戰利品給兩次、一下扣兩次血、打完配樂停在戰鬥、
 #             同一回合出手兩次、打完卡在忙碌狀態 → 生存路線的對應檢查要失敗；沒改的複本要通過
 # 用法：bash tests/qa-selfcheck.sh　結果：每個情境 通過／失敗／未測試，另存 test-results/selfcheck.json
@@ -159,6 +164,33 @@ if NODE_PATH=$NP node -e "require('playwright')" 2>/dev/null; then
   R=""; for x in "$VL:戰利品沒有重複" "$VD:沒有重複扣血" "$VM:回到探索配樂" "$VA:只出手一次" "$VB:打完回到探索"; do d=${x%%:*}; k=${x#*:}; e=$(cat "$d/out.exit"); m=$(fx "$d" "$k"); [ "$e" = 1 ] && [ "$m" = yes ] || R="$R $(basename $d)（exit $e，$m）"; done
   if [ "$E0" = 0 ] && [ "$A0" = true ] && [ -z "$R" ]; then ok V16 通過 "沒改的複本通過；戰利品重複、重複扣血、配樂沒恢復、一回合出手兩次、打完卡住都被抓到"; else ok V16 失敗 "沒改的複本 exit $E0／$A0；沒抓到：$R"; fi
 else ok V16 未測試 "這個環境沒有 playwright"; fi
+
+# V17／V18（PR-D，真的開瀏覽器）
+if NODE_PATH=$NP node -e "require('playwright')" 2>/dev/null; then
+  mkp(){ local d="$WORK/$1"; mkdir -p "$d/tests"; cp -rs "$REPO/img" "$REPO/sfx" "$REPO/fx" "$REPO/fonts" "$d/"
+    cp -r "$REPO/tests/helpers" "$REPO/tests/qte-browser.cjs" "$REPO/tests/browser-audio.cjs" "$d/tests/"
+    node -e "const fs=require('fs');const s=fs.readFileSync(process.argv[1],'utf8');fs.writeFileSync(process.argv[2],s.replace('</body></html>','<script>'+process.argv[3]+'</script></body></html>'))" "$REPO/index.html" "$d/index.html" "$2"; echo "$d"; }
+  qb(){ ( cd "$1" && QA_SERVE=route QA_OUT=out QA_DETAIL=out/d.json QA_SEED=17 NODE_PATH=$NP timeout 500 node "tests/$2" > out.log 2>&1; echo $? > out.exit ) ; }
+  # 失敗的檢查名稱裡有沒有這幾個編號
+  fq(){ node -e "const r=require(process.argv[1]);const f=r.checks.filter(c=>!c.ok).map(c=>c.name.split(' ')[0]);const want=process.argv[2].split(',');const miss=want.filter(w=>!f.includes(w));console.log(miss.length?'沒抓到 '+miss.join('、')+'（失敗的是 '+f.join('、')+'）':'yes')" "$1/out/d.json" "$2" 2>/dev/null || echo "沒有細節檔"; }
+  QA1=$(mkp v17ok "{const q=qte;qte=async function(){await q.apply(this,arguments);return true}}")
+  QK=$(mkp v17key "document.addEventListener('keydown',e=>{if(document.querySelector('#qte')&&/^Key[WASD]$/.test(e.code))e.stopImmediatePropagation()},true)")
+  qb "$QA1" qte-browser.cjs & qb "$QK" qte-browser.cjs & wait
+  A=$(fq "$QA1" Q02,Q03,Q06,Q10,Q13b); B=$(fq "$QK" Q05)
+  if [ "$(cat "$QA1/out.exit")" = 1 ] && [ "$A" = yes ] && [ "$(cat "$QK/out.exit")" = 1 ] && [ "$B" = yes ]; then ok V17 通過 "QTE 永遠成功：不點、點錯、按錯、太慢、撲倒沒躲開都抓到；鍵盤被吞掉也抓到"; else ok V17 失敗 "永遠成功 exit $(cat "$QA1/out.exit")：$A；吞鍵盤 exit $(cat "$QK/out.exit")：$B"; fi
+  AF=$(mkp v18file ""); rm "$AF/sfx/thud.mp3" "$AF/sfx/bite.mp3"
+  node -e "const n=22050,b=Buffer.alloc(44+n*2);b.write('RIFF',0);b.writeUInt32LE(36+n*2,4);b.write('WAVEfmt ',8);b.writeUInt32LE(16,16);b.writeUInt16LE(1,20);b.writeUInt16LE(1,22);b.writeUInt32LE(22050,24);b.writeUInt32LE(44100,28);b.writeUInt16LE(2,32);b.writeUInt16LE(16,34);b.write('data',36);b.writeUInt32LE(n*2,40);require('fs').writeFileSync(process.argv[1],b)" "$AF/sfx/thud.mp3"
+  printf 'this is not audio' > "$AF/sfx/bite.mp3"
+  AM=$(mkp v18music "{const s=syncBgmState;syncBgmState=function(){if(G&&!G.fight&&BGM_MIX.mode==='battle')return;return s.apply(this,arguments)}};document.addEventListener('visibilitychange',e=>e.stopImmediatePropagation(),true)")
+  qb "$AF" browser-audio.cjs & qb "$AM" browser-audio.cjs & wait
+  A=$(node -e "const r=require(process.argv[1]);const a1=r.checks.find(c=>c.name.startsWith('A01'));const a7=r.checks.find(c=>c.name.startsWith('A07'));console.log(a1&&!a1.ok&&/thud/.test(a1.note)&&/bite/.test(a1.note)&&a7&&!a7.ok?'yes':'A01 '+(a1&&a1.note)+'；A07 '+(a7&&a7.ok))" "$AF/out/d.json" 2>/dev/null || echo "沒有細節檔"); B=$(fq "$AM" A05,A06)
+  if [ "$(cat "$AF/out.exit")" = 1 ] && [ "$A" = yes ] && [ "$(cat "$AM/out.exit")" = 1 ] && [ "$B" = yes ]; then ok V18 通過 "無聲檔、壞檔、載入失敗警告都抓到；配樂停在戰鬥、背景收不到通知也抓到"; else ok V18 失敗 "壞檔 exit $(cat "$AF/out.exit")：$A；配樂 exit $(cat "$AM/out.exit")：$B"; fi
+else ok V17 未測試 "這個環境沒有 playwright"; ok V18 未測試 "這個環境沒有 playwright"; fi
+
+# V19（PR-D，不用瀏覽器）：音效對應表
+D=$(mkg v19 "SYN.qa_new_sound=()=>0;")
+( cd "$D" && node tests/helpers/sfx-map.cjs "$D" > out.log 2>&1; echo $? > out.exit ); E=$(cat "$D/out.exit")
+if [ "$E" = 1 ] && grep -q "沒寫說明 1：qa_new_sound" "$D/out.log"; then ok V19 通過 "沒寫說明的新音效名稱被抓到"; else ok V19 失敗 "exit $E：$(head -1 "$D/out.log")"; fi
 
 printf '%s\n' "${RES[@]}" | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const r=s.trim().split('\n').map(l=>{const [id,status,note]=l.split('|');return {id,status,note}});require('fs').writeFileSync(process.argv[1],JSON.stringify({checks:r},null,1))})" "$OUTD/selfcheck.json"
 echo "== 自我驗收：${#RES[@]} 項，失敗 $FAILN 項（結果存在 $OUTD/selfcheck.json）"
