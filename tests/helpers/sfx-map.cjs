@@ -20,7 +20,7 @@ const DESC={
  // 音效檔：戰鬥
  piercehit:'刺擊命中（刺進肉裡）',bowdraw:'拉弓、放箭',bowimpact:'箭射中',crossbowshot:'十字弓發射',
  beretta:'手槍槍聲',berettaReload:'手槍換彈匣',revolver:'左輪槍聲',revolverCock:'左輪扳擊錘',casing:'彈殼落地',
- fal:'戰鬥步槍槍聲',falReload:'戰鬥步槍換彈匣',mp5:'衝鋒槍槍聲',mp5Reload:'衝鋒槍換彈匣',rifle:'獵槍（栓動步槍）槍聲',bolt:'拉槍機',shotgun:'霰彈槍槍聲',dryfire:'空槍扣扳機',
+ fal:'戰鬥步槍槍聲',falReload:'戰鬥步槍換彈匣',mp5:'衝鋒槍槍聲',mp5Reload:'衝鋒槍換彈匣',rifle:'獵槍（栓動步槍）槍聲',bolt:'拉槍機',shotgun:'霰彈槍槍聲',sgpump:'泵動霰彈槍拉泵（咔、咔）',sgshell:'泵動霰彈槍塞一發彈殼',sgshellbr:'單管霰彈槍塞彈',sgopen:'單管霰彈槍折開',sgclose:'單管霰彈槍合上',dryfire:'空槍扣扳機',
  fist:'拳頭打中',claw:'爪子抓傷（敵人招式的預設受傷聲）',knife:'刀刃砍、割',bite:'被咬',smash:'重擊砸中',splat:'黏稠的東西砸開',spit:'噴吐',thud:'撞擊、摔倒、被砸（鈍擊）',squish:'軟爛的東西被擠壓',bhit:'子彈打中',
  headshot:'爆頭',mthrow:'丟出燃燒瓶',mimpact:'燃燒瓶炸開、火焰',death:'倒下、死亡',
  // 音效檔：移動、動作

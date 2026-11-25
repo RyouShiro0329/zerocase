@@ -108,3 +108,18 @@
 - 改作：sfx/bgm_hitman_battle.ogg／.mp3使用0～114秒；sfx/bgm_hitman_intense.ogg／.mp3使用114～194秒。分段、各20ms首尾淡化、轉檔；不變速、不變調、不正規化。工具：tools/process-hitman.py。
 - 原曲前奏納入一般段，取消獨立遭遇曲；3:14以後收尾不納入循環。作者未參與或替本遊戲背書。
 - 遊戲Credits已列作品、作者、來源、授權與改作說明。舊Imminent Threat檔案與署名保留，不繼續作為目前戰鬥配樂。
+
+
+## 霰彈機械音效（v0.68.0，實錄音效）
+
+泵動與填彈原本誤用左輪上膛聲 `revolverCock`，且開火後沒有拉機。以下為正式採用的專屬短音效：44.1 kHz 單聲道 MP3 96 kbps，裁切、40 Hz 高通與峰值正規化。Freesound 原始 WAV 需登入，取用該站 HQ 預覽再重編碼。候選由主人聽過後指定（2026-11-26）。
+
+| 素材 | 作者 | 來源頁 | 授權及處理 |
+|---|---|---|---|
+| sgpump | TotallyPhilip | https://freesound.org/people/TotallyPhilip/sounds/755495/ | CC0；取 6.90–7.55 s 雷明頓 870 拉機（候選 pump-a） |
+| sgshell | AugustSandberg | https://freesound.org/people/AugustSandberg/sounds/508746/ | CC0；《Pump Action Shotgun Reload》（Weatherby PA08），取約 3.28–3.70 s 一發管式填彈（候選 r870塞彈-3） |
+| sgshellbr | DrinkingWindGames | https://freesound.org/people/DrinkingWindGames/sounds/789642/ | CC BY 4.0；《Load Shotgun 1》：Pushing a shotgun shell into the magazine tube；裁切約 0.20–0.89 s（候選 r870塞彈-2）。遊戲致謝已署名；授權：https://creativecommons.org/licenses/by/4.0/ |
+| sgopen | sentryx86 | https://freesound.org/people/sentryx86/sounds/52202/ | CC0；取約 5.10–6.15 s 折開（候選 open-a） |
+| sgclose | sentryx86 | https://freesound.org/people/sentryx86/sounds/52202/ | CC0；取約 13.08–13.55 s 較響機械聲（候選 close-a；來源未明示關膛，主人指定用較響的這一發） |
+
+不再出貨的預覽切段：zer0_sol《Subsequent Shells》（原 sgshell 預設）、sentryx86 約 8.12–8.95 s 單管塞彈（原 sgshellbr 預設）。作者未替本作品背書。
