@@ -4,6 +4,19 @@
 
 **2026-11-23 主人選 A：GitHub 是唯一的正本。** 這份交接、工具（`tools/claude/`、`tools/release.py`）都在倉庫裡，每一版和遊戲一起 commit；版本只看 index.html 的 ZC_VER。Claude 專案只留：入口文件 `zerocase/HANDOFF.md`（很短，指到這裡）、訪客兌換碼 `zerocase/GUEST_CODES.md`（**不能放進倉庫**）、還沒搬進倉庫的設計參考（WORLD_DESIGN、PROPOSAL_*、design/、DATA_SHEET 等，要用時再 project_read）。**發布後不用存任何東西回專案。**
 
+## 傷害飄字候選 v0.67.2（2026-11-25，Asia/Taipei）
+- 從最新 main 18b7683 開 fix/damage-float-overkill；附件九處精確替換通過，release.py patch 升為 Build142（2026-11-25T23:54:20+08:00）。未改任何既有測試與 QA PR-A～D。
+- newFoe.fdmgTotal、migrateG 缺值補零；foeDmgMark 只由 applyDmg 真實扣血與 roundEnd 流血呼叫。燃燒不另記，peek 不記，隱藏獵食者不記。
+- fltScan 用 musicId／id 比對累計、同場水位不倒退，保留原紅白字與時序；fltReset 用於離戰與讀檔。snap 既有 JSON 帶欄位；不新增網路事件。
+- 不改 HP 算法、kill 歸零、攻擊公式、核心規則或其他內容。重新檢查全檔扣血：敵人僅 applyDmg 與流血兩個入口，其餘為生成詞綴、治療、逃走、死亡或玩家傷害。
+- 通過：附件獨立驗證 3 組；新增完整遊戲 tests/damage-float.test.cjs 3 組；FAST Node469 通過、0失敗、3既有暫緩。FAST 報告的五個瀏覽器階段是略過，不能說完整通過。
+- 新增 tests/damage-float-browser.cjs 與獨立 workflow 取得三尺寸前後截圖、真實畫面／演出、Firebase雙端與房主交接；既有完整測試 workflow 不動。
+- 本機 Chromium 不可執行、下載403；GitHub run 45650845102 的 26 項傷害／畫面／正式 Firebase 專項全部通過，含房主交接；三尺寸截圖已逐張檢視。另補真實單人讀檔、重新加入及倒序快照情境；完整回歸、自我驗收與追加專項結果以 PR #73 Checks 為準，未完成或有新失敗不得部署，不可改舊測試讓它通過。
+- 專項首輪角色未解鎖、第二輪誤把原始 25 當所有屬性的結算傷害，均只修正本次新測試。非標準測試房號曾遭 Firebase PERMISSION_DENIED，改回原遊戲四位房號後實連通過，未改任何資料庫權限。
+- .github/workflows/damage-float.yml 另在 main 的 index.html 更新後等待正式站 SHA-256 與本次完全相同，再以正式 URL 驗證版本、開新局探索、手機飄字與多人；原完整測試與自我驗收 workflow 均未改。
+- PR：https://github.com/RyouShiro0329/zerocase/pull/73；專項紀錄：https://github.com/RyouShiro0329/zerocase/actions/runs/45650845102。部署後結果應另看 main 的「傷害飄字專項驗收」live_damage_float，未執行不可聲稱正式站通過。
+- 尚未合併／部署；正式站新版與戰鬥未驗證；Android待主人實機驗收。既有三項暫緩保留。
+
 ## 現況（2026-11-25 17:40 更新）
 - **QA 測試系統升級 PR-A（測試工具，不升版，index.html 和 v0.67.1 逐位元相同）**：run_all.sh 分 fast／full、六種狀態、`test-results/report.json`；防弱化檢查（guard 被改就失敗）；瀏覽器錯誤分類（必要檔案 404 算失敗）；CI 上傳報告與截圖、跑自我驗收。說明在 `docs/QA_SYSTEM.md`。方案在 Claude 專案 `zerocase/PROPOSAL_QA_UPGRADE.md`。PR-A（#69）、PR-B（#70）已合併；**PR-C 覆蓋範圍**（素材掃描 tests/assets.test.cjs、事件環境相容 tests/env-compat.test.cjs〔對照表在 tests/helpers/env-compat.cjs，KNOWN＝等主人決定的 9 組〕、不開無敵的生存路線＋戰鬥完整性 tests/survival-route.cjs）主人 16:33 說處理好直接合併；**PR-D QTE 與音訊**（QTE 固定情境 tests/qte-browser.cjs、真實瀏覽器音訊 tests/browser-audio.cjs，完整模式第 6、7 階段；音效對應表 tests/helpers/sfx-map.cjs＋docs/audio/SFX_MAP.md，缺口只列、待主人審查）主人 17:26 說處理好直接合併。下一步 PR-E（版面擴充、基準截圖、樣式防護、多人模擬搬進 tests/、存檔樣本、部署後冒煙），等主人說再做。**新音效名稱要在 sfx-map 的 DESC 寫說明、重新產生 SFX_MAP.md。****新增地點、事件節點、事件、意外種類時要在 env-compat 的對照表分類，不然 FAST 會失敗。**
 - 目前版本：**v0.67.1／Build 141**（2026-11-25T06:05:38+08:00，Claude：販賣機玻璃整片碎掉加玻璃聲，主人 06:03 選 A，改了 tests/audio.test.cjs 一項）。
