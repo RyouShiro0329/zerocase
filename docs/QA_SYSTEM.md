@@ -1,13 +1,13 @@
 # 測試系統說明（QA 升級，2026-11-25 起）
 
 規格：主人的 ZEROCASE_QA_SYSTEM_UPGRADE_SPEC；盤點與分階段方案在 Claude 專案 `zerocase/PROPOSAL_QA_UPGRADE.md`。
-已完成：**PR-A 結果真實性**（QA-01、02、03、29）、**PR-B 重現與追蹤**（QA-04、05、06）。之後：PR-C～F。
+已完成：**PR-A 結果真實性**（QA-01、02、03、29）、**PR-B 重現與追蹤**（QA-04、05、06）、**PR-C 覆蓋範圍**（QA-07、12、13、19）。之後：PR-D～F。
 
 ## 兩種模式
 | 指令 | 跑什麼 | 誰用 |
 |---|---|---|
 | `bash tests/run_all.sh fast` | 防弱化檢查＋Node 邏輯測試（約 1 分鐘） | 本機平常用 |
-| `bash tests/run_all.sh full 40 480` | 再加瀏覽器冒煙（三種尺寸）＋長路線 | GitHub「完整測試」 |
+| `bash tests/run_all.sh full 40 480 [120]` | 再加瀏覽器冒煙（三種尺寸）＋長路線＋生存路線與戰鬥完整性（第三個數字＝生存路線動作數，預設 120） | GitHub「完整測試」 |
 
 舊寫法 `bash tests/run_all.sh 40 480` 等於 `full 40 480`。本機不能開埠時加 `QA_SERVE=route`（playwright 直接讀檔回應）。
 
@@ -41,6 +41,21 @@
 - **卡死**：連續 `QA_STUCK`（預設 20）步畫面都沒變 → 失敗並停下，存截圖和最後的選項、紀錄文字。
 - 本機基準（v0.67.1，種子 777）：長路線 480 動作逾時 0、無效 0、最多連續 0 步沒變；冒煙 40 步×3 也都是 0。
 
+## 素材掃描（`tests/assets.test.cjs`、`tests/helpers/assets.cjs`，PR-C：QA-19）
+- 在 vm 載入遊戲，不只看寫死的路徑：音效表 `SFILES`（genloop、rain_ 要 .ogg＋.mp3，其他 .mp3）、配樂三軌（.ogg＋.mp3）、`sfx/crossbowshot.wav`、資料表所有 `img` 欄位和 `FOE_IMG` → 檔案要存在。
+- 遊戲用到的音效名稱（snd／sfx／sfxW／sndW／play／radioLine 呼叫的字串、這些呼叫裡函式的回傳字串、資料欄位 snd、cy、rl、hs、ws、okA、audio、audioStop、after）→ 要有檔案、合成音 SYN、組合槍聲 SCUE 或弓箭特別名稱。FALL 要指到 SYN，SCUE 的槍要是音效檔。
+- 沒被引用的檔案只記錄。單獨跑：`node tests/helpers/assets.cjs`。
+
+## 事件環境相容（`tests/env-compat.test.cjs`、`tests/helpers/env-compat.cjs`，PR-C：QA-07）
+- 測試側對照表（讀節點文字整理）：`PLACE_IO`／`NODE_IO`（室內 in、有頂棚 cover、戶外 out）、`HZ_NEED`（每種意外要的地方）、`EV_NODE`（事件節點有什麼：地毯、客房、街道、天空……）、`EV_NEED`（事件文字需要什麼）。
+- 比對遊戲的 `hzEnvOf`（意外）和照 `evCands` 規則選出的事件候選。對照表缺地點、事件節點、事件、意外種類 → 失敗（新增內容要先分類）。
+- `KNOWN`：現在對不上、等主人決定的組合，列成 TODO（暫緩）；修好之後還留著會失敗，提醒拿掉。單獨跑：`node tests/helpers/env-compat.cjs`。
+
+## 生存路線與戰鬥完整性（`tests/survival-route.cjs`，PR-C：QA-12、13；完整模式第 5 階段）
+- **不開無敵**、一般難度、只開配樂。短路線 120 動作：沒有程式錯誤、去處存在、紀錄沒有 undefined／NaN、玩家數值每一步是有限數字且在範圍內、死掉時結束畫面出得來（死掉不算失敗）。
+- 指定戰鬥：重開一局用 `startFight` 打 `QA_SURV_FIGHTS`（預設 infected,cutter,quickdraw；開打前補滿、把人類敵人的逃跑檢查標成做過，才測得到戰利品）。檢查：在攻擊／目標按鈕快速點兩下，同一回合同一人只出手一次；endFight 一次、foeLoot 最多一次、裝備數量＝戰利品清單；applyDmg／hurt 扣的＝回報的；打完 G.fight 清掉、回到 node、有選項、演出關掉；打的時候是戰鬥配樂、打完 2.5 秒是探索配樂且戰鬥兩軌停下。路線上碰到的戰鬥也套同樣檢查。
+- 檢查用的包裝函式只注入測試頁；紀錄在 `test-results/survival.json`、`trace-survival.json`。
+
 ## 自我驗收（`tests/qa-selfcheck.sh`，CI 每次都跑，約 1.5 分鐘）
-在暫存目錄故意製造失敗，確認工具不會說謊：V01 沒有 playwright、V02 SKIP_LONG、V03 Node 測試失敗／壞檔／沒有總結、V04 報告欄位與實際相符、V11 guard 被改、V12 測試被刪或變少、V13 必要圖片 404；PR-B 加 V05 同種子兩次操作紀錄相同、V06 遊戲一直忙（逾時要記錄、超過上限失敗）、V10 點了沒反應（無效動作、卡死）。V06、V10 用暫存複本的 index.html 製造故障，倉庫的遊戲不動。
+在暫存目錄故意製造失敗，確認工具不會說謊：V01 沒有 playwright、V02 SKIP_LONG、V03 Node 測試失敗／壞檔／沒有總結、V04 報告欄位與實際相符、V11 guard 被改、V12 測試被刪或變少、V13 必要圖片 404；PR-B 加 V05 同種子兩次操作紀錄相同、V06 遊戲一直忙（逾時要記錄、超過上限失敗）、V10 點了沒反應（無效動作、卡死）。PR-C 加 V14 素材（拿掉動態音效檔、敵人立繪、放不存在的音效名稱）、V15 環境相容（客房抽到烏鴉、地鐵抽到街上事件、沒分類的新事件）、V16 戰鬥（戰利品給兩次、一下扣兩次血、配樂停在戰鬥、一回合出手兩次、打完卡住，各要被抓到；沒改的對照組要通過）。V06、V10 用暫存複本的 index.html 製造故障，倉庫的遊戲不動。
 自我驗收的情境由 Claude 依 PR-A 範圍定義（規格書原文的 V 編號細節不在這次對話可讀的文件裡）；之後有出入照規格書調整。

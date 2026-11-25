@@ -5,7 +5,7 @@
 //   ERROR 測試工具自己出錯（沒有結果可看）｜TODO 已知暫緩（只用在個別項目，階段本身不會是 TODO）
 // 總結：只有每個階段都是 PASS 才會寫「全部通過」。有 SKIP／NOT_RUN 就寫出哪幾項沒跑。
 // 用法（run_all.sh 會呼叫，平常不用自己打）：
-//   node tests/helpers/test-reporter.cjs init <fast|full> [冒煙步數] [長路線動作數]
+//   node tests/helpers/test-reporter.cjs init <fast|full> [冒煙步數] [長路線動作數] [生存路線動作數]
 //   node tests/helpers/test-reporter.cjs node <TAP 檔> <exit code> <秒數>
 //   node tests/helpers/test-reporter.cjs stage <代號> <名稱> <狀態> <秒數> [說明] [細節 JSON 檔]
 //   node tests/helpers/test-reporter.cjs finish
@@ -72,7 +72,7 @@ function md(rep){
  const g=rep.game,L=[];
  L.push(`## 零號病例 測試報告：${rep.summary.text}`,'');
  L.push(`- 模式：${rep.mode==='full'?'完整':'FAST'}　遊戲 v${g.version}／Build ${g.build}　commit ${(rep.commit||'').slice(0,7)}${rep.dirty?'（有未提交修改）':''}`);
- if(rep.args&&rep.args.seed!=null)L.push(`- 種子：${rep.args.seed}（重現：\`QA_SEED=${rep.args.seed} bash tests/run_all.sh full ${rep.args.smokeSteps||40} ${rep.args.longSteps||480}\`）`);
+ if(rep.args&&rep.args.seed!=null)L.push(`- 種子：${rep.args.seed}（重現：\`QA_SEED=${rep.args.seed} bash tests/run_all.sh full ${rep.args.smokeSteps||40} ${rep.args.longSteps||480}${rep.args.survivalSteps?' '+rep.args.survivalSteps:''}\`）`);
  L.push(`- index.html SHA-256：\`${g.sha256}\``,`- 開始 ${rep.started}　結束 ${rep.finished}　共 ${rep.seconds} 秒`,'');
  L.push('| 階段 | 狀態 | 秒 | 說明 |','|---|---|---|---|');
  for(const s of rep.stages)L.push(`| ${s.name} | ${ZH[s.status]}（${s.status}） | ${s.seconds} | ${String(s.note||'').replace(/\|/g,'／')} |`);
@@ -87,7 +87,7 @@ if(cmd==='init'){
  fs.mkdirSync(OUT,{recursive:true});
  for(const f of ['report.json','report.md','node-tap.txt'])fs.rmSync(path.join(OUT,f),{force:true});
  const mode=a[0]==='fast'?'fast':'full';
- save({schema:1,mode,args:{smokeSteps:a[1]?+a[1]:null,longSteps:a[2]?+a[2]:null,seed:process.env.QA_SEED!=null&&process.env.QA_SEED!==''?+process.env.QA_SEED:null},t0:Date.now(),started:taipei(),stages:[]});
+ save({schema:1,mode,args:{smokeSteps:a[1]?+a[1]:null,longSteps:a[2]?+a[2]:null,survivalSteps:a[3]?+a[3]:null,seed:process.env.QA_SEED!=null&&process.env.QA_SEED!==''?+process.env.QA_SEED:null},t0:Date.now(),started:taipei(),stages:[]});
 }else if(cmd==='node'){
  const [file,exit,sec]=a,r=load();
  const txt=fs.existsSync(file)?fs.readFileSync(file,'utf8'):'';
