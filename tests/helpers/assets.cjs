@@ -13,7 +13,7 @@
 // 用法：node tests/helpers/assets.cjs [遊戲資料夾，預設倉庫根目錄]　有缺少或認不得的名稱 exit 1
 const fs=require('node:fs'),path=require('node:path');
 const {load}=require('./game-vm.cjs');
-const SOUND_KEYS=['snd','cy','rl','hs','ws','okA','audio','audioStop'];
+const SOUND_KEYS=['snd','cy','rl','hs','ws','okA','audio','audioStop','pre'];/* pre＝敵人招式出手前的聲音（PR-D 補上） */
 // sfx() 裡寫死、沒有檔案也沒有合成表的特別名稱（engine_b 的 sfx：bowhit／bowmiss 走 playBowShot，arrow／xbow 走 playArrowAudio）
 const SPECIAL=['bowhit','bowmiss','arrowhit','arrowmiss','xbowhit','xbowmiss','crossbowshot'];
 const CALLS=['snd','sfx','sfxW','sndW','play','radioLine'];
@@ -70,6 +70,7 @@ function scan(root){
  const ref=new Set(R.files);
  for(const d of ['sfx','img','fx'])if(fs.existsSync(path.join(root,d)))for(const f of fs.readdirSync(path.join(root,d)))if(!ref.has(d+'/'+f))R.unused.push(d+'/'+f);
  R.files=[...new Set(R.files)];
+ R.used=Object.fromEntries([...used].map(([k,w])=>[k,[...w]]));/* PR-D：音效對應表（tests/helpers/sfx-map.cjs）要知道每個名稱在哪裡用到 */
  R.counts={files:R.files.length,static:stat.size,sfiles:SFILES.length,soundNames:used.size,valid:valid.size,walkedObjects:walked};
  R.ok=!R.missing.length&&!R.unknownKeys.length;
  return R;
