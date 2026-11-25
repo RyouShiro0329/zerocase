@@ -23,9 +23,9 @@
 - 不要碰：兌換碼（程式只放雜湊）、Claude 的遊戲連結（artifact）、敵人立繪（只用主人的美術）、QTE 規則（只靠玩家反應）。不做跨局記憶、不做配方記錄。
 
 ## 四、測試
-- 一定要跑：`node --test tests/*.test.cjs` 全部通過。`tests/guard.test.cjs` 永遠不改；舊測試只有在主人這次明確改了決定時才能改，PR 要寫出來。
+- 一定要跑：`bash tests/run_all.sh fast`（防弱化檢查＋全部 Node 測試，報告在 `test-results/report.json`，說明見 `docs/QA_SYSTEM.md`），Node 測試全部通過。報告裡 SKIP、NOT_RUN、ERROR 都要寫成「未測試（原因）」。`tests/guard.test.cjs` 永遠不改；舊測試只有在主人這次明確改了決定時才能改，PR 要寫出來。
 - 新功能或修正補 1～3 個聚焦的測試，放在 `tests/`。
-- 瀏覽器冒煙和長路線：開 PR 後 GitHub 的「完整測試」會自動跑（`.github/workflows/test.yml`），看結果就好；不用自己再跑一次。
+- 瀏覽器冒煙和長路線：開 PR 後 GitHub 的「完整測試」會自動跑（`.github/workflows/test.yml`），看結果就好；不用自己再跑一次。報告與失敗截圖在那次執行的 artifact「test-results」。guard 被改，「防弱化檢查」會直接失敗。
 - 改到畫面：截改到的畫面親眼看過（844×390；版面有動再加 1280×720、393×690）。
 - 結果只寫通過／失敗／未測試（原因）；手機一律寫「待主人實機驗收」。
 

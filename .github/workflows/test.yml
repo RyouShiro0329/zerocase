@@ -1,6 +1,9 @@
 # 完整測試（2026-11-23 起取代原本 9 個單一功能的驗收流程，舊的在 docs/archive/workflows/）
-# 每個開到 main 的 PR 自動跑 tests/run_all.sh：Node 測試＋瀏覽器冒煙（三種尺寸）＋長路線。
-# 本機只要跑 Node 測試；瀏覽器的兩項交給這裡跑，看結果就好。
+# 每個開到 main 的 PR 自動跑 tests/run_all.sh full：防弱化檢查＋Node 測試＋瀏覽器冒煙（三種尺寸）＋長路線。
+# 2026-11-25 QA 升級 PR-A：結果分六種狀態、沒跑到的不算通過；產生 test-results/report.json（版本、Build、commit、SHA-256、秒數）
+#   和失敗截圖，整包上傳成「test-results」（Actions 頁面下載，保留 14 天）；摘要顯示在這次執行的 Summary。
+#   另外跑測試工具自我驗收（tests/qa-selfcheck.sh），確認工具本身不會把失敗寫成通過。
+# 本機只要跑 FAST（bash tests/run_all.sh fast）；瀏覽器的兩項交給這裡跑，看結果就好。
 name: 完整測試
 on:
   pull_request:
@@ -14,10 +17,23 @@ jobs:
     timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
+      - name: 取得比對基準（防弱化檢查用）
+        run: git fetch --no-tags --depth=1 origin "${{ github.base_ref || 'main' }}"
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
       - run: npm install --global playwright@1.58.2
       - run: npx playwright install --with-deps chromium
       - name: 完整測試（冒煙 40 步、長路線 480 動作）
-        run: NODE_PATH=$(npm root -g) bash tests/run_all.sh 40 480
+        run: NODE_PATH=$(npm root -g) QA_BASE="origin/${{ github.base_ref || 'main' }}" bash tests/run_all.sh full 40 480
+      - name: 測試工具自我驗收
+        if: always()
+        run: NODE_PATH=$(npm root -g) bash tests/qa-selfcheck.sh
+      - name: 上傳報告與失敗截圖
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results/
+          retention-days: 14
+          if-no-files-found: warn

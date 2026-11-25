@@ -4,7 +4,8 @@
 
 **2026-11-23 主人選 A：GitHub 是唯一的正本。** 這份交接、工具（`tools/claude/`、`tools/release.py`）都在倉庫裡，每一版和遊戲一起 commit；版本只看 index.html 的 ZC_VER。Claude 專案只留：入口文件 `zerocase/HANDOFF.md`（很短，指到這裡）、訪客兌換碼 `zerocase/GUEST_CODES.md`（**不能放進倉庫**）、還沒搬進倉庫的設計參考（WORLD_DESIGN、PROPOSAL_*、design/、DATA_SHEET 等，要用時再 project_read）。**發布後不用存任何東西回專案。**
 
-## 現況（2026-11-25 05:45 更新）
+## 現況（2026-11-25 07:00 更新）
+- **QA 測試系統升級 PR-A（測試工具，不升版，index.html 和 v0.67.1 逐位元相同）**：run_all.sh 分 fast／full、六種狀態、`test-results/report.json`；防弱化檢查（guard 被改就失敗）；瀏覽器錯誤分類（必要檔案 404 算失敗）；CI 上傳報告與截圖、跑自我驗收。說明在 `docs/QA_SYSTEM.md`。方案在 Claude 專案 `zerocase/PROPOSAL_QA_UPGRADE.md`，下一步 PR-B（重現與追蹤 QA-04～06），等主人說再做。
 - 目前版本：**v0.67.1／Build 141**（2026-11-25T06:05:38+08:00，Claude：販賣機玻璃整片碎掉加玻璃聲，主人 06:03 選 A，改了 tests/audio.test.cjs 一項）。
 - 前一版 **v0.67.0／Build 140**（2026-11-25T05:39:54+08:00，Claude：實玩回饋與細節優化 SPEC_POLISH_AFTER_v0.66.0；主人 05:30 說全部處理完直接部署）。上一版 v0.66.0／Build 139。
 - **v0.67.0**：紀錄在 `docs/POLISH_v0.67.0.md`。新東西：engine_b `SCUE`／`SCUE_FAR`／`cueAt`／`shotCue`（組合槍聲，sfx 認得這些鍵）、resultAudio 的 audio 可以是陣列；engine_c outcome 扣血播 `o.hs`（不再呼叫 hurtSnd；hurtSnd 留給 guard 測試）、節點欄位 `audio`（第一次描寫場景時播）；qte.js HAZ 每筆 `id`／`env`／`audio`／`okA`／`hs`，`HZBAN`、`HZL`（地點預設）、`HZN`（節點覆寫）、`hzBanned`／`hzEnvOf`／`hzCands`／`hzMark`、`G.hzDone`（同地點同種意外一次）；storyHz 的 `hz.audio` 在擲之前響，子結果也播 audio；engine_a「v0.67.0 事件音效標記」段落用路徑逐條標 hs／audio（之後新增會扣血的結果，記得在這裡標）。驗收 `tests/polish-v0670.test.cjs`；截圖 `docs/qa_v0.67.0/shots.cjs`。**待主人**：實機聽感、缺的音效素材（販賣機玻璃聲 v0.67.1 已加）。
@@ -30,7 +31,7 @@
 5. 改完之後的測試、升版、發布照 `docs/RULES_CLAUDE.md`。
 
 ## 測試
-- **本機只跑 Node 測試**（`node --test tests/*.test.cjs`，v0.66.0 是 451 項（含 `tests/qte-phase2.test.cjs` 8 項）；v0.65.0 是 443 項（含 QTE 重構與演出 `tests/qte-rework.test.cjs` 12 項；本機瀏覽器演出、雙人同步的 QA 腳本在 docs/qa_v0.65.0/）；2026-11-24 v0.60.0 起 409 項（含種子與自動存檔 `tests/seed-save.test.cjs` 7 項、選擇卡 `tests/cards.test.cjs` 13 項），含從 tools/ 搬來的 132 項功能測試；1 項 todo 是恐懼紀錄數字，主人說先保留）。瀏覽器冒煙和長路線交給 GitHub 的「完整測試」（每個 PR 自動跑 `bash tests/run_all.sh 40 480`）。主人要求才在本機跑 run_all：背景執行、一次只跑一個（都用 8768 埠），約 15 分鐘。v0.56.1：480 動作長路線到第 9 天、105 個節點。
+- **本機只跑 FAST**（`bash tests/run_all.sh fast`，2026-11-25 起；就是防弱化檢查＋`node --test tests/*.test.cjs`，v0.67.1 是 459 項；v0.66.0 是 451 項（含 `tests/qte-phase2.test.cjs` 8 項）；v0.65.0 是 443 項（含 QTE 重構與演出 `tests/qte-rework.test.cjs` 12 項；本機瀏覽器演出、雙人同步的 QA 腳本在 docs/qa_v0.65.0/）；2026-11-24 v0.60.0 起 409 項（含種子與自動存檔 `tests/seed-save.test.cjs` 7 項、選擇卡 `tests/cards.test.cjs` 13 項），含從 tools/ 搬來的 132 項功能測試；1 項 todo 是恐懼紀錄數字，主人說先保留）。瀏覽器冒煙和長路線交給 GitHub 的「完整測試」（每個 PR 自動跑 `bash tests/run_all.sh full 40 480`＋`tests/qa-selfcheck.sh`）。主人要求才在本機跑 run_all full：背景執行、一次只跑一個（都用 8768 埠），約 15 分鐘。v0.56.1：480 動作長路線到第 9 天、105 個節點。
 - **醫院**：`tests/hospital.test.cjs`（13 項）。其中一項照劇本走一般路線、數每層的選擇次數（移動、繼續仔細翻、「不再找了」不算，挑病房算），會印出「一般路線的選擇次數」，現在急診 15～19、四樓 16、地下室 16。**加深其他地點時照這個寫法做同樣的測試**。
 - **選擇卡**：`tests/cards.test.cjs`（18 項，v0.59.0 起；v0.60.0 加選路與開場）：同種子同卡同選項、結果表對照、藍色選項、牌庫（一般牌至少 30 張）、10 個選路格、路況、選路接回下一格、沒選的下一格不出現、張數 2～5 與加減條件、分段、條件牌上限、新卡守則（沒有病床點滴）、開場事件的時間與種類、先做的事改變事件、v2 地點沒有停留和繼續仔細翻、純運氣、舊存檔。
 - **旅館**：`tests/hotel.test.cjs`（10 項，v0.60.0 起三樓 30 個種子×8 種路況×3 個出口走到底取最少值（選路不算次數、房間做一件就出門）：東側樓梯 16、電梯井 15、消防梯 15）。二樓以下照劇本走一般路線（隨機事件拿掉），會印出「一般路線的選擇次數」：一樓走廚房 16／走洗衣房 15、地下 21。另外測門（房卡）、窗（QTE）、瓦斯（gasZone、hboom）、地下污染區（發電機＋排風機）、大廳多一隻可以疊、前後連動、紅色菌絲、舊存檔轉換。
