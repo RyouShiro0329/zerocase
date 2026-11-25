@@ -1,0 +1,66 @@
+name: 傷害飄字專項驗收
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+    paths: [index.html]
+permissions:
+  contents: read
+jobs:
+  damage_float:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - name: 手機尺寸、完整傷害與正式多人實連
+        run: NODE_PATH=$(npm root -g) QA_SERVE=route node tests/damage-float-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: damage-float
+          path: test-results/damage-float/
+          retention-days: 14
+  live_damage_float:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - name: 等待正式站與本次遊戲 SHA-256 一致
+        run: |
+          python3 - <<'PY'
+          import hashlib,time,urllib.request
+          expected=hashlib.sha256(open('index.html','rb').read()).hexdigest()
+          url='https://ryoushiro0329.github.io/zerocase/index.html'
+          for i in range(60):
+              try:
+                  data=urllib.request.urlopen(url+'?qa='+str(time.time()),timeout=20).read()
+                  if hashlib.sha256(data).hexdigest()==expected:
+                      print('正式站 SHA-256 一致：'+expected)
+                      break
+              except Exception as e:
+                  print(type(e).__name__)
+              time.sleep(10)
+          else:
+              raise SystemExit('正式站未更新為本次遊戲，停止驗證')
+          PY
+      - name: 正式站版本、新局探索、手機傷害畫面及多人實連
+        run: NODE_PATH=$(npm root -g) QA_ORIGIN=https://ryoushiro0329.github.io QA_URL=https://ryoushiro0329.github.io/zerocase/index.html QA_LIVE=1 node tests/damage-float-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: live-damage-float
+          path: test-results/damage-float/
+          retention-days: 14
