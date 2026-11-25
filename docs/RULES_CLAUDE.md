@@ -26,7 +26,7 @@
 - **本機只跑 FAST**：`export NODE_PATH=$(npm root -g)`，`bash tests/run_all.sh fast`（約 1 分鐘：防弱化檢查＋全部 Node 測試，報告在 `test-results/report.json`）。全部跑，不要只挑幾支，便宜又能抓到改壞的舊測試。說明見 `docs/QA_SYSTEM.md`。新功能或修正補 1～3 個聚焦的測試。
 - **改到畫面**：只截改到的那幾個畫面，親眼看過文字清楚、沒被擋住。版面有動才拍三種尺寸（844×390、1280×720、393×690＝手機窄橫向），只改文字拍 844×390 就好。
 - **瀏覽器冒煙、長路線**：開 PR 後 GitHub 的「完整測試」會自動跑（`.github/workflows/test.yml`），本機不跑，看結果就好：`gh api repos/RyouShiro0329/zerocase/commits/<分支>/check-runs --jq '.check_runs[]|.name+" "+.status+" "+(.conclusion//"")'`；報告與失敗截圖在那次執行的 artifact「test-results」。主人要求才在本機跑 `bash tests/run_all.sh full`（背景執行，一次只跑一個）。
-- 報告的六種狀態：PASS 通過、FAIL 失敗、SKIP 略過、NOT_RUN 未測試、ERROR 測試工具出錯、TODO 暫緩；回報時 SKIP、NOT_RUN、ERROR 都寫成「未測試（原因）」，不能寫通過。改測試工具要跑 `bash tests/qa-selfcheck.sh`。
+- 報告的六種狀態：PASS 通過、FAIL 失敗、SKIP 略過、NOT_RUN 未測試、ERROR 測試工具出錯、TODO 暫緩；回報時 SKIP、NOT_RUN、ERROR 都寫成「未測試（原因）」，不能寫通過。改測試工具要跑 `bash tests/qa-selfcheck.sh`。CI 失敗時看報告裡的種子，用 `QA_SEED=<種子>` 重跑，對照 `trace-*.json`。
 - 結果只能寫「通過／失敗／未測試（原因）」。Android 實機一律「待主人實機驗收」。正式多人連線（Firebase）沒有實測就寫未測試。
 
 ## 五、發布（照順序）

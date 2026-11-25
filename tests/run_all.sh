@@ -7,6 +7,8 @@
 # 每個階段只會是：通過 PASS／失敗 FAIL／略過 SKIP／未測試 NOT_RUN／測試工具出錯 ERROR（個別項目另有暫緩 TODO）。
 # 只有每個階段都通過才寫「全部通過」。缺 playwright＝未測試，SKIP_LONG=1＝略過，都不會當成通過。
 # 報告：test-results/report.json（版本、Build、commit、index.html SHA-256、各階段秒數與細節）、report.md；失敗截圖在 test-results/screenshots/。
+# 種子（2026-11-25 PR-B）：瀏覽器兩項「選哪個按鈕」和開局種子都由 QA_SEED 決定；沒給就抽一個，印在報告。重現：QA_SEED=<報告裡的數字> bash tests/run_all.sh full …
+#   操作紀錄在 test-results/trace-*.json；等待逾時、無效動作、卡死分開計（見 docs/QA_SYSTEM.md）。
 # 環境變數：QA_BASE（防弱化比對的基準，預設 origin/main）、QA_OUT（報告資料夾）、SKIP_LONG=1、
 #           QA_SERVE=route（不開本機伺服器，由 playwright 直接讀檔；本機不能開埠時用）
 # 瀏覽器兩項都開測試用無敵模式（tests/helpers/godmode.cjs，只在測試頁注入，遊戲本體沒有）：現在不測平衡（主人 2026-11-16）。
@@ -15,6 +17,7 @@ MODE=full
 case "$1" in fast|full) MODE=$1; shift;; esac
 SMOKE=${1:-40}; LONG=${2:-220}
 OUT=${QA_OUT:-test-results}; export QA_OUT=$OUT
+[ -z "$QA_SEED" ] && QA_SEED=$(od -An -N4 -tu4 /dev/urandom | tr -d ' '); export QA_SEED
 REP="node tests/helpers/test-reporter.cjs"
 now(){ date +%s.%N; }
 sec(){ awk "BEGIN{printf \"%.1f\", $(now)-$1}"; }
@@ -51,13 +54,13 @@ else
   else
     echo "== 3. 瀏覽器冒煙測試（$SMOKE 步 × 三種尺寸）"
     T=$(now); rm -f "$OUT/browser-smoke.json"; QA_DETAIL="$OUT/browser-smoke.json" NODE_PATH=$NP node tests/browser-smoke.cjs "$SMOKE"; R=$?
-    case $R in 0) S=PASS; N="$SMOKE 步×3 種尺寸";; 1) S=FAIL; N="見細節";; *) S=ERROR; N="exit $R";; esac
+    case $R in 0) S=PASS; N="$SMOKE 步×3 種尺寸，種子 $QA_SEED";; 1) S=FAIL; N="見細節";; *) S=ERROR; N="exit $R";; esac
     $REP stage smoke "瀏覽器冒煙" $S "$(sec $T)" "$N" "$OUT/browser-smoke.json"
     if [ -n "$SKIP_LONG" ]; then $REP stage long "長路線" SKIP 0 "SKIP_LONG 略過"
     else
       echo "== 4. 長路線測試（$LONG 動作，無敵模式）"
       T=$(now); rm -f "$OUT/long-route.json"; QA_DETAIL="$OUT/long-route.json" NODE_PATH=$NP node tests/long-route.cjs "$LONG"; R=$?
-      case $R in 0) S=PASS; N="$LONG 動作";; 1) S=FAIL; N="見細節";; *) S=ERROR; N="exit $R";; esac
+      case $R in 0) S=PASS; N="$LONG 動作，種子 $QA_SEED";; 1) S=FAIL; N="見細節";; *) S=ERROR; N="exit $R";; esac
       $REP stage long "長路線" $S "$(sec $T)" "$N" "$OUT/long-route.json"
     fi
   fi

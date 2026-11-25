@@ -9,6 +9,9 @@
 #   V11 guard.test.cjs 被改 → 防弱化檢查失敗、總結失敗
 #   V12 測試檔被刪、test 變少 → 警告（不擋，但寫進報告）
 #   V13 必要圖片 404 → 瀏覽器冒煙失敗，錯誤裡寫出缺的檔案（需要 playwright；沒有就寫未測試）
+#   （PR-B）V05 同一個種子跑兩次 → 操作紀錄每一步都一樣、遊戲開局種子相同；換種子 → 開局種子不同
+#   （PR-B）V06 遊戲一直忙（暫存複本讓 busy 永遠是 true）→ 等待逾時有記錄、超過上限算失敗（以前逾時被吞掉、照樣算一步）
+#   （PR-B）V10 點了沒反應（暫存複本吞掉選項的點擊）→ 記成無效動作、連續沒變判卡死、失敗並停下
 # 用法：bash tests/qa-selfcheck.sh　結果：每個情境 通過／失敗／未測試，另存 test-results/selfcheck.json
 cd "$(dirname "$0")/.." || exit 1
 REPO=$(pwd); OUTD=${QA_OUT:-test-results}; mkdir -p "$OUTD"
@@ -91,6 +94,33 @@ if NODE_PATH=$NP node -e "require('playwright')" 2>/dev/null; then
   E=$(cat "$D/out.exit"); A=$(J "$D/out/smoke.json" 'r.views.some(v=>v.errors.required.some(x=>/img\/cat_story\.webp/.test(x.msg)&&/404/.test(x.msg)))')
   if [ "$E" = 1 ] && [ "$A" = true ]; then ok V13 通過 "img/cat_story.webp 404 被抓到、冒煙失敗"; else ok V13 失敗 "exit $E、抓到 $A：$(grep -m2 失敗 "$D/out.log")"; fi
 else ok V13 未測試 "這個環境沒有 playwright"; fi
+
+# V05／V06／V10（PR-B，真的開瀏覽器）
+if NODE_PATH=$NP node -e "require('playwright')" 2>/dev/null; then
+  # V05：直接用倉庫的遊戲，報告寫到暫存目錄
+  for k in a b c; do sd=4242; [ $k = c ] && sd=4243
+    ( QA_SERVE=route QA_OUT="$WORK/v05$k" QA_DETAIL="$WORK/v05$k/smoke.json" QA_SEED=$sd NODE_PATH=$NP timeout 300 node tests/browser-smoke.cjs 8 > "$WORK/v05$k.log" 2>&1 ) & done; wait
+  A=$(node -e "
+const fs=require('fs'),W='$WORK';let same=true,n=0;
+for(const f of fs.readdirSync(W+'/v05a').filter(f=>/^trace-/.test(f))){const a=require(W+'/v05a/'+f),b=require(W+'/v05b/'+f),c=require(W+'/v05c/'+f);n++;
+ if(JSON.stringify(a.steps.map(x=>[x.node,x.act]))!==JSON.stringify(b.steps.map(x=>[x.node,x.act]))||a.gameSeed!==b.gameSeed||a.gameSeed===c.gameSeed||a.seed!==b.seed)same=false}
+const d=require(W+'/v05a/smoke.json');console.log(same&&n===3&&d.seed===4242)" 2>/dev/null)
+  if [ "$A" = true ]; then ok V05 通過 "種子 4242 跑兩次，三種尺寸的操作紀錄完全一樣；換種子開局不同"; else ok V05 失敗 "比對結果 $A"; fi
+  # V06、V10：暫存複本（素材用符號連結，index.html 是複製的，只改複本）
+  mkv(){ local d="$WORK/$1"; mkdir -p "$d/tests"; cp -rs "$REPO/img" "$REPO/sfx" "$REPO/fx" "$REPO/fonts" "$d/"
+    cp -r "$REPO/tests/helpers" "$REPO/tests/browser-smoke.cjs" "$d/tests/"
+    node -e "const fs=require('fs');const s=fs.readFileSync(process.argv[1],'utf8');fs.writeFileSync(process.argv[2],s.replace('</body></html>','<script>'+process.argv[3]+'</script></body></html>'))" "$REPO/index.html" "$d/index.html" "$2"; echo "$d"; }
+  D6=$(mkv v06 "setInterval(()=>{try{if(typeof G!=='undefined'&&G&&G.phase==='node')busy=true}catch(e){}},20)")
+  D10=$(mkv v10 "window.addEventListener('click',e=>{try{if(typeof G!=='undefined'&&G&&G.phase==='node'&&e.target.closest&&e.target.closest('#choices'))e.stopImmediatePropagation()}catch(x){}},true)")
+  ( cd "$D6" && QA_SERVE=route QA_OUT=out QA_DETAIL=out/smoke.json QA_WAIT_MS=800 QA_STUCK=99 QA_SEED=1 NODE_PATH=$NP timeout 300 node tests/browser-smoke.cjs 6 > out.log 2>&1; echo $? > out.exit ) &
+  ( cd "$D10" && QA_SERVE=route QA_OUT=out QA_DETAIL=out/smoke.json QA_STUCK=5 QA_SEED=1 NODE_PATH=$NP timeout 300 node tests/browser-smoke.cjs 15 > out.log 2>&1; echo $? > out.exit ) & wait
+  A=$(J "$D6/out/smoke.json" 'r.views.every(v=>v.run&&v.run.timeouts>=5&&!v.run.stuck)&&r.checks.filter(c=>/等待逾時/.test(c.name)).every(c=>!c.ok)')
+  E=$(cat "$D6/out.exit"); T6=$(ls "$D6"/out/trace-*.json 2>/dev/null | wc -l)
+  if [ "$E" = 1 ] && [ "$A" = true ] && [ "$T6" = 3 ]; then ok V06 通過 "每一步逾時都有記錄、超過上限判失敗、exit 1"; else ok V06 失敗 "exit $E、判定 $A、紀錄檔 $T6：$(grep -m1 逾時 "$D6/out.log")"; fi
+  A=$(J "$D10/out/smoke.json" 'r.views.every(v=>v.run&&v.run.stuck&&v.run.invalid>=5&&v.steps<15&&v.screen)&&r.checks.filter(c=>/沒有卡死/.test(c.name)).every(c=>!c.ok)')
+  E=$(cat "$D10/out.exit")
+  if [ "$E" = 1 ] && [ "$A" = true ]; then ok V10 通過 "點了沒變記成無效動作、第 5 步判卡死並停下、存了最後畫面"; else ok V10 失敗 "exit $E、判定 $A：$(grep -m1 卡死 "$D10/out.log")"; fi
+else ok V05 未測試 "這個環境沒有 playwright"; ok V06 未測試 "這個環境沒有 playwright"; ok V10 未測試 "這個環境沒有 playwright"; fi
 
 printf '%s\n' "${RES[@]}" | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const r=s.trim().split('\n').map(l=>{const [id,status,note]=l.split('|');return {id,status,note}});require('fs').writeFileSync(process.argv[1],JSON.stringify({checks:r},null,1))})" "$OUTD/selfcheck.json"
 echo "== 自我驗收：${#RES[@]} 項，失敗 $FAILN 項（結果存在 $OUTD/selfcheck.json）"
