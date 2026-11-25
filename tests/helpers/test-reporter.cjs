@@ -72,6 +72,7 @@ function md(rep){
  const g=rep.game,L=[];
  L.push(`## 零號病例 測試報告：${rep.summary.text}`,'');
  L.push(`- 模式：${rep.mode==='full'?'完整':'FAST'}　遊戲 v${g.version}／Build ${g.build}　commit ${(rep.commit||'').slice(0,7)}${rep.dirty?'（有未提交修改）':''}`);
+ if(rep.args&&rep.args.seed!=null)L.push(`- 種子：${rep.args.seed}（重現：\`QA_SEED=${rep.args.seed} bash tests/run_all.sh full ${rep.args.smokeSteps||40} ${rep.args.longSteps||480}\`）`);
  L.push(`- index.html SHA-256：\`${g.sha256}\``,`- 開始 ${rep.started}　結束 ${rep.finished}　共 ${rep.seconds} 秒`,'');
  L.push('| 階段 | 狀態 | 秒 | 說明 |','|---|---|---|---|');
  for(const s of rep.stages)L.push(`| ${s.name} | ${ZH[s.status]}（${s.status}） | ${s.seconds} | ${String(s.note||'').replace(/\|/g,'／')} |`);
@@ -86,7 +87,7 @@ if(cmd==='init'){
  fs.mkdirSync(OUT,{recursive:true});
  for(const f of ['report.json','report.md','node-tap.txt'])fs.rmSync(path.join(OUT,f),{force:true});
  const mode=a[0]==='fast'?'fast':'full';
- save({schema:1,mode,args:{smokeSteps:a[1]?+a[1]:null,longSteps:a[2]?+a[2]:null},t0:Date.now(),started:taipei(),stages:[]});
+ save({schema:1,mode,args:{smokeSteps:a[1]?+a[1]:null,longSteps:a[2]?+a[2]:null,seed:process.env.QA_SEED!=null&&process.env.QA_SEED!==''?+process.env.QA_SEED:null},t0:Date.now(),started:taipei(),stages:[]});
 }else if(cmd==='node'){
  const [file,exit,sec]=a,r=load();
  const txt=fs.existsSync(file)?fs.readFileSync(file,'utf8'):'';
