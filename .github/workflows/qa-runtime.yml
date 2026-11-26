@@ -1,0 +1,26 @@
+name: QA Chromium 環境準備（不發布）
+on:
+  push:
+    branches: [qa/runtime-chromium-145]
+permissions:
+  contents: read
+jobs:
+  runtime:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install chromium
+      - name: 封裝官方安裝的 headless shell
+        run: |
+          tar -C "$HOME/.cache/ms-playwright" -czf chromium-headless-145.tar.gz chromium_headless_shell-1208
+          sha256sum chromium-headless-145.tar.gz > SHA256.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: qa-chromium-145
+          path: |
+            chromium-headless-145.tar.gz
+            SHA256.txt
+          retention-days: 1
