@@ -9,6 +9,11 @@ on:
       - 'tests/v06-*.cjs'
       - '.github/workflows/v06-stability.yml'
   workflow_dispatch:
+    inputs:
+      historical_control:
+        description: '額外跑舊版負向對照；偶發問題未重現時會失敗，僅供調查'
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -22,7 +27,6 @@ jobs:
           - {name: current-solo, paired: '0', observed: '0', legacy: '0', rounds: 20}
           - {name: current-paired, paired: '1', observed: '0', legacy: '0', rounds: 20}
           - {name: current-observed, paired: '1', observed: '1', legacy: '0', rounds: 20}
-          - {name: historical-paired, paired: '1', observed: '0', legacy: '1', rounds: 20}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -32,9 +36,6 @@ jobs:
           node-version: '22'
       - run: npm ci --prefix tests --ignore-scripts
       - run: tests/node_modules/.bin/playwright install --with-deps chromium
-      - name: 準備歷史對照版本
-        if: matrix.legacy == '1'
-        run: git worktree add --detach "$RUNNER_TEMP/v06-historical" 6ba5f1f7ce74a19f18e1bcf1d27cb6b3a6d6d286
       - name: 固定二十輪（不重試、不放寬判定）
         env:
           DIAG_PAIRED: ${{ matrix.paired }}
@@ -44,7 +45,6 @@ jobs:
         run: |
           export NODE_PATH="$GITHUB_WORKSPACE/tests/node_modules"
           export DIAG_OUT="$RUNNER_TEMP/v06-cases"
-          if [ "$DIAG_LEGACY" = 1 ]; then export SOURCE_ROOT="$RUNNER_TEMP/v06-historical"; fi
           node tests/v06-repeat.cjs
       - name: 收集診斷資料（排除素材與符號連結）
         if: always()
@@ -57,5 +57,40 @@ jobs:
         with:
           name: v06-${{ matrix.name }}
           path: test-results/v06-repeat/
+          retention-days: 14
+          if-no-files-found: error
+
+  historical_control:
+    if: github.event_name == 'workflow_dispatch' && inputs.historical_control
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix tests --ignore-scripts
+      - run: tests/node_modules/.bin/playwright install --with-deps chromium
+      - run: git worktree add --detach "$RUNNER_TEMP/v06-historical" 6ba5f1f7ce74a19f18e1bcf1d27cb6b3a6d6d286
+      - name: 舊版固定二十輪（不重試）
+        env:
+          DIAG_PAIRED: '1'
+          DIAG_LEGACY: '1'
+          DIAG_ROUNDS: '20'
+        run: |
+          NODE_PATH="$GITHUB_WORKSPACE/tests/node_modules" SOURCE_ROOT="$RUNNER_TEMP/v06-historical" DIAG_OUT="$RUNNER_TEMP/v06-cases" node tests/v06-repeat.cjs
+      - name: 收集歷史對照證據
+        if: always()
+        run: |
+          mkdir -p test-results/v06-historical
+          cp "$RUNNER_TEMP/v06-cases/summary.json" test-results/v06-historical/summary.json
+          node tests/helpers/selfcheck-evidence.cjs "$RUNNER_TEMP/v06-cases" test-results/v06-historical/details all
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v06-historical-paired
+          path: test-results/v06-historical/
           retention-days: 14
           if-no-files-found: error
