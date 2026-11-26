@@ -1,12 +1,14 @@
-# GPT／Codex 候選交接：B 方案（v0.69.0／Build144，尚未完整驗收）
+# GPT／Codex 交接：B 方案（v0.69.0／Build144）
 
-2026-11-26（Asia/Taipei）。基準 main 0f7e5d1／v0.68.0／Build143，分支 feat/asset-loading-b。
+2026-11-26（Asia/Taipei）。基準 main 0f7e5d1／v0.68.0／Build143，分支 feat/asset-loading-b，PR #75：
+https://github.com/RyouShiro0329/zerocase/pull/75
 
-- 本機候選已實作，完整說明見 qa/asset-loading/HANDOFF.md；獨立驗收在 qa/asset-loading/，素材索引生成工具為 tools/build_assets.cjs。
-- 原 tests/、guard、split_index、既有 workflow 不動。原 Node 476 項＝473 通過、0 失敗、3 既有暫緩；新增聚焦三組通過。完整瀏覽器、真實 SW、限速、Firebase 與截圖未測試，不可宣稱全部通過或沒有新增問題。
-- 缺可執行 Chromium，下載回應 403；推送候選分支被自動核准審查拒絕。需主人明確確認只推候選分支並開草稿 PR 供雲端驗收。尚未推送、未建立 PR、未合併、未部署。
-- 主人本輪明確要求先不要部署。取得雲端結果後仍須修正新增失敗並親眼確認截圖，再交主人審核。
-- 未變更任何遊戲設計規則或原素材；未新增備援音效，原缺口保留。Android 待主人實機驗收。
+- 主人已明確授權公開推送、建立 PR，完整驗收通過後合併部署；不需再次詢問相同授權。發布狀態以 PR 與正式站版本為準。
+- 架構、工程參數、已知備援缺口與驗收方式見 qa/asset-loading/HANDOFF.md；原規格 SPEC.md 完整保留。
+- 原 tests/、guard、split_index、既有 workflow 均未改。Node 476 項＝473 通過、0 失敗、3 既有暫緩；新增聚焦三組通過。最終雲端結果看 PR Checks 與其程式雜湊，不把早期報告誤當現況。
+- 同場音效延遲回呼依既有 musicId；普通短音效的傳輸加上本機取消／去重識別，四秒以上排隊、離開分頁、已涵蓋快照及舊節點事件不補播。原有陣列介面保留，舊房主沒有新欄位也可接收。
+- SW 限同源公開靜態素材，主頁網路優先，媒體 Range 繞過；不 skipWaiting／claim。自動註冊限 /zerocase/ 結尾的部署範圍，其他完整部署需 ?asset-cache=1；單頁鏡像不發不存在的 SW 請求。
+- 未改遊戲核心規則、原素材、混音或 Firebase 權限；無新增備援音效。Android 待主人實機驗收。
 
 ---
 

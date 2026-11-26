@@ -34,6 +34,8 @@ async function zcSwAsset(request){
   if(cache)try{await cache.put(key,response.clone())}catch(e){}return response;
 }
 self.addEventListener('fetch',event=>{
-  const r=event.request,u=new URL(r.url);if(r.method!=='GET'||!ZC_SW_ALLOW.has(u.pathname)||u.origin!==ZC_SW_BASE.origin||!u.pathname.startsWith(ZC_SW_BASE.pathname)||r.mode==='navigate'||u.pathname===new URL('assets-manifest.json',ZC_SW_BASE).pathname||u.pathname===self.location.pathname)return;
+  const r=event.request,u=new URL(r.url);
+  if(r.method==='GET'&&u.origin===ZC_SW_BASE.origin&&r.mode==='navigate'&&(u.pathname===ZC_SW_BASE.pathname||u.pathname===new URL('index.html',ZC_SW_BASE).pathname)){event.respondWith(fetch(r,{cache:'no-cache'}));return}
+  if(r.method!=='GET'||!ZC_SW_ALLOW.has(u.pathname)||u.origin!==ZC_SW_BASE.origin||!u.pathname.startsWith(ZC_SW_BASE.pathname)||r.mode==='navigate'||u.pathname===new URL('assets-manifest.json',ZC_SW_BASE).pathname||u.pathname===self.location.pathname)return;
   event.respondWith(zcSwAsset(r).catch(()=>fetch(r)));
 });

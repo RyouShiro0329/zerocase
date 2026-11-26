@@ -1,0 +1,63 @@
+{
+  "time": "2026-11-26T18:23:22.808912+08:00",
+  "scope": "與既有 V16 相同的無修改單頁複本對照，不修改既有測試",
+  "old": {
+    "status": "失敗",
+    "requiredErrors": [
+      {
+        "kind": "console.error",
+        "msg": "A bad HTTP response code (404) was received when fetching the script."
+      },
+      {
+        "kind": "console.error",
+        "msg": "A bad HTTP response code (404) was received when fetching the script."
+      },
+      {
+        "kind": "console.error",
+        "msg": "A bad HTTP response code (404) was received when fetching the script."
+      }
+    ]
+  },
+  "new": {
+    "status": "通過",
+    "allChecks": true,
+    "requiredErrors": [],
+    "fights": [
+      {
+        "id": 1,
+        "foes": [
+          "cutter"
+        ],
+        "ends": 1,
+        "lootCalls": 1,
+        "lootRows": 1,
+        "gearDelta": 1,
+        "gearRows": 1,
+        "itemDelta": 0,
+        "musicIn": "battle",
+        "musicAfter": {
+          "mode": "explore",
+          "allowed": true,
+          "bgm": true,
+          "over": false,
+          "explorePaused": false,
+          "exploreVol": 0.55,
+          "battlePaused": true,
+          "intensePaused": true,
+          "failed": []
+        },
+        "back": {
+          "fight": false,
+          "phase": "node",
+          "over": false,
+          "choices": 3,
+          "stgOpen": false,
+          "stgHidden": true
+        },
+        "stg": null,
+        "endAt": 1795688474918
+      }
+    ]
+  },
+  "indexSHA256": "48d4011fc1cb80d63ac1d13ab2c773331695b40b85f5b007a6002a863075c6be"
+}

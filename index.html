@@ -1,12 +1,12 @@
 <!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#060605"><meta name="mobile-web-app-capable" content="yes"></head><body>
 <title>零號病例</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preload" href="fonts/tw-kai-game.woff2?v=07d960ad" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/tw-kai-game.woff2?v=07d960ad&zc-h=07d960adda0b2eb201f6a792fa011d845f5522bee736336bb010709607f35e3f" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/source-serif-4-latin.woff2?zc-h=9314377f84ec3075b440e2295b66810ff2ca3b37ffaf8d10ef9b7f766e16190d" as="font" type="font/woff2" crossorigin>
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
-@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=07d960ad") format("woff2");font-style:normal;font-weight:400;font-display:swap}
-@font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
+@font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=07d960ad&zc-h=07d960adda0b2eb201f6a792fa011d845f5522bee736336bb010709607f35e3f") format("woff2");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:"ZC Latin";src:url("fonts/source-serif-4-latin.woff2?zc-h=9314377f84ec3075b440e2295b66810ff2ca3b37ffaf8d10ef9b7f766e16190d") format("woff2");font-style:normal;font-weight:200 900;font-display:swap;unicode-range:U+0020-024F,U+2000-206F,U+2212}
 /* 版面：仿《露涅希亞・旅途》的橫向舞台。整個畫面放在 #stage，手機直拿時由程式轉成橫向。
    上方工具列（地點｜時間與探索進度｜功能鍵），戰鬥時多一列敵人卡；下方左側敘事、右側選項與麥琪狀態。
    擲骰在舞台中央以 d20／d6 動畫呈現，聲音以 Web Audio 即時合成。刻意只做單一暗色主題。 */
@@ -274,7 +274,7 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .av.big{width:30px;height:30px;font-size:14px}
 .av.pic{background:#111!important;overflow:hidden}.av.pic img{width:100%;height:100%;object-fit:cover;display:block}
 .avrow{display:flex;align-items:center;gap:10px;margin:4px 0 8px}.avrow .av{width:56px;height:56px;font-size:24px}.avrow small{color:var(--muted);font-size:.74rem}.avrow .btn{white-space:nowrap;flex:none}
-/* v0.7.0 主頁：三種角色卡（.hico 留給之後的圖示：例如 .hico[data-icon=custom]{background-image:url(img/cat_custom.webp)}） */
+/* v0.7.0 主頁：三種角色卡（.hico 留給之後的圖示：例如 .hico[data-icon=custom]{background-image:url(img/cat_custom.webp?zc-h=f6a30598339aac3edca2912ca4cd7b7dcc1bb13aede0ea6be8b9a0c3f0807140)}） */
 .home{display:flex;flex-direction:column;height:100%;gap:10px}
 .hhead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex:none}.hhead h1{margin:0;font-size:2rem;letter-spacing:.3em;font-weight:900}
 .hinfo{display:flex;flex-direction:column;align-items:flex-end;gap:0}.hinfo .note{margin:0;font-size:.72rem}
@@ -581,9 +581,9 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 #stage.short #cbar:not([hidden])~.cols #choices:has(>.ch[data-fa="atk"][data-h]:not([data-sk]):not([data-csk]),>.ch[data-tgt])>.ch:is([data-ftab=""],[data-cancel]) .cm{flex-basis:auto;margin-top:0}
 /* v0.7.3 主頁分類卡：圖片鋪滿卡片，下方漸層疊字 */
 .hcat{position:relative;overflow:hidden;justify-content:flex-end;align-items:flex-start;text-align:left;padding:12px 14px;background:#070706 center/cover no-repeat}
-.hcat[data-cat=custom]{background-image:url(img/cat_custom.webp);background-position:center 40%}
-.hcat[data-cat=story]{background-image:url(img/cat_story.webp);background-position:center 62%}
-.hcat[data-cat=guest]{background-image:url(img/cat_guest.webp);background-position:center 40%}
+.hcat[data-cat=custom]{background-image:url(img/cat_custom.webp?zc-h=f6a30598339aac3edca2912ca4cd7b7dcc1bb13aede0ea6be8b9a0c3f0807140);background-position:center 40%}
+.hcat[data-cat=story]{background-image:url(img/cat_story.webp?zc-h=f63494a6edb88e6bed8f5b7cf36d7a4246c18039fa58220aa27b5944d1c7c11e);background-position:center 62%}
+.hcat[data-cat=guest]{background-image:url(img/cat_guest.webp?zc-h=867fd8b572125296fedb6bb47e8afbbe10b71c8eb5f980603803ca6fd50bba89);background-position:center 40%}
 .hcat::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0) 30%,rgba(0,0,0,.55) 58%,rgba(0,0,0,.92) 100%);pointer-events:none}
 .hcat>*{position:relative;z-index:1}
 .hcat .hico{display:none}
@@ -6436,18 +6436,18 @@ const ZC_ASSET_LOADER=(()=>{
     }).catch(e=>{r.error=String(e);r.failedAt=Date.now();r.state='failed';note(r.id,'prepare',e);return null}).finally(()=>{r.promise=null});return r.promise;
   }
   const soundPaths=n=>n==='crossbowshot'?['sfx/crossbowshot.wav']:(n==='genloop'||n.startsWith('rain_')?['ogg','mp3']:['mp3']).map(e=>'sfx/'+n+'.'+e);
-  function sound(n,p=files.get(soundPaths(n)[0])?.priority??2,force=false){const a=audio();if(!a)return Promise.resolve(null);const r=record('sound:'+n,'audio',soundPaths(n),p,p===1&&p1Sounds.includes(n));if(BUF[n]){r.lastUse=Date.now();return Promise.resolve(BUF[n])}
+  function sound(n,p=files.get(soundPaths(n)[0])?.priority??2,force=false){const a=audio();if(!a)return Promise.resolve(null);const r=record('sound:'+n,'audio',soundPaths(n),p,p<=1&&p1Sounds.includes(n));if(BUF[n]){r.lastUse=Date.now();return Promise.resolve(BUF[n])}
     return ensure(r,bytes=>new Promise((ok,no)=>a.decodeAudioData(bytes.slice(0),ok,no)),p,force).then(v=>{if(v){BUF[n]=v;collect();AUDIO_LOAD_STATUS.failed.delete(n);if(live&&typeof syncAmbience==='function')syncAmbience()}else AUDIO_LOAD_STATUS.failed.add(n);return v})}
   function image(p,priority=2,force=false){if(typeof Image!=='function')return Promise.resolve(null);const r=record('image:'+p,'image',[p],priority);
     return ensure(r,bytes=>new Promise((ok,no)=>{const im=new Image(),src=URL.createObjectURL(new Blob([bytes]));let timer=setTimeout(()=>{im.src='';URL.revokeObjectURL(src);no(Error('圖像準備逾時'))},policy.timeout);
-      im.onload=async()=>{try{if(im.decode)await im.decode();clearTimeout(timer);ok(im)}catch(e){clearTimeout(timer);URL.revokeObjectURL(src);no(e)}};im.onerror=()=>{clearTimeout(timer);URL.revokeObjectURL(src);no(Error('圖像解碼失敗'))};im.src=src}),priority,force).then(v=>{if(v&&live){for(const im of document.querySelectorAll('img[data-zc-retry]'))if(im.dataset.zcRetry===p&&im.dataset.zcScope===zcAssetScope()){im.src=v.src;im.classList.remove('zc-asset-image');delete im.dataset.zcRetry}collect()}return v})}
+      im.onload=async()=>{try{if(im.decode)await im.decode();clearTimeout(timer);ok(im)}catch(e){clearTimeout(timer);URL.revokeObjectURL(src);no(e)}};im.onerror=()=>{clearTimeout(timer);URL.revokeObjectURL(src);no(Error('圖像解碼失敗'))};im.src=src}),priority,force).then(v=>{if(v&&live){for(const im of document.querySelectorAll('img[data-zc-retry]'))if(im.dataset.zcRetry===p&&im.dataset.zcScope===zcAssetScope()){im.src=v.src;im.alt=im.dataset.zcAlt||'';im.classList.remove('zc-asset-image');delete im.dataset.zcRetry}collect()}return v})}
   function prefetch(p,priority=3){const r=record('file:'+p,'file',[p],priority);return ensure(r,()=>true,priority)}
   function font(p){if(!live||!document.fonts)return prefetch(p,0);const r=record('font:'+p,'font',[p],0,true);if(r.value)return Promise.resolve(true);if(r.promise)return r.promise;r.state='decoding';
     r.promise=document.fonts.load(p.includes('tw-kai')?'16px "ZC Kai"':'16px "ZC Latin"').then(rows=>{if(!rows.length)throw Error('字型尚未準備完成');r.downloaded=true;r.value=true;r.state='ready';r.error=null;return true}).catch(e=>{r.state='failed';r.failedAt=Date.now();r.error=String(e);note(r.id,'font',e);return false}).finally(()=>{r.promise=null});return r.promise}
   const p1Sounds=['click','step','zstep','dooropen','doorclose','stairs','hurt','thud','glassbreak','woodknock','beretta','mp5','rifle','claw','knife','fist','piercehit','bowdraw','bowimpact','crossbowshot','headshot'];
   const p1=()=>[...files.values()].filter(f=>f.priority<=1&&(f.type==='image'||f.type==='font'));
   function warm(){if(!live)return;for(const f of p1())if(f.priority===0){if(f.type==='font')font(f.url);else prefetch(f.url,0)};for(const n of p1Sounds)if(n!=='hurt')prefetch(soundPaths(n)[0],1)}
-  function needed(){return [...p1().map(f=>({id:(f.type==='image'?'image:':'font:')+f.url,run:()=>f.type==='image'?image(f.url,1):font(f.url)})),...(UI.snd?p1Sounds.filter(n=>n!=='hurt').map(n=>({id:'sound:'+n,run:()=>sound(n,1)})):[]),...(UI.bgm?[{id:'music:explore',run:()=>{const a=BGM_MIX.tracks.explore;a.preload='auto';media('explore',a,a.readyState>=2?'canplay':a.zcFailed?'error':'waiting')}}]:[]) ]}
+  function needed(){return [...p1().map(f=>({id:(f.type==='image'?'image:':'font:')+f.url,run:()=>f.type==='image'?image(f.url,1):font(f.url)})),...(UI.snd?p1Sounds.filter(n=>n!=='hurt').map(n=>({id:'sound:'+n,run:()=>sound(n,0)})):[]),...(UI.bgm?[{id:'music:explore',run:()=>{const a=BGM_MIX.tracks.explore;a.preload='auto';media('explore',a,a.readyState>=2?'canplay':a.zcFailed?'error':'waiting')}}]:[]) ]}
   async function foreground(progress,force=false){const tasks=needed();for(const t of tasks){const r=records.get(t.id);if(force&&r?.state==='failed')r.failedAt=0;t.run()}
     const end=Date.now()+policy.foreground;let failed=false;
     while(true){const rows=tasks.map(t=>records.get(t.id)),done=rows.filter(r=>r?.state==='ready'||r?.state==='degraded').length;
@@ -6464,22 +6464,27 @@ const ZC_ASSET_LOADER=(()=>{
     walk(N[G.node]);if(G.ev!=null)walk(EVPOOL[G.ev]);for(const p of G.players)for(const h of ['R','L']){const {w}=handW(p,h);walk(w)}
   }
   function boost(n){if(SFILES.includes(n)||n==='crossbowshot')sound(n,1);}
-  function event(kind,n){if(kind in stats)stats[kind]++;if(kind==='fallback'){const r=records.get('sound:'+n);if(r?.state==='failed')r.state='degraded'}if(kind==='quiet'||kind==='fallback')note(n,kind,'當下不補播')}
-  function later(fn,ms){const token=epoch,rid=G&&G.rid,node=G&&G.node,battle=G&&G.fight;return setTimeout(()=>{if(token!==epoch||document.hidden||!UI.snd||!G||G.over||G.rid!==rid||G.node!==node||G.fight!==battle){event('cancelled');return}fn()},ms)}
+  function event(kind,n){if(kind in stats)stats[kind]++;if(kind==='fallback'){const r=records.get('sound:'+n);if(r?.state==='failed')r.state='degraded'}if(kind==='quiet'||kind==='fallback'||kind==='cancelled')note(n,kind,'當下不補播')}
+  const heard=new Set();let receivedState=null;
+  function receive(o){if(!o)return;o._zcAsset={epoch,at:Date.now(),hidden:!!document.hidden};const g=o.t==='st'?o.d:o.t==='full'?o.d?.G:null;if(!g||!g.rid)return;const peer=o.peer||'';if(!receivedState||receivedState.rid!==g.rid||receivedState.peer!==peer){receivedState={rid:g.rid,peer,clock:g.clock||0,visit:g.audioVisit||0,node:g.node,fid:g.fight?.musicId||''};heard.clear()}else if((g.clock||0)>=receivedState.clock&&(g.audioVisit||0)>=receivedState.visit)receivedState={rid:g.rid,peer,clock:g.clock||0,visit:g.audioVisit||0,node:g.node,fid:g.fight?.musicId||''}}
+  function allowReceived(o){const m=o._zcAsset,scope=o.assetScope;let valid=!document.hidden&&(!m||!m.hidden&&m.epoch===epoch&&Date.now()-m.at<=4000);if(scope){if(G&&G.rid!==scope.rid)valid=false;const known=receivedState;if(known&&known.rid===scope.rid){if(scope.node!==known.node&&(scope.visit||0)<known.visit)valid=false;if(scope.fid&&known.fid&&scope.fid!==known.fid)valid=false}}
+    const key=o.peer&&Number.isSafeInteger(o.seq)?o.peer+':'+o.seq:null;if(key&&(heard.has(key)||typeof SLASH_VFX!=='undefined'&&SLASH_VFX.peer===o.peer&&o.seq<=SLASH_VFX.stateSeq))valid=false;if(valid&&key){heard.add(key);if(heard.size>256)heard.delete(heard.values().next().value)}if(!valid)event('cancelled',o.d&&o.d[0]);return valid}
+  function later(fn,ms){const token=epoch,rid=G&&G.rid,node=G&&G.node,battle=G&&G.fight,fid=battle&&battle.musicId;return setTimeout(()=>{const same=fid?G&&G.fight&&G.fight.musicId===fid:G&&G.fight===battle;if(token!==epoch||document.hidden||!UI.snd||!G||G.over||G.rid!==rid||G.node!==node||!same){event('cancelled');return}fn()},ms)}
   function cancel(){epoch++}
   function resetFailures(){for(const r of records.values())if(r.state==='failed'||r.state==='degraded'){r.failedAt=0;r.state='idle'}}
-  function retry(){for(const r of records.values())if((r.state==='failed'||r.state==='degraded')&&Date.now()-r.failedAt>=policy.cooldown){r.failedAt=0;r.state='idle'}loadSounds();loadArrowSound();for(const r of records.values())if(r.type==='image'&&r.state==='idle')image(r.paths[0],r.priority)}
-  async function register(){if(!live||!('serviceWorker' in navigator)||!/^https?:$/.test(location.protocol))return;try{registration=await navigator.serviceWorker.register(new URL('sw.js',base),{scope:base.pathname,updateViaCache:'none'});registration.update().catch(e=>note('sw','update',e));registration.addEventListener('updatefound',()=>{const w=registration.installing;w?.addEventListener('statechange',()=>{if(w.state==='installed'&&registration.waiting&&SCR==='menu')toast('素材更新已準備完成，下次開啟遊戲時生效。')})})}catch(e){note('sw','register',e)}}
+  function recoverMedia(force=false){if(!live||!UI.bgm||document.hidden)return;let changed=false;for(const a of Object.values(BGM_MIX.tracks)){if(!a.zcFailed)continue;const remaining=policy.cooldown-(Date.now()-(a.zcFailedAt||0));if(!force&&remaining>0){if(!a.zcRecoveryTimer)a.zcRecoveryTimer=setTimeout(()=>{a.zcRecoveryTimer=null;recoverMedia()},remaining+20);continue}clearTimeout(a.zcRecoveryTimer);a.zcRecoveryTimer=null;a.zcFailed=false;a.zcRetries=0;a.zcFailedAt=Date.now();a.load();changed=true}if(changed)syncBgmState()}
+  function retry(){for(const r of records.values())if((r.state==='failed'||r.state==='degraded')&&Date.now()-r.failedAt>=policy.cooldown){r.failedAt=0;r.state='idle'}recoverMedia();loadSounds();loadArrowSound();for(const r of records.values())if(r.type==='image'&&r.state==='idle')image(r.paths[0],r.priority)}
+  async function register(){if(!live||!('serviceWorker' in navigator)||!/^https?:$/.test(location.protocol))return;if(!base.pathname.endsWith('/zerocase/')&&new URL(location.href).searchParams.get('asset-cache')!=='1')return;try{registration=await navigator.serviceWorker.register(new URL('sw.js',base),{scope:base.pathname,updateViaCache:'none'});registration.update().catch(e=>note('sw','update',e));registration.addEventListener('updatefound',()=>{const w=registration.installing;w?.addEventListener('statechange',()=>{if(w.state==='installed'&&registration.waiting&&SCR==='menu')toast('素材更新已準備完成，下次開啟遊戲時生效。')})})}catch(e){note('sw','register',e)}}
   async function reset(){if(live&&typeof caches!=='undefined')try{await caches.delete(cacheName)}catch(e){note('cache','reset',e)}for(const r of records.values())if(r.type==='file'){r.value=null;r.state='idle'}for(const f of files.values())if(f.type!=='media')prefetch(f.url,3);resetFailures();retry()}
   function observe(){if(!live||typeof MutationObserver!=='function')return;
-    const attach=im=>{const path=im.getAttribute('data-zc-src')||'';if(!files.has(path)||im.dataset.zcAsset===path)return;im.dataset.zcAsset=path;const scope=G&&G.rid+':'+G.node+':'+(G.fight?.musicId||'');im.dataset.zcScope=scope;im.classList.add('zc-asset-image');
-      image(path,1).then(v=>{if(!im.isConnected||im.getAttribute('data-zc-src')!==path||scope!==(G&&G.rid+':'+G.node+':'+(G.fight?.musicId||'')))return;if(v){im.src=v.src;im.classList.remove('zc-asset-image');if(im.closest('#stg,#enc'))encFit(im.closest('#stg,#enc'))}else{im.alt='圖像暫時無法顯示';im.dataset.zcRetry=path}})};
+    const attach=im=>{const path=im.getAttribute('data-zc-src')||'';if(!files.has(path)||im.dataset.zcAsset===path)return;im.dataset.zcAsset=path;const scope=G&&G.rid+':'+G.node+':'+(G.fight?.musicId||'');im.dataset.zcScope=scope;if(!('zcAlt' in im.dataset))im.dataset.zcAlt=im.alt;im.classList.add('zc-asset-image');
+      image(path,1).then(v=>{if(!im.isConnected||im.getAttribute('data-zc-src')!==path||scope!==(G&&G.rid+':'+G.node+':'+(G.fight?.musicId||'')))return;if(v){im.src=v.src;im.alt=im.dataset.zcAlt||'';im.classList.remove('zc-asset-image');if(im.closest('#stg,#enc'))encFit(im.closest('#stg,#enc'))}else{im.alt='圖像暫時無法顯示';im.dataset.zcRetry=path}})};
     new MutationObserver(changes=>{for(const c of changes){if(c.type==='attributes'){if(c.target.tagName==='IMG')attach(c.target)}else for(const n of c.addedNodes)if(n.nodeType===1){if(n.tagName==='IMG')attach(n);n.querySelectorAll?.('img').forEach(attach)}}}).observe(document.querySelector('#stage'),{childList:true,subtree:true,attributes:true,attributeFilter:['data-zc-src']});
     window.addEventListener('online',()=>{retry();for(const im of document.querySelectorAll('img[data-zc-retry]')){delete im.dataset.zcAsset;attach(im)}});
   }
   function media(mode,a,state){const r=record('music:'+mode,'media',[...files.values()].filter(f=>f.type==='media'&&f.url.includes(mode==='explore'?'sfx/bgm.':mode==='intense'?'bgm_hitman_intense.':'bgm_hitman_battle.')).map(f=>f.url),2);r.lastUse=Date.now();r.state=state==='canplay'||state==='playing'?'ready':state==='error'?'degraded':'fetching';r.downloaded=a.readyState>=2;if(state==='error')note(r.id,state,'配樂載入失敗')}
   function memory(){collect();return {...stats,queued:queue.length,active,decoding}}
-  return {policy,stats,history,records,url,sound,image,prefetch,scene,foreground,background,boost,event,later,cancel,retry,resetFailures,register,reset,warm,media,observe,memory,setPaused:v=>{paused=v;pump()}};
+  return {policy,stats,history,records,url,sound,image,prefetch,scene,foreground,background,boost,event,receive,allowReceived,later,cancel,retry,resetFailures,register,reset,warm,media,recoverMedia,observe,memory,setPaused:v=>{paused=v;pump()}};
 })();
 
 /* ================= 音效 ================= */
@@ -6581,7 +6586,7 @@ for(const [mode,a] of Object.entries(BGM_MIX.tracks)){
   const stem=mode==='explore'?'bgm':mode==='intense'?'bgm_hitman_intense':'bgm_hitman_battle';
   a.src=ZC_ASSET_LOADER.url('sfx/'+stem+(a.canPlayType('audio/ogg; codecs="vorbis"')?'.ogg':'.mp3'));
   if(a.addEventListener)for(const event of ['canplay','playing','waiting','stalled','error'])a.addEventListener(event,()=>{a.zcState=event;ZC_ASSET_LOADER.media(mode,a,event);if(event==='playing'){a.zcBlocked=false;a.zcRetries=0}if(event==='waiting'||event==='stalled'){ZC_ASSET_LOADER.stats.bgmStalls++;if((a.zcRetries||0)<2){a.zcRetries=(a.zcRetries||0)+1;const epoch=BGM_MIX.epoch;setTimeout(()=>{if(epoch===BGM_MIX.epoch&&BGM_MIX.mode===mode&&UI.bgm&&!document.hidden)syncBgmState()},1500)}}});
-  a.onerror=()=>{if(!a.src.split('?')[0].endsWith('.mp3')){a.src=ZC_ASSET_LOADER.url('sfx/'+stem+'.mp3');syncBgmState()}else{a.zcFailed=true;syncBgmState()}};
+  a.onerror=()=>{if(!a.src.split('?')[0].endsWith('.mp3')){a.src=ZC_ASSET_LOADER.url('sfx/'+stem+'.mp3');syncBgmState()}else{a.zcFailed=true;a.zcFailedAt=Date.now();syncBgmState()}};
 }
 function syncBgmState(){
   const M=BGM_MIX,F=G&&G.fight;
@@ -6605,7 +6610,7 @@ function syncBgmState(){
 function beginEncounterBgm(){if(G&&G.fight){if(!G.fight.musicId)G.fight.musicId=G.rid+':'+Date.now();if(G.fight.musicIntense==null)G.fight.musicIntense=G.alarmFt===2}syncBgmState()}
 function beginBattleBgmOnce(){const F=G&&G.fight;if(!F||G.over||F.musicStarted)return;F.musicStarted=true;syncBgmState();E('bgm',{rid:G.rid,id:F.musicId,intense:!!F.musicIntense});push()}
 function restoreExploreBgm(){syncBgmState()}
-function startBgm(){BGM_MIX.allowed=true;syncBgmState()}
+function startBgm(){BGM_MIX.allowed=true;ZC_ASSET_LOADER.recoverMedia();syncBgmState()}
 function stopBgm(){BGM_MIX.allowed=false;syncBgmState()}
 // 播放並回傳「播完」的 Promise（max 為最長等待）
 function play(n,vol=1,max=4000,delay=0){if(document.hidden||!UI.snd)return null;const a=audio();if(!a||a.state!=='running'||!BUF[n]){ZC_ASSET_LOADER.boost(n);return null}ZC_ASSET_LOADER.event('played',n);const s=a.createBufferSource();s.buffer=BUF[n];const g=a.createGain();g.gain.value=vol;s.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(s,g);const ms=Math.min(max,BUF[n].duration*1000);s.start(a.currentTime+delay);s.stop(a.currentTime+delay+ms/1000);return ms}
@@ -9075,7 +9080,7 @@ function stgEvac(el){const F=G&&!G.over&&G.fight;if(!F||!MP()||!Array.isArray(F.
 {let pd=0,kd=0;const st=$('#stg');
   if(st&&st.addEventListener){
     st.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-stgui]');e.preventDefault();e.stopPropagation();if(!b)return;
-      const k=b.dataset.stgui;UI[k]=UI[k]?0:1;saveUI();if(k==='snd')setSoundEnabled(UI.snd);if(k==='bgm'){if(UI.bgm)startBgm();else stopBgm()}b.textContent=(k==='bgm'?'音樂：':'音效：')+(UI[k]?'開':'關')});
+      const k=b.dataset.stgui;UI[k]=UI[k]?0:1;saveUI();if(k==='snd')setSoundEnabled(UI.snd);if(k==='bgm'){if(UI.bgm){ZC_ASSET_LOADER.recoverMedia(true);startBgm()}else stopBgm()}b.textContent=(k==='bgm'?'音樂：':'音效：')+(UI[k]?'開':'關')});
     st.addEventListener('contextmenu',e=>e.preventDefault())}
   if(typeof document!=='undefined'&&document.addEventListener){
     document.addEventListener('pointerdown',()=>{pd=Date.now()},true);
@@ -9342,7 +9347,7 @@ async function acctLogin(){if(!acctOn()||ACCT.busy)return;ACCT.busy=1;ACCT.err='
   catch(e){console.error(e);ACCT.err=e&&/popup-closed|cancelled/.test(e.code||'')?'登入視窗被關掉了。':'登入沒有成功，請再試一次。'}ACCT.busy=0;acctRefresh()}
 async function acctLogout(){try{const {A,auth}=await acctAuth();await A.signOut(auth)}catch(e){console.error(e)}ACCT.user=null;ACCT.st={mode:'ghost'};acctSaveSt();toast('已登出。存檔留在這台裝置，之後登入同一個 Google 帳號就會接回來。');acctRefresh()}
 async function acctChoose(w){const a=ACCT.ask;ACCT.ask=null;if(!a)return;if(w==='cloud'){acctApply(a.cloud);location.reload();return}await acctPush();toast('已用這台裝置的進度蓋過雲端。');acctRefresh()}
-function E(t,d){if(ROLE!=='host'||!NET.r)return;send({t,d})}
+function E(t,d){if(ROLE!=='host'||!NET.r)return;const o={t,d};if(t==='s'&&G&&!d[3])o.assetScope={rid:G.rid,node:G.node,visit:G.audioVisit||0,clock:G.clock||0,fid:G.fight&&G.fight.musicId||''};send(o)}
 function send(obj){
   const s=JSON.stringify(obj);const id=++NET.mid;const L=1000;const n=Math.ceil(s.length/L)||1;
   for(let i=0;i<n;i++)NET.r.emit('ev',{m:id,i,n,s:s.slice(i*L,(i+1)*L)}).catch(()=>{});
@@ -9441,7 +9446,7 @@ function sendAv(){if(!NET.r)return;const d=LS.get('zc8-avatar',null);send({t:'av
 function sendAllAv(){if(ROLE!=='host'||!NET.r)return;for(const [pid,d] of Object.entries(AVS))if(avOk(d))send({t:'av',d:{pid,d}})}
 /* 隊友端：依序播放房主送來的事件 */
 const Q=[];let qRun=false;
-function enqueue(o){Q.push(o);if(!qRun)pump()}
+function enqueue(o){ZC_ASSET_LOADER.receive(o);Q.push(o);if(!qRun)pump()}
 async function pump(){qRun=true;
   while(Q.length){const o=Q.shift();FAST=Q.length>5?1:0;
     if(o.peer&&SLASH_VFX.peer!==o.peer){SLASH_VFX.peer=o.peer;SLASH_VFX.stateSeq=0}
@@ -9449,7 +9454,7 @@ async function pump(){qRun=true;
       if(o.t==='o'){L_out(o.d[0],o.d[1],o.d[2]);if(!FAST)await typing}
       else if(o.t==='bgm'){if(G&&G.fight&&o.d.rid===G.rid&&o.d.id===G.fight.musicId){if(G.fight.musicIntense==null&&typeof o.d.intense==='boolean')G.fight.musicIntense=o.d.intense;G.fight.musicStarted=true;syncBgmState()}}
       else if(o.t==='d'){await showDice(o.d)}
-      else if(o.t==='s'){if(o.d[3]&&o.d[3].arrow)await playArrowShot(o.d[3],true,o.seq);else{const ms=sfx(o.d[0],o.d[1],o.d[2]||undefined);if(['bowhit','bowmiss','arrowhit','arrowmiss','xbowhit','xbowmiss'].includes(o.d[0]))await wait(ms||1500)}}
+      else if(o.t==='s'){if(o.d[3]&&o.d[3].arrow)await playArrowShot(o.d[3],true,o.seq);else{if(!ZC_ASSET_LOADER.allowReceived(o)){const s=o.assetScope;if(o.d[0]==='pumpstop'&&s&&G&&s.rid===G.rid&&s.node===G.node&&s.visit===(G.audioVisit||0))sfx('pumpstop',0);continue}const ms=sfx(o.d[0],o.d[1],o.d[2]||undefined);if(['bowhit','bowmiss','arrowhit','arrowmiss','xbowhit','xbowmiss'].includes(o.d[0]))await wait(ms||1500)}}
       else if(o.t==='slash'){await playSlashHit(o.d,true,o.seq)}
       else if(o.t==='blunt'){await playBluntHit(o.d,true,o.seq)}
       else if(o.t==='pierce'){await playPierceHit(o.d,true,o.seq)}
@@ -10371,7 +10376,7 @@ document.addEventListener('click',e=>{
   else if(d.drop){act({a:'drop',k:d.drop});later()}
   else if(d.gcd){G.opts.cd=d.gcd;if(d.gcd!=='force'&&G.phase!=='fight')stopCd();else if(G.phase==='node'||G.phase==='roller')startCd();push();draw();panel('settings')}
   else if(d.gsec){G.opts.sec=+d.gsec;push();panel('settings')}
-  else if(d.ui){const k=d.ui;UI[k]=k==='orient'||k==='qkey'?d.v:+d.v;saveUI();if(k==='partyCards'&&G)draw();if(k==='snd')setSoundEnabled(UI.snd);if(k==='bgm'){if(UI.bgm)startBgm();else stopBgm()}sfx('click',.6);panel('settings');layout()}
+  else if(d.ui){const k=d.ui;UI[k]=k==='orient'||k==='qkey'?d.v:+d.v;saveUI();if(k==='partyCards'&&G)draw();if(k==='snd')setSoundEnabled(UI.snd);if(k==='bgm'){if(UI.bgm){ZC_ASSET_LOADER.recoverMedia(true);startBgm()}else stopBgm()}sfx('click',.6);panel('settings');layout()}
   else if(b.hasAttribute('data-full'))enterFull();
   else if(b.hasAttribute('data-acctopen')){closeOv();showAcct()}
   else if(b.hasAttribute('data-quit')){closeOv();quitGame()}
@@ -10658,7 +10663,7 @@ async function zcAssetPrepareFight(foes){const tasks=foes.filter(f=>!lurkHid(f)&
 async function zcAssetEntry(force=false){const panel=$('#zc-asset-panel'),retry=$('#zc-asset-retry'),cont=$('#zc-asset-continue');panel.hidden=false;retry.hidden=cont.hidden=true;zcAssetCheckAudio();
   const result=await ZC_ASSET_LOADER.foreground(p=>{$('#zc-asset-progress').max=p.total;$('#zc-asset-progress').value=p.done;$('#zc-asset-status').textContent=p.preparing?'正在準備音效與圖像':'正在初始化資源'},force);
   const finish=()=>{panel.hidden=true;showMenu();ZC_ASSET_LOADER.background()};
-  if(result.ok){finish();return}$('#zc-asset-status').textContent='部分資源尚未準備完成，請確認網路後再試。';retry.hidden=false;retry.onclick=()=>{audio();startBgm();zcAssetEntry(true)};cont.hidden=!result.safe;cont.onclick=finish;
+  if(result.ok){finish();return}$('#zc-asset-status').textContent='部分資源尚未準備完成，請確認網路後再試。';retry.hidden=false;retry.onclick=()=>{audio();ZC_ASSET_LOADER.recoverMedia(true);startBgm();zcAssetEntry(true)};cont.hidden=!result.safe;cont.onclick=finish;
 }
 $('#zc-asset-audio').addEventListener('click',()=>{audio();zcAssetCheckAudio();startBgm()});
 document.addEventListener('click',e=>{if(e.target.closest?.('[data-zc-asset-reset]')&&SCR==='menu'){ZC_ASSET_LOADER.reset().then(()=>toast('素材快取已清除，正在重新準備。'))}});

@@ -1,10 +1,12 @@
-零號病例 v0.69.0・Build144（GPT／Codex；候選，尚未部署）
-上一版：v0.68.0・Build143；基準 main 0f7e5d1（PR #74）。
-- B 方案：素材登錄、優先排程、下載／解碼分階段、入口真實進度、有限重試與冷卻、內容雜湊快取、Service Worker、圖片失敗恢復、延遲音效取消、配樂狀態追蹤。
-- 保留原音檔、混音、劇情、數值、QTE 與共用演出時間軸。沒有新增備援音效；沿用原 FALL／SYN，沒有同語意備援時記錄安靜降級。
-- tests/、tools/split_index.py 及既有工作流程未修改。素材索引由 tools/build_assets.cjs 產生，與舊發布 MANIFEST 無關。
-- 本機 FAST：476 項＝473 通過、0 失敗、3 既有暫緩；瀏覽器與 B 方案專項尚未測試（缺 Chromium，推送候選分支被自動核准審查拒絕）；需主人確認僅推分支並開草稿 PR。紀錄見 qa/asset-loading/HANDOFF.md。
-- Android：待主人實機驗收。未合併、未部署；正式站候選驗收未測試。
+零號病例 v0.69.0・Build144（GPT／Codex）
+Build時間：2026-11-26T17:13:29+08:00（Asia/Taipei）。上一版：v0.68.0・Build143，main 0f7e5d1。
+- B 方案：分級預載、下載與解碼分開、入口真實進度、有限重試／冷卻、內容雜湊快取、SW、圖像恢復、演出取消及配樂格式備援／恢復。
+- 字型、CSS 圖像與動態資源均固定內容雜湊；SW 的主頁採網路優先，Range／長配樂交由原媒體伺服器。只在 /zerocase/ 部署範圍自動註冊，其他完整部署可用 ?asset-cache=1 明確啟用；單頁鏡像保留 HTTP／記憶體載入。
+- 同場快照更新不取消有效退殼聲；跨局、跨場、背景、已過期／重送的短音效不補播。事件識別只在傳輸與本機記憶體，不寫進存檔、不消耗 RNG。
+- 原音檔、混音、劇情、數值、QTE、戰鬥結算與 Firebase 權限不變。沒有新增備援音效，沿用 FALL／SYN，無同語意備援時安靜降級。
+- tests/、guard、tools/split_index.py 與原工作流程均未修改。獨立 QA 在 qa/asset-loading/；索引由 tools/build_assets.cjs 生成。
+- 本機 Node：476 項＝473 通過、0 失敗、3 既有暫緩；獨立聚焦三組通過。雲端七個完整回歸階段已有通過紀錄；自我驗收單頁複本的 SW 404 已以相同對照重現與修正。每次實際驗收結果、程式雜湊與發布狀態，以 PR #75 Checks、artifact 與交接報告為準。
+- Android：待主人實機驗收。PR：https://github.com/RyouShiro0329/zerocase/pull/75。
 
 零號病例 v0.68.0・Build143（GPT／Codex）
 Build時間：2026-11-26T04:24:27+08:00（Asia/Taipei）
