@@ -22,6 +22,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - run: npm ci --prefix tests --ignore-scripts
       - run: npm install --global playwright@1.58.2
       - run: npx playwright install --with-deps chromium
       - name: 完整測試（冒煙 40 步、長路線 480 動作）

@@ -16,12 +16,40 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - run: npm ci --prefix tests --ignore-scripts
       - run: npm install --global playwright@1.58.2
       - run: npx playwright install --with-deps chromium
       - name: 單人與多人紀錄邏輯
         run: node --test tests/fear-display.test.cjs
       - name: 三尺寸實際畫面與修改前後截圖
         run: NODE_PATH=$(npm root -g) node tests/fear-display-browser.cjs
+      # 暫時取得版本標示變更的差異候選，保持比較失敗狀態，不自動接受基準。
+      - name: 整合截圖差異候選
+        run: |
+          node <<'JS'
+          const fs=require('node:fs'),path=require('node:path');
+          const {chromium}=require('./tests/node_modules/playwright');
+          const {VIEWS,SCENES}=require('./tests/helpers/fixed-scenes.cjs');
+          const ids=VIEWS.flatMap(([w,h])=>Object.keys(SCENES).map(n=>`${w}x${h}-${n}`));
+          const dir='test-results/ui-candidate';fs.mkdirSync(dir,{recursive:true});let index=0;
+          // 只另存實際截圖供人工審查；原比較、容忍值及失敗碼全部保留。
+          const launch=chromium.launch.bind(chromium);
+          chromium.launch=async(...args)=>{const b=await launch(...args),context=b.newContext.bind(b);
+            b.newContext=async(...args)=>{const c=await context(...args),page=c.newPage.bind(c);
+              c.newPage=async(...args)=>{const p=await page(...args),shot=p.screenshot.bind(p);
+                p.screenshot=async(...args)=>{const bytes=await shot(...args);fs.writeFileSync(path.join(dir,ids[index++]+'.png'),bytes);return bytes};return p};return c};return b};
+          require('./tests/ui-regression.cjs').run().then(r=>{if(index!==ids.length)throw Error('截圖數量不符');fs.writeFileSync(path.join(dir,'manifest.json'),JSON.stringify(r.meta,null,2)+'\n')}).catch(e=>{console.error(e.stack);process.exitCode=3});
+          JS
+      - name: 上傳人工審查用的截圖差異
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-integration-review
+          path: |
+            test-results/ui-regression.json
+            test-results/ui-candidate/
+            test-results/screenshots/ui/
+          retention-days: 14
       - uses: actions/upload-artifact@v4
         if: always()
         with:

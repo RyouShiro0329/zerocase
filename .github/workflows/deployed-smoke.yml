@@ -1,0 +1,32 @@
+name: 部署後只讀冒煙
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: deployed-smoke
+  cancel-in-progress: true
+jobs:
+  smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix tests --ignore-scripts
+      - run: tests/node_modules/.bin/playwright install --with-deps chromium
+      - name: 等待本站發布本次內容，僅讀取頁面與靜態資源
+        env:
+          QA_DEPLOY_WAIT_MS: '600000'
+        run: node tests/deployed-smoke.cjs
+      - name: 上傳只讀驗收報告
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployed-smoke
+          path: test-results/
+          retention-days: 14

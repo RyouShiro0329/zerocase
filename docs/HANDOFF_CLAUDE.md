@@ -1,3 +1,14 @@
+# 合併與發布交接（2026-11-26，Asia/Taipei）
+
+主人已明確同意合併 PR #76 與 #77。QA PR-E #76 已以一般 merge 合併至 main 2e08527，遊戲仍為 v0.69.0／Build144；本分支將其整合進恐懼顯示修正，完成最新整合驗收後合併 #77 並確認正式站發布。這次授權優先於下方候選階段的「不要自行合併」。
+
+- 遊戲維持已驗收的 v0.69.1／Build145，index.html SHA-256 faa287deed1741a545cc1672cfa7f09ee9072c9af9d3d30660b982b520c7d9df；整合只處理紀錄衝突、測試相依及版本標示的截圖基準，不再升版。
+- 固定截圖含角色分類選單的版本標示。以相同瀏覽器取得差異候選，人工確認只改版本／Build 後才更新基準；其餘畫面保持原基準。不提高容忍值、不修改 guard 或既有測試判定、不由 CI 自動接受基準。
+- 環境相容已決定等地圖重做，音效已決定之後處理；恐懼只顯示實際 +N／−N，不顯示目前值與上限。Android 待主人實機驗收。
+- 下方保留兩個 PR 原候選的範圍、雜湊與驗收紀錄供追溯；最終整合與發布結果看 PR #77 最新提交的 Checks、artifact 與正式站內容雜湊。
+
+---
+
 # GPT／Codex 交接：恐懼紀錄只顯示增減量（v0.69.1／Build145 候選）
 
 2026-11-26（Asia/Taipei）。基準 main 49dca4c／v0.69.0／Build144，獨立分支 fix/fear-delta-only；QA PR-E #76 保持原樣、未合併，不把遊戲修改混入純測試工具 PR。
@@ -9,6 +20,18 @@
 - FAST：479 項，476 通過、0 失敗，3 個既有 TODO 標記保留。guard 原恐懼斷言已通過，但依「不得修改 guard」規則保留原標記；不再代表恐懼設定待決。地圖與音效依主人決定暫緩。
 - PR-E 若先合併，本修正須重新對齊 main；角色分類選單的固定截圖含版本標示，升版時需依 PR-E 的明確更新流程審查基準，不能提高差異容忍值或自動接受差異。
 - 本修正僅開 PR 交付，不沿用下方 B 方案的合併授權。尚未合併／部署；Android 待主人實機驗收。
+
+---
+
+# GPT／Codex 交接：QA PR-E（P2，測試工具）
+
+2026-11-26（Asia/Taipei）。基準 main 49dca4c／v0.69.0／Build144，分支 qa/pr-e。只做主人指定六項 P2，不升遊戲版本；index.html、素材、tests/guard.test.cjs 均不改。docs/VERSIONS.md、更新說明.txt 各只加一行「測試工具」。
+
+- 新增固定情境版面／PNG 基準與 CSS 防護、五個歷史版本的存檔 fixtures＋migrateG 驗收、部署後只讀冒煙。使用方式、截圖更新規則與覆蓋範圍見 docs/QA_SYSTEM.md 的 PR-E 各節。
+- 多人 mock／mp／bot 與舊 mpstage 搬到 tests/multiplayer/，直接服務 checkout 的 index.html；不再依賴 /home/claude、proto7、外部伺服器或不存在的 fbfake.js。舊 mp／bot 指令保留轉接。build.sh 改為相對位置與工作資料夾參數，重建以 cmp 確認。
+- 本機 FAST Node：485 項，482 通過、0 失敗；3 項既有未測試（環境相容已知組合、恐懼數字、音效缺口等待主人決定）。新增固定畫面與多人模擬已另跑；最終自我驗收及 GitHub「完整測試」結果應看本 PR 最後一個 commit 的 Checks 與 artifact，未完成不得宣稱通過。
+- tests/qa-selfcheck.sh 追加 V20～V25 故障注入，保留原 V01～V19。CI 固定 Playwright 1.58.2；本機有其他全域版本時，用 NODE_PATH=$PWD/tests/node_modules 執行，避免臨時複本解析到不同版本。
+- 主人本次明確要求：開 PR、等待 GitHub 完整結果，**不要自己合併**；舊 B 方案的合併授權不適用本 PR。尚未合併時，main 的部署後冒煙 workflow 未觸發；Android 待主人實機驗收，正式 Firebase 不屬於本機模擬通過範圍。
 
 ---
 

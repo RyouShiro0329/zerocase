@@ -1,7 +1,7 @@
 # 測試系統說明（QA 升級，2026-11-25 起）
 
 規格：主人的 ZEROCASE_QA_SYSTEM_UPGRADE_SPEC；盤點與分階段方案在 Claude 專案 `zerocase/PROPOSAL_QA_UPGRADE.md`。
-已完成：**PR-A 結果真實性**（QA-01、02、03、29）、**PR-B 重現與追蹤**（QA-04、05、06）、**PR-C 覆蓋範圍**（QA-07、12、13、19）、**PR-D QTE 與音訊**（QA-14、16、17）。之後：PR-E、F。
+已完成：**PR-A 結果真實性**（QA-01、02、03、29）、**PR-B 重現與追蹤**（QA-04、05、06）、**PR-C 覆蓋範圍**（QA-07、12、13、19）、**PR-D QTE 與音訊**（QA-14、16、17）。本次 PR-E（P2）：版面／截圖／樣式、多人模擬、存檔樣本、部署後只讀冒煙；之後 PR-F。
 
 ## 兩種模式
 | 指令 | 跑什麼 | 誰用 |
@@ -72,3 +72,38 @@
 ## 自我驗收（`tests/qa-selfcheck.sh`，CI 每次都跑，約 5 分鐘）
 在暫存目錄故意製造失敗，確認工具不會說謊：V01 沒有 playwright、V02 SKIP_LONG、V03 Node 測試失敗／壞檔／沒有總結、V04 報告欄位與實際相符、V11 guard 被改、V12 測試被刪或變少、V13 必要圖片 404；PR-B 加 V05 同種子兩次操作紀錄相同、V06 遊戲一直忙（逾時要記錄、超過上限失敗）、V10 點了沒反應（無效動作、卡死）。PR-C 加 V14 素材（拿掉動態音效檔、敵人立繪、放不存在的音效名稱）、V15 環境相容（客房抽到烏鴉、地鐵抽到街上事件、沒分類的新事件）、V16 戰鬥（戰利品給兩次、一下扣兩次血、配樂停在戰鬥、一回合出手兩次、打完卡住，各要被抓到；沒改的對照組要通過）。PR-D 加 V17 QTE（qte() 永遠成功 → 不點、點錯、按錯、太慢、撲倒沒躲開都要抓到；吞掉 WASD → 鍵盤情境失敗）、V18 音訊（無聲檔、壞檔、載入警告；配樂停在戰鬥、背景收不到通知）、V19 音效對應表（沒寫說明的新名稱）。V06、V10 用暫存複本的 index.html 製造故障，倉庫的遊戲不動。
 自我驗收的情境由 Claude 依 PR-A 範圍定義（規格書原文的 V 編號細節不在這次對話可讀的文件裡）；之後有出入照規格書調整。
+
+## PR-E：固定版面、基準截圖與樣式防護
+
+先執行 `npm ci --prefix tests --ignore-scripts`、`tests/node_modules/.bin/playwright install chromium`。相依固定為 Playwright 1.58.2（Chromium 145.0.7632.6）、pngjs 7.0.0；CI 使用 Ubuntu 24.04、Node 22。既有測試不減少，完整模式新增第 8、9 階段；FAST 新增樣式與存檔的 Node 測試。
+
+- `tests/ui-regression.cjs`：入口、角色分類選單、探索、玩家戰鬥回合、背包，844×390、1280×720、393×690（轉向後 690×393），共 15 張。每個畫面檢查主要區塊四邊、所有按鈕（含第 4 個之後）、文字裁切、按鈕及雙欄重疊；有捲動區的內容以完整捲動範圍檢查，不把正常捲動當裁切。
+- `tests/helpers/fixed-scenes.cjs`：種子 777、固定日期、時區、語系、DPR、角色與遊戲狀態；只有測試頁注入，不修改遊戲。關閉音訊、動畫與轉場，等待字型和圖片解碼；每個畫面各開 context，從 checkout 回應素材並封鎖外部連線與 Service Worker。
+- `tests/baselines/ui/`：有提交的 PNG 基準及環境／遊戲 SHA-256 清單。差異超過 0.1% 像素即失敗（單通道差異超過 24 才計）；失敗同時上傳 expected、actual、紅色 diff。報告為 `test-results/ui-regression.json`，含各區塊／按鈕座標。首次基準已人工檢視。
+- 基準不存在會失敗，測試不會自動接受。畫面刻意變動時，先用相同 Linux／瀏覽器版本執行 `node tests/ui-regression.cjs --update`，人工看過 15 張及差異後，再將基準與 manifest 隨 PR 提交；CI 禁止 `--update`。不要為通過測試而提高容忍值。
+- `tests/style-guard.test.cjs`：比對 `tests/baselines/styles.json` 的重要 CSS 規則（hidden、舞台與旋轉、安全區、雙欄、紀錄、選項、彈窗、QTE）。新增覆寫或刪除規則都會失敗。刻意改樣式時應先驗證實際畫面，再審查及更新該基準；不能直接接受所有 CSS 修改。
+
+## PR-E：可攜式多人模擬
+
+- `tests/multiplayer/mock.js`：原工具搬入，使用 BroadcastChannel、4096-byte 封包限制及 presence；只作用於測試頁，不連 Firebase。
+- `node tests/multiplayer/mpstage.cjs`：完整模式自動跑。正常同步、演出期間輸入作廢、隊友延遲 1200ms 從目前進度接續、演出中房主離開接任、不重複加入敵人／先攻。現在有斷言及非零失敗碼，寫 `test-results/multiplayer.json`，不再只印觀察值。保留頁面錯誤 stack 與必要資源錯誤。
+- `node tests/multiplayer/mp.cjs 2`、`node tests/multiplayer/bot.cjs 1 maggie`：原探索工具搬入供人工長測，仍保留 LIM／GODM 等操作；`mp.cjs` 第三位以上的自訂角色已補屬性配置。這兩個長測不是完整模式中的固定演出驗收。
+- 從任何 checkout 執行都透過相對路徑直接服務該份 index.html，不需 8767 伺服器、proto7、test.html、fbfake.js。舊 `tools/claude/mp.js`、`bot.js` 保留相對路徑轉接。
+- `tools/claude/build.sh <切檔資料夾>` 保留離線重建用途，以腳本位置尋找倉庫；只建立 zerocase.html 與 web/index.html，並用 cmp 驗證與正本逐位元相同；移除依賴缺失 fbfake.js 的測試產物。多人模擬不需要此步驟。
+- 這是本機傳輸模擬，正式 Firebase、Android 實機另行驗收，不混寫成通過。
+
+## PR-E：跨版本存檔樣本
+
+`tests/fixtures/saves/` 保存 v0.57.0、v0.59.0、v0.62.0、v0.65.0、v0.67.1 五份合成存檔；每份由指定歷史 commit 的 `newRun` 建立，再設定遷移情境，不含玩家資料。來源 SHA、版本與預期節點保存在各 JSON，手動重建方式為 `node tests/fixtures/generate-saves.cjs`（需要完整 git 歷史，不在驗收時重建）。
+
+`tests/save-fixtures.test.cjs` 將固定樣本交給目前 `migrateG`，驗證廚房／洗衣房／停車場地點合併、舊抽牌格改走廊、探索進度、301 舊節點、舊演出清理、偷襲輪及敵人傷害缺值，並確認角色、物品、血量、旗標、時間與選項保留、節點存在、重複轉換不變。樣本或預期不可在每次測試時自動重建。
+
+## PR-E：部署後只讀冒煙
+
+`.github/workflows/deployed-smoke.yml` 在 main 有提交（含合併）或手動觸發；只有 contents: read，沒有部署／資料庫寫入權限。等待最多 10 分鐘，正式站 index.html SHA-256 必須等於這個 checkout，避免測到上一版；逾時、無法連線或頁面錯誤會失敗並留下報告。
+
+`tests/deployed-smoke.cjs` 僅開入口與角色分類選單、檢查版面和同源素材；不建立房間、不登入、不送出玩家操作。測試頁使用本機傳輸替身，所有外部請求、非 GET／HEAD 方法與 WebSocket 都封鎖；若嘗試送出修改請求則失敗。禁用 Service Worker，使用新 context。輸出 `deployed-smoke.json` 與 PNG，workflow 另上傳 deployed-smoke artifact。PR 尚未合併時，新增 workflow 的 main 觸發不會發生，不能因此宣稱正式站已通過。
+
+## PR-E：自我驗收
+
+`tests/qa-selfcheck.sh` 保留 V01～V19，追加 `tests/pr-e-selfcheck.cjs`：V20 未修改對照及第四個按鈕裁切、垂直超出、按鈕重疊、文字裁切；V21 顏色破壞與基準缺檔（不得自動建立）；V22 CSS 破壞；V23 在暫存複本丟掉多人 emit，真的走雙頁模擬必須失敗；V24 讓 migrateG 直接原樣回傳；V25 本機只讀網站對照、部署舊內容與修改請求封鎖（伺服器收到的修改請求必須為零）。全部破壞只在暫存複本／測試頁；細節寫入 pr-e-selfcheck.json，並合併進 selfcheck.json。
