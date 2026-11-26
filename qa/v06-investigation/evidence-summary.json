@@ -1,0 +1,3876 @@
+{
+  "time": "2026-11-27T04:47:48+08:00",
+  "diagnosticRun": 45891344229,
+  "diagnosticCommit": "0c4598c341efa187f9eb0237eda54a54d8bb2e63",
+  "evidenceRun": 45893046772,
+  "evidenceArtifact": 15152352229,
+  "evidenceZipSha256": "ee49780bc5133f8685d10e6e8c6d290ecc53c2f89c7233ae08ced46aa5b4747b",
+  "verifiedSelectedFiles": 904,
+  "unchangedSourceFilesSha256": {
+    "tests/qa-selfcheck.sh": "1d96ce3cb1a203b784f5e59dd03345bd8ba47a1804acb0da7e9647f2babd9de7",
+    "tests/browser-smoke.cjs": "334ebbf4c607a4f4cf60a5bcd8b4a97c3f1fe075cd2aa35e15ddbae1b24b1d17",
+    "tests/helpers/driver.cjs": "731d558473969fd231c786ee584ca19162c15a492195ccc3601452f7f0c9ec5e"
+  },
+  "originalFailure": {
+    "run": 45856556564,
+    "job": 140036348247,
+    "attempt": 1,
+    "artifact": 15137791844,
+    "savedV06CaseDetails": false,
+    "normalSmokeSteps": 40,
+    "normalSmokeSeed": 1800402593,
+    "note": "V06 exit 1、判定 false、紀錄檔 3；手機窄橫向逾時 6 次。這不是其餘兩個尺寸的明細。"
+  },
+  "groups": {
+    "current-solo": {
+      "sourceCommit": "cd20588be7858f35a145647f1163c6318214f23f",
+      "sourceSha256": "7e67b6f67b7835e09bc3c9f24782adc3896f4591c004935e40703468dd86d265",
+      "playwright": "1.58.2",
+      "chromium": "Google Chrome for Testing 145.0.7632.6",
+      "node": "v22.23.5",
+      "paired": false,
+      "observed": false,
+      "counts": {
+        "pass": 20,
+        "fail": 0,
+        "notRun": 0
+      },
+      "started": "2026-11-26T20:29:33.136Z",
+      "finished": "2026-11-26T20:38:12.337Z",
+      "sourceDirty": "",
+      "rounds": [
+        {
+          "round": 1,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 4,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 5,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 6,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 7,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 8,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 9,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 10,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 11,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 12,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 13,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 14,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 15,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 16,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 17,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 18,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 19,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 20,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        }
+      ]
+    },
+    "current-paired": {
+      "sourceCommit": "cd20588be7858f35a145647f1163c6318214f23f",
+      "sourceSha256": "7e67b6f67b7835e09bc3c9f24782adc3896f4591c004935e40703468dd86d265",
+      "playwright": "1.58.2",
+      "chromium": "Google Chrome for Testing 145.0.7632.6",
+      "node": "v22.23.5",
+      "paired": true,
+      "observed": false,
+      "counts": {
+        "pass": 20,
+        "fail": 0,
+        "notRun": 0
+      },
+      "started": "2026-11-26T20:29:33.171Z",
+      "finished": "2026-11-26T20:38:33.623Z",
+      "sourceDirty": "",
+      "rounds": [
+        {
+          "round": 1,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 4,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 5,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 6,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 7,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 8,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 9,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 10,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 11,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 12,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 13,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 14,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 15,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 16,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 17,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 18,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 19,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 20,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        }
+      ]
+    },
+    "historical-paired": {
+      "sourceCommit": "6ba5f1f7ce74a19f18e1bcf1d27cb6b3a6d6d286",
+      "sourceSha256": "faa287deed1741a545cc1672cfa7f09ee9072c9af9d3d30660b982b520c7d9df",
+      "playwright": "1.58.2",
+      "chromium": "Google Chrome for Testing 145.0.7632.6",
+      "node": "v22.23.5",
+      "paired": true,
+      "observed": false,
+      "counts": {
+        "pass": 18,
+        "fail": 2,
+        "notRun": 0
+      },
+      "started": "2026-11-26T20:29:33.457Z",
+      "finished": "2026-11-26T20:38:14.763Z",
+      "sourceDirty": "",
+      "rounds": [
+        {
+          "round": 1,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 4,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 5,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 6,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 7,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 8,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 9,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 10,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 11,
+          "status": "失敗",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": false,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 4,
+              "valid": 4,
+              "idle": 2
+            }
+          ]
+        },
+        {
+          "round": 12,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 13,
+          "status": "失敗",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": false,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 4,
+              "valid": 4,
+              "idle": 2
+            }
+          ]
+        },
+        {
+          "round": 14,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 15,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 16,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 17,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 18,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 19,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 20,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        }
+      ]
+    },
+    "current-observed": {
+      "sourceCommit": "cd20588be7858f35a145647f1163c6318214f23f",
+      "sourceSha256": "7e67b6f67b7835e09bc3c9f24782adc3896f4591c004935e40703468dd86d265",
+      "playwright": "1.58.2",
+      "chromium": "Google Chrome for Testing 145.0.7632.6",
+      "node": "v22.23.5",
+      "paired": true,
+      "observed": true,
+      "counts": {
+        "pass": 16,
+        "fail": 4,
+        "notRun": 0
+      },
+      "started": "2026-11-26T20:29:55.665Z",
+      "finished": "2026-11-26T20:38:33.487Z",
+      "sourceDirty": "",
+      "rounds": [
+        {
+          "round": 1,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 2,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 3,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 4,
+          "status": "失敗",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": false,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 4,
+              "valid": 4,
+              "idle": 2
+            }
+          ]
+        },
+        {
+          "round": 5,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 6,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 7,
+          "status": "失敗",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": false,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 4,
+              "valid": 4,
+              "idle": 2
+            }
+          ]
+        },
+        {
+          "round": 8,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 9,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 10,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 11,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 12,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 13,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 14,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 15,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 16,
+          "status": "失敗",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": false,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 4,
+              "valid": 4,
+              "idle": 2
+            }
+          ]
+        },
+        {
+          "round": 17,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 18,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 1,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 19,
+          "status": "通過",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": true,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 6,
+              "valid": 0,
+              "idle": 0
+            }
+          ]
+        },
+        {
+          "round": 20,
+          "status": "失敗",
+          "exit6": {
+            "code": 1,
+            "signal": null
+          },
+          "predicate": false,
+          "traces": 3,
+          "views": [
+            {
+              "viewport": [
+                393,
+                690
+              ],
+              "timeouts": 6,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                844,
+                390
+              ],
+              "timeouts": 5,
+              "valid": 1,
+              "idle": 0
+            },
+            {
+              "viewport": [
+                1280,
+                720
+              ],
+              "timeouts": 4,
+              "valid": 4,
+              "idle": 2
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "failures": [
+    {
+      "group": "historical-paired",
+      "round": 11,
+      "viewport": [
+        1280,
+        720
+      ],
+      "run": {
+        "seed": 3,
+        "gameSeed": 837158927,
+        "actions": 6,
+        "valid": 4,
+        "invalid": 0,
+        "idle": 2,
+        "timeouts": 4,
+        "maxSame": 1,
+        "stuck": null,
+        "avgWaitMs": 619
+      },
+      "requiredErrors": [],
+      "trace": {
+        "seed": 3,
+        "gameSeed": 837158927,
+        "actions": 6,
+        "valid": 4,
+        "invalid": 0,
+        "idle": 2,
+        "timeouts": 4,
+        "maxSame": 1,
+        "stuck": null,
+        "avgWaitMs": 619,
+        "steps": [
+          {
+            "i": 0,
+            "node": "A1",
+            "fight": 0,
+            "act": "選項「【移動】摸黑走到門邊」",
+            "ms": 256
+          },
+          {
+            "i": 1,
+            "node": "A1d",
+            "fight": 0,
+            "act": "選項「【事件】用手機的光看門背後的逃生路線圖」",
+            "ms": 256
+          },
+          {
+            "i": 2,
+            "node": "AO2",
+            "fight": 0,
+            "act": "選項「【事件】開門讓他進來」",
+            "ms": 801,
+            "timeout": 1
+          },
+          {
+            "i": 3,
+            "node": "AO2",
+            "fight": 1,
+            "act": "（沒有可點的）",
+            "ms": 799,
+            "timeout": 1,
+            "same": 1
+          },
+          {
+            "i": 4,
+            "node": "AO2",
+            "fight": 1,
+            "act": "（沒有可點的）",
+            "ms": 801,
+            "timeout": 1
+          },
+          {
+            "i": 5,
+            "node": "AO2",
+            "fight": 1,
+            "act": "關骰子",
+            "ms": 801,
+            "timeout": 1
+          }
+        ]
+      }
+    },
+    {
+      "group": "historical-paired",
+      "round": 13,
+      "viewport": [
+        1280,
+        720
+      ],
+      "run": {
+        "seed": 3,
+        "gameSeed": 837158927,
+        "actions": 6,
+        "valid": 4,
+        "invalid": 0,
+        "idle": 2,
+        "timeouts": 4,
+        "maxSame": 1,
+        "stuck": null,
+        "avgWaitMs": 619
+      },
+      "requiredErrors": [],
+      "trace": {
+        "seed": 3,
+        "gameSeed": 837158927,
+        "actions": 6,
+        "valid": 4,
+        "invalid": 0,
+        "idle": 2,
+        "timeouts": 4,
+        "maxSame": 1,
+        "stuck": null,
+        "avgWaitMs": 619,
+        "steps": [
+          {
+            "i": 0,
+            "node": "A1",
+            "fight": 0,
+            "act": "選項「【移動】摸黑走到門邊」",
+            "ms": 255
+          },
+          {
+            "i": 1,
+            "node": "A1d",
+            "fight": 0,
+            "act": "選項「【事件】用手機的光看門背後的逃生路線圖」",
+            "ms": 257
+          },
+          {
+            "i": 2,
+            "node": "AO2",
+            "fight": 0,
+            "act": "選項「【事件】開門讓他進來」",
+            "ms": 801,
+            "timeout": 1
+          },
+          {
+            "i": 3,
+            "node": "AO2",
+            "fight": 1,
+            "act": "（沒有可點的）",
+            "ms": 801,
+            "timeout": 1,
+            "same": 1
+          },
+          {
+            "i": 4,
+            "node": "AO2",
+            "fight": 1,
+            "act": "（沒有可點的）",
+            "ms": 800,
+            "timeout": 1
+          },
+          {
+            "i": 5,
+            "node": "AO2",
+            "fight": 1,
+            "act": "關骰子",
+            "ms": 801,
+            "timeout": 1
+          }
+        ]
+      }
+    },
+    {
+      "group": "current-observed",
+      "round": 4,
+      "viewport": [
+        1280,
+        720
+      ],
+      "run": {
+        "seed": 3,
+        "gameSeed": 837158927,
+        "actions": 6,
+        "valid": 4,
+        "invalid": 0,
+        "idle": 2,
+        "timeouts": 4,
+        "maxSame": 1,
+        "stuck": null,
+        "avgWaitMs": 619
+      },
+      "requiredErrors": [],
+      "trace": {
+        "seed": 3,
+        "gameSeed": 837158927,
+        "actions": 6,
+        "valid": 4,
+        "invalid": 0,
+        "idle": 2,
+        "timeouts": 4,
+        "maxSame": 1,
+        "stuck": null,
+        "avgWaitMs": 619,
+        "steps": [
+          {
+            "i": 0,
+            "node": "A1",
+            "fight": 0,
+            "act": "選項「【移動】摸黑走到門邊」",
+            "ms": 255
+          },
+          {
+            "i": 1,
+            "node": "A1d",
+            "fight": 0,
+            "act": "選項「【事件】用手機的光看門背後的逃生路線圖」",
+            "ms": 256
+          },
+          {
+            "i": 2,
+            "node": "AO2",
+            "fight": 0,
+            "act": "選項「【事件】開門讓他進來」",
+            "ms": 801,
+            "timeout": 1
+          },
+          {
+            "i": 3,
+            "node": "AO2",
+            "fight": 1,
+            "act": "（沒有可點的）",
+            "ms": 800,
+            "timeout": 1,
+            "same": 1
+          },
+          {
+            "i": 4,
+            "node": "AO2",
+            "fight": 1,
+            "act": "（沒有可點的）",
+            "ms": 801,
+            "timeout": 1
+          },
+          {
+            "i": 5,
+            "node": "AO2",
+            "fight": 1,
+            "act": "關骰子",
+            "ms": 800,
+            "timeout": 1
+          }
+        ]
+      },
+      "observations": {
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "observations": [
+          {
+            "hits": [
+              {
+                "at": 2900.7000000000116,
+                "busy": false,
+                "gbusy": false,
+                "phase": "node",
+                "node": "A1d",
+                "fight": false,
+                "over": false,
+                "queue": 0
+              },
+              {
+                "at": 3316.3000000000175,
+                "busy": false,
+                "gbusy": false,
+                "phase": "node",
+                "node": "AO2",
+                "fight": false,
+                "over": false,
+                "queue": 0
+              }
+            ],
+            "last": {
+              "busy": false,
+              "gbusy": false,
+              "phase": "fight",
+              "node": "AO2",
+              "fight": true,
+              "over": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "group": "current-observed",
+      "round": 7,
+      "viewport": [
+        1280,
+        720
+      ],
+      "run": {
+        "seed": 3,
+        "gameSeed": 837158927,
+        "actions": 6,
+        "valid": 4,
+        "invalid": 0,
+        "idle": 2,
+        "timeouts": 4,
+        "maxSame": 1,
+        "stuck": null,
+        "avgWaitMs": 619
+      },
+      "requiredErrors": [],
+      "trace": {
+        "seed": 3,
+        "gameSeed": 837158927,
+        "actions": 6,
+        "valid": 4,
+        "invalid": 0,
+        "idle": 2,
+        "timeouts": 4,
+        "maxSame": 1,
+        "stuck": null,
+        "avgWaitMs": 619,
+        "steps": [
+          {
+            "i": 0,
+            "node": "A1",
+            "fight": 0,
+            "act": "選項「【移動】摸黑走到門邊」",
+            "ms": 257
+          },
+          {
+            "i": 1,
+            "node": "A1d",
+            "fight": 0,
+            "act": "選項「【事件】用手機的光看門背後的逃生路線圖」",
+            "ms": 255
+          },
+          {
+            "i": 2,
+            "node": "AO2",
+            "fight": 0,
+            "act": "選項「【事件】開門讓他進來」",
+            "ms": 801,
+            "timeout": 1
+          },
+          {
+            "i": 3,
+            "node": "AO2",
+            "fight": 1,
+            "act": "（沒有可點的）",
+            "ms": 801,
+            "timeout": 1,
+            "same": 1
+          },
+          {
+            "i": 4,
+            "node": "AO2",
+            "fight": 1,
+            "act": "（沒有可點的）",
+            "ms": 801,
+            "timeout": 1
+          },
+          {
+            "i": 5,
+            "node": "AO2",
+            "fight": 1,
+            "act": "關骰子",
+            "ms": 801,
+            "timeout": 1
+          }
+        ]
+      },
+      "observations": {
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "observations": [
+          {
+            "hits": [
+              {
+                "at": 2900.2000000000116,
+                "busy": false,
+                "gbusy": false,
+                "phase": "node",
+                "node": "A1d",
+                "fight": false,
+                "over": false,
+                "queue": 0
+              },
+              {
+                "at": 3316,
+                "busy": false,
+                "gbusy": false,
+                "phase": "node",
+                "node": "AO2",
+                "fight": false,
+                "over": false,
+                "queue": 0
+              }
+            ],
+            "last": {
+              "busy": false,
+              "gbusy": false,
+              "phase": "fight",
+              "node": "AO2",
+              "fight": true,
+              "over": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "group": "current-observed",
+      "round": 16,
+      "viewport": [
+        1280,
+        720
+      ],
+      "run": {
+        "seed": 3,
+        "gameSeed": 837158927,
+        "actions": 6,
+        "valid": 4,
+        "invalid": 0,
+        "idle": 2,
+        "timeouts": 4,
+        "maxSame": 1,
+        "stuck": null,
+        "avgWaitMs": 619
+      },
+      "requiredErrors": [],
+      "trace": {
+        "seed": 3,
+        "gameSeed": 837158927,
+        "actions": 6,
+        "valid": 4,
+        "invalid": 0,
+        "idle": 2,
+        "timeouts": 4,
+        "maxSame": 1,
+        "stuck": null,
+        "avgWaitMs": 619,
+        "steps": [
+          {
+            "i": 0,
+            "node": "A1",
+            "fight": 0,
+            "act": "選項「【移動】摸黑走到門邊」",
+            "ms": 255
+          },
+          {
+            "i": 1,
+            "node": "A1d",
+            "fight": 0,
+            "act": "選項「【事件】用手機的光看門背後的逃生路線圖」",
+            "ms": 259
+          },
+          {
+            "i": 2,
+            "node": "AO2",
+            "fight": 0,
+            "act": "選項「【事件】開門讓他進來」",
+            "ms": 801,
+            "timeout": 1
+          },
+          {
+            "i": 3,
+            "node": "AO2",
+            "fight": 1,
+            "act": "（沒有可點的）",
+            "ms": 801,
+            "timeout": 1,
+            "same": 1
+          },
+          {
+            "i": 4,
+            "node": "AO2",
+            "fight": 1,
+            "act": "（沒有可點的）",
+            "ms": 800,
+            "timeout": 1
+          },
+          {
+            "i": 5,
+            "node": "AO2",
+            "fight": 1,
+            "act": "關骰子",
+            "ms": 800,
+            "timeout": 1
+          }
+        ]
+      },
+      "observations": {
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "observations": [
+          {
+            "hits": [
+              {
+                "at": 2879.4000000000233,
+                "busy": false,
+                "gbusy": false,
+                "phase": "node",
+                "node": "A1d",
+                "fight": false,
+                "over": false,
+                "queue": 0
+              },
+              {
+                "at": 3296.2999999999884,
+                "busy": false,
+                "gbusy": false,
+                "phase": "node",
+                "node": "AO2",
+                "fight": false,
+                "over": false,
+                "queue": 0
+              }
+            ],
+            "last": {
+              "busy": false,
+              "gbusy": false,
+              "phase": "fight",
+              "node": "AO2",
+              "fight": true,
+              "over": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "group": "current-observed",
+      "round": 20,
+      "viewport": [
+        1280,
+        720
+      ],
+      "run": {
+        "seed": 3,
+        "gameSeed": 837158927,
+        "actions": 6,
+        "valid": 4,
+        "invalid": 0,
+        "idle": 2,
+        "timeouts": 4,
+        "maxSame": 1,
+        "stuck": null,
+        "avgWaitMs": 620
+      },
+      "requiredErrors": [],
+      "trace": {
+        "seed": 3,
+        "gameSeed": 837158927,
+        "actions": 6,
+        "valid": 4,
+        "invalid": 0,
+        "idle": 2,
+        "timeouts": 4,
+        "maxSame": 1,
+        "stuck": null,
+        "avgWaitMs": 620,
+        "steps": [
+          {
+            "i": 0,
+            "node": "A1",
+            "fight": 0,
+            "act": "選項「【移動】摸黑走到門邊」",
+            "ms": 256
+          },
+          {
+            "i": 1,
+            "node": "A1d",
+            "fight": 0,
+            "act": "選項「【事件】用手機的光看門背後的逃生路線圖」",
+            "ms": 258
+          },
+          {
+            "i": 2,
+            "node": "AO2",
+            "fight": 0,
+            "act": "選項「【事件】開門讓他進來」",
+            "ms": 801,
+            "timeout": 1
+          },
+          {
+            "i": 3,
+            "node": "AO2",
+            "fight": 1,
+            "act": "（沒有可點的）",
+            "ms": 801,
+            "timeout": 1,
+            "same": 1
+          },
+          {
+            "i": 4,
+            "node": "AO2",
+            "fight": 1,
+            "act": "（沒有可點的）",
+            "ms": 801,
+            "timeout": 1
+          },
+          {
+            "i": 5,
+            "node": "AO2",
+            "fight": 1,
+            "act": "關骰子",
+            "ms": 802,
+            "timeout": 1
+          }
+        ]
+      },
+      "observations": {
+        "viewport": {
+          "width": 1280,
+          "height": 720
+        },
+        "observations": [
+          {
+            "hits": [
+              {
+                "at": 2883.9000000000233,
+                "busy": false,
+                "gbusy": false,
+                "phase": "node",
+                "node": "A1d",
+                "fight": false,
+                "over": false,
+                "queue": 0
+              },
+              {
+                "at": 3299.5999999999767,
+                "busy": false,
+                "gbusy": false,
+                "phase": "node",
+                "node": "AO2",
+                "fight": false,
+                "over": false,
+                "queue": 0
+              }
+            ],
+            "last": {
+              "busy": false,
+              "gbusy": false,
+              "phase": "fight",
+              "node": "AO2",
+              "fight": true,
+              "over": false
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
