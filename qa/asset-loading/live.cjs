@@ -20,7 +20,7 @@ let browser;
  await p.evaluate(()=>navigator.serviceWorker.ready);await p.reload({waitUntil:'domcontentloaded'});await p.waitForFunction(()=>navigator.serviceWorker.controller);await enter();
  const warm=await p.evaluate(()=>({stats:ZC_ASSET_LOADER.memory(),controller:navigator.serviceWorker.controller.scriptURL,scope:location.pathname}));assert(warm.stats.hits>0);assert(warm.controller.endsWith('/zerocase/sw.js'));report.warm=warm;report.checks.push('冷快取必要素材、觸控音訊解鎖、SW 控制與暖快取命中');
  await p.screenshot({path:path.join(out,'menu-844x390.png')});
- await p.click('[data-cat="story"]');await p.click('[data-rsel="maggie"]');await p.click('[data-m="rpick"]');await p.click('[data-m="cdone"]');await p.click('[data-m="solo"]');await p.click('[data-m="go"]');await p.waitForFunction(()=>G&&G.phase==='node'&&!busy,null,{timeout:40000});
+ await p.click('[data-cat="custom"]');await p.locator('#cname').fill('素材驗收');await p.click('[data-ctab="tal"]');await p.click('[data-tal="tough"]');await p.click('[data-ctab="sk"]');await p.locator('[data-csk]').first().click();await p.click('[data-m="cdone"]');await p.click('[data-m="solo"]');await p.click('[data-m="go"]');await p.waitForFunction(()=>G&&G.phase==='node'&&!busy,null,{timeout:40000});
  await p.screenshot({path:path.join(out,'new-run-844x390.png')});assert.equal(errors.length,0,errors.join('\n'));report.checks.push('正式站新局與探索畫面、無未處理 JavaScript 錯誤');
  report.browser=await browser.version();report.status='通過';await c.close();
 })().catch(e=>{report.status='失敗';report.error=e.stack;process.exitCode=1}).finally(async()=>{report.finished=new Date().toISOString();fs.writeFileSync(path.join(out,'results.json'),JSON.stringify(report,null,2));if(browser)await browser.close();console.log(JSON.stringify(report))});
