@@ -123,3 +123,27 @@
 | sgclose | sentryx86 | https://freesound.org/people/sentryx86/sounds/52202/ | CC0；取約 13.08–13.55 s 較響機械聲（候選 close-a；來源未明示關膛，主人指定用較響的這一發） |
 
 不再出貨的預覽切段：zer0_sol《Subsequent Shells》（原 sgshell 預設）、sentryx86 約 8.12–8.95 s 單管塞彈（原 sgshellbr 預設）。作者未替本作品背書。
+
+
+## 左輪換彈音效（v0.70.0，實錄音效）
+
+原本 Model 10、Model 500 與快槍手裝填都誤用左輪扳擊錘 `revolverCock`（該檔仍給十字弓上弦）。以下為正式採用的專屬短音效：44.1 kHz 單聲道 MP3 96 kbps，裁切、高通、降噪並閘至靜音。Freesound 原始 WAV 需登入，取用該站 HQ 預覽再重編碼。候選由主人聽過後指定（2026-11-26／2026-11-27）。
+
+| 素材 | 作者 | 來源頁 | 授權及處理 |
+|---|---|---|---|
+| revopen | o_ciz | https://freesound.org/people/o_ciz/sounds/475420/ | CC0；《Revolver reloading_2》，取約 8.38–9.15 s 開巢 |
+| reveject | o_ciz ＋ Yin_Yang_Jake007 | https://freesound.org/people/o_ciz/sounds/475420/ 、https://freesound.org/people/Yin_Yang_Jake007/sounds/406091/ | 皆 CC0。開巢錄音中取約 14.22–14.50 s 的金屬推桿，接上《Bullet Shells》約 0.68–1.58 s 黃銅彈殼互撞（不落地、無木板）。黃銅段高通 80 Hz。已棄用 craigsmith 675956／675625：復古庫含旁白與落地聲 |
+| revshell | Guy_Personface | https://freesound.org/people/Guy_Personface/sounds/795317/ | CC0；《Revolver Loading – Remington 1875》，取約 2.22–2.90 s 一發入膛 |
+| revclose | AugustSandberg | https://freesound.org/people/AugustSandberg/sounds/508744/ | CC0；《Revolver Reload》（Ruger GP100），取約 19.18–20.00 s 合上彈巢 |
+
+作者未替本作品背書。
+
+## Model 500 開槍聲（v0.70.0，實錄音效）
+
+Model 10 仍使用既有 `revolver` 槍聲。Model 500 改用專屬素材 `m500`：44.1 kHz 單聲道 MP3 96 kbps；30 Hz 高通、降噪、峰值正規化，並以較長的自然淡出（二次對數）壓低戶外林間回聲，不使用 FFT 去混響。Freesound 原始 WAV 需登入，取用該站 HQ 預覽再重編碼。主人指定「開槍-長-自然淡出-2」（2026-11-27）。
+
+| 素材 | 作者 | 來源頁 | 授權及處理 |
+|---|---|---|---|
+| m500 | dcsimon | https://freesound.org/people/dcsimon/sounds/139979/ | CC BY 3.0（https://creativecommons.org/licenses/by/3.0/）；《44 Magnum.wav》，戶外 .44 Magnum 實錄第三槍。遊戲致謝已署名。裁切、降噪、自然淡出與音量調整 |
+
+作者未替本作品背書。

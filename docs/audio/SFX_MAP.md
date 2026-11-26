@@ -1,6 +1,6 @@
 # 零號病例 音效對應表（待主人審查）
 
-遊戲版本 v0.67.1／Build 141。這份由 `node tests/helpers/sfx-map.cjs --md docs/audio/SFX_MAP.md` 產生（QA 升級 PR-D：QA-16）。
+遊戲版本 v0.70.0／Build 146。這份由 `node tests/helpers/sfx-map.cjs --md docs/audio/SFX_MAP.md` 產生（QA 升級 PR-D：QA-16）。
 「聽起來是什麼」是 Claude 依檔名和遊戲裡的用法整理的，**還沒經過主人審查**。這次**只列缺口，沒有換任何音效**。
 
 ## 一、缺口（等主人決定）
@@ -32,7 +32,7 @@
 | pipe | 旁邊臨時搭的鷹架被風吹得一直搖晃，上面沒綁牢的鋼… | — | — | thud |
 | crow | 一隻眼睛發白的烏鴉從電線上俯衝下來，直撲你的臉—… | — | — | claw |
 
-## 三、全部音效名稱（104 個）
+## 三、全部音效名稱（109 個）
 
 | 名稱 | 種類 | 分類 | 聽起來是什麼 | 載入失敗的備援 | 用在哪裡 |
 |---|---|---|---|---|---|
@@ -41,6 +41,11 @@
 | sgshellbr | 音效檔 | combat | 單管霰彈槍塞彈 | dry | sndW(…) 呼叫；WEAP.sbshot.rl |
 | sgopen | 音效檔 | combat | 單管霰彈槍折開 | dry | sndW(…) 呼叫 |
 | sgclose | 音效檔 | combat | 單管霰彈槍合上 | dry | sndW(…) 呼叫 |
+| revopen | 音效檔 | combat | 左輪甩開彈巢 | dry | sndW(…) 呼叫 |
+| reveject | 音效檔 | combat | 左輪倒出彈殼 | dry | sndW(…) 呼叫 |
+| revshell | 音效檔 | combat | 左輪塞一發進彈巢 | dry | sndW(…) 呼叫；WEAP.model10.rl；WEAP.model500.rl；FOES.quickdraw.rl |
+| revclose | 音效檔 | combat | 左輪合上彈巢 | dry | sndW(…) 呼叫 |
+| m500 | 音效檔 | combat | Model 500 開槍（大口徑） | fumble | WEAP.model500.snd；GUN_VFX_CFG.model500.snd |
 | piercehit | 音效檔 | combat | 刺擊命中（刺進肉裡） | hurt | snd(…) 呼叫 |
 | bowdraw | 音效檔 | combat | 拉弓、放箭 | whoosh | sfx(…) 呼叫 |
 | bowimpact | 音效檔 | combat | 箭射中 | hurt | sfx(…) 呼叫；play(…) 呼叫 |
@@ -60,8 +65,8 @@
 | doorclose | 音效檔 | movement | 關門 | land | snd(…) 呼叫 |
 | beretta | 音效檔 | combat | 手槍槍聲 | fumble | WEAP.beretta.snd；GUN_VFX_CFG.beretta.snd |
 | berettaReload | 音效檔 | combat | 手槍換彈匣 | dry | snd(…) 呼叫；sndW(…) 呼叫；WEAP.beretta.rl |
-| revolver | 音效檔 | combat | 左輪槍聲 | fumble | WEAP.model10.snd；WEAP.model500.snd；MOVES.quickdraw[0].snd；MOVES.quickdraw[1].snd；…共 7 處 |
-| revolverCock | 音效檔 | combat | 左輪扳擊錘 | dry | sndW(…) 呼叫；WEAP.model10.rl；WEAP.model500.rl；FOES.quickdraw.rl |
+| revolver | 音效檔 | combat | 左輪槍聲 | fumble | WEAP.model10.snd；MOVES.quickdraw[0].snd；MOVES.quickdraw[1].snd；MOVES.quickdraw[2].snd；…共 5 處 |
+| revolverCock | 音效檔 | combat | 左輪扳擊錘 | dry | sndW(…) 呼叫 |
 | casing | 音效檔 | combat | 彈殼落地 | dry | snd(…) 呼叫；GUN_VFX_CFG.beretta.after；GUN_VFX_CFG.mp5.after；GUN_VFX_CFG.fal.after |
 | fist | 音效檔 | combat | 拳頭打中 | hurt | snd(…) 呼叫；sfx(…) 呼叫；BUTT.hs；BUTT4.hs；…共 7 處 |
 | claw | 音效檔 | combat | 爪子抓傷（敵人招式的預設受傷聲） | hurt | snd(…) 呼叫；MOVES.infected[1].hs；MOVES.infected[2].hs；MOVES.predator[0].hs；…共 10 處 |
@@ -97,7 +102,7 @@
 | glassstep | 音效檔 | environment | 踩到碎玻璃 | — | N.I1.c[1].ng.audio；N.O0.c[0].ok.audio；N.YD4.c[1].ng.audio；N.BD4.c[0].ng.audio；…共 5 處 |
 | waterpipe | 音效檔 | environment | 水管裡的水流（循環） | — | 程式裡直接寫到（環境音、回傳名稱的函式等） |
 | pumpmix | 音效檔 | environment | 抽水機運轉（循環） | — | 程式裡直接寫到（環境音、回傳名稱的函式等） |
-| pumpstop | 音效檔 | environment | 抽水機停下 | — | snd(…) 呼叫 |
+| pumpstop | 音效檔 | environment | 抽水機停下 | — | snd(…) 呼叫；sfx(…) 呼叫 |
 | radiostatic | 音效檔 | environment | 無線電雜訊 | — | N.L1.audio；N.CA4.c[1].ok.audio；N.CA4.audio；N.AM3.c[0].tb[0].audio；…共 14 處 |
 | radio02 | 音效檔 | environment | 無線電台詞 02 | — | radioLine(…) 呼叫 |
 | radio23 | 音效檔 | environment | 無線電台詞 23 | — | radioLine(…) 呼叫 |
@@ -111,13 +116,13 @@
 | ok | 合成音 | ui | 合成：檢定成功 | — | sfx(…) 呼叫；備援：pickup |
 | crit | 合成音 | ui | 合成：大成功 | — | sfx(…) 呼叫 |
 | ng | 合成音 | system | 合成：檢定失敗 | — | snd(…) 呼叫；sfx(…) 呼叫 |
-| fumble | 合成音 | system | 合成：大失敗 | — | snd(…) 呼叫；sfx(…) 呼叫；備援：beretta、revolver、headshot、mimpact、death、smash、shotgun、fal、mp5、rifle |
+| fumble | 合成音 | system | 合成：大失敗 | — | snd(…) 呼叫；sfx(…) 呼叫；備援：beretta、revolver、m500、headshot、mimpact、death、smash、shotgun、fal、mp5、rifle |
 | miss | 合成音 | system | 合成：攻擊落空 | — | snd(…) 呼叫 |
 | whoosh | 合成音 | combat | 合成：揮空、閃開的風聲 | — | snd(…) 呼叫；sfx(…) 呼叫；備援：crossbowshot、bowdraw、mthrow、spit |
 | groan | 合成音 | combat | 合成：低沉的呻吟 | — | snd(…) 呼叫 |
 | hurt | 合成音 | combat | 合成：一般受傷聲（劇情扣血的預設） | — | N.A4c.c[0].tb[2].hs；N.A6.c[2].ng.hs；N.C2.c[1].ok.hz.ng.hs；N.D2x.c[0].ng.hs；…共 30 處 |
 | craft | 合成音 | foley | 合成：動手做東西 | — | snd(…) 呼叫；備援：heal、pill、rummage、zipper、drawer |
-| dry | 合成音 | ui | 合成：喀一聲（空槍、換彈的備援） | — | 備援：sgpump、sgshell、sgshellbr、sgopen、sgclose、berettaReload、revolverCock、casing、click、equip、bhit、falReload、mp5Reload、bolt、dryfire |
+| dry | 合成音 | ui | 合成：喀一聲（空槍、換彈的備援） | — | 備援：sgpump、sgshell、sgshellbr、sgopen、sgclose、revopen、reveject、revshell、revclose、berettaReload、revolverCock、casing、click、equip、bhit、falReload、mp5Reload、bolt、dryfire |
 | eat | 合成音 | foley | 合成：吃東西 | — | sndW(…) 呼叫 |
 | gulp | 合成音 | foley | 合成：喝水 | — | sndW(…) 呼叫 |
 | ext | 合成音 | combat | 合成：滅火器噴出 | — | snd(…) 呼叫；N.WP3.c[0].ok.hz.audio |

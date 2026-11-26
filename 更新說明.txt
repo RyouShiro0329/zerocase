@@ -1,3 +1,13 @@
+零號病例 v0.70.0・Build146（GPT／Codex）
+Build時間：2026-11-27T01:18:54+08:00（Asia/Taipei）。上一版：v0.69.1・Build145，main d17bed6。
+- 左輪換彈補上專屬機械音效（主人聽過候選後指定）：Model 10（6 發）與 Model 500（5 發）裝填改為甩開彈巢、倒出彈殼、逐發塞彈、合上彈巢；快槍手打空同樣走這一段。十字弓上弦仍用既有左輪扳擊錘聲。
+- Model 500 改用專屬開槍聲（主人指定「開槍-長-自然淡出-2」），比 Model 10 更重；Model 10 與快槍手開槍仍用既有左輪槍聲。音檔失敗時改播合成大失敗聲（與其他槍聲相同，現行備援必須是合成音）。
+- 音檔皆為實地錄音。換彈：開巢 o_ciz（Freesound 475420，CC0）；退殼為 o_ciz（Freesound 475420）金屬推桿接 Yin_Yang_Jake007《Bullet Shells》（Freesound 406091，CC0）黃銅互撞，不用落地聲；塞彈 Guy_Personface《Revolver Loading – Remington 1875》（Freesound 795317，CC0）；合上 AugustSandberg《Revolver Reload》（Freesound 508744，CC0）。Model 500 槍聲：dcsimon《44 Magnum.wav》（Freesound 139979，CC BY 3.0），遊戲致謝已署名。
+- 沒改：戰鬥數值、核心規則、劇情、畫面。guard 與 split_index 沒動。
+- 測試：tools/release.py 升版；素材索引由 tools/build_assets.cjs 以內容雜湊更新。本機 Node：496 項＝493 通過、0 失敗、3 既有暫緩（恐懼數字、環境相容、音效缺口）。tests/run_all.sh 完整模式全部通過（另有暫緩 3 項）：防弱化（guard 沒改）、瀏覽器冒煙 40 步×3 種尺寸、長路線 220 動作、生存路線 120 動作＋指定戰鬥、QTE 固定情境、真實瀏覽器音訊（72 個音效檔解碼、109 個名稱出聲、配樂切換）、固定版面與基準截圖、多人演出與房主交接模擬。種子 1436042969。
+- 手機實機：待主人實機驗收。
+遊戲檔 index.html SHA-256（升版當下）：7e67b6f67b7835e09bc3c9f24782adc3896f4591c004935e40703468dd86d265
+
 測試工具：正式站素材驗收改從本次 checkout 讀取完整版本資訊，嚴格檢查版本／Build／時間並保留內容雜湊與快取驗收，避免升版被舊常數誤判；遊戲不升版。
 零號病例 v0.69.1・Build145（GPT／Codex，修正候選）
 Build時間：2026-11-26T22:55:39+08:00（Asia/Taipei）。上一版：v0.69.0・Build144，main 49dca4c。
