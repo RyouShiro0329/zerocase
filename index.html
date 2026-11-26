@@ -6433,7 +6433,7 @@ const ZC_ASSET_LOADER=(()=>{
     r.promise=schedule(r,()=>download(r,prepare)).then(value=>{r.value=value;r.state='ready';r.error=null;r.failedAt=0;
       r.bytes=r.type==='audio'?(value.length||0)*(value.numberOfChannels||1)*4:r.type==='image'?value.naturalWidth*value.naturalHeight*4:0;
       const key=r.type==='audio'?'audioBytes':'imageBytes';if(r.type==='audio'||r.type==='image'){stats[key]+=r.bytes;stats[r.type==='audio'?'peakAudio':'peakImages']=Math.max(stats[r.type==='audio'?'peakAudio':'peakImages'],stats[key])}return value;
-    }).catch(e=>{r.error=String(e);r.failedAt=Date.now();r.state='failed';note(r.id,'prepare',e);return null}).finally(()=>{r.promise=null});return r.promise;
+    }).catch(e=>{r.error=String(e);r.failedAt=Date.now();r.state='failed';note(r.id,'prepare',e);if(r.type==='audio')console.warn('[ZeroCase audio] 音效載入失敗',r.id,e);return null}).finally(()=>{r.promise=null});return r.promise;
   }
   const soundPaths=n=>n==='crossbowshot'?['sfx/crossbowshot.wav']:(n==='genloop'||n.startsWith('rain_')?['ogg','mp3']:['mp3']).map(e=>'sfx/'+n+'.'+e);
   function sound(n,p=files.get(soundPaths(n)[0])?.priority??2,force=false){const a=audio();if(!a)return Promise.resolve(null);const r=record('sound:'+n,'audio',soundPaths(n),p,p<=1&&p1Sounds.includes(n));if(BUF[n]){r.lastUse=Date.now();return Promise.resolve(BUF[n])}
