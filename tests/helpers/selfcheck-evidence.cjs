@@ -11,7 +11,8 @@ function preserve(source,dest,{all=false}={}){
    const bytes=fs.readFileSync(full);files.push({path:rel,bytes:bytes.length,sha256:crypto.createHash('sha256').update(bytes).digest('hex')});
   }
  }
- for(const e of fs.readdirSync(source,{withFileTypes:true}))if(e.isDirectory()&&!e.isSymbolicLink()&&(all||['v06','v10'].includes(e.name)))walk(path.join(source,e.name),e.name);
+ if(all)walk(source);
+ else for(const name of ['v06','v10']){const dir=path.join(source,name);if(fs.existsSync(dir)&&fs.lstatSync(dir).isDirectory())walk(dir,name)}
  const report={all,files};fs.writeFileSync(path.join(dest,'manifest.json'),JSON.stringify(report,null,2));return report;
 }
 function verifyV06(out){
