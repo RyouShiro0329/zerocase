@@ -26,7 +26,7 @@
 # 用法：bash tests/qa-selfcheck.sh　結果：每個情境 通過／失敗／未測試，另存 test-results/selfcheck.json
 cd "$(dirname "$0")/.." || exit 1
 REPO=$(pwd); OUTD=${QA_OUT:-test-results}; mkdir -p "$OUTD"
-NP=${NODE_PATH:-$(npm root -g 2>/dev/null)}
+NP=${NODE_PATH:-$(pwd)/tests/node_modules:$(npm root -g 2>/dev/null)}
 WORK=$(mktemp -d); trap 'rm -rf "$WORK"' EXIT
 EMPTY="$WORK/empty-node-path"; mkdir -p "$EMPTY"
 RES=(); FAILN=0
@@ -191,6 +191,17 @@ else ok V17 未測試 "這個環境沒有 playwright"; ok V18 未測試 "這個�
 D=$(mkg v19 "SYN.qa_new_sound=()=>0;")
 ( cd "$D" && node tests/helpers/sfx-map.cjs "$D" > out.log 2>&1; echo $? > out.exit ); E=$(cat "$D/out.exit")
 if [ "$E" = 1 ] && grep -q "沒寫說明 1：qa_new_sound" "$D/out.log"; then ok V19 通過 "沒寫說明的新音效名稱被抓到"; else ok V19 失敗 "exit $E：$(head -1 "$D/out.log")"; fi
+
+# PR-E：獨立新增，不替換既有 V01～V19。
+if node -e "require('./tests/node_modules/playwright')" 2>/dev/null; then
+  rm -f "$OUTD/pr-e-selfcheck.json"
+  QA_OUT="$OUTD" node tests/pr-e-selfcheck.cjs
+  PE=$?
+  if [ -f "$OUTD/pr-e-selfcheck.json" ]; then
+    while IFS='|' read -r ID STATUS NOTE; do ok "$ID" "$STATUS" "$NOTE"; done < <(node -e "for(const c of JSON.parse(require('node:fs').readFileSync(process.argv[1],'utf8')).checks)console.log([c.id,c.status,String(c.note||'').replace(/[\\n|]/g,' ')].join('|'))" "$OUTD/pr-e-selfcheck.json")
+  else ok PR-E 失敗 "沒有自我驗收報告，exit $PE"; fi
+  if [ "$PE" != 0 ]; then ok PR-E-exit 失敗 "自我驗收 exit $PE"; fi
+else ok PR-E 未測試 "請先 npm ci --prefix tests --ignore-scripts"; fi
 
 printf '%s\n' "${RES[@]}" | node -e "let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const r=s.trim().split('\n').map(l=>{const [id,status,note]=l.split('|');return {id,status,note}});require('fs').writeFileSync(process.argv[1],JSON.stringify({checks:r},null,1))})" "$OUTD/selfcheck.json"
 echo "== 自我驗收：${#RES[@]} 項，失敗 $FAILN 項（結果存在 $OUTD/selfcheck.json）"

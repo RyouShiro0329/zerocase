@@ -1,0 +1,178 @@
+{
+  "provenance": {
+    "commit": "d428daa1c5371a7d592f025d9c2d0fe3775c347f",
+    "version": "0.57.0",
+    "kind": "由該版本 newRun 建立的合成存檔，非玩家資料"
+  },
+  "expected": {
+    "node": "F2",
+    "lv": "E"
+  },
+  "G": {
+    "v": 5,
+    "v9": 1,
+    "dl": 12,
+    "rules3": 1,
+    "rules5": 1,
+    "rid": "iraqu9s",
+    "mode": "solo",
+    "opts": {
+      "cd": "off",
+      "sec": 20,
+      "diff": "normal"
+    },
+    "host": "fixture-player",
+    "lv": "F",
+    "ch": 1,
+    "bank": {},
+    "node": "F2",
+    "ev": null,
+    "alarm": 0,
+    "flags": {
+      "qa_preserve": 1
+    },
+    "evSeen": [],
+    "known": [
+      "bandage"
+    ],
+    "players": [
+      {
+        "pid": "fixture-player",
+        "name": "存檔測試角色",
+        "col": "#c8ad70",
+        "kind": "custom",
+        "bg": null,
+        "traits": [
+          "keen"
+        ],
+        "st": {
+          "STR": 2,
+          "AGI": 2,
+          "CON": 2,
+          "PER": 3,
+          "INT": 0,
+          "CHA": 0
+        },
+        "hp": 20,
+        "max": 20,
+        "fe": 0,
+        "inf": 0,
+        "hun": 8,
+        "thi": 8,
+        "nT": 0,
+        "bleed": 0,
+        "frac": 0,
+        "pk": 0,
+        "items": {
+          "water": 2,
+          "bandage": 1
+        },
+        "gear": [
+          {
+            "u": 1,
+            "id": "knife",
+            "dur": 15,
+            "one": 0
+          }
+        ],
+        "hand": {
+          "R": 1,
+          "L": null
+        },
+        "eq": {
+          "head": null,
+          "face": null,
+          "body": null,
+          "arm": null,
+          "leg": null
+        },
+        "tl": [
+          null,
+          null
+        ],
+        "usd": 0,
+        "down": 0,
+        "dead": 0,
+        "lost": 0,
+        "mad": 0,
+        "bon": {
+          "PER": 1
+        },
+        "kills": 0,
+        "defPen": 0,
+        "combo": 0,
+        "counter": 0,
+        "brace": 0,
+        "actUsed": 0,
+        "aimed": 0,
+        "lv": 1,
+        "xp": 0,
+        "pts": 0,
+        "photoLv": null,
+        "jamGuard": 0,
+        "skill": "aid"
+      }
+    ],
+    "phase": "node",
+    "votes": {},
+    "rv": {},
+    "pc": null,
+    "cd": null,
+    "fight": null,
+    "after": null,
+    "uid": 1,
+    "levels": 0,
+    "kills": 0,
+    "over": null,
+    "busy": 0,
+    "pendingBurn": 0,
+    "seq": 0,
+    "ground": [],
+    "know": {},
+    "tactUsed": {},
+    "used": {},
+    "hint": {},
+    "hazCd": 2,
+    "clock": 123,
+    "t0": 1200,
+    "sch": {
+      "blackout": 1603,
+      "nosignal": 2097,
+      "broadcast": 2221,
+      "nowater": 3823,
+      "evac": 4920,
+      "evacgone": 4980,
+      "raid": 6420,
+      "shadow": 9281,
+      "sweep": 12106,
+      "curfew": 14400,
+      "warn": 14940,
+      "fire": 15000
+    },
+    "fired": {},
+    "xpDay": 1,
+    "lvSeen": [
+      "A",
+      "F",
+      "H",
+      "P"
+    ],
+    "zv": 1,
+    "zd": {},
+    "zal": {},
+    "zc": {},
+    "route": [
+      "A",
+      "F",
+      "H",
+      "P"
+    ],
+    "rs": {}
+  },
+  "LOG": [
+    [
+      "跨版本存檔測試",
+      "sys"
+    ]
+  ]
+}

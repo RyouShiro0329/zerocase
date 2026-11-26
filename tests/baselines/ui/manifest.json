@@ -1,0 +1,6 @@
+{
+  "playwright": "1.58.2",
+  "chromium": "145.0.7632.6",
+  "platform": "linux",
+  "indexSha256": "d66b02ac0ea2f3f4a235b385da09a1f8177f2de122515512e37b810ec03f774c"
+}

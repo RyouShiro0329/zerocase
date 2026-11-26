@@ -1,3 +1,15 @@
+# GPT／Codex 交接：QA PR-E（P2，測試工具）
+
+2026-11-26（Asia/Taipei）。基準 main 49dca4c／v0.69.0／Build144，分支 qa/pr-e。只做主人指定六項 P2，不升遊戲版本；index.html、素材、tests/guard.test.cjs 均不改。docs/VERSIONS.md、更新說明.txt 各只加一行「測試工具」。
+
+- 新增固定情境版面／PNG 基準與 CSS 防護、五個歷史版本的存檔 fixtures＋migrateG 驗收、部署後只讀冒煙。使用方式、截圖更新規則與覆蓋範圍見 docs/QA_SYSTEM.md 的 PR-E 各節。
+- 多人 mock／mp／bot 與舊 mpstage 搬到 tests/multiplayer/，直接服務 checkout 的 index.html；不再依賴 /home/claude、proto7、外部伺服器或不存在的 fbfake.js。舊 mp／bot 指令保留轉接。build.sh 改為相對位置與工作資料夾參數，重建以 cmp 確認。
+- 本機 FAST Node：485 項，482 通過、0 失敗；3 項既有未測試（環境相容已知組合、恐懼數字、音效缺口等待主人決定）。新增固定畫面與多人模擬已另跑；最終自我驗收及 GitHub「完整測試」結果應看本 PR 最後一個 commit 的 Checks 與 artifact，未完成不得宣稱通過。
+- tests/qa-selfcheck.sh 追加 V20～V25 故障注入，保留原 V01～V19。CI 固定 Playwright 1.58.2；本機有其他全域版本時，用 NODE_PATH=$PWD/tests/node_modules 執行，避免臨時複本解析到不同版本。
+- 主人本次明確要求：開 PR、等待 GitHub 完整結果，**不要自己合併**；舊 B 方案的合併授權不適用本 PR。尚未合併時，main 的部署後冒煙 workflow 未觸發；Android 待主人實機驗收，正式 Firebase 不屬於本機模擬通過範圍。
+
+---
+
 # GPT／Codex 交接：B 方案（v0.69.0／Build144）
 
 2026-11-26（Asia/Taipei）。基準 main 0f7e5d1／v0.68.0／Build143，分支 feat/asset-loading-b，PR #75：

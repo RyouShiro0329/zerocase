@@ -1,10 +1,13 @@
+let QA_BROWSER;
+const {setupContext,finish}=require('./harness.cjs');
 // 雙人：共用時間軸、隊友延遲、演出中點按作廢、房主交接
-const {chromium}=require('playwright');const {GOD}=require('/home/claude/zerocase/tests/helpers/godmode.cjs');
-const BASE='http://localhost:8767/test.html';
-async function setup(b,delay){const ctx=await b.newContext({viewport:{width:844,height:390}});const errs=[];const pages=[];
+const {chromium}=require('playwright');const {GOD}=require('../helpers/godmode.cjs');
+const BASE='http://mp.invalid/index.html';
+async function setup(b,delay){const ctx=await b.newContext({viewport:{width:844,height:390}});await setupContext(ctx);const errs=[];const pages=[];
  for(let i=0;i<2;i++){const p=await ctx.newPage();p.on('pageerror',e=>errs.push(i+':'+(e.stack||e.message)));pages.push(p)}
  await pages[0].goto(BASE+'?pid=h1');await pages[0].evaluate(()=>{localStorage.setItem('zc5-ui',JSON.stringify({snd:0,bgm:0,spd:.3,orient:'auto'}));localStorage.setItem('zc5-meta',JSON.stringify({shards:0,unlocked:['maggie','liao'],runs:0,clears:0,got:[]}))});
  for(let i=0;i<2;i++){await pages[i].goto(BASE+'?pid=pp'+i);await pages[i].click('#gateNo')}
+ for(const p of pages)p.__qaErrors=require('../helpers/browser-errors.cjs').watch(p,'http://mp.invalid');
  const [H,C]=pages;await H.waitForTimeout(300);
  await H.click('[data-cat="story"]');await H.click('[data-rsel="maggie"]');await H.click('[data-m="rpick"]');await H.click('[data-m="cdone"]');await H.click('[data-m="host"]');await H.waitForSelector('[data-m="start"]');
  const code=await H.evaluate(()=>NET.code);
@@ -17,7 +20,7 @@ async function setup(b,delay){const ctx=await b.newContext({viewport:{width:844,
  for(const p of pages)await p.evaluate(()=>{window.__log=[];setInterval(()=>{const g=window.__G();const s=g&&g.stg;const el=document.getElementById('stg');__log.push({t:Date.now(),id:s&&s.id,on:typeof stgOn==='function'&&stgOn(),vis:el&&!el.hidden,cls:el&&el.className,view:s&&typeof stgView==='function'&&stgView()?Math.round(stgView().el):null})},40)});
  return {ctx,H,C,errs}}
 const sum=L=>{const on=L.filter(x=>x.id);if(!on.length)return null;const first=on[0],last=on.at(-1);const mi=L.find(x=>/m-img/.test(x.cls||''));return {firstSeen:first.t,firstView:first.view,lastSeen:last.t,imgAt:mi&&mi.t,ids:[...new Set(on.map(x=>x.id))].length}};
-(async()=>{const b=await chromium.launch();const R={};
+(async()=>{const b=QA_BROWSER=await chromium.launch();const R={};
  // A：正常同步 + 隊友演出中狂點
  {const {ctx,H,C,errs}=await setup(b,0);
   await H.evaluate(()=>{window.__h0=Date.now();run(()=>startFight({n:2,mode:'normal',names:['感染者','感染者']}))});
@@ -28,6 +31,7 @@ const sum=L=>{const on=L.filter(x=>x.id);if(!on.length)return null;const first=o
   await H.waitForTimeout(500);
   const hs=sum(await H.evaluate(()=>__log)),cs=sum(await C.evaluate(()=>__log));const h0=await H.evaluate(()=>__h0);
   const pend=await H.evaluate(()=>JSON.stringify(window.__G().fight&&window.__G().fight.pend||{}));
+  for(const p of [H,C])errs.push(...p.__qaErrors.required.map(x=>x.kind+':'+x.msg));
   R.normal={hostStageMs:hEnd-h0,clientUnlockLagMs:cEnd-hEnd,clientFirstSeenAfterHostMs:cs.firstSeen-h0,clientFirstViewMs:cs.firstView,hostImgMs:hs.imgAt-h0,clientImgMs:cs.imgAt-h0,clientQueuedActs:tries.queued,hostPendAfter:pend,errs};await ctx.close()}
  // B：隊友延遲 1200ms 收到：從目前進度接上，不從頭；不拖慢房主
  {const {ctx,H,C,errs}=await setup(b,1200);await C.evaluate(()=>{window.__delay=1});
@@ -35,6 +39,7 @@ const sum=L=>{const on=L.filter(x=>x.id);if(!on.length)return null;const first=o
   await H.waitForFunction(()=>!window.__G().stg,null,{timeout:8000});const hEnd=await H.evaluate(()=>Date.now());
   await C.waitForFunction(()=>window.__G().fight&&!window.__G().stg&&window.__log.some(x=>x.id),null,{timeout:10000});
   const cs=sum(await C.evaluate(()=>__log)),h0=await H.evaluate(()=>__h0);await C.evaluate(()=>{window.__delay=0});
+  for(const p of [H,C])errs.push(...p.__qaErrors.required.map(x=>x.kind+':'+x.msg));
   R.delayed={hostStageMs:hEnd-h0,clientFirstSeenAfterHostMs:cs.firstSeen-h0,clientFirstViewMs:cs.firstView,clientIds:cs.ids,errs};await ctx.close()}
  // C：亂入演出進行中房主斷線 → 隊友接任，把剩下的演完，不重複加敵人、不重複先攻
  {const {ctx,H,C,errs}=await setup(b,0);
@@ -46,5 +51,6 @@ const sum=L=>{const on=L.filter(x=>x.id);if(!on.length)return null;const first=o
   await C.waitForFunction(()=>!window.__G().stg,null,{timeout:10000});const t1=await C.evaluate(()=>Date.now());
   await C.waitForTimeout(1500);
   const st=await C.evaluate(()=>{const g=window.__G();return {foes:g.fight&&g.fight.foes.length,order:g.fight&&g.fight.order.length,orderFoes:g.fight&&g.fight.order.filter(o=>o.k==='f').length,stg:!!g.stg,phase:g.phase,reinfIn:g.fight&&g.fight.reinf&&g.fight.reinf.in}});
+  for(const p of [H,C])errs.push(...p.__qaErrors.required.map(x=>x.kind+':'+x.msg));
   R.handover={foesDuringStage:foes0,after:st,hostLeftToNewHostMs:tHost-t0,newHostFinishMs:t1-tHost,errs};await ctx.close()}
- console.log(JSON.stringify(R,null,1));await b.close()})();
+ await b.close();finish(R)})().catch(async e=>{console.error(e.stack);if(QA_BROWSER)await QA_BROWSER.close();process.exitCode=3});
