@@ -51,5 +51,12 @@ jobs:
         if: always()
         with:
           name: v06-${{ matrix.id }}
-          path: test-results/v06-investigation/
+          path: |
+            test-results/v06-investigation/summary.json
+            test-results/v06-investigation/*/v06/out/*.json
+            test-results/v06-investigation/*/v10/out/*.json
+            test-results/v06-investigation/*/v06/out.log
+            test-results/v06-investigation/*/v10/out.log
+            test-results/v06-investigation/*/v06/out.exit
+            test-results/v06-investigation/*/v10/out.exit
           retention-days: 14

@@ -1,0 +1,24 @@
+name: V06 證據整理（不發布、不重跑）
+on:
+  push:
+    branches: [qa/v06-evidence-cd20588]
+    paths: [.github/workflows/v06-evidence.yml, qa/v06-investigation/extract_evidence.py]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  extract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: 抽取既有診斷結果，不下載重複素材
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 qa/v06-investigation/extract_evidence.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v06-evidence-json
+          path: test-results/v06-evidence/
+          retention-days: 14
