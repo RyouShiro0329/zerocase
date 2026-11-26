@@ -3,8 +3,6 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preload" href="fonts/tw-kai-game.woff2?v=07d960ad" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="fonts/source-serif-4-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="fx/slash-12.webp" as="image" type="image/webp">
-<link rel="preload" href="fx/blunt-12.webp" as="image" type="image/webp">
 <style>
 /* 中文正楷與拉丁襯線字型隨遊戲提供，Android 無須安裝字型。 */
 @font-face{font-family:"ZC Kai";src:url("fonts/tw-kai-game.woff2?v=07d960ad") format("woff2");font-style:normal;font-weight:400;font-display:swap}
@@ -6417,7 +6415,7 @@ const ZC_ASSET_LOADER=(()=>{
   function bytesFor(p,signal){if(byteTasks.has(p))return byteTasks.get(p);const task=readBytes(p,signal).finally(()=>byteTasks.delete(p));byteTasks.set(p,task);return task}
   async function download(r,prepare){let last;
     for(let n=0;n<policy.attempts;n++){
-      r.attempts++;const ctl=live?new AbortController():null,timer=live?setTimeout(()=>ctl.abort(),policy.timeout):null;
+      r.attempts++;const size=Math.max(0,...r.paths.map(p=>files.get(p)?.size||0));r.timeoutMs=size>262144?Math.min(120000,Math.max(policy.timeout,Math.ceil(size/16384)*1000+2000)):policy.timeout;const ctl=live?new AbortController():null,timer=live?setTimeout(()=>ctl.abort(),r.timeoutMs):null;
       try{let error;for(const p of r.paths){try{const bytes=await bytesFor(p,ctl?.signal);r.downloaded=true;r.path=p;return await decode(r,()=>prepare(bytes))}catch(e){error=e}}throw error}
       catch(e){last=e;r.error=String(e);note(r.id,'fetching',e);if(n<policy.attempts-1){r.state='retrying';stats.retries++;if(live)await snooze(n?1500:500);r.state='fetching'}}finally{clearTimeout(timer)}
     }throw last;
@@ -6444,10 +6442,12 @@ const ZC_ASSET_LOADER=(()=>{
     return ensure(r,bytes=>new Promise((ok,no)=>{const im=new Image(),src=URL.createObjectURL(new Blob([bytes]));let timer=setTimeout(()=>{im.src='';URL.revokeObjectURL(src);no(Error('圖像準備逾時'))},policy.timeout);
       im.onload=async()=>{try{if(im.decode)await im.decode();clearTimeout(timer);ok(im)}catch(e){clearTimeout(timer);URL.revokeObjectURL(src);no(e)}};im.onerror=()=>{clearTimeout(timer);URL.revokeObjectURL(src);no(Error('圖像解碼失敗'))};im.src=src}),priority,force).then(v=>{if(v&&live){for(const im of document.querySelectorAll('img[data-zc-retry]'))if(im.dataset.zcRetry===p&&im.dataset.zcScope===zcAssetScope()){im.src=v.src;im.classList.remove('zc-asset-image');delete im.dataset.zcRetry}collect()}return v})}
   function prefetch(p,priority=3){const r=record('file:'+p,'file',[p],priority);return ensure(r,()=>true,priority)}
+  function font(p){if(!live||!document.fonts)return prefetch(p,0);const r=record('font:'+p,'font',[p],0,true);if(r.value)return Promise.resolve(true);if(r.promise)return r.promise;r.state='decoding';
+    r.promise=document.fonts.load(p.includes('tw-kai')?'16px "ZC Kai"':'16px "ZC Latin"').then(rows=>{if(!rows.length)throw Error('字型尚未準備完成');r.downloaded=true;r.value=true;r.state='ready';r.error=null;return true}).catch(e=>{r.state='failed';r.failedAt=Date.now();r.error=String(e);note(r.id,'font',e);return false}).finally(()=>{r.promise=null});return r.promise}
   const p1Sounds=['click','step','zstep','dooropen','doorclose','stairs','hurt','thud','glassbreak','woodknock','beretta','mp5','rifle','claw','knife','fist','piercehit','bowdraw','bowimpact','crossbowshot','headshot'];
   const p1=()=>[...files.values()].filter(f=>f.priority<=1&&(f.type==='image'||f.type==='font'));
-  function warm(){if(!live)return;for(const f of p1())if(f.priority===0)prefetch(f.url,0);for(const n of p1Sounds)if(n!=='hurt')prefetch(soundPaths(n)[0],1)}
-  function needed(){return [...p1().map(f=>({id:(f.type==='image'?'image:':'file:')+f.url,run:()=>f.type==='image'?image(f.url,1):prefetch(f.url,0)})),...(UI.snd?p1Sounds.filter(n=>n!=='hurt').map(n=>({id:'sound:'+n,run:()=>sound(n,1)})):[]),...(UI.bgm?[{id:'music:explore',run:()=>{const a=BGM_MIX.tracks.explore;a.preload='auto';media('explore',a,a.readyState>=2?'canplay':a.zcFailed?'error':'waiting')}}]:[]) ]}
+  function warm(){if(!live)return;for(const f of p1())if(f.priority===0){if(f.type==='font')font(f.url);else prefetch(f.url,0)};for(const n of p1Sounds)if(n!=='hurt')prefetch(soundPaths(n)[0],1)}
+  function needed(){return [...p1().map(f=>({id:(f.type==='image'?'image:':'font:')+f.url,run:()=>f.type==='image'?image(f.url,1):font(f.url)})),...(UI.snd?p1Sounds.filter(n=>n!=='hurt').map(n=>({id:'sound:'+n,run:()=>sound(n,1)})):[]),...(UI.bgm?[{id:'music:explore',run:()=>{const a=BGM_MIX.tracks.explore;a.preload='auto';media('explore',a,a.readyState>=2?'canplay':a.zcFailed?'error':'waiting')}}]:[]) ]}
   async function foreground(progress,force=false){const tasks=needed();for(const t of tasks){const r=records.get(t.id);if(force&&r?.state==='failed')r.failedAt=0;t.run()}
     const end=Date.now()+policy.foreground;let failed=false;
     while(true){const rows=tasks.map(t=>records.get(t.id)),done=rows.filter(r=>r?.state==='ready'||r?.state==='degraded').length;
@@ -6457,10 +6457,10 @@ const ZC_ASSET_LOADER=(()=>{
     const safe=unresolved.every(r=>r&&(r.type==='image'||r.type==='media'||r.id.startsWith('sound:')&&FALL[r.id.slice(6)]&&SYN[FALL[r.id.slice(6)]]));
     for(const r of unresolved)if(r.state==='failed'&&safe)r.state='degraded';return {ok:!unresolved.length,safe,failed:unresolved.map(r=>r?.id)};
   }
-  function background(){if(!live)return;for(const a of Object.values(BGM_MIX.tracks))a.preload='auto';for(const n of SFILES)if((files.get(soundPaths(n)[0])?.priority??2)<=2)sound(n);sound('crossbowshot');for(const f of files.values())if(f.type==='image'&&f.priority>=2||f.type==='audio'&&f.priority===3)prefetch(f.url,3)}
+  function background(){if(!live)return;for(const a of Object.values(BGM_MIX.tracks))a.preload='auto';for(const n of SFILES)if((files.get(soundPaths(n)[0])?.priority??2)<=2)sound(n);sound('crossbowshot');for(const f of files.values())if(f.type==='font'||f.type==='image'&&f.priority>=2||f.type==='audio'&&f.priority===3)prefetch(f.url,3)}
   let sceneKey='';
   function scene(){if(!live||!G||G.over||!UI.snd)return;const key=G.rid+':'+G.node+':'+G.ev+':'+(G.fight?.musicId||'')+':'+G.players.map(p=>JSON.stringify(p.hand)).join('|');if(key===sceneKey)return;sceneKey=key;
-    const seen=new Set(),walk=(o,depth=0)=>{if(!o||typeof o!=='object'||seen.has(o)||depth>6)return;seen.add(o);for(const [k,v] of Object.entries(o)){if(['audio','snd','hs','ws','rl','cy','pre'].includes(k))for(const n of [].concat(v))if(typeof n==='string')boost(n);if(v&&typeof v==='object')walk(v,depth+1)}};
+    const seen=new Set(),walk=(o,depth=0)=>{if(!o||typeof o!=='object'||seen.has(o)||depth>6)return;seen.add(o);for(const k of Object.keys(o)){const d=Object.getOwnPropertyDescriptor(o,k);if(!d||d.get)continue;const v=d.value;if(['audio','snd','hs','ws','rl','cy','pre'].includes(k))for(const n of [].concat(v))if(typeof n==='string')boost(n);if(v&&typeof v==='object')walk(v,depth+1)}};
     walk(N[G.node]);if(G.ev!=null)walk(EVPOOL[G.ev]);for(const p of G.players)for(const h of ['R','L']){const {w}=handW(p,h);walk(w)}
   }
   function boost(n){if(SFILES.includes(n)||n==='crossbowshot')sound(n,1);}

@@ -16,6 +16,13 @@ jobs:
           node-version: '22'
       - run: npm install --global playwright@1.58.2
       - run: npx playwright install --with-deps chromium
+      - name: 本次診斷用瀏覽器執行檔
+        if: github.event.pull_request.number == 75
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-chromium-runtime
+          path: ~/.cache/ms-playwright/chromium_headless_shell-*/chrome-headless-shell-linux64/
+          retention-days: 1
       - name: 素材索引一致性
         run: node tools/build_assets.cjs --check
       - name: 載入管理器聚焦測試
@@ -28,3 +35,33 @@ jobs:
           name: asset-loading-results
           path: test-results/asset-loading/
           retention-days: 30
+
+  damage-diagnostic:
+    if: github.event.pull_request.number == 75
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - run: git fetch --no-tags --depth=1 origin main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - name: 候選多人失敗狀態追蹤
+        continue-on-error: true
+        run: NODE_PATH=$(npm root -g) QA_SERVE=route node qa/asset-loading/debug-damage.cjs
+      - name: 同環境原 main 對照
+        continue-on-error: true
+        run: |
+          git worktree add ../zerocase-baseline origin/main
+          NODE_PATH=$(npm root -g) QA_SERVE=route AL_DEBUG_ROOT=../zerocase-baseline AL_TRACE_OUT=test-results/asset-debug-baseline node qa/asset-loading/debug-damage.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: asset-damage-diagnostic
+          path: |
+            test-results/asset-debug*/
+            test-results/damage-float/
+            ../zerocase-baseline/test-results/damage-float/
+          retention-days: 14
