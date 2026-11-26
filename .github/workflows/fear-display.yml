@@ -1,0 +1,31 @@
+name: 恐懼紀錄顯示驗收
+on:
+  pull_request:
+    branches: [main]
+    paths: [index.html, tests/fear-display.test.cjs, tests/fear-display-browser.cjs, .github/workflows/fear-display.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  fear-display:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: git fetch --no-tags --depth=1 origin main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix tests --ignore-scripts
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - name: 單人與多人紀錄邏輯
+        run: node --test tests/fear-display.test.cjs
+      - name: 三尺寸實際畫面與修改前後截圖
+        run: NODE_PATH=$(npm root -g) node tests/fear-display-browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: fear-display
+          path: test-results/fear-display/
+          retention-days: 14
