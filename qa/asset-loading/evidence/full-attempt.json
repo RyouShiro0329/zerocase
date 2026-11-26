@@ -1,0 +1,155 @@
+{
+ "schema": 1,
+ "tool": "tests/run_all.sh",
+ "mode": "full",
+ "args": {
+  "smokeSteps": 40,
+  "longSteps": 480,
+  "survivalSteps": 120,
+  "seed": 20261126
+ },
+ "started": "2026-11-26T17:22:10+08:00",
+ "finished": "2026-11-26T17:22:51+08:00",
+ "seconds": 40.6,
+ "game": {
+  "version": "0.69.0",
+  "build": 144,
+  "versionTime": "2026-11-26T17:13:29+08:00",
+  "sha256": "68e1dce27631994ffa7ee02a3dbfc0b5afbb9a8e562240e1cbee7fd1d744b32a",
+  "bytes": 1301542
+ },
+ "commit": "f91d21486d2e21a852bad2ff43cd8f698125fb1a",
+ "branch": "feat/asset-loading-b",
+ "dirty": true,
+ "ci": null,
+ "env": {
+  "node": "v24.22.3",
+  "playwright": "1.58.2",
+  "platform": "linux"
+ },
+ "stages": [
+  {
+   "id": "integrity",
+   "name": "防弱化檢查",
+   "status": "PASS",
+   "seconds": 0.2,
+   "note": "guard 沒改",
+   "detail": {
+    "base": "origin/main",
+    "baseSha": "0f7e5d189d17281aaf5a3ac61774ecefc3dab4ec",
+    "failed": [],
+    "warnings": [],
+    "info": {
+     "guardSame": true,
+     "testFiles": {
+      "base": 47,
+      "head": 47,
+      "added": []
+     },
+     "testCalls": {
+      "base": 431,
+      "head": 431
+     },
+     "indexSameAsBase": false
+    }
+   },
+   "warnings": [],
+   "failed": []
+  },
+  {
+   "id": "node",
+   "name": "Node 邏輯測試",
+   "status": "PASS",
+   "seconds": 37,
+   "note": "476 項：通過 473、暫緩 3",
+   "counts": {
+    "tests": 476,
+    "pass": 473,
+    "fail": 0,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 3
+   },
+   "failed": [],
+   "todo": [
+    "環境相容：遊戲現在對不上、等主人決定（9 組）",
+    "恐懼在畫面與紀錄都不顯示數字（2026-11-13 主人定案）",
+    "音效對應表：缺口等主人決定（意外沒聲音 7、躲開沒聲音 9、沒有備援 7、沒用到 1；詳見 docs/audio/SFX_MAP.md）"
+   ],
+   "skipped": []
+  },
+  {
+   "id": "smoke",
+   "name": "瀏覽器冒煙",
+   "status": "ERROR",
+   "seconds": 0.3,
+   "note": "exit 3"
+  },
+  {
+   "id": "long",
+   "name": "長路線",
+   "status": "ERROR",
+   "seconds": 0.4,
+   "note": "exit 3"
+  },
+  {
+   "id": "survival",
+   "name": "生存路線與戰鬥完整性",
+   "status": "ERROR",
+   "seconds": 0.3,
+   "note": "exit 3",
+   "detail": {
+    "steps": 120,
+    "seed": 20261126,
+    "fightsPlanned": [
+     "infected",
+     "cutter",
+     "quickdraw"
+    ],
+    "checks": [],
+    "failed": []
+   },
+   "failed": []
+  },
+  {
+   "id": "qte",
+   "name": "QTE 固定情境",
+   "status": "ERROR",
+   "seconds": 0.3,
+   "note": "exit 3",
+   "detail": {
+    "seed": 20261126,
+    "checks": [],
+    "scenarios": [],
+    "failed": []
+   },
+   "failed": []
+  },
+  {
+   "id": "audio",
+   "name": "真實瀏覽器音訊",
+   "status": "ERROR",
+   "seconds": 0.4,
+   "note": "exit 3",
+   "detail": {
+    "seed": 20261126,
+    "checks": [],
+    "notes": [],
+    "failed": []
+   },
+   "failed": []
+  }
+ ],
+ "summary": {
+  "overall": "ERROR",
+  "overallZh": "測試工具出錯",
+  "text": "測試工具出錯，沒有結果可以判斷：瀏覽器冒煙、長路線、生存路線與戰鬥完整性、QTE 固定情境、真實瀏覽器音訊",
+  "todo": [
+   "Node 邏輯測試：環境相容：遊戲現在對不上、等主人決定（9 組）",
+   "Node 邏輯測試：恐懼在畫面與紀錄都不顯示數字（2026-11-13 主人定案）",
+   "Node 邏輯測試：音效對應表：缺口等主人決定（意外沒聲音 7、躲開沒聲音 9、沒有備援 7、沒用到 1；詳見 docs/audio/SFX_MAP.md）"
+  ],
+  "exit": 1,
+  "warnings": []
+ }
+}

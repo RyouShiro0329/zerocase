@@ -1,0 +1,119 @@
+{
+  "time": "2026-11-26T17:28:19.812496+08:00",
+  "timezone": "Asia/Taipei",
+  "status": "完整驗收未完成",
+  "version": "0.69.0",
+  "build": 144,
+  "base": "0f7e5d189d17281aaf5a3ac61774ecefc3dab4ec",
+  "branch": "feat/asset-loading-b",
+  "indexSHA256": "f491480eb4a0c35903beebcbeab34cb294536b85096c93b32c0877bd41b5fbcd",
+  "deployed": false,
+  "pushed": false,
+  "pullRequestCreated": false,
+  "existingTestsModified": false,
+  "node": {
+    "status": "通過",
+    "total": 476,
+    "pass": 473,
+    "fail": 0,
+    "existingTodo": 3
+  },
+  "focusedNode": {
+    "status": "通過",
+    "total": 3,
+    "pass": 3,
+    "fail": 0
+  },
+  "browserFull": {
+    "status": "未測試",
+    "rawToolStatus": "ERROR",
+    "reason": "缺少 Chromium；下載 403；候選分支推送被自動核准審查拒絕"
+  },
+  "android": {
+    "status": "未測試",
+    "reason": "待主人實機驗收"
+  },
+  "matrix": [
+    {
+      "id": "AL-01",
+      "status": "未測試",
+      "reason": "尚無完整真實瀏覽器／網路驗收結果；Node 局部證據另列"
+    },
+    {
+      "id": "AL-02",
+      "status": "未測試",
+      "reason": "尚無完整真實瀏覽器／網路驗收結果；Node 局部證據另列"
+    },
+    {
+      "id": "AL-03",
+      "status": "未測試",
+      "reason": "尚無完整真實瀏覽器／網路驗收結果；Node 局部證據另列"
+    },
+    {
+      "id": "AL-04",
+      "status": "未測試",
+      "reason": "尚無完整真實瀏覽器／網路驗收結果；Node 局部證據另列"
+    },
+    {
+      "id": "AL-05",
+      "status": "未測試",
+      "reason": "尚無完整真實瀏覽器／網路驗收結果；Node 局部證據另列"
+    },
+    {
+      "id": "AL-06",
+      "status": "未測試",
+      "reason": "尚無完整真實瀏覽器／網路驗收結果；Node 局部證據另列"
+    },
+    {
+      "id": "AL-07",
+      "status": "未測試",
+      "reason": "尚無完整真實瀏覽器／網路驗收結果；Node 局部證據另列"
+    },
+    {
+      "id": "AL-08",
+      "status": "未測試",
+      "reason": "尚無完整真實瀏覽器／網路驗收結果；Node 局部證據另列"
+    },
+    {
+      "id": "AL-09",
+      "status": "未測試",
+      "reason": "尚無完整真實瀏覽器／網路驗收結果；Node 局部證據另列"
+    },
+    {
+      "id": "AL-10",
+      "status": "未測試",
+      "reason": "尚無完整真實瀏覽器／網路驗收結果；Node 局部證據另列"
+    },
+    {
+      "id": "AL-11",
+      "status": "未測試",
+      "reason": "尚無完整真實瀏覽器／網路驗收結果；Node 局部證據另列"
+    },
+    {
+      "id": "AL-12",
+      "status": "未測試",
+      "reason": "尚無完整真實瀏覽器／網路驗收結果；Node 局部證據另列"
+    },
+    {
+      "id": "AL-13",
+      "status": "未測試",
+      "reason": "尚無完整真實瀏覽器／網路驗收結果；Node 局部證據另列"
+    },
+    {
+      "id": "AL-14",
+      "status": "未測試",
+      "reason": "尚無完整真實瀏覽器／網路驗收結果；Node 局部證據另列"
+    },
+    {
+      "id": "AL-15",
+      "status": "未測試",
+      "reason": "尚無完整真實瀏覽器／網路驗收結果；Node 局部證據另列"
+    },
+    {
+      "id": "AL-16",
+      "status": "未測試",
+      "reason": "尚無完整真實瀏覽器／網路驗收結果；Node 局部證據另列"
+    }
+  ],
+  "approvalNeeded": "僅推送候選分支並開草稿 PR 供雲端驗收；不合併、不部署"
+}

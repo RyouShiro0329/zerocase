@@ -1,0 +1,201 @@
+{
+  "withoutFallback": [
+    "rain_indoor_loop",
+    "rain_outdoor_loop",
+    "thunder_distant_01",
+    "thunder_distant_02",
+    "glassbreak",
+    "firealarm",
+    "genstart",
+    "genloop",
+    "woodknock",
+    "woodimpact",
+    "glassstep",
+    "waterpipe",
+    "pumpmix",
+    "pumpstop",
+    "radiostatic",
+    "radio02",
+    "radio23",
+    "radio24"
+  ],
+  "fallback": {
+    "sgpump": "dry",
+    "sgshell": "dry",
+    "sgshellbr": "dry",
+    "sgopen": "dry",
+    "sgclose": "dry",
+    "crossbowshot": "whoosh",
+    "piercehit": "hurt",
+    "bowdraw": "whoosh",
+    "bowimpact": "hurt",
+    "heal": "craft",
+    "pill": "craft",
+    "rummage": "craft",
+    "stairs": "land",
+    "zipper": "craft",
+    "step": "humanstep",
+    "drawer": "craft",
+    "pickup": "ok",
+    "dooropen": "land",
+    "doorclose": "land",
+    "beretta": "fumble",
+    "berettaReload": "dry",
+    "revolver": "fumble",
+    "revolverCock": "dry",
+    "casing": "dry",
+    "fist": "hurt",
+    "claw": "hurt",
+    "knife": "hurt",
+    "zstep": "infectedstep",
+    "headshot": "fumble",
+    "mthrow": "whoosh",
+    "mimpact": "fumble",
+    "death": "fumble",
+    "click": "dry",
+    "equip": "dry",
+    "bite": "hurt",
+    "smash": "fumble",
+    "splat": "hurt",
+    "spit": "whoosh",
+    "thud": "land",
+    "squish": "hurt",
+    "bhit": "dry",
+    "shotgun": "fumble",
+    "fal": "fumble",
+    "falReload": "dry",
+    "mp5": "fumble",
+    "mp5Reload": "dry",
+    "rifle": "fumble",
+    "bolt": "dry",
+    "dryfire": "dry"
+  },
+  "synth": [
+    "humanstep",
+    "infectedstep",
+    "doorlocked",
+    "rattle",
+    "land",
+    "ok",
+    "crit",
+    "ng",
+    "fumble",
+    "miss",
+    "whoosh",
+    "groan",
+    "hurt",
+    "craft",
+    "dry",
+    "eat",
+    "gulp",
+    "ext",
+    "zap",
+    "level"
+  ],
+  "compound": {
+    "farshot1": {
+      "gun": "beretta",
+      "n": [
+        1,
+        1
+      ],
+      "far": 1
+    },
+    "farshots": {
+      "gun": "beretta",
+      "n": [
+        2,
+        4
+      ],
+      "far": 1
+    },
+    "farshots2": {
+      "gun": "beretta",
+      "n": [
+        2,
+        2
+      ],
+      "far": 1
+    },
+    "farshotsglass": {
+      "gun": "beretta",
+      "n": [
+        2,
+        4
+      ],
+      "far": 1,
+      "glass": "near"
+    },
+    "farshots2glass": {
+      "gun": "beretta",
+      "n": [
+        2,
+        2
+      ],
+      "far": 1,
+      "glass": "near"
+    },
+    "farshots2glassfar": {
+      "gun": "beretta",
+      "n": [
+        2,
+        2
+      ],
+      "far": 1,
+      "glass": "far"
+    },
+    "streetshots3glassfar": {
+      "gun": "beretta",
+      "n": [
+        3,
+        3
+      ],
+      "far": 0.5,
+      "glass": "far"
+    },
+    "shot1": {
+      "gun": "beretta",
+      "n": [
+        1,
+        1
+      ],
+      "far": 0
+    },
+    "shotsglass": {
+      "gun": "beretta",
+      "n": [
+        3,
+        4
+      ],
+      "far": 0,
+      "glass": "near"
+    },
+    "farmp5": {
+      "gun": "mp5",
+      "n": [
+        1,
+        1
+      ],
+      "far": 1,
+      "len": 2.8
+    },
+    "farrifle": {
+      "gun": "rifle",
+      "n": [
+        1,
+        1
+      ],
+      "far": 1,
+      "len": 1.7
+    }
+  },
+  "special": [
+    "bowhit",
+    "bowmiss",
+    "arrowhit",
+    "arrowmiss",
+    "xbowhit",
+    "xbowmiss",
+    "crossbowshot"
+  ]
+}
