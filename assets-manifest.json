@@ -570,6 +570,15 @@
       "size": 10494
     },
     {
+      "id": "sfx/m500.mp3",
+      "url": "sfx/m500.mp3",
+      "type": "audio",
+      "priority": 2,
+      "required": false,
+      "hash": "534f47e99657c7aee2d288169dce4ac168e1a9c81fbe99e3b9502883ea61dbc2",
+      "size": 16030
+    },
+    {
       "id": "sfx/mimpact.mp3",
       "url": "sfx/mimpact.mp3",
       "type": "audio",
@@ -723,6 +732,24 @@
       "size": 356494
     },
     {
+      "id": "sfx/revclose.mp3",
+      "url": "sfx/revclose.mp3",
+      "type": "audio",
+      "priority": 2,
+      "required": false,
+      "hash": "35ee75e596c77525e3db6dc1344c828bf634bcadabf7d333bbe6b853ef441976",
+      "size": 1924
+    },
+    {
+      "id": "sfx/reveject.mp3",
+      "url": "sfx/reveject.mp3",
+      "type": "audio",
+      "priority": 2,
+      "required": false,
+      "hash": "9200def291409e67cdf8492101cd762adb39f52517f70ec4c9cab7c43de40ada",
+      "size": 12582
+    },
+    {
       "id": "sfx/revolver.mp3",
       "url": "sfx/revolver.mp3",
       "type": "audio",
@@ -739,6 +766,24 @@
       "required": false,
       "hash": "1c76b0d94c6b6cbe077ad20543788ca2c651baeca46c3434034275bb3a4a018d",
       "size": 24600
+    },
+    {
+      "id": "sfx/revopen.mp3",
+      "url": "sfx/revopen.mp3",
+      "type": "audio",
+      "priority": 2,
+      "required": false,
+      "hash": "cc1f8497a6543c1233a8c3ec578815d59219df0ebfc2c96a749cadaee78e403d",
+      "size": 5373
+    },
+    {
+      "id": "sfx/revshell.mp3",
+      "url": "sfx/revshell.mp3",
+      "type": "audio",
+      "priority": 2,
+      "required": false,
+      "hash": "4cc407050526399cdbfd053d6dd7b7d245615f07c170007fb62ff79adcb21d2b",
+      "size": 5686
     },
     {
       "id": "sfx/rifle.mp3",
