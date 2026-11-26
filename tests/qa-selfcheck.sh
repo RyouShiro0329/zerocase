@@ -27,7 +27,15 @@
 cd "$(dirname "$0")/.." || exit 1
 REPO=$(pwd); OUTD=${QA_OUT:-test-results}; mkdir -p "$OUTD"
 NP=${NODE_PATH:-$(pwd)/tests/node_modules:$(npm root -g 2>/dev/null)}
-WORK=$(mktemp -d); trap 'rm -rf "$WORK"' EXIT
+WORK=$(mktemp -d)
+finish_selfcheck(){
+  local code=$? mode=normal
+  if [ "${FAILN:-0}" != 0 ] || [ "$code" != 0 ]; then mode=all; fi
+  node "$REPO/tests/helpers/selfcheck-evidence.cjs" "$WORK" "$OUTD/selfcheck-details" "$mode" || code=1
+  rm -rf "$WORK"
+  exit "$code"
+}
+trap finish_selfcheck EXIT
 EMPTY="$WORK/empty-node-path"; mkdir -p "$EMPTY"
 RES=(); FAILN=0
 ok(){ RES+=("$1|$2|$3"); [ "$2" = 失敗 ] && FAILN=$((FAILN+1)); echo "$2　$1${3:+　$3}"; }
@@ -121,17 +129,18 @@ const d=require(W+'/v05a/smoke.json');console.log(same&&n===3&&d.seed===4242)" 2
   mkv(){ local d="$WORK/$1"; mkdir -p "$d/tests"; cp -rs "$REPO/img" "$REPO/sfx" "$REPO/fx" "$REPO/fonts" "$d/"
     cp -r "$REPO/tests/helpers" "$REPO/tests/browser-smoke.cjs" "$d/tests/"
     node -e "const fs=require('fs');const s=fs.readFileSync(process.argv[1],'utf8');fs.writeFileSync(process.argv[2],s.replace('</body></html>','<script>'+process.argv[3]+'</script></body></html>'))" "$REPO/index.html" "$d/index.html" "$2"; echo "$d"; }
-  D6=$(mkv v06 "setInterval(()=>{try{if(typeof G!=='undefined'&&G&&G.phase==='node')busy=true}catch(e){}},20)")
+  D6=$(mkv v06 "")  # V06 preload 在第一個操作前啟用持續鎖並分開讀回。
   D10=$(mkv v10 "window.addEventListener('click',e=>{try{if(typeof G!=='undefined'&&G&&G.phase==='node'&&e.target.closest&&e.target.closest('#choices'))e.stopImmediatePropagation()}catch(x){}},true)")
-  ( cd "$D6" && QA_SERVE=route QA_OUT=out QA_DETAIL=out/smoke.json QA_WAIT_MS=800 QA_STUCK=99 QA_SEED=1 NODE_PATH=$NP timeout 300 node tests/browser-smoke.cjs 6 > out.log 2>&1; echo $? > out.exit ) &
+  ( cd "$D6" && QA_SERVE=route QA_OUT=out QA_DETAIL=out/smoke.json QA_WAIT_MS=800 QA_STUCK=99 QA_SEED=1 NODE_PATH=$NP timeout 300 node -r "$REPO/tests/helpers/v06-preload.cjs" tests/browser-smoke.cjs 6 > out.log 2>&1; echo $? > out.exit ) &
   ( cd "$D10" && QA_SERVE=route QA_OUT=out QA_DETAIL=out/smoke.json QA_STUCK=5 QA_SEED=1 NODE_PATH=$NP timeout 300 node tests/browser-smoke.cjs 15 > out.log 2>&1; echo $? > out.exit ) & wait
   A=$(J "$D6/out/smoke.json" 'r.views.every(v=>v.run&&v.run.timeouts>=5&&!v.run.stuck)&&r.checks.filter(c=>/等待逾時/.test(c.name)).every(c=>!c.ok)')
   E=$(cat "$D6/out.exit"); T6=$(ls "$D6"/out/trace-*.json 2>/dev/null | wc -l)
   if [ "$E" = 1 ] && [ "$A" = true ] && [ "$T6" = 3 ]; then ok V06 通過 "每一步逾時都有記錄、超過上限判失敗、exit 1"; else ok V06 失敗 "exit $E、判定 $A、紀錄檔 $T6：$(grep -m1 逾時 "$D6/out.log")"; fi
+  if node "$REPO/tests/helpers/selfcheck-evidence.cjs" verify "$D6/out"; then ok V06-proof 通過 "三尺寸每一步已讀回持續忙碌，等待時間與旗標均保存"; else ok V06-proof 失敗 "缺少或不符合注入讀回／逐步狀態證據"; fi
   A=$(J "$D10/out/smoke.json" 'r.views.every(v=>v.run&&v.run.stuck&&v.run.invalid>=5&&v.steps<15&&v.screen)&&r.checks.filter(c=>/沒有卡死/.test(c.name)).every(c=>!c.ok)')
   E=$(cat "$D10/out.exit")
   if [ "$E" = 1 ] && [ "$A" = true ]; then ok V10 通過 "點了沒變記成無效動作、第 5 步判卡死並停下、存了最後畫面"; else ok V10 失敗 "exit $E、判定 $A：$(grep -m1 卡死 "$D10/out.log")"; fi
-else ok V05 未測試 "這個環境沒有 playwright"; ok V06 未測試 "這個環境沒有 playwright"; ok V10 未測試 "這個環境沒有 playwright"; fi
+else ok V05 未測試 "這個環境沒有 playwright"; ok V06 未測試 "這個環境沒有 playwright"; ok V06-proof 未測試 "這個環境沒有 playwright"; ok V10 未測試 "這個環境沒有 playwright"; fi
 
 # V14／V15（PR-C，不用瀏覽器）：暫存複本的 index.html 在第一個 </script> 前面加幾行，素材用符號連結
 mkg(){ local d="$WORK/$1"; mkdir -p "$d/tests"; cp -rs "$REPO/img" "$REPO/sfx" "$REPO/fx" "$REPO/fonts" "$d/"; cp -r "$REPO/tests/helpers" "$d/tests/"
