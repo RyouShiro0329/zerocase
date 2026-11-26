@@ -729,7 +729,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.69.0", "b": 144, "t": "2026-11-26T17:13:29+08:00"};
+const ZC_VER={"v": "0.69.1", "b": 145, "t": "2026-11-26T22:55:39+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -6867,7 +6867,7 @@ function fearMsg(p,s0,up){const s1=fstg(p),w=MP()?nm(p)+'：':'';
   out(`${w}${up?pick(['心跳越來越快。','手心全是冷汗。','背脊一陣發涼。']):pick(['呼吸慢慢穩了下來。','稍微鎮定了一些。'])}`,up?'dmg':'good',true)}
 // 每次實際變化都留下紀錄；quiet 僅保留為舊呼叫相容參數，不再漏記數值。
 function setFear(p,value){const before=p.fe||0,s0=fstg(p);p.fe=clamp(value,0,100);const delta=p.fe-before;if(!delta)return;
-  const stage=fstg(p);out(`${nm(p)}：恐懼 ${delta>0?'+':'−'}${Math.abs(delta)}（目前 ${p.fe}／100）${stage!==s0?`，${delta>0?'陷入':'回到'}「${FSTG[stage]}」`:''}。`,delta>0?'dmg':'good',true)}
+  const stage=fstg(p);out(`${nm(p)}：恐懼 ${delta>0?'+':'−'}${Math.abs(delta)}${stage!==s0?`，${delta>0?'陷入':'回到'}「${FSTG[stage]}」`:''}。`,delta>0?'dmg':'good',true)}
 function scare(p,n,quiet){if(!n||n<=0||p.dead||p.mad)return;n=Math.max(1,Math.round(n*fearRate(p)));setFear(p,(p.fe||0)+n)}
 // floor：恐懼在 50 以上時最多只能降到 50（休息用）。紀錄採實際差額。
 function relax(p,n,quiet,floor){if(!n||n<=0||p.dead||p.mad)return;const f0=p.fe||0;let v=Math.max(0,f0-n);if(floor&&f0>=50)v=Math.max(50,v);setFear(p,v)}

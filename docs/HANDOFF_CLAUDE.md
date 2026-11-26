@@ -1,3 +1,17 @@
+# GPT／Codex 交接：恐懼紀錄只顯示增減量（v0.69.1／Build145 候選）
+
+2026-11-26（Asia/Taipei）。基準 main 49dca4c／v0.69.0／Build144，獨立分支 fix/fear-delta-only；QA PR-E #76 保持原樣、未合併，不把遊戲修改混入純測試工具 PR。
+
+- 主人定案已寫入 docs/DESIGN.md 最上面的新決定：環境相容 9 組等地圖重做；音效缺口及聽感等之後補齊或另採方式；恐懼確定顯示實際增減量，不顯示目前總值與上限。
+- 遊戲僅刪掉 setFear 紀錄中的「（目前 X／100）」；保留 +N／−N、階段變化、角色名稱與既有紀錄傳輸。倍率、上下限、發瘋門檻、結算與存檔皆不改，素材與字型不改。
+- tools/release.py patch 升至 v0.69.1／Build145；時間 2026-11-26T22:55:39+08:00，index.html SHA-256 faa287deed1741a545cc1672cfa7f09ee9072c9af9d3d30660b982b520c7d9df。
+- 新增 tests/fear-display.test.cjs 三項聚焦測試：增加及裁切後的實際差額、減少及跨階段／零變化、多人紀錄事件格式。tests/fear-display-browser.cjs 與專項 workflow 提供三尺寸修改前後截圖及實際畫面驗收；雲端結果以本修正 PR 的最後提交為準。
+- FAST：479 項，476 通過、0 失敗，3 個既有 TODO 標記保留。guard 原恐懼斷言已通過，但依「不得修改 guard」規則保留原標記；不再代表恐懼設定待決。地圖與音效依主人決定暫緩。
+- PR-E 若先合併，本修正須重新對齊 main；角色分類選單的固定截圖含版本標示，升版時需依 PR-E 的明確更新流程審查基準，不能提高差異容忍值或自動接受差異。
+- 本修正僅開 PR 交付，不沿用下方 B 方案的合併授權。尚未合併／部署；Android 待主人實機驗收。
+
+---
+
 # GPT／Codex 交接：B 方案（v0.69.0／Build144）
 
 2026-11-26（Asia/Taipei）。基準 main 0f7e5d1／v0.68.0／Build143，分支 feat/asset-loading-b，PR #75：
