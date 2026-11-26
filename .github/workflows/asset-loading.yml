@@ -1,0 +1,30 @@
+name: 素材載入 B 方案專項
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  asset-loading:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - run: git fetch --no-tags --depth=1 origin main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --global playwright@1.58.2
+      - run: npx playwright install --with-deps chromium
+      - name: 素材索引一致性
+        run: node tools/build_assets.cjs --check
+      - name: 載入管理器聚焦測試
+        run: node --test qa/asset-loading/loader.test.cjs
+      - name: 真實瀏覽器、限速、快取及故障注入
+        run: NODE_PATH=$(npm root -g) node qa/asset-loading/browser.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: asset-loading-results
+          path: test-results/asset-loading/
+          retention-days: 30

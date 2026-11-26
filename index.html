@@ -695,6 +695,10 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 .short #choices>.ch:is([data-fa="atk"],[data-fa="dual"]) .cs{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.3}
 .short #choices>.ch:is([data-fa="atk"],[data-fa="dual"]){padding-top:4px;padding-bottom:4px;row-gap:0}
 .short #choices:has(>.ch[data-fa="dual"])>.ch[data-ftab=""]{grid-column:auto!important}
+/* 素材初始化畫面沿用既有色彩與轉向容器。 */
+#zc-asset-panel{position:absolute;inset:0;z-index:280;background:#100f0f;display:flex;align-items:center;justify-content:center;padding:16px;text-align:center}
+#zc-asset-panel[hidden]{display:none}#zc-asset-panel .zc-asset-box{width:min(540px,90%);max-height:100%;overflow:auto}#zc-asset-panel progress{width:100%;accent-color:#c8ad70;height:12px}#zc-asset-panel .row{justify-content:center;flex-wrap:wrap}.zc-asset-image{min-width:48px;min-height:80px;background:#242020}
+#zc-asset-audio{position:absolute;right:12px;top:8px;z-index:290;max-width:65%;font:inherit}
 </style>
 
 <div id="stage">
@@ -723,10 +727,11 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="ov" class="ov" hidden></div>
 <div id="toast" hidden></div>
 <div id="lvcard" hidden></div><div id="cfm" hidden></div><div id="enc" hidden></div><div id="stg" hidden></div><div id="vig"></div><div id="vig2"></div>
+<div id="zc-asset-panel" hidden aria-live="polite"><div class="zc-asset-box"><h2>正在初始化資源</h2><p id="zc-asset-status">正在準備音效與圖像</p><progress id="zc-asset-progress" max="1" value="0"></progress><div class="row"><button class="btn" id="zc-asset-retry" hidden>重新載入資源</button><button class="btn" id="zc-asset-continue" hidden>繼續遊戲</button></div></div></div><button class="btn" id="zc-asset-audio" hidden>按這裡啟用音訊</button>
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.68.0", "b": 143, "t": "2026-11-26T04:24:27+08:00"};
+const ZC_VER={"v": "0.69.0", "b": 144, "t": "2026-11-26T17:13:29+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -6382,6 +6387,101 @@ function newRun(builds,opts,mode){
   G.sd=newSeed();G.stp=0;reseed(0,'start');G.dk={on:{},seen:[],cc:{},ret:null};
   LOG=[];
 }
+/* B 方案：公開素材載入；所有狀態只在本機，不寫進 G、不使用遊戲 RNG。 */
+const ZC_ASSET_INDEX=[{"id":"fonts/source-serif-4-latin.woff2","url":"fonts/source-serif-4-latin.woff2","type":"font","priority":0,"required":true,"hash":"9314377f84ec3075b440e2295b66810ff2ca3b37ffaf8d10ef9b7f766e16190d","size":219528},{"id":"fonts/tw-kai-game.woff2","url":"fonts/tw-kai-game.woff2","type":"font","priority":0,"required":true,"hash":"07d960adda0b2eb201f6a792fa011d845f5522bee736336bb010709607f35e3f","size":1421092},{"id":"fx/arrow-12.webp","url":"fx/arrow-12.webp","type":"image","priority":2,"required":false,"hash":"910e6224df30a3257b1d9dcf5e4c909326bdec81f1241fbd60004ca7cf5b3cc0","size":195564},{"id":"fx/blunt-12.webp","url":"fx/blunt-12.webp","type":"image","priority":1,"required":false,"hash":"b6a5f154d5912396b5087fb27cf8a77b9dc99ecb2bef5bb2491d1c6acbe3252e","size":695254},{"id":"fx/gun-bullet-24.webp","url":"fx/gun-bullet-24.webp","type":"image","priority":2,"required":false,"hash":"5c3b1a9c3eed97b195ae671cc8d0b41b0799bf96de64d00ca45d762b6496e6a1","size":446386},{"id":"fx/gun-pellet-24.webp","url":"fx/gun-pellet-24.webp","type":"image","priority":2,"required":false,"hash":"8a2adadd73c84d9820c6e95ecd4f23e12e717f261c780700f2dd8767ad278d9a","size":353208},{"id":"fx/pierce-12.webp","url":"fx/pierce-12.webp","type":"image","priority":2,"required":false,"hash":"17c567d870d0bdaba6b1b3065573d6922837ce6754d06f47205cf4dc7709fa37","size":488828},{"id":"fx/slash-12.webp","url":"fx/slash-12.webp","type":"image","priority":1,"required":false,"hash":"7f1e8dab6290172e4eb7fef05c90aa5fb114d5efb82256ab6819515215545547","size":893530},{"id":"img/acru_cap.webp","url":"img/acru_cap.webp","type":"image","priority":1,"required":false,"hash":"7c5b32eab4c4abf2aceb3e199495748af9b856a62438845b720002b13af49c8c","size":35400},{"id":"img/acru_flm.webp","url":"img/acru_flm.webp","type":"image","priority":1,"required":false,"hash":"fda7c48006e4e685c5ae4a954fa63c5747af83be87888cfbfa11780b66c7fc45","size":35588},{"id":"img/acru_snp.webp","url":"img/acru_snp.webp","type":"image","priority":1,"required":false,"hash":"5de9cd0c090710b7e56e9a80caf342183e45dfd198ccbb79b25af42477cb9afc","size":46992},{"id":"img/acru_trp.webp","url":"img/acru_trp.webp","type":"image","priority":1,"required":false,"hash":"05e0ca6f2b0f0c5424aa76dc3ea418abe21a05c8778d91ffd97422641a3ee2dc","size":31506},{"id":"img/arson.webp","url":"img/arson.webp","type":"image","priority":1,"required":false,"hash":"9b42e45cb02abfd2999cdd6d033fe034a730268f18e89c719a5e3a4b9b93a86b","size":53900},{"id":"img/bloat.webp","url":"img/bloat.webp","type":"image","priority":1,"required":false,"hash":"f8c0ac3f14d2c96be72fb98d757ad41950e667655bee072b79df120a5442678a","size":72462},{"id":"img/cat_custom.webp","url":"img/cat_custom.webp","type":"image","priority":0,"required":false,"hash":"f6a30598339aac3edca2912ca4cd7b7dcc1bb13aede0ea6be8b9a0c3f0807140","size":20002},{"id":"img/cat_guest.webp","url":"img/cat_guest.webp","type":"image","priority":0,"required":false,"hash":"867fd8b572125296fedb6bb47e8afbbe10b71c8eb5f980603803ca6fd50bba89","size":35560},{"id":"img/cat_story.webp","url":"img/cat_story.webp","type":"image","priority":0,"required":false,"hash":"f63494a6edb88e6bed8f5b7cf36d7a4246c18039fa58220aa27b5944d1c7c11e","size":57496},{"id":"img/g_dar.webp","url":"img/g_dar.webp","type":"image","priority":1,"required":false,"hash":"811af8836e0c0a3f7ca4db55a67c425092e82c0d3bde1362f6c3aed9dc4f469a","size":34946},{"id":"img/harv.webp","url":"img/harv.webp","type":"image","priority":1,"required":false,"hash":"94952cd1d5e62e3cd1aef09472097b0a8b5cd7d9ffde2c0454e79e1e6bab145b","size":54454},{"id":"img/inf_f.webp","url":"img/inf_f.webp","type":"image","priority":1,"required":false,"hash":"db742b1ec164344081cedd49aaf97e761a30e5b83310e9e71c3a08c388d8ce1a","size":43444},{"id":"img/inf_m.webp","url":"img/inf_m.webp","type":"image","priority":1,"required":false,"hash":"cad2166765cb37cbe88ae0c3adf3006eb73efee2429085d179c1cfbea2efa74e","size":43066},{"id":"img/loot_a.webp","url":"img/loot_a.webp","type":"image","priority":1,"required":false,"hash":"9db851d9ad1ea6ca85b7afd1afebb729fc803865e73ea05f30643d1c65bc6e96","size":43134},{"id":"img/loot_b.webp","url":"img/loot_b.webp","type":"image","priority":1,"required":false,"hash":"df5b24a943b07731c23bf4778b2a68b82c3aafaba6d7ef266bf482dbca559e19","size":50862},{"id":"img/oldh.webp","url":"img/oldh.webp","type":"image","priority":1,"required":false,"hash":"9f479721af181b550b9305c099b2c8f6289d489d5ee65f304ade790132e9e26b","size":54838},{"id":"img/owl.webp","url":"img/owl.webp","type":"image","priority":1,"required":false,"hash":"c8471492628349639b7f45c915420a3a48b2fbe4198d21af9f70b3c692a928d9","size":43530},{"id":"img/pred.webp","url":"img/pred.webp","type":"image","priority":1,"required":false,"hash":"4213d22ad7c0442185bc6cc2b8fbab89f90a86cd7bec3565d3068d07d238561c","size":76130},{"id":"img/quick.webp","url":"img/quick.webp","type":"image","priority":1,"required":false,"hash":"a3845b7d85149c2f42d20f2fd7719f5bccfe35e0f4843416eb0bc4db8ca7cb5a","size":41064},{"id":"img/riot.webp","url":"img/riot.webp","type":"image","priority":1,"required":false,"hash":"9d3db942ae0d1393c8138d6395dae46fd8e5174ba2ca91119037f55ae0ac957e","size":72304},{"id":"sfx/beretta.mp3","url":"sfx/beretta.mp3","type":"audio","priority":2,"required":false,"hash":"e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665","size":18592},{"id":"sfx/berettaReload.mp3","url":"sfx/berettaReload.mp3","type":"audio","priority":2,"required":false,"hash":"595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e","size":22772},{"id":"sfx/bgm.mp3","url":"sfx/bgm.mp3","type":"media","priority":2,"required":false,"hash":"1adb6a64858c5738317a2abd9bae6aac7ab2841d13ccc5bfe93ee2203a8b38b3","size":1201258},{"id":"sfx/bgm.ogg","url":"sfx/bgm.ogg","type":"media","priority":2,"required":false,"hash":"00a1dbb05c6d122f1909d2c7c20666b4367b14a4c13469dce86983ad51579c1b","size":687306},{"id":"sfx/bgm_hitman_battle.mp3","url":"sfx/bgm_hitman_battle.mp3","type":"media","priority":2,"required":false,"hash":"0bd92ae7dcf148ec60810ff888042892f27de88d62ce90fddc9deaadc40010e9","size":2738480},{"id":"sfx/bgm_hitman_battle.ogg","url":"sfx/bgm_hitman_battle.ogg","type":"media","priority":2,"required":false,"hash":"a88b15b340c593c00bc73c5d78d0ab29c53c538a524898ff4d091a6a8e773f6c","size":2322318},{"id":"sfx/bgm_hitman_intense.mp3","url":"sfx/bgm_hitman_intense.mp3","type":"media","priority":2,"required":false,"hash":"d2313321a6b9d26562fd9f50f9cfc9d5127f1b23e820508d745add2c7f74ca0f","size":1922209},{"id":"sfx/bgm_hitman_intense.ogg","url":"sfx/bgm_hitman_intense.ogg","type":"media","priority":2,"required":false,"hash":"d610529f2c089e625a23e3a8c58fa1dc3fb3395d1ff7934dab745bb31280513a","size":1626858},{"id":"sfx/bhit.mp3","url":"sfx/bhit.mp3","type":"audio","priority":2,"required":false,"hash":"f44a1ce2fe574fda4e58f67f5fe3ce9e878c75f2c53a1eebb6b11b5f816ebab1","size":4036},{"id":"sfx/bite.mp3","url":"sfx/bite.mp3","type":"audio","priority":2,"required":false,"hash":"58af2ebd7e1dc5f17099d72eb9d7d28efe4e86793384199d082f5e90a9da13f9","size":74505},{"id":"sfx/bolt.mp3","url":"sfx/bolt.mp3","type":"audio","priority":2,"required":false,"hash":"01c58570613e70dd2fde80a6cf1acc1b4449b7601f6b58c359cd94d68f0f627f","size":44452},{"id":"sfx/bowdraw.mp3","url":"sfx/bowdraw.mp3","type":"audio","priority":2,"required":false,"hash":"fb43ae506dc8428adca4447ad322e18747343468c072a1c1a73d0f7159f2db63","size":24452},{"id":"sfx/bowimpact.mp3","url":"sfx/bowimpact.mp3","type":"audio","priority":2,"required":false,"hash":"3b3265d12d61ef4797bc596a6d3aa51dc63edae99154eadc8b04e0ca1a03bef2","size":14151},{"id":"sfx/casing.mp3","url":"sfx/casing.mp3","type":"audio","priority":2,"required":false,"hash":"6143a207b94bce6cf2a08e69ddbbca08f5502cdc0429ec9b3be13da43f77fa89","size":3441},{"id":"sfx/claw.mp3","url":"sfx/claw.mp3","type":"audio","priority":2,"required":false,"hash":"20531f5806c5f2e49f006f8e354da856ee7c284b17a92419f33c546468ebb87b","size":30870},{"id":"sfx/click.mp3","url":"sfx/click.mp3","type":"audio","priority":2,"required":false,"hash":"d60db00bf3e6b58bb9d46d2cffb164d89ea8e9ce2cdc84c8b2d1df69b6eb9294","size":4554},{"id":"sfx/crossbowshot.wav","url":"sfx/crossbowshot.wav","type":"audio","priority":2,"required":false,"hash":"2eb69134e1b5959e582ef2c1160607f5c5cc7ba2cbc69f49d2691ca24bc2210c","size":29150},{"id":"sfx/death.mp3","url":"sfx/death.mp3","type":"audio","priority":2,"required":false,"hash":"2599a596248398f43419ddb28d536fa402b9908bc4cd29947ab032e278646825","size":26167},{"id":"sfx/doorclose.mp3","url":"sfx/doorclose.mp3","type":"audio","priority":2,"required":false,"hash":"e48cd9580687d861e559b51a00c933e5d8ecddfb36a58ada1ee2568a927fc22b","size":7098},{"id":"sfx/dooropen.mp3","url":"sfx/dooropen.mp3","type":"audio","priority":2,"required":false,"hash":"4babd809c104000bd40f01238c3361cc738a058c3370e1e510447a436e84fc45","size":6576},{"id":"sfx/drawer.mp3","url":"sfx/drawer.mp3","type":"audio","priority":2,"required":false,"hash":"4ee03cb4053b62d2337d151745da9d1268fa684e0ddc8abb1a109730dcdd2ab5","size":9449},{"id":"sfx/dryfire.mp3","url":"sfx/dryfire.mp3","type":"audio","priority":2,"required":false,"hash":"1efaf07efbb90cbe09e95ff0fdcc836f3b8827e8ab7b457fd218b05b748f27d0","size":4522},{"id":"sfx/equip.mp3","url":"sfx/equip.mp3","type":"audio","priority":2,"required":false,"hash":"b791ec510a507c1370dd21728f97af8df575b76975cf9c097ababebf22064681","size":11278},{"id":"sfx/fal.mp3","url":"sfx/fal.mp3","type":"audio","priority":2,"required":false,"hash":"600e63d5969c35cf3439a28f8ded40b092dd1318a7af56b6fee03467deb9cd23","size":32795},{"id":"sfx/falReload.mp3","url":"sfx/falReload.mp3","type":"audio","priority":2,"required":false,"hash":"98fecad635971e44606c69b39317aa6ce41620922c1b8afe519c695d11f4fcee","size":23330},{"id":"sfx/firealarm.mp3","url":"sfx/firealarm.mp3","type":"audio","priority":2,"required":false,"hash":"52bdd5bf762ef3863c090ec3a24138e3f705cb12c0f0fce3b1e7129254802992","size":190494},{"id":"sfx/fist.mp3","url":"sfx/fist.mp3","type":"audio","priority":2,"required":false,"hash":"e820c711f82a67c246ac299338c8248fa838a7f5626f12b9733fef21fc98939f","size":8404},{"id":"sfx/genloop.mp3","url":"sfx/genloop.mp3","type":"audio","priority":3,"required":false,"hash":"e0005f5dd5963d860e0228cae59702350cdee543b5f1619aeaac6b1499f45509","size":379677},{"id":"sfx/genloop.ogg","url":"sfx/genloop.ogg","type":"audio","priority":3,"required":false,"hash":"3ff3b65413aa30bbc5123eee93152fd2cbcfe4be75523dc5078ff3a0b2f23fee","size":336183},{"id":"sfx/genstart.mp3","url":"sfx/genstart.mp3","type":"audio","priority":3,"required":false,"hash":"128c6e0443875dbd352e8b7c4c4f281b40917cbbd4138a6d6d53893573c3bf8d","size":160786},{"id":"sfx/glassbreak.mp3","url":"sfx/glassbreak.mp3","type":"audio","priority":2,"required":false,"hash":"639ea424ccdf35f5766f2b3cb4f806e7660377438499084a2dc00b259406eec0","size":22693},{"id":"sfx/glassstep.mp3","url":"sfx/glassstep.mp3","type":"audio","priority":2,"required":false,"hash":"cc8a6a0bf5135b846bc6cf99f8ce8976e71e3b1350a6bbe0df72467207996314","size":90997},{"id":"sfx/headshot.mp3","url":"sfx/headshot.mp3","type":"audio","priority":2,"required":false,"hash":"c65fc21a8f1ef3b337c7ab165af1164a133b10dee2b9286e3b058e0076009e0e","size":18070},{"id":"sfx/heal.mp3","url":"sfx/heal.mp3","type":"audio","priority":2,"required":false,"hash":"57d94f2b20c0912754490e29c99ee715e763b55ce5cf851b6c199f1506969464","size":7359},{"id":"sfx/knife.mp3","url":"sfx/knife.mp3","type":"audio","priority":2,"required":false,"hash":"a181304db270e9cb6408269c19810b30819beab69d5c75f0e383e87ac1c1e4c9","size":10494},{"id":"sfx/mimpact.mp3","url":"sfx/mimpact.mp3","type":"audio","priority":2,"required":false,"hash":"77a53960f0454e873236f0d03d1b7bf1da7aae4b9a33d38a0207342bf8f29ec9","size":51506},{"id":"sfx/mp5.mp3","url":"sfx/mp5.mp3","type":"audio","priority":2,"required":false,"hash":"05be5a0b7becc38fa179dfac13975fe9e637b6893d51d8df6818b23be7b69c22","size":56160},{"id":"sfx/mp5Reload.mp3","url":"sfx/mp5Reload.mp3","type":"audio","priority":2,"required":false,"hash":"1981a07aff6b4a4cba44214c62803e052a79fa27c6439310a5d89d043ec78da0","size":84480},{"id":"sfx/mthrow.mp3","url":"sfx/mthrow.mp3","type":"audio","priority":2,"required":false,"hash":"a1a260a0211fcbc21c7ebb3d910e0aa468b1a3bdb03d70e11bfb5e28fea30c29","size":23294},{"id":"sfx/pickup.mp3","url":"sfx/pickup.mp3","type":"audio","priority":2,"required":false,"hash":"dd2a6634e325fdbe11bbd6f75cc26621db5f4428ee0cc3ab95f36155fc41b488","size":6053},{"id":"sfx/piercehit.mp3","url":"sfx/piercehit.mp3","type":"audio","priority":2,"required":false,"hash":"08d10f87f121ed2b7d5c154cd5a8cc3c7fd654d732181def3887434256f4ea81","size":17996},{"id":"sfx/pill.mp3","url":"sfx/pill.mp3","type":"audio","priority":2,"required":false,"hash":"7d4962526ed5a3f0145717d9bd9af133f7f6d574cc08c9316bca7d836eb5fb68","size":18070},{"id":"sfx/pumpmix.mp3","url":"sfx/pumpmix.mp3","type":"audio","priority":3,"required":false,"hash":"67cb67a9429612d8a180c3e66bde192f0d0c6ee5d60100eae97700024177a2bb","size":221836},{"id":"sfx/pumpstop.mp3","url":"sfx/pumpstop.mp3","type":"audio","priority":3,"required":false,"hash":"2a8660e3481166ecf0944d26de1cb7b7ec88139cfe91883430df26a8e9685f89","size":108155},{"id":"sfx/radio02.mp3","url":"sfx/radio02.mp3","type":"audio","priority":3,"required":false,"hash":"3555f22c8c764d2eb0de0d62db5aee85f7e8521b1557bbc683f67bfb608e37d4","size":26792},{"id":"sfx/radio23.mp3","url":"sfx/radio23.mp3","type":"audio","priority":3,"required":false,"hash":"919b33e2c4380ad1b14a7ef7a6be163b5aba75744944353db48624bf53704348","size":24810},{"id":"sfx/radio24.mp3","url":"sfx/radio24.mp3","type":"audio","priority":3,"required":false,"hash":"69a8591a9189c49035f30fb0f9cf76ccdcada95444d7cca68cfa710b601ed706","size":21571},{"id":"sfx/radiostatic.mp3","url":"sfx/radiostatic.mp3","type":"audio","priority":3,"required":false,"hash":"d2b2e31f81ccb98c9b45c6886e070798c8c19a27281d296e80a73ac0d323133a","size":19237},{"id":"sfx/rain_indoor_loop.mp3","url":"sfx/rain_indoor_loop.mp3","type":"audio","priority":2,"required":false,"hash":"49cd618fc9809154f3a5b7b11ac9059f97269548586d90a9c4679b6ee053e908","size":458684},{"id":"sfx/rain_indoor_loop.ogg","url":"sfx/rain_indoor_loop.ogg","type":"audio","priority":2,"required":false,"hash":"68292fd1df5d00ed328095ed09f60e58c409e0aba314a31b3037544962065d6f","size":318553},{"id":"sfx/rain_outdoor_loop.mp3","url":"sfx/rain_outdoor_loop.mp3","type":"audio","priority":2,"required":false,"hash":"cf01289e441e088c2e712b4dc8d28953fd72652e295c475e69802ee660afd52f","size":458684},{"id":"sfx/rain_outdoor_loop.ogg","url":"sfx/rain_outdoor_loop.ogg","type":"audio","priority":2,"required":false,"hash":"a29eb5f2fa4836170b401e08463757860d70515de43ebf3fa905788ae21b3022","size":356494},{"id":"sfx/revolver.mp3","url":"sfx/revolver.mp3","type":"audio","priority":2,"required":false,"hash":"bc3ce62108d69addcb4f3e474086bc5556ba3bfedff9eb893438d0446d839a2b","size":25645},{"id":"sfx/revolverCock.mp3","url":"sfx/revolverCock.mp3","type":"audio","priority":2,"required":false,"hash":"1c76b0d94c6b6cbe077ad20543788ca2c651baeca46c3434034275bb3a4a018d","size":24600},{"id":"sfx/rifle.mp3","url":"sfx/rifle.mp3","type":"audio","priority":2,"required":false,"hash":"2d0f03b402c423fca443cd0aa5096e7f027c730bf685de7377274df24c16dce5","size":35048},{"id":"sfx/rummage.mp3","url":"sfx/rummage.mp3","type":"audio","priority":2,"required":false,"hash":"e394fce197e192f9dc97acf4690198ea20c15a48e19ec9b2dedad28dd6197db3","size":26217},{"id":"sfx/sgclose.mp3","url":"sfx/sgclose.mp3","type":"audio","priority":2,"required":false,"hash":"27d7c27bd05a6d286cb91fc1f529b7a631ff72f7d38e99b2ee3b86bd3d9be1a0","size":3492},{"id":"sfx/sgopen.mp3","url":"sfx/sgopen.mp3","type":"audio","priority":2,"required":false,"hash":"04f75c6520cd90d688df140a834b6cc4b74c72adfac1750d4e1525b3702c8961","size":3806},{"id":"sfx/sgpump.mp3","url":"sfx/sgpump.mp3","type":"audio","priority":3,"required":false,"hash":"a05caeaf13def588e733bd02884c0c8dd7015fc15e45045721dc2808fb27e958","size":7881},{"id":"sfx/sgshell.mp3","url":"sfx/sgshell.mp3","type":"audio","priority":2,"required":false,"hash":"d471e8deeaafd4e6eaa1ae1b9d0ecf97574fb542ca2ccf3cf544e14833942ff6","size":5060},{"id":"sfx/sgshellbr.mp3","url":"sfx/sgshellbr.mp3","type":"audio","priority":2,"required":false,"hash":"1482dd6df1d41a61bf5aaadfea6d6c90780b6d502d6cb6dce025a344749e13e6","size":7567},{"id":"sfx/shotgun.mp3","url":"sfx/shotgun.mp3","type":"audio","priority":2,"required":false,"hash":"d277f8642795240cc42e3320057603603e75ff2dbff516935f5ebe495f6975f4","size":39360},{"id":"sfx/smash.mp3","url":"sfx/smash.mp3","type":"audio","priority":2,"required":false,"hash":"fefa4e46931984f4c280c74781172108a542b0dc4d51609287f0826a9387b279","size":19944},{"id":"sfx/spit.mp3","url":"sfx/spit.mp3","type":"audio","priority":2,"required":false,"hash":"a26afe95a6c730ae2285cb0452ecf43de6b378ac49241ae604077a88d4526024","size":18612},{"id":"sfx/splat.mp3","url":"sfx/splat.mp3","type":"audio","priority":2,"required":false,"hash":"c0802d7487dcb445cb6f5722d4f522f5d6d6ad3edcff9d4daa3d081178a0acf5","size":23620},{"id":"sfx/squish.mp3","url":"sfx/squish.mp3","type":"audio","priority":2,"required":false,"hash":"7f333d4160251592255f2a94484d80a6cc58ff64f471e902242696f9bb47fb3f","size":5154},{"id":"sfx/stairs.mp3","url":"sfx/stairs.mp3","type":"audio","priority":2,"required":false,"hash":"0518e99cb622dd7cfd7477a207fe2677f34f95041c20714e7978d6f9dfd1babb","size":35572},{"id":"sfx/step.mp3","url":"sfx/step.mp3","type":"audio","priority":2,"required":false,"hash":"de399cb5d2e9c5813050bef91fea8feaf37b3f1f7eb4a8c9bb14dc54b44f062f","size":4747},{"id":"sfx/thud.mp3","url":"sfx/thud.mp3","type":"audio","priority":2,"required":false,"hash":"44a36f9623112f5b021dfc523d3d9624e39b9dcfac18ef9f00799368b0911ba6","size":17935},{"id":"sfx/thunder_distant_01.mp3","url":"sfx/thunder_distant_01.mp3","type":"audio","priority":2,"required":false,"hash":"1c898f02db6978975242b59442f29fc4bef0b25cdb1f08d5f951fcbf988d2767","size":210716},{"id":"sfx/thunder_distant_02.mp3","url":"sfx/thunder_distant_02.mp3","type":"audio","priority":2,"required":false,"hash":"db707bb3dd9e186844e3d89f3dabfba7cca9563e7091d86bd51bc8ac81d1e0b6","size":238940},{"id":"sfx/waterpipe.mp3","url":"sfx/waterpipe.mp3","type":"audio","priority":3,"required":false,"hash":"d80fed255f3c49b59075c0adcbffac8ea8a1f6990680894064ab865af24dd2e3","size":194425},{"id":"sfx/woodimpact.mp3","url":"sfx/woodimpact.mp3","type":"audio","priority":2,"required":false,"hash":"7f45fdc49458ed1f6e14a16de34558443979a6920c65c621d9c5eacdc6dc3e30","size":11234},{"id":"sfx/woodknock.mp3","url":"sfx/woodknock.mp3","type":"audio","priority":2,"required":false,"hash":"196cde9ec7085345aa650d2348cf8356061821f0d2e287b6a6db4c6ba368c1ef","size":20788},{"id":"sfx/zipper.mp3","url":"sfx/zipper.mp3","type":"audio","priority":2,"required":false,"hash":"938aaf102d72b2aea911283a92086a7cee40288690338a559b2470086070226e","size":23555},{"id":"sfx/zstep.mp3","url":"sfx/zstep.mp3","type":"audio","priority":2,"required":false,"hash":"24a7e7d9c250ddcabbae0599aca3273468af705dadffbe86f3d0047f08fe4f70","size":7882}]; // tools/build_assets.cjs 產生
+const ZC_ASSET_LOADER=(()=>{
+  const live=typeof navigator!=='undefined'&&typeof URL==='function',base=live?new URL('./',location.href):null;
+  const files=new Map(ZC_ASSET_INDEX.map(x=>[x.url,x])),records=new Map(),queue=[],history=[];
+  const low=live&&((navigator.deviceMemory||4)<=2||/2g/.test((navigator.connection||{}).effectiveType||''));
+  const policy={downloads:low?2:3,decodes:1,attempts:3,timeout:12000,foreground:25000,cooldown:30000,audioBudget:(low?32:96)*1048576,imageBudget:48*1048576};
+  const stats={requests:0,bytes:0,hits:0,retries:0,peakDownloads:0,peakDecodes:0,audioBytes:0,imageBytes:0,peakAudio:0,peakImages:0,played:0,fallback:0,quiet:0,cancelled:0,bgmStalls:0};
+  let active=0,decoding=0,decodeTail=Promise.resolve(),paused=false,registration=null,epoch=0;
+  const cacheName='zc-assets-content-v1:'+(base?base.pathname:'local');
+  const note=(id,phase,error)=>{history.push({id,phase,error:String(error||''),time:new Date().toISOString()});if(history.length>200)history.shift()};
+  const url=p=>{const f=files.get(p);return live&&f?new URL(p+'?zc-h='+f.hash,base).href:p};
+  const record=(id,type,paths,p=2,required=false)=>{if(!records.has(id))records.set(id,{id,type,paths,priority:p,required:required||paths.some(p=>files.get(p)?.required),hash:paths.map(x=>files.get(x)?.hash||null),state:'idle',downloaded:false,attempts:0,error:null,lastUse:0,failedAt:0,value:null,promise:null,bytes:0});return records.get(id)};
+  const snooze=ms=>new Promise(r=>setTimeout(r,ms));
+  function pump(){queue.sort((a,b)=>a.r.priority-b.r.priority||a.n-b.n);while(active<policy.downloads){const i=queue.findIndex(x=>!paused||x.r.priority<=1);if(i<0)break;const task=queue.splice(i,1)[0];active++;stats.peakDownloads=Math.max(stats.peakDownloads,active);task.r.state='fetching';task.fn().then(task.ok,task.no).finally(()=>{active--;pump()})}}
+  let order=0;
+  const schedule=(r,fn)=>new Promise((ok,no)=>{r.state='queued';queue.push({r,fn,ok,no,n:++order});pump()});
+  async function verified(bytes,p){const f=files.get(p);if(!live||!f||!crypto.subtle)return;const digest=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),v=>v.toString(16).padStart(2,'0')).join('');if(digest!==f.hash)throw Error('素材內容不符：'+p)}
+  async function readBytes(p,signal){
+    const key=url(p);let cache=null;
+    if(live&&typeof caches!=='undefined')try{cache=await caches.open(cacheName);const hit=await cache.match(key);if(hit&&hit.status===200){const bytes=await hit.arrayBuffer();await verified(bytes,p);stats.hits++;return bytes}}catch(e){note(p,'cache-read',e)}
+    stats.requests++;const response=await fetch(key,{signal,cache:'no-cache'});if(response.status===206||!response.ok)throw Error('HTTP '+response.status);
+    const bytes=await response.arrayBuffer();await verified(bytes,p);if(!bytes.byteLength)throw Error('空白素材');stats.bytes+=bytes.byteLength;
+    if(cache&&files.has(p))try{await cache.put(key,new Response(bytes,{status:200,headers:{'Content-Type':response.headers.get('Content-Type')||'application/octet-stream'}}))}catch(e){note(p,'cache-write',e)}
+    return bytes;
+  }
+  const byteTasks=new Map();
+  function bytesFor(p,signal){if(byteTasks.has(p))return byteTasks.get(p);const task=readBytes(p,signal).finally(()=>byteTasks.delete(p));byteTasks.set(p,task);return task}
+  async function download(r,prepare){let last;
+    for(let n=0;n<policy.attempts;n++){
+      r.attempts++;const ctl=live?new AbortController():null,timer=live?setTimeout(()=>ctl.abort(),policy.timeout):null;
+      try{let error;for(const p of r.paths){try{const bytes=await bytesFor(p,ctl?.signal);r.downloaded=true;r.path=p;return await decode(r,()=>prepare(bytes))}catch(e){error=e}}throw error}
+      catch(e){last=e;r.error=String(e);note(r.id,'fetching',e);if(n<policy.attempts-1){r.state='retrying';stats.retries++;if(live)await snooze(n?1500:500);r.state='fetching'}}finally{clearTimeout(timer)}
+    }throw last;
+  }
+  function decode(r,fn){const job=decodeTail.then(async()=>{r.state='decoding';decoding++;stats.peakDecodes=Math.max(stats.peakDecodes,decoding);let timer;try{return await (live?Promise.race([fn(),new Promise((_,no)=>{timer=setTimeout(()=>no(Error('解碼逾時')),policy.timeout)})]):fn())}finally{clearTimeout(timer);decoding--}});decodeTail=job.catch(()=>{});return job}
+  function pinned(r){if(r.required||r.priority===0)return true;if(r.type==='image'&&typeof SLASH_VFX!=='undefined'&&([SLASH_VFX,BLUNT_VFX,PIERCE_VFX,ARROW_VFX].some(f=>f.active&&f.image===r.value)||[...GUN_VFX.list].some(f=>GUN_VFX.images[f.cfg.sheet]===r.value)))return true;
+    if(r.type==='audio'&&typeof ACTIVE_SFX!=='undefined'&&[...ACTIVE_SFX].some(s=>s.buffer===r.value))return true;
+    return r.type==='image'&&live&&[...document.images].some(im=>im.src===r.value?.src)}
+  function collect(){for(const type of ['audio','image']){const key=type==='audio'?'audioBytes':'imageBytes',limit=type==='audio'?policy.audioBudget:policy.imageBudget;
+    for(const r of [...records.values()].filter(r=>r.type===type&&r.state==='ready'&&!pinned(r)).sort((a,b)=>a.lastUse-b.lastUse)){if(stats[key]<=limit)break;
+      if(type==='audio')delete BUF[r.id.slice(6)];else{if(r.value?.src?.startsWith('blob:'))URL.revokeObjectURL(r.value.src);releaseImage(r.value)}stats[key]-=r.bytes;r.bytes=0;r.value=null;r.state='idle'}}}
+  function releaseImage(value){if(typeof SLASH_VFX==='undefined')return;for(const fx of [SLASH_VFX,BLUNT_VFX,PIERCE_VFX,ARROW_VFX])if(fx.image===value){fx.image=null;fx.ready=null}for(const k of Object.keys(GUN_VFX.images))if(GUN_VFX.images[k]===value){delete GUN_VFX.images[k];delete GUN_VFX.ready[k]}}
+  function ensure(r,prepare,priority=r.priority,force=false){r.lastUse=Date.now();r.priority=Math.min(r.priority,priority);pump();
+    if(r.value)return Promise.resolve(r.value);if(r.promise)return r.promise;if(r.failedAt&&!force&&Date.now()-r.failedAt<policy.cooldown)return Promise.resolve(null);
+    r.promise=schedule(r,()=>download(r,prepare)).then(value=>{r.value=value;r.state='ready';r.error=null;r.failedAt=0;
+      r.bytes=r.type==='audio'?(value.length||0)*(value.numberOfChannels||1)*4:r.type==='image'?value.naturalWidth*value.naturalHeight*4:0;
+      const key=r.type==='audio'?'audioBytes':'imageBytes';if(r.type==='audio'||r.type==='image'){stats[key]+=r.bytes;stats[r.type==='audio'?'peakAudio':'peakImages']=Math.max(stats[r.type==='audio'?'peakAudio':'peakImages'],stats[key])}return value;
+    }).catch(e=>{r.error=String(e);r.failedAt=Date.now();r.state='failed';note(r.id,'prepare',e);return null}).finally(()=>{r.promise=null});return r.promise;
+  }
+  const soundPaths=n=>n==='crossbowshot'?['sfx/crossbowshot.wav']:(n==='genloop'||n.startsWith('rain_')?['ogg','mp3']:['mp3']).map(e=>'sfx/'+n+'.'+e);
+  function sound(n,p=files.get(soundPaths(n)[0])?.priority??2,force=false){const a=audio();if(!a)return Promise.resolve(null);const r=record('sound:'+n,'audio',soundPaths(n),p,p===1&&p1Sounds.includes(n));if(BUF[n]){r.lastUse=Date.now();return Promise.resolve(BUF[n])}
+    return ensure(r,bytes=>new Promise((ok,no)=>a.decodeAudioData(bytes.slice(0),ok,no)),p,force).then(v=>{if(v){BUF[n]=v;collect();AUDIO_LOAD_STATUS.failed.delete(n);if(live&&typeof syncAmbience==='function')syncAmbience()}else AUDIO_LOAD_STATUS.failed.add(n);return v})}
+  function image(p,priority=2,force=false){if(typeof Image!=='function')return Promise.resolve(null);const r=record('image:'+p,'image',[p],priority);
+    return ensure(r,bytes=>new Promise((ok,no)=>{const im=new Image(),src=URL.createObjectURL(new Blob([bytes]));let timer=setTimeout(()=>{im.src='';URL.revokeObjectURL(src);no(Error('圖像準備逾時'))},policy.timeout);
+      im.onload=async()=>{try{if(im.decode)await im.decode();clearTimeout(timer);ok(im)}catch(e){clearTimeout(timer);URL.revokeObjectURL(src);no(e)}};im.onerror=()=>{clearTimeout(timer);URL.revokeObjectURL(src);no(Error('圖像解碼失敗'))};im.src=src}),priority,force).then(v=>{if(v&&live){for(const im of document.querySelectorAll('img[data-zc-retry]'))if(im.dataset.zcRetry===p&&im.dataset.zcScope===zcAssetScope()){im.src=v.src;im.classList.remove('zc-asset-image');delete im.dataset.zcRetry}collect()}return v})}
+  function prefetch(p,priority=3){const r=record('file:'+p,'file',[p],priority);return ensure(r,()=>true,priority)}
+  const p1Sounds=['click','step','zstep','dooropen','doorclose','stairs','hurt','thud','glassbreak','woodknock','beretta','mp5','rifle','claw','knife','fist','piercehit','bowdraw','bowimpact','crossbowshot','headshot'];
+  const p1=()=>[...files.values()].filter(f=>f.priority<=1&&(f.type==='image'||f.type==='font'));
+  function warm(){if(!live)return;for(const f of p1())if(f.priority===0)prefetch(f.url,0);for(const n of p1Sounds)if(n!=='hurt')prefetch(soundPaths(n)[0],1)}
+  function needed(){return [...p1().map(f=>({id:(f.type==='image'?'image:':'file:')+f.url,run:()=>f.type==='image'?image(f.url,1):prefetch(f.url,0)})),...(UI.snd?p1Sounds.filter(n=>n!=='hurt').map(n=>({id:'sound:'+n,run:()=>sound(n,1)})):[]),...(UI.bgm?[{id:'music:explore',run:()=>{const a=BGM_MIX.tracks.explore;a.preload='auto';media('explore',a,a.readyState>=2?'canplay':a.zcFailed?'error':'waiting')}}]:[]) ]}
+  async function foreground(progress,force=false){const tasks=needed();for(const t of tasks){const r=records.get(t.id);if(force&&r?.state==='failed')r.failedAt=0;t.run()}
+    const end=Date.now()+policy.foreground;let failed=false;
+    while(true){const rows=tasks.map(t=>records.get(t.id)),done=rows.filter(r=>r?.state==='ready'||r?.state==='degraded').length;
+      failed=rows.some(r=>r?.state==='failed');progress?.({done,total:tasks.length,failed,preparing:rows.some(r=>r?.state==='decoding')});
+      if(done===tasks.length||failed||Date.now()>=end)break;await snooze(100)}
+    const unresolved=tasks.map(t=>records.get(t.id)).filter(r=>r?.state!=='ready');
+    const safe=unresolved.every(r=>r&&(r.type==='image'||r.type==='media'||r.id.startsWith('sound:')&&FALL[r.id.slice(6)]&&SYN[FALL[r.id.slice(6)]]));
+    for(const r of unresolved)if(r.state==='failed'&&safe)r.state='degraded';return {ok:!unresolved.length,safe,failed:unresolved.map(r=>r?.id)};
+  }
+  function background(){if(!live)return;for(const a of Object.values(BGM_MIX.tracks))a.preload='auto';for(const n of SFILES)if((files.get(soundPaths(n)[0])?.priority??2)<=2)sound(n);sound('crossbowshot');for(const f of files.values())if(f.type==='image'&&f.priority>=2||f.type==='audio'&&f.priority===3)prefetch(f.url,3)}
+  let sceneKey='';
+  function scene(){if(!live||!G||G.over||!UI.snd)return;const key=G.rid+':'+G.node+':'+G.ev+':'+(G.fight?.musicId||'')+':'+G.players.map(p=>JSON.stringify(p.hand)).join('|');if(key===sceneKey)return;sceneKey=key;
+    const seen=new Set(),walk=(o,depth=0)=>{if(!o||typeof o!=='object'||seen.has(o)||depth>6)return;seen.add(o);for(const [k,v] of Object.entries(o)){if(['audio','snd','hs','ws','rl','cy','pre'].includes(k))for(const n of [].concat(v))if(typeof n==='string')boost(n);if(v&&typeof v==='object')walk(v,depth+1)}};
+    walk(N[G.node]);if(G.ev!=null)walk(EVPOOL[G.ev]);for(const p of G.players)for(const h of ['R','L']){const {w}=handW(p,h);walk(w)}
+  }
+  function boost(n){if(SFILES.includes(n)||n==='crossbowshot')sound(n,1);}
+  function event(kind,n){if(kind in stats)stats[kind]++;if(kind==='fallback'){const r=records.get('sound:'+n);if(r?.state==='failed')r.state='degraded'}if(kind==='quiet'||kind==='fallback')note(n,kind,'當下不補播')}
+  function later(fn,ms){const token=epoch,rid=G&&G.rid,node=G&&G.node,battle=G&&G.fight;return setTimeout(()=>{if(token!==epoch||document.hidden||!UI.snd||!G||G.over||G.rid!==rid||G.node!==node||G.fight!==battle){event('cancelled');return}fn()},ms)}
+  function cancel(){epoch++}
+  function resetFailures(){for(const r of records.values())if(r.state==='failed'||r.state==='degraded'){r.failedAt=0;r.state='idle'}}
+  function retry(){for(const r of records.values())if((r.state==='failed'||r.state==='degraded')&&Date.now()-r.failedAt>=policy.cooldown){r.failedAt=0;r.state='idle'}loadSounds();loadArrowSound();for(const r of records.values())if(r.type==='image'&&r.state==='idle')image(r.paths[0],r.priority)}
+  async function register(){if(!live||!('serviceWorker' in navigator)||!/^https?:$/.test(location.protocol))return;try{registration=await navigator.serviceWorker.register(new URL('sw.js',base),{scope:base.pathname,updateViaCache:'none'});registration.update().catch(e=>note('sw','update',e));registration.addEventListener('updatefound',()=>{const w=registration.installing;w?.addEventListener('statechange',()=>{if(w.state==='installed'&&registration.waiting&&SCR==='menu')toast('素材更新已準備完成，下次開啟遊戲時生效。')})})}catch(e){note('sw','register',e)}}
+  async function reset(){if(live&&typeof caches!=='undefined')try{await caches.delete(cacheName)}catch(e){note('cache','reset',e)}for(const r of records.values())if(r.type==='file'){r.value=null;r.state='idle'}for(const f of files.values())if(f.type!=='media')prefetch(f.url,3);resetFailures();retry()}
+  function observe(){if(!live||typeof MutationObserver!=='function')return;
+    const attach=im=>{const path=im.getAttribute('data-zc-src')||'';if(!files.has(path)||im.dataset.zcAsset===path)return;im.dataset.zcAsset=path;const scope=G&&G.rid+':'+G.node+':'+(G.fight?.musicId||'');im.dataset.zcScope=scope;im.classList.add('zc-asset-image');
+      image(path,1).then(v=>{if(!im.isConnected||im.getAttribute('data-zc-src')!==path||scope!==(G&&G.rid+':'+G.node+':'+(G.fight?.musicId||'')))return;if(v){im.src=v.src;im.classList.remove('zc-asset-image');if(im.closest('#stg,#enc'))encFit(im.closest('#stg,#enc'))}else{im.alt='圖像暫時無法顯示';im.dataset.zcRetry=path}})};
+    new MutationObserver(changes=>{for(const c of changes){if(c.type==='attributes'){if(c.target.tagName==='IMG')attach(c.target)}else for(const n of c.addedNodes)if(n.nodeType===1){if(n.tagName==='IMG')attach(n);n.querySelectorAll?.('img').forEach(attach)}}}).observe(document.querySelector('#stage'),{childList:true,subtree:true,attributes:true,attributeFilter:['data-zc-src']});
+    window.addEventListener('online',()=>{retry();for(const im of document.querySelectorAll('img[data-zc-retry]')){delete im.dataset.zcAsset;attach(im)}});
+  }
+  function media(mode,a,state){const r=record('music:'+mode,'media',[...files.values()].filter(f=>f.type==='media'&&f.url.includes(mode==='explore'?'sfx/bgm.':mode==='intense'?'bgm_hitman_intense.':'bgm_hitman_battle.')).map(f=>f.url),2);r.lastUse=Date.now();r.state=state==='canplay'||state==='playing'?'ready':state==='error'?'degraded':'fetching';r.downloaded=a.readyState>=2;if(state==='error')note(r.id,state,'配樂載入失敗')}
+  function memory(){collect();return {...stats,queued:queue.length,active,decoding}}
+  return {policy,stats,history,records,url,sound,image,prefetch,scene,foreground,background,boost,event,later,cancel,retry,resetFailures,register,reset,warm,media,observe,memory,setPaused:v=>{paused=v;pump()}};
+})();
+
 /* ================= 音效 ================= */
 let AC=null,NB=null,SFX_MASTER=null;const BUF={};
 /* ZeroCase Audio Mix v2 / 2026-11-14：依事件分類統一短音效增益；不改動原始檔名與 BGM。 */
@@ -6404,23 +6504,18 @@ let SFX_SYN_SCALE=1;
 function synthAtVolume(k,v,scale){const previous=SFX_SYN_SCALE;SFX_SYN_SCALE=scale;try{return SYN[k](v)||0}finally{SFX_SYN_SCALE=previous}}
 
 const SFILES=['sgpump','sgshell','sgshellbr','sgopen','sgclose','piercehit','bowdraw','bowimpact','rain_indoor_loop','rain_outdoor_loop','thunder_distant_01','thunder_distant_02','heal','pill','rummage','stairs','zipper','step','drawer','pickup','dooropen','doorclose','beretta','berettaReload','revolver','revolverCock','casing','fist','claw','knife','zstep','headshot','mthrow','mimpact','death','click','equip','fal','falReload','mp5','mp5Reload','rifle','bolt','bite','smash','splat','spit','thud','squish','bhit','shotgun','glassbreak','firealarm','genstart','genloop','dryfire','woodknock','woodimpact','glassstep','waterpipe','pumpmix','pumpstop','radiostatic','radio02','radio23','radio24'];
-function audio(){if(!UI.snd)return null;try{if(!AC){AC=new (window.AudioContext||window.webkitAudioContext)();SFX_MASTER=AC.createGain();SFX_MASTER.gain.value=.86;const limiter=AC.createDynamicsCompressor();limiter.threshold.value=-5;limiter.knee.value=3;limiter.ratio.value=10;limiter.attack.value=.004;limiter.release.value=.16;SFX_MASTER.connect(limiter);limiter.connect(AC.destination);const len=AC.sampleRate;NB=AC.createBuffer(1,len,AC.sampleRate);const d=NB.getChannelData(0);for(let i=0;i<len;i++)d[i]=Math.random()*2-1}if(AC.state==='suspended'){const r=AC.resume();if(r&&r.catch)r.catch(()=>{})}return AC}catch(e){return null}}
+function audio(){if(!UI.snd)return null;try{if(!AC){AC=new (window.AudioContext||window.webkitAudioContext)();SFX_MASTER=AC.createGain();SFX_MASTER.gain.value=.86;const limiter=AC.createDynamicsCompressor();limiter.threshold.value=-5;limiter.knee.value=3;limiter.ratio.value=10;limiter.attack.value=.004;limiter.release.value=.16;SFX_MASTER.connect(limiter);limiter.connect(AC.destination);const len=AC.sampleRate;NB=AC.createBuffer(1,len,AC.sampleRate);const d=NB.getChannelData(0);for(let i=0;i<len;i++)d[i]=Math.random()*2-1}if(AC.state==='suspended'||AC.state==='interrupted'){const r=AC.resume();if(r&&r.catch)r.catch(()=>{})}return AC}catch(e){return null}}
 let loading=null;const AUDIO_LOAD_STATUS={failed:new Set()};
 function loadSounds(){
-  if(loading)return loading;const a=audio();if(!a)return Promise.resolve();
-  loading=Promise.all(SFILES.map(async n=>{
-    if(BUF[n])return;
-    const formats=n==='genloop'||n.startsWith('rain_')?['ogg','mp3']:['mp3'];let error;
-    for(const ext of formats){try{const r=await fetch('sfx/'+n+'.'+ext);if(!r.ok)throw new Error('HTTP '+r.status);const ab=await r.arrayBuffer();BUF[n]=await new Promise((ok,ng)=>a.decodeAudioData(ab,ok,ng));AUDIO_LOAD_STATUS.failed.delete(n);return}catch(e){error=e}}
-    AUDIO_LOAD_STATUS.failed.add(n);console.warn('[ZeroCase audio] 素材載入失敗，可用備援將自動播放，持續聲將暫停：'+n,error);
-  }));return loading;
+  if(loading)return loading;if(!audio())return Promise.resolve();
+  loading=Promise.all(SFILES.map(n=>ZC_ASSET_LOADER.sound(n))).finally(()=>{loading=null});return loading;
 }
 function soundStatus(){return {expected:SFILES.length+(BUF.crossbowshot?1:0),loaded:Object.keys(BUF).length,failed:[...AUDIO_LOAD_STATUS.failed],ambient:AMBIENT?AMBIENT.id:null,active:ACTIVE_SFX.size}}
 // 所有短音效及合成排程均可停止；不影響獨立的背景音樂。
 let RADIO_UNTIL=0,PUMP_STOP_VISIT='';
 const ACTIVE_SFX=new Set();
 function trackSfx(source,gain){ACTIVE_SFX.add(source);source.onended=()=>{ACTIVE_SFX.delete(source);if(AMBIENT&&AMBIENT.source===source)AMBIENT=null;try{source.disconnect();gain.disconnect()}catch(e){}};return source}
-function stopSfx(){RADIO_UNTIL=0;GEN_SFX_UNTIL=0;for(const source of ACTIVE_SFX){try{source.stop()}catch(e){}}ACTIVE_SFX.clear()}
+function stopSfx(){ZC_ASSET_LOADER.cancel();RADIO_UNTIL=0;GEN_SFX_UNTIL=0;for(const source of ACTIVE_SFX){try{source.stop()}catch(e){}}ACTIVE_SFX.clear()}
 let AMBIENT=null,AMBIENT_KEY='',AMBIENT_TOKEN=0,AMBIENT_TIMER=null,AUDIO_MOVING=false,GEN_SFX_UNTIL=0;
 const ALARM_PLAYED=new Set(),THUNDER_PLAYED=new Set();let THUNDER_SOURCE=null;
 function rainSpec(){
@@ -6464,9 +6559,9 @@ function syncAmbience(){
     if(!now.loop){ALARM_PLAYED.add(now.key);if(ALARM_PLAYED.size>100)ALARM_PLAYED.delete(ALARM_PLAYED.values().next().value);source.stop(a.currentTime+Math.min(buffer.duration,now.ms/1000))}
   };
   const ready=()=>{if(token!==AMBIENT_TOKEN)return;const now=ambientSpec();if(!now||now.key!==spec.key)return;if(now.delay>0)AMBIENT_TIMER=setTimeout(start,now.delay);else start()};
-  if(BUF[spec.id])ready();else loadSounds().then(ready).catch(()=>{});
+  if(BUF[spec.id])ready();else ZC_ASSET_LOADER.sound(spec.id,1).then(ready).catch(()=>{});
 }
-function setSoundEnabled(on){UI.snd=on?1:0;if(!on){stopAmbience();stopSfx();if(SFX_MASTER)SFX_MASTER.gain.value=0}else{audio();if(SFX_MASTER)SFX_MASTER.gain.value=.86;syncAmbience();loading=null;loadSounds().then(syncAmbience)}}
+function setSoundEnabled(on){UI.snd=on?1:0;if(!on){stopAmbience();stopSfx();if(SFX_MASTER)SFX_MASTER.gain.value=0}else{ZC_ASSET_LOADER.resetFailures();audio();if(SFX_MASTER)SFX_MASTER.gain.value=.86;syncAmbience();loading=null;loadSounds().then(syncAmbience)}}
 function resultAudio(o){
   if(!o)return;
   if(o.audioStop==='firealarm'){G.audioAlarmOff=G.audioVisit||0;syncAmbience()}
@@ -6482,10 +6577,11 @@ function headshotHit(w,aimed,crit,shot,spread,target,primary){return w.kind==='g
 const BGM=new Audio();
 const BGM_MIX={mode:null,allowed:false,timer:null,epoch:0,fight:null,started:false,intense:false,tracks:{explore:BGM,battle:new Audio(),intense:new Audio()}};
 for(const [mode,a] of Object.entries(BGM_MIX.tracks)){
-  a.loop=true;a.preload='auto';a.volume=mode==='explore'?.55:0;
+  a.loop=true;a.preload='metadata';a.volume=mode==='explore'?.55:0;
   const stem=mode==='explore'?'bgm':mode==='intense'?'bgm_hitman_intense':'bgm_hitman_battle';
-  a.src='sfx/'+stem+(a.canPlayType('audio/ogg; codecs="vorbis"')?'.ogg':'.mp3');
-  a.onerror=()=>{if(!a.src.endsWith('.mp3')){a.src='sfx/'+stem+'.mp3';syncBgmState()}else{a.zcFailed=true;syncBgmState()}};
+  a.src=ZC_ASSET_LOADER.url('sfx/'+stem+(a.canPlayType('audio/ogg; codecs="vorbis"')?'.ogg':'.mp3'));
+  if(a.addEventListener)for(const event of ['canplay','playing','waiting','stalled','error'])a.addEventListener(event,()=>{a.zcState=event;ZC_ASSET_LOADER.media(mode,a,event);if(event==='playing'){a.zcBlocked=false;a.zcRetries=0}if(event==='waiting'||event==='stalled'){ZC_ASSET_LOADER.stats.bgmStalls++;if((a.zcRetries||0)<2){a.zcRetries=(a.zcRetries||0)+1;const epoch=BGM_MIX.epoch;setTimeout(()=>{if(epoch===BGM_MIX.epoch&&BGM_MIX.mode===mode&&UI.bgm&&!document.hidden)syncBgmState()},1500)}}});
+  a.onerror=()=>{if(!a.src.split('?')[0].endsWith('.mp3')){a.src=ZC_ASSET_LOADER.url('sfx/'+stem+'.mp3');syncBgmState()}else{a.zcFailed=true;syncBgmState()}};
 }
 function syncBgmState(){
   const M=BGM_MIX,F=G&&G.fight;
@@ -6504,7 +6600,7 @@ function syncBgmState(){
     const fade=()=>{if(epoch!==M.epoch)return;const t=Math.min(1,(Date.now()-at)/ms);keys.forEach((k,i)=>{const x=M.tracks[k];x.volume=from[i]+((k===mode?(k==='explore'?.55:.30):0)-from[i])*t;if(t===1&&k!==mode){x.pause();if(k!=='explore')x.currentTime=0}});if(t===1){clearInterval(M.timer);M.timer=null}};
     M.timer=setInterval(fade,25);
   }else if(!M.timer){for(const [k,x] of Object.entries(M.tracks)){if(k===mode)x.volume=k==='explore'?.55:.30;else{x.pause();x.volume=0}}}
-  if(a.paused)try{const playEpoch=M.epoch,p=a.play();if(p&&p.then)p.then(()=>{if(playEpoch!==M.epoch&&(M.mode!==mode||!M.allowed||!UI.bgm||document.hidden))a.pause()}).catch(()=>{})}catch(e){}
+  if(a.paused)try{const playEpoch=M.epoch;a.zcPlayEpoch=playEpoch;const p=a.play();if(p&&p.then)p.then(()=>{if((M.mode!==mode||!M.allowed||!UI.bgm||document.hidden)&&a.zcPlayEpoch===playEpoch)a.pause()}).catch(e=>{a.zcBlocked=e.name==='NotAllowedError';ZC_ASSET_LOADER.media(mode,a,'error');if(a.zcBlocked)zcAssetAudioPrompt()})}catch(e){}
 }
 function beginEncounterBgm(){if(G&&G.fight){if(!G.fight.musicId)G.fight.musicId=G.rid+':'+Date.now();if(G.fight.musicIntense==null)G.fight.musicIntense=G.alarmFt===2}syncBgmState()}
 function beginBattleBgmOnce(){const F=G&&G.fight;if(!F||G.over||F.musicStarted)return;F.musicStarted=true;syncBgmState();E('bgm',{rid:G.rid,id:F.musicId,intense:!!F.musicIntense});push()}
@@ -6512,7 +6608,7 @@ function restoreExploreBgm(){syncBgmState()}
 function startBgm(){BGM_MIX.allowed=true;syncBgmState()}
 function stopBgm(){BGM_MIX.allowed=false;syncBgmState()}
 // 播放並回傳「播完」的 Promise（max 為最長等待）
-function play(n,vol=1,max=4000,delay=0){const a=audio();if(!a||!BUF[n])return null;const s=a.createBufferSource();s.buffer=BUF[n];const g=a.createGain();g.gain.value=vol;s.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(s,g);const ms=Math.min(max,BUF[n].duration*1000);s.start(a.currentTime+delay);s.stop(a.currentTime+delay+ms/1000);return ms}
+function play(n,vol=1,max=4000,delay=0){if(document.hidden||!UI.snd)return null;const a=audio();if(!a||a.state!=='running'||!BUF[n]){ZC_ASSET_LOADER.boost(n);return null}ZC_ASSET_LOADER.event('played',n);const s=a.createBufferSource();s.buffer=BUF[n];const g=a.createGain();g.gain.value=vol;s.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(s,g);const ms=Math.min(max,BUF[n].duration*1000);s.start(a.currentTime+delay);s.stop(a.currentTime+delay+ms/1000);return ms}
 function noise(t,dur,f,q,vol,type){const a=audio();if(!a)return;const s=a.createBufferSource();s.buffer=NB;const fl=a.createBiquadFilter();fl.type=type||'bandpass';fl.frequency.value=f;fl.Q.value=q||1;const g=a.createGain();g.gain.setValueAtTime(Math.max(.0005,vol*SFX_SYN_SCALE),a.currentTime+t);g.gain.exponentialRampToValueAtTime(.0005,a.currentTime+t+dur);s.connect(fl);fl.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(s,g);s.start(a.currentTime+t,Math.random()*.5);s.stop(a.currentTime+t+dur+.02)}
 function tone(t,f,dur,vol,type,f2){const a=audio();if(!a)return;const o=a.createOscillator();o.type=type||'sine';o.frequency.setValueAtTime(f,a.currentTime+t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,a.currentTime+t+dur);const g=a.createGain();g.gain.setValueAtTime(.0001,a.currentTime+t);g.gain.linearRampToValueAtTime(Math.max(.0005,vol*SFX_SYN_SCALE),a.currentTime+t+.008);g.gain.exponentialRampToValueAtTime(.0005,a.currentTime+t+dur);o.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(o,g);o.start(a.currentTime+t);o.stop(a.currentTime+t+dur+.03)}
 const SYN={
@@ -6558,9 +6654,9 @@ function sfx(k,v,max){
     const ms=play(k,gain,max);
     if(ms!=null){if(/^radio\d{2}$/.test(k))RADIO_UNTIL=Date.now()+ms+250;if(k==='genstart')GEN_SFX_UNTIL=Date.now()+ms;return ms;}
     // 網路／解碼失敗時仍有退路；fallback 使用「原事件」音量類別。
-    if(FALL[k]&&SYN[FALL[k]]){const ms=synthAtVolume(FALL[k],v,gain);if(k==='genstart')GEN_SFX_UNTIL=Date.now()+ms;return ms}
+    if(FALL[k]&&SYN[FALL[k]]){ZC_ASSET_LOADER.event('fallback',k);const ms=synthAtVolume(FALL[k],v,gain);if(k==='genstart')GEN_SFX_UNTIL=Date.now()+ms;return ms}
   }catch(e){console.warn('[ZeroCase audio] 音效播放失敗',k,e)}
-  return 0;
+  ZC_ASSET_LOADER.event('quiet',k);return 0;
 }
 // 同一個同步事件在每台裝置排程兩段音源，命中固定接在拉弓起始後 1.18 秒。
 function playBowShot(hit,v=1){
@@ -6587,11 +6683,11 @@ const SCUE={
  farrifle:{gun:'rifle',n:[1,1],far:1,len:1.7}
 };
 const SCUE_FAR={1:{g:.38,lp:1500},.5:{g:.62,lp:2600}};
-function cueAt(n,vol,t,lp,len){const a=audio();if(!a||!BUF[n])return 0;const s=a.createBufferSource();s.buffer=BUF[n];const g=a.createGain();g.gain.value=vol;
+function cueAt(n,vol,t,lp,len){if(document.hidden||!UI.snd)return 0;const a=audio();if(!a||a.state!=='running'||!BUF[n]){ZC_ASSET_LOADER.boost(n);return 0;}ZC_ASSET_LOADER.event('played',n);const s=a.createBufferSource();s.buffer=BUF[n];const g=a.createGain();g.gain.value=vol;
   if(lp){const f=a.createBiquadFilter();f.type='lowpass';f.frequency.value=lp;s.connect(f);f.connect(g)}else s.connect(g);
   g.connect(SFX_MASTER||a.destination);trackSfx(s,g);const at=a.currentTime+t,dur=Math.min(len||BUF[n].duration,BUF[n].duration);
   s.start(at);if(len&&len<BUF[n].duration){g.gain.setValueAtTime(vol,at+Math.max(0,dur-.12));g.gain.linearRampToValueAtTime(.0001,at+dur)}s.stop(at+dur);return dur}
-function shotCue(k,v=1){const C=SCUE[k];if(!C||!audio()||!BUF[C.gun])return 0;const F=SCUE_FAR[C.far]||{g:1,lp:0};
+function shotCue(k,v=1){const C=SCUE[k];if(!C||!audio()||!BUF[C.gun]){if(C){ZC_ASSET_LOADER.boost(C.gun);ZC_ASSET_LOADER.event('quiet',k)}return 0;}const F=SCUE_FAR[C.far]||{g:1,lp:0};
   const n=C.n[0]+Math.floor(Math.random()*(C.n[1]-C.n[0]+1));let t=0,last=0;
   for(let i=0;i<n;i++){cueAt(C.gun,sfxLevel(C.gun,v)*F.g,t,F.lp,C.len||(n>1?.55:0));last=t;t+=.16+Math.random()*.2}
   let end=last+Math.min(C.len||.55,BUF[C.gun].duration);
@@ -7962,6 +8058,7 @@ async function startFight(spec){
   for(const p of G.players){if(!teamHere(p))continue;p.combo=0;p.counter=0;p.brace=0;p.actUsed=0;p.defPen=0;p.aimed=0;p.stance=null;p.held=0;if(!p.evacWounds){p.dazed=0;p.humus=0}p.calmUsed=0;p.skUsed={};p.tlUsed={};p.covering=0;p.grit=0}
   for(const p of G.players)if(teamHere(p))darStart(p);
   G.fight={foes,musicStarted:!!G.pendingBurn,musicIntense:G.alarmFt===2,P:Math.max(1,P0),sl:{},hb:{},bg:{},noise:null,order:[],turn:0,round:1,arrows:{},opening:spec.mode||'normal',first:spec.mode==='first',cur:null,escaped:[],noflee:G.lv==='D',nocover:['D','R'].includes(G.lv),tUsed:{}};
+  if(!MP()&&typeof Image==='function')await zcAssetPrepareFight(foes);
   G.phase='fight';const stgId=stgOpen('enc',G.fight.musicIntense?'intense':'battle',{mode:spec.mode||'normal',foes:foes.filter(f=>!lurkHid(f)).map(f=>({n:f.n,img:f.img||''}))},!G.pendingBurn);
   beginEncounterBgm();await flush();snd(encounterStep(foes));push();draw();
   if((LV[G.lv].fx||{}).fightAlarm)addAlarm(1,null);
@@ -8046,7 +8143,7 @@ async function alarmJoin(){const F=G.fight;const R=F&&F.reinf;if(!R||R.in||F.rou
   const spec=bigWave(),wet=['U','G'].includes(G.lv),np=Math.max(1,able().length),base=F.foes.length;
   const nf=spec.types.map((t,i)=>newFoe(base+i,t,np,wet));F.foes.push(...nf);nameFoes(F.foes);
   const was=BGM_MIX.mode==='intense'||!!F.musicIntense;G.alarmFt=2;Object.assign(ALV(),{big:1,w3:1,w6:1});F.musicIntense=true;
-  const vis=nf.filter(f=>!lurkHid(f));const stgId=stgOpen('raid','intense',{foes:vis.map(f=>({n:f.n,img:f.img||''}))},!was);syncBgmState();/* v0.65.0 亂入：先切激戰段、亮出新敵人，演完才重排先攻 */
+  const vis=nf.filter(f=>!lurkHid(f));if(!MP()&&typeof Image==='function')await zcAssetPrepareFight(vis);const stgId=stgOpen('raid','intense',{foes:vis.map(f=>({n:f.n,img:f.img||''}))},!was);syncBgmState();/* v0.65.0 亂入：先切激戰段、亮出新敵人，演完才重排先攻 */
   snd('zstep');snd('groan');out(ZBIG[R.f]||ZBIG.inf,'bad');
   if(new Set(liveF().map(x=>FT(x).fac)).size>1&&!F.mixNote){F.mixNote=1;out('新來的和原本的不是一夥的。牠們會打你們，也會打彼此。想打誰，由你們自己挑。','rule',true)}
   const ins=nf.map(f=>({k:'f',id:f.id,init:rnd(1,20)+FT(f).init+(isNight()&&FT(f).fac==='inf'?2:0)}));
@@ -8500,7 +8597,7 @@ async function attack(p,h,sk,ti,counter,csk){
     out(`擲骰｜${MP()?esc(p.name)+' ':''}${w.n} ${lines.map(l=>`${multi?l.x.n+' ':''}d20(<b>${l.R.a}</b>)${sm+hb>=0?'+':'−'}${Math.abs(sm+hb)}＝<b>${l.tot}</b>　<span class="${l.hit?'s':'f'}">${jw(l)}</span>`).join('；')}`,'roll',true)}
     const useGunVfx=w.kind==='gun'&&g&&GUN_VFX_CFG[g.id]&&!A.bash;
     if(w.kind==='gun'){g.mag--;if(gasZone()){await explode();if(G.over||!G.fight)return true}
-      if(!useGunVfx){const ms=snd(w.snd,1,1600);await wait(Math.min(ms||300,420));if(w.cs)setTimeout(()=>snd('casing',.5),300);if(w.cy)setTimeout(()=>snd(w.cy,.55),w.cyt||650)}
+      if(!useGunVfx){const ms=snd(w.snd,1,1600);await wait(Math.min(ms||300,420));if(w.cs)ZC_ASSET_LOADER.later(()=>snd('casing',.5),300);if(w.cy)ZC_ASSET_LOADER.later(()=>snd(w.cy,.55),w.cyt||650)}
       else if(!anyH){await gunAttack(t,w,{id:g.id,miss:1,shot:s,shots});if(G.over||!G.fight)return true}}
     else if(w.kind==='ranged'){takeI(p,w.ammo);if(isBow(w)){if(!anyH)await arrowAttack(t,w.ammo==='bolt'?'crossbow':'bow',false)}else snd('whoosh');if(w.cock)g.cocked=0}
     else if(w.kind==='spray'){g.dur--;snd('mimpact',.6,900)}
@@ -8899,7 +8996,7 @@ function handle(pid,a){
 
 /* ---- 遭遇：戰鬥開始時亮出敵人的立繪 ---- */
 function encounterMarkup(d,mode){const title=mode==='first'?'我方先制':mode==='ambush'?'敵方突襲':'遭遇戰';const note=mode==='first'?'動作最快的人先行動一次':mode==='ambush'?'突襲的敵人會先出手一次':'行動順序由先攻決定';
-  return `<div class="enc-state">${title}<small>${note}</small></div><div class="row">${d.map(x=>`<figure>${x.img?`<img src="img/${esc(x.img)}.webp" alt="${esc(x.n)}">`:'<i></i>'}<figcaption>${esc(x.n)}</figcaption></figure>`).join('')}</div>`}
+  return `<div class="enc-state">${title}<small>${note}</small></div><div class="row">${d.map(x=>`<figure>${x.img?`<img data-zc-src="img/${esc(x.img)}.webp" alt="${esc(x.n)}">`:'<i></i>'}<figcaption>${esc(x.n)}</figcaption></figure>`).join('')}</div>`}
 function battleState(){const F=G&&G.fight;if(!F)return '';if(F.sneak)return '我方先制';if(F.round>1)return '戰鬥中';if(F.order&&F.order.length)return F.order[0].k==='f'?'敵人先制':'我方先制';return F.opening==='first'?'我方先制':F.opening==='ambush'?'敵方突襲':'遭遇戰'}
 async function encounter(foes,mode){if(G&&G.stg&&G.stg.k!=='end'){await stgWait(G.stg.id);return}const d=foes.filter(f=>!lurkHid(f)).map(f=>({n:f.n,img:f.img||'',mode:mode||'normal'}));if(!d.some(x=>x.img))return;await flush();E('enc',d);await showEnc(d)}
 async function showEnc(data){const c=$('#enc');if(!c)return;const d=Array.isArray(data)?data:data.foes,mode=Array.isArray(data)?(data[0]&&data[0].mode||'normal'):data.mode;
@@ -8951,7 +9048,7 @@ function stgFirst(s){STGV.sync=null;const a=s.seg&&s.seg!=='explore'&&BGM_MIX.tr
 function stgMarkup(s){const d=s.d||{};
   const ui=`<div class="stg-ui"><button class="btn" data-stgui="bgm">音樂：${UI.bgm?'開':'關'}</button><button class="btn" data-stgui="snd">音效：${UI.snd?'開':'關'}</button></div>`;
   if(s.k==='end')return `<div class="stg-end"><p>${esc(d.t||'')}</p></div>${ui}`;
-  if(s.k==='raid')return `<div class="enc-state">敵人亂入<small>新來的敵人加入戰局，行動順序重新排列</small></div><div class="row">${(d.foes||[]).map(x=>`<figure>${x.img?`<img src="img/${esc(x.img)}.webp" alt="${esc(x.n)}">`:'<i></i>'}<figcaption>${esc(x.n)}</figcaption></figure>`).join('')}</div>${ui}`;
+  if(s.k==='raid')return `<div class="enc-state">敵人亂入<small>新來的敵人加入戰局，行動順序重新排列</small></div><div class="row">${(d.foes||[]).map(x=>`<figure>${x.img?`<img data-zc-src="img/${esc(x.img)}.webp" alt="${esc(x.n)}">`:'<i></i>'}<figcaption>${esc(x.n)}</figcaption></figure>`).join('')}</div>${ui}`;
   return encounterMarkup(d.foes||[],d.mode||'normal')+ui}
 const stgRaf=f=>typeof requestAnimationFrame==='function'?requestAnimationFrame(f):setTimeout(f,50);
 /* v0.66.0 主人 2026-11-25：遭遇立繪一樣高（全部 560 高，照寬度總和一起縮，不會有一張被擠小），而且不壓到最上面的標題 */
@@ -9574,11 +9671,7 @@ const SLASH_TIMING={frames:[100,80,65,50,40,70,30,40,55,65,75,85],total:755,impa
 function slashFrame(ms){if(!Number.isFinite(ms)||ms<0)return -1;let end=0;for(let f=0;f<SLASH_TIMING.frames.length;f++){end+=SLASH_TIMING.frames[f];if(ms<end)return f}return -1}
 function clearSlashVfx(){document.querySelectorAll('#foes .foe').forEach(el=>{el.classList.remove('zc-slash-react');for(const k of ['x','y','px','tilt'])el.style.removeProperty('--zc-slash-'+k)});document.querySelectorAll('.zc-slash-fx').forEach(e=>e.remove())}
 const SLASH_VFX={image:null,ready:null,active:null,stateSeq:0,peer:null};
-function loadSlashVfx(){
-  if(typeof Image!=='function')return Promise.resolve(null);
-  if(!SLASH_VFX.ready){const img=SLASH_VFX.image=new Image();SLASH_VFX.ready=new Promise(resolve=>{img.onload=()=>resolve(img);img.onerror=()=>resolve(null)});img.src='fx/slash-12.webp'}
-  return SLASH_VFX.ready;
-}
+function loadSlashVfx(){return ZC_ASSET_LOADER.image('fx/slash-12.webp',1).then(im=>{SLASH_VFX.image=im;return im})}
 function renderSlashVfx(fx){
   if(SLASH_VFX.active!==fx)return;
   const elapsed=performance.now()-fx.t;
@@ -9606,7 +9699,7 @@ function renderSlashVfx(fx){
 }
 async function playSlashHit(d,remote=false,seq=0){
   if(!d||!G||!d.state||G.rid!==d.state.rid||G.node!==d.state.node||G.clock!==d.state.clock||!G.fight||remote&&(!Number.isSafeInteger(seq)||seq<=SLASH_VFX.stateSeq))return;
-  const battle=G.fight,valid=()=>G&&G.rid===d.state.rid&&G.fight===battle;
+  const battle=G.fight,valid=()=>G&&!G.over&&G.rid===d.state.rid&&G.node===d.state.node&&G.fight&&(remote?G.fight.musicId===battle.musicId:G.fight===battle);
   const impact=()=>{if(valid()){if(remote){if(seq<=SLASH_VFX.stateSeq)return;SLASH_VFX.stateSeq=seq;setG(d.state)}else{push();draw()}}};
   const img=await Promise.race([loadSlashVfx(),wait(400).then(()=>null)]);
   if(!valid())return;
@@ -9621,13 +9714,13 @@ async function playSlashHit(d,remote=false,seq=0){
   }finally{cancelAnimationFrame(fx.raf);clearTimeout(fx.soundT);if(SLASH_VFX.active===fx){SLASH_VFX.active=null;clearSlashVfx()}}
 }
 async function slashAttack(f){const d={id:f.id,state:snap()};E('slash',d);await playSlashHit(d)}
-loadSlashVfx();
+/* 素材由入口分級準備。 */
 /* v0.44.0 鈍擊12格；同步序號沿用戰鬥演出水位，避免舊事件覆蓋新狀態。 */
 const BLUNT_TIMING={frames:[35,30,25,45,55,55,50,50,50,50,50,45],impact:200,total:540};
 const BLUNT_SHEET={cw:464,ch:462,hx:269.83,hy:114.17};
 const BLUNT_VFX={image:null,ready:null,active:null};
 function bluntFrame(ms){if(!Number.isFinite(ms)||ms<0)return -1;let end=0;for(let f=0;f<12;f++){end+=BLUNT_TIMING.frames[f];if(ms<end)return f}return -1}
-function loadBluntVfx(){if(typeof Image!=='function')return Promise.resolve(null);if(!BLUNT_VFX.ready){const img=BLUNT_VFX.image=new Image();BLUNT_VFX.ready=new Promise(ok=>{img.onload=()=>ok(img);img.onerror=()=>ok(null)});img.src='fx/blunt-12.webp'}return BLUNT_VFX.ready}
+function loadBluntVfx(){return ZC_ASSET_LOADER.image('fx/blunt-12.webp',1).then(im=>{BLUNT_VFX.image=im;return im})}
 function clearBluntVfx(){document.querySelectorAll('#foes .zc-blunt-fx').forEach(e=>e.remove());document.querySelectorAll('#foes .foe').forEach(e=>{e.classList.remove('zc-blunt-react');e.style.removeProperty('--zc-blunt-x');e.style.removeProperty('--zc-blunt-tilt')})}
 function renderBluntVfx(fx){
   if(BLUNT_VFX.active!==fx)return;
@@ -9651,7 +9744,7 @@ function renderBluntVfx(fx){
 }
 async function playBluntHit(d,remote=false,seq=0){
   if(!d||!G||!d.state||G.rid!==d.state.rid||G.node!==d.state.node||G.clock!==d.state.clock||!G.fight||remote&&(!Number.isSafeInteger(seq)||seq<=SLASH_VFX.stateSeq))return;
-  const battle=G.fight,valid=()=>G&&G.rid===d.state.rid&&G.fight===battle;
+  const battle=G.fight,valid=()=>G&&!G.over&&G.rid===d.state.rid&&G.node===d.state.node&&G.fight&&(remote?G.fight.musicId===battle.musicId:G.fight===battle);
   const impact=()=>{if(!valid())return;if(remote){if(seq<=SLASH_VFX.stateSeq)return;SLASH_VFX.stateSeq=seq;setG(d.state)}else{push();draw()}};
   const img=await Promise.race([loadBluntVfx(),wait(400).then(()=>null)]);
   if(!valid())return;
@@ -9661,12 +9754,12 @@ async function playBluntHit(d,remote=false,seq=0){
   finally{cancelAnimationFrame(fx.raf);if(BLUNT_VFX.active===fx){BLUNT_VFX.active=null;clearBluntVfx()}}
 }
 async function bluntAttack(f){const d={id:f.id,state:snap()};E('blunt',d);await playBluntHit(d)}
-loadBluntVfx();
+/* 素材由入口分級準備。 */
 /* v0.45.0 一般近戰穿刺：核准12格圖集，向上攻擊血條，後六格碎散；音效沿用原事件。 */
 const PIERCE_TIMING={frames:Array(12).fill(60),impact:240,total:720};
 const PIERCE_VFX={image:null,ready:null,active:null};
 function pierceFrame(ms){return Number.isFinite(ms)&&ms>=0&&ms<PIERCE_TIMING.total?Math.floor(ms/60):-1}
-function loadPierceVfx(){if(typeof Image!=='function')return Promise.resolve(null);if(!PIERCE_VFX.ready){const img=PIERCE_VFX.image=new Image();PIERCE_VFX.ready=new Promise(ok=>{img.onload=()=>ok(img);img.onerror=()=>ok(null)});img.src='fx/pierce-12.webp'}return PIERCE_VFX.ready}
+function loadPierceVfx(){return ZC_ASSET_LOADER.image('fx/pierce-12.webp',1).then(im=>{PIERCE_VFX.image=im;return im})}
 function clearPierceVfx(){document.querySelectorAll('#foes .zc-pierce-fx').forEach(e=>e.remove())}
 function renderPierceVfx(fx){
   if(PIERCE_VFX.active!==fx)return;
@@ -9689,7 +9782,7 @@ function renderPierceVfx(fx){
 }
 async function playPierceHit(d,remote=false,seq=0){
   if(!d||!G||!d.state||G.rid!==d.state.rid||G.node!==d.state.node||G.clock!==d.state.clock||!G.fight||remote&&(!Number.isSafeInteger(seq)||seq<=SLASH_VFX.stateSeq))return;
-  const battle=G.fight,valid=()=>G&&G.rid===d.state.rid&&G.fight===battle;
+  const battle=G.fight,valid=()=>G&&!G.over&&G.rid===d.state.rid&&G.node===d.state.node&&G.fight&&(remote?G.fight.musicId===battle.musicId:G.fight===battle);
   const impact=()=>{if(!valid())return;if(remote){if(seq<=SLASH_VFX.stateSeq)return;SLASH_VFX.stateSeq=seq;setG(d.state)}else{push();draw()}};
   const img=await Promise.race([loadPierceVfx(),wait(400).then(()=>null)]);if(!valid())return;
   if(!img||!img.naturalWidth||typeof requestAnimationFrame!=='function'||document.hidden||FAST){impact();return}
@@ -9698,20 +9791,20 @@ async function playPierceHit(d,remote=false,seq=0){
   finally{cancelAnimationFrame(fx.raf);if(PIERCE_VFX.active===fx){PIERCE_VFX.active=null;clearPierceVfx()}}
 }
 async function pierceAttack(f){await Promise.race([loadPierceVfx(),wait(400).then(()=>null)]);const d={id:f.id,state:snap()};snd('piercehit',.9,1200);E('pierce',d);await playPierceHit(d)}
-loadPierceVfx();
+/* 素材由入口分級準備。 */
 /* v0.46.0 核准弓弩演出；僅本機畫面，不存入遊戲狀態。 */
 const ARROW_TIMING={frames:[25,25,25,25,30,25,20,20,20,20,25,30],bow:{launch:1010,impact:1140,end:1300,total:1900,miss:1460},crossbow:{launch:100,impact:230,end:390,total:1000,miss:400}};
 const ARROW_VFX={image:null,ready:null,active:null};
 function arrowFrame(ms){if(!Number.isFinite(ms)||ms<0)return -1;let end=0;for(let f=0;f<12;f++){end+=ARROW_TIMING.frames[f];if(ms<end)return f}return -1}
-function loadArrowVfx(){if(typeof Image!=='function')return Promise.resolve(null);if(!ARROW_VFX.ready){const img=ARROW_VFX.image=new Image();ARROW_VFX.ready=new Promise(ok=>{img.onload=()=>ok(img);img.onerror=()=>ok(null)});img.src='fx/arrow-12.webp'}return ARROW_VFX.ready}
-function loadArrowSound(){const a=audio();if(!a)return Promise.resolve(null);if(BUF.crossbowshot)return Promise.resolve(BUF.crossbowshot);if(!ARROW_VFX.soundReady)ARROW_VFX.soundReady=fetch('sfx/crossbowshot.wav').then(r=>{if(!r.ok)throw Error('crossbowshot '+r.status);return r.arrayBuffer()}).then(bytes=>new Promise((ok,no)=>a.decodeAudioData(bytes,ok,no))).then(buffer=>{BUF.crossbowshot=buffer;AUDIO_LOAD_STATUS.failed.delete('crossbowshot');return buffer}).catch(e=>{ARROW_VFX.soundReady=null;AUDIO_LOAD_STATUS.failed.add('crossbowshot');console.warn('[ZeroCase audio] crossbowshot',e);return null});return ARROW_VFX.soundReady}
+function loadArrowVfx(){return ZC_ASSET_LOADER.image('fx/arrow-12.webp',1).then(im=>{ARROW_VFX.image=im;return im})}
+function loadArrowSound(){const pending=loading;return Promise.all([ZC_ASSET_LOADER.sound('crossbowshot',1),pending]).then(x=>x[0])}
 function clearArrowVfx(){document.querySelectorAll('.zc-arrow-fx').forEach(e=>e.remove());document.querySelectorAll('.zc-arrow-react').forEach(e=>e.classList.remove('zc-arrow-react'))}
 function cancelArrowAudio(fx){for(const source of fx.sources||[]){try{source.stop()}catch(e){}}}
 function playArrowAudio(mode,hit,follow=false,v=1){
   if(!UI.snd||document.hidden||!Number(v))return 0;
   const bow=mode==='bow',scale=Number(v),battle=G&&G.fight,rid=G&&G.rid,allow=()=>G&&G.rid===rid&&G.fight===battle;
-  if(!follow){if(bow)sfx('bowdraw',scale);const dry=play('crossbowshot',sfxLevel('crossbowshot',1.5*scale),1000,bow?1.01:0);if(dry==null){if(bow)setTimeout(()=>{if(allow())sfx('crossbowshot',1.5*scale,1000)},1010);else sfx('crossbowshot',1.5*scale,1000)}}
-  if(hit){const delay=bow&&!follow?.91:0;if(play('bowimpact',sfxLevel('bowimpact',.55*scale),2000,delay)==null){if(delay)setTimeout(()=>{if(allow())sfx('bowimpact',.55*scale,2000)},910);else sfx('bowimpact',.55*scale,2000)}}
+  if(!follow){if(bow)sfx('bowdraw',scale);const dry=play('crossbowshot',sfxLevel('crossbowshot',1.5*scale),1000,bow?1.01:0);if(dry==null){if(bow)ZC_ASSET_LOADER.later(()=>{if(allow())sfx('crossbowshot',1.5*scale,1000)},1010);else sfx('crossbowshot',1.5*scale,1000)}}
+  if(hit){const delay=bow&&!follow?.91:0;if(play('bowimpact',sfxLevel('bowimpact',.55*scale),2000,delay)==null){if(delay)ZC_ASSET_LOADER.later(()=>{if(allow())sfx('bowimpact',.55*scale,2000)},910);else sfx('bowimpact',.55*scale,2000)}}
   return follow?1000:hit?ARROW_TIMING[bow?'bow':'crossbow'].total:ARROW_TIMING[bow?'bow':'crossbow'].miss;
 }
 function renderArrowVfx(fx){
@@ -9725,9 +9818,9 @@ function renderArrowVfx(fx){
 }
 async function playArrowShot(d,remote=false,seq=0){
   if(!d||!G||!d.state||G.rid!==d.state.rid||G.node!==d.state.node||G.clock!==d.state.clock||!G.fight||remote&&(!Number.isSafeInteger(seq)||seq<=SLASH_VFX.stateSeq))return;
-  const battle=G.fight,valid=()=>G&&G.rid===d.state.rid&&G.fight===battle,mode=d.mode==='crossbow'?'crossbow':'bow',timing=ARROW_TIMING[d.follow?'crossbow':mode];
+  const battle=G.fight,valid=()=>G&&!G.over&&G.rid===d.state.rid&&G.node===d.state.node&&G.fight&&(remote?G.fight.musicId===battle.musicId:G.fight===battle),mode=d.mode==='crossbow'?'crossbow':'bow',timing=ARROW_TIMING[d.follow?'crossbow':mode];
   const impact=()=>{if(valid()){if(remote){if(seq<=SLASH_VFX.stateSeq)return;SLASH_VFX.stateSeq=seq;setG(d.state)}else{push();draw()}}};
-  const img=await Promise.race([Promise.all([loadArrowVfx(),loadArrowSound()]).then(x=>x[0]),wait(400).then(()=>null)]);if(!valid())return;
+  const img=await Promise.race([Promise.all([loadArrowVfx(),ZC_ASSET_LOADER.sound('crossbowshot',1)]).then(x=>x[0]),wait(400).then(()=>null)]);if(!valid())return;
   if(FAST){impact();return}
   if(!img||!img.naturalWidth||typeof requestAnimationFrame!=='function'||document.hidden){const ms=playArrowAudio(mode,!!d.hit,!!d.follow);impact();if(!FAST&&!document.hidden)await wait(ms||0);return}
   const fx={id:d.id,mode,hit:!!d.hit,follow:!!d.follow,rid:G.rid,battle,t:performance.now(),raf:0,frame:-1};ARROW_VFX.active=fx;
@@ -9735,7 +9828,7 @@ async function playArrowShot(d,remote=false,seq=0){
   finally{cancelAnimationFrame(fx.raf);if(ARROW_VFX.active===fx){if(!valid())cancelArrowAudio(fx);ARROW_VFX.active=null;clearArrowVfx()}}
 }
 async function arrowAttack(f,mode,hit=true,follow=false){const d={arrow:1,id:f.id,mode,hit,follow,state:snap()};E('s',[hit?'bowhit':'bowmiss',1,0,d]);await playArrowShot(d)}
-loadArrowVfx();
+/* 素材由入口分級準備。 */
 /* 槍擊演出（v0.48.0，主人核准預覽 v5）：全部槍械共用同一套程式繪製圖集（上半命中層、下半曳光層）。
    每一發都從卡片正下方同一個槍口原點射出，曳光旋轉指向該發的落點；落點在血條附近散布，連射的後續發散得更開。
    霰彈槍改用彈丸扇形圖集。gap＝連射間隔（依實槍射速），impact＝依各槍音檔起爆時間對齊。
@@ -9762,11 +9855,8 @@ function gunSpreadPick(shot=0,head=false){
   if(shot>0&&GUN_VFX.lastOx!=null&&Math.abs(ox-GUN_VFX.lastOx)<.45)ox=GUN_VFX.lastOx>=0?-Math.max(.35,Math.random()):Math.max(.35,Math.random());
   GUN_VFX.lastOx=ox;return {ox,oy:Math.random()*2-1};
 }
-function loadGunVfx(id='beretta'){
-  const cfg=GUN_VFX_CFG[id];if(!cfg||typeof Image!=='function')return Promise.resolve(null);const k=cfg.sheet;
-  if(!GUN_VFX.ready[k]){const img=GUN_VFX.images[k]=new Image();GUN_VFX.ready[k]=new Promise(ok=>{img.onload=()=>ok(img);img.onerror=()=>ok(null)});img.src=k}
-  return GUN_VFX.ready[k];
-}
+function loadGunVfx(id='beretta'){const cfg=GUN_VFX_CFG[id];if(!cfg)return Promise.resolve(null);return ZC_ASSET_LOADER.image(cfg.sheet,1).then(im=>{GUN_VFX.images[cfg.sheet]=im;return im})}
+
 function gunFxEnd(fx){if(!GUN_VFX.list.has(fx))return;GUN_VFX.list.delete(fx);cancelAnimationFrame(fx.raf);if(fx.cv)fx.cv.remove();
   if(![...GUN_VFX.list].some(o=>o.id===fx.id)){const c=document.querySelector('#foes .foe[data-id="'+fx.id+'"]');if(c){c.classList.remove('zc-gun-react');c.style.removeProperty('--zc-gun-x');c.style.removeProperty('--zc-gun-y')}}
   if(GUN_VFX.active===fx)GUN_VFX.active=[...GUN_VFX.list].pop()||null}
@@ -9808,12 +9898,12 @@ function renderGunVfx(fx){
 async function playGunShot(d,remote=false,seq=0){
   if(!d||!G||!d.state||G.rid!==d.state.rid||G.node!==d.state.node||G.clock!==d.state.clock||!G.fight||remote&&(!Number.isSafeInteger(seq)||seq<=SLASH_VFX.stateSeq))return;
   const wid=d.wid||'beretta',cfg=GUN_VFX_CFG[wid];if(!cfg)return;
-  const battle=G.fight,valid=()=>G&&G.rid===d.state.rid&&G.fight&&(remote||G.fight===battle);
+  const battle=G.fight,valid=()=>G&&!G.over&&G.rid===d.state.rid&&G.node===d.state.node&&G.fight&&(remote?G.fight.musicId===battle.musicId:G.fight===battle);
   const impact=()=>{if(!valid())return;if(remote){if(seq<=SLASH_VFX.stateSeq)return;SLASH_VFX.stateSeq=seq;setG(d.state)}else{push();draw()}};
   const img=await Promise.race([loadGunVfx(wid),wait(400).then(()=>null)]);
   if(!valid())return;
   const shot=d.shot||0,last=!(d.shots>1)||shot>=d.shots-1,gap=Math.max(30,cfg.gap||200);
-  const sounds=headAt=>{sfx(cfg.snd,1,1600);if(d.head&&!d.miss)setTimeout(()=>{if(valid())sfx('headshot',.6,900)},headAt);if(cfg.after)setTimeout(()=>{if(valid())sfx(cfg.after[0],cfg.after[2]||.5)},cfg.after[1])};
+  const sounds=headAt=>{sfx(cfg.snd,1,1600);if(d.head&&!d.miss)ZC_ASSET_LOADER.later(()=>{if(valid())sfx('headshot',.6,900)},headAt);if(cfg.after)ZC_ASSET_LOADER.later(()=>{if(valid())sfx(cfg.after[0],cfg.after[2]||.5)},cfg.after[1])};
   if(!img||!img.naturalWidth||typeof requestAnimationFrame!=='function'||document.hidden||FAST){
     if(!document.hidden&&!FAST)sounds(0);
     impact();if(!last&&!document.hidden&&!FAST)await wait(gap);return;
@@ -9836,7 +9926,7 @@ async function gunAttack(f,w,opts){
   await Promise.race([loadGunVfx(wid),wait(400).then(()=>null)]);
   const d={id:f.id,wid,head,miss,shot,shots,ox:sp.ox,oy:sp.oy,state:snap()};E('gun',d);await playGunShot(d);
 }
-loadGunVfx('beretta');loadGunVfx('r870');
+/* 素材由入口分級準備。 */
 
 const HPA={},HPM=260,HPG0=320,HPG1=1000;
 const foeHk=f=>'f'+f.id+'|'+f.n+'|'+f.max;
@@ -9933,10 +10023,11 @@ function battlePlayerCards(){
     if(p.stance)status.push(({block:'格擋',cover:'掩蔽'})[p.stance]||'');
     if(p.covering)status.push('掩護隊友');
     const current=G.fight.group&&!G.fight.resolving&&G.fight.group.includes(p.pid)&&!p.dead&&!p.down&&!p.away&&teamHere(p);
-    return `<div class="foe battle-player ${current?'battle-current':''} ${p.dead||p.down||p.away||!teamHere(p)?'battle-inactive':''}"><div class="fpic">${pr&&pr.img?`<img src="img/${esc(pr.img)}.webp" alt="">`:av(p,1)}</div><div class="fin"><div class="fh"><b>${esc(p.name)}</b></div><div class="fhp"><small>生命</small><div class="hpb" data-hk="p${esc(p.pid)}"><s style="width:${hp/p.max*100}%"></s><u style="width:${hp/p.max*100}%"></u></div><span>${hp}/${p.max}</span></div>${maxShield>0?`<div class="fhp"><small>護盾</small><div class="hpb battle-shield"><u style="width:${shield/maxShield*100}%"></u></div><span>${shield}/${maxShield}</span>${shield<=0?'<small>已破</small>':!shdOn(p)?'<small>離手</small>':''}</div>`:''}<div class="fk"><span>基礎防禦 ${baseDef(p)}</span>${armorOf(p)?`<span>減傷 ${armorOf(p)}</span>`:''}${strBlock(p)?`<span>近戰格擋 ${strBlock(p)}</span>`:''}</div>${status.some(Boolean)?`<div class="fst">${status.filter(Boolean).map(t=>`<span class="bd">${t}</span>`).join('')}</div>`:''}</div></div>`;
+    return `<div class="foe battle-player ${current?'battle-current':''} ${p.dead||p.down||p.away||!teamHere(p)?'battle-inactive':''}"><div class="fpic">${pr&&pr.img?`<img data-zc-src="img/${esc(pr.img)}.webp" alt="">`:av(p,1)}</div><div class="fin"><div class="fh"><b>${esc(p.name)}</b></div><div class="fhp"><small>生命</small><div class="hpb" data-hk="p${esc(p.pid)}"><s style="width:${hp/p.max*100}%"></s><u style="width:${hp/p.max*100}%"></u></div><span>${hp}/${p.max}</span></div>${maxShield>0?`<div class="fhp"><small>護盾</small><div class="hpb battle-shield"><u style="width:${shield/maxShield*100}%"></u></div><span>${shield}/${maxShield}</span>${shield<=0?'<small>已破</small>':!shdOn(p)?'<small>離手</small>':''}</div>`:''}<div class="fk"><span>基礎防禦 ${baseDef(p)}</span>${armorOf(p)?`<span>減傷 ${armorOf(p)}</span>`:''}${strBlock(p)?`<span>近戰格擋 ${strBlock(p)}</span>`:''}</div>${status.some(Boolean)?`<div class="fst">${status.filter(Boolean).map(t=>`<span class="bd">${t}</span>`).join('')}</div>`:''}</div></div>`;
   }).join('');
 }
 function draw(){
+  ZC_ASSET_LOADER.scene();
   codexDraw();syncAmbience();syncBgmState();stgDraw();
   if(!G||!$('#app'))return;
   const m=me(),Lv=LV[G.lv]||LV.A;
@@ -9950,7 +10041,7 @@ function draw(){
     for(const f of F.foes)hpSet(foeHk(f),(f.dead?0:Math.max(0,f.hp))/f.max);
     fltScan(F);
     $('#foes').innerHTML=F.foes.map(f=>{const dead=f.dead||f.hp<=0;const st=dead?[]:foeBadges(f);const hp=dead?0:f.hp;
-      return `<div class="foe ${pend&&!dead?'pick':''} ${!dead&&F.cur==='f'+f.id?'tg':''} ${dead?'dead':''}" data-id="${f.id}" ${pend&&!dead?`data-tgt="${f.id}"`:''}><div class="fpic">${f.img&&!lurkHid(f)?`<img src="${foeImg(f)}" alt="">`:'<i>?</i>'}</div><div class="fin"><div class="fh"><b>${f.n}</b></div><div class="fhp"><div class="hpb" data-hk="${foeHk(f)}"><s style="width:${Math.max(0,hp)/f.max*100}%"></s><u style="width:${Math.max(0,hp)/f.max*100}%"></u></div><span>${lurkHid(f)?'？':`${hp}/${f.max}`}</span></div><div class="fk">${DF().num===0||lurkHid(f)?'':`<em>防禦 ${fDef(f)}${f.hcov?`（遠程 ${fDef(f,1)}）`:''}</em>`}${f.defDown?'護甲破損':''}</div><div class="fk fk2">${(lurkHid(f)?'弱點：？':knowTxt(f)).split('　').map(x=>`<span>${x}</span>`).join('')}</div>${dead?(f.fled?'<div class="fst"><span class="bd">離開</span></div>':''):st.length?`<div class="fst">${st.join('')}</div>`:''}</div></div>`}).join('');
+      return `<div class="foe ${pend&&!dead?'pick':''} ${!dead&&F.cur==='f'+f.id?'tg':''} ${dead?'dead':''}" data-id="${f.id}" ${pend&&!dead?`data-tgt="${f.id}"`:''}><div class="fpic">${f.img&&!lurkHid(f)?`<img data-zc-src="${foeImg(f)}" alt="">`:'<i>?</i>'}</div><div class="fin"><div class="fh"><b>${f.n}</b></div><div class="fhp"><div class="hpb" data-hk="${foeHk(f)}"><s style="width:${Math.max(0,hp)/f.max*100}%"></s><u style="width:${Math.max(0,hp)/f.max*100}%"></u></div><span>${lurkHid(f)?'？':`${hp}/${f.max}`}</span></div><div class="fk">${DF().num===0||lurkHid(f)?'':`<em>防禦 ${fDef(f)}${f.hcov?`（遠程 ${fDef(f,1)}）`:''}</em>`}${f.defDown?'護甲破損':''}</div><div class="fk fk2">${(lurkHid(f)?'弱點：？':knowTxt(f)).split('　').map(x=>`<span>${x}</span>`).join('')}</div>${dead?(f.fled?'<div class="fst"><span class="bd">離開</span></div>':''):st.length?`<div class="fst">${st.join('')}</div>`:''}</div></div>`}).join('');
     $('#order').innerHTML=`<span class="rd">${battleState()}</span>`+(F.order.length?`<span class="rd">${F.sneak?'搶先行動':`第 ${F.round} 回合`}</span>`+F.order.map((o,i)=>{if(o.k==='p'){const p=P(o.id);return `<span class="pl ${o.id===MYPID?'me':''} ${(F.group&&!F.resolving?F.group.includes(o.id):i===F.turn)?'now':''} ${p.dead||p.down||p.away||!teamHere(p)?'gone':''}" style="${MP()?`color:${p.col}`:''}">${esc(p.name)}<em>${o.init}</em></span>`}const f=F.foes[o.id];return `<span class="fo ${i===F.turn?'now':''} ${f.dead||f.hp<=0?'gone':''}">${f.n}<em>${o.init}</em></span>`}).join(''):'<span class="rd">擲骰中</span>');
     hpRun($('#foes'));fltRun($('#foes'));
   }else{cb.hidden=true;for(const k in HPA)if(k[0]==='f')delete HPA[k];fltReset()}
@@ -10205,7 +10296,7 @@ function panel(k){
   }else if(k==='settings'){
     const seg=(key,opts)=>`<div class="seg">${opts.map(([v,l])=>`<button class="btn ${UI[key]===v?'on':''}" data-ui="${key}" data-v="${v}">${l}</button>`).join('')}</div>`;
     const hostOpt=ROLE==='host'&&G&&!G.over?`<p class="note">倒數（房主）</p><div class="seg">${[['off','關閉'],['host','房主按下才倒數'],['force','強制倒數']].map(([v,l])=>`<button class="btn ${G.opts.cd===v?'on':''}" data-gcd="${v}">${l}</button>`).join('')}</div><div class="seg">${[15,20,30].map(v=>`<button class="btn ${G.opts.sec===v?'on':''}" data-gsec="${v}">${v} 秒</button>`).join('')}</div>`:'';
-    openOv(`<div class="boxhead"><b>設定</b>${X}</div>${hostOpt}<p class="note">音效</p>${seg('snd',[[1,'開'],[0,'關']])}<p class="note">背景音樂</p>${seg('bgm',[[1,'開'],[0,'關']])}<p class="note">戰鬥友軍角色卡（包含自己）</p>${seg('partyCards',[[1,'開'],[0,'關']])}<p class="note">僅影響這台裝置的畫面，不影響隊友。</p><p class="note">擲骰與文字速度</p>${seg('spd',[[1,'完整'],[.55,'快速'],[.3,'極快']])}${qteTouch()?'':`<p class="note">突發反應（QTE）用的按鍵</p>${seg('qkey',[['wasd','WASD'],['arrow','方向鍵']])}`}<div class="seg"><button class="btn" data-full>全螢幕</button><button class="btn" data-open="credits">製作與授權</button>${!G&&acctOn()?'<button class="btn" data-acctopen>帳號</button>':''}${G?`<button class="btn" data-quit>${ROLE==='solo'?'回到選單（沒存檔的進度會消失）':'離開房間'}</button>`:''}</div><p class="note">兌換碼（輸入朋友給的代碼，直接解鎖他的訪客角色）</p><div class="seg rcrow"><input class="inp" id="rcode" maxlength="24" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="例如 XXX-XXXX-XXXX"><button class="btn" data-redeem>兌換</button></div>`);
+    openOv(`<div class="boxhead"><b>設定</b>${X}</div>${hostOpt}<p class="note">音效</p>${seg('snd',[[1,'開'],[0,'關']])}<p class="note">背景音樂</p>${seg('bgm',[[1,'開'],[0,'關']])}<p class="note">戰鬥友軍角色卡（包含自己）</p>${seg('partyCards',[[1,'開'],[0,'關']])}<p class="note">僅影響這台裝置的畫面，不影響隊友。</p><p class="note">擲骰與文字速度</p>${seg('spd',[[1,'完整'],[.55,'快速'],[.3,'極快']])}${qteTouch()?'':`<p class="note">突發反應（QTE）用的按鍵</p>${seg('qkey',[['wasd','WASD'],['arrow','方向鍵']])}`}<div class="seg"><button class="btn" data-full>全螢幕</button><button class="btn" data-open="credits">製作與授權</button>${SCR==='menu'?'<button class="btn" data-zc-asset-reset>重新下載遊戲素材</button>':''}${!G&&acctOn()?'<button class="btn" data-acctopen>帳號</button>':''}${G?`<button class="btn" data-quit>${ROLE==='solo'?'回到選單（沒存檔的進度會消失）':'離開房間'}</button>`:''}</div><p class="note">兌換碼（輸入朋友給的代碼，直接解鎖他的訪客角色）</p><div class="seg rcrow"><input class="inp" id="rcode" maxlength="24" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="例如 XXX-XXXX-XXXX"><button class="btn" data-redeem>兌換</button></div>`);
   }else if(k==='credits'){
     openOv(`<div class="boxhead"><b>製作與授權</b><span class="hbtns"><button class="btn" data-open="settings">← 回設定</button>${X}</span></div><p class="note">${CREDITS}</p>`);
   }
@@ -10327,7 +10418,7 @@ function roomNote(){return NET.room?'':NET.fbErr?'<p class="note">連不上連�
 // 主頁：先選角色種類（倖存者／劇情角色／訪客），選好角色才選單人或連線
 const CATS=[['custom','倖存者','自己決定名字、屬性、天賦、技能和帶什麼東西。'],['story','劇情角色','固定的職業與人物。在某些地方，會有只屬於他們的劇情和選項。'],['guest','訪客','故事外的獨立角色，有專屬的天賦與技能。']];
 function showMenu(){
-  SCR='menu';const saved=LS.get('zc7-save',null);
+  SCR='menu';ZC_ASSET_LOADER.memory();const saved=LS.get('zc7-save',null);
   scr(`<div class="home"><div class="hhead"><div class="ttl"><span class="k">ZeroCase · 2038</span><h1>零號病例</h1></div><div class="hinfo"><span class="shard">碎片 ${META.shards}</span><span class="note">遊玩 ${META.runs} 次　通關 ${META.clears} 次</span><span class="note ver">v${ZC_VER.v}・Build ${ZC_VER.b}</span></div></div>
   <div class="hcats">${CATS.map(([k,n,d])=>`<button class="hcat" data-cat="${k}"><span class="hico" data-icon="${k}"></span><b>${n}</b><small>${d}</small></button>`).join('')}</div>
   <div class="hfoot"><span class="avrow">${avH(MYPID,'玩家','#c8ad70','')}<span class="avbt"><button class="btn" data-m="avpick">頭像</button>${avOk(AVS[MYPID])?'<button class="btn" data-m="avdel">移除</button>':''}</span><input type="file" id="avfile" accept="image/*" hidden></span><div class="hmain">
@@ -10351,7 +10442,7 @@ function charDetail(k){const J=JOBS[k],pr=PRESETS[k]||GUESTS[k];const st=J?Objec
   // v0.33.0 訪客：專武技能、代價、立繪
   const wsk=!J&&pr.img?(pr.gear||[]).flatMap(([id])=>WEAP[id].sk.map(x=>`<br><b>${SKILL[x].n}</b>：${SKILL[x].d}`)).join('')+(pr.xd?`<br>${pr.xd}`:''):'';
   const tx=`<b>${J?J.n:pr.n+'・'+pr.role}</b><small>${J?J.d+'名字用你自己的。':pr.d}</small>${rows}<small>${ab}${wsk}<br>初始物品：${[...gear,...items].join('、')||'無'}${(J||pr).usd?`；現金 $${(J||pr).usd}`:''}。另外可以帶 ${FIXED_LOAD+packs()} 點物品。</small>`;
-  return !J&&pr.img?`<div class="det gdet"><img class="gimg" src="img/${pr.img}.webp" alt=""><div class="gtx">${tx}</div></div>`:`<div class="det">${tx}</div>`}
+  return !J&&pr.img?`<div class="det gdet"><img class="gimg" data-zc-src="img/${pr.img}.webp" alt=""><div class="gtx">${tx}</div></div>`:`<div class="det">${tx}</div>`}
 function showRoster(cat){SCR='roster';RCAT=cat;const L=rosterOf(cat);let sel=L.find(x=>x.k===CB.kind)?CB.kind:(L[0]||{}).k;
   const body=L.length?`<div class="cards">${L.map(x=>{const own=unlocked(lockId(x.k));return `<button class="card ${sel===x.k?'on':''}" data-rsel="${x.k}"><b>${x.n}</b><em>${x.role}${own?'':`　${x.cost} 碎片`}</em><small>${x.d}</small></button>`}).join('')}</div>`+(sel?charDetail(sel):''):`<p class="note">還沒有訪客角色。朋友用角色設定表填好角色之後，會加到這裡，每個 ${GUEST_COST} 碎片解鎖。</p>`;
   const own=sel&&unlocked(lockId(sel));const cost=sel?(rosterOf(cat).find(x=>x.k===sel)||{}).cost:0;
@@ -10552,12 +10643,26 @@ async function enterFull(quiet){
   layout();
 }
 let BOOTED=false;
-function boot(full){BOOTED=true;$('#gate').hidden=true;audio();startBgm();if(full)enterFull();else layout();loadSounds();showMenu()}
-document.addEventListener('visibilitychange',()=>{if(document.hidden){stopAmbience();stopSfx();stopBgm()}else{if(UI.snd){audio();syncAmbience()}if(UI.bgm)startBgm()}});
-document.addEventListener('pointerdown',()=>{if(BOOTED&&UI.bgm&&!document.hidden&&!(G&&G.over))startBgm()},{passive:true});
+function boot(full){if(BOOTED)return;BOOTED=true;$('#gate').hidden=true;audio();startBgm();if(full)enterFull();else layout();zcAssetEntry()}
+document.addEventListener('visibilitychange',()=>{ZC_ASSET_LOADER.setPaused(document.hidden);if(document.hidden){stopAmbience();stopSfx();stopBgm()}else{if(UI.snd){audio();zcAssetCheckAudio();ZC_ASSET_LOADER.retry();syncAmbience()}if(UI.bgm)startBgm()}});
+document.addEventListener('pointerdown',()=>{if(BOOTED&&!document.hidden&&!(G&&G.over)){if(UI.snd){audio();zcAssetCheckAudio()}if(UI.bgm)startBgm()}},{passive:true});
 window.addEventListener('pagehide',()=>{stopAmbience();stopSfx();stopBgm()});
 $('#gateGo').addEventListener('click',()=>boot(true));
 $('#gateNo').addEventListener('click',()=>boot(false));
+function zcAssetScope(){return G&&G.rid+':'+G.node+':'+(G.fight?.musicId||'')}
+function zcAssetAudioPrompt(){const el=$('#zc-asset-audio');if(el)el.hidden=false}
+function zcAssetCheckAudio(){if(!UI.snd||!AC)return;Promise.resolve(AC.state==='running'?null:AC.resume()).then(()=>{$('#zc-asset-audio').hidden=AC.state==='running'}).catch(zcAssetAudioPrompt)}
+async function zcAssetPrepareFight(foes){const tasks=foes.filter(f=>!lurkHid(f)&&f.img).map(f=>ZC_ASSET_LOADER.image('img/'+f.img+'.webp',1));tasks.push(loadSlashVfx(),loadBluntVfx());
+  for(const p of G.players)for(const h of ['R','L']){const {g,w}=handW(p,h);if(!g)continue;if(w.kind==='gun')tasks.push(loadGunVfx(g.id));else if(w.ammo==='arrow'||w.ammo==='bolt'){tasks.push(loadArrowVfx());if(UI.snd)tasks.push(ZC_ASSET_LOADER.sound('crossbowshot',1))}else if(w.dt?.includes('pierce'))tasks.push(loadPierceVfx())}
+  if(UI.snd)tasks.push(ZC_ASSET_LOADER.sound(encounterStep(foes),1));await Promise.race([Promise.all(tasks),wait(1200)])}
+async function zcAssetEntry(force=false){const panel=$('#zc-asset-panel'),retry=$('#zc-asset-retry'),cont=$('#zc-asset-continue');panel.hidden=false;retry.hidden=cont.hidden=true;zcAssetCheckAudio();
+  const result=await ZC_ASSET_LOADER.foreground(p=>{$('#zc-asset-progress').max=p.total;$('#zc-asset-progress').value=p.done;$('#zc-asset-status').textContent=p.preparing?'正在準備音效與圖像':'正在初始化資源'},force);
+  const finish=()=>{panel.hidden=true;showMenu();ZC_ASSET_LOADER.background()};
+  if(result.ok){finish();return}$('#zc-asset-status').textContent='部分資源尚未準備完成，請確認網路後再試。';retry.hidden=false;retry.onclick=()=>{audio();startBgm();zcAssetEntry(true)};cont.hidden=!result.safe;cont.onclick=finish;
+}
+$('#zc-asset-audio').addEventListener('click',()=>{audio();zcAssetCheckAudio();startBgm()});
+document.addEventListener('click',e=>{if(e.target.closest?.('[data-zc-asset-reset]')&&SCR==='menu'){ZC_ASSET_LOADER.reset().then(()=>toast('素材快取已清除，正在重新準備。'))}});
+ZC_ASSET_LOADER.warm();ZC_ASSET_LOADER.register();ZC_ASSET_LOADER.observe();
 layout();
 </script>
 </body></html>

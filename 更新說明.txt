@@ -1,3 +1,11 @@
+零號病例 v0.69.0・Build144（GPT／Codex；候選，尚未部署）
+上一版：v0.68.0・Build143；基準 main 0f7e5d1（PR #74）。
+- B 方案：素材登錄、優先排程、下載／解碼分階段、入口真實進度、有限重試與冷卻、內容雜湊快取、Service Worker、圖片失敗恢復、延遲音效取消、配樂狀態追蹤。
+- 保留原音檔、混音、劇情、數值、QTE 與共用演出時間軸。沒有新增備援音效；沿用原 FALL／SYN，沒有同語意備援時記錄安靜降級。
+- tests/、tools/split_index.py 及既有工作流程未修改。素材索引由 tools/build_assets.cjs 產生，與舊發布 MANIFEST 無關。
+- 本機 FAST：476 項＝473 通過、0 失敗、3 既有暫緩；瀏覽器與 B 方案專項尚未測試（缺 Chromium，推送候選分支被自動核准審查拒絕）；需主人確認僅推分支並開草稿 PR。紀錄見 qa/asset-loading/HANDOFF.md。
+- Android：待主人實機驗收。未合併、未部署；正式站候選驗收未測試。
+
 零號病例 v0.68.0・Build143（GPT／Codex）
 Build時間：2026-11-26T04:24:27+08:00（Asia/Taipei）
 上一版：v0.67.2・Build142，main c80fd3a（PR #73）。

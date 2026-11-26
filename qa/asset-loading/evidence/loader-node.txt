@@ -1,0 +1,11 @@
+✔ 素材管理器：同檔去重、一次失敗重試、三次上限及明確重試 (133.407426ms)
+✔ 解碼失敗重試、備用格式、音效長度契約及過期取消 (82.110619ms)
+✔ 素材索引完整性、P1 圖像預算與 SW scope／Range／錯誤回應 (84.744813ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 422.290141

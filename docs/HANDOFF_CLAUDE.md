@@ -1,3 +1,15 @@
+# GPT／Codex 候選交接：B 方案（v0.69.0／Build144，尚未完整驗收）
+
+2026-11-26（Asia/Taipei）。基準 main 0f7e5d1／v0.68.0／Build143，分支 feat/asset-loading-b。
+
+- 本機候選已實作，完整說明見 qa/asset-loading/HANDOFF.md；獨立驗收在 qa/asset-loading/，素材索引生成工具為 tools/build_assets.cjs。
+- 原 tests/、guard、split_index、既有 workflow 不動。原 Node 476 項＝473 通過、0 失敗、3 既有暫緩；新增聚焦三組通過。完整瀏覽器、真實 SW、限速、Firebase 與截圖未測試，不可宣稱全部通過或沒有新增問題。
+- 缺可執行 Chromium，下載回應 403；推送候選分支被自動核准審查拒絕。需主人明確確認只推候選分支並開草稿 PR 供雲端驗收。尚未推送、未建立 PR、未合併、未部署。
+- 主人本輪明確要求先不要部署。取得雲端結果後仍須修正新增失敗並親眼確認截圖，再交主人審核。
+- 未變更任何遊戲設計規則或原素材；未新增備援音效，原缺口保留。Android 待主人實機驗收。
+
+---
+
 # 零號病例（文字冒險版）開發交接（給 Claude）
 
 給新對話的露涅希亞：先讀 `docs/RULES_CLAUDE.md`（規則、流程），再讀這份（現況、還原、待辦），還原原始碼後才開始改東西。
