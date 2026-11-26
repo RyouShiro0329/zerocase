@@ -1,0 +1,55 @@
+name: V06 隔離查核（不發布）
+on:
+  push:
+    branches: [qa/investigate-v06-cd20588]
+permissions:
+  contents: read
+jobs:
+  diagnose:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: current-solo
+            source: cd20588be7858f35a145647f1163c6318214f23f
+            paired: '0'
+            observed: '0'
+          - id: current-paired
+            source: cd20588be7858f35a145647f1163c6318214f23f
+            paired: '1'
+            observed: '0'
+          - id: historical-paired
+            source: 6ba5f1f7ce74a19f18e1bcf1d27cb6b3a6d6d286
+            paired: '1'
+            observed: '0'
+          - id: current-observed
+            source: cd20588be7858f35a145647f1163c6318214f23f
+            paired: '1'
+            observed: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix tests --ignore-scripts
+      - run: tests/node_modules/.bin/playwright install --with-deps chromium
+      - name: 準備唯讀基準 checkout
+        run: git worktree add --detach "$RUNNER_TEMP/source" '${{ matrix.source }}'
+      - name: 原始 V06 二十輪，保留每個尺寸的細節
+        env:
+          SOURCE_ROOT: ${{ runner.temp }}/source
+          NODE_PATH: ${{ github.workspace }}/tests/node_modules
+          DIAG_ROUNDS: '20'
+          DIAG_PAIRED: ${{ matrix.paired }}
+          DIAG_OBSERVED: ${{ matrix.observed }}
+        run: node qa/v06-investigation/diagnose.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v06-${{ matrix.id }}
+          path: test-results/v06-investigation/
+          retention-days: 14
