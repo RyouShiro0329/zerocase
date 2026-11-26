@@ -36,7 +36,7 @@ echo "== 2. Node 邏輯測試"
 T=$(now); node --test --test-reporter=tap tests/*.test.cjs > "$OUT/node-tap.txt" 2>&1; R=$?
 $REP node "$OUT/node-tap.txt" $R "$(sec $T)"
 
-NP=${NODE_PATH:-$(npm root -g 2>/dev/null)}
+NP=${NODE_PATH:-$(pwd)/tests/node_modules:$(npm root -g 2>/dev/null)}
 if [ "$MODE" = fast ]; then
   $REP stage smoke "瀏覽器冒煙" SKIP 0 "FAST 模式不跑"
   $REP stage long "長路線" SKIP 0 "FAST 模式不跑"
@@ -90,4 +90,17 @@ else
   fi
   [ -n "$SV" ] && kill $SV 2>/dev/null
 fi
+# PR-E：固定版面／截圖、多人體驗模擬。不依賴外部伺服器。
+for SPEC in 'ui|固定版面與基準截圖|tests/ui-regression.cjs|ui-regression.json' 'multiplayer|多人演出與房主交接模擬|tests/multiplayer/mpstage.cjs|multiplayer.json'; do
+  IFS='|' read -r ID TITLE SCRIPT DETAIL <<< "$SPEC"
+  if [ "$MODE" = fast ]; then
+    $REP stage "$ID" "$TITLE" SKIP 0 "FAST 模式不跑"
+  elif ! node -e "require('./tests/node_modules/playwright')" 2>/dev/null; then
+    $REP stage "$ID" "$TITLE" NOT_RUN 0 "請先 npm ci --prefix tests --ignore-scripts"
+  else
+    T=$(now); rm -f "$OUT/$DETAIL"; node "$SCRIPT"; R=$?
+    case $R in 0) S=PASS; N="見細節";; 1) S=FAIL; N="見細節";; *) S=ERROR; N="exit $R";; esac
+    $REP stage "$ID" "$TITLE" "$S" "$(sec $T)" "$N" "$OUT/$DETAIL"
+  fi
+done
 $REP finish
