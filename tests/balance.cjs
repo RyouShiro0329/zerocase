@@ -9,5 +9,8 @@ async function run({count=5,start=1,maxActions=500,out=process.env.QA_OUT||'test
  const report={schema:1,tool:'QA-10',game,options:{count,start,maxActions,reactionSuccess:.7,password:'取消',godmode:false},seconds:+((performance.now()-t)/1000).toFixed(3),...aggregate(runs),status:runs.every(r=>r.status==='PASS')?'PASS':'FAIL',runs};
  fs.writeFileSync(path.join(out,'balance.json'),JSON.stringify(report,null,2));return report;
 }
-if(require.main===module){const a=process.argv.slice(2),arg=(n,d)=>a.includes(n)?Number(a[a.indexOf(n)+1]):d;if(a.includes('--hazards'))require('./deep-hazards.cjs');else run({count:arg('--count',5),start:arg('--start',1),maxActions:arg('--actions',500)}).then(r=>{console.log(JSON.stringify({status:r.status,seeds:r.seeds,seconds:r.seconds,deathRate:r.deathRate,averageSurvivalActions:r.averageSurvivalActions,stuck:r.stuck,errors:r.errors}));process.exitCode=r.status==='PASS'?0:1}).catch(e=>{console.error(e.stack);process.exitCode=3})}
+if(require.main===module){try{const a=process.argv.slice(2),allowed=new Set(['--count','--start','--actions']);for(let i=0;i<a.length;i+=2)if(!allowed.has(a[i])||a[i+1]==null||a[i+1].startsWith('--'))throw Error('未知或缺少數值的參數：'+a[i]);const arg=(n,d)=>a.includes(n)?Number(a[a.indexOf(n)+1]):d;
+ run({count:arg('--count',5),start:arg('--start',1),maxActions:arg('--actions',500)}).then(r=>{console.log(JSON.stringify({status:r.status,seeds:r.seeds,seconds:r.seconds,deathRate:r.deathRate,averageSurvivalActions:r.averageSurvivalActions,stuck:r.stuck,errors:r.errors}));process.exitCode=r.status==='PASS'?0:1}).catch(e=>{console.error(e.stack);process.exitCode=3})
+}catch(e){console.error(e.message);process.exitCode=3}}
+
 module.exports={run};
