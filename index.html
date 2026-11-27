@@ -733,7 +733,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.71.0", "b": 147, "t": "2026-11-27T16:54:49+08:00"};
+const ZC_VER={"v": "0.71.1", "b": 148, "t": "2026-11-27T18:19:49+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -788,7 +788,7 @@ const ITEMS={
  // 修理
  whetstone:{n:'磨刀石',t:'fix',d:'刃器（刀類、斧）耐久 +8。',fix:8,fixFor:'blade'},
  superglue:{n:'強力膠',t:'fix',d:'任何近戰武器耐久 +4。',fix:4,fixFor:'melee'},
- repairkit:{n:'修理工具組',t:'fix',d:'任何近戰武器耐久 +15，專武也可以。',fix:15,fixFor:'any'},
+ repairkit:{n:'修理工具組',t:'fix',d:'任何近戰武器耐久 +15。',fix:15,fixFor:'any'},
  gunoil:{n:'槍油',t:'fix',d:'排除卡彈；接下來 3 場戰鬥大失敗不會卡彈。',fixFor:'gun'},
  // 工具
  lighter:{n:'打火機',t:'tool',d:'合成工具，不會消耗。點燃燃燒瓶、香菸要用，帶在身上就行。'},
@@ -8892,8 +8892,11 @@ function unwear(p,s){const e=p.eq[s];if(!e)return false;p.eq[s]=null;const left=
 // 被打中時，有耐久的防具隨機一件 −1，歸零就壞掉
 function wearHit(t,human){const ws=Object.keys(p_eq(t)).filter(s=>t.eq[s]&&ITEMS[t.eq[s].k].dur);if(!ws.length)return;const s=pick(ws);t.eq[s].dur--;if(t.eq[s].dur<=0){out(`${ITEMS[t.eq[s].k].n}被${human?'打':'咬'}爛了。`,'dmg',true);t.eq[s]=null}}
 const p_eq=t=>t.eq||{};
+// 修理用品能不能修這把武器（背包的「要修哪一把」清單和實際修理共用）。專武照自己的類別修：手提箱、指虎是鈍器，軍刀是刃器
+function fixOk(it,w,g){if(!it||!it.fixFor||!w||!g)return false;if(it.fixFor==='gun')return w.kind==='gun';if(w.kind!=='melee'||g.dur==null)return false;
+  return it.fixFor==='any'||it.fixFor==='melee'?true:it.fixFor==='blade'?!!w.blade:it.fixFor==='pole'?(!!w.pole||w.dt.includes('blunt')):false}
 async function repair(p,k,u){const it=ITEMS[k],g=gearOf(p,u);if(!it||!g||!hasI(p,k)||!it.fixFor)return false;const w=WEAP[g.id];
-  const ok=it.fixFor==='gun'?w.kind==='gun':w.kind!=='melee'||g.dur==null?false:it.fixFor==='any'?true:w.sig?false:it.fixFor==='melee'?true:it.fixFor==='blade'?!!w.blade:it.fixFor==='pole'?(!!w.pole||w.dt.includes('blunt')):false;
+  const ok=fixOk(it,w,g);
   if(!ok){msgTo(p,`${it.n}不能修${w.n}。`);return false}
   takeI(p,k);
   if(it.fixFor==='gun'){g.jam=0;p.jamGuard=3;out(`${MP()?nm(p):'你'}把${w.n}拆開上油。接下來 3 場戰鬥大失敗不會卡彈。`,'good')}
@@ -10265,7 +10268,7 @@ function itemCol(m,inF,can){
       if(sel&&SELM==='useon')h+=`<div class="acts">${mates.map(t=>ibt(`data-useon="${k}" data-to="${t.pid}"`,'替'+esc(t.name)+(it.t==='food'?'吃':'使用'),0,can)).join('')}</div>`;
       if(sel&&SELM==='rev')h+=`<div class="acts">${downs.map(t=>ibt(`data-rev="${k}" data-to="${t.pid}"`,'救'+esc(t.name),0,can)).join('')}</div>`;
       if(sel&&SELM==='give'&&!inF)h+=`<div class="acts">${giveTo.map(t=>ibt(`data-give="${k}" data-to="${t.pid}"`,'給'+esc(t.name),0,can)).join('')}</div>`;
-      if(FIXK===k&&!inF)h+=`<div class="acts"><small>要修哪一把？</small>${m.gear.filter(g=>g.dur!=null||WEAP[g.id].kind==='gun').map(g=>ibt(`data-fixu="${g.u}" data-k="${k}"`,WEAP[g.id].n,0,can)).join('')||'<small>沒有能修的武器。</small>'}</div>`}}
+      if(FIXK===k&&!inF)h+=`<div class="acts"><small>要修哪一把？</small>${m.gear.filter(g=>fixOk(it,WEAP[g.id],g)).map(g=>ibt(`data-fixu="${g.u}" data-k="${k}"`,WEAP[g.id].n,0,can)).join('')||'<small>沒有能修的武器。</small>'}</div>`}}
   if(!spare.length&&!Object.keys(m.items).some(k=>m.items[k]>0))h+='<p class="note">背包是空的。</p>';
   return h}
 function panel(k){
