@@ -1,0 +1,54 @@
+name: DEEP 深度測試（手動）
+on:
+  workflow_dispatch:
+    inputs:
+      seed_count:
+        description: '種子數量（1～10000）'
+        type: number
+        required: true
+        default: 100
+      start_seed:
+        description: '起始種子（0～4294967295，不允許範圍溢位）'
+        type: number
+        required: true
+        default: 1
+      max_actions:
+        description: '每局動作上限（20～10000；達上限會標示截尾）'
+        type: number
+        required: true
+        default: 500
+      stability_seconds:
+        description: '穩定性觀察秒數（60～3600，不含暖身）'
+        type: number
+        required: true
+        default: 600
+permissions:
+  contents: read
+jobs:
+  deep:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix tests --ignore-scripts
+      - run: tests/node_modules/.bin/playwright install --with-deps chromium
+      - name: DEEP（完整種子／結局／穩定性／效能／故障自我驗收）
+        timeout-minutes: 75
+        env:
+          SEED_COUNT: ${{ inputs.seed_count }}
+          START_SEED: ${{ inputs.start_seed }}
+          MAX_ACTIONS: ${{ inputs.max_actions }}
+          STABILITY_SECONDS: ${{ inputs.stability_seconds }}
+        run: |
+          node tests/deep.cjs --count "$SEED_COUNT" --start "$START_SEED" --actions "$MAX_ACTIONS" --seconds "$STABILITY_SECONDS" --out test-results/deep
+      - name: 上傳所有種子、逐次資源數字、故障明細與截圖
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deep-results
+          path: test-results/deep/
+          retention-days: 14
+          if-no-files-found: error
