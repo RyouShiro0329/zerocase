@@ -1,3 +1,9 @@
+# 開發音效素材庫交接（2026-11-28，Asia/Taipei）
+
+本批接續對話中斷前的工作，從 main e414cb8 建立 feat/audio-library。完整說明、驗收與來源限制見 [LIBRARY_HANDOFF.md](audio/LIBRARY_HANDOFF.md)，開發取用入口見 [audio-library/README.md](../audio-library/README.md)。遊戲仍為 v0.71.1／Build148；新增素材為備用，未接入遊戲。
+
+---
+
 # PR-F DEEP 深度測試交接（測試工具不升版，2026-11-27，Asia/Taipei）
 
 V06 補修 PR #80 已依主人授權一般合併至 main f867f5d。最新完整九階段、自我驗收 31/31、最新版單獨／與 V10 平行／加狀態觀察各 20/20 通過；舊版對照兩次分別 13 通過／7 失敗與 20 通過／0 失敗，完整保留，歷史偶發重現改成獨立手動調查。原始首次失敗只留摘要、V06 暫存已刪除的限制已更正；後續重現不是原始現場。
