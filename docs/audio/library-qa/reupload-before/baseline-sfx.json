@@ -1,0 +1,906 @@
+[
+  {
+    "path": "sfx/airraid_event.mp3",
+    "baseline_blob_sha": "ee3dfb373233019467afab450edf5907e6e225f2",
+    "current_blob_sha": "ee3dfb373233019467afab450edf5907e6e225f2",
+    "index_ids": [
+      "existing:sfx/airraid_event.mp3"
+    ]
+  },
+  {
+    "path": "sfx/beretta.mp3",
+    "baseline_blob_sha": "d08cd8b28a065e7d756dc3d0eb8e600e6c2cd053",
+    "current_blob_sha": "d08cd8b28a065e7d756dc3d0eb8e600e6c2cd053",
+    "index_ids": [
+      "existing:sfx/beretta.mp3"
+    ]
+  },
+  {
+    "path": "sfx/berettaReload.mp3",
+    "baseline_blob_sha": "70b2bec3b7b170b5f32e115949a85e3b372d2fea",
+    "current_blob_sha": "70b2bec3b7b170b5f32e115949a85e3b372d2fea",
+    "index_ids": [
+      "existing:sfx/berettaReload.mp3"
+    ]
+  },
+  {
+    "path": "sfx/bgm.mp3",
+    "baseline_blob_sha": "7c929b810a9dc31d2671f32386ba95cf682d2a06",
+    "current_blob_sha": "7c929b810a9dc31d2671f32386ba95cf682d2a06",
+    "index_ids": [
+      "existing:sfx/bgm.mp3"
+    ]
+  },
+  {
+    "path": "sfx/bgm.ogg",
+    "baseline_blob_sha": "d767cbf22e61ec626dbfaf35646160da70ea898e",
+    "current_blob_sha": "d767cbf22e61ec626dbfaf35646160da70ea898e",
+    "index_ids": [
+      "existing:sfx/bgm.ogg"
+    ]
+  },
+  {
+    "path": "sfx/bgm_battle.mp3",
+    "baseline_blob_sha": "85f5dd8583fdfa873ba7fbcc3f8a3edbe3bb460b",
+    "current_blob_sha": "85f5dd8583fdfa873ba7fbcc3f8a3edbe3bb460b",
+    "index_ids": [
+      "existing:sfx/bgm_battle.mp3"
+    ]
+  },
+  {
+    "path": "sfx/bgm_battle.ogg",
+    "baseline_blob_sha": "288586803aba77633947a674a145d472d9ce04fb",
+    "current_blob_sha": "288586803aba77633947a674a145d472d9ce04fb",
+    "index_ids": [
+      "existing:sfx/bgm_battle.ogg"
+    ]
+  },
+  {
+    "path": "sfx/bgm_encounter.mp3",
+    "baseline_blob_sha": "0e07f5cf32e4224f3b52cf41fe003184cbf14ca4",
+    "current_blob_sha": "0e07f5cf32e4224f3b52cf41fe003184cbf14ca4",
+    "index_ids": [
+      "existing:sfx/bgm_encounter.mp3"
+    ]
+  },
+  {
+    "path": "sfx/bgm_encounter.ogg",
+    "baseline_blob_sha": "7fe6dae493efbd21c5a36954d463ceef40c9535c",
+    "current_blob_sha": "7fe6dae493efbd21c5a36954d463ceef40c9535c",
+    "index_ids": [
+      "existing:sfx/bgm_encounter.ogg"
+    ]
+  },
+  {
+    "path": "sfx/bgm_hitman_battle.mp3",
+    "baseline_blob_sha": "b29d40cebecd0d9af5ab75cb414f5e83e33cc975",
+    "current_blob_sha": "b29d40cebecd0d9af5ab75cb414f5e83e33cc975",
+    "index_ids": [
+      "existing:sfx/bgm_hitman_battle.mp3"
+    ]
+  },
+  {
+    "path": "sfx/bgm_hitman_battle.ogg",
+    "baseline_blob_sha": "67420f5fd65642ed9b4cbd7065677d8e79d1abb0",
+    "current_blob_sha": "67420f5fd65642ed9b4cbd7065677d8e79d1abb0",
+    "index_ids": [
+      "existing:sfx/bgm_hitman_battle.ogg"
+    ]
+  },
+  {
+    "path": "sfx/bgm_hitman_intense.mp3",
+    "baseline_blob_sha": "1527549671e7bcc276077c1eadb7174cd9e10830",
+    "current_blob_sha": "1527549671e7bcc276077c1eadb7174cd9e10830",
+    "index_ids": [
+      "existing:sfx/bgm_hitman_intense.mp3"
+    ]
+  },
+  {
+    "path": "sfx/bgm_hitman_intense.ogg",
+    "baseline_blob_sha": "44093a4e940bcf20b76e0654df1062ae8bf00bb9",
+    "current_blob_sha": "44093a4e940bcf20b76e0654df1062ae8bf00bb9",
+    "index_ids": [
+      "existing:sfx/bgm_hitman_intense.ogg"
+    ]
+  },
+  {
+    "path": "sfx/bhit.mp3",
+    "baseline_blob_sha": "d57cbd9bf73016ce178e9a63ed1eca13acf13bdb",
+    "current_blob_sha": "d57cbd9bf73016ce178e9a63ed1eca13acf13bdb",
+    "index_ids": [
+      "existing:sfx/bhit.mp3"
+    ]
+  },
+  {
+    "path": "sfx/bite.mp3",
+    "baseline_blob_sha": "346a3cc46342dcb8fdc4411bb57d3241ee17fa75",
+    "current_blob_sha": "346a3cc46342dcb8fdc4411bb57d3241ee17fa75",
+    "index_ids": [
+      "existing:sfx/bite.mp3"
+    ]
+  },
+  {
+    "path": "sfx/bolt.mp3",
+    "baseline_blob_sha": "00e47048cb531e667a03908bf048e44958f2fe47",
+    "current_blob_sha": "00e47048cb531e667a03908bf048e44958f2fe47",
+    "index_ids": [
+      "existing:sfx/bolt.mp3"
+    ]
+  },
+  {
+    "path": "sfx/bowdraw.mp3",
+    "baseline_blob_sha": "fc0bab8f6dbb1e5a584f26257415d36d8637872c",
+    "current_blob_sha": "fc0bab8f6dbb1e5a584f26257415d36d8637872c",
+    "index_ids": [
+      "existing:sfx/bowdraw.mp3"
+    ]
+  },
+  {
+    "path": "sfx/bowimpact.mp3",
+    "baseline_blob_sha": "07664bd5c4a54008269c667861a626606450b3da",
+    "current_blob_sha": "07664bd5c4a54008269c667861a626606450b3da",
+    "index_ids": [
+      "existing:sfx/bowimpact.mp3"
+    ]
+  },
+  {
+    "path": "sfx/casing.mp3",
+    "baseline_blob_sha": "d73f1c66221ef6754ea781f8390879a43be00f2b",
+    "current_blob_sha": "d73f1c66221ef6754ea781f8390879a43be00f2b",
+    "index_ids": [
+      "existing:sfx/casing.mp3"
+    ]
+  },
+  {
+    "path": "sfx/claw.mp3",
+    "baseline_blob_sha": "61bc807654e15405cd304a221313023907aba25c",
+    "current_blob_sha": "61bc807654e15405cd304a221313023907aba25c",
+    "index_ids": [
+      "existing:sfx/claw.mp3"
+    ]
+  },
+  {
+    "path": "sfx/click.mp3",
+    "baseline_blob_sha": "67da15391ef1d9c4c0a8b54f68e85b7665cdb413",
+    "current_blob_sha": "67da15391ef1d9c4c0a8b54f68e85b7665cdb413",
+    "index_ids": [
+      "existing:sfx/click.mp3"
+    ]
+  },
+  {
+    "path": "sfx/crossbowshot.wav",
+    "baseline_blob_sha": "9d81211a96e969d132923ab1d33e8d9c3f7637b7",
+    "current_blob_sha": "9d81211a96e969d132923ab1d33e8d9c3f7637b7",
+    "index_ids": [
+      "existing:sfx/crossbowshot.wav"
+    ]
+  },
+  {
+    "path": "sfx/death.mp3",
+    "baseline_blob_sha": "464959d44fa75c7bb02f25b9f647a55e82b5c7a4",
+    "current_blob_sha": "464959d44fa75c7bb02f25b9f647a55e82b5c7a4",
+    "index_ids": [
+      "existing:sfx/death.mp3"
+    ]
+  },
+  {
+    "path": "sfx/doorclose.mp3",
+    "baseline_blob_sha": "c3603ec079db3522aaadbba03fa8ca76afc8c136",
+    "current_blob_sha": "c3603ec079db3522aaadbba03fa8ca76afc8c136",
+    "index_ids": [
+      "existing:sfx/doorclose.mp3"
+    ]
+  },
+  {
+    "path": "sfx/dooropen.mp3",
+    "baseline_blob_sha": "b685235f8c4e106d075c63ea0d9272413f86878f",
+    "current_blob_sha": "b685235f8c4e106d075c63ea0d9272413f86878f",
+    "index_ids": [
+      "existing:sfx/dooropen.mp3"
+    ]
+  },
+  {
+    "path": "sfx/drawer.mp3",
+    "baseline_blob_sha": "427f153280e8c40bf5045373053a52fd3ace618d",
+    "current_blob_sha": "427f153280e8c40bf5045373053a52fd3ace618d",
+    "index_ids": [
+      "existing:sfx/drawer.mp3"
+    ]
+  },
+  {
+    "path": "sfx/dryfire.mp3",
+    "baseline_blob_sha": "8fa2b0e273c1abc2f54062d6464d955b55817f8a",
+    "current_blob_sha": "8fa2b0e273c1abc2f54062d6464d955b55817f8a",
+    "index_ids": [
+      "existing:sfx/dryfire.mp3"
+    ]
+  },
+  {
+    "path": "sfx/equip.mp3",
+    "baseline_blob_sha": "a203cf5647f2b32054cb64eb1ff64fb1f6aec215",
+    "current_blob_sha": "a203cf5647f2b32054cb64eb1ff64fb1f6aec215",
+    "index_ids": [
+      "existing:sfx/equip.mp3"
+    ]
+  },
+  {
+    "path": "sfx/fal.mp3",
+    "baseline_blob_sha": "d2b53b219e67a17104bacbbea02344724a3d6e5c",
+    "current_blob_sha": "d2b53b219e67a17104bacbbea02344724a3d6e5c",
+    "index_ids": [
+      "existing:sfx/fal.mp3"
+    ]
+  },
+  {
+    "path": "sfx/falReload.mp3",
+    "baseline_blob_sha": "35cee58e85f084de4325c5b1898170cdc9aebe61",
+    "current_blob_sha": "35cee58e85f084de4325c5b1898170cdc9aebe61",
+    "index_ids": [
+      "existing:sfx/falReload.mp3"
+    ]
+  },
+  {
+    "path": "sfx/firealarm.mp3",
+    "baseline_blob_sha": "fb9f7e54b05125665ab888c2e5dc1de3f72f5db4",
+    "current_blob_sha": "fb9f7e54b05125665ab888c2e5dc1de3f72f5db4",
+    "index_ids": [
+      "existing:sfx/firealarm.mp3"
+    ]
+  },
+  {
+    "path": "sfx/fist.mp3",
+    "baseline_blob_sha": "5a32ba73ca7bdca2227bd163b4e949778a7fb4e9",
+    "current_blob_sha": "5a32ba73ca7bdca2227bd163b4e949778a7fb4e9",
+    "index_ids": [
+      "existing:sfx/fist.mp3"
+    ]
+  },
+  {
+    "path": "sfx/genloop.mp3",
+    "baseline_blob_sha": "69b38fe6dfa8f0a81b77e21f43b0e0c6feab2bdf",
+    "current_blob_sha": "69b38fe6dfa8f0a81b77e21f43b0e0c6feab2bdf",
+    "index_ids": [
+      "existing:sfx/genloop.mp3"
+    ]
+  },
+  {
+    "path": "sfx/genloop.ogg",
+    "baseline_blob_sha": "fd026c6001a231c58f45e570c47cac6a06c0d750",
+    "current_blob_sha": "fd026c6001a231c58f45e570c47cac6a06c0d750",
+    "index_ids": [
+      "existing:sfx/genloop.ogg"
+    ]
+  },
+  {
+    "path": "sfx/genstart.mp3",
+    "baseline_blob_sha": "60cc937d1653a89a45ed0e0279d7430976c6f5b7",
+    "current_blob_sha": "60cc937d1653a89a45ed0e0279d7430976c6f5b7",
+    "index_ids": [
+      "existing:sfx/genstart.mp3"
+    ]
+  },
+  {
+    "path": "sfx/glassbreak.mp3",
+    "baseline_blob_sha": "9775b4744be195df1cc77e8c12d9cebbf075feb0",
+    "current_blob_sha": "9775b4744be195df1cc77e8c12d9cebbf075feb0",
+    "index_ids": [
+      "existing:sfx/glassbreak.mp3"
+    ]
+  },
+  {
+    "path": "sfx/glassstep.mp3",
+    "baseline_blob_sha": "5d3269bda4adac3d9cdfd3295762f731e828813a",
+    "current_blob_sha": "5d3269bda4adac3d9cdfd3295762f731e828813a",
+    "index_ids": [
+      "existing:sfx/glassstep.mp3"
+    ]
+  },
+  {
+    "path": "sfx/goliath.mp3",
+    "baseline_blob_sha": "6984124269d77179c96776ba6de65a845a2500fd",
+    "current_blob_sha": "6984124269d77179c96776ba6de65a845a2500fd",
+    "index_ids": [
+      "existing:sfx/goliath.mp3"
+    ]
+  },
+  {
+    "path": "sfx/goliath_loop.mp3",
+    "baseline_blob_sha": "48e1b64f26c283768bcb06268efdfa8ba7840b53",
+    "current_blob_sha": "48e1b64f26c283768bcb06268efdfa8ba7840b53",
+    "index_ids": [
+      "existing:sfx/goliath_loop.mp3"
+    ]
+  },
+  {
+    "path": "sfx/headshot.mp3",
+    "baseline_blob_sha": "efc1c5eee4216be29b091bf7c3919f04581adae2",
+    "current_blob_sha": "efc1c5eee4216be29b091bf7c3919f04581adae2",
+    "index_ids": [
+      "existing:sfx/headshot.mp3"
+    ]
+  },
+  {
+    "path": "sfx/heal.mp3",
+    "baseline_blob_sha": "48a5d1a0387d380e609b314e7048ef82f6fe005d",
+    "current_blob_sha": "48a5d1a0387d380e609b314e7048ef82f6fe005d",
+    "index_ids": [
+      "existing:sfx/heal.mp3"
+    ]
+  },
+  {
+    "path": "sfx/knife.mp3",
+    "baseline_blob_sha": "413d0ccee0a6c28c7ffb221a742f5ff39fef1c35",
+    "current_blob_sha": "413d0ccee0a6c28c7ffb221a742f5ff39fef1c35",
+    "index_ids": [
+      "existing:sfx/knife.mp3"
+    ]
+  },
+  {
+    "path": "sfx/m500.mp3",
+    "baseline_blob_sha": "cc0e4f0a29c0e0a14f92625390f765d123b81958",
+    "current_blob_sha": "cc0e4f0a29c0e0a14f92625390f765d123b81958",
+    "index_ids": [
+      "existing:sfx/m500.mp3"
+    ]
+  },
+  {
+    "path": "sfx/mimpact.mp3",
+    "baseline_blob_sha": "87d7fa14087025d647c4b97c5faddafe7f48fbb0",
+    "current_blob_sha": "87d7fa14087025d647c4b97c5faddafe7f48fbb0",
+    "index_ids": [
+      "existing:sfx/mimpact.mp3"
+    ]
+  },
+  {
+    "path": "sfx/mp5.mp3",
+    "baseline_blob_sha": "48bff756d0e0f52bad42b27dfbce4b7068fc8695",
+    "current_blob_sha": "48bff756d0e0f52bad42b27dfbce4b7068fc8695",
+    "index_ids": [
+      "existing:sfx/mp5.mp3"
+    ]
+  },
+  {
+    "path": "sfx/mp5Reload.mp3",
+    "baseline_blob_sha": "602de7d315aa28e893d5464e53ee27945a31062d",
+    "current_blob_sha": "602de7d315aa28e893d5464e53ee27945a31062d",
+    "index_ids": [
+      "existing:sfx/mp5Reload.mp3"
+    ]
+  },
+  {
+    "path": "sfx/mthrow.mp3",
+    "baseline_blob_sha": "d967b8ce0fb657c306a41db049c1b0fafd0bf801",
+    "current_blob_sha": "d967b8ce0fb657c306a41db049c1b0fafd0bf801",
+    "index_ids": [
+      "existing:sfx/mthrow.mp3"
+    ]
+  },
+  {
+    "path": "sfx/pickup.mp3",
+    "baseline_blob_sha": "db71b21981522e9b5c062d04f4a984683b0b6800",
+    "current_blob_sha": "db71b21981522e9b5c062d04f4a984683b0b6800",
+    "index_ids": [
+      "existing:sfx/pickup.mp3"
+    ]
+  },
+  {
+    "path": "sfx/piercehit.mp3",
+    "baseline_blob_sha": "0265ab799499611606e9bfca4c2fc3f2ddee390f",
+    "current_blob_sha": "0265ab799499611606e9bfca4c2fc3f2ddee390f",
+    "index_ids": [
+      "existing:sfx/piercehit.mp3"
+    ]
+  },
+  {
+    "path": "sfx/pill.mp3",
+    "baseline_blob_sha": "dc4933c97b9f2bbf1d382d9b7ae82e941eea19b8",
+    "current_blob_sha": "dc4933c97b9f2bbf1d382d9b7ae82e941eea19b8",
+    "index_ids": [
+      "existing:sfx/pill.mp3"
+    ]
+  },
+  {
+    "path": "sfx/pumpmix.mp3",
+    "baseline_blob_sha": "2d564944e8f2dfaa8a2cfb3b89b2a07398359e3f",
+    "current_blob_sha": "2d564944e8f2dfaa8a2cfb3b89b2a07398359e3f",
+    "index_ids": [
+      "existing:sfx/pumpmix.mp3"
+    ]
+  },
+  {
+    "path": "sfx/pumpstop.mp3",
+    "baseline_blob_sha": "66919e153f64038f9665c49d22205a23f53bc208",
+    "current_blob_sha": "66919e153f64038f9665c49d22205a23f53bc208",
+    "index_ids": [
+      "existing:sfx/pumpstop.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio01.mp3",
+    "baseline_blob_sha": "2ffd6728fdf658143cd77db8f287265923bbfd0a",
+    "current_blob_sha": "2ffd6728fdf658143cd77db8f287265923bbfd0a",
+    "index_ids": [
+      "existing:sfx/radio01.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio02.mp3",
+    "baseline_blob_sha": "c84cf8e5fceda283548eb71ecd382105634e751d",
+    "current_blob_sha": "c84cf8e5fceda283548eb71ecd382105634e751d",
+    "index_ids": [
+      "existing:sfx/radio02.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio03.mp3",
+    "baseline_blob_sha": "816d0ffb1ef96d6808179798fdb258966b0af248",
+    "current_blob_sha": "816d0ffb1ef96d6808179798fdb258966b0af248",
+    "index_ids": [
+      "existing:sfx/radio03.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio04.mp3",
+    "baseline_blob_sha": "899eefd6f16e248002703dff6baff491a310ce35",
+    "current_blob_sha": "899eefd6f16e248002703dff6baff491a310ce35",
+    "index_ids": [
+      "existing:sfx/radio04.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio05.mp3",
+    "baseline_blob_sha": "bae4e3160a76950ab2fbfc4d10f1622e3cc07cf6",
+    "current_blob_sha": "bae4e3160a76950ab2fbfc4d10f1622e3cc07cf6",
+    "index_ids": [
+      "existing:sfx/radio05.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio06.mp3",
+    "baseline_blob_sha": "5f5ecb5fe51bd46754428193922520281c05a50a",
+    "current_blob_sha": "5f5ecb5fe51bd46754428193922520281c05a50a",
+    "index_ids": [
+      "existing:sfx/radio06.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio07.mp3",
+    "baseline_blob_sha": "979a2c377ee31dabd6b0430ac6731ba889656d3c",
+    "current_blob_sha": "979a2c377ee31dabd6b0430ac6731ba889656d3c",
+    "index_ids": [
+      "existing:sfx/radio07.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio08.mp3",
+    "baseline_blob_sha": "926c032becfe75cbfb2a5ef871da44352a5869dc",
+    "current_blob_sha": "926c032becfe75cbfb2a5ef871da44352a5869dc",
+    "index_ids": [
+      "existing:sfx/radio08.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio09.mp3",
+    "baseline_blob_sha": "f7bf992dc527e814168e7e6cc9097b77b1807a7c",
+    "current_blob_sha": "f7bf992dc527e814168e7e6cc9097b77b1807a7c",
+    "index_ids": [
+      "existing:sfx/radio09.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio10.mp3",
+    "baseline_blob_sha": "b33b8991cca4c5b543c800836f8db0598caec92f",
+    "current_blob_sha": "b33b8991cca4c5b543c800836f8db0598caec92f",
+    "index_ids": [
+      "existing:sfx/radio10.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio11.mp3",
+    "baseline_blob_sha": "c51dc82d906f17ecb9edc97b072c0473d90db0e2",
+    "current_blob_sha": "c51dc82d906f17ecb9edc97b072c0473d90db0e2",
+    "index_ids": [
+      "existing:sfx/radio11.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio12.mp3",
+    "baseline_blob_sha": "ee7609dcba9c929470c97ba087fdba5cbb32780c",
+    "current_blob_sha": "ee7609dcba9c929470c97ba087fdba5cbb32780c",
+    "index_ids": [
+      "existing:sfx/radio12.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio13.mp3",
+    "baseline_blob_sha": "1173ed6dab7562c9a7ac231c3fd6692162098172",
+    "current_blob_sha": "1173ed6dab7562c9a7ac231c3fd6692162098172",
+    "index_ids": [
+      "existing:sfx/radio13.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio14.mp3",
+    "baseline_blob_sha": "ae230bbcce58c88423ea2d8ce8f4dc56d3023254",
+    "current_blob_sha": "ae230bbcce58c88423ea2d8ce8f4dc56d3023254",
+    "index_ids": [
+      "existing:sfx/radio14.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio15.mp3",
+    "baseline_blob_sha": "0f5e7c983967ab76fa86814216c29acb27d5fbdf",
+    "current_blob_sha": "0f5e7c983967ab76fa86814216c29acb27d5fbdf",
+    "index_ids": [
+      "existing:sfx/radio15.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio16.mp3",
+    "baseline_blob_sha": "6f3f7b255a9390161713240c72ebcb543f4129ae",
+    "current_blob_sha": "6f3f7b255a9390161713240c72ebcb543f4129ae",
+    "index_ids": [
+      "existing:sfx/radio16.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio17.mp3",
+    "baseline_blob_sha": "03eaa4c33817c2d0638d7fe9ab9f9266dc8cc267",
+    "current_blob_sha": "03eaa4c33817c2d0638d7fe9ab9f9266dc8cc267",
+    "index_ids": [
+      "existing:sfx/radio17.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio18.mp3",
+    "baseline_blob_sha": "d5cb643d7525d7bc986d28af9eac94952f16e7ce",
+    "current_blob_sha": "d5cb643d7525d7bc986d28af9eac94952f16e7ce",
+    "index_ids": [
+      "existing:sfx/radio18.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio19.mp3",
+    "baseline_blob_sha": "08052d11a0780797be1c391c89473ac938f57170",
+    "current_blob_sha": "08052d11a0780797be1c391c89473ac938f57170",
+    "index_ids": [
+      "existing:sfx/radio19.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio20.mp3",
+    "baseline_blob_sha": "9277bcd1c94d28abff80b43e98a12719677ffd7c",
+    "current_blob_sha": "9277bcd1c94d28abff80b43e98a12719677ffd7c",
+    "index_ids": [
+      "existing:sfx/radio20.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio21.mp3",
+    "baseline_blob_sha": "f5952e4f548c0d3ff5c5dde658b86ecf7d2033fa",
+    "current_blob_sha": "f5952e4f548c0d3ff5c5dde658b86ecf7d2033fa",
+    "index_ids": [
+      "existing:sfx/radio21.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio22.mp3",
+    "baseline_blob_sha": "ca7c602bb859946caa46d712693894eb171f2be2",
+    "current_blob_sha": "ca7c602bb859946caa46d712693894eb171f2be2",
+    "index_ids": [
+      "existing:sfx/radio22.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio23.mp3",
+    "baseline_blob_sha": "28577e1dde4d472cc0875c64bd8bfd5aad68c7bc",
+    "current_blob_sha": "28577e1dde4d472cc0875c64bd8bfd5aad68c7bc",
+    "index_ids": [
+      "existing:sfx/radio23.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio24.mp3",
+    "baseline_blob_sha": "f6f7edf2b546a10e55c59c6869543c9072d6788a",
+    "current_blob_sha": "f6f7edf2b546a10e55c59c6869543c9072d6788a",
+    "index_ids": [
+      "existing:sfx/radio24.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio25.mp3",
+    "baseline_blob_sha": "2b327f34f0bb65939aa727426bdbd3a52e6fbe32",
+    "current_blob_sha": "2b327f34f0bb65939aa727426bdbd3a52e6fbe32",
+    "index_ids": [
+      "existing:sfx/radio25.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio26.mp3",
+    "baseline_blob_sha": "dfce6cd077a0d5da99cdc7e5a731332c5381bdf1",
+    "current_blob_sha": "dfce6cd077a0d5da99cdc7e5a731332c5381bdf1",
+    "index_ids": [
+      "existing:sfx/radio26.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radio27.mp3",
+    "baseline_blob_sha": "8337d18f7edd57b5fe6ff79273498c9c8a8a1436",
+    "current_blob_sha": "8337d18f7edd57b5fe6ff79273498c9c8a8a1436",
+    "index_ids": [
+      "existing:sfx/radio27.mp3"
+    ]
+  },
+  {
+    "path": "sfx/radiostatic.mp3",
+    "baseline_blob_sha": "e27545eec4730add9dc2dda053910c09f7b2f2be",
+    "current_blob_sha": "e27545eec4730add9dc2dda053910c09f7b2f2be",
+    "index_ids": [
+      "existing:sfx/radiostatic.mp3"
+    ]
+  },
+  {
+    "path": "sfx/rain_indoor_loop.mp3",
+    "baseline_blob_sha": "4eac8baeea2c06c8535ec48b877dafeb49d5e20b",
+    "current_blob_sha": "4eac8baeea2c06c8535ec48b877dafeb49d5e20b",
+    "index_ids": [
+      "existing:sfx/rain_indoor_loop.mp3"
+    ]
+  },
+  {
+    "path": "sfx/rain_indoor_loop.ogg",
+    "baseline_blob_sha": "9ef6c547d26529bfce5fb05b61f006c9f5203353",
+    "current_blob_sha": "9ef6c547d26529bfce5fb05b61f006c9f5203353",
+    "index_ids": [
+      "existing:sfx/rain_indoor_loop.ogg"
+    ]
+  },
+  {
+    "path": "sfx/rain_outdoor_loop.mp3",
+    "baseline_blob_sha": "2e85bcae829e4e6b14bd573e13992e5228651622",
+    "current_blob_sha": "2e85bcae829e4e6b14bd573e13992e5228651622",
+    "index_ids": [
+      "existing:sfx/rain_outdoor_loop.mp3"
+    ]
+  },
+  {
+    "path": "sfx/rain_outdoor_loop.ogg",
+    "baseline_blob_sha": "858cc89256d203684fd810fb62c793b776b9b567",
+    "current_blob_sha": "858cc89256d203684fd810fb62c793b776b9b567",
+    "index_ids": [
+      "existing:sfx/rain_outdoor_loop.ogg"
+    ]
+  },
+  {
+    "path": "sfx/revclose.mp3",
+    "baseline_blob_sha": "65df9066ec683db41f2287673b0ac87e1ff75113",
+    "current_blob_sha": "65df9066ec683db41f2287673b0ac87e1ff75113",
+    "index_ids": [
+      "existing:sfx/revclose.mp3"
+    ]
+  },
+  {
+    "path": "sfx/reveject.mp3",
+    "baseline_blob_sha": "d4b225dfdb06c0a3db0bfdfcbb66de2c345b7578",
+    "current_blob_sha": "d4b225dfdb06c0a3db0bfdfcbb66de2c345b7578",
+    "index_ids": [
+      "existing:sfx/reveject.mp3"
+    ]
+  },
+  {
+    "path": "sfx/revolver.mp3",
+    "baseline_blob_sha": "2626e8798d6610bc22f2e906e47c75bba882cb39",
+    "current_blob_sha": "2626e8798d6610bc22f2e906e47c75bba882cb39",
+    "index_ids": [
+      "existing:sfx/revolver.mp3"
+    ]
+  },
+  {
+    "path": "sfx/revolverCock.mp3",
+    "baseline_blob_sha": "f846990582ca5ec415ce6f464d2fee0c03b1648b",
+    "current_blob_sha": "f846990582ca5ec415ce6f464d2fee0c03b1648b",
+    "index_ids": [
+      "existing:sfx/revolverCock.mp3"
+    ]
+  },
+  {
+    "path": "sfx/revopen.mp3",
+    "baseline_blob_sha": "7d511df618e8b7997bd94d5f62d01628c3b27205",
+    "current_blob_sha": "7d511df618e8b7997bd94d5f62d01628c3b27205",
+    "index_ids": [
+      "existing:sfx/revopen.mp3"
+    ]
+  },
+  {
+    "path": "sfx/revshell.mp3",
+    "baseline_blob_sha": "3a5ac5bf51e229964f3ff993861b51ad91ab7e93",
+    "current_blob_sha": "3a5ac5bf51e229964f3ff993861b51ad91ab7e93",
+    "index_ids": [
+      "existing:sfx/revshell.mp3"
+    ]
+  },
+  {
+    "path": "sfx/rifle.mp3",
+    "baseline_blob_sha": "2550a0e576ad363b2c62c1b27833b327c0bf2da0",
+    "current_blob_sha": "2550a0e576ad363b2c62c1b27833b327c0bf2da0",
+    "index_ids": [
+      "existing:sfx/rifle.mp3"
+    ]
+  },
+  {
+    "path": "sfx/rummage.mp3",
+    "baseline_blob_sha": "5d60d9295e172e1580e458f2c7bfdd44351ea160",
+    "current_blob_sha": "5d60d9295e172e1580e458f2c7bfdd44351ea160",
+    "index_ids": [
+      "existing:sfx/rummage.mp3"
+    ]
+  },
+  {
+    "path": "sfx/sgclose.mp3",
+    "baseline_blob_sha": "aa75e98efdbf533be0d5f656a1bbcd4f54cef4ba",
+    "current_blob_sha": "aa75e98efdbf533be0d5f656a1bbcd4f54cef4ba",
+    "index_ids": [
+      "existing:sfx/sgclose.mp3"
+    ]
+  },
+  {
+    "path": "sfx/sgopen.mp3",
+    "baseline_blob_sha": "f530e086e729f4d0f8216fd8d8b5f7aaba337bc3",
+    "current_blob_sha": "f530e086e729f4d0f8216fd8d8b5f7aaba337bc3",
+    "index_ids": [
+      "existing:sfx/sgopen.mp3"
+    ]
+  },
+  {
+    "path": "sfx/sgpump.mp3",
+    "baseline_blob_sha": "77fa04bb72d6bfe3f7c73b65ec0f7ebb0f02d97f",
+    "current_blob_sha": "77fa04bb72d6bfe3f7c73b65ec0f7ebb0f02d97f",
+    "index_ids": [
+      "existing:sfx/sgpump.mp3"
+    ]
+  },
+  {
+    "path": "sfx/sgshell.mp3",
+    "baseline_blob_sha": "8a970dc6588855a3d8856fc83fa214a1fec36bc1",
+    "current_blob_sha": "8a970dc6588855a3d8856fc83fa214a1fec36bc1",
+    "index_ids": [
+      "existing:sfx/sgshell.mp3"
+    ]
+  },
+  {
+    "path": "sfx/sgshellbr.mp3",
+    "baseline_blob_sha": "7c836f4914126138f3ad9f814de8b98bef9b7b2b",
+    "current_blob_sha": "7c836f4914126138f3ad9f814de8b98bef9b7b2b",
+    "index_ids": [
+      "existing:sfx/sgshellbr.mp3"
+    ]
+  },
+  {
+    "path": "sfx/shotgun.mp3",
+    "baseline_blob_sha": "e630bd727b74adc291efd87758dcad26a1781ba0",
+    "current_blob_sha": "e630bd727b74adc291efd87758dcad26a1781ba0",
+    "index_ids": [
+      "existing:sfx/shotgun.mp3"
+    ]
+  },
+  {
+    "path": "sfx/smash.mp3",
+    "baseline_blob_sha": "089641c14b53b915585f9aee50bb94d8df2a8ee0",
+    "current_blob_sha": "089641c14b53b915585f9aee50bb94d8df2a8ee0",
+    "index_ids": [
+      "existing:sfx/smash.mp3"
+    ]
+  },
+  {
+    "path": "sfx/spit.mp3",
+    "baseline_blob_sha": "ca5cf54367d7f395ea4837bc7b7e72dd62386a40",
+    "current_blob_sha": "ca5cf54367d7f395ea4837bc7b7e72dd62386a40",
+    "index_ids": [
+      "existing:sfx/spit.mp3"
+    ]
+  },
+  {
+    "path": "sfx/splat.mp3",
+    "baseline_blob_sha": "49122a155ec200fcee127c54b057ad921ca23748",
+    "current_blob_sha": "49122a155ec200fcee127c54b057ad921ca23748",
+    "index_ids": [
+      "existing:sfx/splat.mp3"
+    ]
+  },
+  {
+    "path": "sfx/squish.mp3",
+    "baseline_blob_sha": "19c4a019bf038775acf83462ad09b16f09d33abd",
+    "current_blob_sha": "19c4a019bf038775acf83462ad09b16f09d33abd",
+    "index_ids": [
+      "existing:sfx/squish.mp3"
+    ]
+  },
+  {
+    "path": "sfx/stairs.mp3",
+    "baseline_blob_sha": "07f81c769c3b3e1c97cd286068c02f47f4535aaf",
+    "current_blob_sha": "07f81c769c3b3e1c97cd286068c02f47f4535aaf",
+    "index_ids": [
+      "existing:sfx/stairs.mp3"
+    ]
+  },
+  {
+    "path": "sfx/step.mp3",
+    "baseline_blob_sha": "c1258b229658c6fb8938917438a5b6f90cbc7aa7",
+    "current_blob_sha": "c1258b229658c6fb8938917438a5b6f90cbc7aa7",
+    "index_ids": [
+      "existing:sfx/step.mp3"
+    ]
+  },
+  {
+    "path": "sfx/thud.mp3",
+    "baseline_blob_sha": "7def4534f57aa4afdab5720af4a3cbe2d646e160",
+    "current_blob_sha": "7def4534f57aa4afdab5720af4a3cbe2d646e160",
+    "index_ids": [
+      "existing:sfx/thud.mp3"
+    ]
+  },
+  {
+    "path": "sfx/thunder_distant_01.mp3",
+    "baseline_blob_sha": "a25508de36142fce700e698223de8cf92b19850c",
+    "current_blob_sha": "a25508de36142fce700e698223de8cf92b19850c",
+    "index_ids": [
+      "existing:sfx/thunder_distant_01.mp3"
+    ]
+  },
+  {
+    "path": "sfx/thunder_distant_02.mp3",
+    "baseline_blob_sha": "d26afe8b830fc68a0d317b83b3b842586b6addeb",
+    "current_blob_sha": "d26afe8b830fc68a0d317b83b3b842586b6addeb",
+    "index_ids": [
+      "existing:sfx/thunder_distant_02.mp3"
+    ]
+  },
+  {
+    "path": "sfx/waterpipe.mp3",
+    "baseline_blob_sha": "fe0d8151fa93f2e17fc1195039d5eb7fa8a423bb",
+    "current_blob_sha": "fe0d8151fa93f2e17fc1195039d5eb7fa8a423bb",
+    "index_ids": [
+      "existing:sfx/waterpipe.mp3"
+    ]
+  },
+  {
+    "path": "sfx/waterpump.mp3",
+    "baseline_blob_sha": "b761aa11cb181b32504195bf186b30543a44da1b",
+    "current_blob_sha": "b761aa11cb181b32504195bf186b30543a44da1b",
+    "index_ids": [
+      "existing:sfx/waterpump.mp3"
+    ]
+  },
+  {
+    "path": "sfx/woodimpact.mp3",
+    "baseline_blob_sha": "94d297ca51a18e64ee3865f490d14f87ad67f610",
+    "current_blob_sha": "94d297ca51a18e64ee3865f490d14f87ad67f610",
+    "index_ids": [
+      "existing:sfx/woodimpact.mp3"
+    ]
+  },
+  {
+    "path": "sfx/woodknock.mp3",
+    "baseline_blob_sha": "1a30a62920f9adf1f2fcb4ed92483302b5091423",
+    "current_blob_sha": "1a30a62920f9adf1f2fcb4ed92483302b5091423",
+    "index_ids": [
+      "existing:sfx/woodknock.mp3"
+    ]
+  },
+  {
+    "path": "sfx/zipper.mp3",
+    "baseline_blob_sha": "11cf1cc5f1a2dff52585ff2ee72483f9d9ed6b0e",
+    "current_blob_sha": "11cf1cc5f1a2dff52585ff2ee72483f9d9ed6b0e",
+    "index_ids": [
+      "existing:sfx/zipper.mp3"
+    ]
+  },
+  {
+    "path": "sfx/zstep.mp3",
+    "baseline_blob_sha": "40ff2750249c7bcb22f7deb27df145c91703290f",
+    "current_blob_sha": "40ff2750249c7bcb22f7deb27df145c91703290f",
+    "index_ids": [
+      "existing:sfx/zstep.mp3"
+    ]
+  }
+]

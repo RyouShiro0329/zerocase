@@ -1,0 +1,1322 @@
+{
+  "time": "2026-11-28T03:36:33.159118+08:00",
+  "baseline": "e414cb83efab9dc2f593428d294dc34aa0f69755",
+  "checked": [
+    {
+      "path": ".github/workflows/asset-loading.yml",
+      "baseline": "b201e3233318124cda392e3f9250f601c1ed7746",
+      "current": "b201e3233318124cda392e3f9250f601c1ed7746"
+    },
+    {
+      "path": ".github/workflows/damage-float.yml",
+      "baseline": "a7d9d671f4d894384f71ed71f7e30e8bc3088ded",
+      "current": "a7d9d671f4d894384f71ed71f7e30e8bc3088ded"
+    },
+    {
+      "path": ".github/workflows/deep.yml",
+      "baseline": "17d9bb6787a00629aad5426c1aaeba6ae54e9ebf",
+      "current": "17d9bb6787a00629aad5426c1aaeba6ae54e9ebf"
+    },
+    {
+      "path": ".github/workflows/deployed-smoke.yml",
+      "baseline": "a4fd90e7f8bbbae4d68e942df7ea4507476578b9",
+      "current": "a4fd90e7f8bbbae4d68e942df7ea4507476578b9"
+    },
+    {
+      "path": ".github/workflows/fear-display.yml",
+      "baseline": "ab4f0abb5ecc522f6b6a2d2e0dbf88a1be5742e7",
+      "current": "ab4f0abb5ecc522f6b6a2d2e0dbf88a1be5742e7"
+    },
+    {
+      "path": ".github/workflows/test.yml",
+      "baseline": "85bb8f27c487c874d9005e4102ca729a2ac9c2b1",
+      "current": "85bb8f27c487c874d9005e4102ca729a2ac9c2b1"
+    },
+    {
+      "path": ".github/workflows/v06-stability.yml",
+      "baseline": "55e8b1c1024b41455553195cc8afdc2159b2bb11",
+      "current": "55e8b1c1024b41455553195cc8afdc2159b2bb11"
+    },
+    {
+      "path": "assets-manifest.json",
+      "baseline": "cf2d211e234aecf634d61f85c1d08e46ac46f19c",
+      "current": "cf2d211e234aecf634d61f85c1d08e46ac46f19c"
+    },
+    {
+      "path": "index.html",
+      "baseline": "a18373276ae37cb8bc37ae99bd49cd65512042eb",
+      "current": "a18373276ae37cb8bc37ae99bd49cd65512042eb"
+    },
+    {
+      "path": "qa/asset-loading/FALLBACK_INVENTORY.json",
+      "baseline": "88d2909923c5783db3fbc84b15ad4da4d1e31f0a",
+      "current": "88d2909923c5783db3fbc84b15ad4da4d1e31f0a"
+    },
+    {
+      "path": "qa/asset-loading/HANDOFF.md",
+      "baseline": "d84a975430f479b6ff9abe691976d31d8ab9795f",
+      "current": "d84a975430f479b6ff9abe691976d31d8ab9795f"
+    },
+    {
+      "path": "qa/asset-loading/INVENTORY.json",
+      "baseline": "db6916ff243aeb4f1dd5a29ecf3d995cf839c073",
+      "current": "db6916ff243aeb4f1dd5a29ecf3d995cf839c073"
+    },
+    {
+      "path": "qa/asset-loading/SPEC.md",
+      "baseline": "b4f6a05114997e9c2f462ba9415b9cd5688ae37c",
+      "current": "b4f6a05114997e9c2f462ba9415b9cd5688ae37c"
+    },
+    {
+      "path": "qa/asset-loading/browser.cjs",
+      "baseline": "034a2ccfba00f8ca73127442f1181eca3649923e",
+      "current": "034a2ccfba00f8ca73127442f1181eca3649923e"
+    },
+    {
+      "path": "qa/asset-loading/debug-damage.cjs",
+      "baseline": "1e651a8e61d145bb4a4847886b8817fe33203b2f",
+      "current": "1e651a8e61d145bb4a4847886b8817fe33203b2f"
+    },
+    {
+      "path": "qa/asset-loading/evidence/LOCAL_RESULTS.json",
+      "baseline": "51721a2e3980929601919fd2453c48ea5aff4412",
+      "current": "51721a2e3980929601919fd2453c48ea5aff4412"
+    },
+    {
+      "path": "qa/asset-loading/evidence/baseline-fast.json",
+      "baseline": "18a640275486872f3033fa2d0ba76a709b2e5718",
+      "current": "18a640275486872f3033fa2d0ba76a709b2e5718"
+    },
+    {
+      "path": "qa/asset-loading/evidence/final-fast.json",
+      "baseline": "5afe1758c23f0c572403f1f6b9711718be9390d6",
+      "current": "5afe1758c23f0c572403f1f6b9711718be9390d6"
+    },
+    {
+      "path": "qa/asset-loading/evidence/full-attempt.json",
+      "baseline": "2042b3cf958fa4dba1cb09da696a34ed2ed1abbc",
+      "current": "2042b3cf958fa4dba1cb09da696a34ed2ed1abbc"
+    },
+    {
+      "path": "qa/asset-loading/evidence/loader-node.txt",
+      "baseline": "0031879d670b3e956e5f2b7229ce64ea16ed9e5b",
+      "current": "0031879d670b3e956e5f2b7229ce64ea16ed9e5b"
+    },
+    {
+      "path": "qa/asset-loading/evidence/v16-control-comparison.json",
+      "baseline": "ee7092c1f26b5fb0d617678b2574809511fe4ca2",
+      "current": "ee7092c1f26b5fb0d617678b2574809511fe4ca2"
+    },
+    {
+      "path": "qa/asset-loading/live.cjs",
+      "baseline": "7cc3cba7689bc5a67825760f8af2be60a5380099",
+      "current": "7cc3cba7689bc5a67825760f8af2be60a5380099"
+    },
+    {
+      "path": "qa/asset-loading/loader.test.cjs",
+      "baseline": "a47a0f1c75d000007bcd09e3a9a07bdc9cb6ba01",
+      "current": "a47a0f1c75d000007bcd09e3a9a07bdc9cb6ba01"
+    },
+    {
+      "path": "sfx/airraid_event.mp3",
+      "baseline": "ee3dfb373233019467afab450edf5907e6e225f2",
+      "current": "ee3dfb373233019467afab450edf5907e6e225f2"
+    },
+    {
+      "path": "sfx/beretta.mp3",
+      "baseline": "d08cd8b28a065e7d756dc3d0eb8e600e6c2cd053",
+      "current": "d08cd8b28a065e7d756dc3d0eb8e600e6c2cd053"
+    },
+    {
+      "path": "sfx/berettaReload.mp3",
+      "baseline": "70b2bec3b7b170b5f32e115949a85e3b372d2fea",
+      "current": "70b2bec3b7b170b5f32e115949a85e3b372d2fea"
+    },
+    {
+      "path": "sfx/bgm.mp3",
+      "baseline": "7c929b810a9dc31d2671f32386ba95cf682d2a06",
+      "current": "7c929b810a9dc31d2671f32386ba95cf682d2a06"
+    },
+    {
+      "path": "sfx/bgm.ogg",
+      "baseline": "d767cbf22e61ec626dbfaf35646160da70ea898e",
+      "current": "d767cbf22e61ec626dbfaf35646160da70ea898e"
+    },
+    {
+      "path": "sfx/bgm_battle.mp3",
+      "baseline": "85f5dd8583fdfa873ba7fbcc3f8a3edbe3bb460b",
+      "current": "85f5dd8583fdfa873ba7fbcc3f8a3edbe3bb460b"
+    },
+    {
+      "path": "sfx/bgm_battle.ogg",
+      "baseline": "288586803aba77633947a674a145d472d9ce04fb",
+      "current": "288586803aba77633947a674a145d472d9ce04fb"
+    },
+    {
+      "path": "sfx/bgm_encounter.mp3",
+      "baseline": "0e07f5cf32e4224f3b52cf41fe003184cbf14ca4",
+      "current": "0e07f5cf32e4224f3b52cf41fe003184cbf14ca4"
+    },
+    {
+      "path": "sfx/bgm_encounter.ogg",
+      "baseline": "7fe6dae493efbd21c5a36954d463ceef40c9535c",
+      "current": "7fe6dae493efbd21c5a36954d463ceef40c9535c"
+    },
+    {
+      "path": "sfx/bgm_hitman_battle.mp3",
+      "baseline": "b29d40cebecd0d9af5ab75cb414f5e83e33cc975",
+      "current": "b29d40cebecd0d9af5ab75cb414f5e83e33cc975"
+    },
+    {
+      "path": "sfx/bgm_hitman_battle.ogg",
+      "baseline": "67420f5fd65642ed9b4cbd7065677d8e79d1abb0",
+      "current": "67420f5fd65642ed9b4cbd7065677d8e79d1abb0"
+    },
+    {
+      "path": "sfx/bgm_hitman_intense.mp3",
+      "baseline": "1527549671e7bcc276077c1eadb7174cd9e10830",
+      "current": "1527549671e7bcc276077c1eadb7174cd9e10830"
+    },
+    {
+      "path": "sfx/bgm_hitman_intense.ogg",
+      "baseline": "44093a4e940bcf20b76e0654df1062ae8bf00bb9",
+      "current": "44093a4e940bcf20b76e0654df1062ae8bf00bb9"
+    },
+    {
+      "path": "sfx/bhit.mp3",
+      "baseline": "d57cbd9bf73016ce178e9a63ed1eca13acf13bdb",
+      "current": "d57cbd9bf73016ce178e9a63ed1eca13acf13bdb"
+    },
+    {
+      "path": "sfx/bite.mp3",
+      "baseline": "346a3cc46342dcb8fdc4411bb57d3241ee17fa75",
+      "current": "346a3cc46342dcb8fdc4411bb57d3241ee17fa75"
+    },
+    {
+      "path": "sfx/bolt.mp3",
+      "baseline": "00e47048cb531e667a03908bf048e44958f2fe47",
+      "current": "00e47048cb531e667a03908bf048e44958f2fe47"
+    },
+    {
+      "path": "sfx/bowdraw.mp3",
+      "baseline": "fc0bab8f6dbb1e5a584f26257415d36d8637872c",
+      "current": "fc0bab8f6dbb1e5a584f26257415d36d8637872c"
+    },
+    {
+      "path": "sfx/bowimpact.mp3",
+      "baseline": "07664bd5c4a54008269c667861a626606450b3da",
+      "current": "07664bd5c4a54008269c667861a626606450b3da"
+    },
+    {
+      "path": "sfx/casing.mp3",
+      "baseline": "d73f1c66221ef6754ea781f8390879a43be00f2b",
+      "current": "d73f1c66221ef6754ea781f8390879a43be00f2b"
+    },
+    {
+      "path": "sfx/claw.mp3",
+      "baseline": "61bc807654e15405cd304a221313023907aba25c",
+      "current": "61bc807654e15405cd304a221313023907aba25c"
+    },
+    {
+      "path": "sfx/click.mp3",
+      "baseline": "67da15391ef1d9c4c0a8b54f68e85b7665cdb413",
+      "current": "67da15391ef1d9c4c0a8b54f68e85b7665cdb413"
+    },
+    {
+      "path": "sfx/crossbowshot.wav",
+      "baseline": "9d81211a96e969d132923ab1d33e8d9c3f7637b7",
+      "current": "9d81211a96e969d132923ab1d33e8d9c3f7637b7"
+    },
+    {
+      "path": "sfx/death.mp3",
+      "baseline": "464959d44fa75c7bb02f25b9f647a55e82b5c7a4",
+      "current": "464959d44fa75c7bb02f25b9f647a55e82b5c7a4"
+    },
+    {
+      "path": "sfx/doorclose.mp3",
+      "baseline": "c3603ec079db3522aaadbba03fa8ca76afc8c136",
+      "current": "c3603ec079db3522aaadbba03fa8ca76afc8c136"
+    },
+    {
+      "path": "sfx/dooropen.mp3",
+      "baseline": "b685235f8c4e106d075c63ea0d9272413f86878f",
+      "current": "b685235f8c4e106d075c63ea0d9272413f86878f"
+    },
+    {
+      "path": "sfx/drawer.mp3",
+      "baseline": "427f153280e8c40bf5045373053a52fd3ace618d",
+      "current": "427f153280e8c40bf5045373053a52fd3ace618d"
+    },
+    {
+      "path": "sfx/dryfire.mp3",
+      "baseline": "8fa2b0e273c1abc2f54062d6464d955b55817f8a",
+      "current": "8fa2b0e273c1abc2f54062d6464d955b55817f8a"
+    },
+    {
+      "path": "sfx/equip.mp3",
+      "baseline": "a203cf5647f2b32054cb64eb1ff64fb1f6aec215",
+      "current": "a203cf5647f2b32054cb64eb1ff64fb1f6aec215"
+    },
+    {
+      "path": "sfx/fal.mp3",
+      "baseline": "d2b53b219e67a17104bacbbea02344724a3d6e5c",
+      "current": "d2b53b219e67a17104bacbbea02344724a3d6e5c"
+    },
+    {
+      "path": "sfx/falReload.mp3",
+      "baseline": "35cee58e85f084de4325c5b1898170cdc9aebe61",
+      "current": "35cee58e85f084de4325c5b1898170cdc9aebe61"
+    },
+    {
+      "path": "sfx/firealarm.mp3",
+      "baseline": "fb9f7e54b05125665ab888c2e5dc1de3f72f5db4",
+      "current": "fb9f7e54b05125665ab888c2e5dc1de3f72f5db4"
+    },
+    {
+      "path": "sfx/fist.mp3",
+      "baseline": "5a32ba73ca7bdca2227bd163b4e949778a7fb4e9",
+      "current": "5a32ba73ca7bdca2227bd163b4e949778a7fb4e9"
+    },
+    {
+      "path": "sfx/genloop.mp3",
+      "baseline": "69b38fe6dfa8f0a81b77e21f43b0e0c6feab2bdf",
+      "current": "69b38fe6dfa8f0a81b77e21f43b0e0c6feab2bdf"
+    },
+    {
+      "path": "sfx/genloop.ogg",
+      "baseline": "fd026c6001a231c58f45e570c47cac6a06c0d750",
+      "current": "fd026c6001a231c58f45e570c47cac6a06c0d750"
+    },
+    {
+      "path": "sfx/genstart.mp3",
+      "baseline": "60cc937d1653a89a45ed0e0279d7430976c6f5b7",
+      "current": "60cc937d1653a89a45ed0e0279d7430976c6f5b7"
+    },
+    {
+      "path": "sfx/glassbreak.mp3",
+      "baseline": "9775b4744be195df1cc77e8c12d9cebbf075feb0",
+      "current": "9775b4744be195df1cc77e8c12d9cebbf075feb0"
+    },
+    {
+      "path": "sfx/glassstep.mp3",
+      "baseline": "5d3269bda4adac3d9cdfd3295762f731e828813a",
+      "current": "5d3269bda4adac3d9cdfd3295762f731e828813a"
+    },
+    {
+      "path": "sfx/goliath.mp3",
+      "baseline": "6984124269d77179c96776ba6de65a845a2500fd",
+      "current": "6984124269d77179c96776ba6de65a845a2500fd"
+    },
+    {
+      "path": "sfx/goliath_loop.mp3",
+      "baseline": "48e1b64f26c283768bcb06268efdfa8ba7840b53",
+      "current": "48e1b64f26c283768bcb06268efdfa8ba7840b53"
+    },
+    {
+      "path": "sfx/headshot.mp3",
+      "baseline": "efc1c5eee4216be29b091bf7c3919f04581adae2",
+      "current": "efc1c5eee4216be29b091bf7c3919f04581adae2"
+    },
+    {
+      "path": "sfx/heal.mp3",
+      "baseline": "48a5d1a0387d380e609b314e7048ef82f6fe005d",
+      "current": "48a5d1a0387d380e609b314e7048ef82f6fe005d"
+    },
+    {
+      "path": "sfx/knife.mp3",
+      "baseline": "413d0ccee0a6c28c7ffb221a742f5ff39fef1c35",
+      "current": "413d0ccee0a6c28c7ffb221a742f5ff39fef1c35"
+    },
+    {
+      "path": "sfx/m500.mp3",
+      "baseline": "cc0e4f0a29c0e0a14f92625390f765d123b81958",
+      "current": "cc0e4f0a29c0e0a14f92625390f765d123b81958"
+    },
+    {
+      "path": "sfx/mimpact.mp3",
+      "baseline": "87d7fa14087025d647c4b97c5faddafe7f48fbb0",
+      "current": "87d7fa14087025d647c4b97c5faddafe7f48fbb0"
+    },
+    {
+      "path": "sfx/mp5.mp3",
+      "baseline": "48bff756d0e0f52bad42b27dfbce4b7068fc8695",
+      "current": "48bff756d0e0f52bad42b27dfbce4b7068fc8695"
+    },
+    {
+      "path": "sfx/mp5Reload.mp3",
+      "baseline": "602de7d315aa28e893d5464e53ee27945a31062d",
+      "current": "602de7d315aa28e893d5464e53ee27945a31062d"
+    },
+    {
+      "path": "sfx/mthrow.mp3",
+      "baseline": "d967b8ce0fb657c306a41db049c1b0fafd0bf801",
+      "current": "d967b8ce0fb657c306a41db049c1b0fafd0bf801"
+    },
+    {
+      "path": "sfx/pickup.mp3",
+      "baseline": "db71b21981522e9b5c062d04f4a984683b0b6800",
+      "current": "db71b21981522e9b5c062d04f4a984683b0b6800"
+    },
+    {
+      "path": "sfx/piercehit.mp3",
+      "baseline": "0265ab799499611606e9bfca4c2fc3f2ddee390f",
+      "current": "0265ab799499611606e9bfca4c2fc3f2ddee390f"
+    },
+    {
+      "path": "sfx/pill.mp3",
+      "baseline": "dc4933c97b9f2bbf1d382d9b7ae82e941eea19b8",
+      "current": "dc4933c97b9f2bbf1d382d9b7ae82e941eea19b8"
+    },
+    {
+      "path": "sfx/pumpmix.mp3",
+      "baseline": "2d564944e8f2dfaa8a2cfb3b89b2a07398359e3f",
+      "current": "2d564944e8f2dfaa8a2cfb3b89b2a07398359e3f"
+    },
+    {
+      "path": "sfx/pumpstop.mp3",
+      "baseline": "66919e153f64038f9665c49d22205a23f53bc208",
+      "current": "66919e153f64038f9665c49d22205a23f53bc208"
+    },
+    {
+      "path": "sfx/radio01.mp3",
+      "baseline": "2ffd6728fdf658143cd77db8f287265923bbfd0a",
+      "current": "2ffd6728fdf658143cd77db8f287265923bbfd0a"
+    },
+    {
+      "path": "sfx/radio02.mp3",
+      "baseline": "c84cf8e5fceda283548eb71ecd382105634e751d",
+      "current": "c84cf8e5fceda283548eb71ecd382105634e751d"
+    },
+    {
+      "path": "sfx/radio03.mp3",
+      "baseline": "816d0ffb1ef96d6808179798fdb258966b0af248",
+      "current": "816d0ffb1ef96d6808179798fdb258966b0af248"
+    },
+    {
+      "path": "sfx/radio04.mp3",
+      "baseline": "899eefd6f16e248002703dff6baff491a310ce35",
+      "current": "899eefd6f16e248002703dff6baff491a310ce35"
+    },
+    {
+      "path": "sfx/radio05.mp3",
+      "baseline": "bae4e3160a76950ab2fbfc4d10f1622e3cc07cf6",
+      "current": "bae4e3160a76950ab2fbfc4d10f1622e3cc07cf6"
+    },
+    {
+      "path": "sfx/radio06.mp3",
+      "baseline": "5f5ecb5fe51bd46754428193922520281c05a50a",
+      "current": "5f5ecb5fe51bd46754428193922520281c05a50a"
+    },
+    {
+      "path": "sfx/radio07.mp3",
+      "baseline": "979a2c377ee31dabd6b0430ac6731ba889656d3c",
+      "current": "979a2c377ee31dabd6b0430ac6731ba889656d3c"
+    },
+    {
+      "path": "sfx/radio08.mp3",
+      "baseline": "926c032becfe75cbfb2a5ef871da44352a5869dc",
+      "current": "926c032becfe75cbfb2a5ef871da44352a5869dc"
+    },
+    {
+      "path": "sfx/radio09.mp3",
+      "baseline": "f7bf992dc527e814168e7e6cc9097b77b1807a7c",
+      "current": "f7bf992dc527e814168e7e6cc9097b77b1807a7c"
+    },
+    {
+      "path": "sfx/radio10.mp3",
+      "baseline": "b33b8991cca4c5b543c800836f8db0598caec92f",
+      "current": "b33b8991cca4c5b543c800836f8db0598caec92f"
+    },
+    {
+      "path": "sfx/radio11.mp3",
+      "baseline": "c51dc82d906f17ecb9edc97b072c0473d90db0e2",
+      "current": "c51dc82d906f17ecb9edc97b072c0473d90db0e2"
+    },
+    {
+      "path": "sfx/radio12.mp3",
+      "baseline": "ee7609dcba9c929470c97ba087fdba5cbb32780c",
+      "current": "ee7609dcba9c929470c97ba087fdba5cbb32780c"
+    },
+    {
+      "path": "sfx/radio13.mp3",
+      "baseline": "1173ed6dab7562c9a7ac231c3fd6692162098172",
+      "current": "1173ed6dab7562c9a7ac231c3fd6692162098172"
+    },
+    {
+      "path": "sfx/radio14.mp3",
+      "baseline": "ae230bbcce58c88423ea2d8ce8f4dc56d3023254",
+      "current": "ae230bbcce58c88423ea2d8ce8f4dc56d3023254"
+    },
+    {
+      "path": "sfx/radio15.mp3",
+      "baseline": "0f5e7c983967ab76fa86814216c29acb27d5fbdf",
+      "current": "0f5e7c983967ab76fa86814216c29acb27d5fbdf"
+    },
+    {
+      "path": "sfx/radio16.mp3",
+      "baseline": "6f3f7b255a9390161713240c72ebcb543f4129ae",
+      "current": "6f3f7b255a9390161713240c72ebcb543f4129ae"
+    },
+    {
+      "path": "sfx/radio17.mp3",
+      "baseline": "03eaa4c33817c2d0638d7fe9ab9f9266dc8cc267",
+      "current": "03eaa4c33817c2d0638d7fe9ab9f9266dc8cc267"
+    },
+    {
+      "path": "sfx/radio18.mp3",
+      "baseline": "d5cb643d7525d7bc986d28af9eac94952f16e7ce",
+      "current": "d5cb643d7525d7bc986d28af9eac94952f16e7ce"
+    },
+    {
+      "path": "sfx/radio19.mp3",
+      "baseline": "08052d11a0780797be1c391c89473ac938f57170",
+      "current": "08052d11a0780797be1c391c89473ac938f57170"
+    },
+    {
+      "path": "sfx/radio20.mp3",
+      "baseline": "9277bcd1c94d28abff80b43e98a12719677ffd7c",
+      "current": "9277bcd1c94d28abff80b43e98a12719677ffd7c"
+    },
+    {
+      "path": "sfx/radio21.mp3",
+      "baseline": "f5952e4f548c0d3ff5c5dde658b86ecf7d2033fa",
+      "current": "f5952e4f548c0d3ff5c5dde658b86ecf7d2033fa"
+    },
+    {
+      "path": "sfx/radio22.mp3",
+      "baseline": "ca7c602bb859946caa46d712693894eb171f2be2",
+      "current": "ca7c602bb859946caa46d712693894eb171f2be2"
+    },
+    {
+      "path": "sfx/radio23.mp3",
+      "baseline": "28577e1dde4d472cc0875c64bd8bfd5aad68c7bc",
+      "current": "28577e1dde4d472cc0875c64bd8bfd5aad68c7bc"
+    },
+    {
+      "path": "sfx/radio24.mp3",
+      "baseline": "f6f7edf2b546a10e55c59c6869543c9072d6788a",
+      "current": "f6f7edf2b546a10e55c59c6869543c9072d6788a"
+    },
+    {
+      "path": "sfx/radio25.mp3",
+      "baseline": "2b327f34f0bb65939aa727426bdbd3a52e6fbe32",
+      "current": "2b327f34f0bb65939aa727426bdbd3a52e6fbe32"
+    },
+    {
+      "path": "sfx/radio26.mp3",
+      "baseline": "dfce6cd077a0d5da99cdc7e5a731332c5381bdf1",
+      "current": "dfce6cd077a0d5da99cdc7e5a731332c5381bdf1"
+    },
+    {
+      "path": "sfx/radio27.mp3",
+      "baseline": "8337d18f7edd57b5fe6ff79273498c9c8a8a1436",
+      "current": "8337d18f7edd57b5fe6ff79273498c9c8a8a1436"
+    },
+    {
+      "path": "sfx/radiostatic.mp3",
+      "baseline": "e27545eec4730add9dc2dda053910c09f7b2f2be",
+      "current": "e27545eec4730add9dc2dda053910c09f7b2f2be"
+    },
+    {
+      "path": "sfx/rain_indoor_loop.mp3",
+      "baseline": "4eac8baeea2c06c8535ec48b877dafeb49d5e20b",
+      "current": "4eac8baeea2c06c8535ec48b877dafeb49d5e20b"
+    },
+    {
+      "path": "sfx/rain_indoor_loop.ogg",
+      "baseline": "9ef6c547d26529bfce5fb05b61f006c9f5203353",
+      "current": "9ef6c547d26529bfce5fb05b61f006c9f5203353"
+    },
+    {
+      "path": "sfx/rain_outdoor_loop.mp3",
+      "baseline": "2e85bcae829e4e6b14bd573e13992e5228651622",
+      "current": "2e85bcae829e4e6b14bd573e13992e5228651622"
+    },
+    {
+      "path": "sfx/rain_outdoor_loop.ogg",
+      "baseline": "858cc89256d203684fd810fb62c793b776b9b567",
+      "current": "858cc89256d203684fd810fb62c793b776b9b567"
+    },
+    {
+      "path": "sfx/revclose.mp3",
+      "baseline": "65df9066ec683db41f2287673b0ac87e1ff75113",
+      "current": "65df9066ec683db41f2287673b0ac87e1ff75113"
+    },
+    {
+      "path": "sfx/reveject.mp3",
+      "baseline": "d4b225dfdb06c0a3db0bfdfcbb66de2c345b7578",
+      "current": "d4b225dfdb06c0a3db0bfdfcbb66de2c345b7578"
+    },
+    {
+      "path": "sfx/revolver.mp3",
+      "baseline": "2626e8798d6610bc22f2e906e47c75bba882cb39",
+      "current": "2626e8798d6610bc22f2e906e47c75bba882cb39"
+    },
+    {
+      "path": "sfx/revolverCock.mp3",
+      "baseline": "f846990582ca5ec415ce6f464d2fee0c03b1648b",
+      "current": "f846990582ca5ec415ce6f464d2fee0c03b1648b"
+    },
+    {
+      "path": "sfx/revopen.mp3",
+      "baseline": "7d511df618e8b7997bd94d5f62d01628c3b27205",
+      "current": "7d511df618e8b7997bd94d5f62d01628c3b27205"
+    },
+    {
+      "path": "sfx/revshell.mp3",
+      "baseline": "3a5ac5bf51e229964f3ff993861b51ad91ab7e93",
+      "current": "3a5ac5bf51e229964f3ff993861b51ad91ab7e93"
+    },
+    {
+      "path": "sfx/rifle.mp3",
+      "baseline": "2550a0e576ad363b2c62c1b27833b327c0bf2da0",
+      "current": "2550a0e576ad363b2c62c1b27833b327c0bf2da0"
+    },
+    {
+      "path": "sfx/rummage.mp3",
+      "baseline": "5d60d9295e172e1580e458f2c7bfdd44351ea160",
+      "current": "5d60d9295e172e1580e458f2c7bfdd44351ea160"
+    },
+    {
+      "path": "sfx/sgclose.mp3",
+      "baseline": "aa75e98efdbf533be0d5f656a1bbcd4f54cef4ba",
+      "current": "aa75e98efdbf533be0d5f656a1bbcd4f54cef4ba"
+    },
+    {
+      "path": "sfx/sgopen.mp3",
+      "baseline": "f530e086e729f4d0f8216fd8d8b5f7aaba337bc3",
+      "current": "f530e086e729f4d0f8216fd8d8b5f7aaba337bc3"
+    },
+    {
+      "path": "sfx/sgpump.mp3",
+      "baseline": "77fa04bb72d6bfe3f7c73b65ec0f7ebb0f02d97f",
+      "current": "77fa04bb72d6bfe3f7c73b65ec0f7ebb0f02d97f"
+    },
+    {
+      "path": "sfx/sgshell.mp3",
+      "baseline": "8a970dc6588855a3d8856fc83fa214a1fec36bc1",
+      "current": "8a970dc6588855a3d8856fc83fa214a1fec36bc1"
+    },
+    {
+      "path": "sfx/sgshellbr.mp3",
+      "baseline": "7c836f4914126138f3ad9f814de8b98bef9b7b2b",
+      "current": "7c836f4914126138f3ad9f814de8b98bef9b7b2b"
+    },
+    {
+      "path": "sfx/shotgun.mp3",
+      "baseline": "e630bd727b74adc291efd87758dcad26a1781ba0",
+      "current": "e630bd727b74adc291efd87758dcad26a1781ba0"
+    },
+    {
+      "path": "sfx/smash.mp3",
+      "baseline": "089641c14b53b915585f9aee50bb94d8df2a8ee0",
+      "current": "089641c14b53b915585f9aee50bb94d8df2a8ee0"
+    },
+    {
+      "path": "sfx/spit.mp3",
+      "baseline": "ca5cf54367d7f395ea4837bc7b7e72dd62386a40",
+      "current": "ca5cf54367d7f395ea4837bc7b7e72dd62386a40"
+    },
+    {
+      "path": "sfx/splat.mp3",
+      "baseline": "49122a155ec200fcee127c54b057ad921ca23748",
+      "current": "49122a155ec200fcee127c54b057ad921ca23748"
+    },
+    {
+      "path": "sfx/squish.mp3",
+      "baseline": "19c4a019bf038775acf83462ad09b16f09d33abd",
+      "current": "19c4a019bf038775acf83462ad09b16f09d33abd"
+    },
+    {
+      "path": "sfx/stairs.mp3",
+      "baseline": "07f81c769c3b3e1c97cd286068c02f47f4535aaf",
+      "current": "07f81c769c3b3e1c97cd286068c02f47f4535aaf"
+    },
+    {
+      "path": "sfx/step.mp3",
+      "baseline": "c1258b229658c6fb8938917438a5b6f90cbc7aa7",
+      "current": "c1258b229658c6fb8938917438a5b6f90cbc7aa7"
+    },
+    {
+      "path": "sfx/thud.mp3",
+      "baseline": "7def4534f57aa4afdab5720af4a3cbe2d646e160",
+      "current": "7def4534f57aa4afdab5720af4a3cbe2d646e160"
+    },
+    {
+      "path": "sfx/thunder_distant_01.mp3",
+      "baseline": "a25508de36142fce700e698223de8cf92b19850c",
+      "current": "a25508de36142fce700e698223de8cf92b19850c"
+    },
+    {
+      "path": "sfx/thunder_distant_02.mp3",
+      "baseline": "d26afe8b830fc68a0d317b83b3b842586b6addeb",
+      "current": "d26afe8b830fc68a0d317b83b3b842586b6addeb"
+    },
+    {
+      "path": "sfx/waterpipe.mp3",
+      "baseline": "fe0d8151fa93f2e17fc1195039d5eb7fa8a423bb",
+      "current": "fe0d8151fa93f2e17fc1195039d5eb7fa8a423bb"
+    },
+    {
+      "path": "sfx/waterpump.mp3",
+      "baseline": "b761aa11cb181b32504195bf186b30543a44da1b",
+      "current": "b761aa11cb181b32504195bf186b30543a44da1b"
+    },
+    {
+      "path": "sfx/woodimpact.mp3",
+      "baseline": "94d297ca51a18e64ee3865f490d14f87ad67f610",
+      "current": "94d297ca51a18e64ee3865f490d14f87ad67f610"
+    },
+    {
+      "path": "sfx/woodknock.mp3",
+      "baseline": "1a30a62920f9adf1f2fcb4ed92483302b5091423",
+      "current": "1a30a62920f9adf1f2fcb4ed92483302b5091423"
+    },
+    {
+      "path": "sfx/zipper.mp3",
+      "baseline": "11cf1cc5f1a2dff52585ff2ee72483f9d9ed6b0e",
+      "current": "11cf1cc5f1a2dff52585ff2ee72483f9d9ed6b0e"
+    },
+    {
+      "path": "sfx/zstep.mp3",
+      "baseline": "40ff2750249c7bcb22f7deb27df145c91703290f",
+      "current": "40ff2750249c7bcb22f7deb27df145c91703290f"
+    },
+    {
+      "path": "sw.js",
+      "baseline": "ec7ab6e3481fd8d2a946d757fbe59d3ad20decb4",
+      "current": "ec7ab6e3481fd8d2a946d757fbe59d3ad20decb4"
+    },
+    {
+      "path": "tests/.gitignore",
+      "baseline": "c2658d7d1b31848c3b71960543cb0368e56cd4c7",
+      "current": "c2658d7d1b31848c3b71960543cb0368e56cd4c7"
+    },
+    {
+      "path": "tests/arrow-shot.test.cjs",
+      "baseline": "b5e85cdd574858ef7c4e8c6f55438eabbf4e4003",
+      "current": "b5e85cdd574858ef7c4e8c6f55438eabbf4e4003"
+    },
+    {
+      "path": "tests/assets.test.cjs",
+      "baseline": "ca18a4be20de6b47dc50d22cd2b01cb7198fa084",
+      "current": "ca18a4be20de6b47dc50d22cd2b01cb7198fa084"
+    },
+    {
+      "path": "tests/audio-next.test.cjs",
+      "baseline": "a903cc75419957ca409ee05cf8a1c245a861273f",
+      "current": "a903cc75419957ca409ee05cf8a1c245a861273f"
+    },
+    {
+      "path": "tests/audio-weather-preview.html",
+      "baseline": "91addaab1b6c0ccbe3ab6c813c65b4f98446938e",
+      "current": "91addaab1b6c0ccbe3ab6c813c65b4f98446938e"
+    },
+    {
+      "path": "tests/audio.test.cjs",
+      "baseline": "e6699f6eff6da8fea594902cc10a4b96195fad4c",
+      "current": "e6699f6eff6da8fea594902cc10a4b96195fad4c"
+    },
+    {
+      "path": "tests/balance.cjs",
+      "baseline": "418ebc597b48b4c4616cf61670d47257c8fe7443",
+      "current": "418ebc597b48b4c4616cf61670d47257c8fe7443"
+    },
+    {
+      "path": "tests/baseline-v0.21.5.html",
+      "baseline": "e81866ea08c4a467484e384cdfeda635262f97a0",
+      "current": "e81866ea08c4a467484e384cdfeda635262f97a0"
+    },
+    {
+      "path": "tests/baselines/styles.json",
+      "baseline": "2fd7d020d842b63e1b7f0b4ba046219220e40f11",
+      "current": "2fd7d020d842b63e1b7f0b4ba046219220e40f11"
+    },
+    {
+      "path": "tests/baselines/ui/1280x720-bag.png",
+      "baseline": "4a4824a0a0691c38a08fe70783d2a91ef66be414",
+      "current": "4a4824a0a0691c38a08fe70783d2a91ef66be414"
+    },
+    {
+      "path": "tests/baselines/ui/1280x720-character.png",
+      "baseline": "3166ad0cae1d53c96faeb91805cae2ddd8614db1",
+      "current": "3166ad0cae1d53c96faeb91805cae2ddd8614db1"
+    },
+    {
+      "path": "tests/baselines/ui/1280x720-combat.png",
+      "baseline": "44bd2719b9de4ff5865238845fb7a0455e5dc728",
+      "current": "44bd2719b9de4ff5865238845fb7a0455e5dc728"
+    },
+    {
+      "path": "tests/baselines/ui/1280x720-exploration.png",
+      "baseline": "25bb9b1d994514b4a6eafb73f7e184240542c210",
+      "current": "25bb9b1d994514b4a6eafb73f7e184240542c210"
+    },
+    {
+      "path": "tests/baselines/ui/1280x720-gate.png",
+      "baseline": "94e753f42f0c64730f9c26d0625b68ed9c9f5323",
+      "current": "94e753f42f0c64730f9c26d0625b68ed9c9f5323"
+    },
+    {
+      "path": "tests/baselines/ui/393x690-bag.png",
+      "baseline": "4b6c37a5c5f26c6ace48434834166a5c4137ac5a",
+      "current": "4b6c37a5c5f26c6ace48434834166a5c4137ac5a"
+    },
+    {
+      "path": "tests/baselines/ui/393x690-character.png",
+      "baseline": "c4b1d4335490ae52c4ef90e28f8fd4b765f9806f",
+      "current": "c4b1d4335490ae52c4ef90e28f8fd4b765f9806f"
+    },
+    {
+      "path": "tests/baselines/ui/393x690-combat.png",
+      "baseline": "d312888b9b90ea32e2329369dc0d44464667a945",
+      "current": "d312888b9b90ea32e2329369dc0d44464667a945"
+    },
+    {
+      "path": "tests/baselines/ui/393x690-exploration.png",
+      "baseline": "4bfd7e02335a49e3ceb3fbdd36dbb377b5bb8c00",
+      "current": "4bfd7e02335a49e3ceb3fbdd36dbb377b5bb8c00"
+    },
+    {
+      "path": "tests/baselines/ui/393x690-gate.png",
+      "baseline": "73727506d54fa1bc9cb044ca2562c52c8ff12819",
+      "current": "73727506d54fa1bc9cb044ca2562c52c8ff12819"
+    },
+    {
+      "path": "tests/baselines/ui/844x390-bag.png",
+      "baseline": "d48423cef7ff4852bafc5d1ebcc92c1bd881c4d9",
+      "current": "d48423cef7ff4852bafc5d1ebcc92c1bd881c4d9"
+    },
+    {
+      "path": "tests/baselines/ui/844x390-character.png",
+      "baseline": "7fb732df9f4a66904edc097d98706478d7433035",
+      "current": "7fb732df9f4a66904edc097d98706478d7433035"
+    },
+    {
+      "path": "tests/baselines/ui/844x390-combat.png",
+      "baseline": "4a89054ad903339b4c176d7438be86c0819d6379",
+      "current": "4a89054ad903339b4c176d7438be86c0819d6379"
+    },
+    {
+      "path": "tests/baselines/ui/844x390-exploration.png",
+      "baseline": "b1ccc7ecca55becbf24c11fc7782b2912ab5f80b",
+      "current": "b1ccc7ecca55becbf24c11fc7782b2912ab5f80b"
+    },
+    {
+      "path": "tests/baselines/ui/844x390-gate.png",
+      "baseline": "37165f141ca4e61dcabd500877132150ab273b9d",
+      "current": "37165f141ca4e61dcabd500877132150ab273b9d"
+    },
+    {
+      "path": "tests/baselines/ui/manifest.json",
+      "baseline": "b4919e4d984c393e695218aeb339bf2a17822171",
+      "current": "b4919e4d984c393e695218aeb339bf2a17822171"
+    },
+    {
+      "path": "tests/bgm.test.cjs",
+      "baseline": "8f830782fa56f65bad9ae6aeb6dbfe125bd672ea",
+      "current": "8f830782fa56f65bad9ae6aeb6dbfe125bd672ea"
+    },
+    {
+      "path": "tests/blunt-hit.test.cjs",
+      "baseline": "abc6c8a10c4874ee7ddf435d54c4a1577c497462",
+      "current": "abc6c8a10c4874ee7ddf435d54c4a1577c497462"
+    },
+    {
+      "path": "tests/bow-rain.test.cjs",
+      "baseline": "5e7b5cfc7ca0b5154b938aaff6c864535bc19cae",
+      "current": "5e7b5cfc7ca0b5154b938aaff6c864535bc19cae"
+    },
+    {
+      "path": "tests/browser-audio.cjs",
+      "baseline": "ec92064f5c7f0bbf9ccf4bee8ad59df59ab7e149",
+      "current": "ec92064f5c7f0bbf9ccf4bee8ad59df59ab7e149"
+    },
+    {
+      "path": "tests/browser-smoke.cjs",
+      "baseline": "633493300469f25e16f65505e4e4efec3f959741",
+      "current": "633493300469f25e16f65505e4e4efec3f959741"
+    },
+    {
+      "path": "tests/cards.test.cjs",
+      "baseline": "cc40c29de9e8d493853ee435ed4a9a02120d3379",
+      "current": "cc40c29de9e8d493853ee435ed4a9a02120d3379"
+    },
+    {
+      "path": "tests/clock-preview.html",
+      "baseline": "9af292cdc5a18ac4e4ba19743558d18a826d7894",
+      "current": "9af292cdc5a18ac4e4ba19743558d18a826d7894"
+    },
+    {
+      "path": "tests/damage-float-browser.cjs",
+      "baseline": "4f4575f257697bb6e722508bad245f33a2df8106",
+      "current": "4f4575f257697bb6e722508bad245f33a2df8106"
+    },
+    {
+      "path": "tests/damage-float.test.cjs",
+      "baseline": "9e21693571442399e06b83e56f79c4f1cd2f3378",
+      "current": "9e21693571442399e06b83e56f79c4f1cd2f3378"
+    },
+    {
+      "path": "tests/deep-endings.cjs",
+      "baseline": "ec5fd7de3ed6f9fe43b9c60ae3a75da039538057",
+      "current": "ec5fd7de3ed6f9fe43b9c60ae3a75da039538057"
+    },
+    {
+      "path": "tests/deep-performance.cjs",
+      "baseline": "c74adab0bf54a7aa0d22ae78a71d075a93bc555b",
+      "current": "c74adab0bf54a7aa0d22ae78a71d075a93bc555b"
+    },
+    {
+      "path": "tests/deep-selfcheck.cjs",
+      "baseline": "373b91102d608a26b66cd92afdde3642fee6d55d",
+      "current": "373b91102d608a26b66cd92afdde3642fee6d55d"
+    },
+    {
+      "path": "tests/deep-stability.cjs",
+      "baseline": "546dccb1c80a24462cd56500e2086b4542acd549",
+      "current": "546dccb1c80a24462cd56500e2086b4542acd549"
+    },
+    {
+      "path": "tests/deep.cjs",
+      "baseline": "15a0bc109940c6c6e092a8657c4c3f8bf194e183",
+      "current": "15a0bc109940c6c6e092a8657c4c3f8bf194e183"
+    },
+    {
+      "path": "tests/deployed-smoke.cjs",
+      "baseline": "25f568fad0aebcc964d8746a98f0f759d4f2c287",
+      "current": "25f568fad0aebcc964d8746a98f0f759d4f2c287"
+    },
+    {
+      "path": "tests/enemy-attack.test.cjs",
+      "baseline": "7670228626dd8a1ef35b3b7fe5cc8e2d4722fc92",
+      "current": "7670228626dd8a1ef35b3b7fe5cc8e2d4722fc92"
+    },
+    {
+      "path": "tests/env-compat.test.cjs",
+      "baseline": "2b9499ca0e2113e06168f2f96bce9449ead7f08f",
+      "current": "2b9499ca0e2113e06168f2f96bce9449ead7f08f"
+    },
+    {
+      "path": "tests/events.test.cjs",
+      "baseline": "d2cf9fbb61faf0fef5d36b58129b7ba155395a92",
+      "current": "d2cf9fbb61faf0fef5d36b58129b7ba155395a92"
+    },
+    {
+      "path": "tests/exploration.test.cjs",
+      "baseline": "707058ac88eb387123285fa69c9705ed39af621c",
+      "current": "707058ac88eb387123285fa69c9705ed39af621c"
+    },
+    {
+      "path": "tests/explore.test.cjs",
+      "baseline": "d1c93c2747bc565e4678f7ea7c62bccdeeab9d03",
+      "current": "d1c93c2747bc565e4678f7ea7c62bccdeeab9d03"
+    },
+    {
+      "path": "tests/fear-display-browser.cjs",
+      "baseline": "608be00c91387e0c6d207f3f04447781cd90a943",
+      "current": "608be00c91387e0c6d207f3f04447781cd90a943"
+    },
+    {
+      "path": "tests/fear-display.test.cjs",
+      "baseline": "47e0ce0802bb487ceef17a1d9a293ca81796e3d2",
+      "current": "47e0ce0802bb487ceef17a1d9a293ca81796e3d2"
+    },
+    {
+      "path": "tests/feedback.test.cjs",
+      "baseline": "c94c20dd2111966e3dd7fa46b8f3631552d60b75",
+      "current": "c94c20dd2111966e3dd7fa46b8f3631552d60b75"
+    },
+    {
+      "path": "tests/fixtures/generate-saves.cjs",
+      "baseline": "989ca5743723e5250efb81b5e04138f97dc834d2",
+      "current": "989ca5743723e5250efb81b5e04138f97dc834d2"
+    },
+    {
+      "path": "tests/fixtures/saves/v057.json",
+      "baseline": "ae7cb31f8bc0d922a4d99318ca1806f737f1aece",
+      "current": "ae7cb31f8bc0d922a4d99318ca1806f737f1aece"
+    },
+    {
+      "path": "tests/fixtures/saves/v059.json",
+      "baseline": "1016575d6e62ce3fe8ac486b3ddf031449b435f6",
+      "current": "1016575d6e62ce3fe8ac486b3ddf031449b435f6"
+    },
+    {
+      "path": "tests/fixtures/saves/v062.json",
+      "baseline": "bce15cbede2fc2b9ed224729169c291466bc2d91",
+      "current": "bce15cbede2fc2b9ed224729169c291466bc2d91"
+    },
+    {
+      "path": "tests/fixtures/saves/v065.json",
+      "baseline": "9d7ea73ab2a15e598d2e3beb2e04003a6705a3c4",
+      "current": "9d7ea73ab2a15e598d2e3beb2e04003a6705a3c4"
+    },
+    {
+      "path": "tests/fixtures/saves/v0671.json",
+      "baseline": "2f44baeb3a4228c5b1c568fe3b1431fcc9b9b97b",
+      "current": "2f44baeb3a4228c5b1c568fe3b1431fcc9b9b97b"
+    },
+    {
+      "path": "tests/guard.test.cjs",
+      "baseline": "7c0075411693bfb81b47846457e4b5e751899cf0",
+      "current": "7c0075411693bfb81b47846457e4b5e751899cf0"
+    },
+    {
+      "path": "tests/gun-shot.test.cjs",
+      "baseline": "08dbb7e1eee6e773d26b1341b6a5d65f35257244",
+      "current": "08dbb7e1eee6e773d26b1341b6a5d65f35257244"
+    },
+    {
+      "path": "tests/helpers/assets.cjs",
+      "baseline": "53e5455d6be1784a0e23b312821917de43932c45",
+      "current": "53e5455d6be1784a0e23b312821917de43932c45"
+    },
+    {
+      "path": "tests/helpers/audio-game.cjs",
+      "baseline": "ddcdab96b68441b6347af44d2b861b0d431b62e3",
+      "current": "ddcdab96b68441b6347af44d2b861b0d431b62e3"
+    },
+    {
+      "path": "tests/helpers/browser-errors.cjs",
+      "baseline": "f57cd948f6d1baedd76482ac6acd19db32b9f6ac",
+      "current": "f57cd948f6d1baedd76482ac6acd19db32b9f6ac"
+    },
+    {
+      "path": "tests/helpers/deep-browser.cjs",
+      "baseline": "590d2b72790efe6a5a877a50ce1d42530a97e8de",
+      "current": "590d2b72790efe6a5a877a50ce1d42530a97e8de"
+    },
+    {
+      "path": "tests/helpers/deep-report.cjs",
+      "baseline": "3db7bc5ad024ec421187e35ccb708bf2a17ed9ee",
+      "current": "3db7bc5ad024ec421187e35ccb708bf2a17ed9ee"
+    },
+    {
+      "path": "tests/helpers/deep-resources.cjs",
+      "baseline": "a86f05b3737aa4e822ff8b56ec57d57ae74f49d6",
+      "current": "a86f05b3737aa4e822ff8b56ec57d57ae74f49d6"
+    },
+    {
+      "path": "tests/helpers/deep-sim.cjs",
+      "baseline": "6f44037405e888b912db34f7bdd53046d8021675",
+      "current": "6f44037405e888b912db34f7bdd53046d8021675"
+    },
+    {
+      "path": "tests/helpers/driver.cjs",
+      "baseline": "0f295fa362f296cd8914c0cea2d03b1c67152f1e",
+      "current": "0f295fa362f296cd8914c0cea2d03b1c67152f1e"
+    },
+    {
+      "path": "tests/helpers/env-compat.cjs",
+      "baseline": "2b44c0d193fedb801c62ad3b79578a61628a6a9c",
+      "current": "2b44c0d193fedb801c62ad3b79578a61628a6a9c"
+    },
+    {
+      "path": "tests/helpers/fixed-scenes.cjs",
+      "baseline": "de8c44c7437aed22aaee7527d2afc501366648be",
+      "current": "de8c44c7437aed22aaee7527d2afc501366648be"
+    },
+    {
+      "path": "tests/helpers/game-vm.cjs",
+      "baseline": "53bf0b0bf1a49dc20fa57d00153ea559ed2efb10",
+      "current": "53bf0b0bf1a49dc20fa57d00153ea559ed2efb10"
+    },
+    {
+      "path": "tests/helpers/godmode.cjs",
+      "baseline": "e748b7b0c2190b2433c6ecae861fd96322fe6ab0",
+      "current": "e748b7b0c2190b2433c6ecae861fd96322fe6ab0"
+    },
+    {
+      "path": "tests/helpers/integrity.cjs",
+      "baseline": "62b8eac8a7b362ab6daf9ee29aa6812a31c15176",
+      "current": "62b8eac8a7b362ab6daf9ee29aa6812a31c15176"
+    },
+    {
+      "path": "tests/helpers/selfcheck-evidence.cjs",
+      "baseline": "e9b9131926f3422964cb6470056a8f706e7dae88",
+      "current": "e9b9131926f3422964cb6470056a8f706e7dae88"
+    },
+    {
+      "path": "tests/helpers/sfx-map.cjs",
+      "baseline": "278f82c742e011b9dda114fe033b6d3ea64621ef",
+      "current": "278f82c742e011b9dda114fe033b6d3ea64621ef"
+    },
+    {
+      "path": "tests/helpers/source-version.cjs",
+      "baseline": "ec930ba06746f54f541af8085a294397d3f12eaf",
+      "current": "ec930ba06746f54f541af8085a294397d3f12eaf"
+    },
+    {
+      "path": "tests/helpers/test-reporter.cjs",
+      "baseline": "319fc822c4f05afe8e60de0afc7fb03a88d0279b",
+      "current": "319fc822c4f05afe8e60de0afc7fb03a88d0279b"
+    },
+    {
+      "path": "tests/helpers/ui-contract.cjs",
+      "baseline": "3d71fc66a2ebac6dd086836f24b17c888ef5c752",
+      "current": "3d71fc66a2ebac6dd086836f24b17c888ef5c752"
+    },
+    {
+      "path": "tests/helpers/v06-fault.cjs",
+      "baseline": "eab7dc56503235a74f480f7ac1f5c0881a947f71",
+      "current": "eab7dc56503235a74f480f7ac1f5c0881a947f71"
+    },
+    {
+      "path": "tests/helpers/v06-observe.cjs",
+      "baseline": "86654c8945b5c5798e36f2e6fc1c56c1cdeec102",
+      "current": "86654c8945b5c5798e36f2e6fc1c56c1cdeec102"
+    },
+    {
+      "path": "tests/helpers/v06-preload.cjs",
+      "baseline": "d4c874685ee5544355e0699ec0e46489a8470d71",
+      "current": "d4c874685ee5544355e0699ec0e46489a8470d71"
+    },
+    {
+      "path": "tests/helpers/visual-diff.cjs",
+      "baseline": "09319a4e36449ca01bcf1271ad697385a6648b9f",
+      "current": "09319a4e36449ca01bcf1271ad697385a6648b9f"
+    },
+    {
+      "path": "tests/hospital.test.cjs",
+      "baseline": "731bcf693fb016e9a96bc32f2d1d1fcaf74856bd",
+      "current": "731bcf693fb016e9a96bc32f2d1d1fcaf74856bd"
+    },
+    {
+      "path": "tests/hotel-stage.test.cjs",
+      "baseline": "cb3b37421338bae9794510ec7149500eeeecbe46",
+      "current": "cb3b37421338bae9794510ec7149500eeeecbe46"
+    },
+    {
+      "path": "tests/hotel-xp.test.cjs",
+      "baseline": "128f95dcaf552953808cbf6fc2c351af560c6939",
+      "current": "128f95dcaf552953808cbf6fc2c351af560c6939"
+    },
+    {
+      "path": "tests/hotel.test.cjs",
+      "baseline": "fc8c73b9c1418d7afb8e7dde0322f882c18e83c2",
+      "current": "fc8c73b9c1418d7afb8e7dde0322f882c18e83c2"
+    },
+    {
+      "path": "tests/item-icons.test.cjs",
+      "baseline": "8c2565b5e734da4c1ffb8eea798c1407dc39540c",
+      "current": "8c2565b5e734da4c1ffb8eea798c1407dc39540c"
+    },
+    {
+      "path": "tests/landscape.test.cjs",
+      "baseline": "a69ecebea6ee00b6f7d3610a3a3e03b1f28460b3",
+      "current": "a69ecebea6ee00b6f7d3610a3a3e03b1f28460b3"
+    },
+    {
+      "path": "tests/long-route.cjs",
+      "baseline": "3c5dc10b6c40d76c9ee4175d968478d7d713ee5e",
+      "current": "3c5dc10b6c40d76c9ee4175d968478d7d713ee5e"
+    },
+    {
+      "path": "tests/multiplayer/bot.cjs",
+      "baseline": "7dcdccba56ea65b981a03d4471bee167a8059d49",
+      "current": "7dcdccba56ea65b981a03d4471bee167a8059d49"
+    },
+    {
+      "path": "tests/multiplayer/harness.cjs",
+      "baseline": "b458cafcab437a222d0e5e20ea11928b0b90be82",
+      "current": "b458cafcab437a222d0e5e20ea11928b0b90be82"
+    },
+    {
+      "path": "tests/multiplayer/mock.js",
+      "baseline": "1a448980f2c7d06c77501c517a07cacd43ef4503",
+      "current": "1a448980f2c7d06c77501c517a07cacd43ef4503"
+    },
+    {
+      "path": "tests/multiplayer/mp.cjs",
+      "baseline": "df5cf327e724b849e8b5035fa4aa116e4f78f900",
+      "current": "df5cf327e724b849e8b5035fa4aa116e4f78f900"
+    },
+    {
+      "path": "tests/multiplayer/mpstage.cjs",
+      "baseline": "02bb478603a7e73164efe5d196f75447053aa6ab",
+      "current": "02bb478603a7e73164efe5d196f75447053aa6ab"
+    },
+    {
+      "path": "tests/opening-clock.test.cjs",
+      "baseline": "f5f51d5ba59ed4d6d5401abedfaffccef9d0b21b",
+      "current": "f5f51d5ba59ed4d6d5401abedfaffccef9d0b21b"
+    },
+    {
+      "path": "tests/package-lock.json",
+      "baseline": "34ef24a1f73720f69c817295d14e64bfd0b559b7",
+      "current": "34ef24a1f73720f69c817295d14e64bfd0b559b7"
+    },
+    {
+      "path": "tests/package.json",
+      "baseline": "ef750fe66fdf16e59a61802a3315a015bc005473",
+      "current": "ef750fe66fdf16e59a61802a3315a015bc005473"
+    },
+    {
+      "path": "tests/pierce-audio.test.cjs",
+      "baseline": "43578a31d789090f63d55a6789f91da5cc382766",
+      "current": "43578a31d789090f63d55a6789f91da5cc382766"
+    },
+    {
+      "path": "tests/pierce-vfx.test.cjs",
+      "baseline": "06d60cfc96752c4b31a81a0aaa8e760f3f0dd5cf",
+      "current": "06d60cfc96752c4b31a81a0aaa8e760f3f0dd5cf"
+    },
+    {
+      "path": "tests/polish-v0670.test.cjs",
+      "baseline": "3534c5b04d056a229edd0f2b90fcfb56ed496756",
+      "current": "3534c5b04d056a229edd0f2b90fcfb56ed496756"
+    },
+    {
+      "path": "tests/pr-e-selfcheck.cjs",
+      "baseline": "dc49b6608f32d88860bedab2b279d65adfcac081",
+      "current": "dc49b6608f32d88860bedab2b279d65adfcac081"
+    },
+    {
+      "path": "tests/pr-e-tools.test.cjs",
+      "baseline": "b934a67083935734129d9c4cc18b0790555db07c",
+      "current": "b934a67083935734129d9c4cc18b0790555db07c"
+    },
+    {
+      "path": "tests/qa-selfcheck.sh",
+      "baseline": "812188216114bc4a336ac97a20902af620723d3b",
+      "current": "812188216114bc4a336ac97a20902af620723d3b"
+    },
+    {
+      "path": "tests/qte-browser.cjs",
+      "baseline": "9bbd8705e3275f3bd81dbcc8d545b9444007cc56",
+      "current": "9bbd8705e3275f3bd81dbcc8d545b9444007cc56"
+    },
+    {
+      "path": "tests/qte-phase2.test.cjs",
+      "baseline": "fa9b09d0e5b50036686ea3d31521690e40ae8966",
+      "current": "fa9b09d0e5b50036686ea3d31521690e40ae8966"
+    },
+    {
+      "path": "tests/qte-rework.test.cjs",
+      "baseline": "3486ec2e5c0bde59e36a59d7ed69a40c77dbe310",
+      "current": "3486ec2e5c0bde59e36a59d7ed69a40c77dbe310"
+    },
+    {
+      "path": "tests/qte-unified.test.cjs",
+      "baseline": "1d77475c9de0bfc7f5cf71511a333f5375279ced",
+      "current": "1d77475c9de0bfc7f5cf71511a333f5375279ced"
+    },
+    {
+      "path": "tests/remove-dodge.test.cjs",
+      "baseline": "c39c1e9b6c2ff1a68cce964103d83991c3feba9e",
+      "current": "c39c1e9b6c2ff1a68cce964103d83991c3feba9e"
+    },
+    {
+      "path": "tests/resistance.test.cjs",
+      "baseline": "418170bc2fae460c7d9392c95edece64915f94c6",
+      "current": "418170bc2fae460c7d9392c95edece64915f94c6"
+    },
+    {
+      "path": "tests/revolver-sfx.test.cjs",
+      "baseline": "7088938cdf917409f103e3f7e7ba660d8bccf7d4",
+      "current": "7088938cdf917409f103e3f7e7ba660d8bccf7d4"
+    },
+    {
+      "path": "tests/run_all.sh",
+      "baseline": "e03036ea56c08b0d49d3317bcf8d28ef5be1ab67",
+      "current": "e03036ea56c08b0d49d3317bcf8d28ef5be1ab67"
+    },
+    {
+      "path": "tests/save-fixtures.test.cjs",
+      "baseline": "298fe19a4e97d142fef66f0f9fec8024760e84c9",
+      "current": "298fe19a4e97d142fef66f0f9fec8024760e84c9"
+    },
+    {
+      "path": "tests/scene-time.test.cjs",
+      "baseline": "419f211202f23a4c2ff193a7c2f11bc80eeea99b",
+      "current": "419f211202f23a4c2ff193a7c2f11bc80eeea99b"
+    },
+    {
+      "path": "tests/seed-save.test.cjs",
+      "baseline": "702193f17b186380ce16772e03f40f7bdd4e9e28",
+      "current": "702193f17b186380ce16772e03f40f7bdd4e9e28"
+    },
+    {
+      "path": "tests/sfx-map.test.cjs",
+      "baseline": "3ab52851b68f7436efe2a89a7cd3bcc9359d0f9e",
+      "current": "3ab52851b68f7436efe2a89a7cd3bcc9359d0f9e"
+    },
+    {
+      "path": "tests/shotgun-sfx.test.cjs",
+      "baseline": "b5543e1b001019f72d723f5ec68ff8a5dc43b7b7",
+      "current": "b5543e1b001019f72d723f5ec68ff8a5dc43b7b7"
+    },
+    {
+      "path": "tests/sig-repair.test.cjs",
+      "baseline": "9eced5500e2ed8eaaac5098c1e2326665c248a98",
+      "current": "9eced5500e2ed8eaaac5098c1e2326665c248a98"
+    },
+    {
+      "path": "tests/slash-hit.test.cjs",
+      "baseline": "a6bef69583793ea54460bdd4421eeab9983e2c1a",
+      "current": "a6bef69583793ea54460bdd4421eeab9983e2c1a"
+    },
+    {
+      "path": "tests/source-version.test.cjs",
+      "baseline": "dbf7ba3a65c50c3d348c4bd32b82ef081d2b6b24",
+      "current": "dbf7ba3a65c50c3d348c4bd32b82ef081d2b6b24"
+    },
+    {
+      "path": "tests/style-guard.test.cjs",
+      "baseline": "f8436dcc0ba6fda624fa21c87cfc9a51d054fd1e",
+      "current": "f8436dcc0ba6fda624fa21c87cfc9a51d054fd1e"
+    },
+    {
+      "path": "tests/survival-route.cjs",
+      "baseline": "8176e7b7aac9b8341ece2fd1d70f0a3595710621",
+      "current": "8176e7b7aac9b8341ece2fd1d70f0a3595710621"
+    },
+    {
+      "path": "tests/time.test.cjs",
+      "baseline": "1d7faf8587f43034e877f1777f42bacdac2cfdbb",
+      "current": "1d7faf8587f43034e877f1777f42bacdac2cfdbb"
+    },
+    {
+      "path": "tests/topbar-preview.html",
+      "baseline": "284ae6565d05cef5d3ee164e60a587f9552d2350",
+      "current": "284ae6565d05cef5d3ee164e60a587f9552d2350"
+    },
+    {
+      "path": "tests/topbar.test.cjs",
+      "baseline": "f1fa3e219c190b1281acc88bcdf908f61d72fe05",
+      "current": "f1fa3e219c190b1281acc88bcdf908f61d72fe05"
+    },
+    {
+      "path": "tests/ui-regression.cjs",
+      "baseline": "9d3b3f71de8bd14a73280704e19c3c67172ea76c",
+      "current": "9d3b3f71de8bd14a73280704e19c3c67172ea76c"
+    },
+    {
+      "path": "tests/v06-fault.test.cjs",
+      "baseline": "e73d2bc72abdd575ac911b53f087fca681720252",
+      "current": "e73d2bc72abdd575ac911b53f087fca681720252"
+    },
+    {
+      "path": "tests/v06-repeat.cjs",
+      "baseline": "643331a252685d605c603f2364c31c4f25aa9ce7",
+      "current": "643331a252685d605c603f2364c31c4f25aa9ce7"
+    },
+    {
+      "path": "tests/weather.test.cjs",
+      "baseline": "b0fd219db8d889284dee6b5637c22ba5ad70269a",
+      "current": "b0fd219db8d889284dee6b5637c22ba5ad70269a"
+    },
+    {
+      "path": "tests/wounds.test.cjs",
+      "baseline": "727aca7048c52c0cbcd2b6768867e6956b21ba64",
+      "current": "727aca7048c52c0cbcd2b6768867e6956b21ba64"
+    },
+    {
+      "path": "tests/zone.test.cjs",
+      "baseline": "27b889a7f8f089271a2be3c02be382ad6d94237b",
+      "current": "27b889a7f8f089271a2be3c02be382ad6d94237b"
+    }
+  ],
+  "differences": []
+}

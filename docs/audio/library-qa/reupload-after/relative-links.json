@@ -1,0 +1,1502 @@
+[
+  {
+    "document": "audio-library/README.md",
+    "target": "CATALOG.md",
+    "exists": true
+  },
+  {
+    "document": "audio-library/README.md",
+    "target": "catalog.json",
+    "exists": true
+  },
+  {
+    "document": "audio-library/README.md",
+    "target": "catalog.csv",
+    "exists": true
+  },
+  {
+    "document": "audio-library/README.md",
+    "target": "SHA256SUMS.txt",
+    "exists": true
+  },
+  {
+    "document": "audio-library/README.md",
+    "target": "MANIFEST.json",
+    "exists": true
+  },
+  {
+    "document": "audio-library/README.md",
+    "target": "../docs/audio/LICENSES_AND_ORIGINS.md",
+    "exists": true
+  },
+  {
+    "document": "audio-library/README.md",
+    "target": "../docs/audio/LIBRARY_HANDOFF.md",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "catalog.json",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "catalog.csv",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/beretta.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/berettaReload.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/bhit.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/bite.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/bolt.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/bowdraw.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/bowimpact.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/casing.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/claw.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/crossbowshot.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/death.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/fal.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/falReload.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/fist.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/headshot.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/knife.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/m500.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/mimpact.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/mp5.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/mp5Reload.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/mthrow.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/piercehit.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/revclose.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/reveject.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/revolver.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/revolverCock.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/revopen.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/revshell.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/rifle.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/sgclose.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/sgopen.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/sgpump.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/sgshell.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/sgshellbr.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/shotgun.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/smash.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/spit.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/splat.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/squish.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/thud.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/dryfire.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/firealarm.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/genloop.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/genloop.ogg",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/genstart.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/glassbreak.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/glassstep.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/pumpmix.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/pumpstop.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio02.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio23.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio24.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radiostatic.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/rain_indoor_loop.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/rain_indoor_loop.ogg",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/rain_outdoor_loop.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/rain_outdoor_loop.ogg",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/thunder_distant_01.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/thunder_distant_02.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/waterpipe.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/woodimpact.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/woodknock.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/drawer.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/equip.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/heal.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/pickup.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/pill.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/rummage.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/zipper.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/doorclose.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/dooropen.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/stairs.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/step.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/zstep.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/click.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/airraid_event.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/goliath.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/goliath_loop.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio01.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio03.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio04.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio05.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio06.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio07.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio08.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio09.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio10.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio11.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio12.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio13.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio14.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio15.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio16.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio17.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio18.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio19.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio20.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio21.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio22.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio25.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio26.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/radio27.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/waterpump.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/bgm.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/bgm.ogg",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/bgm_battle.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/bgm_battle.ogg",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/bgm_encounter.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/bgm_encounter.ogg",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/bgm_hitman_battle.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/bgm_hitman_battle.ogg",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/bgm_hitman_intense.mp3",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../sfx/bgm_hitman_intense.ogg",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Human/HumanBreathingOut1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Human/HumanBreathingOut2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Human/HumanBreathingOut3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Human/HumanBreathingOut4.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Human/HumanCough1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Human/HumanExhausted1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Human/HumanInjured1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Human/HumanInjured2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Human/HumanInjured3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Human/HumanInjured4.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Human/HumanInjured5.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Tools/CrowbarDrag1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Tools/DesignedAxe1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Tools/DesignedAxe2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Tools/DesignedAxe3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Tools/DesignedAxe4.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Tools/DesignedPickaxe1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Tools/DesignedPickaxe2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Tools/DesignedPickaxe3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Tools/DesignedPickaxe4.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Tools/Hammer1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Tools/Hammer2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Tools/Hammer3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Tools/HammerNail1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Tools/WoodMovement1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol1_Reverb.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol2_Reverb.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol3_Reverb.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol4.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol4_Reverb.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Combat/DesignedPunch1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Combat/DesignedPunch2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Combat/DesignedPunch3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Combat/DesignedPunch4.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/BeeBuzz.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/BirdsCrowsDistantAmbienceLoop.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/CoastalWavesOnRocksLoop.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/FastWaterfallStreamLoop.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/GateWoodChain1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/GateWoodChain2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/GateWoodChain3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/GrassRip1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/GrassRip2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/Gravelfall1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/Gravelfall2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/Gravelfall3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/MetalCabinet1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/OldDoorClose.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/OldDoorCreak.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/OldDoorOpen.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/OldDoorOpenAndClose.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/OverflowingWaterPipeLoop.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/Rockfall1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/Rockfall2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/Rockfall3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/SwitchButton1_Off.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/SwitchButton1_On.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/SwitchButton2_Off.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/SwitchButton2_On.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/SwitchButton3_Off.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/SwitchButton3_On.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/WaterSplash1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/WaterSplash2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/WoodLogHandling1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/WoodLogHandling2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Environment/WoodLogHandling3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Destruction/CardboardBoxRip1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Destruction/CardboardBoxRip2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Destruction/ClothRip1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Destruction/ClothRip2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Destruction/ClothRip3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Destruction/DesignedCarCrash1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Destruction/DesignedCarCrash2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Destruction/LargeGlassMirrorCrunch1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Destruction/LargeGlassMirrorCrunch2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Destruction/LargeGlassMirrorSmash1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Destruction/LargeGlassMirrorSmash2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Destruction/WoodSnap1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Destruction/WoodSnap2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Destruction/WoodSnap3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Destruction/WoodSnap4.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Destruction/WoodSnap5.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsConcrete1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsConcrete2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsConcrete3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsConcrete4.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsDryBeachTwigs1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsDryBeachTwigs2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsDryBeachTwigs3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsDryBeachTwigs4.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsSlushSnow1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsSlushSnow2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsSlushSnow3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsSlushSnow4.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsStoneDirt1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsStoneDirt2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsStoneDirt3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsStoneDirt4.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsWetGravelStones1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsWetGravelStones2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsWetGravelStones3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Footsteps/FootstepsWetGravelStones4.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Clothing/ClothesRubberMovement1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Clothing/ClothesRubberMovement2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Clothing/ClothesRubberMovement3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Clothing/ClothesSyntheticfabric1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Clothing/ClothesSyntheticfabric2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Clothing/ClothesSyntheticfabric3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/DesignedGunSoundHandling1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/DesignedGunSoundHandling2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/DesignedGunSoundHandling3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/DesignedGunSoundHandling4.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/DesignedGunSoundReload1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/DesignedGunSoundReload2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/DesignedGunSoundReload3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/DesignedGunSoundReload4.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/FirelighterPackaging1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/FirelighterPackaging2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/LargeBagHandling1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/LargeBagHandling2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/LargeBagHandling3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/LargeBagZip1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/LargeBagZip2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/LighterFluid1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/LighterFluid2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/LighterFluid3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/MatchHandling1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/MatchHandling2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/MatchLight1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/MatchLight2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/MatchStrike1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/MatchStrike2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/MatchStrike3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/PaperDocument1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/PaperDocument2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/PaperDocument3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/PlasticBagHandling1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/PlasticBagHandling2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/PlasticBagHandling3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/PlasticBox1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Equipment/PlasticBox2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Medicine/Bandage1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Medicine/BlisterPack1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Medicine/BlisterPack2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Medicine/BlisterPack3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Medicine/PillsBox1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Medicine/PillsBox2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Food/EatingFood1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Food/EatingFood2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Food/EatingFood3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Food/FoodPackagingDriedSoupBox1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Food/FoodPackagingDriedSoupBox2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Food/FoodPackagingNoodles1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Food/FoodPackagingNoodles2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Food/FoodPackagingNoodles3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Food/FoodPackagingNoodles4.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Food/FoodPackagingWaterBottle1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Food/FoodPackagingWaterBottle2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Food/FoodPackagingWaterBottle3.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Food/SmallGlassBottles1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/darkworld-survival/Food/SmallGlassBottles2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/freesound/470585__silverillusionist__headshot-1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/freesound/470587__silverillusionist__heavy-impact.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/freesound/580232__silverillusionist__decapitation-more-gory.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/freesound/580233__silverillusionist__decapitation-earlier-blood-spurt.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/freesound/685363__silverillusionist__brutal-impalment-2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/freesound/833639__silverillusionist__skull-split-1.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/freesound/833640__silverillusionist__skull-split-2.wav",
+    "exists": true
+  },
+  {
+    "document": "audio-library/CATALOG.md",
+    "target": "../audio-library/files/freesound/395371__ihitokage__sword-sheathing.ogg",
+    "exists": true
+  },
+  {
+    "document": "docs/audio/LICENSES_AND_ORIGINS.md",
+    "target": "../../audio-library/README.md",
+    "exists": true
+  },
+  {
+    "document": "docs/audio/LICENSES_AND_ORIGINS.md",
+    "target": "../../audio-library/imports.json",
+    "exists": true
+  },
+  {
+    "document": "docs/audio/LICENSES_AND_ORIGINS.md",
+    "target": "../../audio-library/CATALOG.md",
+    "exists": true
+  },
+  {
+    "document": "docs/audio/LICENSES_AND_ORIGINS.md",
+    "target": "../../audio-library/licenses/darkworld-survival.pdf",
+    "exists": true
+  },
+  {
+    "document": "docs/audio/LIBRARY_HANDOFF.md",
+    "target": "../../audio-library/README.md",
+    "exists": true
+  },
+  {
+    "document": "docs/audio/LIBRARY_HANDOFF.md",
+    "target": "../../audio-library/CATALOG.md",
+    "exists": true
+  }
+]

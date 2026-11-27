@@ -1,0 +1,1487 @@
+[
+  {
+    "key": "zombie_massacre_sfx_flesh_blood_gore_stereo_1",
+    "original_paths": [
+      "16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_01.wav",
+      "24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_1_24_bit.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_01.wav",
+      "zombie-massacre:24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_1_24_bit.wav"
+    ],
+    "variant_groups": [
+      "Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_01.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_sfx_flesh_blood_gore_stereo_2",
+    "original_paths": [
+      "16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_02.wav",
+      "24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_2_24_bit.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_02.wav",
+      "zombie-massacre:24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_2_24_bit.wav"
+    ],
+    "variant_groups": [
+      "Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_02.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_sfx_flesh_blood_gore_stereo_3",
+    "original_paths": [
+      "16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_03.wav",
+      "24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_3_24_bit.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_03.wav",
+      "zombie-massacre:24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_3_24_bit.wav"
+    ],
+    "variant_groups": [
+      "Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_03.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_sfx_flesh_blood_gore_stereo_4",
+    "original_paths": [
+      "16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_04.wav",
+      "24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_4_24_bit.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_04.wav",
+      "zombie-massacre:24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_4_24_bit.wav"
+    ],
+    "variant_groups": [
+      "Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_04.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_sfx_flesh_blood_gore_stereo_5",
+    "original_paths": [
+      "16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_05.wav",
+      "24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_5_24_bit.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_05.wav",
+      "zombie-massacre:24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_5_24_bit.wav"
+    ],
+    "variant_groups": [
+      "Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_05.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_sfx_flesh_blood_gore_stereo_6",
+    "original_paths": [
+      "16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_06.wav",
+      "24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_6_24_bit.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_06.wav",
+      "zombie-massacre:24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_6_24_bit.wav"
+    ],
+    "variant_groups": [
+      "Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_06.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_sfx_flesh_blood_gore_stereo_7",
+    "original_paths": [
+      "16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_07.wav",
+      "24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_7_24_bit.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_07.wav",
+      "zombie-massacre:24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_7_24_bit.wav"
+    ],
+    "variant_groups": [
+      "Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_07.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_sfx_flesh_blood_gore_stereo_8",
+    "original_paths": [
+      "16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_08.wav",
+      "24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_8_24_bit.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_08.wav",
+      "zombie-massacre:24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_8_24_bit.wav"
+    ],
+    "variant_groups": [
+      "Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_08.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_sfx_flesh_blood_gore_stereo_9",
+    "original_paths": [
+      "16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_09.wav",
+      "24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_9_24_bit.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_09.wav",
+      "zombie-massacre:24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_9_24_bit.wav"
+    ],
+    "variant_groups": [
+      "Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_09.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_sfx_flesh_blood_gore_stereo_10",
+    "original_paths": [
+      "16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_10.wav",
+      "24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_10_24_bit.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_10.wav",
+      "zombie-massacre:24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_10_24_bit.wav"
+    ],
+    "variant_groups": [
+      "Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_10.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_sfx_flesh_blood_gore_stereo_11",
+    "original_paths": [
+      "16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_11.wav",
+      "24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_11_24_bit.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_11.wav",
+      "zombie-massacre:24bit/Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_11_24_bit.wav"
+    ],
+    "variant_groups": [
+      "Flesh Blood and Gore/zombie_massacre_sfx_flesh_blood_gore_stereo_11.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_head_smash_1",
+    "original_paths": [
+      "16bit/Head Smash/No Whooshes/zombie_massacre_head_smash_01.wav",
+      "24bit/Head Smash/No Whooshes/zombie_massacre_head_smash_01.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Head Smash/No Whooshes/zombie_massacre_head_smash_01.wav",
+      "zombie-massacre:24bit/Head Smash/No Whooshes/zombie_massacre_head_smash_01.wav"
+    ],
+    "variant_groups": [
+      "Head Smash/No Whooshes/zombie_massacre_head_smash_01.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_head_smash_2",
+    "original_paths": [
+      "16bit/Head Smash/No Whooshes/zombie_massacre_head_smash_02.wav",
+      "24bit/Head Smash/No Whooshes/zombie_massacre_head_smash_02.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Head Smash/No Whooshes/zombie_massacre_head_smash_02.wav",
+      "zombie-massacre:24bit/Head Smash/No Whooshes/zombie_massacre_head_smash_02.wav"
+    ],
+    "variant_groups": [
+      "Head Smash/No Whooshes/zombie_massacre_head_smash_02.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_head_smash_3",
+    "original_paths": [
+      "16bit/Head Smash/No Whooshes/zombie_massacre_head_smash_03.wav",
+      "24bit/Head Smash/No Whooshes/zombie_massacre_head_smash_03.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Head Smash/No Whooshes/zombie_massacre_head_smash_03.wav",
+      "zombie-massacre:24bit/Head Smash/No Whooshes/zombie_massacre_head_smash_03.wav"
+    ],
+    "variant_groups": [
+      "Head Smash/No Whooshes/zombie_massacre_head_smash_03.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_head_smash_4",
+    "original_paths": [
+      "16bit/Head Smash/No Whooshes/zombie_massacre_head_smash_04.wav",
+      "24bit/Head Smash/No Whooshes/zombie_massacre_head_smash_04.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Head Smash/No Whooshes/zombie_massacre_head_smash_04.wav",
+      "zombie-massacre:24bit/Head Smash/No Whooshes/zombie_massacre_head_smash_04.wav"
+    ],
+    "variant_groups": [
+      "Head Smash/No Whooshes/zombie_massacre_head_smash_04.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_head_smash_5",
+    "original_paths": [
+      "16bit/Head Smash/No Whooshes/zombie_massacre_head_smash_05.wav",
+      "24bit/Head Smash/No Whooshes/zombie_massacre_head_smash_05.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Head Smash/No Whooshes/zombie_massacre_head_smash_05.wav",
+      "zombie-massacre:24bit/Head Smash/No Whooshes/zombie_massacre_head_smash_05.wav"
+    ],
+    "variant_groups": [
+      "Head Smash/No Whooshes/zombie_massacre_head_smash_05.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_head_smash_6",
+    "original_paths": [
+      "16bit/Head Smash/No Whooshes/zombie_massacre_head_smash_06.wav",
+      "24bit/Head Smash/No Whooshes/zombie_massacre_head_smash_06.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Head Smash/No Whooshes/zombie_massacre_head_smash_06.wav",
+      "zombie-massacre:24bit/Head Smash/No Whooshes/zombie_massacre_head_smash_06.wav"
+    ],
+    "variant_groups": [
+      "Head Smash/No Whooshes/zombie_massacre_head_smash_06.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_head_smash_whoosh_1",
+    "original_paths": [
+      "16bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_01.wav",
+      "24bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_01.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_01.wav",
+      "zombie-massacre:24bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_01.wav"
+    ],
+    "variant_groups": [
+      "Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_01.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_head_smash_whoosh_2",
+    "original_paths": [
+      "16bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_02.wav",
+      "24bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_02.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_02.wav",
+      "zombie-massacre:24bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_02.wav"
+    ],
+    "variant_groups": [
+      "Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_02.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_head_smash_whoosh_3",
+    "original_paths": [
+      "16bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_03.wav",
+      "24bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_03.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_03.wav",
+      "zombie-massacre:24bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_03.wav"
+    ],
+    "variant_groups": [
+      "Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_03.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_head_smash_whoosh_4",
+    "original_paths": [
+      "16bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_04.wav",
+      "24bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_04.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_04.wav",
+      "zombie-massacre:24bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_04.wav"
+    ],
+    "variant_groups": [
+      "Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_04.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_head_smash_whoosh_5",
+    "original_paths": [
+      "16bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_05.wav",
+      "24bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_05.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_05.wav",
+      "zombie-massacre:24bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_05.wav"
+    ],
+    "variant_groups": [
+      "Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_05.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_head_smash_whoosh_6",
+    "original_paths": [
+      "16bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_06.wav",
+      "24bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_06.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_06.wav",
+      "zombie-massacre:24bit/Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_06.wav"
+    ],
+    "variant_groups": [
+      "Head Smash/Whooshes/zombie_massacre_head_smash_whoosh_06.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_intimidate_1",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_01.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_01.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_01.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_01.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_intimidate_01.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_intimidate_2",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_02.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_02.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_02.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_02.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_intimidate_02.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_intimidate_3",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_03.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_03.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_03.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_03.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_intimidate_03.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_intimidate_4",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_04.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_04.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_04.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_04.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_intimidate_04.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_intimidate_5",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_05.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_05.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_05.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_05.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_intimidate_05.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_intimidate_6",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_06.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_06.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_06.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_06.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_intimidate_06.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_intimidate_7",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_07.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_07.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_07.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_intimidate_07.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_intimidate_07.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_medium_1",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_01.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_01.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_01.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_01.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_medium_01.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_medium_2",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_02.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_02.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_02.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_02.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_medium_02.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_medium_3",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_03.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_03.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_03.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_03.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_medium_03.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_medium_4",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_04.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_04.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_04.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_04.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_medium_04.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_medium_5",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_05.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_05.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_05.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_05.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_medium_05.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_medium_6",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_06.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_06.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_06.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_06.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_medium_06.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_medium_7",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_07.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_07.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_07.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_07.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_medium_07.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_medium_8",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_08.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_08.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_08.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_08.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_medium_08.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_medium_9",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_09.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_09.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_09.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_09.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_medium_09.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_medium_10",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_10.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_10.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_10.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_10.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_medium_10.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_medium_11",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_11.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_11.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_11.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_11.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_medium_11.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_medium_12",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_12.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_12.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_12.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_12.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_medium_12.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_medium_13",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_13.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_13.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_13.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_medium_13.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_medium_13.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_short_1",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_short_01.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_short_01.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_short_01.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_short_01.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_short_01.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_short_2",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_short_02.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_short_02.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_short_02.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_short_02.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_short_02.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_short_3",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_short_03.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_short_03.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_short_03.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_short_03.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_short_03.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_short_4",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_short_04.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_short_04.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_short_04.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_short_04.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_short_04.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_short_5",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_short_05.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_short_05.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_short_05.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_short_05.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_short_05.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_short_6",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_short_06.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_short_06.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_short_06.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_short_06.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_short_06.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_attack_short_7",
+    "original_paths": [
+      "16bit/Vocal/Attack/zombie_massacre_vocal_attack_short_07.wav",
+      "24bit/Vocal/Attack/zombie_massacre_vocal_attack_short_07.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Attack/zombie_massacre_vocal_attack_short_07.wav",
+      "zombie-massacre:24bit/Vocal/Attack/zombie_massacre_vocal_attack_short_07.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Attack/zombie_massacre_vocal_attack_short_07.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_1",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_01.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_01.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_01.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_01.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_01.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_2",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_02.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_02.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_02.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_02.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_02.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_3",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_03.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_03.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_03.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_03.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_03.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_4",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_04.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_04.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_04.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_04.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_04.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_5",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_05.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_05.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_05.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_05.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_05.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_6",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_06.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_06.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_06.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_06.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_06.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_7",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_07.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_07.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_07.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_07.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_07.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_8",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_08.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_08.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_08.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_08.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_08.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_9",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_09.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_09.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_09.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_09.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_09.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_10",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_10.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_10.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_10.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_10.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_10.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_11",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_11.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_11.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_11.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_11.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_11.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_12",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_12.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_12.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_12.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_12.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_12.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_13",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_13.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_13.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_13.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_13.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_13.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_14",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_14.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_14.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_14.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_14.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_14.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_15",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_15.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_15.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_15.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_15.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_15.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_16",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_16.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_16.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_16.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_16.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_16.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_17",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_17.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_17.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_17.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_17.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_17.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_18",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_18.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_18.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_18.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_18.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_18.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_19",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_19.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_19.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_19.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_19.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_19.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_20",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_20.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_20.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_20.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_20.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_20.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_21",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_21.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_21.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_21.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_21.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_21.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_22",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_22.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_22.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_22.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_22.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_22.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_23",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_23.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_23.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_23.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_23.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_23.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_24",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_24.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_24.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_24.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_24.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_24.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_25",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_25.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_25.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_25.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_25.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_25.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_26",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_26.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_26.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_26.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_26.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_26.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_27",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_27.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_27.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_27.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_27.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_27.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_28",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_28.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_28.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_28.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_28.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_28.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_29",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_29.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_29.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_29.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_29.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_29.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_30",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_30.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_30.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_30.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_30.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_30.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "zombie_massacre_vocal_impact_pain_hurt_31",
+    "original_paths": [
+      "16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_31.wav",
+      "24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_31.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_31.wav",
+      "zombie-massacre:24bit/Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_31.wav"
+    ],
+    "variant_groups": [
+      "Vocal/Impact Pain Hurt/zombie_massacre_vocal_impact_pain_hurt_31.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "crossbow_fire_1",
+    "original_paths": [
+      "16bit/Weapons/Crossbow/crossbow_fire_1.wav",
+      "24bit/Weapons/Crossbow/crossbow_fire_1.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Crossbow/crossbow_fire_1.wav",
+      "zombie-massacre:24bit/Weapons/Crossbow/crossbow_fire_1.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Crossbow/crossbow_fire_01.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "crossbow_fire_2",
+    "original_paths": [
+      "16bit/Weapons/Crossbow/crossbow_fire_2.wav",
+      "24bit/Weapons/Crossbow/crossbow_fire_2.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Crossbow/crossbow_fire_2.wav",
+      "zombie-massacre:24bit/Weapons/Crossbow/crossbow_fire_2.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Crossbow/crossbow_fire_02.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "crossbow_fire_3",
+    "original_paths": [
+      "16bit/Weapons/Crossbow/crossbow_fire_3.wav",
+      "24bit/Weapons/Crossbow/crossbow_fire_3.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Crossbow/crossbow_fire_3.wav",
+      "zombie-massacre:24bit/Weapons/Crossbow/crossbow_fire_3.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Crossbow/crossbow_fire_03.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "crossbow_fire_4",
+    "original_paths": [
+      "16bit/Weapons/Crossbow/crossbow_fire_4.wav",
+      "24bit/Weapons/Crossbow/crossbow_fire_4.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Crossbow/crossbow_fire_4.wav",
+      "zombie-massacre:24bit/Weapons/Crossbow/crossbow_fire_4.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Crossbow/crossbow_fire_04.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "gun_rifle_pistol",
+    "original_paths": [
+      "16bit/Weapons/Desert Eagle/gun_rifle_pistol.wav",
+      "24bit/Weapons/Desert Eagle/gun_rifle_pistol.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Desert Eagle/gun_rifle_pistol.wav",
+      "zombie-massacre:24bit/Weapons/Desert Eagle/gun_rifle_pistol.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Desert Eagle/gun_rifle_pistol.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "machete_slash_flesh_attack_1",
+    "original_paths": [
+      "16bit/Weapons/Machete/machete_slash_flesh_attack_01.wav",
+      "24bit/Weapons/Machete/machete_slash_flesh_attack_01.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Machete/machete_slash_flesh_attack_01.wav",
+      "zombie-massacre:24bit/Weapons/Machete/machete_slash_flesh_attack_01.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Machete/machete_slash_flesh_attack_01.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "machete_slash_flesh_attack_2",
+    "original_paths": [
+      "16bit/Weapons/Machete/machete_slash_flesh_attack_02.wav",
+      "24bit/Weapons/Machete/machete_slash_flesh_attack_02.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Machete/machete_slash_flesh_attack_02.wav",
+      "zombie-massacre:24bit/Weapons/Machete/machete_slash_flesh_attack_02.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Machete/machete_slash_flesh_attack_02.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "machete_slash_flesh_attack_3",
+    "original_paths": [
+      "16bit/Weapons/Machete/machete_slash_flesh_attack_03.wav",
+      "24bit/Weapons/Machete/machete_slash_flesh_attack_03.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Machete/machete_slash_flesh_attack_03.wav",
+      "zombie-massacre:24bit/Weapons/Machete/machete_slash_flesh_attack_03.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Machete/machete_slash_flesh_attack_03.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "machete_slash_flesh_attack_4",
+    "original_paths": [
+      "16bit/Weapons/Machete/machete_slash_flesh_attack_04.wav",
+      "24bit/Weapons/Machete/machete_slash_flesh_attack_04.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Machete/machete_slash_flesh_attack_04.wav",
+      "zombie-massacre:24bit/Weapons/Machete/machete_slash_flesh_attack_04.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Machete/machete_slash_flesh_attack_04.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "machete_stab_flesh_attack_1",
+    "original_paths": [
+      "16bit/Weapons/Machete/machete_stab_flesh_attack_01.wav",
+      "24bit/Weapons/Machete/machete_stab_flesh_attack_01.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Machete/machete_stab_flesh_attack_01.wav",
+      "zombie-massacre:24bit/Weapons/Machete/machete_stab_flesh_attack_01.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Machete/machete_stab_flesh_attack_01.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "machete_stab_flesh_attack_2",
+    "original_paths": [
+      "16bit/Weapons/Machete/machete_stab_flesh_attack_02.wav",
+      "24bit/Weapons/Machete/machete_stab_flesh_attack_02.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Machete/machete_stab_flesh_attack_02.wav",
+      "zombie-massacre:24bit/Weapons/Machete/machete_stab_flesh_attack_02.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Machete/machete_stab_flesh_attack_02.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "machete_stab_flesh_attack_3",
+    "original_paths": [
+      "16bit/Weapons/Machete/machete_stab_flesh_attack_03.wav",
+      "24bit/Weapons/Machete/machete_stab_flesh_attack_03.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Machete/machete_stab_flesh_attack_03.wav",
+      "zombie-massacre:24bit/Weapons/Machete/machete_stab_flesh_attack_03.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Machete/machete_stab_flesh_attack_03.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "machete_stab_flesh_attack_4",
+    "original_paths": [
+      "16bit/Weapons/Machete/machete_stab_flesh_attack_04.wav",
+      "24bit/Weapons/Machete/machete_stab_flesh_attack_04.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Machete/machete_stab_flesh_attack_04.wav",
+      "zombie-massacre:24bit/Weapons/Machete/machete_stab_flesh_attack_04.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Machete/machete_stab_flesh_attack_04.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "machete_swing_1",
+    "original_paths": [
+      "16bit/Weapons/Machete/machete_swing_01.wav",
+      "24bit/Weapons/Machete/machete_swing_01.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Machete/machete_swing_01.wav",
+      "zombie-massacre:24bit/Weapons/Machete/machete_swing_01.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Machete/machete_swing_01.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "machete_swing_2",
+    "original_paths": [
+      "16bit/Weapons/Machete/machete_swing_02.wav",
+      "24bit/Weapons/Machete/machete_swing_02.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Machete/machete_swing_02.wav",
+      "zombie-massacre:24bit/Weapons/Machete/machete_swing_02.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Machete/machete_swing_02.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "machete_swing_3",
+    "original_paths": [
+      "16bit/Weapons/Machete/machete_swing_03.wav",
+      "24bit/Weapons/Machete/machete_swing_03.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Machete/machete_swing_03.wav",
+      "zombie-massacre:24bit/Weapons/Machete/machete_swing_03.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Machete/machete_swing_03.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "machete_swing_4",
+    "original_paths": [
+      "16bit/Weapons/Machete/machete_swing_04.wav",
+      "24bit/Weapons/Machete/machete_swing_04.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Machete/machete_swing_04.wav",
+      "zombie-massacre:24bit/Weapons/Machete/machete_swing_04.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Machete/machete_swing_04.wav"
+    ],
+    "passed": true
+  },
+  {
+    "key": "rusty_machine_gun_fire_single",
+    "original_paths": [
+      "16bit/Weapons/Rusty Machine Gun/rusty_machine_gun_fire_single.wav",
+      "24bit/Weapons/Rusty Machine Gun/rusty_machine_gun_fire_single.wav"
+    ],
+    "ids": [
+      "zombie-massacre:16bit/Weapons/Rusty Machine Gun/rusty_machine_gun_fire_single.wav",
+      "zombie-massacre:24bit/Weapons/Rusty Machine Gun/rusty_machine_gun_fire_single.wav"
+    ],
+    "variant_groups": [
+      "Weapons/Rusty Machine Gun/rusty_machine_gun_fire_single.wav"
+    ],
+    "passed": true
+  }
+]

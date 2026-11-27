@@ -1,0 +1,377 @@
+{
+  "checks": [
+    {
+      "name": "844×390：生命 8 受傷 25，死亡歸零且飄字完整",
+      "status": "PASS",
+      "result": {
+        "damage": 25,
+        "hp": 0,
+        "txt": [
+          "−25"
+        ],
+        "bars": [
+          "0%",
+          "0%",
+          "100%",
+          "100%"
+        ]
+      }
+    },
+    {
+      "name": "844×390：飄字在螢幕內",
+      "status": "PASS",
+      "result": {
+        "x": 98.890625,
+        "y": 69.04788970947266,
+        "width": 32.21875,
+        "height": 25,
+        "screen": [
+          844,
+          390
+        ]
+      }
+    },
+    {
+      "name": "數值矩陣 30/7/infected/slash/{}",
+      "status": "PASS",
+      "result": {
+        "peek": 7,
+        "same": true,
+        "damage": 7,
+        "hp": 23,
+        "texts": [
+          "−7"
+        ]
+      }
+    },
+    {
+      "name": "數值矩陣 14/14/infected/slash/{}",
+      "status": "PASS",
+      "result": {
+        "peek": 14,
+        "same": true,
+        "damage": 14,
+        "hp": 0,
+        "texts": [
+          "−14"
+        ]
+      }
+    },
+    {
+      "name": "數值矩陣 8/20/infected/slash/{\"ares\":[\"slash\"]}",
+      "status": "PASS",
+      "result": {
+        "peek": 15,
+        "same": true,
+        "damage": 15,
+        "hp": -7,
+        "texts": [
+          "−15"
+        ]
+      }
+    },
+    {
+      "name": "數值矩陣 8/20/devourer/fire/{}",
+      "status": "PASS",
+      "result": {
+        "peek": 25,
+        "same": true,
+        "damage": 25,
+        "hp": -17,
+        "texts": [
+          "−25"
+        ]
+      }
+    },
+    {
+      "name": "數值矩陣 8/20/infected/slash/{\"aff\":\"heavy\"}",
+      "status": "PASS",
+      "result": {
+        "peek": 18,
+        "same": true,
+        "damage": 18,
+        "hp": -10,
+        "texts": [
+          "−18"
+        ]
+      }
+    },
+    {
+      "name": "數值矩陣 8/20/infected/slash/{\"shell\":1}",
+      "status": "PASS",
+      "result": {
+        "peek": 15,
+        "same": true,
+        "damage": 15,
+        "hp": -7,
+        "texts": [
+          "−15"
+        ]
+      }
+    },
+    {
+      "name": "既有命中演出 slashAttack 傳遞完整傷害",
+      "status": "PASS",
+      "result": {
+        "d": 25,
+        "txt": [
+          "−25"
+        ]
+      }
+    },
+    {
+      "name": "既有命中演出 bluntAttack 傳遞完整傷害",
+      "status": "PASS",
+      "result": {
+        "d": 31,
+        "txt": [
+          "−31"
+        ]
+      }
+    },
+    {
+      "name": "既有命中演出 pierceAttack 傳遞完整傷害",
+      "status": "PASS",
+      "result": {
+        "d": 19,
+        "txt": [
+          "−19"
+        ]
+      }
+    },
+    {
+      "name": "既有命中演出 arrowAttack 傳遞完整傷害",
+      "status": "PASS",
+      "result": {
+        "d": 19,
+        "txt": [
+          "−19"
+        ]
+      }
+    },
+    {
+      "name": "槍械命中演出傳遞完整傷害",
+      "status": "PASS"
+    },
+    {
+      "name": "真實 roundEnd 燃燒弱點 3 加流血 5 合計 −8、死亡歸零",
+      "status": "PASS",
+      "result": {
+        "hp": 0,
+        "txt": [
+          "−8"
+        ]
+      }
+    },
+    {
+      "name": "落空白字、治療及逃走沒有假紅字",
+      "status": "PASS"
+    },
+    {
+      "name": "真實 resumeSolo 讀本版及舊存檔：保留累計、缺值補零、不補播",
+      "status": "PASS",
+      "result": {
+        "current": {
+          "hp": 23,
+          "total": 7,
+          "texts": []
+        },
+        "oldTotal": 0,
+        "oldTexts": []
+      }
+    },
+    {
+      "name": "隱藏不洩漏、現身不補播、新命中正常",
+      "status": "PASS",
+      "result": {
+        "a": 0,
+        "b": 0,
+        "txt": [
+          "−3"
+        ]
+      }
+    },
+    {
+      "name": "844×390：沒有遊戲程式及必要素材錯誤",
+      "status": "PASS"
+    },
+    {
+      "name": "393×690：生命 8 受傷 25，死亡歸零且飄字完整",
+      "status": "PASS",
+      "result": {
+        "damage": 25,
+        "hp": 0,
+        "txt": [
+          "−25"
+        ],
+        "bars": [
+          "0%",
+          "0%",
+          "100%",
+          "100%"
+        ]
+      }
+    },
+    {
+      "name": "393×690：飄字在螢幕內",
+      "status": "PASS",
+      "result": {
+        "x": 298.948486328125,
+        "y": 98.890625,
+        "width": 25,
+        "height": 32.21875,
+        "screen": [
+          393,
+          690
+        ]
+      }
+    },
+    {
+      "name": "393×690：沒有遊戲程式及必要素材錯誤",
+      "status": "PASS"
+    },
+    {
+      "name": "1280×720：生命 8 受傷 25，死亡歸零且飄字完整",
+      "status": "PASS",
+      "result": {
+        "damage": 25,
+        "hp": 0,
+        "txt": [
+          "−25"
+        ],
+        "bars": [
+          "0%",
+          "0%",
+          "100%",
+          "100%"
+        ]
+      }
+    },
+    {
+      "name": "1280×720：飄字在螢幕內",
+      "status": "PASS",
+      "result": {
+        "x": 123.890625,
+        "y": 75.02014923095703,
+        "width": 32.21875,
+        "height": 25,
+        "screen": [
+          1280,
+          720
+        ]
+      }
+    },
+    {
+      "name": "1280×720：沒有遊戲程式及必要素材錯誤",
+      "status": "PASS"
+    },
+    {
+      "name": "Firebase 主機及隊友命中演出皆顯示 −25",
+      "status": "PASS",
+      "result": [
+        {
+          "total": 25,
+          "hp": 75,
+          "texts": [
+            "−25"
+          ]
+        },
+        {
+          "total": 25,
+          "hp": 75,
+          "texts": [
+            "−25"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Firebase 重送快照不重複飄字",
+      "status": "PASS"
+    },
+    {
+      "name": "Firebase 重新加入及全量快照保留生命與累計",
+      "status": "PASS"
+    },
+    {
+      "name": "Firebase 同場倒序不倒退水位，下一次新傷害仍完整顯示 −4",
+      "status": "PASS",
+      "result": {
+        "total": 29,
+        "texts": [
+          "−4"
+        ]
+      }
+    },
+    {
+      "name": "Firebase 房主交接保留累計",
+      "status": "PASS"
+    }
+  ],
+  "views": [
+    {
+      "width": 844,
+      "height": 390,
+      "errors": {
+        "required": [],
+        "optional": [],
+        "aborted": []
+      },
+      "geometry": {
+        "x": 98.890625,
+        "y": 69.04788970947266,
+        "width": 32.21875,
+        "height": 25,
+        "screen": [
+          844,
+          390
+        ]
+      }
+    },
+    {
+      "width": 393,
+      "height": 690,
+      "errors": {
+        "required": [],
+        "optional": [],
+        "aborted": []
+      },
+      "geometry": {
+        "x": 298.948486328125,
+        "y": 98.890625,
+        "width": 25,
+        "height": 32.21875,
+        "screen": [
+          393,
+          690
+        ]
+      }
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "errors": {
+        "required": [],
+        "optional": [],
+        "aborted": []
+      },
+      "geometry": {
+        "x": 123.890625,
+        "y": 75.02014923095703,
+        "width": 32.21875,
+        "height": 25,
+        "screen": [
+          1280,
+          720
+        ]
+      }
+    }
+  ],
+  "multiplayer": {
+    "status": "PASS",
+    "total": 29,
+    "cleanup": "PASS"
+  },
+  "errors": [],
+  "status": "PASS"
+}

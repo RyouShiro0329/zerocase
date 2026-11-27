@@ -147,3 +147,25 @@ Model 10 仍使用既有 `revolver` 槍聲。Model 500 改用專屬素材 `m500`
 | m500 | dcsimon | https://freesound.org/people/dcsimon/sounds/139979/ | CC BY 3.0（https://creativecommons.org/licenses/by/3.0/）；《44 Magnum.wav》，戶外 .44 Magnum 實錄第三槍。遊戲致謝已署名。裁切、降噪、自然淡出與音量調整 |
 
 作者未替本作品背書。
+
+
+## 開發音效素材庫 1.0.0（2026-11-28，Asia/Taipei）
+
+新增素材尚未接入遊戲。完整逐檔來源、作者、授權及上游署名見 [素材庫說明](../../audio-library/README.md)、[匯入紀錄](../../audio-library/imports.json)與[分類目錄](../../audio-library/CATALOG.md)。
+
+- Darkworld Audio：164 檔，依隨包授權公開原檔，保留 [原始授權 PDF](../../audio-library/licenses/darkworld-survival.pdf)。不是 CC0。
+- SilverIllusionist／Dylan Kelk：580233、580232、470585、470587、685363，CC BY 4.0；原檔未修改。最後一檔依作者要求署名為「Brutal Impalement 2」by SilverIllusionist，來源 https://freesound.org/people/SilverIllusionist/sounds/685363/ 。其餘逐檔來源與兩個斷首音效的上游署名保存在匯入紀錄。
+- ihitokage：Sword sheathing，Freesound 395371，CC0 1.0；原檔未修改。
+- Steel & Impact（breathinghuman）：50 檔只建索引；作者條款禁止將獨立原檔或改作當音效庫再散布。
+- Zombie Massacre（Dustin Crenna／DCAudio；TerrorByteGames 發布）：198 檔只建索引；獨立素材庫再散布權未確認。
+- Deadly Kombat Free（Daniel SoundsGood）：50 檔只建索引；作品使用須保留作者的署名要求，再散布權未確認。
+
+既有遊戲音效只引用原路徑，不將既有作品授權擴張為獨立素材再散布許可。作者未參與本專案或替本專案背書。
+
+
+## 重新上傳驗收補入兩檔（2026-11-28，Asia/Taipei）
+
+- [Skull Split #1](https://freesound.org/people/SilverIllusionist/sounds/833639/) 與 [Skull Split #2](https://freesound.org/people/SilverIllusionist/sounds/833640/)：作者頁均列 CC BY 4.0（https://creativecommons.org/licenses/by/4.0/）。
+- 逐檔署名：`"Skull Split #1" by Dylan Kelk/SilverIllusionist (Freesound)`、`"Skull Split #2" by Dylan Kelk/SilverIllusionist (Freesound)`。來源頁沒有列其他上游來源；不將此當成已獨立驗證來源真實性的證明。
+- 兩檔皆保留主人提供的 WAV 原始位元，未剪輯、轉檔或調整音量；未接入遊戲，未逐檔人工試聽。作者未參與或替本遊戲背書。
+- 原有五個 SilverIllusionist 音檔與 ihitokage 音檔的授權、作者及已知上游署名保留；本次沒有重新查證全部上游或補足既有音效的授權缺口。

@@ -1,0 +1,1446 @@
+{
+  "schema": 1,
+  "catalog_version": "1.0.0",
+  "created_at": "2026-11-28T02:24:37+08:00",
+  "game_version": {
+    "v": "0.71.1",
+    "b": 148,
+    "t": "2026-11-27T18:19:49+08:00"
+  },
+  "index_sha256": "ad4aaf16e9f60b735c51f32165d5edcfa1aa5977736f59631883245ab6f657be",
+  "counts": {
+    "total": 583,
+    "existing": 113,
+    "imported": 470,
+    "imported_files": 172,
+    "metadata_only": 298,
+    "exact_duplicate_groups": 0
+  },
+  "files": [
+    {
+      "path": "audio-library/files/darkworld-survival/Clothing/ClothesRubberMovement1.wav",
+      "bytes": 527442,
+      "sha256": "a23b6ed7c7de4f89088898f895d9757bf426df1a61284594d896230776ab3375"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Clothing/ClothesRubberMovement2.wav",
+      "bytes": 348774,
+      "sha256": "8752943e021443642829723cbfb43fd78912a018d4c3cc2071e9643735fd2f08"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Clothing/ClothesRubberMovement3.wav",
+      "bytes": 370408,
+      "sha256": "7c1eec7f6ffcf06e3a9092f0140ca30dc87620beced5a115af639c4a47302534"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Clothing/ClothesSyntheticfabric1.wav",
+      "bytes": 537876,
+      "sha256": "6631dc921d74fd3d8ca8ec96f8b19ef74bf6ad9401c06a383972f2dcd0dda244"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Clothing/ClothesSyntheticfabric2.wav",
+      "bytes": 325080,
+      "sha256": "1505a4d0d5e3958d31eff2b6ba41dc2f54ac97c92e01c613d1bbfa294d717476"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Clothing/ClothesSyntheticfabric3.wav",
+      "bytes": 124802,
+      "sha256": "4a7bba58e8dd6a0403c5c86ee75ed91c6917ad455995b41b299ff30ec0068757"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol1.wav",
+      "bytes": 150016,
+      "sha256": "226aff2a5aea43a9832634f43df82ca2d86a2107da0a96888456db5b38b22d38"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol1_Reverb.wav",
+      "bytes": 280316,
+      "sha256": "14d9cdd0f278d1636d1d4b76ef50c79d424504f560ec75ac06d221c9a366d2b8"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol2.wav",
+      "bytes": 197356,
+      "sha256": "764686d7a1f99a22d669c8d1efab583eb17bf94262e7ff5a60849e0b1bffdd4d"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol2_Reverb.wav",
+      "bytes": 284072,
+      "sha256": "f35c4692db94f433e39bf163571ad54ff7aa75cf051734f5ae372f60f63dde95"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol3.wav",
+      "bytes": 204334,
+      "sha256": "b163b718113c135ffe1ca78ba45814d5ef8f2a59e313eeb282431505532d9b71"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol3_Reverb.wav",
+      "bytes": 289646,
+      "sha256": "d01ffc80af80cf12ebbf0037a7ee9c0e3284a5e87a4c96b03a3a2247acf5576f"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol4.wav",
+      "bytes": 203986,
+      "sha256": "ad15e669878f1ea18452556d42ca04187a6e35eec590c02921998b02ce24cf6a"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol4_Reverb.wav",
+      "bytes": 288286,
+      "sha256": "09a77ab700574f13e6682f1c541e098905624c1440567e1bbba66f359457b3a4"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedPunch1.wav",
+      "bytes": 66412,
+      "sha256": "238beb5d8dd0e6b269857dc120d0c00333f83e30b1fa39b3206c8b5d17c99c71"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedPunch2.wav",
+      "bytes": 65762,
+      "sha256": "2a53fe895de8de65051ec7d41857733bd349cb77cdb8db05226b9d046023ab33"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedPunch3.wav",
+      "bytes": 60922,
+      "sha256": "2921fa4d28902dd8f8e8229a3af71159ec1887ce2df02b9f75093da25bacd3d3"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedPunch4.wav",
+      "bytes": 57286,
+      "sha256": "87949940ce33a30bfd06cfc6e85ccaffae66f4a8dc8aba9541fcc2672e692eeb"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/CardboardBoxRip1.wav",
+      "bytes": 143034,
+      "sha256": "f54b716a9ca2f5b8dd78906acb51c55c6a2e9c2a4f716e3493e5840c9b9ef31e"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/CardboardBoxRip2.wav",
+      "bytes": 250382,
+      "sha256": "d47ccce06f75036417727818c562bcba6169c94bc83b2826eae345c5dc32316e"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/ClothRip1.wav",
+      "bytes": 274710,
+      "sha256": "c3066f760ed126b39635592a66742c24d2f61ee3fc1b5ae8c6e250ea30e59d0f"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/ClothRip2.wav",
+      "bytes": 121356,
+      "sha256": "320c8b1164cd09b6cbdf585f4cf7a023f1782d751554c1aeb5bc40ba0956a92a"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/ClothRip3.wav",
+      "bytes": 327542,
+      "sha256": "b43d5830bee153cbd213ab850d7adcf70d3a810e97dc133a31a0ecb14bcd3f8a"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/DesignedCarCrash1.wav",
+      "bytes": 230828,
+      "sha256": "230270ed4dda7b81342c5272dd257f38d1ae3bea805fa1c3d12356fc1f8db322"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/DesignedCarCrash2.wav",
+      "bytes": 195680,
+      "sha256": "5b9de1769879d09d777ea0efe8ce782b83971cabbe8dc4e3318e461ea286cb9a"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/LargeGlassMirrorCrunch1.wav",
+      "bytes": 226768,
+      "sha256": "22f69818821185d028cad771b2743bdee8ca801fab8f639829ddf8825a0ad827"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/LargeGlassMirrorCrunch2.wav",
+      "bytes": 241686,
+      "sha256": "bfddcd6bfc10d8a0c7fb0135388d83a7a2061648d45f95169242a0ec9e46fd6c"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/LargeGlassMirrorSmash1.wav",
+      "bytes": 175894,
+      "sha256": "67462e8653ecf518daf08b1c4232aa63f28dffbe03b8f88a92c9862b861ecb1b"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/LargeGlassMirrorSmash2.wav",
+      "bytes": 210646,
+      "sha256": "3c124252b17e08e1b71ce10afc4ff170bd2352b736ef5660758ba48f92e5e63e"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/WoodSnap1.wav",
+      "bytes": 176710,
+      "sha256": "dacb676831ccc1d7faca37bd8b59a1319ea457b689eeb4b9c0a0f8e45b13d4ba"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/WoodSnap2.wav",
+      "bytes": 144670,
+      "sha256": "322b5582dd7a035b61deefeb56fd303bb2f92b63dc84b052ec84709911e8efc9"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/WoodSnap3.wav",
+      "bytes": 135064,
+      "sha256": "c504f3dfae01c12ac6635991ac91c3955561fe35a0662e2896b4dce6f82c466b"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/WoodSnap4.wav",
+      "bytes": 203974,
+      "sha256": "9c41c4ae30460cc9e0e16feeb29e0bfdc433ebf8789b9e62210608432d9b718c"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/WoodSnap5.wav",
+      "bytes": 368756,
+      "sha256": "cbb0cfff57dd2223a54087f17d6f4778e9b7aba6e7bd49b3b076a47c103e0cf2"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/BeeBuzz.wav",
+      "bytes": 529130,
+      "sha256": "0c7c63ad864e735829dcec9fb02e1c52c5eda636b62bfb33ef6a3024388f4945"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/BirdsCrowsDistantAmbienceLoop.wav",
+      "bytes": 2969978,
+      "sha256": "77cb7c0e2294e8e110a011a9105a619add442a577cfcbeaa183fe76f3167d379"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/CoastalWavesOnRocksLoop.wav",
+      "bytes": 3747906,
+      "sha256": "e112646d39882d495df0ab34002e9a92a21ea5a84ef1dbe1a6075e6948036a93"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/FastWaterfallStreamLoop.wav",
+      "bytes": 9219866,
+      "sha256": "1f7de91411d0726ee380eb97ef170eac68b212a2e304918332b972fced5941c8"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/GateWoodChain1.wav",
+      "bytes": 337744,
+      "sha256": "f7a2dc87c3a739be32b0271e2bb977ed8509474f9320ee9c6057f4a2337537f2"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/GateWoodChain2.wav",
+      "bytes": 440626,
+      "sha256": "195dd8d356ccc1d081bb4814725276c465344584a6187b9ec7d122cd4add706e"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/GateWoodChain3.wav",
+      "bytes": 552652,
+      "sha256": "f6041f06e17e7a8c096c4e51c5511b8f1e3a0f8c8ffaa4527a02c638747851cf"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/GrassRip1.wav",
+      "bytes": 411768,
+      "sha256": "801f293d8f50b8ade9b8b20a4bb10f91f65839c6b0b8f57d2e6436739e6fef09"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/GrassRip2.wav",
+      "bytes": 301502,
+      "sha256": "45426af7090df19a089a78afd80906ff8d4c233077412f6da59c891f1329da29"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/Gravelfall1.wav",
+      "bytes": 930428,
+      "sha256": "1a78f5438d56020522b012e7fed9568eda2011e8b436eb8900e7a5186cb525e6"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/Gravelfall2.wav",
+      "bytes": 527536,
+      "sha256": "fbf5ebfafd77fb90411c2baa6ab4715916cf0cad07a9fa0eafd5cb0c449b9a5f"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/Gravelfall3.wav",
+      "bytes": 673946,
+      "sha256": "0c9176278c4f08e2966a50a8b68298315e208d9597fcb9cd257186df3f4a2778"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/MetalCabinet1.wav",
+      "bytes": 147630,
+      "sha256": "29a4c75d945cf8568f5599a5950995f8eda6dd1545979383e1d3a22c7b3120ad"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/OldDoorClose.wav",
+      "bytes": 139880,
+      "sha256": "c99674043779249135aad475a097793b45f54a1b9e5a1af440274762bb4e8735"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/OldDoorCreak.wav",
+      "bytes": 652068,
+      "sha256": "be187cff8955a917f3514dad40cb7b2327394f0e20385a77427a0045f7f35269"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/OldDoorOpen.wav",
+      "bytes": 339008,
+      "sha256": "c0a4b7851e7f908f93be7c495d32b1e1bd9940cc1d7fc0e01396be67fc5ee456"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/OldDoorOpenAndClose.wav",
+      "bytes": 754740,
+      "sha256": "e3338011ac316d5f0fedd9330dce005d80a1844eb621424aac7737842a4c5332"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/OverflowingWaterPipeLoop.wav",
+      "bytes": 9219866,
+      "sha256": "56f6a4f5da3dd1378f18967505cc4cb3441269a566cc78623765fbefb3ee7ef5"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/Rockfall1.wav",
+      "bytes": 371248,
+      "sha256": "4db8dc4e0717d57280f6dc3efbed75c811646bc8563d4e0d95ddab889289f18c"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/Rockfall2.wav",
+      "bytes": 379634,
+      "sha256": "9eed90e19f64dd8073ce027398d1e2e29d04b46ea3655cc5e01b4ad2b935d5ef"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/Rockfall3.wav",
+      "bytes": 1035692,
+      "sha256": "4a3f08f8a43b6417efbd2bee0cadaf9558cdb8ce7fab966dfc1cd2474eb961b5"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/SwitchButton1_Off.wav",
+      "bytes": 76764,
+      "sha256": "b2cc29d3e651680cc47d8cd2a36aad5f5dc9cc323f23b0713595a2d5339721db"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/SwitchButton1_On.wav",
+      "bytes": 77378,
+      "sha256": "52561bacbf30b008b4b439e8b3957a7eca3ffa9d0f137420625ab92b4c4b5e6d"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/SwitchButton2_Off.wav",
+      "bytes": 31314,
+      "sha256": "38357d85f53f9aea31cf16d08d8ed0a57753b99fdf3e4e10771a9af18b81a85b"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/SwitchButton2_On.wav",
+      "bytes": 28562,
+      "sha256": "4509ee94b1d5459ca9530e2b06432acf6d305295629dd781dba5ab1a8fda5808"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/SwitchButton3_Off.wav",
+      "bytes": 37952,
+      "sha256": "9266d38b1123029d7ed0f156d48cbf37fed8771b1dbfa08c99881f0578eeddc9"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/SwitchButton3_On.wav",
+      "bytes": 21848,
+      "sha256": "74239eec7a3b1c85b26a31bfebfd311323c136586bb1f962f5e624fdb7bf4bbe"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/WaterSplash1.wav",
+      "bytes": 225832,
+      "sha256": "df1f3fb5c53a6bdf7d26194aa443d388b264fc07d410cd62a800a4ea8adbdd4c"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/WaterSplash2.wav",
+      "bytes": 268996,
+      "sha256": "5aa97d32c79bc25e52a521b7bf3e8a76300ede6c78c0030624e032244ffa2ec2"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/WoodLogHandling1.wav",
+      "bytes": 65852,
+      "sha256": "2e35443c078cd2d8b135b67f4759e428749dc99fd177ab19e199d426b68b7cd3"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/WoodLogHandling2.wav",
+      "bytes": 94466,
+      "sha256": "6084f9ee9729c6b41ef6f8d12527a7495a93672a14d98064f3634e0ab97f72cf"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/WoodLogHandling3.wav",
+      "bytes": 93618,
+      "sha256": "b30a782856895812a38c93dec46aa00d86ae969aa9130b297214cadc53b22c24"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/DesignedGunSoundHandling1.wav",
+      "bytes": 61098,
+      "sha256": "c40cceb120102e1286abff44595b2b8c631c176af7d3971544cf941a7bd6888b"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/DesignedGunSoundHandling2.wav",
+      "bytes": 112890,
+      "sha256": "b21f03bec7464d30b9ca7949c7489e1185caf3898ca6595abf3837b09d0e0c92"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/DesignedGunSoundHandling3.wav",
+      "bytes": 102122,
+      "sha256": "09f73fdd255acc3dc1710e84268d0fbf35c3587f968938cac180f63b67cce03a"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/DesignedGunSoundHandling4.wav",
+      "bytes": 176526,
+      "sha256": "04e3b300fc670db22836024fe3273b70d72c28952247625fd57e1cafca894f53"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/DesignedGunSoundReload1.wav",
+      "bytes": 62010,
+      "sha256": "dd0d4e96f9ce53c0f3086ff5094ebf955492582b4945e902d9fe69879cb980c0"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/DesignedGunSoundReload2.wav",
+      "bytes": 96660,
+      "sha256": "9424ab141e1341f90ce47d143ed73a73b2212814019dacbba37c3ad86d4d7aac"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/DesignedGunSoundReload3.wav",
+      "bytes": 113772,
+      "sha256": "a2315a1b7c5fc5600cb6fb5722549e5361d7861e211305c4f14a625ead426d0a"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/DesignedGunSoundReload4.wav",
+      "bytes": 70060,
+      "sha256": "9b3a0335cec3eccacbc13acfe03032b80c37f4179358c52178e0cbc5f836fa16"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/FirelighterPackaging1.wav",
+      "bytes": 312146,
+      "sha256": "16f9b89bb44dae8afda46c864ea875c45176a95017c88a7b45013c1f6f80cdf0"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/FirelighterPackaging2.wav",
+      "bytes": 178200,
+      "sha256": "6e4fa17e4492e47a6e0e88a90d62ada429ec877f39205a8bc4ee53996bb02f10"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/LargeBagHandling1.wav",
+      "bytes": 227674,
+      "sha256": "6915deb8376981c721f9d77bd33cf401bffb26b4274bcac373550bfe80fe183d"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/LargeBagHandling2.wav",
+      "bytes": 387766,
+      "sha256": "5337308bd3a6a0b8e3e0f8447ca71af17ece29a5a1d1aefb646bdc67667402d6"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/LargeBagHandling3.wav",
+      "bytes": 211230,
+      "sha256": "b52946b3b3920be63736ce83648f32aacb51a04bd4e078018ba64592d9c86bc7"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/LargeBagZip1.wav",
+      "bytes": 314678,
+      "sha256": "6e409bf312633c9e851bf6c301a744b3e51ac0d094a3ab39a8595dc195dfb925"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/LargeBagZip2.wav",
+      "bytes": 125924,
+      "sha256": "d9c73d55966a59245b026a5f56bc75127c81cf2ef0f3eac2b1862b3409719279"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/LighterFluid1.wav",
+      "bytes": 201852,
+      "sha256": "eb4b836e1bbac037597bc55e03bb66dc66d34b4e65e6c5a23f851e295da98b64"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/LighterFluid2.wav",
+      "bytes": 232548,
+      "sha256": "f4d83400ef9fd0e6172fb1d4e442805d0b240a4f1502efe42432f3e0131cf1b7"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/LighterFluid3.wav",
+      "bytes": 296650,
+      "sha256": "5666eea2742e5b9caaf7561643e6fe23960c6389f536bf66fdce0cf0f49dfaca"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/MatchHandling1.wav",
+      "bytes": 287126,
+      "sha256": "350d8e77d060810216ce72e6bf8ca594e19ce04606667af88a6b0ed6b3c5af88"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/MatchHandling2.wav",
+      "bytes": 141800,
+      "sha256": "7ef4121c023cb539b990d5e7b306a01390dbb09243c00a16933bd661cda58a06"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/MatchLight1.wav",
+      "bytes": 206284,
+      "sha256": "b5da5d5cf9d88022a8175c415bf4bd2a953742fff89352571f8c6ad00d83d98f"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/MatchLight2.wav",
+      "bytes": 259894,
+      "sha256": "719edc7c88602d657525ac15419a001814caabed35e629e67e0f9f3b9c5dc49b"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/MatchStrike1.wav",
+      "bytes": 93404,
+      "sha256": "2ce74124004def89aea75b1f058fdb4c67e5da1be88853bc1c61f17ae8a8a6b9"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/MatchStrike2.wav",
+      "bytes": 68158,
+      "sha256": "d74f7f7fb592db3423a50e85959df29d2bce2dc7ae7ea523d437bc9d8802f441"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/MatchStrike3.wav",
+      "bytes": 68906,
+      "sha256": "d2283364ea515f314d99db304b98fd47286c419f873304e3d91e380f3e54a434"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/PaperDocument1.wav",
+      "bytes": 147388,
+      "sha256": "9af32a21cb903150e9bbdad7dc19c761d8828bd86f62b8d86b3689ebf8f03877"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/PaperDocument2.wav",
+      "bytes": 177606,
+      "sha256": "31d7215b0569d18543f91ce694498bec456ab0420aa2fa1bb4d609bb9108b1c7"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/PaperDocument3.wav",
+      "bytes": 136638,
+      "sha256": "301c81fb8cf22e9c9ebefe102958878188d5088faa33862de6592664df617a01"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/PlasticBagHandling1.wav",
+      "bytes": 463878,
+      "sha256": "fc846826cfef7a001e9ab9dd0fe600fd0391272871937e84debf7f2918e97fae"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/PlasticBagHandling2.wav",
+      "bytes": 272656,
+      "sha256": "6cbd27a507b9f4be4ae2262810c5d962f368ca1dc94d51c58db9905fd8c814c6"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/PlasticBagHandling3.wav",
+      "bytes": 320634,
+      "sha256": "c5e2cb547dcb051f548f80d80c017a2b9e93d40a61c96a1de2ecc44082bad563"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/PlasticBox1.wav",
+      "bytes": 164906,
+      "sha256": "eb39daf5aa3cc3a5bbe4117dffe0fb68c3aef571ba1ee1d8da720ff20a625e76"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/PlasticBox2.wav",
+      "bytes": 223202,
+      "sha256": "c0d5e4285afb823e11e576cfa4d1f388bdfe99749a047080a53abe026dc79c76"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/EatingFood1.wav",
+      "bytes": 164554,
+      "sha256": "1252f023068dca7998fe006080d616c1589d9184262ffc85fccc1189d77bd98c"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/EatingFood2.wav",
+      "bytes": 298768,
+      "sha256": "67b3a832ebd1f97e415a79a8975fe858df23cf31a1620a4e7dfe2aa20bf4b8f9"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/EatingFood3.wav",
+      "bytes": 218646,
+      "sha256": "5ec7a9cf4b9d0ddaa9ce1409028bfe3859354434ca4b54fde03ab3346d67e319"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingDriedSoupBox1.wav",
+      "bytes": 181772,
+      "sha256": "18bddec4a57b24854ff401dee7e18f01caef02e77d41f39c8700025bcf3e3530"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingDriedSoupBox2.wav",
+      "bytes": 166794,
+      "sha256": "e1e5c1c1907474f5b1cba6b9afeb5fbe798e1bb756701b4a01883c41d1079ed9"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingNoodles1.wav",
+      "bytes": 135002,
+      "sha256": "32a131b2a25940a9ec41cd4159382a8d83fafdae880d1c2d1c42eb99b4b1fc69"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingNoodles2.wav",
+      "bytes": 265922,
+      "sha256": "0c233d0a8fdfffec70e5935d504966a5dbe57147d38bc25ed9eb12174045b12b"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingNoodles3.wav",
+      "bytes": 232880,
+      "sha256": "94ff909da69aaec7cb83e314ee97301a25826a154612eaaabebf49d262b35a8c"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingNoodles4.wav",
+      "bytes": 165194,
+      "sha256": "f8f3e0b3b13fe4c32ee0860faa7fbecfbdeba8a569cc7a717c8da8e53904c991"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingWaterBottle1.wav",
+      "bytes": 132954,
+      "sha256": "2b1b798e2e5de0415bd3f8b9db3c3516b671011e91a7b900967c55595f0eba5e"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingWaterBottle2.wav",
+      "bytes": 103604,
+      "sha256": "2116913b0bf58c86b60c9df76a10e0f0351cf3efced2c5810fd4eaaa1b1a52f1"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingWaterBottle3.wav",
+      "bytes": 89828,
+      "sha256": "bde1df6278cbfc9cdac5687e7312c216e01e7f114f5c0d8fbebcfeed25661a7d"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/SmallGlassBottles1.wav",
+      "bytes": 109266,
+      "sha256": "7ae716c4e0a97a0ad7ba391f5f3e7bbe858500934a6d847ed6e38c7af60f2e5e"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/SmallGlassBottles2.wav",
+      "bytes": 60644,
+      "sha256": "05d7ebd9e1acd32b346b7bd8cd4d1ff2a50c7028a5ee2d067c828cae187b6c93"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsConcrete1.wav",
+      "bytes": 70120,
+      "sha256": "a7af47caa81d0483e0caec9c73ea07ca0e3333f128fb9b646437f2c09e168e1d"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsConcrete2.wav",
+      "bytes": 81706,
+      "sha256": "0245587321a8b518c164f4bbcf5fcb272df38eacb9159dbbb1fc91ad22277afd"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsConcrete3.wav",
+      "bytes": 81896,
+      "sha256": "27d691a8fc72bec13e77f5c74e7847d47f6a12b2ca14a336ccc75a3a1d1fc298"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsConcrete4.wav",
+      "bytes": 82582,
+      "sha256": "1e25e35f3937b22a0e6bd7e5f4b6b9d0f2eb81f018139791c725956d16a897a8"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsDryBeachTwigs1.wav",
+      "bytes": 143410,
+      "sha256": "80e5dcbd05a7ef08937abfffdca7e73fa9a93d1a4fe663e6fcb57171f861b1aa"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsDryBeachTwigs2.wav",
+      "bytes": 135018,
+      "sha256": "4ecfe5cbec77e7c0b8cad54478749d2fc1bff98241c9f1bbea860ca86ed0da3f"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsDryBeachTwigs3.wav",
+      "bytes": 132954,
+      "sha256": "ac818393227239929488fa443df9921b5f2d9aa0718b13ca5d6a58d8f7d0d278"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsDryBeachTwigs4.wav",
+      "bytes": 176748,
+      "sha256": "787c58750714317cb6597eef6b999bd58d4e65b2d976b67198f26a8a01d9229f"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsSlushSnow1.wav",
+      "bytes": 109744,
+      "sha256": "8cfb3e8489ddb5f5644975689b4d1a93a5f59a20e8f0e59069fab0074ceef545"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsSlushSnow2.wav",
+      "bytes": 129976,
+      "sha256": "cf5d07621905e195e4ff9fe1a752686ea3597e7585725c00a45ec2961fd80b71"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsSlushSnow3.wav",
+      "bytes": 122156,
+      "sha256": "16e04a2473cd406286dfbe9771f47d5b7fa83ef95af01a0bd00f9fcedf62282e"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsSlushSnow4.wav",
+      "bytes": 125806,
+      "sha256": "5cd2910b63d01a6465f19d75d24ac7e71a2aadee42ff875a7e443670da9826a1"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsStoneDirt1.wav",
+      "bytes": 236416,
+      "sha256": "124f30efa0d8df18a21300a49c3c5db898b215b83cbd0b05e16c4744dc3e981d"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsStoneDirt2.wav",
+      "bytes": 149836,
+      "sha256": "62b2f13ba09c1bf18191ba751043f620c9bad4904ea4a7b390b0ef436aaaa640"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsStoneDirt3.wav",
+      "bytes": 163604,
+      "sha256": "cc725ce9acaa24d38afacf3ff1dbd2810e69af776a1fcf7697112d500e58d18c"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsStoneDirt4.wav",
+      "bytes": 191386,
+      "sha256": "e6e796d533b1a78d4f446c13d07cda93d2785b82a73f669c399b3594efb4101c"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsWetGravelStones1.wav",
+      "bytes": 217614,
+      "sha256": "6a28e661701d3ee4c4ce84d19d8a5ec0a4e63210c011d03f01ef4ae00311ad8c"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsWetGravelStones2.wav",
+      "bytes": 197586,
+      "sha256": "fc278f16c8b28d14d8dd02febe808dadce31e15fc1c8263fd91d81dcaed8728f"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsWetGravelStones3.wav",
+      "bytes": 137062,
+      "sha256": "513a54be3a7b3142eb0348ce449c682de3213f4f298bd7030c2fcf0895f47d50"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsWetGravelStones4.wav",
+      "bytes": 175000,
+      "sha256": "0c9ae97b6438927b1dd1e941ebded66794d263c859c413e1f72e29096b15747d"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanBreathingOut1.wav",
+      "bytes": 160960,
+      "sha256": "e933f739c3e9dee7c228990f6ade2a9cbdda0fa8643c72f51f1d61c56f915a45"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanBreathingOut2.wav",
+      "bytes": 141604,
+      "sha256": "3367e7cc15009ec62b6ae8335b16b4454f923e9e242e034e8f23559c3eb9a23f"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanBreathingOut3.wav",
+      "bytes": 172870,
+      "sha256": "69b5c46be193282503b06bec0efaf21356f52fe493dbcdcc10b2308c28d1134f"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanBreathingOut4.wav",
+      "bytes": 713752,
+      "sha256": "703d94ed9e0ea7efd84af41008ab1377aa4cebd7253962b5a9ea9f53f3ca4d49"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanCough1.wav",
+      "bytes": 258708,
+      "sha256": "5776923d719bc47035b03ce4dd9080090eb418115195b0a5759d43ae1d973157"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanExhausted1.wav",
+      "bytes": 435782,
+      "sha256": "26972d7d03c9fc1da96db723834ee7ef896affb0f07a8adff259f0a245d1b00e"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanInjured1.wav",
+      "bytes": 137610,
+      "sha256": "3ca0f9e55a795bef8743ba269067d0b1765ad29da6f9d3f7f3bb2389c4f0ceca"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanInjured2.wav",
+      "bytes": 122864,
+      "sha256": "87a98b77605f1e420b43e575b18d1d1555dca1fa5f3226c0a11c9815314b5ecb"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanInjured3.wav",
+      "bytes": 142878,
+      "sha256": "6f41fb72670622fde6404b21984e5f320d0615acf2fdc6c16a42f637030c816c"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanInjured4.wav",
+      "bytes": 271688,
+      "sha256": "a6ee09553547f8265756b49a892359e652bf0930c7b0c62d0abd82c1833c2f66"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanInjured5.wav",
+      "bytes": 193740,
+      "sha256": "2054f7b10aa9ccf02118350601cb3f434195f9f7bc26846b5efe493402db2d2f"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Medicine/Bandage1.wav",
+      "bytes": 237424,
+      "sha256": "67ef57122334d46454e633848b1130cfcd61bb9751b630bfeae289606e3a6d23"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Medicine/BlisterPack1.wav",
+      "bytes": 168566,
+      "sha256": "d3bc2267561590f2e56bfde015e2fece45225ff6e8c3ffb3280241568a1532a1"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Medicine/BlisterPack2.wav",
+      "bytes": 330294,
+      "sha256": "f194653faac2ac40f0b8481e0888b3c45762adf6cbd3e3c42db00cafb572e86a"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Medicine/BlisterPack3.wav",
+      "bytes": 357080,
+      "sha256": "277c11032b7b442f369e2e18a02a14b2e91364dc100c0ea900736b29014a99a6"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Medicine/PillsBox1.wav",
+      "bytes": 143558,
+      "sha256": "d9ebb72625986e4f95287be103dfa69401cfafc2f3c95ab059635f6c5bf17576"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Medicine/PillsBox2.wav",
+      "bytes": 100556,
+      "sha256": "d09e8dddb2a11a2fdb4d36846541232cb7764099045eb9fb8251340cb99f6ff5"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/CrowbarDrag1.wav",
+      "bytes": 387224,
+      "sha256": "b37fabf8e473695c57d91b115057c79298f9b1a706d200b630231187e69456fe"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/DesignedAxe1.wav",
+      "bytes": 47462,
+      "sha256": "c331d21248adac3e48bdcdd8b383abae724fe2411e6ebf87ebafb74bb798ddff"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/DesignedAxe2.wav",
+      "bytes": 61286,
+      "sha256": "67789713155fc83e83c509a8007c93f0191b96516f0dd0938490bc2fc09a4024"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/DesignedAxe3.wav",
+      "bytes": 44496,
+      "sha256": "373c7d4cc30e699f2590c65cb197ebbe9e7b484fce459e5ab8c9d49016876cb9"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/DesignedAxe4.wav",
+      "bytes": 57776,
+      "sha256": "291d3ad6dbff55fbcccc4c19dd777ae8c1e3441771beb376de33c7edf513f1f3"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/DesignedPickaxe1.wav",
+      "bytes": 112774,
+      "sha256": "e4797a6c2dd790ca84b1726edafdc32eeaaab11b1973331ef9186567cbbb14aa"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/DesignedPickaxe2.wav",
+      "bytes": 96082,
+      "sha256": "89878886b7bfe4757ae1abb39a28a97b145e81ca38b2a53c5835dcc5220a9c8e"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/DesignedPickaxe3.wav",
+      "bytes": 119446,
+      "sha256": "c2242b88d2730d6cf1a191e7d5cbbe6c67b63a383161c7b0982fd348ba45a26e"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/DesignedPickaxe4.wav",
+      "bytes": 98710,
+      "sha256": "fbd38d8ab069fdcd223c78b57cb968e335811971d8eaf8442e92bfa2bb24a307"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/Hammer1.wav",
+      "bytes": 46008,
+      "sha256": "be42850984615753724a169bf65c28926a9c2c7542e6ed554ce295d0508243c2"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/Hammer2.wav",
+      "bytes": 57102,
+      "sha256": "48e722864383682da4c3afa9f5a96a009789c7fce0794c4ecc78c448ed8c4e78"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/Hammer3.wav",
+      "bytes": 77444,
+      "sha256": "936410d47abf6204da472c558da7883ca9ea258ddef12105ad8a94f10f513e29"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/HammerNail1.wav",
+      "bytes": 551532,
+      "sha256": "75d0f916d1223147507e4cd1acc2bb644f211d793c6539c8da8f139be710ac82"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/WoodMovement1.wav",
+      "bytes": 752252,
+      "sha256": "8f0b77d2cb063e3546d6709436921113b146e6ee95eb16e187e3f6a3891f9027"
+    },
+    {
+      "path": "audio-library/files/freesound/395371__ihitokage__sword-sheathing.ogg",
+      "bytes": 55938,
+      "sha256": "ce95d75c13ac4b9bc59fa663acf2cb77f5adb287983521b84f4c2aad3ebcbff0"
+    },
+    {
+      "path": "audio-library/files/freesound/470585__silverillusionist__headshot-1.wav",
+      "bytes": 270160,
+      "sha256": "d6cb07ca0fa6bd615820012af321e1c1eb18d9fb0ffe9a0a6d92beca08b734fd"
+    },
+    {
+      "path": "audio-library/files/freesound/470587__silverillusionist__heavy-impact.wav",
+      "bytes": 132344,
+      "sha256": "6e5076efccd177bc82a0d0650638da8bd36d61300d2af314401d2b2d9b6e1a95"
+    },
+    {
+      "path": "audio-library/files/freesound/580232__silverillusionist__decapitation-more-gory.wav",
+      "bytes": 1841228,
+      "sha256": "307e826730dc51f1262578f6ff7aad3b4ebb01186ae8ec7e5e93f338fde6054e"
+    },
+    {
+      "path": "audio-library/files/freesound/580233__silverillusionist__decapitation-earlier-blood-spurt.wav",
+      "bytes": 1719948,
+      "sha256": "605d704e5c5d9d879f47655746f03875f26e26aae0c6cba5dde8ca030ae59464"
+    },
+    {
+      "path": "audio-library/files/freesound/685363__silverillusionist__brutal-impalment-2.wav",
+      "bytes": 176444,
+      "sha256": "88f06678add3c512e4396b6246e0cbc5b0b8999718c5239a6bc5c32ca05b2a82"
+    },
+    {
+      "path": "audio-library/files/freesound/833639__silverillusionist__skull-split-1.wav",
+      "bytes": 474124,
+      "sha256": "ef186f3fe63f42217220594a51b95b8cf24fd9af106c1106625d9802aafc7f31"
+    },
+    {
+      "path": "audio-library/files/freesound/833640__silverillusionist__skull-split-2.wav",
+      "bytes": 506884,
+      "sha256": "94b265119b904b3c402a133c12ffd7feb60b0fff12f315669ff602f189372902"
+    },
+    {
+      "path": "sfx/airraid_event.mp3",
+      "bytes": 386237,
+      "sha256": "1a9e8c81a18feaf7ee1a0429179f37b21d4aaf76b14bad698142fbc63e8b6df9"
+    },
+    {
+      "path": "sfx/beretta.mp3",
+      "bytes": 18592,
+      "sha256": "e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665"
+    },
+    {
+      "path": "sfx/berettaReload.mp3",
+      "bytes": 22772,
+      "sha256": "595f1449d61d5dea101c5dc775b125b2384189d4b2eb8f7744a7f07c9c8e6b2e"
+    },
+    {
+      "path": "sfx/bgm.mp3",
+      "bytes": 1201258,
+      "sha256": "1adb6a64858c5738317a2abd9bae6aac7ab2841d13ccc5bfe93ee2203a8b38b3"
+    },
+    {
+      "path": "sfx/bgm.ogg",
+      "bytes": 687306,
+      "sha256": "00a1dbb05c6d122f1909d2c7c20666b4367b14a4c13469dce86983ad51579c1b"
+    },
+    {
+      "path": "sfx/bgm_battle.mp3",
+      "bytes": 1210596,
+      "sha256": "e4fa54c1489ee5f92e803ebaf4faef3b4c9982c916701403ace7565ae60060be"
+    },
+    {
+      "path": "sfx/bgm_battle.ogg",
+      "bytes": 1387992,
+      "sha256": "82d34995f97b9680bd2ee693db6c58b389bcb65d01c686d7c8c274ffce6da3a3"
+    },
+    {
+      "path": "sfx/bgm_encounter.mp3",
+      "bytes": 120082,
+      "sha256": "58d8ed1c8fd625880709084e841a0958cb78d4fb8ee8a57d21bbd84d478d1e6c"
+    },
+    {
+      "path": "sfx/bgm_encounter.ogg",
+      "bytes": 157561,
+      "sha256": "3a9289ba83cab25144cf366c98a509ab1c6032d02f01613f6927f168b569b4c2"
+    },
+    {
+      "path": "sfx/bgm_hitman_battle.mp3",
+      "bytes": 2738480,
+      "sha256": "0bd92ae7dcf148ec60810ff888042892f27de88d62ce90fddc9deaadc40010e9"
+    },
+    {
+      "path": "sfx/bgm_hitman_battle.ogg",
+      "bytes": 2322318,
+      "sha256": "a88b15b340c593c00bc73c5d78d0ab29c53c538a524898ff4d091a6a8e773f6c"
+    },
+    {
+      "path": "sfx/bgm_hitman_intense.mp3",
+      "bytes": 1922209,
+      "sha256": "d2313321a6b9d26562fd9f50f9cfc9d5127f1b23e820508d745add2c7f74ca0f"
+    },
+    {
+      "path": "sfx/bgm_hitman_intense.ogg",
+      "bytes": 1626858,
+      "sha256": "d610529f2c089e625a23e3a8c58fa1dc3fb3395d1ff7934dab745bb31280513a"
+    },
+    {
+      "path": "sfx/bhit.mp3",
+      "bytes": 4036,
+      "sha256": "f44a1ce2fe574fda4e58f67f5fe3ce9e878c75f2c53a1eebb6b11b5f816ebab1"
+    },
+    {
+      "path": "sfx/bite.mp3",
+      "bytes": 74505,
+      "sha256": "58af2ebd7e1dc5f17099d72eb9d7d28efe4e86793384199d082f5e90a9da13f9"
+    },
+    {
+      "path": "sfx/bolt.mp3",
+      "bytes": 44452,
+      "sha256": "01c58570613e70dd2fde80a6cf1acc1b4449b7601f6b58c359cd94d68f0f627f"
+    },
+    {
+      "path": "sfx/bowdraw.mp3",
+      "bytes": 24452,
+      "sha256": "fb43ae506dc8428adca4447ad322e18747343468c072a1c1a73d0f7159f2db63"
+    },
+    {
+      "path": "sfx/bowimpact.mp3",
+      "bytes": 14151,
+      "sha256": "3b3265d12d61ef4797bc596a6d3aa51dc63edae99154eadc8b04e0ca1a03bef2"
+    },
+    {
+      "path": "sfx/casing.mp3",
+      "bytes": 3441,
+      "sha256": "6143a207b94bce6cf2a08e69ddbbca08f5502cdc0429ec9b3be13da43f77fa89"
+    },
+    {
+      "path": "sfx/claw.mp3",
+      "bytes": 30870,
+      "sha256": "20531f5806c5f2e49f006f8e354da856ee7c284b17a92419f33c546468ebb87b"
+    },
+    {
+      "path": "sfx/click.mp3",
+      "bytes": 4554,
+      "sha256": "d60db00bf3e6b58bb9d46d2cffb164d89ea8e9ce2cdc84c8b2d1df69b6eb9294"
+    },
+    {
+      "path": "sfx/crossbowshot.wav",
+      "bytes": 29150,
+      "sha256": "2eb69134e1b5959e582ef2c1160607f5c5cc7ba2cbc69f49d2691ca24bc2210c"
+    },
+    {
+      "path": "sfx/death.mp3",
+      "bytes": 26167,
+      "sha256": "2599a596248398f43419ddb28d536fa402b9908bc4cd29947ab032e278646825"
+    },
+    {
+      "path": "sfx/doorclose.mp3",
+      "bytes": 7098,
+      "sha256": "e48cd9580687d861e559b51a00c933e5d8ecddfb36a58ada1ee2568a927fc22b"
+    },
+    {
+      "path": "sfx/dooropen.mp3",
+      "bytes": 6576,
+      "sha256": "4babd809c104000bd40f01238c3361cc738a058c3370e1e510447a436e84fc45"
+    },
+    {
+      "path": "sfx/drawer.mp3",
+      "bytes": 9449,
+      "sha256": "4ee03cb4053b62d2337d151745da9d1268fa684e0ddc8abb1a109730dcdd2ab5"
+    },
+    {
+      "path": "sfx/dryfire.mp3",
+      "bytes": 4522,
+      "sha256": "1efaf07efbb90cbe09e95ff0fdcc836f3b8827e8ab7b457fd218b05b748f27d0"
+    },
+    {
+      "path": "sfx/equip.mp3",
+      "bytes": 11278,
+      "sha256": "b791ec510a507c1370dd21728f97af8df575b76975cf9c097ababebf22064681"
+    },
+    {
+      "path": "sfx/fal.mp3",
+      "bytes": 32795,
+      "sha256": "600e63d5969c35cf3439a28f8ded40b092dd1318a7af56b6fee03467deb9cd23"
+    },
+    {
+      "path": "sfx/falReload.mp3",
+      "bytes": 23330,
+      "sha256": "98fecad635971e44606c69b39317aa6ce41620922c1b8afe519c695d11f4fcee"
+    },
+    {
+      "path": "sfx/firealarm.mp3",
+      "bytes": 190494,
+      "sha256": "52bdd5bf762ef3863c090ec3a24138e3f705cb12c0f0fce3b1e7129254802992"
+    },
+    {
+      "path": "sfx/fist.mp3",
+      "bytes": 8404,
+      "sha256": "e820c711f82a67c246ac299338c8248fa838a7f5626f12b9733fef21fc98939f"
+    },
+    {
+      "path": "sfx/genloop.mp3",
+      "bytes": 379677,
+      "sha256": "e0005f5dd5963d860e0228cae59702350cdee543b5f1619aeaac6b1499f45509"
+    },
+    {
+      "path": "sfx/genloop.ogg",
+      "bytes": 336183,
+      "sha256": "3ff3b65413aa30bbc5123eee93152fd2cbcfe4be75523dc5078ff3a0b2f23fee"
+    },
+    {
+      "path": "sfx/genstart.mp3",
+      "bytes": 160786,
+      "sha256": "128c6e0443875dbd352e8b7c4c4f281b40917cbbd4138a6d6d53893573c3bf8d"
+    },
+    {
+      "path": "sfx/glassbreak.mp3",
+      "bytes": 22693,
+      "sha256": "639ea424ccdf35f5766f2b3cb4f806e7660377438499084a2dc00b259406eec0"
+    },
+    {
+      "path": "sfx/glassstep.mp3",
+      "bytes": 90997,
+      "sha256": "cc8a6a0bf5135b846bc6cf99f8ce8976e71e3b1350a6bbe0df72467207996314"
+    },
+    {
+      "path": "sfx/goliath.mp3",
+      "bytes": 9246763,
+      "sha256": "250255b5000a6ffd787292bd73332635415522a53864039e9da1a6f109cdb554"
+    },
+    {
+      "path": "sfx/goliath_loop.mp3",
+      "bytes": 1969884,
+      "sha256": "e5e24a3ab9286dece4dc557525f643943a2378714df279390f7f71327e620a79"
+    },
+    {
+      "path": "sfx/headshot.mp3",
+      "bytes": 18070,
+      "sha256": "c65fc21a8f1ef3b337c7ab165af1164a133b10dee2b9286e3b058e0076009e0e"
+    },
+    {
+      "path": "sfx/heal.mp3",
+      "bytes": 7359,
+      "sha256": "57d94f2b20c0912754490e29c99ee715e763b55ce5cf851b6c199f1506969464"
+    },
+    {
+      "path": "sfx/knife.mp3",
+      "bytes": 10494,
+      "sha256": "a181304db270e9cb6408269c19810b30819beab69d5c75f0e383e87ac1c1e4c9"
+    },
+    {
+      "path": "sfx/m500.mp3",
+      "bytes": 16030,
+      "sha256": "534f47e99657c7aee2d288169dce4ac168e1a9c81fbe99e3b9502883ea61dbc2"
+    },
+    {
+      "path": "sfx/mimpact.mp3",
+      "bytes": 51506,
+      "sha256": "77a53960f0454e873236f0d03d1b7bf1da7aae4b9a33d38a0207342bf8f29ec9"
+    },
+    {
+      "path": "sfx/mp5.mp3",
+      "bytes": 56160,
+      "sha256": "05be5a0b7becc38fa179dfac13975fe9e637b6893d51d8df6818b23be7b69c22"
+    },
+    {
+      "path": "sfx/mp5Reload.mp3",
+      "bytes": 84480,
+      "sha256": "1981a07aff6b4a4cba44214c62803e052a79fa27c6439310a5d89d043ec78da0"
+    },
+    {
+      "path": "sfx/mthrow.mp3",
+      "bytes": 23294,
+      "sha256": "a1a260a0211fcbc21c7ebb3d910e0aa468b1a3bdb03d70e11bfb5e28fea30c29"
+    },
+    {
+      "path": "sfx/pickup.mp3",
+      "bytes": 6053,
+      "sha256": "dd2a6634e325fdbe11bbd6f75cc26621db5f4428ee0cc3ab95f36155fc41b488"
+    },
+    {
+      "path": "sfx/piercehit.mp3",
+      "bytes": 17996,
+      "sha256": "08d10f87f121ed2b7d5c154cd5a8cc3c7fd654d732181def3887434256f4ea81"
+    },
+    {
+      "path": "sfx/pill.mp3",
+      "bytes": 18070,
+      "sha256": "7d4962526ed5a3f0145717d9bd9af133f7f6d574cc08c9316bca7d836eb5fb68"
+    },
+    {
+      "path": "sfx/pumpmix.mp3",
+      "bytes": 221836,
+      "sha256": "67cb67a9429612d8a180c3e66bde192f0d0c6ee5d60100eae97700024177a2bb"
+    },
+    {
+      "path": "sfx/pumpstop.mp3",
+      "bytes": 108155,
+      "sha256": "2a8660e3481166ecf0944d26de1cb7b7ec88139cfe91883430df26a8e9685f89"
+    },
+    {
+      "path": "sfx/radio01.mp3",
+      "bytes": 33212,
+      "sha256": "6ca527b7fc83adcac15ed711df802999e320ddd4ece2c7abe0089d623f1d00fd"
+    },
+    {
+      "path": "sfx/radio02.mp3",
+      "bytes": 26792,
+      "sha256": "3555f22c8c764d2eb0de0d62db5aee85f7e8521b1557bbc683f67bfb608e37d4"
+    },
+    {
+      "path": "sfx/radio03.mp3",
+      "bytes": 28492,
+      "sha256": "b0e9f52c4697a4b7b92bf5e2ca9adeed5959647824e3a722afcf3eb04a489ca0"
+    },
+    {
+      "path": "sfx/radio04.mp3",
+      "bytes": 22692,
+      "sha256": "d5205236986ebda3028402cc0b89d9b4e6a027f0477ba86e7089ca315caf0588"
+    },
+    {
+      "path": "sfx/radio05.mp3",
+      "bytes": 21707,
+      "sha256": "353a36dad329359ec3e7886f84acbb43ace27be497707ac1a3ec1560ecca23e4"
+    },
+    {
+      "path": "sfx/radio06.mp3",
+      "bytes": 33886,
+      "sha256": "c8b21c0a4353c9b82c8cf82da376fd8ba6ea50d23ebcebfd51e6b153602455b3"
+    },
+    {
+      "path": "sfx/radio07.mp3",
+      "bytes": 35266,
+      "sha256": "232f2722c9bc9b92dac1dcb460e1574be562ad78098f5fcfe8c74c2c405c4574"
+    },
+    {
+      "path": "sfx/radio08.mp3",
+      "bytes": 31356,
+      "sha256": "d9e942cddc10b26f0e520382b7ec075eb1392bdc4bfe0d3176fc3bca62fdd7b8"
+    },
+    {
+      "path": "sfx/radio09.mp3",
+      "bytes": 36207,
+      "sha256": "5497d15cac32aea2d30594eaee1960690a4529d1f897da2bacabd732717a6893"
+    },
+    {
+      "path": "sfx/radio10.mp3",
+      "bytes": 30593,
+      "sha256": "7eaee7bd49a9f08a6fecbc12f6d2d59a334fc9c4d40379386de0488443c67021"
+    },
+    {
+      "path": "sfx/radio11.mp3",
+      "bytes": 21208,
+      "sha256": "2e822b4f72add1b7033a4f2c9ef93ed467ef08a213c00ad1838e48ba099a178f"
+    },
+    {
+      "path": "sfx/radio12.mp3",
+      "bytes": 27235,
+      "sha256": "e4f6815d3d7cd960fc8d02647c0e33c1e40b84679e7e200b7a84ec03253881ee"
+    },
+    {
+      "path": "sfx/radio13.mp3",
+      "bytes": 24943,
+      "sha256": "d4c5a5d75464da5f8d00f600c084ec3a3dd5140bc3234f72a5a6733b4a48ddc2"
+    },
+    {
+      "path": "sfx/radio14.mp3",
+      "bytes": 23664,
+      "sha256": "9fb529ffa48196d51219ff2ad46eacbe1279ebfe7d0ac3ae794510d23c0d32d3"
+    },
+    {
+      "path": "sfx/radio15.mp3",
+      "bytes": 23421,
+      "sha256": "965a4389fd8de235587e90af0c589f291f750159b7ddcb09fa2d908c922ad5e2"
+    },
+    {
+      "path": "sfx/radio16.mp3",
+      "bytes": 24442,
+      "sha256": "9fc88bc0e9034d55f89ebdff36c8a8208236a356ed48dc2c34de8c3427c35fb0"
+    },
+    {
+      "path": "sfx/radio17.mp3",
+      "bytes": 29582,
+      "sha256": "fe910fa634b2c77dfc5c394de081b7eaf6c6417686ec5ff2bca322258cfe3374"
+    },
+    {
+      "path": "sfx/radio18.mp3",
+      "bytes": 28905,
+      "sha256": "e79e4cadbd9fdc90356caa1b3808b1184ae11a9996243e7520eae308ebc7c823"
+    },
+    {
+      "path": "sfx/radio19.mp3",
+      "bytes": 27390,
+      "sha256": "aafa6c984f9d434d8e54625332d5aea2dee3d3039a1f0b3e358a140448e3bcd6"
+    },
+    {
+      "path": "sfx/radio20.mp3",
+      "bytes": 26740,
+      "sha256": "a7b31be04bbea86b29e5637060e05687c70fafa765af8dbdf9929fe1c7ef4a5e"
+    },
+    {
+      "path": "sfx/radio21.mp3",
+      "bytes": 28304,
+      "sha256": "fd13cecbf65a75bf7f85bad0a7e995c546f7d632bf35d461fec8d2e4ba3e430d"
+    },
+    {
+      "path": "sfx/radio22.mp3",
+      "bytes": 28697,
+      "sha256": "e2d24277f6974a03558cec8acc066dff852334bba97ac2af696101409a280f87"
+    },
+    {
+      "path": "sfx/radio23.mp3",
+      "bytes": 24810,
+      "sha256": "919b33e2c4380ad1b14a7ef7a6be163b5aba75744944353db48624bf53704348"
+    },
+    {
+      "path": "sfx/radio24.mp3",
+      "bytes": 21571,
+      "sha256": "69a8591a9189c49035f30fb0f9cf76ccdcada95444d7cca68cfa710b601ed706"
+    },
+    {
+      "path": "sfx/radio25.mp3",
+      "bytes": 23212,
+      "sha256": "6795c93dda69892b1ad71d976e80bb88fa487d0b7da2b0b46a2aa57c9dd5c235"
+    },
+    {
+      "path": "sfx/radio26.mp3",
+      "bytes": 33126,
+      "sha256": "9bd92fee53904eeb5dcbe001f9c624934211c7eead09ad64ad00bfb010344290"
+    },
+    {
+      "path": "sfx/radio27.mp3",
+      "bytes": 53912,
+      "sha256": "62a208da56b6ec8cc8a2f2d6277cdd2bd0e93460ceb0b7ca1f52355844915403"
+    },
+    {
+      "path": "sfx/radiostatic.mp3",
+      "bytes": 19237,
+      "sha256": "d2b2e31f81ccb98c9b45c6886e070798c8c19a27281d296e80a73ac0d323133a"
+    },
+    {
+      "path": "sfx/rain_indoor_loop.mp3",
+      "bytes": 458684,
+      "sha256": "49cd618fc9809154f3a5b7b11ac9059f97269548586d90a9c4679b6ee053e908"
+    },
+    {
+      "path": "sfx/rain_indoor_loop.ogg",
+      "bytes": 318553,
+      "sha256": "68292fd1df5d00ed328095ed09f60e58c409e0aba314a31b3037544962065d6f"
+    },
+    {
+      "path": "sfx/rain_outdoor_loop.mp3",
+      "bytes": 458684,
+      "sha256": "cf01289e441e088c2e712b4dc8d28953fd72652e295c475e69802ee660afd52f"
+    },
+    {
+      "path": "sfx/rain_outdoor_loop.ogg",
+      "bytes": 356494,
+      "sha256": "a29eb5f2fa4836170b401e08463757860d70515de43ebf3fa905788ae21b3022"
+    },
+    {
+      "path": "sfx/revclose.mp3",
+      "bytes": 1924,
+      "sha256": "35ee75e596c77525e3db6dc1344c828bf634bcadabf7d333bbe6b853ef441976"
+    },
+    {
+      "path": "sfx/reveject.mp3",
+      "bytes": 12582,
+      "sha256": "9200def291409e67cdf8492101cd762adb39f52517f70ec4c9cab7c43de40ada"
+    },
+    {
+      "path": "sfx/revolver.mp3",
+      "bytes": 25645,
+      "sha256": "bc3ce62108d69addcb4f3e474086bc5556ba3bfedff9eb893438d0446d839a2b"
+    },
+    {
+      "path": "sfx/revolverCock.mp3",
+      "bytes": 24600,
+      "sha256": "1c76b0d94c6b6cbe077ad20543788ca2c651baeca46c3434034275bb3a4a018d"
+    },
+    {
+      "path": "sfx/revopen.mp3",
+      "bytes": 5373,
+      "sha256": "cc1f8497a6543c1233a8c3ec578815d59219df0ebfc2c96a749cadaee78e403d"
+    },
+    {
+      "path": "sfx/revshell.mp3",
+      "bytes": 5686,
+      "sha256": "4cc407050526399cdbfd053d6dd7b7d245615f07c170007fb62ff79adcb21d2b"
+    },
+    {
+      "path": "sfx/rifle.mp3",
+      "bytes": 35048,
+      "sha256": "2d0f03b402c423fca443cd0aa5096e7f027c730bf685de7377274df24c16dce5"
+    },
+    {
+      "path": "sfx/rummage.mp3",
+      "bytes": 26217,
+      "sha256": "e394fce197e192f9dc97acf4690198ea20c15a48e19ec9b2dedad28dd6197db3"
+    },
+    {
+      "path": "sfx/sgclose.mp3",
+      "bytes": 3492,
+      "sha256": "27d7c27bd05a6d286cb91fc1f529b7a631ff72f7d38e99b2ee3b86bd3d9be1a0"
+    },
+    {
+      "path": "sfx/sgopen.mp3",
+      "bytes": 3806,
+      "sha256": "04f75c6520cd90d688df140a834b6cc4b74c72adfac1750d4e1525b3702c8961"
+    },
+    {
+      "path": "sfx/sgpump.mp3",
+      "bytes": 7881,
+      "sha256": "a05caeaf13def588e733bd02884c0c8dd7015fc15e45045721dc2808fb27e958"
+    },
+    {
+      "path": "sfx/sgshell.mp3",
+      "bytes": 5060,
+      "sha256": "d471e8deeaafd4e6eaa1ae1b9d0ecf97574fb542ca2ccf3cf544e14833942ff6"
+    },
+    {
+      "path": "sfx/sgshellbr.mp3",
+      "bytes": 7567,
+      "sha256": "1482dd6df1d41a61bf5aaadfea6d6c90780b6d502d6cb6dce025a344749e13e6"
+    },
+    {
+      "path": "sfx/shotgun.mp3",
+      "bytes": 39360,
+      "sha256": "d277f8642795240cc42e3320057603603e75ff2dbff516935f5ebe495f6975f4"
+    },
+    {
+      "path": "sfx/smash.mp3",
+      "bytes": 19944,
+      "sha256": "fefa4e46931984f4c280c74781172108a542b0dc4d51609287f0826a9387b279"
+    },
+    {
+      "path": "sfx/spit.mp3",
+      "bytes": 18612,
+      "sha256": "a26afe95a6c730ae2285cb0452ecf43de6b378ac49241ae604077a88d4526024"
+    },
+    {
+      "path": "sfx/splat.mp3",
+      "bytes": 23620,
+      "sha256": "c0802d7487dcb445cb6f5722d4f522f5d6d6ad3edcff9d4daa3d081178a0acf5"
+    },
+    {
+      "path": "sfx/squish.mp3",
+      "bytes": 5154,
+      "sha256": "7f333d4160251592255f2a94484d80a6cc58ff64f471e902242696f9bb47fb3f"
+    },
+    {
+      "path": "sfx/stairs.mp3",
+      "bytes": 35572,
+      "sha256": "0518e99cb622dd7cfd7477a207fe2677f34f95041c20714e7978d6f9dfd1babb"
+    },
+    {
+      "path": "sfx/step.mp3",
+      "bytes": 4747,
+      "sha256": "de399cb5d2e9c5813050bef91fea8feaf37b3f1f7eb4a8c9bb14dc54b44f062f"
+    },
+    {
+      "path": "sfx/thud.mp3",
+      "bytes": 17935,
+      "sha256": "44a36f9623112f5b021dfc523d3d9624e39b9dcfac18ef9f00799368b0911ba6"
+    },
+    {
+      "path": "sfx/thunder_distant_01.mp3",
+      "bytes": 210716,
+      "sha256": "1c898f02db6978975242b59442f29fc4bef0b25cdb1f08d5f951fcbf988d2767"
+    },
+    {
+      "path": "sfx/thunder_distant_02.mp3",
+      "bytes": 238940,
+      "sha256": "db707bb3dd9e186844e3d89f3dabfba7cca9563e7091d86bd51bc8ac81d1e0b6"
+    },
+    {
+      "path": "sfx/waterpipe.mp3",
+      "bytes": 194425,
+      "sha256": "d80fed255f3c49b59075c0adcbffac8ea8a1f6990680894064ab865af24dd2e3"
+    },
+    {
+      "path": "sfx/waterpump.mp3",
+      "bytes": 222463,
+      "sha256": "6ec84429335fbf346749047f9e65a700cfc8b91eea80785156620fb194eef2bf"
+    },
+    {
+      "path": "sfx/woodimpact.mp3",
+      "bytes": 11234,
+      "sha256": "7f45fdc49458ed1f6e14a16de34558443979a6920c65c621d9c5eacdc6dc3e30"
+    },
+    {
+      "path": "sfx/woodknock.mp3",
+      "bytes": 20788,
+      "sha256": "196cde9ec7085345aa650d2348cf8356061821f0d2e287b6a6db4c6ba368c1ef"
+    },
+    {
+      "path": "sfx/zipper.mp3",
+      "bytes": 23555,
+      "sha256": "938aaf102d72b2aea911283a92086a7cee40288690338a559b2470086070226e"
+    },
+    {
+      "path": "sfx/zstep.mp3",
+      "bytes": 7882,
+      "sha256": "24a7e7d9c250ddcabbae0599aca3273468af705dadffbe86f3d0047f08fe4f70"
+    }
+  ]
+}

@@ -1,0 +1,3415 @@
+{
+  "commit": "a31a02b2d04ab0e09880ccff3c23fbe37b06367c",
+  "truncated": false,
+  "local_blobs": 851,
+  "remote_blobs": 851,
+  "differences": [],
+  "files": [
+    {
+      "path": ".github/workflows/asset-loading.yml",
+      "blob_sha": "b201e3233318124cda392e3f9250f601c1ed7746"
+    },
+    {
+      "path": ".github/workflows/damage-float.yml",
+      "blob_sha": "a7d9d671f4d894384f71ed71f7e30e8bc3088ded"
+    },
+    {
+      "path": ".github/workflows/deep.yml",
+      "blob_sha": "17d9bb6787a00629aad5426c1aaeba6ae54e9ebf"
+    },
+    {
+      "path": ".github/workflows/deployed-smoke.yml",
+      "blob_sha": "a4fd90e7f8bbbae4d68e942df7ea4507476578b9"
+    },
+    {
+      "path": ".github/workflows/fear-display.yml",
+      "blob_sha": "ab4f0abb5ecc522f6b6a2d2e0dbf88a1be5742e7"
+    },
+    {
+      "path": ".github/workflows/test.yml",
+      "blob_sha": "85bb8f27c487c874d9005e4102ca729a2ac9c2b1"
+    },
+    {
+      "path": ".github/workflows/v06-stability.yml",
+      "blob_sha": "55e8b1c1024b41455553195cc8afdc2159b2bb11"
+    },
+    {
+      "path": ".gitignore",
+      "blob_sha": "51511d1f8f36f488f26610dcb58157a2e65da2bc"
+    },
+    {
+      "path": ".nojekyll",
+      "blob_sha": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+    },
+    {
+      "path": "AGENTS.md",
+      "blob_sha": "ec25b1ffb6eaf38c9745114aaadc191f89b89ed7"
+    },
+    {
+      "path": "CLAUDE.md",
+      "blob_sha": "85ad029f4d31cbf83077cb006079d4ddf0017d18"
+    },
+    {
+      "path": "README.md",
+      "blob_sha": "43dba6a65213d60af9405cad69f09b0d8e14117a"
+    },
+    {
+      "path": "assets-manifest.json",
+      "blob_sha": "cf2d211e234aecf634d61f85c1d08e46ac46f19c"
+    },
+    {
+      "path": "audio-library/CATALOG.md",
+      "blob_sha": "1117e4ca4df447238de90d5779341bfe55c60fcc"
+    },
+    {
+      "path": "audio-library/MANIFEST.json",
+      "blob_sha": "b2c72763d99eea68ffb72f9e4afe9e5e359a6531"
+    },
+    {
+      "path": "audio-library/README.md",
+      "blob_sha": "b4e6faa0f97af2f335b2ba7bd350d408c0ff8471"
+    },
+    {
+      "path": "audio-library/SHA256SUMS.txt",
+      "blob_sha": "5491b7da1f10180a44a04a9cd1c1a5a0548bd9be"
+    },
+    {
+      "path": "audio-library/catalog.csv",
+      "blob_sha": "31f47428dfbdaf826bf96c259792a5b883a4cd4c"
+    },
+    {
+      "path": "audio-library/catalog.json",
+      "blob_sha": "fabd112a908763678677b200711254095f079c77"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Clothing/ClothesRubberMovement1.wav",
+      "blob_sha": "e6c7197c1d4ee201e6502026973c1f7984a1e70b"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Clothing/ClothesRubberMovement2.wav",
+      "blob_sha": "7b1b1eb243a30582b702cea56beca5c7d42b2cdc"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Clothing/ClothesRubberMovement3.wav",
+      "blob_sha": "83c8652c720ca58121a788832194f0d2d986d51d"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Clothing/ClothesSyntheticfabric1.wav",
+      "blob_sha": "9ade78aff9e1304a2fffee7baedecabfcc6199d2"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Clothing/ClothesSyntheticfabric2.wav",
+      "blob_sha": "84032d35831b55c6bebe707ddcc7d90fdd9e3a3f"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Clothing/ClothesSyntheticfabric3.wav",
+      "blob_sha": "855cbf6c7879a584e26ad4a6ebabb94d08e74961"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol1.wav",
+      "blob_sha": "304502de74d6019d0338471f7569306836dfc5d2"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol1_Reverb.wav",
+      "blob_sha": "fd57d5d0098481a1e1e068ad79415fc3364052a1"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol2.wav",
+      "blob_sha": "df66e1bd49ccf3989beaf51fec4db68b70ec8d0f"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol2_Reverb.wav",
+      "blob_sha": "b837760c84c437250ac95d72e5525aeb6f1e29e1"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol3.wav",
+      "blob_sha": "6d3e07fb5dafb4fad33c79f7fcef1c7f00345c3f"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol3_Reverb.wav",
+      "blob_sha": "3bb6ba4cab28748064f5f316f484609e8f908c68"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol4.wav",
+      "blob_sha": "6b0668b81549476309ed09ea36c1e0107bc263cf"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedGunshot_Pistol4_Reverb.wav",
+      "blob_sha": "3908adc834f96630044b2cdcf1f90b5fed84f192"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedPunch1.wav",
+      "blob_sha": "a5da748aef9d2d4d90077758088e6040dd4ffa0e"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedPunch2.wav",
+      "blob_sha": "cdde433e6c3e916ab28e70049b7e5be7f6afb9e2"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedPunch3.wav",
+      "blob_sha": "59f913bce5e1dc0d1a0745fd2adbe731eadca332"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Combat/DesignedPunch4.wav",
+      "blob_sha": "80b77e9b49145c6d9228e019505361693162654b"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/CardboardBoxRip1.wav",
+      "blob_sha": "5054fe28759605eb0fe4d76c2f920bc719088658"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/CardboardBoxRip2.wav",
+      "blob_sha": "769e779d28e22474fc7e3aa19a3a4ec9edf860e4"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/ClothRip1.wav",
+      "blob_sha": "9094ddd44e116f3100a8d8daa9bae071bf3e64a9"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/ClothRip2.wav",
+      "blob_sha": "52b59c521dccfce51715feffb3971d48d10c6f3d"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/ClothRip3.wav",
+      "blob_sha": "131b39b231d094f9a36a8ca0f94289c04b697750"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/DesignedCarCrash1.wav",
+      "blob_sha": "932034731046909472a3571f12187e5f7708827b"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/DesignedCarCrash2.wav",
+      "blob_sha": "1a7036f4f931b07fe87eca249b86ca0b38c6e365"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/LargeGlassMirrorCrunch1.wav",
+      "blob_sha": "698c24673eac4b54e173c829ab74631a49b661ab"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/LargeGlassMirrorCrunch2.wav",
+      "blob_sha": "f9c0c8803b9283e4607c2a5757fa43f24e730b9e"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/LargeGlassMirrorSmash1.wav",
+      "blob_sha": "26f018817b15f05b98752b4ddb4da8c53e603b59"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/LargeGlassMirrorSmash2.wav",
+      "blob_sha": "21c3ab6ccfabb9a40bea7cbc4186d98746cc6f67"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/WoodSnap1.wav",
+      "blob_sha": "ff85be348362b372cf31e9e5818cf7154c2daeed"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/WoodSnap2.wav",
+      "blob_sha": "b8b91041d1c4ca61d6b085a86fcd013a5dc1408d"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/WoodSnap3.wav",
+      "blob_sha": "b64579ebc6fe6835a4a9c5a2ed1c2f94de322a59"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/WoodSnap4.wav",
+      "blob_sha": "ceabf18c0e5e51d7c373096582e1729d96f840b9"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Destruction/WoodSnap5.wav",
+      "blob_sha": "2899bb33063955ea79c02bd405a39f6509584cf6"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/BeeBuzz.wav",
+      "blob_sha": "abd192f6362f724ac24937bedb60d1970defa4e1"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/BirdsCrowsDistantAmbienceLoop.wav",
+      "blob_sha": "791884d3cd0bc9e5ca2a34483bd50e94ccaf4d04"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/CoastalWavesOnRocksLoop.wav",
+      "blob_sha": "2e6c777f20df5e4297cd42b8e80edef55a0da82a"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/FastWaterfallStreamLoop.wav",
+      "blob_sha": "cf1ff794721be5843aea5a894b7ded7b2499f737"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/GateWoodChain1.wav",
+      "blob_sha": "69951efa51977c1697d83974805267e4e5c11200"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/GateWoodChain2.wav",
+      "blob_sha": "ff45e2ab7459339a725c575daf2b4df768993651"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/GateWoodChain3.wav",
+      "blob_sha": "3907ddb6a31762d4427b160edb097d0189c67947"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/GrassRip1.wav",
+      "blob_sha": "8223c9e185edfbf9c2d13c23f2ec10f0b9865c87"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/GrassRip2.wav",
+      "blob_sha": "fe27d4fa269facb6deae6ca1760fa337a5d1a59d"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/Gravelfall1.wav",
+      "blob_sha": "4c6f67d13a0fbebb7f2b3c8cbc70520d0779671d"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/Gravelfall2.wav",
+      "blob_sha": "3703bf2a446c087320530989f5506d5f9374d01b"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/Gravelfall3.wav",
+      "blob_sha": "3f80d6b91d0751365866025d2d03c635f461460e"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/MetalCabinet1.wav",
+      "blob_sha": "ea50cfa407b16fe8d6b96d29aa6e117cbd3cb212"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/OldDoorClose.wav",
+      "blob_sha": "3d2ba761c695ecfc185bd110e6d8baaee6eba67f"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/OldDoorCreak.wav",
+      "blob_sha": "5de3162bc5c4ade5f8e967d14b8f09c6e28f7834"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/OldDoorOpen.wav",
+      "blob_sha": "a78ad218bd1a7e5e1935e71d8d6680bb82f59bbd"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/OldDoorOpenAndClose.wav",
+      "blob_sha": "1fa5a1cba05349c6d640919c1b4973a8f843c57c"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/OverflowingWaterPipeLoop.wav",
+      "blob_sha": "7cc5ad4b31643654e5889b034b19d8af3d37019e"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/Rockfall1.wav",
+      "blob_sha": "6bcdaf237ff04aae7d2662eea71b7860c34590f0"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/Rockfall2.wav",
+      "blob_sha": "5263d6079eecfecb58e69a2c11d23e9128682932"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/Rockfall3.wav",
+      "blob_sha": "97432b36c1a5b0fb43abc739752c5da111490250"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/SwitchButton1_Off.wav",
+      "blob_sha": "70aee64e748ece2444f670f71030b21c2769b062"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/SwitchButton1_On.wav",
+      "blob_sha": "5b8ea9f8f24ee97f3b5011dd7f39bc382abe8455"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/SwitchButton2_Off.wav",
+      "blob_sha": "bceb6a04a6a3e1e973c990f369bff030c0c36353"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/SwitchButton2_On.wav",
+      "blob_sha": "fb45177276d0186f265011c5c66bdaa6f85ec5d9"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/SwitchButton3_Off.wav",
+      "blob_sha": "e862f9043f955bc61de5bcd21978c2d030f60c7b"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/SwitchButton3_On.wav",
+      "blob_sha": "38f25621ad7a2f7f10b300b02614d90b5420d899"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/WaterSplash1.wav",
+      "blob_sha": "a5f7622cc930e90e924e7fa925d764180f6b4bb5"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/WaterSplash2.wav",
+      "blob_sha": "87764f1974539b0f5dbca512de0557c189fc2d35"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/WoodLogHandling1.wav",
+      "blob_sha": "c983ffb546dace3ec554288c687342c1ecbb0560"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/WoodLogHandling2.wav",
+      "blob_sha": "3ea788a5d3f21e499ce7094ba9741f11a4511f0a"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Environment/WoodLogHandling3.wav",
+      "blob_sha": "afc9f3efd009a975cbb483ecf10b9a7dc94b83fc"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/DesignedGunSoundHandling1.wav",
+      "blob_sha": "61900326db233528f5e06fc90ed7d8548ddb5a5d"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/DesignedGunSoundHandling2.wav",
+      "blob_sha": "d5f3a80d9c40a7dd2ebe284c0fc4956445593d68"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/DesignedGunSoundHandling3.wav",
+      "blob_sha": "d0a68ddaf85913cb90519fa40657e27efe7a4484"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/DesignedGunSoundHandling4.wav",
+      "blob_sha": "90457422999d53b91bb7f7c003535f6e43377437"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/DesignedGunSoundReload1.wav",
+      "blob_sha": "f8e36c31b451e2dfd11999bde121f2655213fb8e"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/DesignedGunSoundReload2.wav",
+      "blob_sha": "773d6dfeb6ef1dcd9d0ba5c1ef96d4006663192c"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/DesignedGunSoundReload3.wav",
+      "blob_sha": "f20551e11b998b64d3b07c3faeb7f024eee5856f"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/DesignedGunSoundReload4.wav",
+      "blob_sha": "82103819ec855dcf4aa7562f7761ed9cc26ff865"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/FirelighterPackaging1.wav",
+      "blob_sha": "7ecc72b4895f8c940d48b519aa6d652f93a73e46"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/FirelighterPackaging2.wav",
+      "blob_sha": "4175ce5a160306b37860fac51de99030afe13f42"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/LargeBagHandling1.wav",
+      "blob_sha": "749f69f3c6b01bf117f075122c987e2dff6221ac"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/LargeBagHandling2.wav",
+      "blob_sha": "55974557d3df73ee365f63e63be96b293e9cf840"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/LargeBagHandling3.wav",
+      "blob_sha": "dea9fb11d0a4a15269e3894135ddaa80677f21d0"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/LargeBagZip1.wav",
+      "blob_sha": "ffb2960fce0faefb00f18d89c7b5238437a1c586"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/LargeBagZip2.wav",
+      "blob_sha": "91eb709fec567daab6ec8890abb343c770e603f9"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/LighterFluid1.wav",
+      "blob_sha": "70f8a95eff022847cb7f132c0ce5b226a986ffb3"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/LighterFluid2.wav",
+      "blob_sha": "096e0ee01a3d3fe9c66ffc66b02300a2c7741a7d"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/LighterFluid3.wav",
+      "blob_sha": "d92b198b09f164fb75ceba61ed315684384c1a07"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/MatchHandling1.wav",
+      "blob_sha": "5c316b998a0b241aa4ae71afc68f5d505e91be17"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/MatchHandling2.wav",
+      "blob_sha": "4b56b22359a33a9cc0eda47f50f32574be0af613"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/MatchLight1.wav",
+      "blob_sha": "79ebf15202699b1b8dc6b22e8a5a59a344644841"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/MatchLight2.wav",
+      "blob_sha": "2f31010e594df5c6272c45f4ff230c5664d4c522"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/MatchStrike1.wav",
+      "blob_sha": "f4423d4b3e1224d4f4dc54d752ec401adb94d794"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/MatchStrike2.wav",
+      "blob_sha": "73c67be57ac38d7203cec79252bc2f50b343e805"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/MatchStrike3.wav",
+      "blob_sha": "4241eead6b7c5b261fc1981ec82138b72428e069"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/PaperDocument1.wav",
+      "blob_sha": "0c6f28e6ffeef3ed6cc1627c664e352b54a1ad53"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/PaperDocument2.wav",
+      "blob_sha": "c5a53ce2810a006328d81503bf0f7b6f707a0271"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/PaperDocument3.wav",
+      "blob_sha": "6f6d88636fe1538e0be0e5fe09619beece17071c"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/PlasticBagHandling1.wav",
+      "blob_sha": "9f1c7b9c93341479862f9435d96b456daf27831d"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/PlasticBagHandling2.wav",
+      "blob_sha": "c7c06e2c7182cae805970f53cdf2d84a4952ce12"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/PlasticBagHandling3.wav",
+      "blob_sha": "e46264a20c349b7608b30e25c6c16ab29b24c19a"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/PlasticBox1.wav",
+      "blob_sha": "c4424ef49cf22eaf37ee790c496ce1ac6c13cb2f"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Equipment/PlasticBox2.wav",
+      "blob_sha": "86fb9bbc62385cf50c3a309a22e6155532306e69"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/EatingFood1.wav",
+      "blob_sha": "fe85303d7327acedc882dff6332784d46c048405"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/EatingFood2.wav",
+      "blob_sha": "97863726a04d7aff8dd073737feac06d9b84d137"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/EatingFood3.wav",
+      "blob_sha": "db121273b03624e5f630827f1afc1f00a2fba423"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingDriedSoupBox1.wav",
+      "blob_sha": "ad8dca9d65beb792e3441a3070b2b9740c1d32b4"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingDriedSoupBox2.wav",
+      "blob_sha": "78974d51b0e03c152719fdd0ed8b037f0bd3da62"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingNoodles1.wav",
+      "blob_sha": "19416188dd57e54573ec85e24e0ad7448eeac882"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingNoodles2.wav",
+      "blob_sha": "244e8d9469bde181c06afc4459bfaea68795a3d4"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingNoodles3.wav",
+      "blob_sha": "3600973a5e8db218464161e70e35154e6f05d997"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingNoodles4.wav",
+      "blob_sha": "9982b828c79138225d02b0028fbd595b047ed2ee"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingWaterBottle1.wav",
+      "blob_sha": "f0c317f8658698c165383480f59438f0f10c0379"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingWaterBottle2.wav",
+      "blob_sha": "c142b6c61e4721ebd44d0b3beb3f59ac28b05a67"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/FoodPackagingWaterBottle3.wav",
+      "blob_sha": "e18dcba418c1c54edbd6fe368a55740abdb22d1e"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/SmallGlassBottles1.wav",
+      "blob_sha": "e3636bf775b59bd83850d1bd52bf5ebb14e4f7e7"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Food/SmallGlassBottles2.wav",
+      "blob_sha": "8422fe65dcc72aa3b6564b77f9be9dcd5062d0e6"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsConcrete1.wav",
+      "blob_sha": "6d25de1ace21d7d528f3cde1d12028b1003c3689"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsConcrete2.wav",
+      "blob_sha": "616886d8e12921e4a3081638ccc4bd06110e2e45"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsConcrete3.wav",
+      "blob_sha": "c4c545d3eeab8279fb1b2cefb7241e86995ca709"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsConcrete4.wav",
+      "blob_sha": "9e607fb3aa6f629a6fc0c2cb14603459d7dc62ad"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsDryBeachTwigs1.wav",
+      "blob_sha": "c544ec3ba304fb5e360c2b3df5d2d3c7a5983272"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsDryBeachTwigs2.wav",
+      "blob_sha": "856d77793786cb9590fa91a1da44e746fa909bf3"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsDryBeachTwigs3.wav",
+      "blob_sha": "a982cf21163db26d3fc3dd1cc049d61004b4ba13"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsDryBeachTwigs4.wav",
+      "blob_sha": "31f18cf4c92897505de57c888cca186b3529b5de"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsSlushSnow1.wav",
+      "blob_sha": "48f288c9bd2232bd38638d09fc800ab21f0d3f0c"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsSlushSnow2.wav",
+      "blob_sha": "4b1ac2df973b79d9715846fcab7bd83f15458525"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsSlushSnow3.wav",
+      "blob_sha": "75b1c1ffab85511cb1d5246bf629db1a546bf1a4"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsSlushSnow4.wav",
+      "blob_sha": "e6f71943a04b5b5a2cabeda73ef817a4e8dfb343"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsStoneDirt1.wav",
+      "blob_sha": "41ebf30fec84b94b1b5f11017056206a8ae804df"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsStoneDirt2.wav",
+      "blob_sha": "4e674a5f0e98d2b8a470b2797507c969c93fdbe3"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsStoneDirt3.wav",
+      "blob_sha": "e01a0d8157801ceb885d9d098299390d85b448ef"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsStoneDirt4.wav",
+      "blob_sha": "d6c3b8d920a6fc679c97fd0e8a37e6ff02c2ccaf"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsWetGravelStones1.wav",
+      "blob_sha": "b5c42ca97411875504960329a56025be5351e39f"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsWetGravelStones2.wav",
+      "blob_sha": "5d658b7c7619bbe10ef0de692755e8f5e0558d38"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsWetGravelStones3.wav",
+      "blob_sha": "9ce02d4c3dd19c0a2bc2b5aa86f146fdf9dba0d7"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Footsteps/FootstepsWetGravelStones4.wav",
+      "blob_sha": "4cffa9eca6664ad90413c1598084466db5c36658"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanBreathingOut1.wav",
+      "blob_sha": "03f2a541540796a9a5313c96634a10af1d150b1b"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanBreathingOut2.wav",
+      "blob_sha": "efc5b50967529b3577f7dd116523171351a2c828"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanBreathingOut3.wav",
+      "blob_sha": "1a902b3faab69f149acd97bf472d3198448cb983"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanBreathingOut4.wav",
+      "blob_sha": "5b858832d050a307a04f35688ba7c24365701724"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanCough1.wav",
+      "blob_sha": "263d70ee05727d10af880a3c2016994a4c74e456"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanExhausted1.wav",
+      "blob_sha": "f76b2ccea00df416aa11dabf8d6e753cd6692bb8"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanInjured1.wav",
+      "blob_sha": "e7d4068f7da12d99fcd06c0998c903493537d5f9"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanInjured2.wav",
+      "blob_sha": "cd1905e73a9cd5ee53aa9ba4a941418fcbb4336b"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanInjured3.wav",
+      "blob_sha": "f0f2f3ad94e59b684d40ae44832dcdd8206096f2"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanInjured4.wav",
+      "blob_sha": "985833ef365a65092587a54950925e89d07c6efa"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Human/HumanInjured5.wav",
+      "blob_sha": "ff449b60e25341da0fc986c9b45e1048fbb5ab43"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Medicine/Bandage1.wav",
+      "blob_sha": "4b84c53b91832db47c283535feec9a2b1fbc3d86"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Medicine/BlisterPack1.wav",
+      "blob_sha": "5a1202c796fb61db8af8fab5dee07fa3ad3456ea"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Medicine/BlisterPack2.wav",
+      "blob_sha": "6745ea71670c4dd17389033d7e2595ef99e1e6a0"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Medicine/BlisterPack3.wav",
+      "blob_sha": "f984f60c127ced68cbd2aebc588feddad2c8d634"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Medicine/PillsBox1.wav",
+      "blob_sha": "ad84191ca6c6c4bcb084e1a77f554fc8ad9538a4"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Medicine/PillsBox2.wav",
+      "blob_sha": "c67cfd9ba363f0adb185be6725f38b0d037120db"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/CrowbarDrag1.wav",
+      "blob_sha": "0f974c1a3dc330c81a6bc7f94de34e5f8f8e2ad8"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/DesignedAxe1.wav",
+      "blob_sha": "e02d2e86a6d04498134f48f9fb817ea7c2a3eeb8"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/DesignedAxe2.wav",
+      "blob_sha": "dbf460f624bda680b614568c28b893a08506d501"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/DesignedAxe3.wav",
+      "blob_sha": "5e81e3a686d88be76d9c2977351110ab22390f5b"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/DesignedAxe4.wav",
+      "blob_sha": "4f0a02cd72d30843cef97cd502268965afa6a2ed"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/DesignedPickaxe1.wav",
+      "blob_sha": "805e9dd4e351771e88d1b07511efa70a0a167db8"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/DesignedPickaxe2.wav",
+      "blob_sha": "2d541290e3b70e90fbee9d0ba4c227b83d41a1fc"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/DesignedPickaxe3.wav",
+      "blob_sha": "beff9750942a6804c2fe514f838c53407dd645a6"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/DesignedPickaxe4.wav",
+      "blob_sha": "4b5f14559c8090151e4184ea7b3d355999d4a95b"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/Hammer1.wav",
+      "blob_sha": "95515e78052bd4b97ec23e6eea8ab8c8d6375558"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/Hammer2.wav",
+      "blob_sha": "6610b75c9cc7edfd9c7d86c204fe14a6827fc7f8"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/Hammer3.wav",
+      "blob_sha": "ee62ba75a0ac03957b8ea92654b9b995a5125d6c"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/HammerNail1.wav",
+      "blob_sha": "d2f74f0f8efed243ec7fd2fc959bee0be5d8b13d"
+    },
+    {
+      "path": "audio-library/files/darkworld-survival/Tools/WoodMovement1.wav",
+      "blob_sha": "de35a4ba61bc8617743dc3335e2ff99e1c7ca26a"
+    },
+    {
+      "path": "audio-library/files/freesound/395371__ihitokage__sword-sheathing.ogg",
+      "blob_sha": "b5b6c7a9ea003f5123d0c063d5ba02b95640c95e"
+    },
+    {
+      "path": "audio-library/files/freesound/470585__silverillusionist__headshot-1.wav",
+      "blob_sha": "b28d1cbe5ac3f8073c148208b470cb91253c7f4c"
+    },
+    {
+      "path": "audio-library/files/freesound/470587__silverillusionist__heavy-impact.wav",
+      "blob_sha": "e250507642fc1281f4c84b248bad236ca9f05cdb"
+    },
+    {
+      "path": "audio-library/files/freesound/580232__silverillusionist__decapitation-more-gory.wav",
+      "blob_sha": "1beecedd0b39bece4cdbb571d94bfc72631810d8"
+    },
+    {
+      "path": "audio-library/files/freesound/580233__silverillusionist__decapitation-earlier-blood-spurt.wav",
+      "blob_sha": "dd2c8708528432a0066b26e5d89cabe0291c25ff"
+    },
+    {
+      "path": "audio-library/files/freesound/685363__silverillusionist__brutal-impalment-2.wav",
+      "blob_sha": "c74bdf57fe3e8b73798a4366a12b0678fe76ad3c"
+    },
+    {
+      "path": "audio-library/imports.json",
+      "blob_sha": "b361c51d0d905041351e56e00901123e9914906a"
+    },
+    {
+      "path": "audio-library/licenses/darkworld-survival.pdf",
+      "blob_sha": "92ab8f920df17331dffb269d6249b8e37447323d"
+    },
+    {
+      "path": "audit_v0.22.0.json",
+      "blob_sha": "536254e9f66a698cb306fbbecb7ac1a124ed9c0e"
+    },
+    {
+      "path": "audit_v0.22.1.json",
+      "blob_sha": "7eaa91621012058ebb2519972b3e2d11d09e335d"
+    },
+    {
+      "path": "audit_v0.22.2.json",
+      "blob_sha": "b9cab4d0b8d43651f6c437dc0587e338996330b4"
+    },
+    {
+      "path": "audit_v0.22.3.json",
+      "blob_sha": "11850720c1a0fa747c3bd8f4207e886af6e216b2"
+    },
+    {
+      "path": "audit_v0.22.4.json",
+      "blob_sha": "417f6c75515d7a47d9c6db9b09553ef479e79e77"
+    },
+    {
+      "path": "audit_v0.23.0.json",
+      "blob_sha": "ece2ae50c1991baac8513cff07449057bb62dc38"
+    },
+    {
+      "path": "audit_v0.23.1.json",
+      "blob_sha": "4808afb835e7920be1642f0cccf045595d84309c"
+    },
+    {
+      "path": "audit_v0.35.0.json",
+      "blob_sha": "46c3942d53bd4ee391feeffd8755417246b2c1ff"
+    },
+    {
+      "path": "audit_v0.36.0.json",
+      "blob_sha": "2066d2dbf5f7be4cf293beace480d723d745e0d6"
+    },
+    {
+      "path": "audit_v0.36.1.json",
+      "blob_sha": "f123fc9aef4fa81fa51071fd9af50aaa962dba1d"
+    },
+    {
+      "path": "audit_v0.37.2.json",
+      "blob_sha": "83f7548cff32184d21252894f4d459f85e9043bc"
+    },
+    {
+      "path": "audit_v0.44.0.json",
+      "blob_sha": "6053b4e6cd187a025120125c4f60b7d6481c2480"
+    },
+    {
+      "path": "audit_v0.44.1.json",
+      "blob_sha": "5905b30914af77929d10a3761a1309ec65e5509e"
+    },
+    {
+      "path": "audit_v0.45.0.json",
+      "blob_sha": "8057d7b734d73ab297af89f0ac8148038c49bca7"
+    },
+    {
+      "path": "audit_v0.45.1.json",
+      "blob_sha": "9bba2b785ac4b9865f2c8eb8844348bd58307a92"
+    },
+    {
+      "path": "audit_v0.46.0.json",
+      "blob_sha": "cc894bd28e4f42b3d97abfa092d6d7af9bff1c4d"
+    },
+    {
+      "path": "audit_v0.46.1.json",
+      "blob_sha": "bcbe8db931e045e517932197adfbb0f875401ca0"
+    },
+    {
+      "path": "audit_v0.47.0.json",
+      "blob_sha": "46cb3c53c4de5e490d1a386dfcfb7c53f9f404ab"
+    },
+    {
+      "path": "audit_v0.48.0.json",
+      "blob_sha": "bf479dbba6716b29160318611f5c1ac82e5ba8b1"
+    },
+    {
+      "path": "audit_v0.49.0.json",
+      "blob_sha": "8c2f064763656d2c3ee5751918d2170423f40bf4"
+    },
+    {
+      "path": "audit_v0.50.0.json",
+      "blob_sha": "b007b7e154623beb6bfd4f0a93914133dbdef04e"
+    },
+    {
+      "path": "audit_v0.51.0.json",
+      "blob_sha": "e1dc52bbcd360b075bd897e4f7bd37b50e957970"
+    },
+    {
+      "path": "audit_v0.52.0.json",
+      "blob_sha": "de80a8ae6ca8f33d015a4200d582b7d10ba9f781"
+    },
+    {
+      "path": "audit_v0.53.0.json",
+      "blob_sha": "2dd1d8682059225fb6abcb7bfabc3a23567f90dc"
+    },
+    {
+      "path": "audit_v0.53.1.json",
+      "blob_sha": "3279303ec5de3c9521b4ce56f16d5cd56bb5c31e"
+    },
+    {
+      "path": "docs/ARROW_SHOT_v0.46.0.md",
+      "blob_sha": "3846c03d0b97d156287f37a4bc8065eb29c0f31d"
+    },
+    {
+      "path": "docs/BGM_STAGE_v0.65.0.md",
+      "blob_sha": "d54fbd865b4f10f612c7a96368e4d8227ffb9a52"
+    },
+    {
+      "path": "docs/BGM_v0.52.0.md",
+      "blob_sha": "2337d0853c0b3637d8c784cf96acfda9f3b739e3"
+    },
+    {
+      "path": "docs/BGM_v0.53.0.md",
+      "blob_sha": "2f179e2df329fae591df9531e91265fe7b0f7475"
+    },
+    {
+      "path": "docs/BGM_v0.53.1.md",
+      "blob_sha": "b11a2f96da63c040ddfc8f8cd2109218a0e3548a"
+    },
+    {
+      "path": "docs/BLUNT_FIX_v0.44.1.md",
+      "blob_sha": "8bd4a5f2b99f9fc487ccd8f235c340a30343ac4f"
+    },
+    {
+      "path": "docs/BLUNT_VFX_v0.44.0.md",
+      "blob_sha": "17021179f6358c3150639519068d29a10d2a2470"
+    },
+    {
+      "path": "docs/DAR_PIERCE_FIX_v0.45.1.md",
+      "blob_sha": "11a05fe70a7a9bccd26012965bca1909f8f79dc4"
+    },
+    {
+      "path": "docs/DESIGN.md",
+      "blob_sha": "aad446841d2a8065560870cafaa020b2034df8c8"
+    },
+    {
+      "path": "docs/ENEMY_ATTACK_v0.47.0.md",
+      "blob_sha": "8cee05c0a32da2011a05ae3d6b83b758d2120d51"
+    },
+    {
+      "path": "docs/ENEMY_QTE_v0.49.0.md",
+      "blob_sha": "33fd3abcf59d4c583f7e51e34ba06e245552265b"
+    },
+    {
+      "path": "docs/GUN_VFX_v0.48.0.md",
+      "blob_sha": "d42bd79b9f185c1f9b1a972a804f9e699c7dba2a"
+    },
+    {
+      "path": "docs/HANDOFF_CLAUDE.md",
+      "blob_sha": "d9043ab32bc997d209c5e7da50143c9dc38c26a7"
+    },
+    {
+      "path": "docs/HOTEL_ROUTE_SPEC.md",
+      "blob_sha": "b3c7ab5c72d9bb94a0464b706393cb69533cf4f5"
+    },
+    {
+      "path": "docs/OUTSIDE_MAP_SPEC.md",
+      "blob_sha": "c6eca4519d7e33e80731686fd93a5fbb308225f6"
+    },
+    {
+      "path": "docs/PIERCE_VFX_v0.45.0.md",
+      "blob_sha": "41506ba29919963d04b6d045f029927a16bdab52"
+    },
+    {
+      "path": "docs/POLISH_v0.67.0.md",
+      "blob_sha": "47591a93eddee10c8ed51bd94a761e2e12978049"
+    },
+    {
+      "path": "docs/QA_SYSTEM.md",
+      "blob_sha": "9d8b72efb78c8a50f909e3a4d52a62c96213bd52"
+    },
+    {
+      "path": "docs/QTE_PHASE2_v0.66.0.md",
+      "blob_sha": "62e92309479dc3a361bc123b978356a01aedd5cd"
+    },
+    {
+      "path": "docs/QTE_REWORK_v0.65.0.md",
+      "blob_sha": "fff99c14ddd3bdafe9d202499f8380d13665835d"
+    },
+    {
+      "path": "docs/RESISTANCE_v0.50.0.md",
+      "blob_sha": "630a2470b6b7973b706f48303cd380e49be39e2f"
+    },
+    {
+      "path": "docs/RULES_CLAUDE.md",
+      "blob_sha": "c4ca83bcc13c6591aa7335ec2db4e7579c444015"
+    },
+    {
+      "path": "docs/RULES_GPT.md",
+      "blob_sha": "b2c1fba501360811ff974ead2db3172b53a1e824"
+    },
+    {
+      "path": "docs/VERSIONS.md",
+      "blob_sha": "4365f6fe4eeb0fd30a12abd68da4c6d79dc3736a"
+    },
+    {
+      "path": "docs/WOUNDS_v0.51.0.md",
+      "blob_sha": "1e8fcfe8e5cfbe641cb3a60f8ef94ea1b8a2d2f5"
+    },
+    {
+      "path": "docs/archive/AI_WORKFLOW.md",
+      "blob_sha": "a2844082cdb30c42a3b12e55c4b266a480298853"
+    },
+    {
+      "path": "docs/archive/README.md",
+      "blob_sha": "710d6b269b9d681ed397dec11b0cd9ce65c0b2a6"
+    },
+    {
+      "path": "docs/archive/RULES_SONNET.md",
+      "blob_sha": "b86329ea57778bca7b5dc83a097859a8010e79eb"
+    },
+    {
+      "path": "docs/archive/qa-tools/arrow-shot-browser.cjs",
+      "blob_sha": "bbda7bfd16a038fe2f657ebdd181dad70dccd968"
+    },
+    {
+      "path": "docs/archive/qa-tools/battle-party-setting-browser.cjs",
+      "blob_sha": "aad230232c17a65503033fc5bd837be4dfd4ed7b"
+    },
+    {
+      "path": "docs/archive/qa-tools/battle-player-cards.cjs",
+      "blob_sha": "901d55b255b3acf43a13c3636d92896ffc5d617f"
+    },
+    {
+      "path": "docs/archive/qa-tools/bgm-browser.cjs",
+      "blob_sha": "5a58747d0beaedcd8b702d58de6a781f61d99e50"
+    },
+    {
+      "path": "docs/archive/qa-tools/bgm-http.cjs",
+      "blob_sha": "b66e1c3bf895bb486f1b98ac5b3905574308455d"
+    },
+    {
+      "path": "docs/archive/qa-tools/blunt-hit-browser.cjs",
+      "blob_sha": "705820daf84377672f1ff040dbad5ee3f4cd5ef6"
+    },
+    {
+      "path": "docs/archive/qa-tools/check_evacuation.cjs",
+      "blob_sha": "04747ef4390cd5384cd2ae77ffe9185513848d00"
+    },
+    {
+      "path": "docs/archive/qa-tools/enemy-attack-browser.cjs",
+      "blob_sha": "1d7b873d358dee9969e7e51d2fe546e16db135a3"
+    },
+    {
+      "path": "docs/archive/qa-tools/evacuation-browser.cjs",
+      "blob_sha": "7f3b371b570b4b01cbc23cc11fa8a9db768700bd"
+    },
+    {
+      "path": "docs/archive/qa-tools/gun-shot-browser.cjs",
+      "blob_sha": "daa721ecf37da68405846dab570ae37713efadc5"
+    },
+    {
+      "path": "docs/archive/qa-tools/pierce-audio-browser.cjs",
+      "blob_sha": "6ba8c750ff1c0239e179a7414a482b6e425702ed"
+    },
+    {
+      "path": "docs/archive/qa-tools/pierce-vfx-browser.cjs",
+      "blob_sha": "8dc7ade07869bcc486e46af75cc54c6df3378eb9"
+    },
+    {
+      "path": "docs/archive/qa-tools/qte-unified-browser.cjs",
+      "blob_sha": "4013450034d3b38aa7f7ff68f0b332b219961929"
+    },
+    {
+      "path": "docs/archive/qa-tools/remove-dodge-browser.cjs",
+      "blob_sha": "70f132a9bb0807385b33986480a3ef4725742f5c"
+    },
+    {
+      "path": "docs/archive/qa-tools/resistance-browser.cjs",
+      "blob_sha": "755fca4c428cf24542aa71f82b1c76761814b19d"
+    },
+    {
+      "path": "docs/archive/qa-tools/slash-hit-browser.cjs",
+      "blob_sha": "444eb15d205e1b308dbadda6b04d08c98b6cfa89"
+    },
+    {
+      "path": "docs/archive/qa-tools/wounds-browser.cjs",
+      "blob_sha": "ce4ca4dcc2bed5ebdfb04b9866e28260a1710c89"
+    },
+    {
+      "path": "docs/archive/workflows/arrow-shot-qa.yml",
+      "blob_sha": "4e319ddaf4e0d567be22a73f7fc409818089de3f"
+    },
+    {
+      "path": "docs/archive/workflows/bgm-qa.yml",
+      "blob_sha": "ecf8d960cad097e7ee5ad94725233d62fb92de43"
+    },
+    {
+      "path": "docs/archive/workflows/enemy-attack-qa.yml",
+      "blob_sha": "7cddc4da5c70302ff8c5a07fd906c83982d750d6"
+    },
+    {
+      "path": "docs/archive/workflows/enemy-qte-release-qa.yml",
+      "blob_sha": "2aef142a2f46eb62f20723caf2ef3afe300def60"
+    },
+    {
+      "path": "docs/archive/workflows/evacuation-qa.yml",
+      "blob_sha": "8ac189d73d80bb49f88a4a95c3b7384390e1f2d1"
+    },
+    {
+      "path": "docs/archive/workflows/pierce-audio-qa.yml",
+      "blob_sha": "771de081ea0ad94a9d0bf0f702964016368d9a0b"
+    },
+    {
+      "path": "docs/archive/workflows/remove-dodge-qa.yml",
+      "blob_sha": "645ed2c38888b4fd8403efd45cca9c1d67383872"
+    },
+    {
+      "path": "docs/archive/workflows/resistance-qa.yml",
+      "blob_sha": "57e5086b14d07d42cf82911ad1e3834cbfa2a076"
+    },
+    {
+      "path": "docs/archive/workflows/wounds-qa.yml",
+      "blob_sha": "fe26a3865809a4b6c32447dd3c204041e5c27f0b"
+    },
+    {
+      "path": "docs/audio/2026-11-15-integration-plan.md",
+      "blob_sha": "f28573a06c729f49fa25b88ef8f0b952904a8674"
+    },
+    {
+      "path": "docs/audio/ASSET_VALIDATION.json",
+      "blob_sha": "4c0e87e8f1ee3a472d305dde0b69e4755732b597"
+    },
+    {
+      "path": "docs/audio/ASSET_VALIDATION_V0.21.10.json",
+      "blob_sha": "25f46c9d65f085256969dc52b324b7d9819ddfdc"
+    },
+    {
+      "path": "docs/audio/ASSET_VALIDATION_V0.23.0.json",
+      "blob_sha": "f624f0138796d1f33a971528f1657daac0438abe"
+    },
+    {
+      "path": "docs/audio/BOW_SOURCE_LICENSE.md",
+      "blob_sha": "7c910b21068d55fac580989f86f37a10302bd5d8"
+    },
+    {
+      "path": "docs/audio/BOW_SOURCE_MANIFEST.json",
+      "blob_sha": "373e210a57e209ab05dc345339e36af300c9bfcf"
+    },
+    {
+      "path": "docs/audio/BROWSER_QA_V0.23.0.json",
+      "blob_sha": "d93d29364c18bc2f9c575052517421cf167f9291"
+    },
+    {
+      "path": "docs/audio/FEEDBACK_V0.21.11.md",
+      "blob_sha": "43f50d673ef118f88337f65e265fe9d92696f83c"
+    },
+    {
+      "path": "docs/audio/IMPLEMENTATION_PLAN.md",
+      "blob_sha": "4f6b066cacb654f3e140a1d87aa99134fa5be772"
+    },
+    {
+      "path": "docs/audio/INTEGRATION.md",
+      "blob_sha": "b242990f139caaf52b26e1bdd99da27abd199349"
+    },
+    {
+      "path": "docs/audio/LIBRARY_HANDOFF.md",
+      "blob_sha": "26310b94d9f37d05cedbcace07022b61b380fb60"
+    },
+    {
+      "path": "docs/audio/LICENSES_AND_ORIGINS.md",
+      "blob_sha": "21c1aeba522adb31ba2d2bf2fcabeaf4fce9c46b"
+    },
+    {
+      "path": "docs/audio/PROCESSING_V0.21.10.json",
+      "blob_sha": "6123d06f978456ed1609e88d047dd1af2943f25b"
+    },
+    {
+      "path": "docs/audio/RADIO_LINES.json",
+      "blob_sha": "e4020f08908ca279c3c2264c6f524308da286773"
+    },
+    {
+      "path": "docs/audio/RADIO_SEGMENTS.json",
+      "blob_sha": "d8710a090a9e3e726116c10085cc3d4d28d10b14"
+    },
+    {
+      "path": "docs/audio/RAIN_SOURCE_MANIFEST.json",
+      "blob_sha": "d6ae75bb134fe59f37eb60ee2cc8574d18bac803"
+    },
+    {
+      "path": "docs/audio/RELEASE_V0.21.10.md",
+      "blob_sha": "d7e16626b6b1711607ce6c9f6a8fcf4079012de9"
+    },
+    {
+      "path": "docs/audio/RELEASE_V0.23.0.md",
+      "blob_sha": "8e2ccc8e6f7ea59592cf3507adcb4d3d9d2d2eb7"
+    },
+    {
+      "path": "docs/audio/SECOND_BATCH.md",
+      "blob_sha": "ba8204ee63f12f782617f2a2b69bc6f497fc50ce"
+    },
+    {
+      "path": "docs/audio/SELECTED_AUDIO.json",
+      "blob_sha": "4064b08e088e845a6d67bfc4849ca3731b86542a"
+    },
+    {
+      "path": "docs/audio/SFX_MAP.md",
+      "blob_sha": "f38a70dca045fb234464526b63a16969bdb91185"
+    },
+    {
+      "path": "docs/audio/TEST_RESULTS.txt",
+      "blob_sha": "7ff146fbec61a493052632840fee7fa506e2b5d9"
+    },
+    {
+      "path": "docs/audio/TEST_RESULTS_V0.21.10.txt",
+      "blob_sha": "801a5be05dcae327e275335a1383446c68a194e5"
+    },
+    {
+      "path": "docs/audio/TEST_RESULTS_V0.21.11.txt",
+      "blob_sha": "88ae723fe8ec90d4d5b5b2896356f0845aeaa2a6"
+    },
+    {
+      "path": "docs/audio/TEST_RESULTS_V0.23.0.txt",
+      "blob_sha": "457629a38c9cad7d4d657544a2f6ffc68e3ea4aa"
+    },
+    {
+      "path": "docs/audio/audition-next.html",
+      "blob_sha": "0960f021d3f49cea2f3a68206f1979e58cedad50"
+    },
+    {
+      "path": "docs/audio/library-qa/fast-final.json",
+      "blob_sha": "e7c05815304666202f41687752f85a15d359aaf5"
+    },
+    {
+      "path": "docs/audio/library-qa/fast-first-failed.json",
+      "blob_sha": "87066ede2b291739affdfc542c3465c822ac2550"
+    },
+    {
+      "path": "docs/audio/prepare_second_batch.py",
+      "blob_sha": "5f305d738d56340a60b1cb3725bf564e752b5b52"
+    },
+    {
+      "path": "docs/audio/qa_v0.37.2/approved_pierce_cloud.log",
+      "blob_sha": "b377a1f5427e4cc5330e4df8bcd068046d515eda"
+    },
+    {
+      "path": "docs/audio/qa_v0.37.2/approved_report.json",
+      "blob_sha": "9cbf87779886d7c24829f61aa583208746b102ab"
+    },
+    {
+      "path": "docs/audio/qa_v0.37.2/approved_standard_cloud.log",
+      "blob_sha": "6e2fd68c9dd90d1b4885de101d76ab2d8e143d23"
+    },
+    {
+      "path": "docs/audio/qa_v0.37.2/battle-393x690.png",
+      "blob_sha": "678cde0382960e0c75a31aacd4191a95b9dde597"
+    },
+    {
+      "path": "docs/audio/qa_v0.37.2/battle-844x390.png",
+      "blob_sha": "b49c2dfee3e464a6d53e28b2613c699f2f9b4cdf"
+    },
+    {
+      "path": "docs/audio/qa_v0.37.2/cloud_summary.log",
+      "blob_sha": "e84d0468e0103e6a0c5a3736fc818febf2d525ac"
+    },
+    {
+      "path": "docs/audio/qa_v0.37.2/cloud_summary_repeat.log",
+      "blob_sha": "e22e6aa633b9298068fb0a97bc71ac013aa8363b"
+    },
+    {
+      "path": "docs/audio/qa_v0.37.2/credits-393x690.png",
+      "blob_sha": "3893691178c73b4877f0462017d676d5e976027c"
+    },
+    {
+      "path": "docs/audio/qa_v0.37.2/credits-844x390.png",
+      "blob_sha": "54376bf0536c398573f1e46e450416b644aa40ea"
+    },
+    {
+      "path": "docs/audio/qa_v0.37.2/deployment_report.json",
+      "blob_sha": "df11de89e5372f5db48930503c669328a93f0fef"
+    },
+    {
+      "path": "docs/audio/qa_v0.37.2/evacuation_report.json",
+      "blob_sha": "56863f67ae865d90ef45a0b7bc0b08e2ef772f23"
+    },
+    {
+      "path": "docs/audio/qa_v0.37.2/live-menu.jpg",
+      "blob_sha": "40209cc6940c1016c7029801c390146efd856895"
+    },
+    {
+      "path": "docs/audio/qa_v0.37.2/live-play.jpg",
+      "blob_sha": "c55f136af41210625ebd538ecc4f44314fd43c09"
+    },
+    {
+      "path": "docs/audio/qa_v0.37.2/live_version.json",
+      "blob_sha": "6dee65d0b43da0e882aee3e0ea498faab4669c08"
+    },
+    {
+      "path": "docs/audio/qa_v0.37.2/local_report.json",
+      "blob_sha": "794f9aa24e8be1bb61c3986fce5de6709bb54d05"
+    },
+    {
+      "path": "docs/audio/qa_v0.37.2/module_headers.json",
+      "blob_sha": "56417dda16d19faa46d093bd3583e74adc318ec1"
+    },
+    {
+      "path": "docs/audio/qa_v0.37.2/report.json",
+      "blob_sha": "e6d933db9b597f0d61d22a0a03918e684eb14ed1"
+    },
+    {
+      "path": "docs/audio/stage_v0.65.0/analysis.json",
+      "blob_sha": "a8824bcfaa2c63c843135ff701e30f67a998dc7a"
+    },
+    {
+      "path": "docs/audio/stage_v0.65.0/analyze.py",
+      "blob_sha": "5630197d8da9c96d8c4b25c00fbac08f72264d54"
+    },
+    {
+      "path": "docs/audio/stage_v0.65.0/decode.cjs",
+      "blob_sha": "563c704671118eb66efcd049720b267c1a22e6fa"
+    },
+    {
+      "path": "docs/audio/stage_v0.65.0/decode_result.json",
+      "blob_sha": "99a402e45902cb52115a87a2c56e0475c11e4f54"
+    },
+    {
+      "path": "docs/audio/stage_v0.65.0/hitman_first12s.jpg",
+      "blob_sha": "b119ee1132efd9f0f2aca9e6c259994615859821"
+    },
+    {
+      "path": "docs/audio/stage_v0.65.0/viz.py",
+      "blob_sha": "6590c237fb9b4b37d1e436daa8ea774fc5f7bf98"
+    },
+    {
+      "path": "docs/blunt/ATTACK_TESTS_v0.44.0.log",
+      "blob_sha": "5df51f319cc902ed89f7b770675095fbe46fe317"
+    },
+    {
+      "path": "docs/blunt/QA_v0.44.0.json",
+      "blob_sha": "d57ff0f50fe9a8f241b590bd89224c177bc59d88"
+    },
+    {
+      "path": "docs/blunt/REGRESSION_v0.44.0.log",
+      "blob_sha": "45ed10a963880d0a9df9ad3df4648abc97a54b92"
+    },
+    {
+      "path": "docs/blunt/hit-393x690.png",
+      "blob_sha": "f118d11e3727f657dc24cab20d44eb08066b8816"
+    },
+    {
+      "path": "docs/blunt/hit-844x390.png",
+      "blob_sha": "708328ce183827e0d4ce616293ed5df5f353ca15"
+    },
+    {
+      "path": "docs/blunt/v0.44.1/ATTACK_TESTS.log",
+      "blob_sha": "458b5ecd9fa8e24978c45680c52631a3e5ac9880"
+    },
+    {
+      "path": "docs/blunt/v0.44.1/QA.json",
+      "blob_sha": "71d1ddac69221b66f74e230712541c140839517c"
+    },
+    {
+      "path": "docs/blunt/v0.44.1/REGRESSION.log",
+      "blob_sha": "57fcfe17312f97214203cc0bd33bc21c49b4cfae"
+    },
+    {
+      "path": "docs/blunt/v0.44.1/hit-393x690.png",
+      "blob_sha": "95f971dc1272526a3589df71ef95a85a5e14ea96"
+    },
+    {
+      "path": "docs/blunt/v0.44.1/hit-844x390.png",
+      "blob_sha": "f5d62e42def870f5615bcd03e19842af71a544fc"
+    },
+    {
+      "path": "docs/exploration/2026-11-15-design.md",
+      "blob_sha": "cdec2c4b549f8f8e8e739f75749422ddba659466"
+    },
+    {
+      "path": "docs/exploration/2026-11-15-plan.md",
+      "blob_sha": "c993a9af4da1b2016a57d2b2e96e5cc66ebd0cad"
+    },
+    {
+      "path": "docs/exploration/NOTES_TEST_RESULTS_V0.22.2.txt",
+      "blob_sha": "b293acd3039d610ae8e8106dd7eed013338e16f5"
+    },
+    {
+      "path": "docs/exploration/RELEASE_V0.22.0.md",
+      "blob_sha": "a03ab6288b5968ad11eb4e3d92005d441eb2a34c"
+    },
+    {
+      "path": "docs/exploration/RELEASE_V0.22.1.md",
+      "blob_sha": "7c5f26619f219c99e8c7a523bc30ca9ffa336b18"
+    },
+    {
+      "path": "docs/exploration/RELEASE_V0.22.2.md",
+      "blob_sha": "9bc30ce2494edaa282949ca4480f3ced12b889b0"
+    },
+    {
+      "path": "docs/exploration/RELEASE_V0.22.3.md",
+      "blob_sha": "6757bfc1c80c389518f7154db9737c209e0496d1"
+    },
+    {
+      "path": "docs/exploration/RELEASE_V0.22.4.md",
+      "blob_sha": "4f9db9405611c9a48e47af600a819e706e646447"
+    },
+    {
+      "path": "docs/exploration/RELEASE_V0.23.1.md",
+      "blob_sha": "100bc3d8d17b14c465643e9c0fcba509f1828800"
+    },
+    {
+      "path": "docs/exploration/TEST_RESULTS.txt",
+      "blob_sha": "82d489902632cd0a1ca5e10e7c66b195aaf70b9c"
+    },
+    {
+      "path": "docs/exploration/TEST_RESULTS_V0.23.1.txt",
+      "blob_sha": "33ed340a0a6d11ad94b681ef804095f8d75c1f07"
+    },
+    {
+      "path": "docs/exploration/TIME_TEST_RESULTS_V0.22.3.txt",
+      "blob_sha": "67e68d45d0fc24c472adf23ddd79e0fce0dae21c"
+    },
+    {
+      "path": "docs/exploration/TIME_TEST_RESULTS_V0.22.4.txt",
+      "blob_sha": "2e69f711ffa027719e142d1f7cf42cd80ace1fc3"
+    },
+    {
+      "path": "docs/exploration/TOPBAR_BROWSER_QA_V0.22.1.json",
+      "blob_sha": "54d1afd376211e479d39e618bbdc011bace9f747"
+    },
+    {
+      "path": "docs/exploration/TOPBAR_TEST_RESULTS_V0.22.1.txt",
+      "blob_sha": "794ea09c6b53739f6e74ca769b5c8f239a6d53e2"
+    },
+    {
+      "path": "docs/qa_v0.65.0/balance.cjs",
+      "blob_sha": "1671963ad570bd2d4c9f91c98ff0d6fb1699eb0d"
+    },
+    {
+      "path": "docs/qa_v0.65.0/balance.txt",
+      "blob_sha": "2c98a1132396f11554667289f109f4870e4062b5"
+    },
+    {
+      "path": "docs/qa_v0.65.0/inv.cjs",
+      "blob_sha": "62727505c78c5d053f3a9963c31e5124972ed37d"
+    },
+    {
+      "path": "docs/qa_v0.65.0/life.cjs",
+      "blob_sha": "14ee8b4cfd50a42967f49fe3a16752945d436881"
+    },
+    {
+      "path": "docs/qa_v0.65.0/mp_result.json",
+      "blob_sha": "6200c93c07e97cac69fbc5d1effd93751e665cf7"
+    },
+    {
+      "path": "docs/qa_v0.65.0/shots/end_sheet.jpg",
+      "blob_sha": "d1fa98e9ba99dc0f01ac8b80c2dec6710d53fbd7"
+    },
+    {
+      "path": "docs/qa_v0.65.0/shots/sheet_1280x720.jpg",
+      "blob_sha": "774397876049b406abbae26dfbc9e54ae41f59aa"
+    },
+    {
+      "path": "docs/qa_v0.65.0/shots/sheet_690x393.jpg",
+      "blob_sha": "c02c2e57733cab67072309e443eb0fc62f536aab"
+    },
+    {
+      "path": "docs/qa_v0.65.0/shots/sheet_844x390.jpg",
+      "blob_sha": "229acee02ac452a839112c6f4344bb9f5824c482"
+    },
+    {
+      "path": "docs/qa_v0.65.0/stage.cjs",
+      "blob_sha": "465c26eeebdee5a96459a3c2ec9564e8eb5720e5"
+    },
+    {
+      "path": "docs/qa_v0.65.0/stage_result.json",
+      "blob_sha": "0bcdde8a848f0dc033fa7064a17933cfd3c34bc3"
+    },
+    {
+      "path": "docs/qa_v0.66.0/enc.cjs",
+      "blob_sha": "242c3eae8282f9db5f7d13787759009ebb349f8a"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots.cjs",
+      "blob_sha": "3f7ed581651673056874795236cfd508da1f97af"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_acru_1280x720.png",
+      "blob_sha": "f2c8c4d4e6ce41c4984d162a7dcb6608e312cc8e"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_acru_690x393.png",
+      "blob_sha": "b2b8123be674a03443749d090b79bee6dac7978f"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_acru_844x390.png",
+      "blob_sha": "7f4358988d6dd2ea5cb1c262c0af6a3a54d1356e"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_bloat_1280x720.png",
+      "blob_sha": "fbfd7bd4d61269306a8d4037d97f9ef32eedcdd6"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_bloat_690x393.png",
+      "blob_sha": "3b1e77a9846ca81b71801c14a72e04d4c9e1e0fb"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_bloat_844x390.png",
+      "blob_sha": "2a851ec0fc9a2310d8f4697d52596853aacdbff5"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_first_1280x720.png",
+      "blob_sha": "4a1e4d01c559de95cf7ce0bf4e50d04f71153d6f"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_first_690x393.png",
+      "blob_sha": "5c7c7c9090ed535f9c95eb018eac279f933082da"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_first_844x390.png",
+      "blob_sha": "0b74c7f192c7caa9a338375b5520ae4c145bdb3c"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_four_1280x720.png",
+      "blob_sha": "ec3be1dabd959da99d279176315b5984ed070aac"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_four_690x393.png",
+      "blob_sha": "7c89408ab308e33149515d6c360f8434dc4536d2"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_four_844x390.png",
+      "blob_sha": "36cf6405f17c32ba034f38db50426049457afd7c"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_inf2_1280x720.png",
+      "blob_sha": "9e206fc7dbac09871163db1f45c13a5359e8879f"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_inf2_690x393.png",
+      "blob_sha": "4c1ad51d9957845ae25c58acb29101300138bc5b"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_inf2_844x390.png",
+      "blob_sha": "30890f1e995d202f323e2e97665a0729f7d90d95"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_mix3_1280x720.png",
+      "blob_sha": "1f8c15acbf1b9fee16f41bd06af4dbd371193001"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_mix3_690x393.png",
+      "blob_sha": "57e530e966f93c1aa662df6972d8690ca13f7440"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/enc_mix3_844x390.png",
+      "blob_sha": "7df4b8415fe65758947c07af4846e8053f36e9f2"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/hazard_log_1280x720.png",
+      "blob_sha": "040f34d5f73fb83ece1aefe6bd95a730df51a753"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/hazard_log_690x393.png",
+      "blob_sha": "b09b6d2a305fe7c8344412ce427a5f6112701bd5"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/hazard_log_844x390.png",
+      "blob_sha": "76f635150137e32bd191daf948f77ac4cff95f58"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/sneak_1280x720.png",
+      "blob_sha": "66a4a2d81f3b646b262db419851681c657b719ce"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/sneak_690x393.png",
+      "blob_sha": "0af9670be896313e44d796b24e6c187d0a3600ef"
+    },
+    {
+      "path": "docs/qa_v0.66.0/shots/sneak_844x390.png",
+      "blob_sha": "f0db4dd37896ded840688a22240445e2b30574b9"
+    },
+    {
+      "path": "docs/qa_v0.67.0/shots.cjs",
+      "blob_sha": "bbb1f37862c798376798d2446c8d681020c89e77"
+    },
+    {
+      "path": "docs/qa_v0.67.0/shots/after_blu_1280x720.png",
+      "blob_sha": "3f0a6b5aca70cfcb25643cc76b90a5bd2121ca41"
+    },
+    {
+      "path": "docs/qa_v0.67.0/shots/after_blu_690x393.png",
+      "blob_sha": "a9bcdcc4925044e4e293835b79fb1c84526f6149"
+    },
+    {
+      "path": "docs/qa_v0.67.0/shots/after_blu_844x390.png",
+      "blob_sha": "621a54f63b449a1a19b06dc5070bcd8045c496f0"
+    },
+    {
+      "path": "docs/qa_v0.67.0/shots/after_hazard_1280x720.png",
+      "blob_sha": "860061d4d8bddfc4f37ddb912d33b1865fc4ab60"
+    },
+    {
+      "path": "docs/qa_v0.67.0/shots/after_hazard_690x393.png",
+      "blob_sha": "99cf267131d0e70c0d1ec9de00c934f9078e6330"
+    },
+    {
+      "path": "docs/qa_v0.67.0/shots/after_hazard_844x390.png",
+      "blob_sha": "50e8b1a38512406fe604fcab7cf34b2f890d9634"
+    },
+    {
+      "path": "docs/qa_v0.67.0/shots/before_blu_1280x720.png",
+      "blob_sha": "c186001834c5eeb650e3f088b7a08b277280f0bd"
+    },
+    {
+      "path": "docs/qa_v0.67.0/shots/before_blu_690x393.png",
+      "blob_sha": "fd8aaf941314ce92e9ee0b1bdf2e97c4ba86f72d"
+    },
+    {
+      "path": "docs/qa_v0.67.0/shots/before_blu_844x390.png",
+      "blob_sha": "df1e6f707195d8df1448fb6c822b5969d90def6b"
+    },
+    {
+      "path": "docs/qa_v0.67.0/shots/before_hazard_1280x720.png",
+      "blob_sha": "7add31a4e5b2f601828535c3a53a1e5299f69c62"
+    },
+    {
+      "path": "docs/qa_v0.67.0/shots/before_hazard_690x393.png",
+      "blob_sha": "44b54f07587930b9a7bbe1207d2ce5714524a526"
+    },
+    {
+      "path": "docs/qa_v0.67.0/shots/before_hazard_844x390.png",
+      "blob_sha": "b810acdf7d15332f9be352cea80ab4dc98189d89"
+    },
+    {
+      "path": "docs/qa_v0.71.0/README.md",
+      "blob_sha": "acc94dde36f23a1d6549d29bef3474d88eae466c"
+    },
+    {
+      "path": "docs/qa_v0.71.0/shots/393x690-bag-showcase-bottom.png",
+      "blob_sha": "7d4eb2dd1f6dc438dd7a0be3a81dd5e4a02ca124"
+    },
+    {
+      "path": "docs/qa_v0.71.0/shots/393x690-bag-showcase-mid.png",
+      "blob_sha": "d188105601fd5fe05479c004ac554275e537d4fa"
+    },
+    {
+      "path": "docs/qa_v0.71.0/shots/393x690-bag-showcase.png",
+      "blob_sha": "0e012ab113ffc8da462f6733f5dd57125ea17161"
+    },
+    {
+      "path": "docs/qa_v0.71.0/shots/393x690-bag-stuffed.png",
+      "blob_sha": "b9f49349c69a35b035620a0fa34dd6786234de9b"
+    },
+    {
+      "path": "docs/qa_v0.71.0/shots/393x690-equip-showcase-bottom.png",
+      "blob_sha": "d5c4a43a20340c8897d0df8ffb389479f786bbfe"
+    },
+    {
+      "path": "docs/qa_v0.71.0/shots/393x690-equip-showcase.png",
+      "blob_sha": "ae3fdaa4eae310706e8d9134a80fcb7d9dd31f2f"
+    },
+    {
+      "path": "docs/qa_v0.71.0/shots/393x690-equip-stuffed.png",
+      "blob_sha": "3b7c8901577c8a44c89d426f44de98c72c88810a"
+    },
+    {
+      "path": "docs/qa_v0.71.0/shots/844x390-bag-showcase-bottom.png",
+      "blob_sha": "59af3d476d40fa882b240f04f4eac10de04b495d"
+    },
+    {
+      "path": "docs/qa_v0.71.0/shots/844x390-bag-showcase-mid.png",
+      "blob_sha": "0449b9e15760eb9fbff59d96df5010281c019ec2"
+    },
+    {
+      "path": "docs/qa_v0.71.0/shots/844x390-bag-showcase.png",
+      "blob_sha": "c394023870af06391b20faa4416310f54a6bd7a9"
+    },
+    {
+      "path": "docs/qa_v0.71.0/shots/844x390-bag-stuffed.png",
+      "blob_sha": "382278a0c4c46c23f5ce7734e7fdb6515d39d040"
+    },
+    {
+      "path": "docs/qa_v0.71.0/shots/844x390-equip-showcase-bottom.png",
+      "blob_sha": "3a9e3ae783ae4d5639cbe1847f61058ac1ed8729"
+    },
+    {
+      "path": "docs/qa_v0.71.0/shots/844x390-equip-showcase.png",
+      "blob_sha": "1b2468df203bbfeaa53fdf5d5912f59ff50c15a2"
+    },
+    {
+      "path": "docs/qa_v0.71.0/shots/844x390-equip-stuffed.png",
+      "blob_sha": "91ed1e96b437b7997fb64b6e9a350fa0278d618b"
+    },
+    {
+      "path": "docs/qa_v0.71.1/393x690-1-tape-repair-list.png",
+      "blob_sha": "be34a02e2f5bb3603222aa9dc8059dbc84c3398c"
+    },
+    {
+      "path": "docs/qa_v0.71.1/393x690-2-after-repair.png",
+      "blob_sha": "c80d567d61f1ee5de5a98f573d4d3f511b63f3e7"
+    },
+    {
+      "path": "docs/qa_v0.71.1/393x690-3-log-message.png",
+      "blob_sha": "15fe2975d4ac0cb08574e95cd74aaab15a08b444"
+    },
+    {
+      "path": "docs/qa_v0.71.1/844x390-1-tape-repair-list.png",
+      "blob_sha": "9f6871899944f5275b95bb5539401708814029c5"
+    },
+    {
+      "path": "docs/qa_v0.71.1/844x390-2-after-repair.png",
+      "blob_sha": "2ed222ab10906f5659485622d821f319dd42f9cd"
+    },
+    {
+      "path": "docs/qa_v0.71.1/844x390-3-log-message.png",
+      "blob_sha": "9ad3a229683e2009c8efa4fd8b225705fbdd8f6f"
+    },
+    {
+      "path": "docs/qa_v0.71.1/README.md",
+      "blob_sha": "2f51f8232ea40089f69606196b2090f2d3e50c55"
+    },
+    {
+      "path": "docs/slash/BASELINE_v0.37.0.log",
+      "blob_sha": "173eff6541ff03fe0e167ac7b7c0ee577d20531d"
+    },
+    {
+      "path": "docs/slash/BASELINE_v0.37.1.log",
+      "blob_sha": "fc491a63596b1738e9862a784fba68a251440970"
+    },
+    {
+      "path": "docs/slash/FINAL_v0.37.0.log",
+      "blob_sha": "8389dcf9c07365141ab265fc40f501718241cba5"
+    },
+    {
+      "path": "docs/slash/FINAL_v0.37.1.log",
+      "blob_sha": "f3d37844390b630725524309eef47ad38854fde0"
+    },
+    {
+      "path": "docs/slash/QA_v0.37.0.json",
+      "blob_sha": "fe4109f7871e13a77878ed8d05558213ad28ffff"
+    },
+    {
+      "path": "docs/slash/QA_v0.37.1.json",
+      "blob_sha": "e0e420962d732be360aaaa55e4579ab52aa3e802"
+    },
+    {
+      "path": "docs/slash/REVIEW_v0.37.0.md",
+      "blob_sha": "81364334a8cf05869d83f760d871b5e00d8c697a"
+    },
+    {
+      "path": "docs/slash/REVIEW_v0.37.1.md",
+      "blob_sha": "02490ee0feaf2baf9ebde269457bcfda4b79b934"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-11-19-slash-hit.md",
+      "blob_sha": "30e70f1531f2cc65376d323f32e5c3c734f3de6c"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-11-19-slash-hybrid.md",
+      "blob_sha": "bfc7e60db3c77dadfe9402f689bed154ab19630d"
+    },
+    {
+      "path": "fonts/README.md",
+      "blob_sha": "e01d37304f1a5e016894060693900601b8bf0a8d"
+    },
+    {
+      "path": "fonts/SOURCES.md",
+      "blob_sha": "9748df411af1a515f9aae68d94e92264ca87755f"
+    },
+    {
+      "path": "fonts/SourceSerif4-OFL.txt",
+      "blob_sha": "8288b3f3bcf7823827c05548eb98483b8336423f"
+    },
+    {
+      "path": "fonts/coverage.txt",
+      "blob_sha": "76f6824311e2642397fbca1cab3ac771825635be"
+    },
+    {
+      "path": "fonts/source-serif-4-latin.woff2",
+      "blob_sha": "fe9500fcfaaa641e1e4fad037fd903b3ffa36eed"
+    },
+    {
+      "path": "fonts/tw-kai-game.woff2",
+      "blob_sha": "4d5dfbbd4dc8e5aa47c3d467734cbddea0a52912"
+    },
+    {
+      "path": "fx/arrow-12.webp",
+      "blob_sha": "a18bec54b9756487faec82f60aae15bf6dd9a303"
+    },
+    {
+      "path": "fx/blunt-12.webp",
+      "blob_sha": "ac57c4ae8726936e1fbcaaa24d0345f9d3f85743"
+    },
+    {
+      "path": "fx/gun-bullet-24.webp",
+      "blob_sha": "5efd73b25642a277bc7dd99a0531fc31e1529044"
+    },
+    {
+      "path": "fx/gun-pellet-24.webp",
+      "blob_sha": "f9b2cac22fc50e4cc80a3e5c3fe2c932637435ad"
+    },
+    {
+      "path": "fx/pierce-12.webp",
+      "blob_sha": "a09d13f64c2a425a7f103c85cf04c3966302e437"
+    },
+    {
+      "path": "fx/slash-12.webp",
+      "blob_sha": "07ca71adb6f1f7b923955c6e765e1a4415533ebb"
+    },
+    {
+      "path": "img/acru_cap.webp",
+      "blob_sha": "57d3785578571088f158be6840dec6c5d71005ee"
+    },
+    {
+      "path": "img/acru_cmd.webp",
+      "blob_sha": "678b8feee706cc5b62451a5e1e0fd61a3bbc91e0"
+    },
+    {
+      "path": "img/acru_flm.webp",
+      "blob_sha": "34d871ddac23082b28f9c254f0b610754f0a8365"
+    },
+    {
+      "path": "img/acru_snp.webp",
+      "blob_sha": "a2f95eace70ed80d255b81c3c86001f53bbfefc1"
+    },
+    {
+      "path": "img/acru_trp.webp",
+      "blob_sha": "9a6d24fd0ed8b2a480ca43be1556e21f2cd6a9d3"
+    },
+    {
+      "path": "img/arson.webp",
+      "blob_sha": "15ada867558a966ab2655bc7b4a93c050a99bb4d"
+    },
+    {
+      "path": "img/bloat.webp",
+      "blob_sha": "9836cecd4ba75f9366ac29840911d03703a99d65"
+    },
+    {
+      "path": "img/cat_custom.webp",
+      "blob_sha": "bd93b766c19ac4f8028cf40093fa1464215100bb"
+    },
+    {
+      "path": "img/cat_guest.webp",
+      "blob_sha": "2a046c8fbc4814ddae50567c4e019059fab831a9"
+    },
+    {
+      "path": "img/cat_story.webp",
+      "blob_sha": "8087a8fbbd54c58c3d90d2dd110a8d4e4b31aced"
+    },
+    {
+      "path": "img/g_dar.webp",
+      "blob_sha": "71424796dc0fa57cf4c34278845d98a87cea9c99"
+    },
+    {
+      "path": "img/harv.webp",
+      "blob_sha": "2fb4f2b407f89b8ad199d8e7d181518bf2a45b05"
+    },
+    {
+      "path": "img/inf_f.webp",
+      "blob_sha": "be1dc4d691f6412e0f3b540ecd1d71d7ce3940c1"
+    },
+    {
+      "path": "img/inf_m.webp",
+      "blob_sha": "27a1ec1c05a0e87e32f8c2f19d7a2239fbfab5f0"
+    },
+    {
+      "path": "img/item/acruuni.webp",
+      "blob_sha": "6726e3535cd3bd562d4f4bde24e6793e334263a6"
+    },
+    {
+      "path": "img/item/adrenaline.webp",
+      "blob_sha": "2781ba368abaed09805b9ce64a86a3dbead440fd"
+    },
+    {
+      "path": "img/item/aed.webp",
+      "blob_sha": "51c1786bdb6bdb5690461f9110d09c7452c57e86"
+    },
+    {
+      "path": "img/item/alcohol.webp",
+      "blob_sha": "5f1c177f0c0f48102a094c473e4f58d9edd0b3ec"
+    },
+    {
+      "path": "img/item/ammo308.webp",
+      "blob_sha": "8f50f05456619ef43cf77701d906dd9306cb0086"
+    },
+    {
+      "path": "img/item/ammo38.webp",
+      "blob_sha": "4492726ca918bcea7564762a74d101169ae8485b"
+    },
+    {
+      "path": "img/item/ammo500.webp",
+      "blob_sha": "434a03bc573356d68ce14bf6f4e4302060160ce0"
+    },
+    {
+      "path": "img/item/ammo762.webp",
+      "blob_sha": "1e6868421ace7b0d52122d0e613b75e2ec2a5125"
+    },
+    {
+      "path": "img/item/ammo9.webp",
+      "blob_sha": "018ae33a2feadc2229e30c68f61377d616900e56"
+    },
+    {
+      "path": "img/item/antibiotic.webp",
+      "blob_sha": "066b97c9d107f5d0fbdb40c3e18302d58467e0ac"
+    },
+    {
+      "path": "img/item/armyknife.webp",
+      "blob_sha": "5fe74cc98e49ebb0a7529cc044070f303b024e19"
+    },
+    {
+      "path": "img/item/arrow.webp",
+      "blob_sha": "bc75afc8b234ad79c52397ca5c1ca9a791cbba0a"
+    },
+    {
+      "path": "img/item/bandage.webp",
+      "blob_sha": "045c4432ba574be541f56f9c17a53434addc574b"
+    },
+    {
+      "path": "img/item/bar.webp",
+      "blob_sha": "f09a53b8a0e6b6d0f343adb8ef761ca9618e0a30"
+    },
+    {
+      "path": "img/item/bat.webp",
+      "blob_sha": "358cdcdd5d47f97187167c284ac54a301b008b20"
+    },
+    {
+      "path": "img/item/baton.webp",
+      "blob_sha": "57edf682023ad4a1cfc0ef82bd3945c7128dd1ff"
+    },
+    {
+      "path": "img/item/battery.webp",
+      "blob_sha": "30debd50941dd4872e6873ed4bc6d9a77bc906c7"
+    },
+    {
+      "path": "img/item/beretta.webp",
+      "blob_sha": "ebd94c036d8a25655d84c83349f90dabac4bdec3"
+    },
+    {
+      "path": "img/item/blade.webp",
+      "blob_sha": "68dd04c0beb3d62f777dd61d38e675858e3b1362"
+    },
+    {
+      "path": "img/item/board.webp",
+      "blob_sha": "b967c54967573384674f676261680639d8ad85ac"
+    },
+    {
+      "path": "img/item/bolt.webp",
+      "blob_sha": "768a59886f56f66f3126c406d21a82d1a8f1fd86"
+    },
+    {
+      "path": "img/item/bottle.webp",
+      "blob_sha": "1471fadf87c67a7d744521cc6a4daca276cd20ab"
+    },
+    {
+      "path": "img/item/bracer.webp",
+      "blob_sha": "e717736851638aa91f521fe440de1f3ca8ec2582"
+    },
+    {
+      "path": "img/item/chips.webp",
+      "blob_sha": "7e00dc915f2057a79187f7737040eac7dbbe8f0c"
+    },
+    {
+      "path": "img/item/chopsticks.webp",
+      "blob_sha": "211d69ed7849bd89331f2f6af01a0a7fc058a32d"
+    },
+    {
+      "path": "img/item/cigarette.webp",
+      "blob_sha": "5e8ab69074d2b8ac768e03087f5c42c9a7437f5f"
+    },
+    {
+      "path": "img/item/cloth.webp",
+      "blob_sha": "2f652353498f1993f891407dfc994b9a88e20007"
+    },
+    {
+      "path": "img/item/coffee.webp",
+      "blob_sha": "829a79f0f8f99b3bfe22ce44736852777a624f3f"
+    },
+    {
+      "path": "img/item/coin.webp",
+      "blob_sha": "5ea3d9bb168f225c14d9da4b93fc0dc04e9bb5d1"
+    },
+    {
+      "path": "img/item/cola.webp",
+      "blob_sha": "86deab5faeb797feae0b52f6f7543998ae36bcbd"
+    },
+    {
+      "path": "img/item/compbow.webp",
+      "blob_sha": "685d1cbb8624cba94f0bd4bfbefef7d711a63d28"
+    },
+    {
+      "path": "img/item/cookie.webp",
+      "blob_sha": "94397c7dee53b38a9c393c14f0ed1a317d895e12"
+    },
+    {
+      "path": "img/item/crossbow.webp",
+      "blob_sha": "f54f466889b68f01106c62af672203dd3beade1c"
+    },
+    {
+      "path": "img/item/crowbar.webp",
+      "blob_sha": "c51cc50c25798f8602587fe0c166b8d2e2902c4e"
+    },
+    {
+      "path": "img/item/cutter.webp",
+      "blob_sha": "39d0429e413582e0af63bc6634d655ec502d585b"
+    },
+    {
+      "path": "img/item/darcase.webp",
+      "blob_sha": "96c3354b53959a20343b86366e4aca7df34bf088"
+    },
+    {
+      "path": "img/item/deadlight.webp",
+      "blob_sha": "d52a3731d729e79577104b524afdb6f14f73818a"
+    },
+    {
+      "path": "img/item/diesel.webp",
+      "blob_sha": "8a3e68c94c28804126f2519abb342248d9b3e14a"
+    },
+    {
+      "path": "img/item/extinguisher.webp",
+      "blob_sha": "f1375e8166fec7fe5e7937456abb52599cfd0e6b"
+    },
+    {
+      "path": "img/item/fal.webp",
+      "blob_sha": "dc055d88eb5cc0ee5467b2e973e94159cf59d36b"
+    },
+    {
+      "path": "img/item/filter.webp",
+      "blob_sha": "33eab2cf8902288354dc3f2bfbc79a4d7b1ae1ef"
+    },
+    {
+      "path": "img/item/fireaxe.webp",
+      "blob_sha": "fac1d0caca28f7262a6d9bd0c6a5f28a2febef33"
+    },
+    {
+      "path": "img/item/firehook.webp",
+      "blob_sha": "8c6708e776a37ee56e758aa4a67efab9159b091a"
+    },
+    {
+      "path": "img/item/flamer.webp",
+      "blob_sha": "c8f07a316e607f746e46427ae69557d9e26e7b96"
+    },
+    {
+      "path": "img/item/flashlight.webp",
+      "blob_sha": "2e6f0bfb24190481d100f02e13c2a8aeb164b475"
+    },
+    {
+      "path": "img/item/fuel.webp",
+      "blob_sha": "340027620b1a696f002ebb0fe248db66e1c9948c"
+    },
+    {
+      "path": "img/item/fuse.webp",
+      "blob_sha": "cf1ec6a37e57240b74151de11b9a868237dfd71f"
+    },
+    {
+      "path": "img/item/gasmask.webp",
+      "blob_sha": "824333ba2bbd8dfa3f57d8ed4cbf81ccaa225893"
+    },
+    {
+      "path": "img/item/glass.webp",
+      "blob_sha": "63e742dd3088037ec37c7a66b706ad8107f17dab"
+    },
+    {
+      "path": "img/item/gloves.webp",
+      "blob_sha": "5cae49bd472b81d24d9006f70c300497889519a4"
+    },
+    {
+      "path": "img/item/gunoil.webp",
+      "blob_sha": "341510a83ab17a99a2f67cc8e6fccfc370cfb2cc"
+    },
+    {
+      "path": "img/item/hairspray.webp",
+      "blob_sha": "a2c8616a9a2c1fed8b7a72e7f07d788dd9b78411"
+    },
+    {
+      "path": "img/item/hammer.webp",
+      "blob_sha": "404bf81f135f51789d7a5ae5de33fd5b9b5b812b"
+    },
+    {
+      "path": "img/item/handxbow.webp",
+      "blob_sha": "ee79654ce4efb7a41cf4f32d119011b51c099a3c"
+    },
+    {
+      "path": "img/item/hanger.webp",
+      "blob_sha": "b37802256711e64d9dd9838b0465d85dca46d4c2"
+    },
+    {
+      "path": "img/item/hardhat.webp",
+      "blob_sha": "fcbdbc6f5fd630ee56e813f84084dcfe6ba84b1f"
+    },
+    {
+      "path": "img/item/icepick.webp",
+      "blob_sha": "0bfd27ea0541f3ee9bc42d5c1dee8b516c4e2f06"
+    },
+    {
+      "path": "img/item/iodine.webp",
+      "blob_sha": "b17f32d6957b5d894cf9987fe89653180d411f24"
+    },
+    {
+      "path": "img/item/jacket.webp",
+      "blob_sha": "7e828a99b8d184b07f55151469efed8affc438f8"
+    },
+    {
+      "path": "img/item/kitchenknife.webp",
+      "blob_sha": "944c5c50921b0700b32128de1a96cd742f3aa57d"
+    },
+    {
+      "path": "img/item/knife.webp",
+      "blob_sha": "52b5a3f399632c1adb855d86847821e1092bbdbf"
+    },
+    {
+      "path": "img/item/knuckles.webp",
+      "blob_sha": "7e663685024faa344c9c8209e6a680e1747641de"
+    },
+    {
+      "path": "img/item/lighter.webp",
+      "blob_sha": "0912055c1704a9a793610ceb1c77636c33f40df4"
+    },
+    {
+      "path": "img/item/magazine.webp",
+      "blob_sha": "f15935cd5cd5787b08c0d72cc793ca0014daab97"
+    },
+    {
+      "path": "img/item/med.webp",
+      "blob_sha": "17020db074b0235f0a02e0bdddb4cbeb7f36f64a"
+    },
+    {
+      "path": "img/item/model10.webp",
+      "blob_sha": "4f9c53f5dc2fe6c45fee38d0a5071cef7c946064"
+    },
+    {
+      "path": "img/item/model500.webp",
+      "blob_sha": "7fb8c17b326eaaa001417bf97d81aa9c10ac7c2f"
+    },
+    {
+      "path": "img/item/model70.webp",
+      "blob_sha": "46f8fe94f825321fe7bab6b7510e4c6193688a1a"
+    },
+    {
+      "path": "img/item/molotov.webp",
+      "blob_sha": "02c371e1ef1f729e68e088b9276225656d90a58e"
+    },
+    {
+      "path": "img/item/mop.webp",
+      "blob_sha": "83f9d0320adcca3f29ff7a62cfcd793712e8674d"
+    },
+    {
+      "path": "img/item/mopspear.webp",
+      "blob_sha": "3409e70642eb71ca45a88d032d85bb8a86f75ce3"
+    },
+    {
+      "path": "img/item/motoarm.webp",
+      "blob_sha": "007964abbc809fb00c33e5fb9e35e1ea530b2e63"
+    },
+    {
+      "path": "img/item/motohelmet.webp",
+      "blob_sha": "09f752581316067738d1ac51cb8d369fd199ae7d"
+    },
+    {
+      "path": "img/item/motoleg.webp",
+      "blob_sha": "111ef22bfc7676b11189615d13b0f994b9353462"
+    },
+    {
+      "path": "img/item/mp5.webp",
+      "blob_sha": "5b84d399ed899c1c6842e873737b7e4fa7a9609f"
+    },
+    {
+      "path": "img/item/mre.webp",
+      "blob_sha": "40141ed7baa659c3f285dfd5f7ae0c2af113afb7"
+    },
+    {
+      "path": "img/item/nailbat.webp",
+      "blob_sha": "18465e95bd12e42e0385e257008bddf6c6325c76"
+    },
+    {
+      "path": "img/item/nailboard.webp",
+      "blob_sha": "b58ccf8453552a18f52a64ffac40dc840d14496b"
+    },
+    {
+      "path": "img/item/nails.webp",
+      "blob_sha": "fa30391ff300e8709234c15678116674bdf700d6"
+    },
+    {
+      "path": "img/item/noodle.webp",
+      "blob_sha": "30201ed73e65b5748049cb9d715ed71de18c33a8"
+    },
+    {
+      "path": "img/item/nuts.webp",
+      "blob_sha": "2b67fbbda25734ce79fc71ef09514eb084f6382a"
+    },
+    {
+      "path": "img/item/painkiller.webp",
+      "blob_sha": "cb1827525f15b83a8c3f2b4a58114250ca1ad92b"
+    },
+    {
+      "path": "img/item/photo.webp",
+      "blob_sha": "80ef1941a0e5260d2839e97182b75f96657489e9"
+    },
+    {
+      "path": "img/item/pipe.webp",
+      "blob_sha": "1febb36ca83adb63c1a4a6c0d08f3dd15628c011"
+    },
+    {
+      "path": "img/item/pipeclub.webp",
+      "blob_sha": "fdc0360ab1d64b586401e06e95c4fb63943d6fe1"
+    },
+    {
+      "path": "img/item/pipespear.webp",
+      "blob_sha": "e27f475f2e7a002da014d4cfcf1a0b9f5eedce4d"
+    },
+    {
+      "path": "img/item/pliers.webp",
+      "blob_sha": "781d04a6c91fe8890eb8b9f0cd37866686cf1d35"
+    },
+    {
+      "path": "img/item/pvc.webp",
+      "blob_sha": "0e3ebae2fa37eed9e471880a4488376feffd1bed"
+    },
+    {
+      "path": "img/item/pvcbow.webp",
+      "blob_sha": "9fd5d135103b395caaa69fe6c3a74baec8af71c4"
+    },
+    {
+      "path": "img/item/r700.webp",
+      "blob_sha": "33a81924ad11aad22edbea8f7d4ff4c3cb6d8f4c"
+    },
+    {
+      "path": "img/item/r870.webp",
+      "blob_sha": "afc8ab9b04ba212d6fedfcd607d9cf8969360beb"
+    },
+    {
+      "path": "img/item/repairkit.webp",
+      "blob_sha": "26eb33e940dc5e833ecb11865effdd6076b22408"
+    },
+    {
+      "path": "img/item/riotvest.webp",
+      "blob_sha": "8efc9362b447fd7f77a21cff9fa48cc86b39951e"
+    },
+    {
+      "path": "img/item/rope.webp",
+      "blob_sha": "69d4095fcb00a4fc9c6d1210779f82c82c3c6059"
+    },
+    {
+      "path": "img/item/sbandage.webp",
+      "blob_sha": "e160a72d11441bd92f8068556cf7f1f4dce34b94"
+    },
+    {
+      "path": "img/item/sbshot.webp",
+      "blob_sha": "b580035f8efc6d48b94765252290990c4c77506f"
+    },
+    {
+      "path": "img/item/scissors.webp",
+      "blob_sha": "9d29bb3de3c0d5b0c742beec5b82ea34b73eae7f"
+    },
+    {
+      "path": "img/item/screwdriver.webp",
+      "blob_sha": "5a9752dcdd44d0df2d27b1e9579cb2fcd7a2f295"
+    },
+    {
+      "path": "img/item/sedative.webp",
+      "blob_sha": "2a3b3b492227ac5bb2300a621ad8605946e70879"
+    },
+    {
+      "path": "img/item/sewing.webp",
+      "blob_sha": "859af3be4a5095db665118533281ef150db10f01"
+    },
+    {
+      "path": "img/item/shell.webp",
+      "blob_sha": "d986f7f4674b47c24843b5a1abad3dd7a8b8082a"
+    },
+    {
+      "path": "img/item/shiv.webp",
+      "blob_sha": "8b71d8ef2629d03acfb13e193be23091a6949a2d"
+    },
+    {
+      "path": "img/item/shot.webp",
+      "blob_sha": "cfc462af1793c71fcaa2d901d26d488e94b5bada"
+    },
+    {
+      "path": "img/item/sledge.webp",
+      "blob_sha": "35d1b588eb34c0160219b335b7d0991108c44826"
+    },
+    {
+      "path": "img/item/slingshot.webp",
+      "blob_sha": "f773a348c34bc23e867d3f1b0a5adaea98c076c4"
+    },
+    {
+      "path": "img/item/sock.webp",
+      "blob_sha": "90d34abeb1a6d7e98e06c71aaa047418bc3eb7ad"
+    },
+    {
+      "path": "img/item/sockmace.webp",
+      "blob_sha": "e562a37d1c71359e4c1dd8344ad05683e12af6ff"
+    },
+    {
+      "path": "img/item/splint.webp",
+      "blob_sha": "3f730a5fac1b693df815cfabdc4537f43b1f31e3"
+    },
+    {
+      "path": "img/item/spreader.webp",
+      "blob_sha": "6dfe141987fb129fcda6d8ba72b2cdd04da20e08"
+    },
+    {
+      "path": "img/item/stake.webp",
+      "blob_sha": "ab0fc1d65ea865c3c1d067bfce71007aa3f6c400"
+    },
+    {
+      "path": "img/item/superglue.webp",
+      "blob_sha": "d7d12984823ef75ae5bc94904e06a5003d8646de"
+    },
+    {
+      "path": "img/item/surgkit.webp",
+      "blob_sha": "2b7382fbdb568d4867b954e4c04b940ac87cf9f3"
+    },
+    {
+      "path": "img/item/suture.webp",
+      "blob_sha": "b4854a5df95abc1e9f33568a09377a82280a7b46"
+    },
+    {
+      "path": "img/item/tableleg.webp",
+      "blob_sha": "89896d7edd40a0bab7a932d832ccc4a3d78c2f6c"
+    },
+    {
+      "path": "img/item/tape.webp",
+      "blob_sha": "5aa8f02f8464ee718da73cb4d1f4655e4f8fcef6"
+    },
+    {
+      "path": "img/item/tapraw.webp",
+      "blob_sha": "9d6206a0c2131688bddf9d954374315f98e3074a"
+    },
+    {
+      "path": "img/item/tourniquet.webp",
+      "blob_sha": "bbd6b415fb4ddeedbcea3d388a8bde5653071820"
+    },
+    {
+      "path": "img/item/water.webp",
+      "blob_sha": "8eb4a7a09c51166205607ba230077e885b1acbd9"
+    },
+    {
+      "path": "img/item/whetstone.webp",
+      "blob_sha": "601a2a69a6d102b10371685606f65f1d812da02b"
+    },
+    {
+      "path": "img/item/whiskey.webp",
+      "blob_sha": "c4f96b732fd2a4f93a0568d3aec0225aa4e3532d"
+    },
+    {
+      "path": "img/loot_a.webp",
+      "blob_sha": "93ecea05acbaf0011379a81ff98ad4ae9169cb2f"
+    },
+    {
+      "path": "img/loot_b.webp",
+      "blob_sha": "0844e14a81fa6a6616addcee9c267c4e29d3ad7b"
+    },
+    {
+      "path": "img/oldh.webp",
+      "blob_sha": "c218947c9120365b1c9ab6d35fa77d594b201e80"
+    },
+    {
+      "path": "img/owl.webp",
+      "blob_sha": "8c04947ec987bc83896bebff84830f0ab02eb586"
+    },
+    {
+      "path": "img/pred.webp",
+      "blob_sha": "211474acfa4715ab2f489dcf62d137c40ef2d471"
+    },
+    {
+      "path": "img/quick.webp",
+      "blob_sha": "7fdf7732813d6069bd1ff64bc9d3b62549ffdded"
+    },
+    {
+      "path": "img/riot.webp",
+      "blob_sha": "c4a69231a94fa8b4550814ec001d946a43bb4f2a"
+    },
+    {
+      "path": "img/zero.webp",
+      "blob_sha": "5e847037fff02fe9a7a8f83ba62034e824a51aae"
+    },
+    {
+      "path": "index.html",
+      "blob_sha": "a18373276ae37cb8bc37ae99bd49cd65512042eb"
+    },
+    {
+      "path": "qa/asset-loading/FALLBACK_INVENTORY.json",
+      "blob_sha": "88d2909923c5783db3fbc84b15ad4da4d1e31f0a"
+    },
+    {
+      "path": "qa/asset-loading/HANDOFF.md",
+      "blob_sha": "d84a975430f479b6ff9abe691976d31d8ab9795f"
+    },
+    {
+      "path": "qa/asset-loading/INVENTORY.json",
+      "blob_sha": "db6916ff243aeb4f1dd5a29ecf3d995cf839c073"
+    },
+    {
+      "path": "qa/asset-loading/SPEC.md",
+      "blob_sha": "b4f6a05114997e9c2f462ba9415b9cd5688ae37c"
+    },
+    {
+      "path": "qa/asset-loading/browser.cjs",
+      "blob_sha": "034a2ccfba00f8ca73127442f1181eca3649923e"
+    },
+    {
+      "path": "qa/asset-loading/debug-damage.cjs",
+      "blob_sha": "1e651a8e61d145bb4a4847886b8817fe33203b2f"
+    },
+    {
+      "path": "qa/asset-loading/evidence/LOCAL_RESULTS.json",
+      "blob_sha": "51721a2e3980929601919fd2453c48ea5aff4412"
+    },
+    {
+      "path": "qa/asset-loading/evidence/baseline-fast.json",
+      "blob_sha": "18a640275486872f3033fa2d0ba76a709b2e5718"
+    },
+    {
+      "path": "qa/asset-loading/evidence/final-fast.json",
+      "blob_sha": "5afe1758c23f0c572403f1f6b9711718be9390d6"
+    },
+    {
+      "path": "qa/asset-loading/evidence/full-attempt.json",
+      "blob_sha": "2042b3cf958fa4dba1cb09da696a34ed2ed1abbc"
+    },
+    {
+      "path": "qa/asset-loading/evidence/loader-node.txt",
+      "blob_sha": "0031879d670b3e956e5f2b7229ce64ea16ed9e5b"
+    },
+    {
+      "path": "qa/asset-loading/evidence/v16-control-comparison.json",
+      "blob_sha": "ee7092c1f26b5fb0d617678b2574809511fe4ca2"
+    },
+    {
+      "path": "qa/asset-loading/live.cjs",
+      "blob_sha": "7cc3cba7689bc5a67825760f8af2be60a5380099"
+    },
+    {
+      "path": "qa/asset-loading/loader.test.cjs",
+      "blob_sha": "a47a0f1c75d000007bcd09e3a9a07bdc9cb6ba01"
+    },
+    {
+      "path": "sfx/airraid_event.mp3",
+      "blob_sha": "ee3dfb373233019467afab450edf5907e6e225f2"
+    },
+    {
+      "path": "sfx/beretta.mp3",
+      "blob_sha": "d08cd8b28a065e7d756dc3d0eb8e600e6c2cd053"
+    },
+    {
+      "path": "sfx/berettaReload.mp3",
+      "blob_sha": "70b2bec3b7b170b5f32e115949a85e3b372d2fea"
+    },
+    {
+      "path": "sfx/bgm.mp3",
+      "blob_sha": "7c929b810a9dc31d2671f32386ba95cf682d2a06"
+    },
+    {
+      "path": "sfx/bgm.ogg",
+      "blob_sha": "d767cbf22e61ec626dbfaf35646160da70ea898e"
+    },
+    {
+      "path": "sfx/bgm_battle.mp3",
+      "blob_sha": "85f5dd8583fdfa873ba7fbcc3f8a3edbe3bb460b"
+    },
+    {
+      "path": "sfx/bgm_battle.ogg",
+      "blob_sha": "288586803aba77633947a674a145d472d9ce04fb"
+    },
+    {
+      "path": "sfx/bgm_encounter.mp3",
+      "blob_sha": "0e07f5cf32e4224f3b52cf41fe003184cbf14ca4"
+    },
+    {
+      "path": "sfx/bgm_encounter.ogg",
+      "blob_sha": "7fe6dae493efbd21c5a36954d463ceef40c9535c"
+    },
+    {
+      "path": "sfx/bgm_hitman_battle.mp3",
+      "blob_sha": "b29d40cebecd0d9af5ab75cb414f5e83e33cc975"
+    },
+    {
+      "path": "sfx/bgm_hitman_battle.ogg",
+      "blob_sha": "67420f5fd65642ed9b4cbd7065677d8e79d1abb0"
+    },
+    {
+      "path": "sfx/bgm_hitman_intense.mp3",
+      "blob_sha": "1527549671e7bcc276077c1eadb7174cd9e10830"
+    },
+    {
+      "path": "sfx/bgm_hitman_intense.ogg",
+      "blob_sha": "44093a4e940bcf20b76e0654df1062ae8bf00bb9"
+    },
+    {
+      "path": "sfx/bhit.mp3",
+      "blob_sha": "d57cbd9bf73016ce178e9a63ed1eca13acf13bdb"
+    },
+    {
+      "path": "sfx/bite.mp3",
+      "blob_sha": "346a3cc46342dcb8fdc4411bb57d3241ee17fa75"
+    },
+    {
+      "path": "sfx/bolt.mp3",
+      "blob_sha": "00e47048cb531e667a03908bf048e44958f2fe47"
+    },
+    {
+      "path": "sfx/bowdraw.mp3",
+      "blob_sha": "fc0bab8f6dbb1e5a584f26257415d36d8637872c"
+    },
+    {
+      "path": "sfx/bowimpact.mp3",
+      "blob_sha": "07664bd5c4a54008269c667861a626606450b3da"
+    },
+    {
+      "path": "sfx/casing.mp3",
+      "blob_sha": "d73f1c66221ef6754ea781f8390879a43be00f2b"
+    },
+    {
+      "path": "sfx/claw.mp3",
+      "blob_sha": "61bc807654e15405cd304a221313023907aba25c"
+    },
+    {
+      "path": "sfx/click.mp3",
+      "blob_sha": "67da15391ef1d9c4c0a8b54f68e85b7665cdb413"
+    },
+    {
+      "path": "sfx/crossbowshot.wav",
+      "blob_sha": "9d81211a96e969d132923ab1d33e8d9c3f7637b7"
+    },
+    {
+      "path": "sfx/death.mp3",
+      "blob_sha": "464959d44fa75c7bb02f25b9f647a55e82b5c7a4"
+    },
+    {
+      "path": "sfx/doorclose.mp3",
+      "blob_sha": "c3603ec079db3522aaadbba03fa8ca76afc8c136"
+    },
+    {
+      "path": "sfx/dooropen.mp3",
+      "blob_sha": "b685235f8c4e106d075c63ea0d9272413f86878f"
+    },
+    {
+      "path": "sfx/drawer.mp3",
+      "blob_sha": "427f153280e8c40bf5045373053a52fd3ace618d"
+    },
+    {
+      "path": "sfx/dryfire.mp3",
+      "blob_sha": "8fa2b0e273c1abc2f54062d6464d955b55817f8a"
+    },
+    {
+      "path": "sfx/equip.mp3",
+      "blob_sha": "a203cf5647f2b32054cb64eb1ff64fb1f6aec215"
+    },
+    {
+      "path": "sfx/fal.mp3",
+      "blob_sha": "d2b53b219e67a17104bacbbea02344724a3d6e5c"
+    },
+    {
+      "path": "sfx/falReload.mp3",
+      "blob_sha": "35cee58e85f084de4325c5b1898170cdc9aebe61"
+    },
+    {
+      "path": "sfx/firealarm.mp3",
+      "blob_sha": "fb9f7e54b05125665ab888c2e5dc1de3f72f5db4"
+    },
+    {
+      "path": "sfx/fist.mp3",
+      "blob_sha": "5a32ba73ca7bdca2227bd163b4e949778a7fb4e9"
+    },
+    {
+      "path": "sfx/genloop.mp3",
+      "blob_sha": "69b38fe6dfa8f0a81b77e21f43b0e0c6feab2bdf"
+    },
+    {
+      "path": "sfx/genloop.ogg",
+      "blob_sha": "fd026c6001a231c58f45e570c47cac6a06c0d750"
+    },
+    {
+      "path": "sfx/genstart.mp3",
+      "blob_sha": "60cc937d1653a89a45ed0e0279d7430976c6f5b7"
+    },
+    {
+      "path": "sfx/glassbreak.mp3",
+      "blob_sha": "9775b4744be195df1cc77e8c12d9cebbf075feb0"
+    },
+    {
+      "path": "sfx/glassstep.mp3",
+      "blob_sha": "5d3269bda4adac3d9cdfd3295762f731e828813a"
+    },
+    {
+      "path": "sfx/goliath.mp3",
+      "blob_sha": "6984124269d77179c96776ba6de65a845a2500fd"
+    },
+    {
+      "path": "sfx/goliath_loop.mp3",
+      "blob_sha": "48e1b64f26c283768bcb06268efdfa8ba7840b53"
+    },
+    {
+      "path": "sfx/headshot.mp3",
+      "blob_sha": "efc1c5eee4216be29b091bf7c3919f04581adae2"
+    },
+    {
+      "path": "sfx/heal.mp3",
+      "blob_sha": "48a5d1a0387d380e609b314e7048ef82f6fe005d"
+    },
+    {
+      "path": "sfx/knife.mp3",
+      "blob_sha": "413d0ccee0a6c28c7ffb221a742f5ff39fef1c35"
+    },
+    {
+      "path": "sfx/m500.mp3",
+      "blob_sha": "cc0e4f0a29c0e0a14f92625390f765d123b81958"
+    },
+    {
+      "path": "sfx/mimpact.mp3",
+      "blob_sha": "87d7fa14087025d647c4b97c5faddafe7f48fbb0"
+    },
+    {
+      "path": "sfx/mp5.mp3",
+      "blob_sha": "48bff756d0e0f52bad42b27dfbce4b7068fc8695"
+    },
+    {
+      "path": "sfx/mp5Reload.mp3",
+      "blob_sha": "602de7d315aa28e893d5464e53ee27945a31062d"
+    },
+    {
+      "path": "sfx/mthrow.mp3",
+      "blob_sha": "d967b8ce0fb657c306a41db049c1b0fafd0bf801"
+    },
+    {
+      "path": "sfx/pickup.mp3",
+      "blob_sha": "db71b21981522e9b5c062d04f4a984683b0b6800"
+    },
+    {
+      "path": "sfx/piercehit.mp3",
+      "blob_sha": "0265ab799499611606e9bfca4c2fc3f2ddee390f"
+    },
+    {
+      "path": "sfx/pill.mp3",
+      "blob_sha": "dc4933c97b9f2bbf1d382d9b7ae82e941eea19b8"
+    },
+    {
+      "path": "sfx/pumpmix.mp3",
+      "blob_sha": "2d564944e8f2dfaa8a2cfb3b89b2a07398359e3f"
+    },
+    {
+      "path": "sfx/pumpstop.mp3",
+      "blob_sha": "66919e153f64038f9665c49d22205a23f53bc208"
+    },
+    {
+      "path": "sfx/radio01.mp3",
+      "blob_sha": "2ffd6728fdf658143cd77db8f287265923bbfd0a"
+    },
+    {
+      "path": "sfx/radio02.mp3",
+      "blob_sha": "c84cf8e5fceda283548eb71ecd382105634e751d"
+    },
+    {
+      "path": "sfx/radio03.mp3",
+      "blob_sha": "816d0ffb1ef96d6808179798fdb258966b0af248"
+    },
+    {
+      "path": "sfx/radio04.mp3",
+      "blob_sha": "899eefd6f16e248002703dff6baff491a310ce35"
+    },
+    {
+      "path": "sfx/radio05.mp3",
+      "blob_sha": "bae4e3160a76950ab2fbfc4d10f1622e3cc07cf6"
+    },
+    {
+      "path": "sfx/radio06.mp3",
+      "blob_sha": "5f5ecb5fe51bd46754428193922520281c05a50a"
+    },
+    {
+      "path": "sfx/radio07.mp3",
+      "blob_sha": "979a2c377ee31dabd6b0430ac6731ba889656d3c"
+    },
+    {
+      "path": "sfx/radio08.mp3",
+      "blob_sha": "926c032becfe75cbfb2a5ef871da44352a5869dc"
+    },
+    {
+      "path": "sfx/radio09.mp3",
+      "blob_sha": "f7bf992dc527e814168e7e6cc9097b77b1807a7c"
+    },
+    {
+      "path": "sfx/radio10.mp3",
+      "blob_sha": "b33b8991cca4c5b543c800836f8db0598caec92f"
+    },
+    {
+      "path": "sfx/radio11.mp3",
+      "blob_sha": "c51dc82d906f17ecb9edc97b072c0473d90db0e2"
+    },
+    {
+      "path": "sfx/radio12.mp3",
+      "blob_sha": "ee7609dcba9c929470c97ba087fdba5cbb32780c"
+    },
+    {
+      "path": "sfx/radio13.mp3",
+      "blob_sha": "1173ed6dab7562c9a7ac231c3fd6692162098172"
+    },
+    {
+      "path": "sfx/radio14.mp3",
+      "blob_sha": "ae230bbcce58c88423ea2d8ce8f4dc56d3023254"
+    },
+    {
+      "path": "sfx/radio15.mp3",
+      "blob_sha": "0f5e7c983967ab76fa86814216c29acb27d5fbdf"
+    },
+    {
+      "path": "sfx/radio16.mp3",
+      "blob_sha": "6f3f7b255a9390161713240c72ebcb543f4129ae"
+    },
+    {
+      "path": "sfx/radio17.mp3",
+      "blob_sha": "03eaa4c33817c2d0638d7fe9ab9f9266dc8cc267"
+    },
+    {
+      "path": "sfx/radio18.mp3",
+      "blob_sha": "d5cb643d7525d7bc986d28af9eac94952f16e7ce"
+    },
+    {
+      "path": "sfx/radio19.mp3",
+      "blob_sha": "08052d11a0780797be1c391c89473ac938f57170"
+    },
+    {
+      "path": "sfx/radio20.mp3",
+      "blob_sha": "9277bcd1c94d28abff80b43e98a12719677ffd7c"
+    },
+    {
+      "path": "sfx/radio21.mp3",
+      "blob_sha": "f5952e4f548c0d3ff5c5dde658b86ecf7d2033fa"
+    },
+    {
+      "path": "sfx/radio22.mp3",
+      "blob_sha": "ca7c602bb859946caa46d712693894eb171f2be2"
+    },
+    {
+      "path": "sfx/radio23.mp3",
+      "blob_sha": "28577e1dde4d472cc0875c64bd8bfd5aad68c7bc"
+    },
+    {
+      "path": "sfx/radio24.mp3",
+      "blob_sha": "f6f7edf2b546a10e55c59c6869543c9072d6788a"
+    },
+    {
+      "path": "sfx/radio25.mp3",
+      "blob_sha": "2b327f34f0bb65939aa727426bdbd3a52e6fbe32"
+    },
+    {
+      "path": "sfx/radio26.mp3",
+      "blob_sha": "dfce6cd077a0d5da99cdc7e5a731332c5381bdf1"
+    },
+    {
+      "path": "sfx/radio27.mp3",
+      "blob_sha": "8337d18f7edd57b5fe6ff79273498c9c8a8a1436"
+    },
+    {
+      "path": "sfx/radiostatic.mp3",
+      "blob_sha": "e27545eec4730add9dc2dda053910c09f7b2f2be"
+    },
+    {
+      "path": "sfx/rain_indoor_loop.mp3",
+      "blob_sha": "4eac8baeea2c06c8535ec48b877dafeb49d5e20b"
+    },
+    {
+      "path": "sfx/rain_indoor_loop.ogg",
+      "blob_sha": "9ef6c547d26529bfce5fb05b61f006c9f5203353"
+    },
+    {
+      "path": "sfx/rain_outdoor_loop.mp3",
+      "blob_sha": "2e85bcae829e4e6b14bd573e13992e5228651622"
+    },
+    {
+      "path": "sfx/rain_outdoor_loop.ogg",
+      "blob_sha": "858cc89256d203684fd810fb62c793b776b9b567"
+    },
+    {
+      "path": "sfx/revclose.mp3",
+      "blob_sha": "65df9066ec683db41f2287673b0ac87e1ff75113"
+    },
+    {
+      "path": "sfx/reveject.mp3",
+      "blob_sha": "d4b225dfdb06c0a3db0bfdfcbb66de2c345b7578"
+    },
+    {
+      "path": "sfx/revolver.mp3",
+      "blob_sha": "2626e8798d6610bc22f2e906e47c75bba882cb39"
+    },
+    {
+      "path": "sfx/revolverCock.mp3",
+      "blob_sha": "f846990582ca5ec415ce6f464d2fee0c03b1648b"
+    },
+    {
+      "path": "sfx/revopen.mp3",
+      "blob_sha": "7d511df618e8b7997bd94d5f62d01628c3b27205"
+    },
+    {
+      "path": "sfx/revshell.mp3",
+      "blob_sha": "3a5ac5bf51e229964f3ff993861b51ad91ab7e93"
+    },
+    {
+      "path": "sfx/rifle.mp3",
+      "blob_sha": "2550a0e576ad363b2c62c1b27833b327c0bf2da0"
+    },
+    {
+      "path": "sfx/rummage.mp3",
+      "blob_sha": "5d60d9295e172e1580e458f2c7bfdd44351ea160"
+    },
+    {
+      "path": "sfx/sgclose.mp3",
+      "blob_sha": "aa75e98efdbf533be0d5f656a1bbcd4f54cef4ba"
+    },
+    {
+      "path": "sfx/sgopen.mp3",
+      "blob_sha": "f530e086e729f4d0f8216fd8d8b5f7aaba337bc3"
+    },
+    {
+      "path": "sfx/sgpump.mp3",
+      "blob_sha": "77fa04bb72d6bfe3f7c73b65ec0f7ebb0f02d97f"
+    },
+    {
+      "path": "sfx/sgshell.mp3",
+      "blob_sha": "8a970dc6588855a3d8856fc83fa214a1fec36bc1"
+    },
+    {
+      "path": "sfx/sgshellbr.mp3",
+      "blob_sha": "7c836f4914126138f3ad9f814de8b98bef9b7b2b"
+    },
+    {
+      "path": "sfx/shotgun.mp3",
+      "blob_sha": "e630bd727b74adc291efd87758dcad26a1781ba0"
+    },
+    {
+      "path": "sfx/smash.mp3",
+      "blob_sha": "089641c14b53b915585f9aee50bb94d8df2a8ee0"
+    },
+    {
+      "path": "sfx/spit.mp3",
+      "blob_sha": "ca5cf54367d7f395ea4837bc7b7e72dd62386a40"
+    },
+    {
+      "path": "sfx/splat.mp3",
+      "blob_sha": "49122a155ec200fcee127c54b057ad921ca23748"
+    },
+    {
+      "path": "sfx/squish.mp3",
+      "blob_sha": "19c4a019bf038775acf83462ad09b16f09d33abd"
+    },
+    {
+      "path": "sfx/stairs.mp3",
+      "blob_sha": "07f81c769c3b3e1c97cd286068c02f47f4535aaf"
+    },
+    {
+      "path": "sfx/step.mp3",
+      "blob_sha": "c1258b229658c6fb8938917438a5b6f90cbc7aa7"
+    },
+    {
+      "path": "sfx/thud.mp3",
+      "blob_sha": "7def4534f57aa4afdab5720af4a3cbe2d646e160"
+    },
+    {
+      "path": "sfx/thunder_distant_01.mp3",
+      "blob_sha": "a25508de36142fce700e698223de8cf92b19850c"
+    },
+    {
+      "path": "sfx/thunder_distant_02.mp3",
+      "blob_sha": "d26afe8b830fc68a0d317b83b3b842586b6addeb"
+    },
+    {
+      "path": "sfx/waterpipe.mp3",
+      "blob_sha": "fe0d8151fa93f2e17fc1195039d5eb7fa8a423bb"
+    },
+    {
+      "path": "sfx/waterpump.mp3",
+      "blob_sha": "b761aa11cb181b32504195bf186b30543a44da1b"
+    },
+    {
+      "path": "sfx/woodimpact.mp3",
+      "blob_sha": "94d297ca51a18e64ee3865f490d14f87ad67f610"
+    },
+    {
+      "path": "sfx/woodknock.mp3",
+      "blob_sha": "1a30a62920f9adf1f2fcb4ed92483302b5091423"
+    },
+    {
+      "path": "sfx/zipper.mp3",
+      "blob_sha": "11cf1cc5f1a2dff52585ff2ee72483f9d9ed6b0e"
+    },
+    {
+      "path": "sfx/zstep.mp3",
+      "blob_sha": "40ff2750249c7bcb22f7deb27df145c91703290f"
+    },
+    {
+      "path": "sw.js",
+      "blob_sha": "ec7ab6e3481fd8d2a946d757fbe59d3ad20decb4"
+    },
+    {
+      "path": "tests/.gitignore",
+      "blob_sha": "c2658d7d1b31848c3b71960543cb0368e56cd4c7"
+    },
+    {
+      "path": "tests/arrow-shot.test.cjs",
+      "blob_sha": "b5e85cdd574858ef7c4e8c6f55438eabbf4e4003"
+    },
+    {
+      "path": "tests/assets.test.cjs",
+      "blob_sha": "ca18a4be20de6b47dc50d22cd2b01cb7198fa084"
+    },
+    {
+      "path": "tests/audio-library.test.cjs",
+      "blob_sha": "449ce85f3596b2614f31e612f98bc1852c395930"
+    },
+    {
+      "path": "tests/audio-next.test.cjs",
+      "blob_sha": "a903cc75419957ca409ee05cf8a1c245a861273f"
+    },
+    {
+      "path": "tests/audio-weather-preview.html",
+      "blob_sha": "91addaab1b6c0ccbe3ab6c813c65b4f98446938e"
+    },
+    {
+      "path": "tests/audio.test.cjs",
+      "blob_sha": "e6699f6eff6da8fea594902cc10a4b96195fad4c"
+    },
+    {
+      "path": "tests/balance.cjs",
+      "blob_sha": "418ebc597b48b4c4616cf61670d47257c8fe7443"
+    },
+    {
+      "path": "tests/baseline-v0.21.5.html",
+      "blob_sha": "e81866ea08c4a467484e384cdfeda635262f97a0"
+    },
+    {
+      "path": "tests/baselines/styles.json",
+      "blob_sha": "2fd7d020d842b63e1b7f0b4ba046219220e40f11"
+    },
+    {
+      "path": "tests/baselines/ui/1280x720-bag.png",
+      "blob_sha": "4a4824a0a0691c38a08fe70783d2a91ef66be414"
+    },
+    {
+      "path": "tests/baselines/ui/1280x720-character.png",
+      "blob_sha": "3166ad0cae1d53c96faeb91805cae2ddd8614db1"
+    },
+    {
+      "path": "tests/baselines/ui/1280x720-combat.png",
+      "blob_sha": "44bd2719b9de4ff5865238845fb7a0455e5dc728"
+    },
+    {
+      "path": "tests/baselines/ui/1280x720-exploration.png",
+      "blob_sha": "25bb9b1d994514b4a6eafb73f7e184240542c210"
+    },
+    {
+      "path": "tests/baselines/ui/1280x720-gate.png",
+      "blob_sha": "94e753f42f0c64730f9c26d0625b68ed9c9f5323"
+    },
+    {
+      "path": "tests/baselines/ui/393x690-bag.png",
+      "blob_sha": "4b6c37a5c5f26c6ace48434834166a5c4137ac5a"
+    },
+    {
+      "path": "tests/baselines/ui/393x690-character.png",
+      "blob_sha": "c4b1d4335490ae52c4ef90e28f8fd4b765f9806f"
+    },
+    {
+      "path": "tests/baselines/ui/393x690-combat.png",
+      "blob_sha": "d312888b9b90ea32e2329369dc0d44464667a945"
+    },
+    {
+      "path": "tests/baselines/ui/393x690-exploration.png",
+      "blob_sha": "4bfd7e02335a49e3ceb3fbdd36dbb377b5bb8c00"
+    },
+    {
+      "path": "tests/baselines/ui/393x690-gate.png",
+      "blob_sha": "73727506d54fa1bc9cb044ca2562c52c8ff12819"
+    },
+    {
+      "path": "tests/baselines/ui/844x390-bag.png",
+      "blob_sha": "d48423cef7ff4852bafc5d1ebcc92c1bd881c4d9"
+    },
+    {
+      "path": "tests/baselines/ui/844x390-character.png",
+      "blob_sha": "7fb732df9f4a66904edc097d98706478d7433035"
+    },
+    {
+      "path": "tests/baselines/ui/844x390-combat.png",
+      "blob_sha": "4a89054ad903339b4c176d7438be86c0819d6379"
+    },
+    {
+      "path": "tests/baselines/ui/844x390-exploration.png",
+      "blob_sha": "b1ccc7ecca55becbf24c11fc7782b2912ab5f80b"
+    },
+    {
+      "path": "tests/baselines/ui/844x390-gate.png",
+      "blob_sha": "37165f141ca4e61dcabd500877132150ab273b9d"
+    },
+    {
+      "path": "tests/baselines/ui/manifest.json",
+      "blob_sha": "b4919e4d984c393e695218aeb339bf2a17822171"
+    },
+    {
+      "path": "tests/bgm.test.cjs",
+      "blob_sha": "8f830782fa56f65bad9ae6aeb6dbfe125bd672ea"
+    },
+    {
+      "path": "tests/blunt-hit.test.cjs",
+      "blob_sha": "abc6c8a10c4874ee7ddf435d54c4a1577c497462"
+    },
+    {
+      "path": "tests/bow-rain.test.cjs",
+      "blob_sha": "5e7b5cfc7ca0b5154b938aaff6c864535bc19cae"
+    },
+    {
+      "path": "tests/browser-audio.cjs",
+      "blob_sha": "ec92064f5c7f0bbf9ccf4bee8ad59df59ab7e149"
+    },
+    {
+      "path": "tests/browser-smoke.cjs",
+      "blob_sha": "633493300469f25e16f65505e4e4efec3f959741"
+    },
+    {
+      "path": "tests/cards.test.cjs",
+      "blob_sha": "cc40c29de9e8d493853ee435ed4a9a02120d3379"
+    },
+    {
+      "path": "tests/clock-preview.html",
+      "blob_sha": "9af292cdc5a18ac4e4ba19743558d18a826d7894"
+    },
+    {
+      "path": "tests/damage-float-browser.cjs",
+      "blob_sha": "4f4575f257697bb6e722508bad245f33a2df8106"
+    },
+    {
+      "path": "tests/damage-float.test.cjs",
+      "blob_sha": "9e21693571442399e06b83e56f79c4f1cd2f3378"
+    },
+    {
+      "path": "tests/deep-endings.cjs",
+      "blob_sha": "ec5fd7de3ed6f9fe43b9c60ae3a75da039538057"
+    },
+    {
+      "path": "tests/deep-performance.cjs",
+      "blob_sha": "c74adab0bf54a7aa0d22ae78a71d075a93bc555b"
+    },
+    {
+      "path": "tests/deep-selfcheck.cjs",
+      "blob_sha": "373b91102d608a26b66cd92afdde3642fee6d55d"
+    },
+    {
+      "path": "tests/deep-stability.cjs",
+      "blob_sha": "546dccb1c80a24462cd56500e2086b4542acd549"
+    },
+    {
+      "path": "tests/deep.cjs",
+      "blob_sha": "15a0bc109940c6c6e092a8657c4c3f8bf194e183"
+    },
+    {
+      "path": "tests/deployed-smoke.cjs",
+      "blob_sha": "25f568fad0aebcc964d8746a98f0f759d4f2c287"
+    },
+    {
+      "path": "tests/enemy-attack.test.cjs",
+      "blob_sha": "7670228626dd8a1ef35b3b7fe5cc8e2d4722fc92"
+    },
+    {
+      "path": "tests/env-compat.test.cjs",
+      "blob_sha": "2b9499ca0e2113e06168f2f96bce9449ead7f08f"
+    },
+    {
+      "path": "tests/events.test.cjs",
+      "blob_sha": "d2cf9fbb61faf0fef5d36b58129b7ba155395a92"
+    },
+    {
+      "path": "tests/exploration.test.cjs",
+      "blob_sha": "707058ac88eb387123285fa69c9705ed39af621c"
+    },
+    {
+      "path": "tests/explore.test.cjs",
+      "blob_sha": "d1c93c2747bc565e4678f7ea7c62bccdeeab9d03"
+    },
+    {
+      "path": "tests/fear-display-browser.cjs",
+      "blob_sha": "608be00c91387e0c6d207f3f04447781cd90a943"
+    },
+    {
+      "path": "tests/fear-display.test.cjs",
+      "blob_sha": "47e0ce0802bb487ceef17a1d9a293ca81796e3d2"
+    },
+    {
+      "path": "tests/feedback.test.cjs",
+      "blob_sha": "c94c20dd2111966e3dd7fa46b8f3631552d60b75"
+    },
+    {
+      "path": "tests/fixtures/generate-saves.cjs",
+      "blob_sha": "989ca5743723e5250efb81b5e04138f97dc834d2"
+    },
+    {
+      "path": "tests/fixtures/saves/v057.json",
+      "blob_sha": "ae7cb31f8bc0d922a4d99318ca1806f737f1aece"
+    },
+    {
+      "path": "tests/fixtures/saves/v059.json",
+      "blob_sha": "1016575d6e62ce3fe8ac486b3ddf031449b435f6"
+    },
+    {
+      "path": "tests/fixtures/saves/v062.json",
+      "blob_sha": "bce15cbede2fc2b9ed224729169c291466bc2d91"
+    },
+    {
+      "path": "tests/fixtures/saves/v065.json",
+      "blob_sha": "9d7ea73ab2a15e598d2e3beb2e04003a6705a3c4"
+    },
+    {
+      "path": "tests/fixtures/saves/v0671.json",
+      "blob_sha": "2f44baeb3a4228c5b1c568fe3b1431fcc9b9b97b"
+    },
+    {
+      "path": "tests/guard.test.cjs",
+      "blob_sha": "7c0075411693bfb81b47846457e4b5e751899cf0"
+    },
+    {
+      "path": "tests/gun-shot.test.cjs",
+      "blob_sha": "08dbb7e1eee6e773d26b1341b6a5d65f35257244"
+    },
+    {
+      "path": "tests/helpers/assets.cjs",
+      "blob_sha": "53e5455d6be1784a0e23b312821917de43932c45"
+    },
+    {
+      "path": "tests/helpers/audio-game.cjs",
+      "blob_sha": "ddcdab96b68441b6347af44d2b861b0d431b62e3"
+    },
+    {
+      "path": "tests/helpers/browser-errors.cjs",
+      "blob_sha": "f57cd948f6d1baedd76482ac6acd19db32b9f6ac"
+    },
+    {
+      "path": "tests/helpers/deep-browser.cjs",
+      "blob_sha": "590d2b72790efe6a5a877a50ce1d42530a97e8de"
+    },
+    {
+      "path": "tests/helpers/deep-report.cjs",
+      "blob_sha": "3db7bc5ad024ec421187e35ccb708bf2a17ed9ee"
+    },
+    {
+      "path": "tests/helpers/deep-resources.cjs",
+      "blob_sha": "a86f05b3737aa4e822ff8b56ec57d57ae74f49d6"
+    },
+    {
+      "path": "tests/helpers/deep-sim.cjs",
+      "blob_sha": "6f44037405e888b912db34f7bdd53046d8021675"
+    },
+    {
+      "path": "tests/helpers/driver.cjs",
+      "blob_sha": "0f295fa362f296cd8914c0cea2d03b1c67152f1e"
+    },
+    {
+      "path": "tests/helpers/env-compat.cjs",
+      "blob_sha": "2b44c0d193fedb801c62ad3b79578a61628a6a9c"
+    },
+    {
+      "path": "tests/helpers/fixed-scenes.cjs",
+      "blob_sha": "de8c44c7437aed22aaee7527d2afc501366648be"
+    },
+    {
+      "path": "tests/helpers/game-vm.cjs",
+      "blob_sha": "53bf0b0bf1a49dc20fa57d00153ea559ed2efb10"
+    },
+    {
+      "path": "tests/helpers/godmode.cjs",
+      "blob_sha": "e748b7b0c2190b2433c6ecae861fd96322fe6ab0"
+    },
+    {
+      "path": "tests/helpers/integrity.cjs",
+      "blob_sha": "62b8eac8a7b362ab6daf9ee29aa6812a31c15176"
+    },
+    {
+      "path": "tests/helpers/selfcheck-evidence.cjs",
+      "blob_sha": "e9b9131926f3422964cb6470056a8f706e7dae88"
+    },
+    {
+      "path": "tests/helpers/sfx-map.cjs",
+      "blob_sha": "278f82c742e011b9dda114fe033b6d3ea64621ef"
+    },
+    {
+      "path": "tests/helpers/source-version.cjs",
+      "blob_sha": "ec930ba06746f54f541af8085a294397d3f12eaf"
+    },
+    {
+      "path": "tests/helpers/test-reporter.cjs",
+      "blob_sha": "319fc822c4f05afe8e60de0afc7fb03a88d0279b"
+    },
+    {
+      "path": "tests/helpers/ui-contract.cjs",
+      "blob_sha": "3d71fc66a2ebac6dd086836f24b17c888ef5c752"
+    },
+    {
+      "path": "tests/helpers/v06-fault.cjs",
+      "blob_sha": "eab7dc56503235a74f480f7ac1f5c0881a947f71"
+    },
+    {
+      "path": "tests/helpers/v06-observe.cjs",
+      "blob_sha": "86654c8945b5c5798e36f2e6fc1c56c1cdeec102"
+    },
+    {
+      "path": "tests/helpers/v06-preload.cjs",
+      "blob_sha": "d4c874685ee5544355e0699ec0e46489a8470d71"
+    },
+    {
+      "path": "tests/helpers/visual-diff.cjs",
+      "blob_sha": "09319a4e36449ca01bcf1271ad697385a6648b9f"
+    },
+    {
+      "path": "tests/hospital.test.cjs",
+      "blob_sha": "731bcf693fb016e9a96bc32f2d1d1fcaf74856bd"
+    },
+    {
+      "path": "tests/hotel-stage.test.cjs",
+      "blob_sha": "cb3b37421338bae9794510ec7149500eeeecbe46"
+    },
+    {
+      "path": "tests/hotel-xp.test.cjs",
+      "blob_sha": "128f95dcaf552953808cbf6fc2c351af560c6939"
+    },
+    {
+      "path": "tests/hotel.test.cjs",
+      "blob_sha": "fc8c73b9c1418d7afb8e7dde0322f882c18e83c2"
+    },
+    {
+      "path": "tests/item-icons.test.cjs",
+      "blob_sha": "8c2565b5e734da4c1ffb8eea798c1407dc39540c"
+    },
+    {
+      "path": "tests/landscape.test.cjs",
+      "blob_sha": "a69ecebea6ee00b6f7d3610a3a3e03b1f28460b3"
+    },
+    {
+      "path": "tests/long-route.cjs",
+      "blob_sha": "3c5dc10b6c40d76c9ee4175d968478d7d713ee5e"
+    },
+    {
+      "path": "tests/multiplayer/bot.cjs",
+      "blob_sha": "7dcdccba56ea65b981a03d4471bee167a8059d49"
+    },
+    {
+      "path": "tests/multiplayer/harness.cjs",
+      "blob_sha": "b458cafcab437a222d0e5e20ea11928b0b90be82"
+    },
+    {
+      "path": "tests/multiplayer/mock.js",
+      "blob_sha": "1a448980f2c7d06c77501c517a07cacd43ef4503"
+    },
+    {
+      "path": "tests/multiplayer/mp.cjs",
+      "blob_sha": "df5cf327e724b849e8b5035fa4aa116e4f78f900"
+    },
+    {
+      "path": "tests/multiplayer/mpstage.cjs",
+      "blob_sha": "02bb478603a7e73164efe5d196f75447053aa6ab"
+    },
+    {
+      "path": "tests/opening-clock.test.cjs",
+      "blob_sha": "f5f51d5ba59ed4d6d5401abedfaffccef9d0b21b"
+    },
+    {
+      "path": "tests/package-lock.json",
+      "blob_sha": "34ef24a1f73720f69c817295d14e64bfd0b559b7"
+    },
+    {
+      "path": "tests/package.json",
+      "blob_sha": "ef750fe66fdf16e59a61802a3315a015bc005473"
+    },
+    {
+      "path": "tests/pierce-audio.test.cjs",
+      "blob_sha": "43578a31d789090f63d55a6789f91da5cc382766"
+    },
+    {
+      "path": "tests/pierce-vfx.test.cjs",
+      "blob_sha": "06d60cfc96752c4b31a81a0aaa8e760f3f0dd5cf"
+    },
+    {
+      "path": "tests/polish-v0670.test.cjs",
+      "blob_sha": "3534c5b04d056a229edd0f2b90fcfb56ed496756"
+    },
+    {
+      "path": "tests/pr-e-selfcheck.cjs",
+      "blob_sha": "dc49b6608f32d88860bedab2b279d65adfcac081"
+    },
+    {
+      "path": "tests/pr-e-tools.test.cjs",
+      "blob_sha": "b934a67083935734129d9c4cc18b0790555db07c"
+    },
+    {
+      "path": "tests/qa-selfcheck.sh",
+      "blob_sha": "812188216114bc4a336ac97a20902af620723d3b"
+    },
+    {
+      "path": "tests/qte-browser.cjs",
+      "blob_sha": "9bbd8705e3275f3bd81dbcc8d545b9444007cc56"
+    },
+    {
+      "path": "tests/qte-phase2.test.cjs",
+      "blob_sha": "fa9b09d0e5b50036686ea3d31521690e40ae8966"
+    },
+    {
+      "path": "tests/qte-rework.test.cjs",
+      "blob_sha": "3486ec2e5c0bde59e36a59d7ed69a40c77dbe310"
+    },
+    {
+      "path": "tests/qte-unified.test.cjs",
+      "blob_sha": "1d77475c9de0bfc7f5cf71511a333f5375279ced"
+    },
+    {
+      "path": "tests/remove-dodge.test.cjs",
+      "blob_sha": "c39c1e9b6c2ff1a68cce964103d83991c3feba9e"
+    },
+    {
+      "path": "tests/resistance.test.cjs",
+      "blob_sha": "418170bc2fae460c7d9392c95edece64915f94c6"
+    },
+    {
+      "path": "tests/revolver-sfx.test.cjs",
+      "blob_sha": "7088938cdf917409f103e3f7e7ba660d8bccf7d4"
+    },
+    {
+      "path": "tests/run_all.sh",
+      "blob_sha": "e03036ea56c08b0d49d3317bcf8d28ef5be1ab67"
+    },
+    {
+      "path": "tests/save-fixtures.test.cjs",
+      "blob_sha": "298fe19a4e97d142fef66f0f9fec8024760e84c9"
+    },
+    {
+      "path": "tests/scene-time.test.cjs",
+      "blob_sha": "419f211202f23a4c2ff193a7c2f11bc80eeea99b"
+    },
+    {
+      "path": "tests/seed-save.test.cjs",
+      "blob_sha": "702193f17b186380ce16772e03f40f7bdd4e9e28"
+    },
+    {
+      "path": "tests/sfx-map.test.cjs",
+      "blob_sha": "3ab52851b68f7436efe2a89a7cd3bcc9359d0f9e"
+    },
+    {
+      "path": "tests/shotgun-sfx.test.cjs",
+      "blob_sha": "b5543e1b001019f72d723f5ec68ff8a5dc43b7b7"
+    },
+    {
+      "path": "tests/sig-repair.test.cjs",
+      "blob_sha": "9eced5500e2ed8eaaac5098c1e2326665c248a98"
+    },
+    {
+      "path": "tests/slash-hit.test.cjs",
+      "blob_sha": "a6bef69583793ea54460bdd4421eeab9983e2c1a"
+    },
+    {
+      "path": "tests/source-version.test.cjs",
+      "blob_sha": "dbf7ba3a65c50c3d348c4bd32b82ef081d2b6b24"
+    },
+    {
+      "path": "tests/style-guard.test.cjs",
+      "blob_sha": "f8436dcc0ba6fda624fa21c87cfc9a51d054fd1e"
+    },
+    {
+      "path": "tests/survival-route.cjs",
+      "blob_sha": "8176e7b7aac9b8341ece2fd1d70f0a3595710621"
+    },
+    {
+      "path": "tests/time.test.cjs",
+      "blob_sha": "1d7faf8587f43034e877f1777f42bacdac2cfdbb"
+    },
+    {
+      "path": "tests/topbar-preview.html",
+      "blob_sha": "284ae6565d05cef5d3ee164e60a587f9552d2350"
+    },
+    {
+      "path": "tests/topbar.test.cjs",
+      "blob_sha": "f1fa3e219c190b1281acc88bcdf908f61d72fe05"
+    },
+    {
+      "path": "tests/ui-regression.cjs",
+      "blob_sha": "9d3b3f71de8bd14a73280704e19c3c67172ea76c"
+    },
+    {
+      "path": "tests/v06-fault.test.cjs",
+      "blob_sha": "e73d2bc72abdd575ac911b53f087fca681720252"
+    },
+    {
+      "path": "tests/v06-repeat.cjs",
+      "blob_sha": "643331a252685d605c603f2364c31c4f25aa9ce7"
+    },
+    {
+      "path": "tests/weather.test.cjs",
+      "blob_sha": "b0fd219db8d889284dee6b5637c22ba5ad70269a"
+    },
+    {
+      "path": "tests/wounds.test.cjs",
+      "blob_sha": "727aca7048c52c0cbcd2b6768867e6956b21ba64"
+    },
+    {
+      "path": "tests/zone.test.cjs",
+      "blob_sha": "27b889a7f8f089271a2be3c02be382ad6d94237b"
+    },
+    {
+      "path": "tools/build_assets.cjs",
+      "blob_sha": "ca16e5c2378fe56fb4a12a0ff553b6b345a8a285"
+    },
+    {
+      "path": "tools/build_audio_library.py",
+      "blob_sha": "c130323b9fce0d3f92b8f607285137d9bb12c8c6"
+    },
+    {
+      "path": "tools/claude/bot.js",
+      "blob_sha": "73ee0dddc834a3c15d2112ec304b00e914bc1191"
+    },
+    {
+      "path": "tools/claude/build.sh",
+      "blob_sha": "f791d13c33ded8506502c759a882424e673bce1a"
+    },
+    {
+      "path": "tools/claude/mp.js",
+      "blob_sha": "722ff92830bdd86a169c040d7b8f863f4bedebb0"
+    },
+    {
+      "path": "tools/gun-vfx-sheets.py",
+      "blob_sha": "453c313579fc8d808049e5672314fc6394bdf074"
+    },
+    {
+      "path": "tools/make_font_subset.py",
+      "blob_sha": "c2b17e4a88b1740796fac3d0313a3edcffdf69b4"
+    },
+    {
+      "path": "tools/process-crossbow.py",
+      "blob_sha": "83f998ef71fd51b31aaccaf3a8ce7a4ff0ae62d4"
+    },
+    {
+      "path": "tools/process-hitman.py",
+      "blob_sha": "b8a31627fd22294569a6a56c55ce08567d5f4ea4"
+    },
+    {
+      "path": "tools/release.py",
+      "blob_sha": "ec28acd6c661ac3285f7029dcefd4bd3913b8a70"
+    },
+    {
+      "path": "tools/split_index.py",
+      "blob_sha": "a135f038b728fb6b25509dc3cbc7232b10d303a9"
+    },
+    {
+      "path": "更新說明.txt",
+      "blob_sha": "034f4de7f484e42b42840ef88e5e2849df029575"
+    }
+  ],
+  "requested_ref": "a31a02b2d04ab0e09880ccff3c23fbe37b06367c",
+  "verified_local_tree": "efd04a54573ed39b136b4d02bced2784e37df897"
+}

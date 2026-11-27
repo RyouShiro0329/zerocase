@@ -1,0 +1,147 @@
+{
+ "schema": 1,
+ "tool": "tests/run_all.sh",
+ "mode": "fast",
+ "args": {
+  "smokeSteps": 40,
+  "longSteps": 220,
+  "survivalSteps": 120,
+  "seed": 2569292780
+ },
+ "started": "2026-11-28T02:49:13+08:00",
+ "finished": "2026-11-28T02:49:40+08:00",
+ "seconds": 26.5,
+ "game": {
+  "version": "0.71.1",
+  "build": 148,
+  "versionTime": "2026-11-27T18:19:49+08:00",
+  "sha256": "ad4aaf16e9f60b735c51f32165d5edcfa1aa5977736f59631883245ab6f657be",
+  "bytes": 1332644
+ },
+ "commit": "e414cb83efab9dc2f593428d294dc34aa0f69755",
+ "branch": "feat/audio-library",
+ "dirty": true,
+ "ci": null,
+ "env": {
+  "node": "v24.22.3",
+  "playwright": "1.62.1",
+  "platform": "linux"
+ },
+ "stages": [
+  {
+   "id": "integrity",
+   "name": "防弱化檢查",
+   "status": "PASS",
+   "seconds": 0.3,
+   "note": "guard 沒改",
+   "detail": {
+    "base": "origin/main",
+    "baseSha": "e414cb83efab9dc2f593428d294dc34aa0f69755",
+    "failed": [],
+    "warnings": [],
+    "info": {
+     "guardSame": true,
+     "testFiles": {
+      "base": 72,
+      "head": 73,
+      "added": [
+       "tests/audio-library.test.cjs"
+      ]
+     },
+     "testCalls": {
+      "base": 458,
+      "head": 461
+     },
+     "indexSameAsBase": true
+    }
+   },
+   "warnings": [],
+   "failed": []
+  },
+  {
+   "id": "node",
+   "name": "Node 邏輯測試",
+   "status": "FAIL",
+   "seconds": 25.8,
+   "note": "失敗 1 項",
+   "counts": {
+    "tests": 510,
+    "pass": 506,
+    "fail": 1,
+    "cancelled": 0,
+    "skipped": 0,
+    "todo": 3
+   },
+   "failed": [
+    "僅索引來源沒有混入公開音檔，16／24 位元對應版本均保留"
+   ],
+   "todo": [
+    "環境相容：遊戲現在對不上、等主人決定（9 組）",
+    "恐懼在畫面與紀錄都不顯示數字（2026-11-13 主人定案）",
+    "音效對應表：缺口等主人決定（意外沒聲音 7、躲開沒聲音 9、沒有備援 7、沒用到 1；詳見 docs/audio/SFX_MAP.md）"
+   ],
+   "skipped": []
+  },
+  {
+   "id": "smoke",
+   "name": "瀏覽器冒煙",
+   "status": "SKIP",
+   "seconds": 0,
+   "note": "FAST 模式不跑"
+  },
+  {
+   "id": "long",
+   "name": "長路線",
+   "status": "SKIP",
+   "seconds": 0,
+   "note": "FAST 模式不跑"
+  },
+  {
+   "id": "survival",
+   "name": "生存路線與戰鬥完整性",
+   "status": "SKIP",
+   "seconds": 0,
+   "note": "FAST 模式不跑"
+  },
+  {
+   "id": "qte",
+   "name": "QTE 固定情境",
+   "status": "SKIP",
+   "seconds": 0,
+   "note": "FAST 模式不跑"
+  },
+  {
+   "id": "audio",
+   "name": "真實瀏覽器音訊",
+   "status": "SKIP",
+   "seconds": 0,
+   "note": "FAST 模式不跑"
+  },
+  {
+   "id": "ui",
+   "name": "固定版面與基準截圖",
+   "status": "SKIP",
+   "seconds": 0,
+   "note": "FAST 模式不跑"
+  },
+  {
+   "id": "multiplayer",
+   "name": "多人演出與房主交接模擬",
+   "status": "SKIP",
+   "seconds": 0,
+   "note": "FAST 模式不跑"
+  }
+ ],
+ "summary": {
+  "overall": "FAIL",
+  "overallZh": "失敗",
+  "text": "有失敗：Node 邏輯測試",
+  "todo": [
+   "Node 邏輯測試：環境相容：遊戲現在對不上、等主人決定（9 組）",
+   "Node 邏輯測試：恐懼在畫面與紀錄都不顯示數字（2026-11-13 主人定案）",
+   "Node 邏輯測試：音效對應表：缺口等主人決定（意外沒聲音 7、躲開沒聲音 9、沒有備援 7、沒用到 1；詳見 docs/audio/SFX_MAP.md）"
+  ],
+  "exit": 1,
+  "warnings": []
+ }
+}
