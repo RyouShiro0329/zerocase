@@ -1145,7 +1145,7 @@ const AFF={
 const MOVES={
  // v0.20.0 三陣營設計包 v1.0.0：d＝原始傷害、h＝總命中（沒寫就用本體）、inf＝固定感染、cd＝冷卻回合、qte＝預告後純反應 QTE（成功 0 傷害，失敗直接受傷）
  infected:[{n:'撲咬',dt:'pierce',w:5,d:5,h:4,inf:3,hs:'bite'},{n:'亂抓',dt:'slash',w:3,d:4,h:4,inf:2,hs:'claw',t:'牠的指甲抓過皮膚，留下幾道火辣辣的傷口。'},{n:'抓住',dt:'blunt',save:{st:'STR',dc:12},w:2,d:1,h:4,inf:0,cd:3,hs:'claw',grab:1,t:'牠一把抓住手臂，指頭陷進肉裡，怎麼甩都甩不掉。'},{n:'撲倒',dt:'blunt',save:{st:'STR',dc:12},qguard:'block',w:2,d:8,inf:5,cd:3,hs:'thud',qte:1,unbal:1,cue:'弓起背，喉嚨裡一聲低吼，猛然撲了上來——',qw:['閃避','後退','側身','站穩'],t:'牠整個撲了上來，把人壓倒在地上亂咬。'}],
- incubator:[{n:'丟擲囊泡',dt:'blunt',exposure:1,qguard:'cover',w:4,d:2,inf:4,humus:2,hs:'splat',pre:'spit',ws:'squish',tele:1,qte:1,rng:1,qw:['閃避','側身','低頭','閃避'],warn:'從背上扯下一顆鼓脹的囊泡，高高舉起，對準',t:'囊泡砸在身上破開，黏稠的腐殖物糊了一片，又熱又癢。'},{n:'噴吐',dt:null,exposure:1,w:2,d:2,inf:4,cd:4,hs:'splat',pre:'spit',ws:'squish',tele:1,qte:1,all:1,rng:1,qw:['閃避','後退','低頭','遮臉'],warn:'的肚子一陣一陣鼓起來，嘴巴慢慢張大，對著',t:'一大口黃綠色的液體噴了出來。'},{n:'推撞',dt:'blunt',exposure:1,w:3,d:1,h:3,inf:2,near:1,hs:'squish',t:'牠用整個身體撞過來，濕黏的皮膚貼在臉上。'}],
+ incubator:[{n:'丟擲囊泡',dt:'blunt',exposure:1,qguard:'cover',w:4,d:2,inf:4,humus:2,hs:'splat',ws:'squish',tele:1,qte:1,rng:1,qw:['閃避','側身','低頭','閃避'],warn:'從背上扯下一顆鼓脹的囊泡，高高舉起，對準',t:'囊泡砸在身上破開，黏稠的腐殖物糊了一片，又熱又癢。'},{n:'噴吐',dt:null,exposure:1,w:2,d:2,inf:4,cd:4,hs:'splat',ws:'squish',tele:1,qte:1,all:1,rng:1,qw:['閃避','後退','低頭','遮臉'],warn:'的肚子一陣一陣鼓起來，嘴巴慢慢張大，對著',t:'一大口黃綠色的液體噴了出來。'},{n:'推撞',dt:'blunt',exposure:1,w:3,d:1,h:3,inf:2,near:1,hs:'squish',t:'牠用整個身體撞過來，濕黏的皮膚貼在臉上。'}],
  devourer:[{n:'揮擊',dt:'blunt',w:4,d:4,h:4,inf:2,hs:'smash',t:'那隻腫大的手臂橫掃過來，砸在肋骨上。'},{n:'震盪重擊',dt:'blunt',save:{st:'CON',dc:14},qguard:'block',w:2,d:7,inf:2,cd:3,hs:'smash',tele:1,qte:1,stun:1,qw:['閃避','後退','側身','閃避'],warn:'把那隻腫大的手臂往後拉，整個身體跟著擰過去，對準',t:'整隻手臂砸下來，人被打得撞上牆，眼前一黑。'},{n:'吞咬',dt:'pierce',w:2,d:4,h:3,inf:5,cd:3,hs:'bite',heal:2,healMax:4,t:'牠一把抓住，把人往嘴邊拉，咬下一塊肉。'}],
  cutter:[{n:'刺擊',dt:'pierce',w:4,d:4,h:5,hs:'knife',t:'獵刀從下往上捅過來。'},{n:'劃開',dt:'slash',w:3,d:3,h:5,hs:'knife',bleed:.7,t:'刀鋒一掠而過，傷口過了一秒才開始冒血。'},{n:'割喉',dt:'slash',qguard:'block',w:2,d:8,cd:4,hs:'knife',tele:1,qte:1,need:'bleed',pref:'bleed',after:'open',qw:['後仰','格開','閃避','後退'],warn:'盯著那道還在流血的傷口，刀子反手握著，慢慢貼近',t:'他貼上來，刀子往脖子上抹。'}],
  // v0.25.0：pounce 飛撲（當下 QTE、不蓄力）；sweep 橫斬（兩人以上）；need2 雙響要兩發；lit 縱火客的瓶子；tmax 目標上限
@@ -8188,7 +8188,7 @@ async function roundEnd(){const F=G.fight;if(!F)return;
   for(const p of able()){
     if(p.burn>0){p.hp-=2;p.taken=(p.taken||0)+2;p.burn--;out(`${MP()?nm(p)+'身上的':'身上的'}火還沒滅。生命 −2${p.burn?'':'。火總算熄了'}。`,'dmg')}/* 燃燒跳傷害：現有檔沒有合適的持續燃燒聲（mimpact 是爆炸），先保持安靜 */
     if(p.bleed>0){const v=p.bleed;p.hp-=v;if(p.bleedN==null)p.bleedN=3;p.bleedN--;out(`${MP()?nm(p)+'的':'你的'}傷口還在流血。生命 −${v}${p.bleedN<=0?'。血總算慢慢止住了':''}。`,'dmg');if(p.bleedN<=0){p.bleed=0;p.bleedN=null}}
-    if(p.humus>0){const v=p.humusV||2;addInf(p,v);p.humus--;snd('squish',.55);out(`${MP()?nm(p)+'身上的':''}腐殖物還在往皮膚裡滲。感染 +${v}${p.humus?'':'。總算乾掉了'}。`,'dmg',true)}}
+    if(p.humus>0){const v=p.humusV||2;addInf(p,v);p.humus--;snd('splat',.55);out(`${MP()?nm(p)+'身上的':''}腐殖物還在往皮膚裡滲。感染 +${v}${p.humus?'':'。總算乾掉了'}。`,'dmg',true)}}
   for(const f of liveF()){
     if(f.burn>0){const d=applyDmg(f,2,['fire'],null,true);f.burn--;out(`${f.n}身上的火還在燒。−${d}。`,'good',true)}
     if(f.bleed>0&&f.hp>0){const b=f.bleed+(affIs(f,'numb')?1:0);f.hp-=b;foeDmgMark(f,b);if(f.bleedN==null)f.bleedN=3;f.bleedN--;out(`${f.n}的傷口還在流血。−${b}。`,'good',true);if(f.bleedN<=0){f.bleed=0;f.bleedN=null}}

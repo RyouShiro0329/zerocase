@@ -9,7 +9,7 @@
 - **敵人招式**（31 招）：有傷害、沒標受傷聲（播預設 claw）：（沒有）；開槍卻沒有槍聲：（沒有）
 - **劇情扣血**：86 筆扣血結果，沒標受傷聲（播預設 hurt）的 0 筆
 - **沒有備援的音效檔**（檔案載入失敗時這一下沒有聲音）：短音效 7 個：glassbreak、firealarm、genstart、woodknock、woodimpact、glassstep、pumpstop；循環、無線電、雷聲 11 個（設計上沒有備援，持續聲會暫停）：rain_indoor_loop、rain_outdoor_loop、thunder_distant_01、thunder_distant_02、genloop、waterpipe、pumpmix、radiostatic、radio02、radio23、radio24
-- **播得出來、但遊戲沒有用到的名稱**：farshots2
+- **播得出來、但遊戲沒有用到的名稱**：spit、farshots2
 - **素材資料夾裡有、沒有被引用的音檔**（32 個）：airraid_event.mp3、bgm_battle.mp3、bgm_battle.ogg、bgm_encounter.mp3、bgm_encounter.ogg、goliath.mp3、goliath_loop.mp3、radio01.mp3、radio03.mp3、radio04.mp3、radio05.mp3、radio06.mp3、radio07.mp3、radio08.mp3、radio09.mp3、radio10.mp3、radio11.mp3、radio12.mp3、radio13.mp3、radio14.mp3、radio15.mp3、radio16.mp3、radio17.mp3、radio18.mp3、radio19.mp3、radio20.mp3、radio21.mp3、radio22.mp3、radio25.mp3、radio26.mp3、radio27.mp3、waterpump.mp3
 - **頭尾空白**：開頭空白超過 0.3 秒：revolverCock 約 0.63 秒、firealarm 約 1.0 秒、woodknock 檔案開頭約 0.85 秒靜音（v0.71.2 起播放時從 0.85 秒處開始，不改檔案；瀏覽器實測曾記約 0.56 秒，v0.67.1）、glassbreak 檔案開頭約 0.27 秒靜音（v0.71.2 起播放時從 0.265 秒處開始，對齊碎裂起音；shotCue 組合槍聲仍走 cueAt，不套用）；結尾空白超過 0.5 秒：zipper、revolverCock、revolver、mp5、firealarm（瀏覽器實測，v0.67.1）。交接文件另記：無線電台詞每句開頭約 0.6 秒安靜、piercehit 尾端 0.47 秒
 - **發電機淡入**：genstart 前 1 秒低於 −50 dBFS（淡入），按下去一秒後才聽得到
@@ -86,10 +86,10 @@
 | bolt | 音效檔 | combat | 拉槍機 | dry | snd(…) 呼叫；sndW(…) 呼叫；WEAP.model70.rl；WEAP.model70.cy；…共 10 處 |
 | bite | 音效檔 | combat | 被咬 | hurt | MOVES.infected[0].hs；MOVES.devourer[2].hs；MOVES.predator[1].hs；N.OF2a.c[1].ng.hz.ng.hs；…共 8 處 |
 | smash | 音效檔 | combat | 重擊砸中 | fumble | MOVES.devourer[0].hs；MOVES.devourer[1].hs |
-| splat | 音效檔 | combat | 黏稠的東西砸開 | hurt | MOVES.incubator[0].hs；MOVES.incubator[1].hs |
-| spit | 音效檔 | combat | 噴吐 | whoosh | MOVES.incubator[0].pre；MOVES.incubator[1].pre |
+| splat | 音效檔 | combat | 黏稠的東西砸開 | hurt | snd(…) 呼叫；MOVES.incubator[0].hs；MOVES.incubator[1].hs |
+| spit | 音效檔 | combat | 噴吐 | whoosh | （沒有用到） |
 | thud | 音效檔 | combat | 撞擊、摔倒、被砸（鈍擊） | land | MOVES.infected[3].hs；MOVES.predator[2].hs；N.C1.c[0].ng.hs；N.C2.c[1].ng.hs；…共 49 處 |
-| squish | 音效檔 | combat | 軟爛的東西被擠壓 | hurt | snd(…) 呼叫；MOVES.incubator[0].ws；MOVES.incubator[1].ws；MOVES.incubator[2].hs |
+| squish | 音效檔 | combat | 軟爛的東西被擠壓 | hurt | MOVES.incubator[0].ws；MOVES.incubator[1].ws；MOVES.incubator[2].hs |
 | bhit | 音效檔 | combat | 子彈打中 | dry | snd(…) 呼叫 |
 | shotgun | 音效檔 | combat | 霰彈槍槍聲 | fumble | snd(…) 呼叫；WEAP.r870.snd；WEAP.sbshot.snd；GUN_VFX_CFG.r870.snd；…共 5 處 |
 | glassbreak | 音效檔 | environment | 玻璃碎掉 | — | N.A4.c[3].tb[0].audio；N.A4.c[3].tb[1].audio；N.A4.c[3].tb[2].audio；N.A3x.c[1].tb[1].audio；…共 10 處 |

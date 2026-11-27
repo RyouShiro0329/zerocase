@@ -117,17 +117,17 @@ test('隊友倒下播 death（與 gameOver 同音量）；全隊倒下只由 gam
   assert.equal(s.run('GO'),1);
 });
 
-test('回合結束：流血保持安靜、腐殖物播 squish、燃燒保持安靜',async()=>{
+test('回合結束：流血保持安靜、腐殖物播 splat、燃燒保持安靜',async()=>{
   const g=setup();
   g.run("G.fight={foes:[],round:1};G.players[0].bleed=1;G.players[0].bleedN=3;G.players[0].humus=1;G.players[0].humusV=2;G.players[0].burn=1;G.players[0].hp=20;addInf=()=>{};deathCheck=async()=>false;push=()=>{};draw=()=>{}");
   g.events.length=0;
   await g.run('roundEnd()');
   const k=keys(g);
   assert.ok(!k.includes('knife'));
-  assert.ok(k.includes('squish'));
+  assert.ok(k.includes('splat'));
   assert.ok(!k.includes('mimpact'));
   assert.ok(!k.includes('firealarm'));
-  assert.equal(ev(g).find(d=>d[0]==='squish')[1],.55);
+  assert.equal(ev(g).find(d=>d[0]==='splat')[1],.55);
 });
 
 test('QTE 閃避成功只播一次 whoosh（qte 統一，qteHit 不再加播）',async()=>{
@@ -140,4 +140,14 @@ test('QTE 閃避成功只播一次 whoosh（qte 統一，qteHit 不再加播）'
   g.events.length=0;
   await g.run("qteHit({n:'敵人'},{n:'撲倒',qw:['閃避']},G.players[0])");
   assert.deepEqual(keys(g),['whoosh']);
+});
+
+test('孵化者丟擲囊泡與噴吐：出手前不再播 spit，命中仍是 splat',()=>{
+  const g=setup();
+  const mv=g.run("MOVES.incubator.map(m=>({n:m.n,hs:m.hs||null,pre:m.pre||null,ws:m.ws||null}))");
+  const bag=mv.find(m=>m.n==='丟擲囊泡'), spit=mv.find(m=>m.n==='噴吐'), shove=mv.find(m=>m.n==='推撞');
+  assert.ok(bag&&spit&&shove);
+  assert.equal(bag.hs,'splat');assert.equal(bag.pre,null);assert.equal(bag.ws,'squish');
+  assert.equal(spit.hs,'splat');assert.equal(spit.pre,null);assert.equal(spit.ws,'squish');
+  assert.equal(shove.hs,'squish');assert.equal(shove.pre,null);
 });
