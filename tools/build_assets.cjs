@@ -5,7 +5,7 @@ const {scan}=require('../tests/helpers/assets.cjs');const scanned=scan(root);
 if(!scanned.ok)throw Error(JSON.stringify({missing:scanned.missing,unknown:scanned.unknownKeys}));
 const rows=scanned.files.filter(p=>/\.(webp|png|jpe?g|svg|mp3|ogg|wav|woff2?)$/.test(p)).sort().map(url=>{
  const data=fs.readFileSync(path.join(root,url));const type=/sfx\/bgm/.test(url)?'media':url.startsWith('sfx/')?'audio':url.startsWith('fonts/')?'font':'image';
- return {id:url,url,type,priority:type==='font'||/cat_/.test(url)?0:type==='image'?(url.startsWith('img/')||/fx\/(slash|blunt)-/.test(url)?1:2):type==='audio'?(/radio|gen|pump|waterpipe/.test(url)?3:2):2,required:type==='font',hash:crypto.createHash('sha256').update(data).digest('hex'),size:data.length};
+ return {id:url,url,type,priority:type==='font'||/cat_/.test(url)?0:type==='image'?(url.startsWith('img/item/')?2:(url.startsWith('img/')||/fx\/(slash|blunt)-/.test(url)?1:2)):type==='audio'?(/radio|gen|pump|waterpipe/.test(url)?3:2):2,required:type==='font',hash:crypto.createHash('sha256').update(data).digest('hex'),size:data.length};
 });
 const index=JSON.stringify(rows),html=fs.readFileSync(file,'utf8');
 let next=html.replace(/^const ZC_ASSET_INDEX=.*; \/\/ tools\/build_assets.cjs 產生$/m,'const ZC_ASSET_INDEX='+index+'; // tools/build_assets.cjs 產生');

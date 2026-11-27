@@ -62,6 +62,9 @@ function scan(root){
  for(const name of g.globals()){let v;try{v=g.run(`typeof ${name}==='undefined'?undefined:${name}`)}catch(e){continue}
   if(name==='UI'||name==='G'||typeof v==='function')continue;if(v&&typeof v==='object')walk(v,name,0)}
  try{for(const [k,arr] of Object.entries(g.run('FOE_IMG')))for(const x of arr)need(`img/${x}.webp`,'FOE_IMG.'+k)}catch(e){R.notes.push('讀不到 FOE_IMG')}
+  // 道具圖示：ITEMS 與 WEAP（不含拳頭）→ img/item/<key>.webp
+  try{for(const k of g.run('Object.keys(ITEMS)'))need('img/item/'+k+'.webp','道具圖示 ITEMS.'+k);
+    for(const k of g.run('Object.keys(WEAP).filter(k=>k!=="fist")'))need('img/item/'+k+'.webp','道具圖示 WEAP.'+k)}catch(e){R.notes.push('讀不到道具圖示表')}
  for(const [k,where] of used)if(!valid.has(k))R.unknownKeys.push({key:k,where:[...where].slice(0,4).join('、')});
  // 5. 備援與組合槍聲
  for(const [k,f] of Object.entries(FALL))if(!SYN.includes(f))R.unknownKeys.push({key:f,where:'FALL.'+k+'（備援要是合成音 SYN）'});
