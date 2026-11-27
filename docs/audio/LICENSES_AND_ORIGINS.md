@@ -161,3 +161,11 @@ Model 10 仍使用既有 `revolver` 槍聲。Model 500 改用專屬素材 `m500`
 - Deadly Kombat Free（Daniel SoundsGood）：50 檔只建索引；作品使用須保留作者的署名要求，再散布權未確認。
 
 既有遊戲音效只引用原路徑，不將既有作品授權擴張為獨立素材再散布許可。作者未參與本專案或替本專案背書。
+
+
+## 重新上傳驗收補入兩檔（2026-11-28，Asia/Taipei）
+
+- [Skull Split #1](https://freesound.org/people/SilverIllusionist/sounds/833639/) 與 [Skull Split #2](https://freesound.org/people/SilverIllusionist/sounds/833640/)：作者頁均列 CC BY 4.0（https://creativecommons.org/licenses/by/4.0/）。
+- 逐檔署名：`"Skull Split #1" by Dylan Kelk/SilverIllusionist (Freesound)`、`"Skull Split #2" by Dylan Kelk/SilverIllusionist (Freesound)`。來源頁沒有列其他上游來源；不將此當成已獨立驗證來源真實性的證明。
+- 兩檔皆保留主人提供的 WAV 原始位元，未剪輯、轉檔或調整音量；未接入遊戲，未逐檔人工試聽。作者未參與或替本遊戲背書。
+- 原有五個 SilverIllusionist 音檔與 ihitokage 音檔的授權、作者及已知上游署名保留；本次沒有重新查證全部上游或補足既有音效的授權缺口。

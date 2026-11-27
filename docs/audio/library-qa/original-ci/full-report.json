@@ -1,0 +1,4899 @@
+{
+  "schema": 1,
+  "tool": "tests/run_all.sh",
+  "mode": "full",
+  "args": {
+    "smokeSteps": 40,
+    "longSteps": 480,
+    "survivalSteps": 120,
+    "seed": 3411861398
+  },
+  "started": "2026-11-28T03:09:20+08:00",
+  "finished": "2026-11-28T03:26:01+08:00",
+  "seconds": 1000.7,
+  "game": {
+    "version": "0.71.1",
+    "build": 148,
+    "versionTime": "2026-11-27T18:19:49+08:00",
+    "sha256": "ad4aaf16e9f60b735c51f32165d5edcfa1aa5977736f59631883245ab6f657be",
+    "bytes": 1332644
+  },
+  "commit": "e766efda378e250f5e29aa638fe9242cdfd0f7bd",
+  "branch": "feat/audio-library",
+  "dirty": false,
+  "ci": {
+    "run": "46054600571",
+    "event": "pull_request",
+    "base": "main"
+  },
+  "env": {
+    "node": "v22.23.5",
+    "playwright": "1.58.2",
+    "platform": "linux"
+  },
+  "stages": [
+    {
+      "id": "integrity",
+      "name": "防弱化檢查",
+      "status": "PASS",
+      "seconds": 0.2,
+      "note": "guard 沒改",
+      "detail": {
+        "base": "origin/main",
+        "baseSha": "e414cb83efab9dc2f593428d294dc34aa0f69755",
+        "failed": [],
+        "warnings": [],
+        "info": {
+          "guardSame": true,
+          "testFiles": {
+            "base": 72,
+            "head": 73,
+            "added": [
+              "tests/audio-library.test.cjs"
+            ]
+          },
+          "testCalls": {
+            "base": 458,
+            "head": 461
+          },
+          "indexSameAsBase": true
+        }
+      },
+      "warnings": [],
+      "failed": []
+    },
+    {
+      "id": "node",
+      "name": "Node 邏輯測試",
+      "status": "PASS",
+      "seconds": 39.1,
+      "note": "510 項：通過 507、暫緩 3",
+      "counts": {
+        "tests": 510,
+        "pass": 507,
+        "fail": 0,
+        "cancelled": 0,
+        "skipped": 0,
+        "todo": 3
+      },
+      "failed": [],
+      "todo": [
+        "環境相容：遊戲現在對不上、等主人決定（9 組）",
+        "恐懼在畫面與紀錄都不顯示數字（2026-11-13 主人定案）",
+        "音效對應表：缺口等主人決定（意外沒聲音 7、躲開沒聲音 9、沒有備援 7、沒用到 1；詳見 docs/audio/SFX_MAP.md）"
+      ],
+      "skipped": []
+    },
+    {
+      "id": "smoke",
+      "name": "瀏覽器冒煙",
+      "status": "PASS",
+      "seconds": 154.5,
+      "note": "40 步×3 種尺寸，種子 3411861398",
+      "detail": {
+        "steps": 40,
+        "seed": 3411861398,
+        "views": [
+          {
+            "name": "手機窄橫向（Claude App 轉向）",
+            "diff": "normal",
+            "viewport": [
+              393,
+              690
+            ],
+            "seed": 3411861398,
+            "errors": {
+              "required": [],
+              "optional": [],
+              "aborted": [
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm_hitman_battle.ogg?zc-h=a88b15b340c593c00bc73c5d78d0ab29c53c538a524898ff4d091a6a8e773f6c"
+                },
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/woodknock.mp3?zc-h=196cde9ec7085345aa650d2348cf8356061821f0d2e287b6a6db4c6ba368c1ef"
+                },
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm.ogg?zc-h=00a1dbb05c6d122f1909d2c7c20666b4367b14a4c13469dce86983ad51579c1b"
+                },
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm_hitman_intense.ogg?zc-h=d610529f2c089e625a23e3a8c58fa1dc3fb3395d1ff7934dab745bb31280513a"
+                },
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"
+                },
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm_hitman_intense.ogg?zc-h=d610529f2c089e625a23e3a8c58fa1dc3fb3395d1ff7934dab745bb31280513a"
+                }
+              ]
+            },
+            "steps": 40,
+            "nodes": 29,
+            "fights": 9,
+            "over": null,
+            "run": {
+              "seed": 3411861398,
+              "gameSeed": 4151771513,
+              "actions": 40,
+              "valid": 40,
+              "invalid": 0,
+              "idle": 0,
+              "timeouts": 0,
+              "maxSame": 0,
+              "stuck": null,
+              "avgWaitMs": 935
+            },
+            "trace": "test-results/trace-smoke-393x690.json"
+          },
+          {
+            "name": "手機橫拿",
+            "diff": "hard",
+            "viewport": [
+              844,
+              390
+            ],
+            "seed": 3411861399,
+            "errors": {
+              "required": [],
+              "optional": [],
+              "aborted": [
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm.ogg?zc-h=00a1dbb05c6d122f1909d2c7c20666b4367b14a4c13469dce86983ad51579c1b"
+                },
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm_hitman_battle.ogg?zc-h=a88b15b340c593c00bc73c5d78d0ab29c53c538a524898ff4d091a6a8e773f6c"
+                },
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm_hitman_intense.ogg?zc-h=d610529f2c089e625a23e3a8c58fa1dc3fb3395d1ff7934dab745bb31280513a"
+                },
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/click.mp3?zc-h=d60db00bf3e6b58bb9d46d2cffb164d89ea8e9ce2cdc84c8b2d1df69b6eb9294"
+                },
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/zstep.mp3?zc-h=24a7e7d9c250ddcabbae0599aca3273468af705dadffbe86f3d0047f08fe4f70"
+                },
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/step.mp3?zc-h=de399cb5d2e9c5813050bef91fea8feaf37b3f1f7eb4a8c9bb14dc54b44f062f"
+                },
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm_hitman_battle.ogg?zc-h=a88b15b340c593c00bc73c5d78d0ab29c53c538a524898ff4d091a6a8e773f6c"
+                },
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm_hitman_intense.ogg?zc-h=d610529f2c089e625a23e3a8c58fa1dc3fb3395d1ff7934dab745bb31280513a"
+                }
+              ]
+            },
+            "steps": 40,
+            "nodes": 30,
+            "fights": 7,
+            "over": null,
+            "run": {
+              "seed": 3411861399,
+              "gameSeed": 2303204083,
+              "actions": 40,
+              "valid": 40,
+              "invalid": 0,
+              "idle": 0,
+              "timeouts": 0,
+              "maxSame": 0,
+              "stuck": null,
+              "avgWaitMs": 1063
+            },
+            "trace": "test-results/trace-smoke-844x390.json"
+          },
+          {
+            "name": "電腦",
+            "diff": "real",
+            "viewport": [
+              1280,
+              720
+            ],
+            "seed": 3411861400,
+            "errors": {
+              "required": [],
+              "optional": [],
+              "aborted": [
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm_hitman_intense.ogg?zc-h=d610529f2c089e625a23e3a8c58fa1dc3fb3395d1ff7934dab745bb31280513a"
+                },
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm_hitman_battle.ogg?zc-h=a88b15b340c593c00bc73c5d78d0ab29c53c538a524898ff4d091a6a8e773f6c"
+                },
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm.ogg?zc-h=00a1dbb05c6d122f1909d2c7c20666b4367b14a4c13469dce86983ad51579c1b"
+                },
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"
+                },
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm.ogg?zc-h=00a1dbb05c6d122f1909d2c7c20666b4367b14a4c13469dce86983ad51579c1b"
+                },
+                {
+                  "kind": "取消",
+                  "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm_hitman_intense.ogg?zc-h=d610529f2c089e625a23e3a8c58fa1dc3fb3395d1ff7934dab745bb31280513a"
+                }
+              ]
+            },
+            "steps": 40,
+            "nodes": 21,
+            "fights": 19,
+            "over": null,
+            "run": {
+              "seed": 3411861400,
+              "gameSeed": 1967767774,
+              "actions": 40,
+              "valid": 40,
+              "invalid": 0,
+              "idle": 0,
+              "timeouts": 0,
+              "maxSame": 0,
+              "stuck": null,
+              "avgWaitMs": 1202
+            },
+            "trace": "test-results/trace-smoke-1280x720.json"
+          }
+        ],
+        "checks": [
+          {
+            "ok": true,
+            "name": "手機窄橫向（Claude App 轉向）（normal）：40 步沒有程式錯誤、必要檔案都載入成功",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "手機窄橫向（Claude App 轉向）：遊戲有往下走（走過 8 個節點以上）",
+            "note": "紀錄多了 177 行、走過 29 個節點、戰鬥中 9 步"
+          },
+          {
+            "ok": true,
+            "name": "手機窄橫向（Claude App 轉向）：選項按鈕在畫面內",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "手機窄橫向（Claude App 轉向）：沒有卡死（連續 20 步畫面沒變）",
+            "note": "最多連續 0 步沒變"
+          },
+          {
+            "ok": true,
+            "name": "手機窄橫向（Claude App 轉向）：等待逾時 0 次（上限 2）",
+            "note": "有效動作 40、無效 0、沒東西可點 0、平均等待 935ms"
+          },
+          {
+            "ok": true,
+            "name": "手機橫拿（hard）：40 步沒有程式錯誤、必要檔案都載入成功",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "手機橫拿：遊戲有往下走（走過 8 個節點以上）",
+            "note": "紀錄多了 177 行、走過 30 個節點、戰鬥中 7 步"
+          },
+          {
+            "ok": true,
+            "name": "手機橫拿：選項按鈕在畫面內",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "手機橫拿：沒有卡死（連續 20 步畫面沒變）",
+            "note": "最多連續 0 步沒變"
+          },
+          {
+            "ok": true,
+            "name": "手機橫拿：等待逾時 0 次（上限 2）",
+            "note": "有效動作 40、無效 0、沒東西可點 0、平均等待 1063ms"
+          },
+          {
+            "ok": true,
+            "name": "電腦（real）：40 步沒有程式錯誤、必要檔案都載入成功",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "電腦：遊戲有往下走（走過 8 個節點以上）",
+            "note": "紀錄多了 177 行、走過 21 個節點、戰鬥中 19 步"
+          },
+          {
+            "ok": true,
+            "name": "電腦：選項按鈕在畫面內",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "電腦：沒有卡死（連續 20 步畫面沒變）",
+            "note": "最多連續 0 步沒變"
+          },
+          {
+            "ok": true,
+            "name": "電腦：等待逾時 0 次（上限 2）",
+            "note": "有效動作 40、無效 0、沒東西可點 0、平均等待 1202ms"
+          }
+        ],
+        "failed": []
+      },
+      "failed": []
+    },
+    {
+      "id": "long",
+      "name": "長路線",
+      "status": "PASS",
+      "seconds": 538.4,
+      "note": "480 動作，種子 3411861398",
+      "detail": {
+        "steps": 480,
+        "seed": 3411861398,
+        "checks": [
+          {
+            "ok": true,
+            "name": "沒有程式錯誤、必要檔案都載入成功",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "目前節點與選項去處都存在",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "紀錄裡沒有 undefined／NaN／[object",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "走出旅館、到過街區（第二章的地點）",
+            "note": "三樓・客房、電梯井・纜繩、地下・設備層・停車場、接待大廳・南門、前街・斑馬線、便利商店・叮咚、封鎖線・探照燈、十字路口・三個方向、街區・中段、警察局・第 4 分局、急診・聖瑪莉醫院、消防局・第 9 分隊、購物中心・河景廣場、旅館・回到這裡、北口檢查站・鐵絲網、配電站・高壓危險、淨水廠・東岸、地下室・聖瑪莉醫院"
+          },
+          {
+            "ok": true,
+            "name": "沒有卡死（連續 20 步畫面沒變）",
+            "note": "最多連續 0 步沒變"
+          },
+          {
+            "ok": true,
+            "name": "等待逾時 0 次（上限 24）",
+            "note": "有效動作 480、無效 0、沒東西可點 0、平均等待 982ms"
+          }
+        ],
+        "errors": {
+          "required": [],
+          "optional": [],
+          "aborted": [
+            {
+              "kind": "取消",
+              "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm.ogg?zc-h=00a1dbb05c6d122f1909d2c7c20666b4367b14a4c13469dce86983ad51579c1b"
+            },
+            {
+              "kind": "取消",
+              "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm_hitman_battle.ogg?zc-h=a88b15b340c593c00bc73c5d78d0ab29c53c538a524898ff4d091a6a8e773f6c"
+            },
+            {
+              "kind": "取消",
+              "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm_hitman_intense.ogg?zc-h=d610529f2c089e625a23e3a8c58fa1dc3fb3395d1ff7934dab745bb31280513a"
+            },
+            {
+              "kind": "取消",
+              "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm_hitman_intense.ogg?zc-h=d610529f2c089e625a23e3a8c58fa1dc3fb3395d1ff7934dab745bb31280513a"
+            }
+          ]
+        },
+        "actions": 480,
+        "seconds": 536,
+        "day": 10,
+        "nodes": 109,
+        "areas": [
+          "三樓・客房",
+          "電梯井・纜繩",
+          "地下・設備層・停車場",
+          "接待大廳・南門",
+          "前街・斑馬線",
+          "便利商店・叮咚",
+          "封鎖線・探照燈",
+          "十字路口・三個方向",
+          "街區・中段",
+          "警察局・第 4 分局",
+          "急診・聖瑪莉醫院",
+          "消防局・第 9 分隊",
+          "購物中心・河景廣場",
+          "旅館・回到這裡",
+          "北口檢查站・鐵絲網",
+          "配電站・高壓危險",
+          "淨水廠・東岸",
+          "地下室・聖瑪莉醫院"
+        ],
+        "over": null,
+        "run": {
+          "seed": 3411861398,
+          "gameSeed": 4151771513,
+          "actions": 480,
+          "valid": 480,
+          "invalid": 0,
+          "idle": 0,
+          "timeouts": 0,
+          "maxSame": 0,
+          "stuck": null,
+          "avgWaitMs": 982
+        },
+        "trace": "test-results/trace-long-route.json",
+        "failed": []
+      },
+      "failed": []
+    },
+    {
+      "id": "survival",
+      "name": "生存路線與戰鬥完整性",
+      "status": "PASS",
+      "seconds": 108.9,
+      "note": "120 動作＋指定戰鬥，種子 3411861398",
+      "detail": {
+        "steps": 120,
+        "seed": 3411861398,
+        "fightsPlanned": [
+          "infected",
+          "cutter",
+          "quickdraw"
+        ],
+        "checks": [
+          {
+            "ok": true,
+            "name": "沒有開測試用無敵（這支要測正常生存）",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "沒有程式錯誤、必要檔案都載入成功",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "目前節點與選項去處都存在",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "紀錄裡沒有 undefined／NaN／[object",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "生命、恐懼、感染、飢渴每一步都是有限的數字且在範圍內",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "一局結束時結束畫面出得來",
+            "note": "結束：死亡、畫面有出來"
+          },
+          {
+            "ok": true,
+            "name": "短路線有往下走（走過 6 個節點以上）",
+            "note": "走過 19 個節點"
+          },
+          {
+            "ok": true,
+            "name": "戰鬥：至少打完一場（指定戰鬥）",
+            "note": "打完 3 場"
+          },
+          {
+            "ok": true,
+            "name": "戰鬥：同一回合同一個人只出手一次（含快速點兩下）",
+            "note": "在攻擊或目標上快速點兩下 6 次、出手紀錄 17 筆"
+          },
+          {
+            "ok": true,
+            "name": "戰鬥：每場結算一次、戰利品沒有重複",
+            "note": "infected：裝備 0 筆／拿到 0 件、cutter：裝備 1 筆／拿到 1 件、quickdraw：裝備 1 筆／拿到 1 件"
+          },
+          {
+            "ok": true,
+            "name": "戰鬥：每次扣的生命＝回報的數字（沒有重複扣血）",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "戰鬥：打完回到探索（戰鬥清掉、有選項可以選、演出關掉）",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "戰鬥：打的時候是戰鬥配樂，打完回到探索配樂、戰鬥兩軌停下",
+            "note": "檢查了 3 場"
+          },
+          {
+            "ok": true,
+            "name": "沒有卡死（連續 20 步畫面沒變）",
+            "note": "最多連續 0 步沒變"
+          },
+          {
+            "ok": true,
+            "name": "等待逾時 0 次（上限 4）",
+            "note": "有效動作 84、無效 0、沒東西可點 3、平均等待 948ms"
+          }
+        ],
+        "errors": {
+          "required": [],
+          "optional": [],
+          "aborted": [
+            {
+              "kind": "取消",
+              "msg": "net::ERR_ABORTED http://localhost:8768/sfx/beretta.mp3?zc-h=e8ac433a9a79ef1c5a5f1a6dc391c8a2382c72a92c0f675aac39acd251234665"
+            },
+            {
+              "kind": "取消",
+              "msg": "net::ERR_ABORTED http://localhost:8768/sfx/woodknock.mp3?zc-h=196cde9ec7085345aa650d2348cf8356061821f0d2e287b6a6db4c6ba368c1ef"
+            },
+            {
+              "kind": "取消",
+              "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm.ogg?zc-h=00a1dbb05c6d122f1909d2c7c20666b4367b14a4c13469dce86983ad51579c1b"
+            },
+            {
+              "kind": "取消",
+              "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm_hitman_battle.ogg?zc-h=a88b15b340c593c00bc73c5d78d0ab29c53c538a524898ff4d091a6a8e773f6c"
+            },
+            {
+              "kind": "取消",
+              "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm_hitman_intense.ogg?zc-h=d610529f2c089e625a23e3a8c58fa1dc3fb3395d1ff7934dab745bb31280513a"
+            },
+            {
+              "kind": "取消",
+              "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm.ogg?zc-h=00a1dbb05c6d122f1909d2c7c20666b4367b14a4c13469dce86983ad51579c1b"
+            },
+            {
+              "kind": "取消",
+              "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm_hitman_intense.ogg?zc-h=d610529f2c089e625a23e3a8c58fa1dc3fb3395d1ff7934dab745bb31280513a"
+            },
+            {
+              "kind": "取消",
+              "msg": "net::ERR_ABORTED http://localhost:8768/sfx/bgm_hitman_battle.ogg?zc-h=a88b15b340c593c00bc73c5d78d0ab29c53c538a524898ff4d091a6a8e773f6c"
+            }
+          ]
+        },
+        "route": {
+          "actions": 44,
+          "nodes": 19,
+          "day": 1,
+          "damageSteps": 7,
+          "over": "死亡"
+        },
+        "fights": [
+          {
+            "id": 1,
+            "foes": [
+              "infected"
+            ],
+            "ends": 1,
+            "lootCalls": 0,
+            "lootRows": 0,
+            "gearDelta": null,
+            "gearRows": null,
+            "itemDelta": null,
+            "musicIn": "battle",
+            "musicAfter": {
+              "mode": "explore",
+              "allowed": true,
+              "bgm": true,
+              "over": false,
+              "explorePaused": false,
+              "exploreVol": 0.55,
+              "battlePaused": true,
+              "intensePaused": true,
+              "failed": []
+            },
+            "back": {
+              "fight": false,
+              "phase": "node",
+              "over": false,
+              "choices": 3,
+              "stgOpen": false,
+              "stgHidden": true
+            },
+            "stg": null,
+            "endAt": 1795807358422
+          },
+          {
+            "id": 2,
+            "foes": [
+              "cutter"
+            ],
+            "ends": 1,
+            "lootCalls": 1,
+            "lootRows": 1,
+            "gearDelta": 1,
+            "gearRows": 1,
+            "itemDelta": 0,
+            "musicIn": "battle",
+            "musicAfter": {
+              "mode": "explore",
+              "allowed": true,
+              "bgm": true,
+              "over": false,
+              "explorePaused": false,
+              "exploreVol": 0.55,
+              "battlePaused": true,
+              "intensePaused": true,
+              "failed": []
+            },
+            "back": {
+              "fight": false,
+              "phase": "node",
+              "over": false,
+              "choices": 3,
+              "stgOpen": false,
+              "stgHidden": true
+            },
+            "stg": null,
+            "endAt": 1795807374512
+          },
+          {
+            "id": 3,
+            "foes": [
+              "quickdraw"
+            ],
+            "ends": 1,
+            "lootCalls": 1,
+            "lootRows": 1,
+            "gearDelta": 1,
+            "gearRows": 1,
+            "itemDelta": 3,
+            "musicIn": "battle",
+            "musicAfter": {
+              "mode": "explore",
+              "allowed": true,
+              "bgm": true,
+              "over": false,
+              "explorePaused": false,
+              "exploreVol": 0.55,
+              "battlePaused": true,
+              "intensePaused": true,
+              "failed": []
+            },
+            "back": {
+              "fight": false,
+              "phase": "node",
+              "over": false,
+              "choices": 3,
+              "stgOpen": false,
+              "stgHidden": true
+            },
+            "stg": null,
+            "endAt": 1795807398832
+          }
+        ],
+        "dupAct": [],
+        "doubleClicks": 6,
+        "run": {
+          "seed": 3411861398,
+          "gameSeed": 4151771513,
+          "actions": 87,
+          "valid": 84,
+          "invalid": 0,
+          "idle": 3,
+          "timeouts": 0,
+          "maxSame": 0,
+          "stuck": null,
+          "avgWaitMs": 948
+        },
+        "trace": "test-results/trace-survival.json",
+        "failed": []
+      },
+      "failed": []
+    },
+    {
+      "id": "qte",
+      "name": "QTE 固定情境",
+      "status": "PASS",
+      "seconds": 73.9,
+      "note": "固定情境，種子 3411861398",
+      "detail": {
+        "seed": 3411861398,
+        "checks": [
+          {
+            "ok": true,
+            "name": "Q01 照順序點完：成功、每格一聲點擊、播閃開聲、QTE 畫面收掉",
+            "note": "結果 true、音效 click,click,click,whoosh"
+          },
+          {
+            "ok": true,
+            "name": "Q02 完全不點：失敗，第一格出現後 1581 毫秒（每格 527×3）判失敗、不播閃開聲",
+            "note": "結果 false、判失敗在 1581 毫秒、音效 （無）"
+          },
+          {
+            "ok": true,
+            "name": "Q03 點到格子以外的地方：立刻失敗（不用等時間到）",
+            "note": "結果 false、第一格出現後 133 毫秒失敗"
+          },
+          {
+            "ok": true,
+            "name": "Q04 格子出來前先按鍵、先點：不算數也不算錯；描述先出現，停 0.5～1 秒才出格子，之後照順序點完成功",
+            "note": "結果 true、描述到第一格 967 毫秒"
+          },
+          {
+            "ok": true,
+            "name": "Q05 鍵盤照格子上的字母（WASD）按：成功",
+            "note": "結果 true"
+          },
+          {
+            "ok": true,
+            "name": "Q06 鍵盤按錯字母：立刻失敗",
+            "note": "結果 false、第一格出現後 449 毫秒失敗"
+          },
+          {
+            "ok": true,
+            "name": "Q07 按住不放：重複按鍵不算第二下（還停在第 2 格）、之後照常按完成功",
+            "note": "結果 true、按住後現在是第 2 格"
+          },
+          {
+            "ok": true,
+            "name": "Q08 先按 Shift、Ctrl 這類修飾鍵：不算錯，之後按對成功",
+            "note": "結果 true"
+          },
+          {
+            "ok": true,
+            "name": "Q09 設定成方向鍵：方向鍵成功、格子上畫箭頭；這時按 WASD 算錯",
+            "note": "方向鍵 true、箭頭 true、按 WASD false"
+          },
+          {
+            "ok": true,
+            "name": "Q10 總時限從第一格開始算、成功不重置：每格間隔 764 毫秒（4 格共超過 2108）→ 失敗；間隔 264 毫秒 → 成功",
+            "note": "慢 false（第一格後 2108 毫秒失敗）、快 true"
+          },
+          {
+            "ok": true,
+            "name": "QTE 情境：沒有程式錯誤、必要檔案都載入成功",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "Q13a 戰鬥「撲倒」躲開：敘述在格子出現前就在紀錄裡、不扣血、播閃開聲、QTE 收掉、還在戰鬥裡",
+            "note": "生命 13→13、音效 click,click,click,whoosh,whoosh、敘述有先出現"
+          },
+          {
+            "ok": true,
+            "name": "Q13b 戰鬥「撲倒」沒躲開：扣血、播這一招標好的受傷聲（thud）、不播閃開聲、QTE 收掉",
+            "note": "生命 13→6、音效 thud"
+          },
+          {
+            "ok": true,
+            "name": "Q14 戰鬥「飛撲」躲開：不扣血、播閃開聲",
+            "note": "生命 13→13、音效 click,click,click,click,whoosh,whoosh"
+          },
+          {
+            "ok": true,
+            "name": "戰鬥 QTE：沒有程式錯誤",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "Q11 觸控裝置：格子上沒有鍵盤字母、用手指點完成功",
+            "note": "結果 true、{\"kbd\":false,\"tch\":true}"
+          },
+          {
+            "ok": true,
+            "name": "觸控：沒有程式錯誤",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "Q12 版面（手機橫拿 844×390）：4 格都在畫面內、不壓到描述和倒數條、字沒有被裁掉",
+            "note": "量了 4 格"
+          },
+          {
+            "ok": true,
+            "name": "版面（手機橫拿）：沒有程式錯誤",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "Q12 版面（電腦 1280×720）：4 格都在畫面內、不壓到描述和倒數條、字沒有被裁掉",
+            "note": "量了 4 格"
+          },
+          {
+            "ok": true,
+            "name": "版面（電腦）：沒有程式錯誤",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "Q12 版面（手機窄橫向（Claude App 轉向） 393×690）：4 格都在畫面內、不壓到描述和倒數條、字沒有被裁掉",
+            "note": "量了 4 格"
+          },
+          {
+            "ok": true,
+            "name": "版面（手機窄橫向（Claude App 轉向））：沒有程式錯誤",
+            "note": ""
+          }
+        ],
+        "scenarios": [
+          {
+            "name": "照順序點完",
+            "n": 3,
+            "v": true,
+            "failMs": null,
+            "delay": 542,
+            "boxes": 3,
+            "sounds": [
+              "click",
+              "click",
+              "click",
+              "whoosh"
+            ],
+            "err": null
+          },
+          {
+            "name": "完全不點",
+            "n": 3,
+            "v": false,
+            "failMs": 1581,
+            "delay": 702,
+            "boxes": 1,
+            "sounds": [],
+            "err": null
+          },
+          {
+            "name": "點到格子外面",
+            "n": 3,
+            "v": false,
+            "failMs": 133,
+            "delay": 658,
+            "boxes": 1,
+            "sounds": [],
+            "err": null
+          },
+          {
+            "name": "格子出來前先輸入",
+            "n": 3,
+            "v": true,
+            "failMs": null,
+            "delay": 967,
+            "boxes": 3,
+            "sounds": [
+              "click",
+              "click",
+              "click",
+              "whoosh"
+            ],
+            "err": null
+          },
+          {
+            "name": "鍵盤 WASD",
+            "n": 4,
+            "v": true,
+            "failMs": null,
+            "delay": 849,
+            "boxes": 4,
+            "sounds": [
+              "click",
+              "click",
+              "click",
+              "click",
+              "whoosh"
+            ],
+            "err": null
+          },
+          {
+            "name": "鍵盤按錯",
+            "n": 3,
+            "v": false,
+            "failMs": 449,
+            "delay": 843,
+            "boxes": 1,
+            "sounds": [],
+            "err": null
+          },
+          {
+            "name": "按住不放",
+            "n": 3,
+            "v": true,
+            "failMs": null,
+            "delay": 780,
+            "boxes": 3,
+            "sounds": [
+              "click",
+              "click",
+              "click",
+              "whoosh"
+            ],
+            "err": null
+          },
+          {
+            "name": "修飾鍵",
+            "n": 3,
+            "v": true,
+            "failMs": null,
+            "delay": 628,
+            "boxes": 3,
+            "sounds": [
+              "click",
+              "click",
+              "click",
+              "whoosh"
+            ],
+            "err": null
+          },
+          {
+            "name": "方向鍵",
+            "n": 4,
+            "v": true,
+            "failMs": null,
+            "delay": 568,
+            "boxes": 4,
+            "sounds": [
+              "click",
+              "click",
+              "click",
+              "click",
+              "whoosh"
+            ],
+            "err": null
+          },
+          {
+            "name": "方向鍵模式按 WASD",
+            "n": 3,
+            "v": false,
+            "failMs": 273,
+            "delay": 514,
+            "boxes": 1,
+            "sounds": [],
+            "err": null
+          },
+          {
+            "name": "每格都慢一點",
+            "n": 4,
+            "v": false,
+            "failMs": 2108,
+            "delay": 834,
+            "boxes": 4,
+            "sounds": [
+              "click",
+              "click",
+              "click"
+            ],
+            "err": null
+          },
+          {
+            "name": "整組在時限內",
+            "n": 4,
+            "v": true,
+            "failMs": null,
+            "delay": 683,
+            "boxes": 4,
+            "sounds": [
+              "click",
+              "click",
+              "click",
+              "click",
+              "whoosh"
+            ],
+            "err": null
+          },
+          {
+            "name": "戰鬥 infected・撲倒",
+            "fh": {
+              "h0": 13,
+              "hp": 13
+            },
+            "s": [
+              "click",
+              "click",
+              "click",
+              "whoosh",
+              "whoosh"
+            ],
+            "left": false,
+            "fight": true,
+            "over": false,
+            "log": [
+              "感染者弓起背，喉嚨裡一聲低吼，猛然撲了上來——",
+              "你及時反應，躲開了這一下。"
+            ],
+            "cue": "感染者弓起背，喉嚨裡一聲低吼，猛然撲了上來——"
+          },
+          {
+            "name": "戰鬥 infected・撲倒",
+            "fh": {
+              "h0": 13,
+              "hp": 6
+            },
+            "s": [
+              "thud"
+            ],
+            "left": false,
+            "fight": true,
+            "over": false,
+            "log": [
+              "感染者弓起背，喉嚨裡一聲低吼，猛然撲了上來——",
+              "擲骰｜感染者・撲倒　→　麥琪　傷害 2d6 + 1(3、4)＝8",
+              "牠整個撲了上來，把人壓倒在地上亂咬。（格擋卸掉 1）生命 −7，剩 6。",
+              "傷口沾到了牠的體液。感染 +5。",
+              "你：恐懼 +9。",
+              "【力量抵抗・成功】【體質抵抗・失敗】"
+            ],
+            "cue": "感染者弓起背，喉嚨裡一聲低吼，猛然撲了上來——"
+          },
+          {
+            "name": "戰鬥 predator・飛撲",
+            "fh": {
+              "h0": 13,
+              "hp": 13
+            },
+            "s": [
+              "click",
+              "click",
+              "click",
+              "click",
+              "whoosh",
+              "whoosh"
+            ],
+            "left": false,
+            "fight": true,
+            "over": false,
+            "log": [
+              "感染者後腿一縮，整個身體壓低，下一瞬間就彈了起來——",
+              "你及時反應，躲開了這一下。"
+            ],
+            "cue": "感染者後腿一縮，整個身體壓低，下一瞬間就彈了起來——"
+          },
+          {
+            "name": "觸控",
+            "n": 3,
+            "v": true,
+            "failMs": null,
+            "delay": 542,
+            "boxes": 3,
+            "sounds": [
+              "click",
+              "click",
+              "click",
+              "whoosh"
+            ],
+            "err": null
+          },
+          {
+            "name": "版面 手機橫拿",
+            "n": 4,
+            "v": true,
+            "failMs": null,
+            "delay": 717,
+            "boxes": 4,
+            "sounds": [
+              "click",
+              "click",
+              "click",
+              "click",
+              "whoosh"
+            ],
+            "err": null
+          },
+          {
+            "name": "版面 電腦",
+            "n": 4,
+            "v": true,
+            "failMs": null,
+            "delay": 717,
+            "boxes": 4,
+            "sounds": [
+              "click",
+              "click",
+              "click",
+              "click",
+              "whoosh"
+            ],
+            "err": null
+          },
+          {
+            "name": "版面 手機窄橫向（Claude App 轉向）",
+            "n": 4,
+            "v": true,
+            "failMs": null,
+            "delay": 717,
+            "boxes": 4,
+            "sounds": [
+              "click",
+              "click",
+              "click",
+              "click",
+              "whoosh"
+            ],
+            "err": null
+          }
+        ],
+        "per": 527,
+        "q03": {
+          "clickAt": 1795807411156
+        },
+        "q07": {
+          "after": 1
+        },
+        "failed": []
+      },
+      "failed": []
+    },
+    {
+      "id": "audio",
+      "name": "真實瀏覽器音訊",
+      "status": "PASS",
+      "seconds": 44.3,
+      "note": "解碼、每個音效出聲、配樂切換、背景暫停",
+      "detail": {
+        "seed": 3411861398,
+        "checks": [
+          {
+            "ok": true,
+            "name": "A01 音效檔在瀏覽器裡全部解碼成功（72 個），長度 > 0、不是無聲檔",
+            "note": "載入 861 毫秒、取樣率 44100"
+          },
+          {
+            "ok": true,
+            "name": "A02 備用格式也解碼得了：配樂三軌 .ogg／.mp3、持續聲的 .mp3（9 個）",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "A03 每一個音效名稱（109 個）叫 sfx() 都有回傳長度、輸出端量得到聲音",
+            "note": ""
+          },
+          {
+            "ok": true,
+            "name": "A04 音效關掉之後：sfx() 回傳 0、輸出端沒有聲音、沒有新的聲音節點",
+            "note": "{\"ret\":[0,0,0,0,0],\"peak\":0,\"starts\":0}"
+          },
+          {
+            "ok": true,
+            "name": "A05 配樂真的在播：探索配樂在播、時間在走；開戰換戰鬥配樂、探索停下；打完回到探索配樂，戰鬥配樂停下歸零",
+            "note": "探索 explore（bgm.ogg?zc-h=00a1dbb05c6d122f1909d2c7c20666b4367b14a4c13469dce86983ad51579c1b 走了 1.2 秒）→ 戰鬥 battle（bgm_hitman_battle.ogg?zc-h=a88b15b340c593c00bc73c5d78d0ab29c53c538a524898ff4d091a6a8e773f6c 走了 1.2 秒、探索停）→ 打完 explore（探索走了 1.2 秒、戰鬥停在 0.00 秒）"
+          },
+          {
+            "ok": true,
+            "name": "A06 切到背景：配樂全部暫停、短音效停掉、sfx() 不出聲；切回來探索配樂接著播",
+            "note": "{\"hidden\":{\"paused\":true,\"active\":0,\"ret\":0,\"peak\":0},\"back\":{\"mode\":\"explore\",\"paused\":false,\"adv\":1}}"
+          },
+          {
+            "ok": true,
+            "name": "A07 沒有程式錯誤、必要檔案都載入成功、沒有音效載入或播放失敗的警告",
+            "note": ""
+          }
+        ],
+        "notes": [
+          "頭尾空白（只記錄）：woodknock 開頭 0.561 秒、revolverCock 開頭 0.629 秒、firealarm 開頭 1.016 秒、mp5 結尾 0.784 秒、zipper 結尾 0.739 秒、revolver 結尾 1.105 秒、revolverCock 結尾 0.7 秒、firealarm 結尾 1.124 秒"
+        ],
+        "load": {
+          "ms": 861,
+          "st": {
+            "expected": 72,
+            "loaded": 72,
+            "failed": [],
+            "ambient": null,
+            "active": 0
+          },
+          "files": 71,
+          "ac": "running",
+          "sr": 44100
+        },
+        "files": {
+          "click": {
+            "dur": 0.351,
+            "peakDb": -5.6,
+            "lead": 0.084,
+            "tail": 0.086
+          },
+          "step": {
+            "dur": 0.418,
+            "peakDb": -6.1,
+            "lead": 0.025,
+            "tail": 0.015
+          },
+          "zstep": {
+            "dur": 0.706,
+            "peakDb": -1.6,
+            "lead": 0.001,
+            "tail": 0.068
+          },
+          "dooropen": {
+            "dur": 0.58,
+            "peakDb": -4.2,
+            "lead": 0.046,
+            "tail": 0.027
+          },
+          "doorclose": {
+            "dur": 0.628,
+            "peakDb": -2.7,
+            "lead": 0.026,
+            "tail": 0.035
+          },
+          "stairs": {
+            "dur": 3.5,
+            "peakDb": 0,
+            "lead": 0.087,
+            "tail": 0
+          },
+          "thud": {
+            "dur": 1.15,
+            "peakDb": 0,
+            "lead": 0,
+            "tail": 0.094
+          },
+          "glassbreak": {
+            "dur": 2.299,
+            "peakDb": -3.7,
+            "lead": 0.266,
+            "tail": 0.441
+          },
+          "woodknock": {
+            "dur": 2.299,
+            "peakDb": -0.8,
+            "lead": 0.561,
+            "tail": 0
+          },
+          "beretta": {
+            "dur": 1.802,
+            "peakDb": -8.9,
+            "lead": 0.027,
+            "tail": 0.018
+          },
+          "mp5": {
+            "dur": 2.808,
+            "peakDb": 1.7,
+            "lead": 0.01,
+            "tail": 0.784
+          },
+          "rifle": {
+            "dur": 1.69,
+            "peakDb": 0,
+            "lead": 0,
+            "tail": 0.003
+          },
+          "claw": {
+            "dur": 3.024,
+            "peakDb": 0,
+            "lead": 0.023,
+            "tail": 0.008
+          },
+          "knife": {
+            "dur": 0.984,
+            "peakDb": 0,
+            "lead": 0.102,
+            "tail": 0.16
+          },
+          "fist": {
+            "dur": 0.784,
+            "peakDb": 0,
+            "lead": 0.112,
+            "tail": 0.39
+          },
+          "piercehit": {
+            "dur": 1,
+            "peakDb": 1.1,
+            "lead": 0.005,
+            "tail": 0.436
+          },
+          "bowdraw": {
+            "dur": 1.452,
+            "peakDb": -8.2,
+            "lead": 0.002,
+            "tail": 0.242
+          },
+          "bowimpact": {
+            "dur": 0.933,
+            "peakDb": -9.7,
+            "lead": 0.033,
+            "tail": 0.194
+          },
+          "crossbowshot": {
+            "dur": 0.33,
+            "peakDb": -1,
+            "lead": 0.001,
+            "tail": 0.041
+          },
+          "headshot": {
+            "dur": 1.75,
+            "peakDb": -5.1,
+            "lead": 0,
+            "tail": 0.001
+          },
+          "sgshell": {
+            "dur": 0.418,
+            "peakDb": -0.7,
+            "lead": 0.037,
+            "tail": 0.024
+          },
+          "sgshellbr": {
+            "dur": 0.627,
+            "peakDb": -0.4,
+            "lead": 0.032,
+            "tail": 0.037
+          },
+          "sgopen": {
+            "dur": 0.313,
+            "peakDb": -0.3,
+            "lead": 0.041,
+            "tail": 0.06
+          },
+          "sgclose": {
+            "dur": 0.287,
+            "peakDb": -1.4,
+            "lead": 0.041,
+            "tail": 0.06
+          },
+          "revopen": {
+            "dur": 0.375,
+            "peakDb": -2,
+            "lead": 0.001,
+            "tail": 0.02
+          },
+          "reveject": {
+            "dur": 0.984,
+            "peakDb": -1.9,
+            "lead": 0,
+            "tail": 0.001
+          },
+          "revshell": {
+            "dur": 0.399,
+            "peakDb": -2,
+            "lead": 0.006,
+            "tail": 0.037
+          },
+          "revclose": {
+            "dur": 0.1,
+            "peakDb": -1.8,
+            "lead": 0.002,
+            "tail": 0.017
+          },
+          "m500": {
+            "dur": 1.269,
+            "peakDb": 0,
+            "lead": 0.005,
+            "tail": 0.232
+          },
+          "rain_indoor_loop": {
+            "dur": 32.711,
+            "peakDb": -10.4,
+            "lead": 0,
+            "tail": 0
+          },
+          "rain_outdoor_loop": {
+            "dur": 32.701,
+            "peakDb": -5.5,
+            "lead": 0,
+            "tail": 0
+          },
+          "thunder_distant_01": {
+            "dur": 15,
+            "peakDb": -6.4,
+            "lead": 0.102,
+            "tail": 0.161
+          },
+          "thunder_distant_02": {
+            "dur": 17,
+            "peakDb": -6.4,
+            "lead": 0.097,
+            "tail": 0.162
+          },
+          "heal": {
+            "dur": 0.676,
+            "peakDb": 0,
+            "lead": 0,
+            "tail": 0
+          },
+          "pill": {
+            "dur": 1.736,
+            "peakDb": -10.5,
+            "lead": 0.003,
+            "tail": 0
+          },
+          "rummage": {
+            "dur": 2.55,
+            "peakDb": -19.2,
+            "lead": 0.167,
+            "tail": 0.115
+          },
+          "zipper": {
+            "dur": 2.28,
+            "peakDb": -16.5,
+            "lead": 0.047,
+            "tail": 0.739
+          },
+          "drawer": {
+            "dur": 0.888,
+            "peakDb": -7.4,
+            "lead": 0.023,
+            "tail": 0.021
+          },
+          "pickup": {
+            "dur": 0.528,
+            "peakDb": -6.1,
+            "lead": 0.054,
+            "tail": 0.071
+          },
+          "berettaReload": {
+            "dur": 2.22,
+            "peakDb": 0,
+            "lead": 0.055,
+            "tail": 0.057
+          },
+          "revolver": {
+            "dur": 2.496,
+            "peakDb": 0,
+            "lead": 0.02,
+            "tail": 1.105
+          },
+          "revolverCock": {
+            "dur": 2.4,
+            "peakDb": -4,
+            "lead": 0.629,
+            "tail": 0.7
+          },
+          "casing": {
+            "dur": 0.28,
+            "peakDb": -13.1,
+            "lead": 0.013,
+            "tail": 0.021
+          },
+          "mthrow": {
+            "dur": 2.25,
+            "peakDb": -1.4,
+            "lead": 0.003,
+            "tail": 0.023
+          },
+          "mimpact": {
+            "dur": 5.07,
+            "peakDb": -3.4,
+            "lead": 0.004,
+            "tail": 0.008
+          },
+          "death": {
+            "dur": 2.539,
+            "peakDb": -1.8,
+            "lead": 0.063,
+            "tail": 0
+          },
+          "equip": {
+            "dur": 1.05,
+            "peakDb": -6.6,
+            "lead": 0,
+            "tail": 0.01
+          },
+          "fal": {
+            "dur": 1.764,
+            "peakDb": -2.7,
+            "lead": 0.013,
+            "tail": 0.024
+          },
+          "falReload": {
+            "dur": 1.87,
+            "peakDb": 0,
+            "lead": 0,
+            "tail": 0.009
+          },
+          "mp5Reload": {
+            "dur": 2.64,
+            "peakDb": -1.6,
+            "lead": 0.024,
+            "tail": 0.022
+          },
+          "bolt": {
+            "dur": 2.15,
+            "peakDb": -2.6,
+            "lead": 0.001,
+            "tail": 0.006
+          },
+          "bite": {
+            "dur": 1.1,
+            "peakDb": 0,
+            "lead": 0.064,
+            "tail": 0.001
+          },
+          "smash": {
+            "dur": 1.63,
+            "peakDb": -0.3,
+            "lead": 0.026,
+            "tail": 0.092
+          },
+          "splat": {
+            "dur": 1.85,
+            "peakDb": -0.7,
+            "lead": 0,
+            "tail": 0.101
+          },
+          "spit": {
+            "dur": 1.8,
+            "peakDb": 0,
+            "lead": 0.014,
+            "tail": 0.002
+          },
+          "squish": {
+            "dur": 0.55,
+            "peakDb": -11.3,
+            "lead": 0,
+            "tail": 0.246
+          },
+          "bhit": {
+            "dur": 0.3,
+            "peakDb": -6.9,
+            "lead": 0,
+            "tail": 0.001
+          },
+          "shotgun": {
+            "dur": 1.968,
+            "peakDb": 0.2,
+            "lead": 0.046,
+            "tail": 0.024
+          },
+          "firealarm": {
+            "dur": 9.2,
+            "peakDb": -10,
+            "lead": 1.016,
+            "tail": 1.124
+          },
+          "dryfire": {
+            "dur": 0.287,
+            "peakDb": 0,
+            "lead": 0,
+            "tail": 0.116
+          },
+          "woodimpact": {
+            "dur": 1,
+            "peakDb": 0,
+            "lead": 0.014,
+            "tail": 0.105
+          },
+          "sgpump": {
+            "dur": 0.653,
+            "peakDb": 0,
+            "lead": 0.042,
+            "tail": 0.066
+          },
+          "glassstep": {
+            "dur": 2.5,
+            "peakDb": -2.9,
+            "lead": 0,
+            "tail": 0.038
+          },
+          "genstart": {
+            "dur": 7.5,
+            "peakDb": -12.1,
+            "lead": 0.013,
+            "tail": 0.009
+          },
+          "genloop": {
+            "dur": 18.001,
+            "peakDb": -13,
+            "lead": 0,
+            "tail": 0
+          },
+          "waterpipe": {
+            "dur": 11.5,
+            "peakDb": -5.3,
+            "lead": 0,
+            "tail": 0
+          },
+          "pumpmix": {
+            "dur": 11.5,
+            "peakDb": -5.9,
+            "lead": 0,
+            "tail": 0
+          },
+          "pumpstop": {
+            "dur": 5.5,
+            "peakDb": -3.7,
+            "lead": 0,
+            "tail": 0.166
+          },
+          "radiostatic": {
+            "dur": 1.5,
+            "peakDb": -6.9,
+            "lead": 0.001,
+            "tail": 0
+          },
+          "radio02": {
+            "dur": 2.061,
+            "peakDb": -5.3,
+            "lead": 0.017,
+            "tail": 0
+          },
+          "radio23": {
+            "dur": 1.981,
+            "peakDb": -5.1,
+            "lead": 0.021,
+            "tail": 0
+          },
+          "radio24": {
+            "dur": 1.92,
+            "peakDb": -6.7,
+            "lead": 0.017,
+            "tail": 0
+          }
+        },
+        "altFormats": {
+          "sfx/bgm.ogg": 75.03,
+          "sfx/bgm.mp3": 75.02,
+          "sfx/bgm_hitman_battle.ogg": 114.02,
+          "sfx/bgm_hitman_battle.mp3": 114,
+          "sfx/bgm_hitman_intense.ogg": 80.01,
+          "sfx/bgm_hitman_intense.mp3": 80,
+          "sfx/rain_indoor_loop.mp3": 32.7,
+          "sfx/rain_outdoor_loop.mp3": 32.7,
+          "sfx/genloop.mp3": 18
+        },
+        "playback": {
+          "sgpump": {
+            "ms": 653,
+            "heardDb": -26.9,
+            "base": 0,
+            "err": null
+          },
+          "sgshell": {
+            "ms": 418,
+            "heardDb": -17,
+            "base": 0,
+            "err": null
+          },
+          "sgshellbr": {
+            "ms": 627,
+            "heardDb": -21.3,
+            "base": 0,
+            "err": null
+          },
+          "sgopen": {
+            "ms": 313,
+            "heardDb": -1.9,
+            "base": 0,
+            "err": null
+          },
+          "sgclose": {
+            "ms": 287,
+            "heardDb": -1.7,
+            "base": 0,
+            "err": null
+          },
+          "revopen": {
+            "ms": 375,
+            "heardDb": -2,
+            "base": 0,
+            "err": null
+          },
+          "reveject": {
+            "ms": 984,
+            "heardDb": -9.5,
+            "base": 0,
+            "err": null
+          },
+          "revshell": {
+            "ms": 399,
+            "heardDb": -34.1,
+            "base": 0,
+            "err": null
+          },
+          "revclose": {
+            "ms": 100,
+            "heardDb": -12,
+            "base": 0,
+            "err": null
+          },
+          "m500": {
+            "ms": 1269,
+            "heardDb": -2.1,
+            "base": 0,
+            "err": null
+          },
+          "piercehit": {
+            "ms": 1000,
+            "heardDb": -29.8,
+            "base": 0,
+            "err": null
+          },
+          "bowdraw": {
+            "ms": 1452,
+            "heardDb": -35.3,
+            "base": 0,
+            "err": null
+          },
+          "bowimpact": {
+            "ms": 933,
+            "heardDb": -26.4,
+            "base": 0,
+            "err": null
+          },
+          "rain_indoor_loop": {
+            "ms": 4000,
+            "heardDb": -22.7,
+            "base": 0,
+            "err": null
+          },
+          "rain_outdoor_loop": {
+            "ms": 4000,
+            "heardDb": -16.3,
+            "base": 0,
+            "err": null
+          },
+          "thunder_distant_01": {
+            "ms": 4000,
+            "heardDb": -50,
+            "base": 0,
+            "err": null
+          },
+          "thunder_distant_02": {
+            "ms": 4000,
+            "heardDb": -53.7,
+            "base": 0,
+            "err": null
+          },
+          "heal": {
+            "ms": 676,
+            "heardDb": -1.7,
+            "base": 0,
+            "err": null
+          },
+          "pill": {
+            "ms": 1736,
+            "heardDb": -48.4,
+            "base": 0,
+            "err": null
+          },
+          "rummage": {
+            "ms": 2550,
+            "heardDb": -52.5,
+            "base": 0,
+            "err": null
+          },
+          "stairs": {
+            "ms": 3500,
+            "heardDb": -19.8,
+            "base": 0,
+            "err": null
+          },
+          "zipper": {
+            "ms": 2280,
+            "heardDb": -50.4,
+            "base": 0,
+            "err": null
+          },
+          "step": {
+            "ms": 418,
+            "heardDb": -41.8,
+            "base": 0,
+            "err": null
+          },
+          "drawer": {
+            "ms": 888,
+            "heardDb": -36.4,
+            "base": 0,
+            "err": null
+          },
+          "pickup": {
+            "ms": 528,
+            "heardDb": -18.9,
+            "base": 0,
+            "err": null
+          },
+          "dooropen": {
+            "ms": 580,
+            "heardDb": -27.6,
+            "base": 0,
+            "err": null
+          },
+          "doorclose": {
+            "ms": 628,
+            "heardDb": -48.9,
+            "base": 0,
+            "err": null
+          },
+          "beretta": {
+            "ms": 1802,
+            "heardDb": -11.6,
+            "base": 0,
+            "err": null
+          },
+          "berettaReload": {
+            "ms": 2220,
+            "heardDb": -46.7,
+            "base": 0,
+            "err": null
+          },
+          "revolver": {
+            "ms": 2496,
+            "heardDb": -15.1,
+            "base": 0,
+            "err": null
+          },
+          "revolverCock": {
+            "ms": 2400,
+            "heardDb": -40.9,
+            "base": 0,
+            "err": null
+          },
+          "casing": {
+            "ms": 280,
+            "heardDb": -40.5,
+            "base": 0,
+            "err": null
+          },
+          "fist": {
+            "ms": 784,
+            "heardDb": -8.7,
+            "base": 0,
+            "err": null
+          },
+          "claw": {
+            "ms": 3024,
+            "heardDb": -6.6,
+            "base": 0,
+            "err": null
+          },
+          "knife": {
+            "ms": 984,
+            "heardDb": -42.2,
+            "base": 0,
+            "err": null
+          },
+          "zstep": {
+            "ms": 706,
+            "heardDb": -23,
+            "base": 0,
+            "err": null
+          },
+          "headshot": {
+            "ms": 1750,
+            "heardDb": -13,
+            "base": 0,
+            "err": null
+          },
+          "mthrow": {
+            "ms": 2250,
+            "heardDb": -40.9,
+            "base": 0,
+            "err": null
+          },
+          "mimpact": {
+            "ms": 4000,
+            "heardDb": -10,
+            "base": 0,
+            "err": null
+          },
+          "death": {
+            "ms": 2539,
+            "heardDb": -10.4,
+            "base": 0,
+            "err": null
+          },
+          "click": {
+            "ms": 351,
+            "heardDb": -49.1,
+            "base": 0,
+            "err": null
+          },
+          "equip": {
+            "ms": 1050,
+            "heardDb": -46.9,
+            "base": 0,
+            "err": null
+          },
+          "fal": {
+            "ms": 1764,
+            "heardDb": -41.5,
+            "base": 0,
+            "err": null
+          },
+          "falReload": {
+            "ms": 1870,
+            "heardDb": -31.8,
+            "base": 0,
+            "err": null
+          },
+          "mp5": {
+            "ms": 2808,
+            "heardDb": -37.6,
+            "base": 0,
+            "err": null
+          },
+          "mp5Reload": {
+            "ms": 2640,
+            "heardDb": -13.2,
+            "base": 0,
+            "err": null
+          },
+          "rifle": {
+            "ms": 1690,
+            "heardDb": -32.4,
+            "base": 0,
+            "err": null
+          },
+          "bolt": {
+            "ms": 2150,
+            "heardDb": -31.3,
+            "base": 0,
+            "err": null
+          },
+          "bite": {
+            "ms": 1100,
+            "heardDb": -31.3,
+            "base": 0,
+            "err": null
+          },
+          "smash": {
+            "ms": 1630,
+            "heardDb": -31.1,
+            "base": 0,
+            "err": null
+          },
+          "splat": {
+            "ms": 1850,
+            "heardDb": -1.6,
+            "base": 0,
+            "err": null
+          },
+          "spit": {
+            "ms": 1800,
+            "heardDb": -48.9,
+            "base": 0,
+            "err": null
+          },
+          "thud": {
+            "ms": 1150,
+            "heardDb": -1.3,
+            "base": 0,
+            "err": null
+          },
+          "squish": {
+            "ms": 550,
+            "heardDb": -13.4,
+            "base": 0,
+            "err": null
+          },
+          "bhit": {
+            "ms": 300,
+            "heardDb": -6.8,
+            "base": 0,
+            "err": null
+          },
+          "shotgun": {
+            "ms": 1968,
+            "heardDb": -28.1,
+            "base": 0,
+            "err": null
+          },
+          "glassbreak": {
+            "ms": 2299,
+            "heardDb": -11.1,
+            "base": 0,
+            "err": null
+          },
+          "firealarm": {
+            "ms": 4000,
+            "heardDb": -43.2,
+            "base": 0,
+            "err": null
+          },
+          "genstart": {
+            "ms": 4000,
+            "heardDb": -44.8,
+            "base": 0,
+            "err": null
+          },
+          "genloop": {
+            "ms": 4000,
+            "heardDb": -33.4,
+            "base": 0,
+            "err": null
+          },
+          "dryfire": {
+            "ms": 287,
+            "heardDb": -35.8,
+            "base": 0,
+            "err": null
+          },
+          "woodknock": {
+            "ms": 2299,
+            "heardDb": -9.6,
+            "base": 0,
+            "err": null
+          },
+          "woodimpact": {
+            "ms": 1000,
+            "heardDb": -52.9,
+            "base": 0,
+            "err": null
+          },
+          "glassstep": {
+            "ms": 2500,
+            "heardDb": -33.9,
+            "base": 0,
+            "err": null
+          },
+          "waterpipe": {
+            "ms": 4000,
+            "heardDb": -22.1,
+            "base": 0,
+            "err": null
+          },
+          "pumpmix": {
+            "ms": 4000,
+            "heardDb": -19.2,
+            "base": 0,
+            "err": null
+          },
+          "pumpstop": {
+            "ms": 4000,
+            "heardDb": -31.7,
+            "base": 0,
+            "err": null
+          },
+          "radiostatic": {
+            "ms": 1500,
+            "heardDb": -17.7,
+            "base": 0,
+            "err": null
+          },
+          "radio02": {
+            "ms": 2061,
+            "heardDb": -47.2,
+            "base": 0,
+            "err": null
+          },
+          "radio23": {
+            "ms": 1981,
+            "heardDb": -48,
+            "base": 0,
+            "err": null
+          },
+          "radio24": {
+            "ms": 1920,
+            "heardDb": -49.2,
+            "base": 0,
+            "err": null
+          },
+          "crossbowshot": {
+            "ms": 330,
+            "heardDb": -18.7,
+            "base": 0,
+            "err": null
+          },
+          "humanstep": {
+            "ms": 360,
+            "heardDb": -31.2,
+            "base": 0,
+            "err": null
+          },
+          "infectedstep": {
+            "ms": 660,
+            "heardDb": -32,
+            "base": 0,
+            "err": null
+          },
+          "doorlocked": {
+            "ms": 200,
+            "heardDb": -32.3,
+            "base": 0,
+            "err": null
+          },
+          "rattle": {
+            "ms": 627,
+            "heardDb": -41.5,
+            "base": 0,
+            "err": null
+          },
+          "land": {
+            "ms": 150,
+            "heardDb": -15.7,
+            "base": 0,
+            "err": null
+          },
+          "ok": {
+            "ms": 380,
+            "heardDb": -22.8,
+            "base": 0,
+            "err": null
+          },
+          "crit": {
+            "ms": 560,
+            "heardDb": -20.4,
+            "base": 0,
+            "err": null
+          },
+          "ng": {
+            "ms": 480,
+            "heardDb": -12.7,
+            "base": 0,
+            "err": null
+          },
+          "fumble": {
+            "ms": 1000,
+            "heardDb": -9.5,
+            "base": 0,
+            "err": null
+          },
+          "miss": {
+            "ms": 330,
+            "heardDb": -16.3,
+            "base": 0,
+            "err": null
+          },
+          "whoosh": {
+            "ms": 220,
+            "heardDb": -17.2,
+            "base": 0,
+            "err": null
+          },
+          "groan": {
+            "ms": 1100,
+            "heardDb": -20.3,
+            "base": 0,
+            "err": null
+          },
+          "hurt": {
+            "ms": 260,
+            "heardDb": -17.1,
+            "base": 0,
+            "err": null
+          },
+          "craft": {
+            "ms": 450,
+            "heardDb": -27,
+            "base": 0,
+            "err": null
+          },
+          "dry": {
+            "ms": 60,
+            "heardDb": -27.3,
+            "base": 0,
+            "err": null
+          },
+          "eat": {
+            "ms": 450,
+            "heardDb": -28.5,
+            "base": 0,
+            "err": null
+          },
+          "gulp": {
+            "ms": 350,
+            "heardDb": -20.5,
+            "base": 0,
+            "err": null
+          },
+          "ext": {
+            "ms": 800,
+            "heardDb": -4.7,
+            "base": 0,
+            "err": null
+          },
+          "zap": {
+            "ms": 360,
+            "heardDb": -4.8,
+            "base": 0,
+            "err": null
+          },
+          "level": {
+            "ms": 2200,
+            "heardDb": -14.1,
+            "base": 0,
+            "err": null
+          },
+          "farshot1": {
+            "ms": 550,
+            "heardDb": -21.1,
+            "base": 0,
+            "err": null
+          },
+          "farshots": {
+            "ms": 1082,
+            "heardDb": -21.1,
+            "base": 0,
+            "err": null
+          },
+          "farshots2": {
+            "ms": 714,
+            "heardDb": -21.1,
+            "base": 0,
+            "err": null
+          },
+          "farshotsglass": {
+            "ms": 2893,
+            "heardDb": -21.1,
+            "base": 0,
+            "err": null
+          },
+          "farshots2glass": {
+            "ms": 2637,
+            "heardDb": -21.1,
+            "base": 0,
+            "err": null
+          },
+          "farshots2glassfar": {
+            "ms": 2711,
+            "heardDb": -21.1,
+            "base": 0,
+            "err": null
+          },
+          "streetshots3glassfar": {
+            "ms": 2929,
+            "heardDb": -16.8,
+            "base": 0,
+            "err": null
+          },
+          "shot1": {
+            "ms": 550,
+            "heardDb": -11.6,
+            "base": 0,
+            "err": null
+          },
+          "shotsglass": {
+            "ms": 2910,
+            "heardDb": -11.6,
+            "base": 0,
+            "err": null
+          },
+          "farmp5": {
+            "ms": 2800,
+            "heardDb": -51.9,
+            "base": 0,
+            "err": null
+          },
+          "farrifle": {
+            "ms": 1690,
+            "heardDb": -40.9,
+            "base": 0,
+            "err": null
+          },
+          "bowhit": {
+            "ms": 2113,
+            "heardDb": -34.6,
+            "base": 0,
+            "err": null
+          },
+          "bowmiss": {
+            "ms": 1452,
+            "heardDb": -35.3,
+            "base": 0,
+            "err": null
+          },
+          "arrowhit": {
+            "ms": 1900,
+            "heardDb": -34.6,
+            "base": 0,
+            "err": null
+          },
+          "arrowmiss": {
+            "ms": 1460,
+            "heardDb": -35.3,
+            "base": 0,
+            "err": null
+          },
+          "xbowhit": {
+            "ms": 1000,
+            "heardDb": -15.2,
+            "base": 0,
+            "err": null
+          },
+          "xbowmiss": {
+            "ms": 400,
+            "heardDb": -36.3,
+            "base": 0,
+            "err": null
+          }
+        },
+        "bgm": {
+          "explore": {
+            "mode": "explore",
+            "tr": {
+              "explore": {
+                "p": false,
+                "t": 28.659589,
+                "v": 0.55,
+                "rs": 4,
+                "src": "bgm.ogg?zc-h=00a1dbb05c6d122f1909d2c7c20666b4367b14a4c13469dce86983ad51579c1b",
+                "f": false,
+                "adv": 1.2
+              },
+              "battle": {
+                "p": true,
+                "t": 0,
+                "v": 0,
+                "rs": 4,
+                "src": "bgm_hitman_battle.ogg?zc-h=a88b15b340c593c00bc73c5d78d0ab29c53c538a524898ff4d091a6a8e773f6c",
+                "f": false,
+                "adv": 0
+              },
+              "intense": {
+                "p": true,
+                "t": 0,
+                "v": 0,
+                "rs": 4,
+                "src": "bgm_hitman_intense.ogg?zc-h=d610529f2c089e625a23e3a8c58fa1dc3fb3395d1ff7934dab745bb31280513a",
+                "f": false,
+                "adv": 0
+              }
+            }
+          },
+          "fight": {
+            "mode": "battle",
+            "tr": {
+              "explore": {
+                "p": true,
+                "t": 28.86889,
+                "v": 0,
+                "rs": 4,
+                "src": "bgm.ogg?zc-h=00a1dbb05c6d122f1909d2c7c20666b4367b14a4c13469dce86983ad51579c1b",
+                "f": false,
+                "adv": 0
+              },
+              "battle": {
+                "p": false,
+                "t": 1.727048,
+                "v": 0.3,
+                "rs": 4,
+                "src": "bgm_hitman_battle.ogg?zc-h=a88b15b340c593c00bc73c5d78d0ab29c53c538a524898ff4d091a6a8e773f6c",
+                "f": false,
+                "adv": 1.2
+              },
+              "intense": {
+                "p": true,
+                "t": 0,
+                "v": 0,
+                "rs": 4,
+                "src": "bgm_hitman_intense.ogg?zc-h=d610529f2c089e625a23e3a8c58fa1dc3fb3395d1ff7934dab745bb31280513a",
+                "f": false,
+                "adv": 0
+              }
+            }
+          },
+          "after": {
+            "mode": "explore",
+            "tr": {
+              "explore": {
+                "p": false,
+                "t": 33.082938,
+                "v": 0.55,
+                "rs": 4,
+                "src": "bgm.ogg?zc-h=00a1dbb05c6d122f1909d2c7c20666b4367b14a4c13469dce86983ad51579c1b",
+                "f": false,
+                "adv": 1.2
+              },
+              "battle": {
+                "p": true,
+                "t": 0,
+                "v": 0,
+                "rs": 4,
+                "src": "bgm_hitman_battle.ogg?zc-h=a88b15b340c593c00bc73c5d78d0ab29c53c538a524898ff4d091a6a8e773f6c",
+                "f": false,
+                "adv": 0
+              },
+              "intense": {
+                "p": true,
+                "t": 0,
+                "v": 0,
+                "rs": 4,
+                "src": "bgm_hitman_intense.ogg?zc-h=d610529f2c089e625a23e3a8c58fa1dc3fb3395d1ff7934dab745bb31280513a",
+                "f": false,
+                "adv": 0
+              }
+            }
+          },
+          "fightStart": 1
+        },
+        "visibility": {
+          "hidden": {
+            "paused": true,
+            "active": 0,
+            "ret": 0,
+            "peak": 0
+          },
+          "back": {
+            "mode": "explore",
+            "paused": false,
+            "adv": 1
+          }
+        },
+        "failed": []
+      },
+      "failed": []
+    },
+    {
+      "id": "ui",
+      "name": "固定版面與基準截圖",
+      "status": "PASS",
+      "seconds": 8.6,
+      "note": "見細節",
+      "detail": {
+        "meta": {
+          "playwright": "1.58.2",
+          "chromium": "145.0.7632.6",
+          "platform": "linux",
+          "indexSha256": "ad4aaf16e9f60b735c51f32165d5edcfa1aa5977736f59631883245ab6f657be"
+        },
+        "checks": [
+          {
+            "name": "844x390-gate 版面",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "844x390-gate 基準截圖",
+            "ok": true,
+            "note": "差異 0 像素（0.0000%）"
+          },
+          {
+            "name": "844x390-gate 載入與程式錯誤",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "844x390-character 版面",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "844x390-character 基準截圖",
+            "ok": true,
+            "note": "差異 94 像素（0.0286%）"
+          },
+          {
+            "name": "844x390-character 載入與程式錯誤",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "844x390-exploration 版面",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "844x390-exploration 基準截圖",
+            "ok": true,
+            "note": "差異 0 像素（0.0000%）"
+          },
+          {
+            "name": "844x390-exploration 載入與程式錯誤",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "844x390-combat 版面",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "844x390-combat 基準截圖",
+            "ok": true,
+            "note": "差異 0 像素（0.0000%）"
+          },
+          {
+            "name": "844x390-combat 載入與程式錯誤",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "844x390-bag 版面",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "844x390-bag 基準截圖",
+            "ok": true,
+            "note": "差異 0 像素（0.0000%）"
+          },
+          {
+            "name": "844x390-bag 載入與程式錯誤",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "1280x720-gate 版面",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "1280x720-gate 基準截圖",
+            "ok": true,
+            "note": "差異 0 像素（0.0000%）"
+          },
+          {
+            "name": "1280x720-gate 載入與程式錯誤",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "1280x720-character 版面",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "1280x720-character 基準截圖",
+            "ok": true,
+            "note": "差異 94 像素（0.0102%）"
+          },
+          {
+            "name": "1280x720-character 載入與程式錯誤",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "1280x720-exploration 版面",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "1280x720-exploration 基準截圖",
+            "ok": true,
+            "note": "差異 0 像素（0.0000%）"
+          },
+          {
+            "name": "1280x720-exploration 載入與程式錯誤",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "1280x720-combat 版面",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "1280x720-combat 基準截圖",
+            "ok": true,
+            "note": "差異 0 像素（0.0000%）"
+          },
+          {
+            "name": "1280x720-combat 載入與程式錯誤",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "1280x720-bag 版面",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "1280x720-bag 基準截圖",
+            "ok": true,
+            "note": "差異 0 像素（0.0000%）"
+          },
+          {
+            "name": "1280x720-bag 載入與程式錯誤",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "393x690-gate 版面",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "393x690-gate 基準截圖",
+            "ok": true,
+            "note": "差異 0 像素（0.0000%）"
+          },
+          {
+            "name": "393x690-gate 載入與程式錯誤",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "393x690-character 版面",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "393x690-character 基準截圖",
+            "ok": true,
+            "note": "差異 94 像素（0.0347%）"
+          },
+          {
+            "name": "393x690-character 載入與程式錯誤",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "393x690-exploration 版面",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "393x690-exploration 基準截圖",
+            "ok": true,
+            "note": "差異 0 像素（0.0000%）"
+          },
+          {
+            "name": "393x690-exploration 載入與程式錯誤",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "393x690-combat 版面",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "393x690-combat 基準截圖",
+            "ok": true,
+            "note": "差異 0 像素（0.0000%）"
+          },
+          {
+            "name": "393x690-combat 載入與程式錯誤",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "393x690-bag 版面",
+            "ok": true,
+            "note": ""
+          },
+          {
+            "name": "393x690-bag 基準截圖",
+            "ok": true,
+            "note": "差異 0 像素（0.0000%）"
+          },
+          {
+            "name": "393x690-bag 載入與程式錯誤",
+            "ok": true,
+            "note": ""
+          }
+        ],
+        "layouts": [
+          {
+            "id": "844x390-gate",
+            "issues": [],
+            "panels": [
+              {
+                "selector": "#gate",
+                "rect": {
+                  "left": 0,
+                  "right": 844,
+                  "top": 0,
+                  "bottom": 390,
+                  "width": 844,
+                  "height": 390
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "text": "進入遊戲",
+                "rect": {
+                  "left": 361,
+                  "right": 483,
+                  "top": 181.328125,
+                  "bottom": 227.03125,
+                  "width": 122,
+                  "height": 45.703125
+                },
+                "scrollable": true
+              },
+              {
+                "text": "不要全螢幕，直接進入",
+                "rect": {
+                  "left": 355,
+                  "right": 489,
+                  "top": 275.71875,
+                  "bottom": 301.890625,
+                  "width": 134,
+                  "height": 26.171875
+                },
+                "scrollable": true
+              }
+            ],
+            "stage": {
+              "left": 0,
+              "right": 844,
+              "top": 0,
+              "bottom": 390,
+              "width": 844,
+              "height": 390
+            }
+          },
+          {
+            "id": "844x390-character",
+            "issues": [],
+            "panels": [
+              {
+                "selector": "#scr",
+                "rect": {
+                  "left": 0,
+                  "right": 844,
+                  "top": 0,
+                  "bottom": 390,
+                  "width": 844,
+                  "height": 390
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "text": "倖存者自己決定名字、屬性、天賦、技能和帶什麼東西。",
+                "rect": {
+                  "left": 14,
+                  "right": 279.328125,
+                  "top": 69.6875,
+                  "bottom": 328,
+                  "width": 265.328125,
+                  "height": 258.3125
+                },
+                "scrollable": false
+              },
+              {
+                "text": "劇情角色固定的職業與人物。在某些地方，會有只屬於他們的劇情和選項。",
+                "rect": {
+                  "left": 289.328125,
+                  "right": 554.65625,
+                  "top": 69.6875,
+                  "bottom": 328,
+                  "width": 265.328125,
+                  "height": 258.3125
+                },
+                "scrollable": false
+              },
+              {
+                "text": "訪客故事外的獨立角色，有專屬的天賦與技能。",
+                "rect": {
+                  "left": 564.65625,
+                  "right": 830,
+                  "top": 69.6875,
+                  "bottom": 328,
+                  "width": 265.34375,
+                  "height": 258.3125
+                },
+                "scrollable": false
+              },
+              {
+                "text": "頭像",
+                "rect": {
+                  "left": 62,
+                  "right": 126,
+                  "top": 348,
+                  "bottom": 372,
+                  "width": 64,
+                  "height": 24
+                },
+                "scrollable": false
+              },
+              {
+                "text": "開房間用上次的角色，大廳裡可以改",
+                "rect": {
+                  "left": 136,
+                  "right": 303.5,
+                  "top": 338,
+                  "bottom": 382,
+                  "width": 167.5,
+                  "height": 44
+                },
+                "scrollable": false
+              },
+              {
+                "text": "加入房間輸入房號",
+                "rect": {
+                  "left": 311.5,
+                  "right": 479,
+                  "top": 338,
+                  "bottom": 382,
+                  "width": 167.5,
+                  "height": 44
+                },
+                "scrollable": false
+              },
+              {
+                "text": "收藏與解鎖",
+                "rect": {
+                  "left": 487,
+                  "right": 654.5,
+                  "top": 338,
+                  "bottom": 382,
+                  "width": 167.5,
+                  "height": 44
+                },
+                "scrollable": false
+              },
+              {
+                "text": "設定",
+                "rect": {
+                  "left": 662.5,
+                  "right": 830,
+                  "top": 338,
+                  "bottom": 382,
+                  "width": 167.5,
+                  "height": 44
+                },
+                "scrollable": false
+              }
+            ],
+            "stage": {
+              "left": 0,
+              "right": 844,
+              "top": 0,
+              "bottom": 390,
+              "width": 844,
+              "height": 390
+            }
+          },
+          {
+            "id": "844x390-exploration",
+            "issues": [],
+            "panels": [
+              {
+                "selector": ".topbar",
+                "rect": {
+                  "left": 12,
+                  "right": 832,
+                  "top": 4,
+                  "bottom": 45.9375,
+                  "width": 820,
+                  "height": 41.9375
+                }
+              },
+              {
+                "selector": "#logp",
+                "rect": {
+                  "left": 12,
+                  "right": 463.109375,
+                  "top": 51.9375,
+                  "bottom": 384,
+                  "width": 451.109375,
+                  "height": 332.0625
+                }
+              },
+              {
+                "selector": "#chp",
+                "rect": {
+                  "left": 471.109375,
+                  "right": 832,
+                  "top": 51.9375,
+                  "bottom": 384,
+                  "width": 360.890625,
+                  "height": 332.0625
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "text": "地圖",
+                "rect": {
+                  "left": 473,
+                  "right": 511,
+                  "top": 7.96875,
+                  "bottom": 37.96875,
+                  "width": 38,
+                  "height": 30
+                },
+                "scrollable": false
+              },
+              {
+                "text": "任務",
+                "rect": {
+                  "left": 515,
+                  "right": 553,
+                  "top": 7.96875,
+                  "bottom": 37.96875,
+                  "width": 38,
+                  "height": 30
+                },
+                "scrollable": false
+              },
+              {
+                "text": "備忘錄",
+                "rect": {
+                  "left": 557,
+                  "right": 607,
+                  "top": 7.96875,
+                  "bottom": 37.96875,
+                  "width": 50,
+                  "height": 30
+                },
+                "scrollable": false
+              },
+              {
+                "text": "狀態 ▾",
+                "rect": {
+                  "left": 611,
+                  "right": 664,
+                  "top": 7.96875,
+                  "bottom": 37.96875,
+                  "width": 53,
+                  "height": 30
+                },
+                "scrollable": false
+              },
+              {
+                "text": "背包",
+                "rect": {
+                  "left": 668,
+                  "right": 706,
+                  "top": 7.96875,
+                  "bottom": 37.96875,
+                  "width": 38,
+                  "height": 30
+                },
+                "scrollable": false
+              },
+              {
+                "text": "裝備",
+                "rect": {
+                  "left": 710,
+                  "right": 748,
+                  "top": 7.96875,
+                  "bottom": 37.96875,
+                  "width": 38,
+                  "height": 30
+                },
+                "scrollable": false
+              },
+              {
+                "text": "合成",
+                "rect": {
+                  "left": 752,
+                  "right": 790,
+                  "top": 7.96875,
+                  "bottom": 37.96875,
+                  "width": 38,
+                  "height": 30
+                },
+                "scrollable": false
+              },
+              {
+                "text": "設定",
+                "rect": {
+                  "left": 794,
+                  "right": 832,
+                  "top": 7.96875,
+                  "bottom": 37.96875,
+                  "width": 38,
+                  "height": 30
+                },
+                "scrollable": false
+              },
+              {
+                "text": "【事件】用身體抵住門需要力量 12",
+                "rect": {
+                  "left": 480.109375,
+                  "right": 823,
+                  "top": 88.421875,
+                  "bottom": 145.515625,
+                  "width": 342.890625,
+                  "height": 57.09375
+                },
+                "scrollable": true
+              },
+              {
+                "text": "【事件】把書桌拖過去頂住門",
+                "rect": {
+                  "left": 480.109375,
+                  "right": 823,
+                  "top": 150.515625,
+                  "bottom": 187.609375,
+                  "width": 342.890625,
+                  "height": 37.09375
+                },
+                "scrollable": true
+              },
+              {
+                "text": "【事件】從貓眼看清楚外面需要感知 12",
+                "rect": {
+                  "left": 480.109375,
+                  "right": 823,
+                  "top": 192.609375,
+                  "bottom": 249.703125,
+                  "width": 342.890625,
+                  "height": 57.09375
+                },
+                "scrollable": true
+              },
+              {
+                "text": "【事件】躲進浴室，鎖上門需要體質 11",
+                "rect": {
+                  "left": 480.109375,
+                  "right": 823,
+                  "top": 254.703125,
+                  "bottom": 311.796875,
+                  "width": 342.890625,
+                  "height": 57.09375
+                },
+                "scrollable": true
+              }
+            ],
+            "stage": {
+              "left": 0,
+              "right": 844,
+              "top": 0,
+              "bottom": 390,
+              "width": 844,
+              "height": 390
+            }
+          },
+          {
+            "id": "844x390-combat",
+            "issues": [],
+            "panels": [
+              {
+                "selector": ".topbar",
+                "rect": {
+                  "left": 12,
+                  "right": 832,
+                  "top": 4,
+                  "bottom": 45.9375,
+                  "width": 820,
+                  "height": 41.9375
+                }
+              },
+              {
+                "selector": "#cbar",
+                "rect": {
+                  "left": 12,
+                  "right": 832,
+                  "top": 51.9375,
+                  "bottom": 193.59375,
+                  "width": 820,
+                  "height": 141.65625
+                }
+              },
+              {
+                "selector": "#logp",
+                "rect": {
+                  "left": 12,
+                  "right": 463.109375,
+                  "top": 199.59375,
+                  "bottom": 384,
+                  "width": 451.109375,
+                  "height": 184.40625
+                }
+              },
+              {
+                "selector": "#chp",
+                "rect": {
+                  "left": 471.109375,
+                  "right": 832,
+                  "top": 199.59375,
+                  "bottom": 384,
+                  "width": 360.890625,
+                  "height": 184.40625
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "text": "地圖",
+                "rect": {
+                  "left": 473,
+                  "right": 511,
+                  "top": 7.96875,
+                  "bottom": 37.96875,
+                  "width": 38,
+                  "height": 30
+                },
+                "scrollable": false
+              },
+              {
+                "text": "任務",
+                "rect": {
+                  "left": 515,
+                  "right": 553,
+                  "top": 7.96875,
+                  "bottom": 37.96875,
+                  "width": 38,
+                  "height": 30
+                },
+                "scrollable": false
+              },
+              {
+                "text": "備忘錄",
+                "rect": {
+                  "left": 557,
+                  "right": 607,
+                  "top": 7.96875,
+                  "bottom": 37.96875,
+                  "width": 50,
+                  "height": 30
+                },
+                "scrollable": false
+              },
+              {
+                "text": "狀態 ▾",
+                "rect": {
+                  "left": 611,
+                  "right": 664,
+                  "top": 7.96875,
+                  "bottom": 37.96875,
+                  "width": 53,
+                  "height": 30
+                },
+                "scrollable": false
+              },
+              {
+                "text": "背包",
+                "rect": {
+                  "left": 668,
+                  "right": 706,
+                  "top": 7.96875,
+                  "bottom": 37.96875,
+                  "width": 38,
+                  "height": 30
+                },
+                "scrollable": false
+              },
+              {
+                "text": "裝備",
+                "rect": {
+                  "left": 710,
+                  "right": 748,
+                  "top": 7.96875,
+                  "bottom": 37.96875,
+                  "width": 38,
+                  "height": 30
+                },
+                "scrollable": false
+              },
+              {
+                "text": "合成",
+                "rect": {
+                  "left": 752,
+                  "right": 790,
+                  "top": 7.96875,
+                  "bottom": 37.96875,
+                  "width": 38,
+                  "height": 30
+                },
+                "scrollable": false
+              },
+              {
+                "text": "設定",
+                "rect": {
+                  "left": 794,
+                  "right": 832,
+                  "top": 7.96875,
+                  "bottom": 37.96875,
+                  "width": 38,
+                  "height": 30
+                },
+                "scrollable": false
+              },
+              {
+                "text": "普通攻擊右手 折疊小刀／左手 拳頭",
+                "rect": {
+                  "left": 480.109375,
+                  "right": 649.546875,
+                  "top": 236.078125,
+                  "bottom": 284.625,
+                  "width": 169.4375,
+                  "height": 48.546875
+                },
+                "scrollable": true
+              },
+              {
+                "text": "技能武器、角色、道具技能",
+                "rect": {
+                  "left": 653.546875,
+                  "right": 823,
+                  "top": 236.078125,
+                  "bottom": 284.625,
+                  "width": 169.453125,
+                  "height": 48.546875
+                },
+                "scrollable": true
+              },
+              {
+                "text": "對策看看環境和道具",
+                "rect": {
+                  "left": 480.109375,
+                  "right": 649.546875,
+                  "top": 288.625,
+                  "bottom": 337.171875,
+                  "width": 169.4375,
+                  "height": 48.546875
+                },
+                "scrollable": true
+              },
+              {
+                "text": "物品用藥、換武器、穿裝備",
+                "rect": {
+                  "left": 653.546875,
+                  "right": 823,
+                  "top": 288.625,
+                  "bottom": 337.171875,
+                  "width": 169.453125,
+                  "height": 48.546875
+                },
+                "scrollable": true
+              },
+              {
+                "text": "行動格擋、掩蔽、逃跑",
+                "rect": {
+                  "left": 480.109375,
+                  "right": 649.546875,
+                  "top": 341.171875,
+                  "bottom": 389.71875,
+                  "width": 169.4375,
+                  "height": 48.546875
+                },
+                "scrollable": true
+              }
+            ],
+            "stage": {
+              "left": 0,
+              "right": 844,
+              "top": 0,
+              "bottom": 390,
+              "width": 844,
+              "height": 390
+            }
+          },
+          {
+            "id": "844x390-bag",
+            "issues": [],
+            "panels": [
+              {
+                "selector": "#ov .box",
+                "rect": {
+                  "left": 12,
+                  "right": 832,
+                  "top": 8,
+                  "bottom": 382,
+                  "width": 820,
+                  "height": 374
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "text": "裝備",
+                "rect": {
+                  "left": 629,
+                  "right": 687,
+                  "top": 21,
+                  "bottom": 55.421875,
+                  "width": 58,
+                  "height": 34.421875
+                },
+                "scrollable": true
+              },
+              {
+                "text": "合成",
+                "rect": {
+                  "left": 693,
+                  "right": 751,
+                  "top": 21,
+                  "bottom": 55.421875,
+                  "width": 58,
+                  "height": 34.421875
+                },
+                "scrollable": true
+              },
+              {
+                "text": "關閉",
+                "rect": {
+                  "left": 757,
+                  "right": 815,
+                  "top": 21,
+                  "bottom": 55.421875,
+                  "width": 58,
+                  "height": 34.421875
+                },
+                "scrollable": true
+              },
+              {
+                "text": "使用",
+                "rect": {
+                  "left": 663,
+                  "right": 707,
+                  "top": 162.328125,
+                  "bottom": 194.328125,
+                  "width": 44,
+                  "height": 32
+                },
+                "scrollable": true
+              },
+              {
+                "text": "放到地上",
+                "rect": {
+                  "left": 736,
+                  "right": 804,
+                  "top": 162.328125,
+                  "bottom": 194.328125,
+                  "width": 68,
+                  "height": 32
+                },
+                "scrollable": true
+              },
+              {
+                "text": "吃／喝",
+                "rect": {
+                  "left": 651,
+                  "right": 707,
+                  "top": 230.8125,
+                  "bottom": 262.8125,
+                  "width": 56,
+                  "height": 32
+                },
+                "scrollable": true
+              },
+              {
+                "text": "放到地上",
+                "rect": {
+                  "left": 736,
+                  "right": 804,
+                  "top": 230.8125,
+                  "bottom": 262.8125,
+                  "width": 68,
+                  "height": 32
+                },
+                "scrollable": true
+              },
+              {
+                "text": "吃／喝",
+                "rect": {
+                  "left": 651,
+                  "right": 707,
+                  "top": 282.296875,
+                  "bottom": 314.296875,
+                  "width": 56,
+                  "height": 32
+                },
+                "scrollable": true
+              },
+              {
+                "text": "放到地上",
+                "rect": {
+                  "left": 736,
+                  "right": 804,
+                  "top": 282.296875,
+                  "bottom": 314.296875,
+                  "width": 68,
+                  "height": 32
+                },
+                "scrollable": true
+              }
+            ],
+            "stage": {
+              "left": 0,
+              "right": 844,
+              "top": 0,
+              "bottom": 390,
+              "width": 844,
+              "height": 390
+            }
+          },
+          {
+            "id": "1280x720-gate",
+            "issues": [],
+            "panels": [
+              {
+                "selector": "#gate",
+                "rect": {
+                  "left": 0,
+                  "right": 1280,
+                  "top": 0,
+                  "bottom": 720,
+                  "width": 1280,
+                  "height": 720
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "text": "進入遊戲",
+                "rect": {
+                  "left": 575,
+                  "right": 705,
+                  "top": 380.1875,
+                  "bottom": 433.890625,
+                  "width": 130,
+                  "height": 53.703125
+                },
+                "scrollable": false
+              },
+              {
+                "text": "不要全螢幕，直接進入",
+                "rect": {
+                  "left": 569,
+                  "right": 711,
+                  "top": 505.546875,
+                  "bottom": 539.71875,
+                  "width": 142,
+                  "height": 34.171875
+                },
+                "scrollable": false
+              }
+            ],
+            "stage": {
+              "left": 0,
+              "right": 1280,
+              "top": 0,
+              "bottom": 720,
+              "width": 1280,
+              "height": 720
+            }
+          },
+          {
+            "id": "1280x720-character",
+            "issues": [],
+            "panels": [
+              {
+                "selector": "#scr",
+                "rect": {
+                  "left": 0,
+                  "right": 1280,
+                  "top": 0,
+                  "bottom": 720,
+                  "width": 1280,
+                  "height": 720
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "text": "倖存者自己決定名字、屬性、天賦、技能和帶什麼東西。",
+                "rect": {
+                  "left": 14,
+                  "right": 424.65625,
+                  "top": 161.0625,
+                  "bottom": 571.71875,
+                  "width": 410.65625,
+                  "height": 410.65625
+                },
+                "scrollable": false
+              },
+              {
+                "text": "劇情角色固定的職業與人物。在某些地方，會有只屬於他們的劇情和選項。",
+                "rect": {
+                  "left": 434.65625,
+                  "right": 845.328125,
+                  "top": 161.0625,
+                  "bottom": 571.71875,
+                  "width": 410.671875,
+                  "height": 410.65625
+                },
+                "scrollable": false
+              },
+              {
+                "text": "訪客故事外的獨立角色，有專屬的天賦與技能。",
+                "rect": {
+                  "left": 855.328125,
+                  "right": 1265.984375,
+                  "top": 161.0625,
+                  "bottom": 571.71875,
+                  "width": 410.65625,
+                  "height": 410.65625
+                },
+                "scrollable": false
+              },
+              {
+                "text": "頭像",
+                "rect": {
+                  "left": 68,
+                  "right": 132,
+                  "top": 674,
+                  "bottom": 698,
+                  "width": 64,
+                  "height": 24
+                },
+                "scrollable": false
+              },
+              {
+                "text": "開房間用上次的角色，大廳裡可以改",
+                "rect": {
+                  "left": 142,
+                  "right": 417,
+                  "top": 660,
+                  "bottom": 712,
+                  "width": 275,
+                  "height": 52
+                },
+                "scrollable": false
+              },
+              {
+                "text": "加入房間輸入房號",
+                "rect": {
+                  "left": 425,
+                  "right": 700,
+                  "top": 660,
+                  "bottom": 712,
+                  "width": 275,
+                  "height": 52
+                },
+                "scrollable": false
+              },
+              {
+                "text": "收藏與解鎖",
+                "rect": {
+                  "left": 708,
+                  "right": 983,
+                  "top": 660,
+                  "bottom": 712,
+                  "width": 275,
+                  "height": 52
+                },
+                "scrollable": false
+              },
+              {
+                "text": "設定",
+                "rect": {
+                  "left": 991,
+                  "right": 1266,
+                  "top": 660,
+                  "bottom": 712,
+                  "width": 275,
+                  "height": 52
+                },
+                "scrollable": false
+              }
+            ],
+            "stage": {
+              "left": 0,
+              "right": 1280,
+              "top": 0,
+              "bottom": 720,
+              "width": 1280,
+              "height": 720
+            }
+          },
+          {
+            "id": "1280x720-exploration",
+            "issues": [],
+            "panels": [
+              {
+                "selector": ".topbar",
+                "rect": {
+                  "left": 12,
+                  "right": 1268,
+                  "top": 4,
+                  "bottom": 53,
+                  "width": 1256,
+                  "height": 49
+                }
+              },
+              {
+                "selector": "#logp",
+                "rect": {
+                  "left": 12,
+                  "right": 705.328125,
+                  "top": 59,
+                  "bottom": 714,
+                  "width": 693.328125,
+                  "height": 655
+                }
+              },
+              {
+                "selector": "#chp",
+                "rect": {
+                  "left": 713.328125,
+                  "right": 1268,
+                  "top": 59,
+                  "bottom": 714,
+                  "width": 554.671875,
+                  "height": 655
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "text": "地圖",
+                "rect": {
+                  "left": 845,
+                  "right": 889,
+                  "top": 8,
+                  "bottom": 44,
+                  "width": 44,
+                  "height": 36
+                },
+                "scrollable": false
+              },
+              {
+                "text": "任務",
+                "rect": {
+                  "left": 895,
+                  "right": 939,
+                  "top": 8,
+                  "bottom": 44,
+                  "width": 44,
+                  "height": 36
+                },
+                "scrollable": false
+              },
+              {
+                "text": "備忘錄",
+                "rect": {
+                  "left": 945,
+                  "right": 1002,
+                  "top": 8,
+                  "bottom": 44,
+                  "width": 57,
+                  "height": 36
+                },
+                "scrollable": false
+              },
+              {
+                "text": "狀態 ▾",
+                "rect": {
+                  "left": 1008,
+                  "right": 1068,
+                  "top": 8,
+                  "bottom": 44,
+                  "width": 60,
+                  "height": 36
+                },
+                "scrollable": false
+              },
+              {
+                "text": "背包",
+                "rect": {
+                  "left": 1074,
+                  "right": 1118,
+                  "top": 8,
+                  "bottom": 44,
+                  "width": 44,
+                  "height": 36
+                },
+                "scrollable": false
+              },
+              {
+                "text": "裝備",
+                "rect": {
+                  "left": 1124,
+                  "right": 1168,
+                  "top": 8,
+                  "bottom": 44,
+                  "width": 44,
+                  "height": 36
+                },
+                "scrollable": false
+              },
+              {
+                "text": "合成",
+                "rect": {
+                  "left": 1174,
+                  "right": 1218,
+                  "top": 8,
+                  "bottom": 44,
+                  "width": 44,
+                  "height": 36
+                },
+                "scrollable": false
+              },
+              {
+                "text": "設定",
+                "rect": {
+                  "left": 1224,
+                  "right": 1268,
+                  "top": 8,
+                  "bottom": 44,
+                  "width": 44,
+                  "height": 36
+                },
+                "scrollable": false
+              },
+              {
+                "text": "【事件】用身體抵住門需要力量 12",
+                "rect": {
+                  "left": 724.328125,
+                  "right": 1257,
+                  "top": 100.484375,
+                  "bottom": 164.875,
+                  "width": 532.671875,
+                  "height": 64.390625
+                },
+                "scrollable": true
+              },
+              {
+                "text": "【事件】把書桌拖過去頂住門",
+                "rect": {
+                  "left": 724.328125,
+                  "right": 1257,
+                  "top": 170.875,
+                  "bottom": 215.265625,
+                  "width": 532.671875,
+                  "height": 44.390625
+                },
+                "scrollable": true
+              },
+              {
+                "text": "【事件】從貓眼看清楚外面需要感知 12",
+                "rect": {
+                  "left": 724.328125,
+                  "right": 1257,
+                  "top": 221.265625,
+                  "bottom": 285.65625,
+                  "width": 532.671875,
+                  "height": 64.390625
+                },
+                "scrollable": true
+              },
+              {
+                "text": "【事件】躲進浴室，鎖上門需要體質 11",
+                "rect": {
+                  "left": 724.328125,
+                  "right": 1257,
+                  "top": 291.65625,
+                  "bottom": 356.046875,
+                  "width": 532.671875,
+                  "height": 64.390625
+                },
+                "scrollable": true
+              }
+            ],
+            "stage": {
+              "left": 0,
+              "right": 1280,
+              "top": 0,
+              "bottom": 720,
+              "width": 1280,
+              "height": 720
+            }
+          },
+          {
+            "id": "1280x720-combat",
+            "issues": [],
+            "panels": [
+              {
+                "selector": ".topbar",
+                "rect": {
+                  "left": 12,
+                  "right": 1268,
+                  "top": 4,
+                  "bottom": 53,
+                  "width": 1256,
+                  "height": 49
+                }
+              },
+              {
+                "selector": "#cbar",
+                "rect": {
+                  "left": 12,
+                  "right": 1268,
+                  "top": 59,
+                  "bottom": 224.78125,
+                  "width": 1256,
+                  "height": 165.78125
+                }
+              },
+              {
+                "selector": "#logp",
+                "rect": {
+                  "left": 12,
+                  "right": 705.328125,
+                  "top": 230.78125,
+                  "bottom": 714,
+                  "width": 693.328125,
+                  "height": 483.21875
+                }
+              },
+              {
+                "selector": "#chp",
+                "rect": {
+                  "left": 713.328125,
+                  "right": 1268,
+                  "top": 230.78125,
+                  "bottom": 714,
+                  "width": 554.671875,
+                  "height": 483.21875
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "text": "地圖",
+                "rect": {
+                  "left": 845,
+                  "right": 889,
+                  "top": 8,
+                  "bottom": 44,
+                  "width": 44,
+                  "height": 36
+                },
+                "scrollable": false
+              },
+              {
+                "text": "任務",
+                "rect": {
+                  "left": 895,
+                  "right": 939,
+                  "top": 8,
+                  "bottom": 44,
+                  "width": 44,
+                  "height": 36
+                },
+                "scrollable": false
+              },
+              {
+                "text": "備忘錄",
+                "rect": {
+                  "left": 945,
+                  "right": 1002,
+                  "top": 8,
+                  "bottom": 44,
+                  "width": 57,
+                  "height": 36
+                },
+                "scrollable": false
+              },
+              {
+                "text": "狀態 ▾",
+                "rect": {
+                  "left": 1008,
+                  "right": 1068,
+                  "top": 8,
+                  "bottom": 44,
+                  "width": 60,
+                  "height": 36
+                },
+                "scrollable": false
+              },
+              {
+                "text": "背包",
+                "rect": {
+                  "left": 1074,
+                  "right": 1118,
+                  "top": 8,
+                  "bottom": 44,
+                  "width": 44,
+                  "height": 36
+                },
+                "scrollable": false
+              },
+              {
+                "text": "裝備",
+                "rect": {
+                  "left": 1124,
+                  "right": 1168,
+                  "top": 8,
+                  "bottom": 44,
+                  "width": 44,
+                  "height": 36
+                },
+                "scrollable": false
+              },
+              {
+                "text": "合成",
+                "rect": {
+                  "left": 1174,
+                  "right": 1218,
+                  "top": 8,
+                  "bottom": 44,
+                  "width": 44,
+                  "height": 36
+                },
+                "scrollable": false
+              },
+              {
+                "text": "設定",
+                "rect": {
+                  "left": 1224,
+                  "right": 1268,
+                  "top": 8,
+                  "bottom": 44,
+                  "width": 44,
+                  "height": 36
+                },
+                "scrollable": false
+              },
+              {
+                "text": "普通攻擊右手 折疊小刀／左手 拳頭",
+                "rect": {
+                  "left": 724.328125,
+                  "right": 987.65625,
+                  "top": 272.265625,
+                  "bottom": 337.6875,
+                  "width": 263.328125,
+                  "height": 65.421875
+                },
+                "scrollable": true
+              },
+              {
+                "text": "技能武器、角色、道具技能",
+                "rect": {
+                  "left": 993.65625,
+                  "right": 1257,
+                  "top": 272.265625,
+                  "bottom": 337.6875,
+                  "width": 263.34375,
+                  "height": 65.421875
+                },
+                "scrollable": true
+              },
+              {
+                "text": "對策看看環境和道具",
+                "rect": {
+                  "left": 724.328125,
+                  "right": 987.65625,
+                  "top": 343.6875,
+                  "bottom": 409.109375,
+                  "width": 263.328125,
+                  "height": 65.421875
+                },
+                "scrollable": true
+              },
+              {
+                "text": "物品用藥、換武器、穿裝備",
+                "rect": {
+                  "left": 993.65625,
+                  "right": 1257,
+                  "top": 343.6875,
+                  "bottom": 409.109375,
+                  "width": 263.34375,
+                  "height": 65.421875
+                },
+                "scrollable": true
+              },
+              {
+                "text": "行動格擋、掩蔽、逃跑",
+                "rect": {
+                  "left": 724.328125,
+                  "right": 987.65625,
+                  "top": 415.109375,
+                  "bottom": 480.53125,
+                  "width": 263.328125,
+                  "height": 65.421875
+                },
+                "scrollable": true
+              }
+            ],
+            "stage": {
+              "left": 0,
+              "right": 1280,
+              "top": 0,
+              "bottom": 720,
+              "width": 1280,
+              "height": 720
+            }
+          },
+          {
+            "id": "1280x720-bag",
+            "issues": [],
+            "panels": [
+              {
+                "selector": "#ov .box",
+                "rect": {
+                  "left": 150,
+                  "right": 1130,
+                  "top": 8,
+                  "bottom": 712,
+                  "width": 980,
+                  "height": 704
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "text": "裝備",
+                "rect": {
+                  "left": 927,
+                  "right": 985,
+                  "top": 21,
+                  "bottom": 55.421875,
+                  "width": 58,
+                  "height": 34.421875
+                },
+                "scrollable": true
+              },
+              {
+                "text": "合成",
+                "rect": {
+                  "left": 991,
+                  "right": 1049,
+                  "top": 21,
+                  "bottom": 55.421875,
+                  "width": 58,
+                  "height": 34.421875
+                },
+                "scrollable": true
+              },
+              {
+                "text": "關閉",
+                "rect": {
+                  "left": 1055,
+                  "right": 1113,
+                  "top": 21,
+                  "bottom": 55.421875,
+                  "width": 58,
+                  "height": 34.421875
+                },
+                "scrollable": true
+              },
+              {
+                "text": "使用",
+                "rect": {
+                  "left": 959,
+                  "right": 1003,
+                  "top": 174.09375,
+                  "bottom": 206.09375,
+                  "width": 44,
+                  "height": 32
+                },
+                "scrollable": true
+              },
+              {
+                "text": "放到地上",
+                "rect": {
+                  "left": 1032,
+                  "right": 1100,
+                  "top": 174.09375,
+                  "bottom": 206.09375,
+                  "width": 68,
+                  "height": 32
+                },
+                "scrollable": true
+              },
+              {
+                "text": "吃／喝",
+                "rect": {
+                  "left": 947,
+                  "right": 1003,
+                  "top": 248.25,
+                  "bottom": 280.25,
+                  "width": 56,
+                  "height": 32
+                },
+                "scrollable": true
+              },
+              {
+                "text": "放到地上",
+                "rect": {
+                  "left": 1032,
+                  "right": 1100,
+                  "top": 248.25,
+                  "bottom": 280.25,
+                  "width": 68,
+                  "height": 32
+                },
+                "scrollable": true
+              },
+              {
+                "text": "吃／喝",
+                "rect": {
+                  "left": 947,
+                  "right": 1003,
+                  "top": 305.40625,
+                  "bottom": 337.40625,
+                  "width": 56,
+                  "height": 32
+                },
+                "scrollable": true
+              },
+              {
+                "text": "放到地上",
+                "rect": {
+                  "left": 1032,
+                  "right": 1100,
+                  "top": 305.40625,
+                  "bottom": 337.40625,
+                  "width": 68,
+                  "height": 32
+                },
+                "scrollable": true
+              }
+            ],
+            "stage": {
+              "left": 0,
+              "right": 1280,
+              "top": 0,
+              "bottom": 720,
+              "width": 1280,
+              "height": 720
+            }
+          },
+          {
+            "id": "393x690-gate",
+            "issues": [],
+            "panels": [
+              {
+                "selector": "#gate",
+                "rect": {
+                  "left": 0,
+                  "right": 393,
+                  "top": 0,
+                  "bottom": 690,
+                  "width": 393,
+                  "height": 690
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "text": "進入遊戲",
+                "rect": {
+                  "left": 164.46875,
+                  "right": 210.171875,
+                  "top": 284,
+                  "bottom": 406,
+                  "width": 45.703125,
+                  "height": 122
+                },
+                "scrollable": true
+              },
+              {
+                "text": "不要全螢幕，直接進入",
+                "rect": {
+                  "left": 89.609375,
+                  "right": 115.78125,
+                  "top": 278,
+                  "bottom": 412,
+                  "width": 26.171875,
+                  "height": 134
+                },
+                "scrollable": true
+              }
+            ],
+            "stage": {
+              "left": 0,
+              "right": 393,
+              "top": 0,
+              "bottom": 690,
+              "width": 393,
+              "height": 690
+            }
+          },
+          {
+            "id": "393x690-character",
+            "issues": [],
+            "panels": [
+              {
+                "selector": "#scr",
+                "rect": {
+                  "left": 0,
+                  "right": 393,
+                  "top": 0,
+                  "bottom": 690,
+                  "width": 393,
+                  "height": 690
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "text": "倖存者自己決定名字、屬性、天賦、技能和帶什麼東西。",
+                "rect": {
+                  "left": 85.65625,
+                  "right": 299.65625,
+                  "top": 14,
+                  "bottom": 228,
+                  "width": 214,
+                  "height": 214
+                },
+                "scrollable": false
+              },
+              {
+                "text": "劇情角色固定的職業與人物。在某些地方，會有只屬於他們的劇情和選項。",
+                "rect": {
+                  "left": 85.65625,
+                  "right": 299.65625,
+                  "top": 238,
+                  "bottom": 452,
+                  "width": 214,
+                  "height": 214
+                },
+                "scrollable": false
+              },
+              {
+                "text": "訪客故事外的獨立角色，有專屬的天賦與技能。",
+                "rect": {
+                  "left": 85.65625,
+                  "right": 299.65625,
+                  "top": 462,
+                  "bottom": 676,
+                  "width": 214,
+                  "height": 214
+                },
+                "scrollable": false
+              },
+              {
+                "text": "頭像",
+                "rect": {
+                  "left": 18,
+                  "right": 42,
+                  "top": 62,
+                  "bottom": 126,
+                  "width": 24,
+                  "height": 64
+                },
+                "scrollable": false
+              },
+              {
+                "text": "開房間用上次的角色，大廳裡可以改",
+                "rect": {
+                  "left": 8,
+                  "right": 52,
+                  "top": 136,
+                  "bottom": 265,
+                  "width": 44,
+                  "height": 129
+                },
+                "scrollable": false
+              },
+              {
+                "text": "加入房間輸入房號",
+                "rect": {
+                  "left": 8,
+                  "right": 52,
+                  "top": 273,
+                  "bottom": 402,
+                  "width": 44,
+                  "height": 129
+                },
+                "scrollable": false
+              },
+              {
+                "text": "收藏與解鎖",
+                "rect": {
+                  "left": 8,
+                  "right": 52,
+                  "top": 410,
+                  "bottom": 539,
+                  "width": 44,
+                  "height": 129
+                },
+                "scrollable": false
+              },
+              {
+                "text": "設定",
+                "rect": {
+                  "left": 8,
+                  "right": 52,
+                  "top": 547,
+                  "bottom": 676,
+                  "width": 44,
+                  "height": 129
+                },
+                "scrollable": false
+              }
+            ],
+            "stage": {
+              "left": 0,
+              "right": 393,
+              "top": 0,
+              "bottom": 690,
+              "width": 393,
+              "height": 690
+            }
+          },
+          {
+            "id": "393x690-exploration",
+            "issues": [],
+            "panels": [
+              {
+                "selector": ".topbar",
+                "rect": {
+                  "left": 347.0625,
+                  "right": 389,
+                  "top": 12,
+                  "bottom": 678,
+                  "width": 41.9375,
+                  "height": 666
+                }
+              },
+              {
+                "selector": "#logp",
+                "rect": {
+                  "left": 6,
+                  "right": 341.0625,
+                  "top": 12,
+                  "bottom": 377.546875,
+                  "width": 335.0625,
+                  "height": 365.546875
+                }
+              },
+              {
+                "selector": "#chp",
+                "rect": {
+                  "left": 6,
+                  "right": 341.0625,
+                  "top": 385.546875,
+                  "bottom": 678,
+                  "width": 335.0625,
+                  "height": 292.453125
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "text": "地圖",
+                "rect": {
+                  "left": 355.03125,
+                  "right": 385.03125,
+                  "top": 411,
+                  "bottom": 439,
+                  "width": 30,
+                  "height": 28
+                },
+                "scrollable": false
+              },
+              {
+                "text": "任務",
+                "rect": {
+                  "left": 355.03125,
+                  "right": 385.03125,
+                  "top": 442,
+                  "bottom": 470,
+                  "width": 30,
+                  "height": 28
+                },
+                "scrollable": false
+              },
+              {
+                "text": "備忘錄",
+                "rect": {
+                  "left": 355.03125,
+                  "right": 385.03125,
+                  "top": 473,
+                  "bottom": 511,
+                  "width": 30,
+                  "height": 38
+                },
+                "scrollable": false
+              },
+              {
+                "text": "狀態 ▾",
+                "rect": {
+                  "left": 355.03125,
+                  "right": 385.03125,
+                  "top": 514,
+                  "bottom": 554,
+                  "width": 30,
+                  "height": 40
+                },
+                "scrollable": false
+              },
+              {
+                "text": "背包",
+                "rect": {
+                  "left": 355.03125,
+                  "right": 385.03125,
+                  "top": 557,
+                  "bottom": 585,
+                  "width": 30,
+                  "height": 28
+                },
+                "scrollable": false
+              },
+              {
+                "text": "裝備",
+                "rect": {
+                  "left": 355.03125,
+                  "right": 385.03125,
+                  "top": 588,
+                  "bottom": 616,
+                  "width": 30,
+                  "height": 28
+                },
+                "scrollable": false
+              },
+              {
+                "text": "合成",
+                "rect": {
+                  "left": 355.03125,
+                  "right": 385.03125,
+                  "top": 619,
+                  "bottom": 647,
+                  "width": 30,
+                  "height": 28
+                },
+                "scrollable": false
+              },
+              {
+                "text": "設定",
+                "rect": {
+                  "left": 355.03125,
+                  "right": 385.03125,
+                  "top": 650,
+                  "bottom": 678,
+                  "width": 30,
+                  "height": 28
+                },
+                "scrollable": false
+              },
+              {
+                "text": "【事件】用身體抵住門需要力量 12",
+                "rect": {
+                  "left": 247.484375,
+                  "right": 304.578125,
+                  "top": 394.546875,
+                  "bottom": 669,
+                  "width": 57.09375,
+                  "height": 274.453125
+                },
+                "scrollable": true
+              },
+              {
+                "text": "【事件】把書桌拖過去頂住門",
+                "rect": {
+                  "left": 205.390625,
+                  "right": 242.484375,
+                  "top": 394.546875,
+                  "bottom": 669,
+                  "width": 37.09375,
+                  "height": 274.453125
+                },
+                "scrollable": true
+              },
+              {
+                "text": "【事件】從貓眼看清楚外面需要感知 12",
+                "rect": {
+                  "left": 143.296875,
+                  "right": 200.390625,
+                  "top": 394.546875,
+                  "bottom": 669,
+                  "width": 57.09375,
+                  "height": 274.453125
+                },
+                "scrollable": true
+              },
+              {
+                "text": "【事件】躲進浴室，鎖上門需要體質 11",
+                "rect": {
+                  "left": 81.203125,
+                  "right": 138.296875,
+                  "top": 394.546875,
+                  "bottom": 669,
+                  "width": 57.09375,
+                  "height": 274.453125
+                },
+                "scrollable": true
+              }
+            ],
+            "stage": {
+              "left": 0,
+              "right": 393,
+              "top": 0,
+              "bottom": 690,
+              "width": 393,
+              "height": 690
+            }
+          },
+          {
+            "id": "393x690-combat",
+            "issues": [],
+            "panels": [
+              {
+                "selector": ".topbar",
+                "rect": {
+                  "left": 347.0625,
+                  "right": 389,
+                  "top": 12,
+                  "bottom": 678,
+                  "width": 41.9375,
+                  "height": 666
+                }
+              },
+              {
+                "selector": "#cbar",
+                "rect": {
+                  "left": 199.40625,
+                  "right": 341.0625,
+                  "top": 12,
+                  "bottom": 678,
+                  "width": 141.65625,
+                  "height": 666
+                }
+              },
+              {
+                "selector": "#logp",
+                "rect": {
+                  "left": 6,
+                  "right": 193.40625,
+                  "top": 12,
+                  "bottom": 377.546875,
+                  "width": 187.40625,
+                  "height": 365.546875
+                }
+              },
+              {
+                "selector": "#chp",
+                "rect": {
+                  "left": 6,
+                  "right": 193.40625,
+                  "top": 385.546875,
+                  "bottom": 678,
+                  "width": 187.40625,
+                  "height": 292.453125
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "text": "地圖",
+                "rect": {
+                  "left": 355.03125,
+                  "right": 385.03125,
+                  "top": 411,
+                  "bottom": 439,
+                  "width": 30,
+                  "height": 28
+                },
+                "scrollable": false
+              },
+              {
+                "text": "任務",
+                "rect": {
+                  "left": 355.03125,
+                  "right": 385.03125,
+                  "top": 442,
+                  "bottom": 470,
+                  "width": 30,
+                  "height": 28
+                },
+                "scrollable": false
+              },
+              {
+                "text": "備忘錄",
+                "rect": {
+                  "left": 355.03125,
+                  "right": 385.03125,
+                  "top": 473,
+                  "bottom": 511,
+                  "width": 30,
+                  "height": 38
+                },
+                "scrollable": false
+              },
+              {
+                "text": "狀態 ▾",
+                "rect": {
+                  "left": 355.03125,
+                  "right": 385.03125,
+                  "top": 514,
+                  "bottom": 554,
+                  "width": 30,
+                  "height": 40
+                },
+                "scrollable": false
+              },
+              {
+                "text": "背包",
+                "rect": {
+                  "left": 355.03125,
+                  "right": 385.03125,
+                  "top": 557,
+                  "bottom": 585,
+                  "width": 30,
+                  "height": 28
+                },
+                "scrollable": false
+              },
+              {
+                "text": "裝備",
+                "rect": {
+                  "left": 355.03125,
+                  "right": 385.03125,
+                  "top": 588,
+                  "bottom": 616,
+                  "width": 30,
+                  "height": 28
+                },
+                "scrollable": false
+              },
+              {
+                "text": "合成",
+                "rect": {
+                  "left": 355.03125,
+                  "right": 385.03125,
+                  "top": 619,
+                  "bottom": 647,
+                  "width": 30,
+                  "height": 28
+                },
+                "scrollable": false
+              },
+              {
+                "text": "設定",
+                "rect": {
+                  "left": 355.03125,
+                  "right": 385.03125,
+                  "top": 650,
+                  "bottom": 678,
+                  "width": 30,
+                  "height": 28
+                },
+                "scrollable": false
+              },
+              {
+                "text": "普通攻擊右手 折疊小刀／左手 拳頭",
+                "rect": {
+                  "left": 108.375,
+                  "right": 156.921875,
+                  "top": 394.546875,
+                  "bottom": 529.765625,
+                  "width": 48.546875,
+                  "height": 135.21875
+                },
+                "scrollable": true
+              },
+              {
+                "text": "技能武器、角色、道具技能",
+                "rect": {
+                  "left": 108.375,
+                  "right": 156.921875,
+                  "top": 533.765625,
+                  "bottom": 669,
+                  "width": 48.546875,
+                  "height": 135.234375
+                },
+                "scrollable": true
+              },
+              {
+                "text": "對策看看環境和道具",
+                "rect": {
+                  "left": 55.828125,
+                  "right": 104.375,
+                  "top": 394.546875,
+                  "bottom": 529.765625,
+                  "width": 48.546875,
+                  "height": 135.21875
+                },
+                "scrollable": true
+              },
+              {
+                "text": "物品用藥、換武器、穿裝備",
+                "rect": {
+                  "left": 55.828125,
+                  "right": 104.375,
+                  "top": 533.765625,
+                  "bottom": 669,
+                  "width": 48.546875,
+                  "height": 135.234375
+                },
+                "scrollable": true
+              },
+              {
+                "text": "行動格擋、掩蔽、逃跑",
+                "rect": {
+                  "left": 3.28125,
+                  "right": 51.828125,
+                  "top": 394.546875,
+                  "bottom": 529.765625,
+                  "width": 48.546875,
+                  "height": 135.21875
+                },
+                "scrollable": true
+              }
+            ],
+            "stage": {
+              "left": 0,
+              "right": 393,
+              "top": 0,
+              "bottom": 690,
+              "width": 393,
+              "height": 690
+            }
+          },
+          {
+            "id": "393x690-bag",
+            "issues": [],
+            "panels": [
+              {
+                "selector": "#ov .box",
+                "rect": {
+                  "left": 8,
+                  "right": 385,
+                  "top": 12,
+                  "bottom": 678,
+                  "width": 377,
+                  "height": 666
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "text": "裝備",
+                "rect": {
+                  "left": 337.578125,
+                  "right": 372,
+                  "top": 475,
+                  "bottom": 533,
+                  "width": 34.421875,
+                  "height": 58
+                },
+                "scrollable": true
+              },
+              {
+                "text": "合成",
+                "rect": {
+                  "left": 337.578125,
+                  "right": 372,
+                  "top": 539,
+                  "bottom": 597,
+                  "width": 34.421875,
+                  "height": 58
+                },
+                "scrollable": true
+              },
+              {
+                "text": "關閉",
+                "rect": {
+                  "left": 337.578125,
+                  "right": 372,
+                  "top": 603,
+                  "bottom": 661,
+                  "width": 34.421875,
+                  "height": 58
+                },
+                "scrollable": true
+              },
+              {
+                "text": "使用",
+                "rect": {
+                  "left": 198.671875,
+                  "right": 230.671875,
+                  "top": 509,
+                  "bottom": 553,
+                  "width": 32,
+                  "height": 44
+                },
+                "scrollable": true
+              },
+              {
+                "text": "放到地上",
+                "rect": {
+                  "left": 198.671875,
+                  "right": 230.671875,
+                  "top": 582,
+                  "bottom": 650,
+                  "width": 32,
+                  "height": 68
+                },
+                "scrollable": true
+              },
+              {
+                "text": "吃／喝",
+                "rect": {
+                  "left": 130.1875,
+                  "right": 162.1875,
+                  "top": 497,
+                  "bottom": 553,
+                  "width": 32,
+                  "height": 56
+                },
+                "scrollable": true
+              },
+              {
+                "text": "放到地上",
+                "rect": {
+                  "left": 130.1875,
+                  "right": 162.1875,
+                  "top": 582,
+                  "bottom": 650,
+                  "width": 32,
+                  "height": 68
+                },
+                "scrollable": true
+              },
+              {
+                "text": "吃／喝",
+                "rect": {
+                  "left": 78.703125,
+                  "right": 110.703125,
+                  "top": 497,
+                  "bottom": 553,
+                  "width": 32,
+                  "height": 56
+                },
+                "scrollable": true
+              },
+              {
+                "text": "放到地上",
+                "rect": {
+                  "left": 78.703125,
+                  "right": 110.703125,
+                  "top": 582,
+                  "bottom": 650,
+                  "width": 32,
+                  "height": 68
+                },
+                "scrollable": true
+              }
+            ],
+            "stage": {
+              "left": 0,
+              "right": 393,
+              "top": 0,
+              "bottom": 690,
+              "width": 393,
+              "height": 690
+            }
+          }
+        ],
+        "failed": []
+      },
+      "failed": []
+    },
+    {
+      "id": "multiplayer",
+      "name": "多人演出與房主交接模擬",
+      "status": "PASS",
+      "seconds": 30.8,
+      "note": "見細節",
+      "detail": {
+        "checks": [
+          {
+            "name": "正常同步、演出中點按作廢",
+            "ok": true
+          },
+          {
+            "name": "延遲隊友從目前進度接續、不拖住房主",
+            "ok": true
+          },
+          {
+            "name": "房主交接、不重複加入敵人或先攻",
+            "ok": true
+          }
+        ],
+        "observations": {
+          "normal": {
+            "hostStageMs": 2548,
+            "clientUnlockLagMs": 872,
+            "clientFirstSeenAfterHostMs": 119,
+            "clientFirstViewMs": 116,
+            "hostImgMs": 917,
+            "clientImgMs": 919,
+            "clientQueuedActs": 0,
+            "hostPendAfter": "{}",
+            "errs": []
+          },
+          "delayed": {
+            "hostStageMs": 2545,
+            "clientFirstSeenAfterHostMs": 1319,
+            "clientFirstViewMs": 1316,
+            "clientIds": 1,
+            "errs": []
+          },
+          "handover": {
+            "foesDuringStage": 4,
+            "after": {
+              "foes": 4,
+              "order": 6,
+              "orderFoes": 4,
+              "stg": false,
+              "phase": "fight",
+              "reinfIn": 1
+            },
+            "hostLeftToNewHostMs": 5,
+            "newHostFinishMs": 2206,
+            "errs": []
+          }
+        },
+        "failed": []
+      },
+      "failed": []
+    }
+  ],
+  "summary": {
+    "overall": "PASS",
+    "overallZh": "通過",
+    "text": "全部通過（另有暫緩 3 項）",
+    "todo": [
+      "Node 邏輯測試：環境相容：遊戲現在對不上、等主人決定（9 組）",
+      "Node 邏輯測試：恐懼在畫面與紀錄都不顯示數字（2026-11-13 主人定案）",
+      "Node 邏輯測試：音效對應表：缺口等主人決定（意外沒聲音 7、躲開沒聲音 9、沒有備援 7、沒用到 1；詳見 docs/audio/SFX_MAP.md）"
+    ],
+    "exit": 0,
+    "warnings": []
+  }
+}

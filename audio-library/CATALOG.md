@@ -746,7 +746,7 @@
 | [guts_and_gore_59.wav](https://danielsoundsgood.itch.io/free-deadly-kombat-sound-effects) | 依原始分類及檔名供搜尋；尚未逐檔人工試聽 | 1.477s／48000Hz／2ch | 備用；未接入遊戲；僅索引；由官方下載 | Daniel SoundsGood；非專屬商用遊戲授權；獨立素材庫再散布權待確認 |
 | [guts_and_gore_68.wav](https://danielsoundsgood.itch.io/free-deadly-kombat-sound-effects) | 依原始分類及檔名供搜尋；尚未逐檔人工試聽 | 1.612s／48000Hz／2ch | 備用；未接入遊戲；僅索引；由官方下載 | Daniel SoundsGood；非專屬商用遊戲授權；獨立素材庫再散布權待確認 |
 
-## freesound-silverillusionist（5 檔）
+## freesound-silverillusionist（7 檔）
 
 ### 血肉與命中
 
@@ -757,6 +757,8 @@
 | [580232__silverillusionist__decapitation-more-gory.wav](../audio-library/files/freesound/580232__silverillusionist__decapitation-more-gory.wav) | 斷首與強烈血肉聲 | 5.219s／44100Hz／2ch | 備用；未接入遊戲；已收錄原檔 | SilverIllusionist／Dylan Kelk；CC BY 4.0 |
 | [580233__silverillusionist__decapitation-earlier-blood-spurt.wav](../audio-library/files/freesound/580233__silverillusionist__decapitation-earlier-blood-spurt.wav) | 斷首與較早血液噴濺 | 4.875s／44100Hz／2ch | 備用；未接入遊戲；已收錄原檔 | SilverIllusionist／Dylan Kelk；CC BY 4.0 |
 | [685363__silverillusionist__brutal-impalment-2.wav](../audio-library/files/freesound/685363__silverillusionist__brutal-impalment-2.wav) | 強烈穿刺 2 | 1.000s／44100Hz／2ch | 備用；未接入遊戲；已收錄原檔 | SilverIllusionist／Dylan Kelk；CC BY 4.0 |
+| [833639__silverillusionist__skull-split-1.wav](../audio-library/files/freesound/833639__silverillusionist__skull-split-1.wav) | 顱骨重擊裂開 1（依作者描述；未人工試聽） | 1.344s／44100Hz／2ch | 備用；未接入遊戲；已收錄原檔 | SilverIllusionist／Dylan Kelk；CC BY 4.0 |
+| [833640__silverillusionist__skull-split-2.wav](../audio-library/files/freesound/833640__silverillusionist__skull-split-2.wav) | 顱骨重擊裂開 2（依作者描述；未人工試聽） | 1.437s／44100Hz／2ch | 備用；未接入遊戲；已收錄原檔 | SilverIllusionist／Dylan Kelk；CC BY 4.0 |
 
 ## freesound-ihitokage（1 檔）
 

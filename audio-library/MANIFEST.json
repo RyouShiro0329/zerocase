@@ -9,10 +9,10 @@
   },
   "index_sha256": "ad4aaf16e9f60b735c51f32165d5edcfa1aa5977736f59631883245ab6f657be",
   "counts": {
-    "total": 581,
+    "total": 583,
     "existing": 113,
-    "imported": 468,
-    "imported_files": 170,
+    "imported": 470,
+    "imported_files": 172,
     "metadata_only": 298,
     "exact_duplicate_groups": 0
   },
@@ -866,6 +866,16 @@
       "path": "audio-library/files/freesound/685363__silverillusionist__brutal-impalment-2.wav",
       "bytes": 176444,
       "sha256": "88f06678add3c512e4396b6246e0cbc5b0b8999718c5239a6bc5c32ca05b2a82"
+    },
+    {
+      "path": "audio-library/files/freesound/833639__silverillusionist__skull-split-1.wav",
+      "bytes": 474124,
+      "sha256": "ef186f3fe63f42217220594a51b95b8cf24fd9af106c1106625d9802aafc7f31"
+    },
+    {
+      "path": "audio-library/files/freesound/833640__silverillusionist__skull-split-2.wav",
+      "bytes": 506884,
+      "sha256": "94b265119b904b3c402a133c12ffd7feb60b0fff12f315669ff602f189372902"
     },
     {
       "path": "sfx/airraid_event.mp3",

@@ -1,3 +1,5 @@
+音效素材庫重新上傳驗收：12 個來源共 470 音檔，補 Skull Split #1／#2，583 筆索引、285 公開原檔、298 僅索引。遊戲 v0.71.1／Build148 與既有測試未改。完整證據、限制與接續步驟見 docs/audio/LIBRARY_REUPLOAD_AUDIT.md；PR #84 待主人核准合併。
+
 # 開發音效素材庫交接（2026-11-28，Asia/Taipei）
 
 本批接續對話中斷前的工作，從 main e414cb8 建立 feat/audio-library。完整說明、驗收與來源限制見 [LIBRARY_HANDOFF.md](audio/LIBRARY_HANDOFF.md)，開發取用入口見 [audio-library/README.md](../audio-library/README.md)。遊戲仍為 v0.71.1／Build148；新增素材為備用，未接入遊戲。

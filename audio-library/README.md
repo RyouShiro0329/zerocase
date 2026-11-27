@@ -32,11 +32,11 @@
 |---|---:|---|
 | 原倉庫 `sfx/` | 113 | 全部索引；原檔、路徑及使用狀態保留 |
 | Darkworld Survival | 164 | 原檔收錄，按原始十類分層；附原始授權 PDF |
-| SilverIllusionist／ihitokage | 6 | 原檔收錄；CC BY 4.0／CC0，逐筆保留作者及來源 |
+| SilverIllusionist／ihitokage | 8 | 原檔收錄；CC BY 4.0／CC0，逐筆保留作者及來源 |
 | Steel & Impact | 50 | 僅索引；條款禁止獨立素材庫再散布 |
 | Zombie Massacre | 198 | 僅索引；獨立素材庫再散布權待確認 |
 | Deadly Kombat Free | 50 | 僅索引；獨立素材庫再散布權待確認 |
-| 合計 | **581** | **新增 170 個音檔、298 筆僅索引** |
+| 合計 | **583** | **新增 172 個音檔、298 筆僅索引** |
 
 Zombie Massacre 的 198 檔含 99 組 16／24 位元版本。它們是對應版本，並非逐位元相同檔案，不合併或刪除。全庫目前沒有 SHA-256 完全相同的音檔。MP3／OGG 替代格式亦各自保留，不把檔案數當成不同聲音種類數。
 
@@ -45,9 +45,9 @@ Zombie Massacre 的 198 檔含 99 組 16／24 位元版本。它們是對應版�
 ### 2.1 資料夾
 
 - `files/darkworld-survival/`：衣物、戰鬥、破壞、環境、裝備、飲食、腳步、人聲與動作、醫療、工具；實際路徑保留原作者英文分類及檔名。
-- `files/freesound/`：六個原始 WAV／OGG，保留 Freesound ID 與原始檔名。
+- `files/freesound/`：八個原始 WAV／OGG，保留 Freesound ID 與原始檔名。
 - `licenses/darkworld-survival.pdf`：上傳包內原始授權，未改寫。
-- `imports.json`：本批十個上傳檔案與解壓項目的追溯紀錄；四個壓縮包保留檔名、大小及 SHA-256，未把原始壓縮包再次公開。
+- `imports.json`：本批十二個上傳檔案與解壓項目的追溯紀錄；八個單檔的大小與 SHA-256 在 entries；四個壓縮包保留檔名、大小及 SHA-256，未把原始壓縮包再次公開。
 
 ### 2.2 欄位的意思
 
@@ -67,13 +67,16 @@ Zombie Massacre 的 198 檔含 99 組 16／24 位元版本。它們是對應版�
 
 Darkworld Audio 採自訂授權，不能改標 CC0；附包授權允許複製、移交與公開散布，不得販售獨立音效或冒認作者。`Designed` 檔案為設計音效，不能宣稱是對應槍械或事故的實錄。
 
-SilverIllusionist／Dylan Kelk 的五檔依原頁 **CC BY 4.0**：
+SilverIllusionist／Dylan Kelk 的七檔依原頁 **CC BY 4.0**：
 
 - [Decapitation (earlier blood spurt).wav](https://freesound.org/people/SilverIllusionist/sounds/580233/)
 - [Decapitation (more gory).wav](https://freesound.org/people/SilverIllusionist/sounds/580232/)
 - [Headshot 1.wav](https://freesound.org/people/SilverIllusionist/sounds/470585/)
 - [Heavy Impact](https://freesound.org/people/SilverIllusionist/sounds/470587/)
 - [Brutal Impalment 2](https://freesound.org/people/SilverIllusionist/sounds/685363/)；作者要求署名使用「Brutal Impalement 2」。
+
+- [Skull Split #1](https://freesound.org/people/SilverIllusionist/sounds/833639/)；署名："Skull Split #1" by Dylan Kelk/SilverIllusionist (Freesound)。
+- [Skull Split #2](https://freesound.org/people/SilverIllusionist/sounds/833640/)；署名："Skull Split #2" by Dylan Kelk/SilverIllusionist (Freesound)。
 
 授權：[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)。原檔未裁切、混音、轉檔、變調或調整音量。兩個 Decapitation 的作者頁另揭露上游音效，逐筆作者與原頁保留在 `imports.json` 的 `upstream_credits`；本次未重新驗證全部上游。本次 Headshot 1 與遊戲既有 Credits 的 Headshot 2 不同，不互相取代。
 
