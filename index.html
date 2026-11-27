@@ -6506,7 +6506,7 @@ const SFX_TYPES={
 const SFX_CATEGORY_GAIN={ui:.56,movement:.65,foley:.78,combat:.92,system:.8,environment:.6};
 // 解碼峰值接近滿刻度的素材另外衰減；實際聽感仍待手機／耳機驗收。
 const SFX_TRIM={crossbowshot:.85,piercehit:.8,bowdraw:.85,bowimpact:.8,rain_indoor_loop:.8,rain_outdoor_loop:.8,thunder_distant_01:.45,thunder_distant_02:.45,beretta:.72,revolver:.72,m500:.80,fal:.65,mp5:.65,rifle:.7,shotgun:.65,headshot:.4,dryfire:.55,glassbreak:.65,woodknock:.55,woodimpact:.45,firealarm:.28,genstart:.5,genloop:.3,glassstep:.7,waterpipe:.35,pumpmix:.45,pumpstop:.45,radiostatic:.5,radio02:1,radio23:1,radio24:1};
-const SFX_OFFSET={woodknock:.85};/* v0.71.2 播放時跳過檔案開頭靜音（秒），不改檔案；緩衝夠長才套用 */
+const SFX_OFFSET={woodknock:.85,glassbreak:.265};/* v0.71.2 播放時跳過檔案開頭靜音（秒），不改檔案；緩衝夠長才套用。glassbreak 可聽見的碎裂約在 0.265～0.271 秒，對齊起音；燈管／窗戶意外與其他走 play()／sfx() 的碎玻璃一併套用。組合槍聲 shotCue 走 cueAt，不經這個偏移。 */
 const SFX_CATEGORY=Object.fromEntries(Object.entries(SFX_TYPES).flatMap(([cat,names])=>names.map(n=>[n,cat])));
 function sfxLevel(k,v){const raw=Number(v??1);return Math.max(0,Math.min(1.5,Number.isFinite(raw)?raw:1))*(SFX_CATEGORY_GAIN[SFX_CATEGORY[k]]??.85)*(SFX_TRIM[k]??1)}
 // Web Audio 合成聲原本忽略音量參數；僅在同步排程 SYN 期間設定縮放倍率。
@@ -6902,6 +6902,7 @@ function alarmRaid(){const F=G.fight;if(!F||F.reinf||G.alarmFt===2)return;const 
 const ZRAIDW={inf:'拖行聲從四面八方靠過來，越來越快、越來越多。再撐一下，牠們就會衝進來。',hum:'外面有人吹了一聲口哨，好幾個人的腳步聲正往這裡跑。再過一下，他們就到了。',acru:'對講機的雜訊越來越近，有人在報你們的位置。再過一下，他們就會包上來。'};
 async function deathCheck(){
   if(G.over)return true;
+  let downed=0;
   for(const p of G.players){
     if(p.dead||!teamHere(p))continue;
     if(p.inf>=100){p.dead=1;p.down=0;p.hp=0;out(`${MP()?nm(p)+'的':''}感染值到了盡頭。高燒吞沒了${MP()?'他':'你'}的意識。${MP()?'他':'你'}倒在冰冷的地板上，最後看見的，是天花板上那盞一閃一閃的緊急照明。`,'dmg');continue}
@@ -6909,7 +6910,7 @@ async function deathCheck(){
       if(MP()&&G.players.length>1){p.mad=1;p.held=0;out(`${nm(p)}的腦袋裡有什麼東西斷掉了。他開始笑，笑到停不下來，眼神再也對不上焦。<b>${nm(p)}發瘋了</b>：沒辦法控制自己，戰鬥中會亂打身邊的人——敵人或隊友都有可能。用鎮定劑、安撫，或把他打倒再救起來，才能讓他恢復。`,'dmg');for(const q of able())if(q!==p)loseSan(q,1);continue}
       p.dead=1;p.mad=1;p.down=0;p.hp=0;out('你的腦袋裡有什麼東西斷掉了。你開始笑，笑到停不下來，再也分不清眼前的是什麼。你發瘋了。','dmg');continue}
     if(p.hp<=0&&!p.down){
-      if(MP()&&G.players.length>1){p.down=1;p.evacCarry=0;p.hp=0;snd('thud',.8);out(`${nm(p)}倒下了。還有呼吸，但已經站不起來。用 AED 或腎上腺素可以把人救回來；撐到下一個區域，也會慢慢醒過來。`,'dmg');for(const q of able())if(q!==p)loseSan(q,1)}
+      if(MP()&&G.players.length>1){p.down=1;p.evacCarry=0;p.hp=0;downed+=1;out(`${nm(p)}倒下了。還有呼吸，但已經站不起來。用 AED 或腎上腺素可以把人救回來；撐到下一個區域，也會慢慢醒過來。`,'dmg');for(const q of able())if(q!==p)loseSan(q,1)}
       else{p.dead=1;p.hp=0}
     }
   }
@@ -6918,6 +6919,7 @@ async function deathCheck(){
     if(saved){if(!liveF().length)await endFight();else await finishEvacuation(saved,false);return true}
     await gameOver();return true
   }
+  if(downed)snd('death',1,3000);/* 與 gameOver 同音量；全隊倒下時只由 gameOver 播一次，避免連播兩次 */
   return false;
 }
 async function gameOver(){
@@ -8185,7 +8187,7 @@ function giveBurn(x){x.burn=3}
 async function roundEnd(){const F=G.fight;if(!F)return;
   for(const p of able()){
     if(p.burn>0){p.hp-=2;p.taken=(p.taken||0)+2;p.burn--;out(`${MP()?nm(p)+'身上的':'身上的'}火還沒滅。生命 −2${p.burn?'':'。火總算熄了'}。`,'dmg')}/* 燃燒跳傷害：現有檔沒有合適的持續燃燒聲（mimpact 是爆炸），先保持安靜 */
-    if(p.bleed>0){const v=p.bleed;p.hp-=v;if(p.bleedN==null)p.bleedN=3;p.bleedN--;snd('knife',.4);out(`${MP()?nm(p)+'的':'你的'}傷口還在流血。生命 −${v}${p.bleedN<=0?'。血總算慢慢止住了':''}。`,'dmg');if(p.bleedN<=0){p.bleed=0;p.bleedN=null}}
+    if(p.bleed>0){const v=p.bleed;p.hp-=v;if(p.bleedN==null)p.bleedN=3;p.bleedN--;out(`${MP()?nm(p)+'的':'你的'}傷口還在流血。生命 −${v}${p.bleedN<=0?'。血總算慢慢止住了':''}。`,'dmg');if(p.bleedN<=0){p.bleed=0;p.bleedN=null}}
     if(p.humus>0){const v=p.humusV||2;addInf(p,v);p.humus--;snd('squish',.55);out(`${MP()?nm(p)+'身上的':''}腐殖物還在往皮膚裡滲。感染 +${v}${p.humus?'':'。總算乾掉了'}。`,'dmg',true)}}
   for(const f of liveF()){
     if(f.burn>0){const d=applyDmg(f,2,['fire'],null,true);f.burn--;out(`${f.n}身上的火還在燒。−${d}。`,'good',true)}
@@ -9198,7 +9200,7 @@ const HAZ={
   {id:'cart',env:'cart',audio:'thud',okA:'whoosh',hs:'thud',t:'走廊另一端傳來撞擊聲。一名感染者撞上停在牆邊的推車，推車失去平衡，朝你的方向滑了過來——',w:['閃避','貼牆','站穩','後退'],hp:3,ok:'你貼著牆讓開。推車撞上牆角翻倒，車上的東西散了一地。撞到推車的那個身影晃了晃，拖著腳往另一頭走開了。',ng:'推車撞在腿上，你整個人被掀倒在地。'},
   {id:'floor',env:'floor',audio:'woodimpact',okA:'whoosh',hs:'thud',t:'腳下的地板突然往下一陷。泡了水的木板底下早就爛了——',w:['跳開','抓住','撐起','爬開'],hp:3,frac:.2,ok:'你在地板塌下去之前跳開了。洞底黑漆漆的，聽得到水聲。',ng:'一條腿陷了進去，斷掉的木板刮過小腿。'},
   {id:'vent',env:'vent',audio:'woodimpact',okA:'whoosh',hs:'claw',t:'牆上那個大型通風口的鐵網「哐」地被撞開。有東西順著風管爬了過來，一隻灰白的手伸出來，往你的脖子抓——',w:['後仰','格擋','推開','後退'],hp:2,inf:5,ok:'你往後一仰，指甲擦過下巴。那隻手在空中抓了幾下，縮了回去。',ng:'那隻手抓住了你的衣領，指甲陷進脖子。你用力掙脫，留下幾道血痕。'},
-  {id:'window',env:'window',audio:'farshotsglass',okA:'whoosh',hs:'',t:'外面傳來幾聲槍響，旁邊的窗戶整片爆開——',w:['護臉','轉身','蹲下','後退'],hp:2,bleed:.6,ok:'你及時用手臂擋住臉。玻璃碎片打在袖子上，沙沙作響。',ng:'碎玻璃打在臉上和手上，到處都是細小的傷口。'}],
+  {id:'window',env:'window',audio:'glassbreak',okA:'whoosh',hs:'',t:'外面傳來幾聲槍響，旁邊的窗戶整片爆開——',w:['護臉','轉身','蹲下','後退'],hp:2,bleed:.6,ok:'你及時用手臂擋住臉。玻璃碎片打在袖子上，沙沙作響。',ng:'碎玻璃打在臉上和手上，到處都是細小的傷口。'}],
  2:[
   {id:'sign',env:'sign',audio:'thud',okA:'whoosh',hs:'thud',t:'頭頂傳來金屬斷裂的聲音。一塊招牌的固定架鏽斷了，招牌從三樓脫落，直直砸下來——',w:['閃避','撲倒','翻滾','起身'],hp:4,ok:'你往前一撲。招牌砸在背後，碎片彈到小腿上。',ng:'招牌的邊角擦過頭頂，你眼前一黑，跪倒在地上。'},
   {id:'truck',env:'truck',okA:'glassbreak',hs:'thud',t:'引擎的怒吼從轉角傳來。一台貨車失控衝上人行道，駕駛趴在方向盤上一動也不動——',w:['跳開','翻滾','爬開','起身'],hp:5,frac:.25,ok:'你往旁邊的公車候車亭一跳。貨車撞進路邊店面的玻璃門，警報器響個不停。',ng:'後照鏡掃過你的身體，你被撞飛出去，摔在柏油路上。',alarm:1},

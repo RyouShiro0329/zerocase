@@ -42,7 +42,7 @@ const DESC={
 const SPECIAL=['bowhit','bowmiss','arrowhit','arrowmiss','xbowhit','xbowmiss'];
 // 人工觀察：瀏覽器測試（tests/browser-audio.cjs、tests/qte-browser.cjs）量到的、交接文件記的。只列，不改。
 const MANUAL=[
- ['頭尾空白','開頭空白超過 0.3 秒：revolverCock 約 0.63 秒、firealarm 約 1.0 秒、woodknock 檔案開頭約 0.85 秒靜音（v0.71.2 起播放時從 0.85 秒處開始，不改檔案；瀏覽器實測曾記約 0.56 秒，v0.67.1）；結尾空白超過 0.5 秒：zipper、revolverCock、revolver、mp5、firealarm（瀏覽器實測，v0.67.1）。交接文件另記：無線電台詞每句開頭約 0.6 秒安靜、piercehit 尾端 0.47 秒'],
+ ['頭尾空白','開頭空白超過 0.3 秒：revolverCock 約 0.63 秒、firealarm 約 1.0 秒、woodknock 檔案開頭約 0.85 秒靜音（v0.71.2 起播放時從 0.85 秒處開始，不改檔案；瀏覽器實測曾記約 0.56 秒，v0.67.1）、glassbreak 檔案開頭約 0.27 秒靜音（v0.71.2 起播放時從 0.265 秒處開始，對齊碎裂起音；shotCue 組合槍聲仍走 cueAt，不套用）；結尾空白超過 0.5 秒：zipper、revolverCock、revolver、mp5、firealarm（瀏覽器實測，v0.67.1）。交接文件另記：無線電台詞每句開頭約 0.6 秒安靜、piercehit 尾端 0.47 秒'],
  ['發電機淡入','genstart 前 1 秒低於 −50 dBFS（淡入），按下去一秒後才聽得到'],
  ['同一下播兩次','戰鬥 QTE（撲倒、飛撲）躲開時，QTE 本身播一次閃開聲（whoosh），qteHit 又播一次，兩聲疊在一起（瀏覽器實測）'],
  ['待主人試聽','合成音「失敗、大失敗、落空」（ng、fumble、miss）與強光照射用 click：交接文件記「等主人試聽再調」'],

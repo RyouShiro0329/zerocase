@@ -43,7 +43,7 @@ test('doPlain 依規則播門／翻找，doCheck 在擲骰之後播、說服不�
   e=await play('doCheck','說服她跟你走');assert.deepEqual(e,[]);
 });
 
-test('woodknock 播放跳過約 0.85 秒開頭靜音；緩衝太短則不跳',()=>{
+test('woodknock／glassbreak 播放跳過開頭靜音；緩衝太短則不跳',()=>{
   const g=setup();
   g.run("BUF.woodknock={duration:2.3}");
   g.sources.length=0;g.run("sfx('woodknock',1)");
@@ -52,6 +52,9 @@ test('woodknock 播放跳過約 0.85 秒開頭靜音；緩衝太短則不跳',()
   g.run("BUF.woodknock={duration:.2}");
   g.sources.length=0;g.run("sfx('woodknock',1)");
   assert.equal(g.sources.at(-1).offset,0);
+  g.run("BUF.glassbreak={duration:2.3}");
+  g.sources.length=0;g.run("sfx('glassbreak',1)");
+  assert.equal(g.sources.at(-1).offset,.265);
 });
 
 test('同層換節點播一次 step；換層只走既有 stairs／step，不重疊',async()=>{
@@ -79,7 +82,7 @@ test('隨機意外：發生／躲開用既有檔；貨車發生保持安靜、�
     ['cart','thud','whoosh'],
     ['floor','woodimpact','whoosh'],
     ['vent','woodimpact','whoosh'],
-    ['window','farshotsglass','whoosh'],
+    ['window','glassbreak','whoosh'],
     ['sign','thud','whoosh'],
     ['truck',null,'glassbreak'],
     ['ac','woodimpact','whoosh'],
@@ -88,15 +91,22 @@ test('隨機意外：發生／躲開用既有檔；貨車發生保持安靜、�
   ]);
 });
 
-test('隊友倒下播 thud 不播 death；單人死亡仍交給 gameOver',async()=>{
+test('隊友倒下播 death（與 gameOver 同音量）；全隊倒下只由 gameOver 播一次；單人死亡仍交給 gameOver',async()=>{
   const g=setup();
   g.run("G.mode='mp';G.players=[{pid:'p1',name:'甲',hp:0,max:100,down:0,dead:0,inf:0,fe:0},{pid:'p2',name:'乙',hp:20,max:100,down:0,dead:0,inf:0,fe:0}];G.over=null;loseSan=()=>{};gameOver=async()=>{throw new Error('不該結束')}");
   g.events.length=0;
   await g.run('deathCheck()');
   assert.equal(g.run('G.players[0].down'),1);
   assert.equal(g.run('G.players[0].dead')||0,0);
-  assert.deepEqual(keys(g),['thud']);
-  assert.equal(ev(g)[0][1],.8);
+  assert.deepEqual(keys(g),['death']);
+  assert.equal(ev(g)[0][1],1);
+  assert.equal(ev(g)[0][2],3000);
+  const tpk=setup();
+  tpk.run("G.mode='mp';G.players=[{pid:'p1',name:'甲',hp:0,max:100,down:0,dead:0,inf:0,fe:0},{pid:'p2',name:'乙',hp:0,max:100,down:0,dead:0,inf:0,fe:0}];G.over=null;loseSan=()=>{};globalThis.GO=0;gameOver=async()=>{GO++;snd('death',1,3000)}");
+  tpk.events.length=0;
+  await tpk.run('deathCheck()');
+  assert.equal(tpk.run('GO'),1);
+  assert.deepEqual(keys(tpk),['death'],'全隊倒下只播一次 death（由 gameOver）');
   const s=setup();
   s.run("G.mode='solo';G.players[0].hp=0;G.players[0].down=0;G.players[0].dead=0;globalThis.GO=0;gameOver=async()=>{GO++}");
   s.events.length=0;
@@ -107,17 +117,16 @@ test('隊友倒下播 thud 不播 death；單人死亡仍交給 gameOver',async(
   assert.equal(s.run('GO'),1);
 });
 
-test('回合結束：流血播較輕的 knife、腐殖物播 squish、燃燒保持安靜',async()=>{
+test('回合結束：流血保持安靜、腐殖物播 squish、燃燒保持安靜',async()=>{
   const g=setup();
   g.run("G.fight={foes:[],round:1};G.players[0].bleed=1;G.players[0].bleedN=3;G.players[0].humus=1;G.players[0].humusV=2;G.players[0].burn=1;G.players[0].hp=20;addInf=()=>{};deathCheck=async()=>false;push=()=>{};draw=()=>{}");
   g.events.length=0;
   await g.run('roundEnd()');
   const k=keys(g);
-  assert.ok(k.includes('knife'));
+  assert.ok(!k.includes('knife'));
   assert.ok(k.includes('squish'));
   assert.ok(!k.includes('mimpact'));
   assert.ok(!k.includes('firealarm'));
-  assert.equal(ev(g).find(d=>d[0]==='knife')[1],.4);
   assert.equal(ev(g).find(d=>d[0]==='squish')[1],.55);
 });
 

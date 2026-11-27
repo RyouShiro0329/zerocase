@@ -11,7 +11,7 @@
 - **沒有備援的音效檔**（檔案載入失敗時這一下沒有聲音）：短音效 7 個：glassbreak、firealarm、genstart、woodknock、woodimpact、glassstep、pumpstop；循環、無線電、雷聲 11 個（設計上沒有備援，持續聲會暫停）：rain_indoor_loop、rain_outdoor_loop、thunder_distant_01、thunder_distant_02、genloop、waterpipe、pumpmix、radiostatic、radio02、radio23、radio24
 - **播得出來、但遊戲沒有用到的名稱**：farshots2
 - **素材資料夾裡有、沒有被引用的音檔**（32 個）：airraid_event.mp3、bgm_battle.mp3、bgm_battle.ogg、bgm_encounter.mp3、bgm_encounter.ogg、goliath.mp3、goliath_loop.mp3、radio01.mp3、radio03.mp3、radio04.mp3、radio05.mp3、radio06.mp3、radio07.mp3、radio08.mp3、radio09.mp3、radio10.mp3、radio11.mp3、radio12.mp3、radio13.mp3、radio14.mp3、radio15.mp3、radio16.mp3、radio17.mp3、radio18.mp3、radio19.mp3、radio20.mp3、radio21.mp3、radio22.mp3、radio25.mp3、radio26.mp3、radio27.mp3、waterpump.mp3
-- **頭尾空白**：開頭空白超過 0.3 秒：revolverCock 約 0.63 秒、firealarm 約 1.0 秒、woodknock 檔案開頭約 0.85 秒靜音（v0.71.2 起播放時從 0.85 秒處開始，不改檔案；瀏覽器實測曾記約 0.56 秒，v0.67.1）；結尾空白超過 0.5 秒：zipper、revolverCock、revolver、mp5、firealarm（瀏覽器實測，v0.67.1）。交接文件另記：無線電台詞每句開頭約 0.6 秒安靜、piercehit 尾端 0.47 秒
+- **頭尾空白**：開頭空白超過 0.3 秒：revolverCock 約 0.63 秒、firealarm 約 1.0 秒、woodknock 檔案開頭約 0.85 秒靜音（v0.71.2 起播放時從 0.85 秒處開始，不改檔案；瀏覽器實測曾記約 0.56 秒，v0.67.1）、glassbreak 檔案開頭約 0.27 秒靜音（v0.71.2 起播放時從 0.265 秒處開始，對齊碎裂起音；shotCue 組合槍聲仍走 cueAt，不套用）；結尾空白超過 0.5 秒：zipper、revolverCock、revolver、mp5、firealarm（瀏覽器實測，v0.67.1）。交接文件另記：無線電台詞每句開頭約 0.6 秒安靜、piercehit 尾端 0.47 秒
 - **發電機淡入**：genstart 前 1 秒低於 −50 dBFS（淡入），按下去一秒後才聽得到
 - **同一下播兩次**：戰鬥 QTE（撲倒、飛撲）躲開時，QTE 本身播一次閃開聲（whoosh），qteHit 又播一次，兩聲疊在一起（瀏覽器實測）
 - **待主人試聽**：合成音「失敗、大失敗、落空」（ng、fumble、miss）與強光照射用 click：交接文件記「等主人試聽再調」
@@ -25,7 +25,7 @@
 | cart | 走廊另一端傳來撞擊聲。一名感染者撞上停在牆邊的推… | thud | whoosh | thud |
 | floor | 腳下的地板突然往下一陷。泡了水的木板底下早就爛了… | woodimpact | whoosh | thud |
 | vent | 牆上那個大型通風口的鐵網「哐」地被撞開。有東西順… | woodimpact | whoosh | claw |
-| window | 外面傳來幾聲槍響，旁邊的窗戶整片爆開——… | farshotsglass | whoosh | （事件音效就是這一下） |
+| window | 外面傳來幾聲槍響，旁邊的窗戶整片爆開——… | glassbreak | whoosh | （事件音效就是這一下） |
 | sign | 頭頂傳來金屬斷裂的聲音。一塊招牌的固定架鏽斷了，… | thud | whoosh | thud |
 | truck | 引擎的怒吼從轉角傳來。一台貨車失控衝上人行道，駕… | — | glassbreak | thud |
 | ac | 樓上一台窗型冷氣連著鏽掉的支架，從窗框裡滑了出來… | woodimpact | whoosh | thud |
@@ -88,11 +88,11 @@
 | smash | 音效檔 | combat | 重擊砸中 | fumble | MOVES.devourer[0].hs；MOVES.devourer[1].hs |
 | splat | 音效檔 | combat | 黏稠的東西砸開 | hurt | MOVES.incubator[0].hs；MOVES.incubator[1].hs |
 | spit | 音效檔 | combat | 噴吐 | whoosh | MOVES.incubator[0].pre；MOVES.incubator[1].pre |
-| thud | 音效檔 | combat | 撞擊、摔倒、被砸（鈍擊） | land | snd(…) 呼叫；MOVES.infected[3].hs；MOVES.predator[2].hs；N.C1.c[0].ng.hs；…共 50 處 |
+| thud | 音效檔 | combat | 撞擊、摔倒、被砸（鈍擊） | land | MOVES.infected[3].hs；MOVES.predator[2].hs；N.C1.c[0].ng.hs；N.C2.c[1].ng.hs；…共 49 處 |
 | squish | 音效檔 | combat | 軟爛的東西被擠壓 | hurt | snd(…) 呼叫；MOVES.incubator[0].ws；MOVES.incubator[1].ws；MOVES.incubator[2].hs |
 | bhit | 音效檔 | combat | 子彈打中 | dry | snd(…) 呼叫 |
 | shotgun | 音效檔 | combat | 霰彈槍槍聲 | fumble | snd(…) 呼叫；WEAP.r870.snd；WEAP.sbshot.snd；GUN_VFX_CFG.r870.snd；…共 5 處 |
-| glassbreak | 音效檔 | environment | 玻璃碎掉 | — | N.A4.c[3].tb[0].audio；N.A4.c[3].tb[1].audio；N.A4.c[3].tb[2].audio；N.A3x.c[1].tb[1].audio；…共 9 處 |
+| glassbreak | 音效檔 | environment | 玻璃碎掉 | — | N.A4.c[3].tb[0].audio；N.A4.c[3].tb[1].audio；N.A4.c[3].tb[2].audio；N.A3x.c[1].tb[1].audio；…共 10 處 |
 | firealarm | 音效檔 | environment | 火災警鈴 | — | snd(…) 呼叫；N.AD3.c[0].tb[0].audioStop；N.AD3.c[0].tb[1].audioStop；EVPOOL[11].c[0].ok.audioStop |
 | genstart | 音效檔 | environment | 發電機發動 | — | snd(…) 呼叫；N.G2.c[0].ok.audio；N.PP3.c[0].ok.audio；N.PP3.c[1].ok.audio；…共 5 處 |
 | genloop | 音效檔 | environment | 發電機運轉（循環） | — | 程式裡直接寫到（環境音、回傳名稱的函式等） |
@@ -131,7 +131,7 @@
 | farshot1 | 組合槍聲 | — | 組合：遠處一槍 | — | N.V3.audio；EVPOOL[27].audio |
 | farshots | 組合槍聲 | — | 組合：遠處 2～4 槍 | — | N.A1.c[0].ok.audio；N.B1w.c[2].ok.hz.ng.audio；N.A1r.audio；N.BD1.c[1].ng.hz.audio；…共 6 處 |
 | farshots2 | 組合槍聲 | — | 組合：遠處兩槍 | — | （沒有用到） |
-| farshotsglass | 組合槍聲 | — | 組合：遠處 2～4 槍＋近處玻璃碎 | — | N.B1w.c[0].ng.hz.audio；N.B2w.c[0].ok.audio；N.B2w.c[0].ng.hz.audio；N.B2w.c[2].ng.hz.audio；…共 5 處 |
+| farshotsglass | 組合槍聲 | — | 組合：遠處 2～4 槍＋近處玻璃碎 | — | N.B1w.c[0].ng.hz.audio；N.B2w.c[0].ok.audio；N.B2w.c[0].ng.hz.audio；N.B2w.c[2].ng.hz.audio |
 | farshots2glass | 組合槍聲 | — | 組合：遠處兩槍＋近處玻璃碎 | — | N.B2w.c[1].ok.audio |
 | farshots2glassfar | 組合槍聲 | — | 組合：遠處兩槍＋遠處玻璃碎 | — | N.A6b.c[0].ok.audio |
 | streetshots3glassfar | 組合槍聲 | — | 組合：街上三槍＋遠處玻璃碎 | — | N.A1.audio |
