@@ -733,7 +733,7 @@ kbd.kn2{display:inline-block;min-width:1.25em;margin-right:7px;padding:0 4px;bor
 <div id="gate"><div class="in"><div class="mark">ZC</div><span class="k">ZeroCase · Chapter One</span><h1>零號病例</h1><p class="note">2038 年。你在一間陌生的旅館房間裡醒來，床頭的手機顯示 20:00。</p><button class="btn go" id="gateGo"><b>進入遊戲</b></button><p class="note">會切換成橫向全螢幕並開啟音效。<br>若裝置不支援全螢幕，畫面仍會自動轉成橫向。</p><button class="ghost" id="gateNo">不要全螢幕，直接進入</button><div id="gacct" hidden></div></div></div>
 </div>
 <script>
-const ZC_VER={"v": "0.71.1", "b": 148, "t": "2026-11-27T18:19:49+08:00"};
+const ZC_VER={"v": "0.71.2", "b": 149, "t": "2026-11-28T01:24:14+08:00"};
 const ITEMS={
  // 醫療
  bandage:{n:'繃帶',t:'med',d:'止住流血，感染 −3，生命 +3。',stop:1,inf:3,hp:3,snd:'heal'},
@@ -6506,6 +6506,7 @@ const SFX_TYPES={
 const SFX_CATEGORY_GAIN={ui:.56,movement:.65,foley:.78,combat:.92,system:.8,environment:.6};
 // 解碼峰值接近滿刻度的素材另外衰減；實際聽感仍待手機／耳機驗收。
 const SFX_TRIM={crossbowshot:.85,piercehit:.8,bowdraw:.85,bowimpact:.8,rain_indoor_loop:.8,rain_outdoor_loop:.8,thunder_distant_01:.45,thunder_distant_02:.45,beretta:.72,revolver:.72,m500:.80,fal:.65,mp5:.65,rifle:.7,shotgun:.65,headshot:.4,dryfire:.55,glassbreak:.65,woodknock:.55,woodimpact:.45,firealarm:.28,genstart:.5,genloop:.3,glassstep:.7,waterpipe:.35,pumpmix:.45,pumpstop:.45,radiostatic:.5,radio02:1,radio23:1,radio24:1};
+const SFX_OFFSET={woodknock:.85};/* v0.71.2 播放時跳過檔案開頭靜音（秒），不改檔案；緩衝夠長才套用 */
 const SFX_CATEGORY=Object.fromEntries(Object.entries(SFX_TYPES).flatMap(([cat,names])=>names.map(n=>[n,cat])));
 function sfxLevel(k,v){const raw=Number(v??1);return Math.max(0,Math.min(1.5,Number.isFinite(raw)?raw:1))*(SFX_CATEGORY_GAIN[SFX_CATEGORY[k]]??.85)*(SFX_TRIM[k]??1)}
 // Web Audio 合成聲原本忽略音量參數；僅在同步排程 SYN 期間設定縮放倍率。
@@ -6617,7 +6618,7 @@ function restoreExploreBgm(){syncBgmState()}
 function startBgm(){BGM_MIX.allowed=true;ZC_ASSET_LOADER.recoverMedia();syncBgmState()}
 function stopBgm(){BGM_MIX.allowed=false;syncBgmState()}
 // 播放並回傳「播完」的 Promise（max 為最長等待）
-function play(n,vol=1,max=4000,delay=0){if(document.hidden||!UI.snd)return null;const a=audio();if(!a||a.state!=='running'||!BUF[n]){ZC_ASSET_LOADER.boost(n);return null}ZC_ASSET_LOADER.event('played',n);const s=a.createBufferSource();s.buffer=BUF[n];const g=a.createGain();g.gain.value=vol;s.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(s,g);const ms=Math.min(max,BUF[n].duration*1000);s.start(a.currentTime+delay);s.stop(a.currentTime+delay+ms/1000);return ms}
+function play(n,vol=1,max=4000,delay=0,off){if(document.hidden||!UI.snd)return null;const a=audio();if(!a||a.state!=='running'||!BUF[n]){ZC_ASSET_LOADER.boost(n);return null}ZC_ASSET_LOADER.event('played',n);const s=a.createBufferSource();s.buffer=BUF[n];const g=a.createGain();g.gain.value=vol;s.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(s,g);let skip=Math.max(0,off!=null?off:(SFX_OFFSET[n]||0));if(skip&&skip>=BUF[n].duration-.05)skip=0;const ms=Math.min(max,Math.max(0,BUF[n].duration-skip)*1000);s.start(a.currentTime+delay,skip);s.stop(a.currentTime+delay+ms/1000);return ms}
 function noise(t,dur,f,q,vol,type){const a=audio();if(!a)return;const s=a.createBufferSource();s.buffer=NB;const fl=a.createBiquadFilter();fl.type=type||'bandpass';fl.frequency.value=f;fl.Q.value=q||1;const g=a.createGain();g.gain.setValueAtTime(Math.max(.0005,vol*SFX_SYN_SCALE),a.currentTime+t);g.gain.exponentialRampToValueAtTime(.0005,a.currentTime+t+dur);s.connect(fl);fl.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(s,g);s.start(a.currentTime+t,Math.random()*.5);s.stop(a.currentTime+t+dur+.02)}
 function tone(t,f,dur,vol,type,f2){const a=audio();if(!a)return;const o=a.createOscillator();o.type=type||'sine';o.frequency.setValueAtTime(f,a.currentTime+t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,a.currentTime+t+dur);const g=a.createGain();g.gain.setValueAtTime(.0001,a.currentTime+t);g.gain.linearRampToValueAtTime(Math.max(.0005,vol*SFX_SYN_SCALE),a.currentTime+t+.008);g.gain.exponentialRampToValueAtTime(.0005,a.currentTime+t+dur);o.connect(g);g.connect(SFX_MASTER||a.destination);trackSfx(o,g);o.start(a.currentTime+t);o.stop(a.currentTime+t+dur+.03)}
 const SYN={
@@ -6908,7 +6909,7 @@ async function deathCheck(){
       if(MP()&&G.players.length>1){p.mad=1;p.held=0;out(`${nm(p)}的腦袋裡有什麼東西斷掉了。他開始笑，笑到停不下來，眼神再也對不上焦。<b>${nm(p)}發瘋了</b>：沒辦法控制自己，戰鬥中會亂打身邊的人——敵人或隊友都有可能。用鎮定劑、安撫，或把他打倒再救起來，才能讓他恢復。`,'dmg');for(const q of able())if(q!==p)loseSan(q,1);continue}
       p.dead=1;p.mad=1;p.down=0;p.hp=0;out('你的腦袋裡有什麼東西斷掉了。你開始笑，笑到停不下來，再也分不清眼前的是什麼。你發瘋了。','dmg');continue}
     if(p.hp<=0&&!p.down){
-      if(MP()&&G.players.length>1){p.down=1;p.evacCarry=0;p.hp=0;out(`${nm(p)}倒下了。還有呼吸，但已經站不起來。用 AED 或腎上腺素可以把人救回來；撐到下一個區域，也會慢慢醒過來。`,'dmg');for(const q of able())if(q!==p)loseSan(q,1)}
+      if(MP()&&G.players.length>1){p.down=1;p.evacCarry=0;p.hp=0;snd('thud',.8);out(`${nm(p)}倒下了。還有呼吸，但已經站不起來。用 AED 或腎上腺素可以把人救回來；撐到下一個區域，也會慢慢醒過來。`,'dmg');for(const q of able())if(q!==p)loseSan(q,1)}
       else{p.dead=1;p.hp=0}
     }
   }
@@ -7240,6 +7241,8 @@ async function enterNode(id){
     if(!first&&fresh){teamXP(1);afterScene.push(()=>{const ps=able().filter(p=>!p.mad&&(p.fe||0)>0);if(!ps.length)return;out(MP()?'換了個地方，大家稍微喘了口氣。':'換了個地方，稍微喘了口氣。','good',true);for(const p of ps)relax(p,10,true)})}
     if(typeof lateJoin==='function')lateJoin();
     for(const p of G.players)if(p.down&&!p.dead&&!p.leftBehind&&!p.evacCarry&&DF().wake){p.down=0;if(p.mad){p.mad=0;setFear(p,90)}p.hp=Math.max(1,Math.ceil(p.max*.25));out(`${nm(p)}咳了幾聲，慢慢撐著牆站了起來。生命回到 ${p.hp}。`,'good')}
+  }else if(from&&from!==id){
+    snd('step',.55);/* v0.71.2 同層換節點播腳步（換層仍走上面的 stairs／step；略過的中間格不另外播） */
   }
   if(from&&from!==id){for(const p of able()){woundUse(p,['leg']);await woundDeteriorate(p)}}
   G.node=id;G.gwOk=null;G.ev=null;G.audioVisit=(G.audioVisit||0)+1;G.audioEnteredAt=Date.now();G.votes={};G.rv={};G.pc=null;/* v0.21.0：地上的東西留在原地，回來還撿得到 */G.grounds=G.grounds||{};if(G.gnode&&G.gnode!==id)G.grounds[G.gnode]=G.ground.length?G.ground:undefined;if(G.gnode!==id)G.ground=G.grounds[id]||[];G.gnode=id;G.flags['v_'+id]=1;xpSync(id);if(nd.onEnter)await nd.onEnter();
@@ -7361,10 +7364,24 @@ function sleepFx(nap){const full=(nap?4:8)*60,m=SLPM==null?full:SLPM,k=Math.min(
     if(!nap){if(q.mad){q.mad=0;setFear(q,Math.min(q.fe||100,85));out(`${nm(q)}睡了一覺，醒來時眼神終於對得上焦了。`,'good',true)}if(q.down){q.down=0;q.hp=Math.max(q.hp,1)}}
     const hp=Math.min(q.max-q.hp,Math.ceil(q.max*(nap?.2:.5)*k));if(hp>0){q.hp+=hp;out(`${MP()?nm(q)+'：':''}生命 +${hp}。`,'good',true)}relax(q,Math.round((nap?15:35)*k));
     const f=q.fat||0;q.fat=Math.max(q.thi<=1?Math.min(2,f):0,f-h);q.tF=0}}
+/* v0.71.2 劇情選項動作音：依選項文字配既有音效。規則從嚴，避免門口／門票／門禁等誤中。
+   優先序：敲 → 撬 → 關門 → 開門 → 攀爬 → 翻找（drawer）。doPlain 無匹配時退回 rummage；doCheck 無匹配不另外播（避免蓋過或搶在骰子前面）。 */
+function optionFoley(l,fallback){
+  l=String(l||'');
+  if(/敲/.test(l)&&!/有人在敲|在敲窗/.test(l)&&/敲([^，。：]{0,8})?(門|窗|牆|鐵捲門)/.test(l))return 'woodknock';
+  if(/撬開|撬起|把.{0,8}撬|用.{0,8}撬/.test(l)&&!/^翻|^搜|翻被撬|從撬開的/.test(l))return 'woodknock';
+  if(!/^叫/.test(l)&&/關([^門櫃箱冰]{0,6}門)|把([^，。]{0,8})門([^，。]{0,4})?(關|鎖|帶上|頂|拉上)|帶上門|鎖上門|頂住門|抵住門|把門頂回|把房門鎖上|扣上門閂/.test(l))return 'doorclose';
+  if(!/(^|，)(不|別|不要)開門/.test(l)&&!/^叫/.test(l)&&!/門禁|門票|門診|門鈴/.test(l)&&!/櫃/.test(l)&&/開門|推門|推開[^，。]{0,8}門|拉門|拉開[^，。]{0,6}(門|鐵捲門)|把[^，。]{0,8}門打開|打開[^，。]{0,8}門|踹門|破門|撞開[^，。]{0,6}門|扳開[^，。]{0,8}門|撐開[^，。]{0,10}門|把鐵捲門拉高|推推看[^，。]{0,6}門|鑰匙開[^，。]{0,4}門|開(邊門|側門)/.test(l))return 'dooropen';
+  if(/(^|，)(進(廚房)?後門|從[^，。]{0,12}(後門|側門|大門|鐵門|維修門|連通門|員工專用門|鐵捲門)|鑽進鐵捲門|從鐵捲門)/.test(l)||/推開(維修門|大門)/.test(l)||/進\s*\d{3}：門/.test(l)||/^(員工專用門|雙開門|後門[，,])/.test(l)||/從撬開的.{0,6}門進去/.test(l)||(/門禁卡(打開|進)/.test(l)&&!/櫃/.test(l))||/刷門禁卡進/.test(l))return 'dooropen';
+  if(/攀|爬/.test(l)&&!/爬起來/.test(l))return 'step';
+  if(/翻|櫃|抽屜|箱|袋|架|找|搜/.test(l))return 'drawer';
+  return fallback==null?null:fallback;
+}
+function optionFoleyVol(k){return k==='step'?.55:.6}
 async function doPlain(i,actor){
   const c=choices()[i];
   if(MP()&&reqList(c).length)out(`由${nm(actor)}來。`,'sys',true);
-  snd(/翻|櫃|抽屜|箱|袋|架|找|搜/.test(c.l)?'drawer':'rummage',.6,1800);
+  const foley=optionFoley(c.l,'rummage');if(foley)snd(foley,optionFoleyVol(foley),1800);
   if(await spendTime(c))return;
   const res=c.tb?pickRes(c,null,i):c.ok;
   await applyRes(c,res,actor,!!(c.tb&&res.g==='bad'));
@@ -7377,6 +7394,7 @@ async function doCheck(i,roller){
   if(MP())out(`由${nm(roller)}來。${notes.length?notes.join('，')+'。':''}`,'sys',true);else if(notes.length)out(notes.join('，')+'。','sys',true);
   if(await spendTime(c))return;
   const r=await check(roller,c.k,c.d,c.l,extra);
+  const foley=optionFoley(c.l);if(foley)snd(foley,optionFoleyVol(foley),1800);
   let res=r.ok?c.ok:c.ng,bad=!r.ok;
   // v0.59.0 結果表：大成功只出最好的、大失敗只出最壞的，成功從好＋普通、失敗從普通＋壞裡照權重抽
   if(c.tb){res=pickRes(c,r.crit?'crit':r.fumble?'fumble':r.ok?'ok':'fail',i);bad=res.g==='bad'}
@@ -8166,9 +8184,9 @@ function giveBleed(x,v){x.bleed=Math.max(x.bleed||0,v);x.bleedN=3}
 function giveBurn(x){x.burn=3}
 async function roundEnd(){const F=G.fight;if(!F)return;
   for(const p of able()){
-    if(p.burn>0){p.hp-=2;p.taken=(p.taken||0)+2;p.burn--;out(`${MP()?nm(p)+'身上的':'身上的'}火還沒滅。生命 −2${p.burn?'':'。火總算熄了'}。`,'dmg')}
-    if(p.bleed>0){const v=p.bleed;p.hp-=v;if(p.bleedN==null)p.bleedN=3;p.bleedN--;out(`${MP()?nm(p)+'的':'你的'}傷口還在流血。生命 −${v}${p.bleedN<=0?'。血總算慢慢止住了':''}。`,'dmg');if(p.bleedN<=0){p.bleed=0;p.bleedN=null}}
-    if(p.humus>0){const v=p.humusV||2;addInf(p,v);p.humus--;out(`${MP()?nm(p)+'身上的':''}腐殖物還在往皮膚裡滲。感染 +${v}${p.humus?'':'。總算乾掉了'}。`,'dmg',true)}}
+    if(p.burn>0){p.hp-=2;p.taken=(p.taken||0)+2;p.burn--;out(`${MP()?nm(p)+'身上的':'身上的'}火還沒滅。生命 −2${p.burn?'':'。火總算熄了'}。`,'dmg')}/* 燃燒跳傷害：現有檔沒有合適的持續燃燒聲（mimpact 是爆炸），先保持安靜 */
+    if(p.bleed>0){const v=p.bleed;p.hp-=v;if(p.bleedN==null)p.bleedN=3;p.bleedN--;snd('knife',.4);out(`${MP()?nm(p)+'的':'你的'}傷口還在流血。生命 −${v}${p.bleedN<=0?'。血總算慢慢止住了':''}。`,'dmg');if(p.bleedN<=0){p.bleed=0;p.bleedN=null}}
+    if(p.humus>0){const v=p.humusV||2;addInf(p,v);p.humus--;snd('squish',.55);out(`${MP()?nm(p)+'身上的':''}腐殖物還在往皮膚裡滲。感染 +${v}${p.humus?'':'。總算乾掉了'}。`,'dmg',true)}}
   for(const f of liveF()){
     if(f.burn>0){const d=applyDmg(f,2,['fire'],null,true);f.burn--;out(`${f.n}身上的火還在燒。−${d}。`,'good',true)}
     if(f.bleed>0&&f.hp>0){const b=f.bleed+(affIs(f,'numb')?1:0);f.hp-=b;foeDmgMark(f,b);if(f.bleedN==null)f.bleedN=3;f.bleedN--;out(`${f.n}的傷口還在流血。−${b}。`,'good',true);if(f.bleedN<=0){f.bleed=0;f.bleedN=null}}
@@ -8266,7 +8284,7 @@ function hurt(t,d,txt){t.shdHit=null;
 async function qteHit(f,mv,t){
   if(mv.cue)out(`<b>${f.n}</b>${mv.cue}`,'bad',true);
   const ok=await qte(t,{t:`${f.n}：${mv.n}——${MP()?esc(t.name):'你'}`,w:mv.qw,now:1});
-  if(ok){snd('whoosh');out(`${MP()?nm(t):'你'}${mv.flame?'及時撲倒，火舌從頭頂掃了過去。':mv.cover?'撲進掩體後面，子彈打在水泥上。':'及時反應，躲開了這一下。'}`,'good');return false}
+  if(ok){out(`${MP()?nm(t):'你'}${mv.flame?'及時撲倒，火舌從頭頂掃了過去。':mv.cover?'撲進掩體後面，子彈打在水泥上。':'及時反應，躲開了這一下。'}`,'good');return false}
   if(mv.cover)return true; // 硬掩體沒躲到：照一般狙擊擲 d20
   return await bigHit(f,mv,t,0)}
 // 特殊攻擊完整命中（part＝部分命中：生命傷害、感染增量各減半，向上取整；不新增燃燒）
@@ -9136,6 +9154,7 @@ async function qte(p,o){
   if(!MP()||p.pid===MYPID)r=await qteLocal(spec);
   else{E('q',spec);r=await new Promise(res=>{QTE_WAIT[id]=res;setTimeout(()=>{if(QTE_WAIT[id]){delete QTE_WAIT[id];res('late')}},spec.per*n+12000)})}
   if(r==='late')out(`${nm(p)}沒有反應。（連線逾時）`,'sys',true);
+  if(r==='ok')snd('whoosh',.9);/* v0.71.2 閃避成功只在這裡播一次（同步給隊友） */
   return r==='ok';
 }
 function qteAns(pid,a){const f=QTE_WAIT[a.id];if(!f)return;delete QTE_WAIT[a.id];f(String(a.r==null?'':a.r).slice(0,12))}
@@ -9148,7 +9167,7 @@ function qteLocal(s){
     st.appendChild(el);
     const bar=el.querySelector('.qbar u');let live=false,fin=false,tm=null,cur=0;let boxes=[];
     const end=r=>{if(fin)return;fin=true;clearTimeout(tm);document.removeEventListener('keydown',kd,true);
-      el.classList.add(r==='ok'?'okk':'bad');if(r==='ok')sfx('whoosh',.9);/* v0.13.3 失敗不另外播聲音，只留之後的受傷聲（主人選） */
+      el.classList.add(r==='ok'?'okk':'bad');/* v0.71.2 成功破風聲改由 qte() 用 snd 播一次，避免與 qteHit 重複；失敗仍不另外播（v0.13.3 主人選） */
       setTimeout(()=>{el.remove();done(r)},r==='ok'?420:620)};
     const total=s.per*s.seq.length;let started=false;
     const timer=()=>{if(started)return;started=true;bar.style.transition='none';bar.style.width='100%';void bar.offsetWidth;bar.style.transition=`width ${total}ms linear`;bar.style.width='0%';tm=setTimeout(()=>end('ng'),total)};
@@ -9175,17 +9194,17 @@ function qteLocal(s){
 /* ---- 隨機意外：到了一個地方之後，偶爾會有東西突然砸下來 ---- */
 const HAZ={
  1:[
-  {id:'tube',env:'tube',audio:'glassbreak',hs:'thud',t:'頭頂傳來「啪」的一聲。早就鬆脫的吊架撐不住了，天花板的燈管連著支架，整排垂了下來——',w:['閃避','翻滾','起身','後退'],hp:3,bleed:.4,ok:'你往旁邊一撲。燈管砸在剛剛站的地方，碎玻璃濺了一地。',ng:'燈管砸在肩膀上，碎玻璃劃開了皮膚。'},
-  {id:'cart',env:'cart',hs:'thud',t:'走廊另一端傳來撞擊聲。一名感染者撞上停在牆邊的推車，推車失去平衡，朝你的方向滑了過來——',w:['閃避','貼牆','站穩','後退'],hp:3,ok:'你貼著牆讓開。推車撞上牆角翻倒，車上的東西散了一地。撞到推車的那個身影晃了晃，拖著腳往另一頭走開了。',ng:'推車撞在腿上，你整個人被掀倒在地。'},
-  {id:'floor',env:'floor',audio:'woodimpact',hs:'thud',t:'腳下的地板突然往下一陷。泡了水的木板底下早就爛了——',w:['跳開','抓住','撐起','爬開'],hp:3,frac:.2,ok:'你在地板塌下去之前跳開了。洞底黑漆漆的，聽得到水聲。',ng:'一條腿陷了進去，斷掉的木板刮過小腿。'},
-  {id:'vent',env:'vent',hs:'claw',t:'牆上那個大型通風口的鐵網「哐」地被撞開。有東西順著風管爬了過來，一隻灰白的手伸出來，往你的脖子抓——',w:['後仰','格擋','推開','後退'],hp:2,inf:5,ok:'你往後一仰，指甲擦過下巴。那隻手在空中抓了幾下，縮了回去。',ng:'那隻手抓住了你的衣領，指甲陷進脖子。你用力掙脫，留下幾道血痕。'},
-  {id:'window',env:'window',audio:'farshotsglass',hs:'',t:'外面傳來幾聲槍響，旁邊的窗戶整片爆開——',w:['護臉','轉身','蹲下','後退'],hp:2,bleed:.6,ok:'你及時用手臂擋住臉。玻璃碎片打在袖子上，沙沙作響。',ng:'碎玻璃打在臉上和手上，到處都是細小的傷口。'}],
+  {id:'tube',env:'tube',audio:'glassbreak',okA:'whoosh',hs:'thud',t:'頭頂傳來「啪」的一聲。早就鬆脫的吊架撐不住了，天花板的燈管連著支架，整排垂了下來——',w:['閃避','翻滾','起身','後退'],hp:3,bleed:.4,ok:'你往旁邊一撲。燈管砸在剛剛站的地方，碎玻璃濺了一地。',ng:'燈管砸在肩膀上，碎玻璃劃開了皮膚。'},
+  {id:'cart',env:'cart',audio:'thud',okA:'whoosh',hs:'thud',t:'走廊另一端傳來撞擊聲。一名感染者撞上停在牆邊的推車，推車失去平衡，朝你的方向滑了過來——',w:['閃避','貼牆','站穩','後退'],hp:3,ok:'你貼著牆讓開。推車撞上牆角翻倒，車上的東西散了一地。撞到推車的那個身影晃了晃，拖著腳往另一頭走開了。',ng:'推車撞在腿上，你整個人被掀倒在地。'},
+  {id:'floor',env:'floor',audio:'woodimpact',okA:'whoosh',hs:'thud',t:'腳下的地板突然往下一陷。泡了水的木板底下早就爛了——',w:['跳開','抓住','撐起','爬開'],hp:3,frac:.2,ok:'你在地板塌下去之前跳開了。洞底黑漆漆的，聽得到水聲。',ng:'一條腿陷了進去，斷掉的木板刮過小腿。'},
+  {id:'vent',env:'vent',audio:'woodimpact',okA:'whoosh',hs:'claw',t:'牆上那個大型通風口的鐵網「哐」地被撞開。有東西順著風管爬了過來，一隻灰白的手伸出來，往你的脖子抓——',w:['後仰','格擋','推開','後退'],hp:2,inf:5,ok:'你往後一仰，指甲擦過下巴。那隻手在空中抓了幾下，縮了回去。',ng:'那隻手抓住了你的衣領，指甲陷進脖子。你用力掙脫，留下幾道血痕。'},
+  {id:'window',env:'window',audio:'farshotsglass',okA:'whoosh',hs:'',t:'外面傳來幾聲槍響，旁邊的窗戶整片爆開——',w:['護臉','轉身','蹲下','後退'],hp:2,bleed:.6,ok:'你及時用手臂擋住臉。玻璃碎片打在袖子上，沙沙作響。',ng:'碎玻璃打在臉上和手上，到處都是細小的傷口。'}],
  2:[
-  {id:'sign',env:'sign',hs:'thud',t:'頭頂傳來金屬斷裂的聲音。一塊招牌的固定架鏽斷了，招牌從三樓脫落，直直砸下來——',w:['閃避','撲倒','翻滾','起身'],hp:4,ok:'你往前一撲。招牌砸在背後，碎片彈到小腿上。',ng:'招牌的邊角擦過頭頂，你眼前一黑，跪倒在地上。'},
+  {id:'sign',env:'sign',audio:'thud',okA:'whoosh',hs:'thud',t:'頭頂傳來金屬斷裂的聲音。一塊招牌的固定架鏽斷了，招牌從三樓脫落，直直砸下來——',w:['閃避','撲倒','翻滾','起身'],hp:4,ok:'你往前一撲。招牌砸在背後，碎片彈到小腿上。',ng:'招牌的邊角擦過頭頂，你眼前一黑，跪倒在地上。'},
   {id:'truck',env:'truck',okA:'glassbreak',hs:'thud',t:'引擎的怒吼從轉角傳來。一台貨車失控衝上人行道，駕駛趴在方向盤上一動也不動——',w:['跳開','翻滾','爬開','起身'],hp:5,frac:.25,ok:'你往旁邊的公車候車亭一跳。貨車撞進路邊店面的玻璃門，警報器響個不停。',ng:'後照鏡掃過你的身體，你被撞飛出去，摔在柏油路上。',alarm:1},
-  {id:'ac',env:'ac',hs:'thud',t:'樓上一台窗型冷氣連著鏽掉的支架，從窗框裡滑了出來，直直往下掉——',w:['閃避','後退','站穩','閃避'],hp:4,ok:'冷氣砸在腳邊，外殼碎成兩半。你的心跳好一陣子才慢下來。',ng:'冷氣的邊角砸中了你的手臂，整條手臂都麻了。'},
-  {id:'pipe',env:'pipe',hs:'thud',t:'旁邊臨時搭的鷹架被風吹得一直搖晃，上面沒綁牢的鋼管一根接一根滑落——',w:['閃避','掩護','翻滾','爬開'],hp:3,bleed:.3,ok:'你縮到一台車後面。鋼管砸在引擎蓋上，叮叮噹噹滾了一地。',ng:'一根鋼管彈起來，打在你的背上。'},
-  {id:'crow',env:'crow',hs:'claw',t:'一隻眼睛發白的烏鴉從電線上俯衝下來，直撲你的臉——',w:['揮開','護臉','格擋','後退'],hp:2,inf:4,ok:'你一揮手，牠撞在路燈上，掉進水溝裡不動了。',ng:'牠的爪子抓破了你的臉頰，嘴裡有股腐爛的味道。'}]
+  {id:'ac',env:'ac',audio:'woodimpact',okA:'whoosh',hs:'thud',t:'樓上一台窗型冷氣連著鏽掉的支架，從窗框裡滑了出來，直直往下掉——',w:['閃避','後退','站穩','閃避'],hp:4,ok:'冷氣砸在腳邊，外殼碎成兩半。你的心跳好一陣子才慢下來。',ng:'冷氣的邊角砸中了你的手臂，整條手臂都麻了。'},
+  {id:'pipe',env:'pipe',audio:'thud',okA:'whoosh',hs:'thud',t:'旁邊臨時搭的鷹架被風吹得一直搖晃，上面沒綁牢的鋼管一根接一根滑落——',w:['閃避','掩護','翻滾','爬開'],hp:3,bleed:.3,ok:'你縮到一台車後面。鋼管砸在引擎蓋上，叮叮噹噹滾了一地。',ng:'一根鋼管彈起來，打在你的背上。'},
+  {id:'crow',env:'crow',audio:'whoosh',okA:'whoosh',hs:'claw',t:'一隻眼睛發白的烏鴉從電線上俯衝下來，直撲你的臉——',w:['揮開','護臉','格擋','後退'],hp:2,inf:4,ok:'你一揮手，牠撞在路燈上，掉進水溝裡不動了。',ng:'牠的爪子抓破了你的臉頰，嘴裡有股腐爛的味道。'}]
 };
 // 只標記既有物理意外；不把污染、火焰或持續扣血變成部位傷勢。
 for(const [ch,types] of [[1,['blunt','blunt','blunt','slash','slash']],[2,['blunt','blunt','blunt','blunt','pierce']]])HAZ[ch].forEach((h,i)=>h.woundDt=types[i]);

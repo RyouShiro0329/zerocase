@@ -1,17 +1,17 @@
 # 零號病例 音效對應表（待主人審查）
 
-遊戲版本 v0.70.0／Build 146。這份由 `node tests/helpers/sfx-map.cjs --md docs/audio/SFX_MAP.md` 產生（QA 升級 PR-D：QA-16）。
+遊戲版本 v0.71.2／Build 149。這份由 `node tests/helpers/sfx-map.cjs --md docs/audio/SFX_MAP.md` 產生（QA 升級 PR-D：QA-16）。
 「聽起來是什麼」是 Claude 依檔名和遊戲裡的用法整理的，**還沒經過主人審查**。這次**只列缺口，沒有換任何音效**。
 
 ## 一、缺口（等主人決定）
 
-- **隨機意外**（10 種）：發生當下沒有聲音 7 種：cart、vent、sign、truck、ac、pipe、crow；躲開時沒有聲音 9 種：tube、cart、floor、vent、window、sign、ac、pipe、crow；受傷聲沒標：（沒有）
+- **隨機意外**（10 種）：發生當下沒有聲音 1 種：truck；躲開時沒有聲音 0 種：（沒有）；受傷聲沒標：（沒有）
 - **敵人招式**（31 招）：有傷害、沒標受傷聲（播預設 claw）：（沒有）；開槍卻沒有槍聲：（沒有）
 - **劇情扣血**：86 筆扣血結果，沒標受傷聲（播預設 hurt）的 0 筆
 - **沒有備援的音效檔**（檔案載入失敗時這一下沒有聲音）：短音效 7 個：glassbreak、firealarm、genstart、woodknock、woodimpact、glassstep、pumpstop；循環、無線電、雷聲 11 個（設計上沒有備援，持續聲會暫停）：rain_indoor_loop、rain_outdoor_loop、thunder_distant_01、thunder_distant_02、genloop、waterpipe、pumpmix、radiostatic、radio02、radio23、radio24
 - **播得出來、但遊戲沒有用到的名稱**：farshots2
 - **素材資料夾裡有、沒有被引用的音檔**（32 個）：airraid_event.mp3、bgm_battle.mp3、bgm_battle.ogg、bgm_encounter.mp3、bgm_encounter.ogg、goliath.mp3、goliath_loop.mp3、radio01.mp3、radio03.mp3、radio04.mp3、radio05.mp3、radio06.mp3、radio07.mp3、radio08.mp3、radio09.mp3、radio10.mp3、radio11.mp3、radio12.mp3、radio13.mp3、radio14.mp3、radio15.mp3、radio16.mp3、radio17.mp3、radio18.mp3、radio19.mp3、radio20.mp3、radio21.mp3、radio22.mp3、radio25.mp3、radio26.mp3、radio27.mp3、waterpump.mp3
-- **頭尾空白**：開頭空白超過 0.3 秒：revolverCock 約 0.63 秒、firealarm 約 1.0 秒、woodknock 約 0.56 秒；結尾空白超過 0.5 秒：zipper、revolverCock、revolver、mp5、firealarm（瀏覽器實測，v0.67.1）。交接文件另記：無線電台詞每句開頭約 0.6 秒安靜、piercehit 尾端 0.47 秒
+- **頭尾空白**：開頭空白超過 0.3 秒：revolverCock 約 0.63 秒、firealarm 約 1.0 秒、woodknock 檔案開頭約 0.85 秒靜音（v0.71.2 起播放時從 0.85 秒處開始，不改檔案；瀏覽器實測曾記約 0.56 秒，v0.67.1）；結尾空白超過 0.5 秒：zipper、revolverCock、revolver、mp5、firealarm（瀏覽器實測，v0.67.1）。交接文件另記：無線電台詞每句開頭約 0.6 秒安靜、piercehit 尾端 0.47 秒
 - **發電機淡入**：genstart 前 1 秒低於 −50 dBFS（淡入），按下去一秒後才聽得到
 - **同一下播兩次**：戰鬥 QTE（撲倒、飛撲）躲開時，QTE 本身播一次閃開聲（whoosh），qteHit 又播一次，兩聲疊在一起（瀏覽器實測）
 - **待主人試聽**：合成音「失敗、大失敗、落空」（ng、fumble、miss）與強光照射用 click：交接文件記「等主人試聽再調」
@@ -21,16 +21,16 @@
 
 | 意外 | 描述 | 發生時 | 躲開 | 受傷 |
 |---|---|---|---|---|
-| tube | 頭頂傳來「啪」的一聲。早就鬆脫的吊架撐不住了，天… | glassbreak | — | thud |
-| cart | 走廊另一端傳來撞擊聲。一名感染者撞上停在牆邊的推… | — | — | thud |
-| floor | 腳下的地板突然往下一陷。泡了水的木板底下早就爛了… | woodimpact | — | thud |
-| vent | 牆上那個大型通風口的鐵網「哐」地被撞開。有東西順… | — | — | claw |
-| window | 外面傳來幾聲槍響，旁邊的窗戶整片爆開——… | farshotsglass | — | （事件音效就是這一下） |
-| sign | 頭頂傳來金屬斷裂的聲音。一塊招牌的固定架鏽斷了，… | — | — | thud |
+| tube | 頭頂傳來「啪」的一聲。早就鬆脫的吊架撐不住了，天… | glassbreak | whoosh | thud |
+| cart | 走廊另一端傳來撞擊聲。一名感染者撞上停在牆邊的推… | thud | whoosh | thud |
+| floor | 腳下的地板突然往下一陷。泡了水的木板底下早就爛了… | woodimpact | whoosh | thud |
+| vent | 牆上那個大型通風口的鐵網「哐」地被撞開。有東西順… | woodimpact | whoosh | claw |
+| window | 外面傳來幾聲槍響，旁邊的窗戶整片爆開——… | farshotsglass | whoosh | （事件音效就是這一下） |
+| sign | 頭頂傳來金屬斷裂的聲音。一塊招牌的固定架鏽斷了，… | thud | whoosh | thud |
 | truck | 引擎的怒吼從轉角傳來。一台貨車失控衝上人行道，駕… | — | glassbreak | thud |
-| ac | 樓上一台窗型冷氣連著鏽掉的支架，從窗框裡滑了出來… | — | — | thud |
-| pipe | 旁邊臨時搭的鷹架被風吹得一直搖晃，上面沒綁牢的鋼… | — | — | thud |
-| crow | 一隻眼睛發白的烏鴉從電線上俯衝下來，直撲你的臉—… | — | — | claw |
+| ac | 樓上一台窗型冷氣連著鏽掉的支架，從窗框裡滑了出來… | woodimpact | whoosh | thud |
+| pipe | 旁邊臨時搭的鷹架被風吹得一直搖晃，上面沒綁牢的鋼… | thud | whoosh | thud |
+| crow | 一隻眼睛發白的烏鴉從電線上俯衝下來，直撲你的臉—… | whoosh | whoosh | claw |
 
 ## 三、全部音效名稱（109 個）
 
@@ -58,8 +58,8 @@
 | rummage | 音效檔 | foley | 翻找東西 | craft | snd(…) 呼叫 |
 | stairs | 音效檔 | movement | 上下樓梯 | land | 程式裡直接寫到（環境音、回傳名稱的函式等） |
 | zipper | 音效檔 | foley | 拉背包拉鍊 | craft | sfx(…) 呼叫；sndW(…) 呼叫 |
-| step | 音效檔 | movement | 人的腳步 | humanstep | encounterStep() 的回傳值；foeStep() 的回傳值；snd(…) 呼叫 |
-| drawer | 音效檔 | foley | 拉抽屜 | craft | snd(…) 呼叫 |
+| step | 音效檔 | movement | 人的腳步 | humanstep | snd(…) 呼叫；encounterStep() 的回傳值；foeStep() 的回傳值 |
+| drawer | 音效檔 | foley | 拉抽屜 | craft | 程式裡直接寫到（環境音、回傳名稱的函式等） |
 | pickup | 音效檔 | foley | 撿起東西 | ok | snd(…) 呼叫；sndW(…) 呼叫 |
 | dooropen | 音效檔 | movement | 開門 | land | snd(…) 呼叫 |
 | doorclose | 音效檔 | movement | 關門 | land | snd(…) 呼叫 |
@@ -88,8 +88,8 @@
 | smash | 音效檔 | combat | 重擊砸中 | fumble | MOVES.devourer[0].hs；MOVES.devourer[1].hs |
 | splat | 音效檔 | combat | 黏稠的東西砸開 | hurt | MOVES.incubator[0].hs；MOVES.incubator[1].hs |
 | spit | 音效檔 | combat | 噴吐 | whoosh | MOVES.incubator[0].pre；MOVES.incubator[1].pre |
-| thud | 音效檔 | combat | 撞擊、摔倒、被砸（鈍擊） | land | MOVES.infected[3].hs；MOVES.predator[2].hs；N.C1.c[0].ng.hs；N.C2.c[1].ng.hs；…共 46 處 |
-| squish | 音效檔 | combat | 軟爛的東西被擠壓 | hurt | MOVES.incubator[0].ws；MOVES.incubator[1].ws；MOVES.incubator[2].hs |
+| thud | 音效檔 | combat | 撞擊、摔倒、被砸（鈍擊） | land | snd(…) 呼叫；MOVES.infected[3].hs；MOVES.predator[2].hs；N.C1.c[0].ng.hs；…共 50 處 |
+| squish | 音效檔 | combat | 軟爛的東西被擠壓 | hurt | snd(…) 呼叫；MOVES.incubator[0].ws；MOVES.incubator[1].ws；MOVES.incubator[2].hs |
 | bhit | 音效檔 | combat | 子彈打中 | dry | snd(…) 呼叫 |
 | shotgun | 音效檔 | combat | 霰彈槍槍聲 | fumble | snd(…) 呼叫；WEAP.r870.snd；WEAP.sbshot.snd；GUN_VFX_CFG.r870.snd；…共 5 處 |
 | glassbreak | 音效檔 | environment | 玻璃碎掉 | — | N.A4.c[3].tb[0].audio；N.A4.c[3].tb[1].audio；N.A4.c[3].tb[2].audio；N.A3x.c[1].tb[1].audio；…共 9 處 |
@@ -98,7 +98,7 @@
 | genloop | 音效檔 | environment | 發電機運轉（循環） | — | 程式裡直接寫到（環境音、回傳名稱的函式等） |
 | dryfire | 音效檔 | environment | 空槍扣扳機 | dry | snd(…) 呼叫 |
 | woodknock | 音效檔 | environment | 敲木頭、木門 | — | snd(…) 呼叫 |
-| woodimpact | 音效檔 | environment | 木板砸下來 | — | snd(…) 呼叫；N.A2.c[0].ng.audio；N.A2.c[2].ng.audio；N.A2.c[3].ok.audio；…共 5 處 |
+| woodimpact | 音效檔 | environment | 木板砸下來 | — | snd(…) 呼叫；N.A2.c[0].ng.audio；N.A2.c[2].ng.audio；N.A2.c[3].ok.audio；…共 7 處 |
 | glassstep | 音效檔 | environment | 踩到碎玻璃 | — | N.I1.c[1].ng.audio；N.O0.c[0].ok.audio；N.YD4.c[1].ng.audio；N.BD4.c[0].ng.audio；…共 5 處 |
 | waterpipe | 音效檔 | environment | 水管裡的水流（循環） | — | 程式裡直接寫到（環境音、回傳名稱的函式等） |
 | pumpmix | 音效檔 | environment | 抽水機運轉（循環） | — | 程式裡直接寫到（環境音、回傳名稱的函式等） |
@@ -118,7 +118,7 @@
 | ng | 合成音 | system | 合成：檢定失敗 | — | snd(…) 呼叫；sfx(…) 呼叫 |
 | fumble | 合成音 | system | 合成：大失敗 | — | snd(…) 呼叫；sfx(…) 呼叫；備援：beretta、revolver、m500、headshot、mimpact、death、smash、shotgun、fal、mp5、rifle |
 | miss | 合成音 | system | 合成：攻擊落空 | — | snd(…) 呼叫 |
-| whoosh | 合成音 | combat | 合成：揮空、閃開的風聲 | — | snd(…) 呼叫；sfx(…) 呼叫；備援：crossbowshot、bowdraw、mthrow、spit |
+| whoosh | 合成音 | combat | 合成：揮空、閃開的風聲 | — | snd(…) 呼叫；sfx(…) 呼叫；HAZ.1[0].okA；HAZ.1[1].okA；…共 13 處 |
 | groan | 合成音 | combat | 合成：低沉的呻吟 | — | snd(…) 呼叫 |
 | hurt | 合成音 | combat | 合成：一般受傷聲（劇情扣血的預設） | — | N.A4c.c[0].tb[2].hs；N.A6.c[2].ng.hs；N.C2.c[1].ok.hz.ng.hs；N.D2x.c[0].ng.hs；…共 30 處 |
 | craft | 合成音 | foley | 合成：動手做東西 | — | snd(…) 呼叫；備援：heal、pill、rummage、zipper、drawer |

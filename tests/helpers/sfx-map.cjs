@@ -42,7 +42,7 @@ const DESC={
 const SPECIAL=['bowhit','bowmiss','arrowhit','arrowmiss','xbowhit','xbowmiss'];
 // 人工觀察：瀏覽器測試（tests/browser-audio.cjs、tests/qte-browser.cjs）量到的、交接文件記的。只列，不改。
 const MANUAL=[
- ['頭尾空白','開頭空白超過 0.3 秒：revolverCock 約 0.63 秒、firealarm 約 1.0 秒、woodknock 約 0.56 秒；結尾空白超過 0.5 秒：zipper、revolverCock、revolver、mp5、firealarm（瀏覽器實測，v0.67.1）。交接文件另記：無線電台詞每句開頭約 0.6 秒安靜、piercehit 尾端 0.47 秒'],
+ ['頭尾空白','開頭空白超過 0.3 秒：revolverCock 約 0.63 秒、firealarm 約 1.0 秒、woodknock 檔案開頭約 0.85 秒靜音（v0.71.2 起播放時從 0.85 秒處開始，不改檔案；瀏覽器實測曾記約 0.56 秒，v0.67.1）；結尾空白超過 0.5 秒：zipper、revolverCock、revolver、mp5、firealarm（瀏覽器實測，v0.67.1）。交接文件另記：無線電台詞每句開頭約 0.6 秒安靜、piercehit 尾端 0.47 秒'],
  ['發電機淡入','genstart 前 1 秒低於 −50 dBFS（淡入），按下去一秒後才聽得到'],
  ['同一下播兩次','戰鬥 QTE（撲倒、飛撲）躲開時，QTE 本身播一次閃開聲（whoosh），qteHit 又播一次，兩聲疊在一起（瀏覽器實測）'],
  ['待主人試聽','合成音「失敗、大失敗、落空」（ng、fumble、miss）與強光照射用 click：交接文件記「等主人試聽再調」'],
@@ -55,7 +55,7 @@ function build(root){
  const R={root,names:all.length,unreviewed:all.filter(k=>!DESC[k]),stale:Object.keys(DESC).filter(k=>!all.includes(k)),rows:[],gaps:{}};
  // 用在哪裡：素材掃描找到的＋環境音＋FALL 備援
  // 程式裡直接寫出名稱的地方（環境音 ambientSpec、movementSound 這類回傳名稱的函式）：拿掉音效表本身的宣告再找
- const bare=g.script.replace(/const (SFILES|SFX_TYPES|SFX_TRIM|FALL|SYN|SCUE)=[\s\S]*?\n(?=const |function |let |\/\*|\/\/)/g,'').replace(/[=!]==\s*['"]\w+['"]/g,'');/* 比較式（k==='bowhit'）是 sfx() 自己的分支，不算用到 */
+ const bare=g.script.replace(/const (SFILES|SFX_TYPES|SFX_TRIM|SFX_OFFSET|FALL|SYN|SCUE)=[\s\S]*?\n(?=const |function |let |\/\*|\/\/)/g,'').replace(/[=!]==\s*['"]\w+['"]/g,'');/* 比較式（k==='bowhit'）是 sfx() 自己的分支，不算用到 */
  for(const k of all){const w=[...(A.used[k]||[])];if(!w.length&&new RegExp("['\"]"+k+"['\"]").test(bare))w.push('程式裡直接寫到（環境音、回傳名稱的函式等）');
   const fb=Object.entries(FALL).filter(([a,b])=>b===k).map(([a])=>a);if(fb.length)w.push('備援：'+fb.join('、'));
   R.rows.push({k,kind:kind(k),cat:g.run(`SFX_CATEGORY[${JSON.stringify(k)}]||''`),desc:DESC[k]||'（沒有說明）',fall:FALL[k]||null,where:w})}
