@@ -797,7 +797,7 @@
 | farshot1 | 組合槍聲 | 組合：遠處一槍 |
 | farshots | 組合槍聲 | 組合：遠處 2～4 槍 |
 | farshots2 | 組合槍聲 | 組合：遠處兩槍 |
-| farshotsglass | 組合槍聲 | 組合：遠處 2～4 槍＋近處玻璃碎 |
+| farshotsglass | 組合槍聲 | 組合：遠處三槍（開頭安靜、第一槍更遠、後兩槍帶輕回聲）＋近處玻璃碎 |
 | farshots2glass | 組合槍聲 | 組合：遠處兩槍＋近處玻璃碎 |
 | farshots2glassfar | 組合槍聲 | 組合：遠處兩槍＋遠處玻璃碎 |
 | streetshots3glassfar | 組合槍聲 | 組合：街上三槍＋遠處玻璃碎 |

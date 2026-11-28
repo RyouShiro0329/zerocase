@@ -1,0 +1,189 @@
+// v0.71.2 批次 A：用既有音效補探索／狀態接線（不同步加入新戰鬥音檔）
+const {test}=require('node:test'),assert=require('node:assert/strict');
+const {game}=require('./helpers/audio-game.cjs');
+
+const ST='{STR:2,AGI:2,CON:2,PER:2,INT:2,CHA:2}';
+function setup(extra=''){
+  const g=game();
+  g.run(`newRun([{kind:'custom',pid:'p1',name:'甲',st:${ST},load:{}}],{diff:'normal'},'solo');globalThis.p=G.players[0];LOG=[];FAST=1;card=async()=>{};chapterCard=async()=>{};hazard=async()=>false;startCd=()=>{};reportEffects=()=>{};reportGround=()=>{};tickAll=async()=>true;groundWait=async()=>false;woundDeteriorate=async()=>{};${extra}`);
+  return g;
+}
+const ev=g=>g.events.filter(e=>e.t==='s').map(e=>e.d);
+const keys=g=>ev(g).map(d=>d[0]);
+
+test('選項動作音：門／撬／敲／爬關鍵字與假陽性',()=>{
+  const g=setup();
+  const ok={
+    woodknock:['敲門','輕輕敲門','敲 305 的門','敲一下門試試','敲車窗','敲那戶人家的窗','敲牆回應','敲窗，叫他一起走','敲藥局的鐵捲門，把它們引過去','撬開員工側門','把門撬開','用工具撬開鐵門','用撬棍慢慢把鐵捲門撐起來','撬開販賣機','把鐵捲門撬起來'],
+    doorclose:['把門關上','關上門，在裡面躲一陣子','關上推門，在裡面等一陣子','鎖上門，在下舖睡到天亮','把凱文的房門鎖上，躺一下','用身體抵住門','把書桌拖過去頂住門','把門拉上','把門輕輕帶上，繼續走','扣上門閂，安靜躲一陣子'],
+    dooropen:['開門出去','推開大門','推開維修門','打開廁所的門','把鐵捲門打開','拆開拖把柄，把門打開','拉開鐵捲門','撞開邊門','進 203：門上有彈孔的那間','員工專用門','後門，從後巷離開','從後門的倉庫進去','從車道連通門到停車場','跳下去，進廚房後門','從撬開的鐵門進去','徒手扳開電梯門','用破拆工具撐開軍械庫的門','把鐵捲門拉高','用赫克特的鑰匙開邊門','推推看那扇門','雙開門，去大廳','從地下停車場的鐵捲門進去'],
+    step:['往上爬到頂樓','從破掉的窗戶爬進去','爬上月台邊的長椅','從 301 的窗戶爬到消防梯','抓著旁邊的排水管爬過去'],
+    drawer:['翻迷你吧和抽屜','翻被撬開的置物櫃','翻門邊的回收紙箱','用隊長的門禁卡打開保險櫃','搜倉庫的紙箱','找閥門把它關掉']
+  };
+  for(const [want,labs] of Object.entries(ok)){
+    for(const l of labs)assert.equal(g.run(`optionFoley(${JSON.stringify(l)})`),want,l);
+  }
+  const none=['看門背後的逃生路線圖','貼著門聽外面','快速離開旅館門口','搬走門口的物資','躲進公寓門廊','不開門','叫他們把門鎖好，不要出來','叫他們開門，帶他們一起走','B-118：有人在敲窗戶的那間','304：門沒關的那間','從開著的門走進去','說服她跟你走'];
+  for(const l of none)assert.equal(g.run(`optionFoley(${JSON.stringify(l)})`),null,l);
+  assert.equal(g.run("optionFoley('先不管那個箱子','rummage')"),'drawer');
+  assert.equal(g.run("optionFoley('說服她跟你走','rummage')"),'rummage');
+});
+
+test('doPlain 依規則播門／翻找，doCheck 在擲骰之後播、說服不另播',async()=>{
+  const g=setup();
+  g.run("N.__sfxA={L:'A',n:'測',t:'',c:[]};G.node='__sfxA';G.lv='A';G.ev=null;G.xp=null;spendTime=async()=>false;applyRes=async()=>{};dozeCheck=async()=>{};globalThis.CHK=0;check=async()=>{CHK++;return {ok:true,crit:false,fumble:false}}");
+  const play=async(fn,l)=>{g.events.length=0;g.run(`N.__sfxA.c=[{l:${JSON.stringify(l)},k:'STR',d:10,ok:{},ng:{}}];SEARCH_CACHE.delete(N.__sfxA.c)`);await g.run(`${fn}(0,G.players[0])`);return ev(g)};
+  let e=await play('doPlain','開門出去');assert.equal(e[0][0],'dooropen');assert.equal(e[0][1],.6);
+  e=await play('doPlain','把門關上');assert.equal(e[0][0],'doorclose');
+  e=await play('doPlain','翻抽屜裡的文件');assert.equal(e[0][0],'drawer');
+  e=await play('doPlain','看看四周');assert.equal(e[0][0],'rummage');
+  g.run('CHK=0');e=await play('doCheck','輕輕敲門');
+  assert.equal(g.run('CHK'),1);assert.deepEqual(e.map(x=>x[0]),['woodknock']);assert.equal(e[0][1],.6);
+  e=await play('doCheck','往上爬到頂樓');assert.deepEqual(e.map(x=>x[0]),['step']);assert.equal(e[0][1],.55);
+  e=await play('doCheck','說服她跟你走');assert.deepEqual(e,[]);
+});
+
+test('woodknock／glassbreak 播放跳過開頭靜音；緩衝太短則不跳',()=>{
+  const g=setup();
+  g.run("BUF.woodknock={duration:2.3}");
+  g.sources.length=0;g.run("sfx('woodknock',1)");
+  const src=g.sources.at(-1);
+  assert.equal(src.offset,.85);
+  g.run("BUF.woodknock={duration:.2}");
+  g.sources.length=0;g.run("sfx('woodknock',1)");
+  assert.equal(g.sources.at(-1).offset,0);
+  g.run("BUF.glassbreak={duration:2.3}");
+  g.sources.length=0;g.run("sfx('glassbreak',1)");
+  assert.equal(g.sources.at(-1).offset,.265);
+});
+
+test('同層換節點播一次 step；換層只走既有 stairs／step，不重疊',async()=>{
+  const g=setup();
+  g.run("G.node='A3c';G.lv='A';G.lvSeen=['A'];G.ch=1;G.ev=null;G.flags['v_A3c']=1;evCands=()=>[]");
+  g.events.length=0;
+  await g.run("enterNode('A4')");
+  assert.equal(g.run('G.node'),'A4');
+  assert.equal(g.run('G.lv'),'A');
+  const steps=ev(g).filter(d=>d[0]==='step'||d[0]==='stairs');
+  assert.equal(steps.length,1);assert.equal(steps[0][0],'step');assert.equal(Number(steps[0][1]),.55);
+  g.run("G.node='AT3';G.lv='A';G.flags['v_AT3']=1");
+  g.events.length=0;
+  await g.run("enterNode('B2')");
+  const move=ev(g).filter(d=>d[0]==='step'||d[0]==='stairs');
+  assert.equal(move.length,1,'換層只播一次移動聲');
+  assert.equal(move[0][0],g.run("movementSound('A','B')"));
+});
+
+test('隨機意外：發生／躲開用既有檔；貨車發生保持安靜、躲開仍是玻璃',()=>{
+  const g=setup();
+  const rows=JSON.parse(g.run("JSON.stringify([...HAZ[1],...HAZ[2]].map(h=>[h.id,h.audio||null,h.okA||null]))"));
+  assert.deepEqual(rows,[
+    ['tube','glassbreak','whoosh'],
+    ['cart','thud','whoosh'],
+    ['floor','woodimpact','whoosh'],
+    ['vent','woodimpact','whoosh'],
+    ['window','farshotsglass','whoosh'],
+    ['sign','thud','whoosh'],
+    ['truck',null,'glassbreak'],
+    ['ac','woodimpact','whoosh'],
+    ['pipe','thud','whoosh'],
+    ['crow','whoosh','whoosh']
+  ]);
+});
+
+test('隊友倒下播 death（與 gameOver 同音量）；全隊倒下只由 gameOver 播一次；單人死亡仍交給 gameOver',async()=>{
+  const g=setup();
+  g.run("G.mode='mp';G.players=[{pid:'p1',name:'甲',hp:0,max:100,down:0,dead:0,inf:0,fe:0},{pid:'p2',name:'乙',hp:20,max:100,down:0,dead:0,inf:0,fe:0}];G.over=null;loseSan=()=>{};gameOver=async()=>{throw new Error('不該結束')}");
+  g.events.length=0;
+  await g.run('deathCheck()');
+  assert.equal(g.run('G.players[0].down'),1);
+  assert.equal(g.run('G.players[0].dead')||0,0);
+  assert.deepEqual(keys(g),['death']);
+  assert.equal(ev(g)[0][1],1);
+  assert.equal(ev(g)[0][2],3000);
+  const tpk=setup();
+  tpk.run("G.mode='mp';G.players=[{pid:'p1',name:'甲',hp:0,max:100,down:0,dead:0,inf:0,fe:0},{pid:'p2',name:'乙',hp:0,max:100,down:0,dead:0,inf:0,fe:0}];G.over=null;loseSan=()=>{};globalThis.GO=0;gameOver=async()=>{GO++;snd('death',1,3000)}");
+  tpk.events.length=0;
+  await tpk.run('deathCheck()');
+  assert.equal(tpk.run('GO'),1);
+  assert.deepEqual(keys(tpk),['death'],'全隊倒下只播一次 death（由 gameOver）');
+  const s=setup();
+  s.run("G.mode='solo';G.players[0].hp=0;G.players[0].down=0;G.players[0].dead=0;globalThis.GO=0;gameOver=async()=>{GO++}");
+  s.events.length=0;
+  await s.run('deathCheck()');
+  assert.equal(s.run('G.players[0].dead'),1);
+  assert.ok(!keys(s).includes('thud'));
+  assert.ok(!keys(s).includes('death'));
+  assert.equal(s.run('GO'),1);
+});
+
+test('回合結束：流血保持安靜、腐殖物播 splat、燃燒保持安靜',async()=>{
+  const g=setup();
+  g.run("G.fight={foes:[],round:1};G.players[0].bleed=1;G.players[0].bleedN=3;G.players[0].humus=1;G.players[0].humusV=2;G.players[0].burn=1;G.players[0].hp=20;addInf=()=>{};deathCheck=async()=>false;push=()=>{};draw=()=>{}");
+  g.events.length=0;
+  await g.run('roundEnd()');
+  const k=keys(g);
+  assert.ok(!k.includes('knife'));
+  assert.ok(k.includes('splat'));
+  assert.ok(!k.includes('mimpact'));
+  assert.ok(!k.includes('firealarm'));
+  assert.equal(ev(g).find(d=>d[0]==='splat')[1],.55);
+});
+
+test('QTE 閃避成功只播一次 whoosh（qte 統一，qteHit 不再加播）',async()=>{
+  const g=setup();
+  g.run("qteLocal=async()=>'ok';out=()=>{}");
+  g.events.length=0;
+  await g.run("qte(G.players[0],{t:'閃',w:['閃避'],n:3,now:1})");
+  assert.deepEqual(keys(g),['whoosh']);
+  assert.equal(ev(g)[0][1],.9);
+  g.events.length=0;
+  await g.run("qteHit({n:'敵人'},{n:'撲倒',qw:['閃避']},G.players[0])");
+  assert.deepEqual(keys(g),['whoosh']);
+});
+
+test('孵化者丟擲囊泡與噴吐：維持原本 pre spit 再命中 splat；推撞不變',()=>{
+  const g=setup();
+  const mv=g.run("MOVES.incubator.map(m=>({n:m.n,hs:m.hs||null,pre:m.pre||null,ws:m.ws||null}))");
+  const bag=mv.find(m=>m.n==='丟擲囊泡'), spit=mv.find(m=>m.n==='噴吐'), shove=mv.find(m=>m.n==='推撞');
+  assert.ok(bag&&spit&&shove);
+  assert.equal(bag.hs,'splat');assert.equal(bag.pre,'spit');assert.equal(bag.ws,'squish');
+  assert.equal(spit.hs,'splat');assert.equal(spit.pre,'spit');assert.equal(spit.ws,'squish');
+  assert.equal(shove.hs,'squish');assert.equal(shove.pre,null);
+});
+
+test('窗戶意外文案與 19b 槍聲接線；farshotsglass 時序對齊試聽',()=>{
+  const g=setup();
+  const w=g.run("const H=HAZ[1].find(h=>h.id==='window');({t:H.t,audio:H.audio,okA:H.okA,hs:H.hs})");
+  assert.equal(w.t,'外面傳來幾聲槍響，一發流彈打穿旁邊的窗戶，整片玻璃爆開——');
+  assert.equal(w.audio,'farshotsglass');
+  assert.equal(w.okA,'whoosh');
+  assert.equal(g.run("SCUE.farshotsglass.n.join(',')"),'3,3');
+  g.run("BUF.beretta={duration:2};BUF.glassbreak={duration:2.3}");
+  g.sources.length=0;g.gains.length=0;
+  const ms=g.run("shotCue('farshotsglass',1)");
+  const rows=g.sources.map(s=>({start:s.startAt,offset:s.offset??0,dur:s.buffer&&s.buffer.duration}));
+  assert.equal(rows.length,6,'三槍＋後兩槍回聲＋玻璃');
+  const guns=rows.filter(r=>r.dur===2);
+  const glass=rows.filter(r=>r.dur===2.3);
+  assert.equal(guns.length,5);assert.equal(glass.length,1);
+  assert.deepEqual(guns.map(r=>+r.start.toFixed(3)),[0.7,1.4,1.455,2.1,2.155]);
+  for(const r of guns)assert.equal(r.offset,.213);
+  assert.equal(+glass[0].start.toFixed(3),2.45);
+  assert.equal(glass[0].offset,.265);
+  const lvB=g.run("sfxLevel('beretta',1)"), lvG=g.run("sfxLevel('glassbreak',1)");
+  const gains=g.gains.map(x=>x.gain.value).filter(v=>v!==.86);
+  assert.equal(gains.length,6);
+  assert.ok(Math.abs(gains[0]-lvB*0.24)<1e-12);
+  assert.ok(Math.abs(gains[1]-lvB*0.32)<1e-12);
+  assert.ok(Math.abs(gains[2]-lvB*0.32*0.42)<1e-12);
+  assert.ok(Math.abs(gains[3]-lvB*0.32)<1e-12);
+  assert.ok(Math.abs(gains[4]-lvB*0.32*0.42)<1e-12);
+  assert.ok(Math.abs(gains[5]-lvG)<1e-12);
+  assert.equal(ms,Math.round((2.45+(2.3-0.265))*1000));
+  g.sources.length=0;
+  g.run("BUF.mp5={duration:3};shotCue('farmp5',1)");
+  assert.equal(g.sources.length,1);
+  assert.equal(g.sources[0].startAt,0);
+  assert.equal(g.sources[0].offset??0,0);
+});

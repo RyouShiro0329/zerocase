@@ -65,7 +65,7 @@ test('同種子、同地方：隨機意外的結果一樣',async()=>{const run=a
 
 test('遠處槍聲：beretta 短連射、壓低、濾高頻，玻璃接在後面；靜音或素材沒載入就不播',async()=>{
  const g=game();await g.run('loadSounds()');const n0=g.sources.length;const ms=g.run("shotCue('farshotsglass',1)");
- const used=g.sources.slice(n0);assert.ok(used.length>=3&&used.length<=5,'2～4 發加一聲玻璃');assert.ok(ms>0&&ms<5000);
+ const used=g.sources.slice(n0);assert.equal(used.length,6,'19b：三槍＋後兩槍回聲＋玻璃');assert.ok(ms>0&&ms<5000);assert.equal(+used[0].startAt.toFixed(3),.7);
  assert.ok(g.run("SCUE.farshots.far===1&&SCUE_FAR[1].g<.5&&SCUE_FAR[1].lp<2000"));
  g.run("UI.snd=0");assert.equal(g.run("sfx('farshots',1)"),0);
  const h=game();assert.equal(h.run("shotCue('farshots',1)"),0,'沒載入就不播、不卡');

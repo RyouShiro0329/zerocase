@@ -3,11 +3,11 @@
   "catalog_version": "1.0.0",
   "created_at": "2026-11-28T02:24:37+08:00",
   "game_version": {
-    "v": "0.71.1",
-    "b": 148,
-    "t": "2026-11-27T18:19:49+08:00"
+    "v": "0.71.2",
+    "b": 149,
+    "t": "2026-11-28T01:24:14+08:00"
   },
-  "index_sha256": "ad4aaf16e9f60b735c51f32165d5edcfa1aa5977736f59631883245ab6f657be",
+  "index_sha256": "7482e3df341996d6b66cbc5f19ab3b0aeebebfd01a2f8cdbe0315b94d3b5617d",
   "counts": {
     "total": 583,
     "existing": 113,
