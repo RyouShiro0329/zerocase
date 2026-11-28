@@ -9,7 +9,7 @@ Build時間：2026-11-28T01:24:14+08:00（Asia/Taipei）。上一版：v0.71.1�
 - 依主人選定：孵化者維持原本寫法，不動（「丟擲囊泡」「噴吐」仍是先播 spit 約 1.17 秒，命中再播 splat，音量 0.9、最長 1500 ms）。預告仍播 squish（0.5），躲開仍播 whoosh。推撞不變（命中仍是 squish）。
 - 沒改：戰鬥數值、劇情文字、畫面、素材檔。沒有加入武器飛走等新戰鬥音效。guard 與 split_index 沒動。
 - 測試：tools/release.py patch 升版。新增 tests/sfx-batch-a.test.cjs（關鍵字規則、doPlain／doCheck 時機、woodknock 偏移、同層腳步、意外對照表、隊友倒下、跳傷害、QTE 只播一次、孵化者維持原本 spit、窗戶 19b 接線）。本機 node --test tests/*.test.cjs：521 項＝518 通過、0 失敗、3 既有暫緩。tests/run_all.sh 完整模式（QA_SERVE=route，種子 809820903）全部通過（另有暫緩 3 項）：防弱化（guard 沒改）、瀏覽器冒煙 40 步×3 種尺寸、長路線 220 動作、生存路線 120 動作＋指定戰鬥、QTE 固定情境（躲開只錄到一次 whoosh）、真實瀏覽器音訊、固定版面與基準截圖（基準未更新）、多人演出與房主交接模擬。
-- 手機實機：待主人實機驗收。尚未開 PR、尚未部署。
+- 手機實機：待主人實機驗收。主人已核准部署（2026-11-28 23:45，Asia/Taipei）。
 遊戲檔 index.html SHA-256（升版當下）：316a3f7b6702c6c8fd8badb52afacf18ec9d39839d157b653d539a7c4c33ea1c
 依主人試聽調整後：8788c2882baa61c099d01e25043ea7528a8bf71b0e9e8e190e673213f5b6561f
 依主人選定（孵化者命中只播 splat、腐殖跳傷害改完整 splat）後：4e1736746179ef833260986808290e69b6f3c7d87b05cccc990dafb652ddb54d
