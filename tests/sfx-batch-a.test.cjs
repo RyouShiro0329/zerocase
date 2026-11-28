@@ -82,7 +82,7 @@ test('隨機意外：發生／躲開用既有檔；貨車發生保持安靜、�
     ['cart','thud','whoosh'],
     ['floor','woodimpact','whoosh'],
     ['vent','woodimpact','whoosh'],
-    ['window','glassbreak','whoosh'],
+    ['window','farshotsglass','whoosh'],
     ['sign','thud','whoosh'],
     ['truck',null,'glassbreak'],
     ['ac','woodimpact','whoosh'],
@@ -142,12 +142,48 @@ test('QTE 閃避成功只播一次 whoosh（qte 統一，qteHit 不再加播）'
   assert.deepEqual(keys(g),['whoosh']);
 });
 
-test('孵化者丟擲囊泡與噴吐：出手前不再播 spit，命中仍是 splat',()=>{
+test('孵化者丟擲囊泡與噴吐：維持原本 pre spit 再命中 splat；推撞不變',()=>{
   const g=setup();
   const mv=g.run("MOVES.incubator.map(m=>({n:m.n,hs:m.hs||null,pre:m.pre||null,ws:m.ws||null}))");
   const bag=mv.find(m=>m.n==='丟擲囊泡'), spit=mv.find(m=>m.n==='噴吐'), shove=mv.find(m=>m.n==='推撞');
   assert.ok(bag&&spit&&shove);
-  assert.equal(bag.hs,'splat');assert.equal(bag.pre,null);assert.equal(bag.ws,'squish');
-  assert.equal(spit.hs,'splat');assert.equal(spit.pre,null);assert.equal(spit.ws,'squish');
+  assert.equal(bag.hs,'splat');assert.equal(bag.pre,'spit');assert.equal(bag.ws,'squish');
+  assert.equal(spit.hs,'splat');assert.equal(spit.pre,'spit');assert.equal(spit.ws,'squish');
   assert.equal(shove.hs,'squish');assert.equal(shove.pre,null);
+});
+
+test('窗戶意外文案與 19b 槍聲接線；farshotsglass 時序對齊試聽',()=>{
+  const g=setup();
+  const w=g.run("const H=HAZ[1].find(h=>h.id==='window');({t:H.t,audio:H.audio,okA:H.okA,hs:H.hs})");
+  assert.equal(w.t,'外面傳來幾聲槍響，一發流彈打穿旁邊的窗戶，整片玻璃爆開——');
+  assert.equal(w.audio,'farshotsglass');
+  assert.equal(w.okA,'whoosh');
+  assert.equal(g.run("SCUE.farshotsglass.n.join(',')"),'3,3');
+  g.run("BUF.beretta={duration:2};BUF.glassbreak={duration:2.3}");
+  g.sources.length=0;g.gains.length=0;
+  const ms=g.run("shotCue('farshotsglass',1)");
+  const rows=g.sources.map(s=>({start:s.startAt,offset:s.offset??0,dur:s.buffer&&s.buffer.duration}));
+  assert.equal(rows.length,6,'三槍＋後兩槍回聲＋玻璃');
+  const guns=rows.filter(r=>r.dur===2);
+  const glass=rows.filter(r=>r.dur===2.3);
+  assert.equal(guns.length,5);assert.equal(glass.length,1);
+  assert.deepEqual(guns.map(r=>+r.start.toFixed(3)),[0.7,1.4,1.455,2.1,2.155]);
+  for(const r of guns)assert.equal(r.offset,.213);
+  assert.equal(+glass[0].start.toFixed(3),2.45);
+  assert.equal(glass[0].offset,.265);
+  const lvB=g.run("sfxLevel('beretta',1)"), lvG=g.run("sfxLevel('glassbreak',1)");
+  const gains=g.gains.map(x=>x.gain.value).filter(v=>v!==.86);
+  assert.equal(gains.length,6);
+  assert.ok(Math.abs(gains[0]-lvB*0.24)<1e-12);
+  assert.ok(Math.abs(gains[1]-lvB*0.32)<1e-12);
+  assert.ok(Math.abs(gains[2]-lvB*0.32*0.42)<1e-12);
+  assert.ok(Math.abs(gains[3]-lvB*0.32)<1e-12);
+  assert.ok(Math.abs(gains[4]-lvB*0.32*0.42)<1e-12);
+  assert.ok(Math.abs(gains[5]-lvG)<1e-12);
+  assert.equal(ms,Math.round((2.45+(2.3-0.265))*1000));
+  g.sources.length=0;
+  g.run("BUF.mp5={duration:3};shotCue('farmp5',1)");
+  assert.equal(g.sources.length,1);
+  assert.equal(g.sources[0].startAt,0);
+  assert.equal(g.sources[0].offset??0,0);
 });

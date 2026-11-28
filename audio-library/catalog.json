@@ -3,9 +3,9 @@
   "catalog_version": "1.0.0",
   "created_at": "2026-11-28T02:24:37+08:00",
   "game_version": {
-    "v": "0.71.1",
-    "b": 148,
-    "t": "2026-11-27T18:19:49+08:00"
+    "v": "0.71.2",
+    "b": 149,
+    "t": "2026-11-28T01:24:14+08:00"
   },
   "note": "開發用索引。檔名推定用途不等於人工試聽；既有授權缺口未自動補造。",
   "counts": {
@@ -721,7 +721,7 @@
       "description": "拉抽屜",
       "use_status": "目前程式引用",
       "usage_locations": [
-        "snd(…) 呼叫"
+        "程式裡直接寫到（環境音、回傳名稱的函式等）"
       ],
       "availability": "既有檔案；保留原路徑",
       "bytes": 9449,
@@ -2644,6 +2644,7 @@
       "description": "黏稠的東西砸開",
       "use_status": "目前程式引用",
       "usage_locations": [
+        "snd(…) 呼叫",
         "MOVES.incubator[0].hs",
         "MOVES.incubator[1].hs"
       ],
@@ -2722,9 +2723,9 @@
       "description": "人的腳步",
       "use_status": "目前程式引用",
       "usage_locations": [
+        "snd(…) 呼叫",
         "encounterStep() 的回傳值",
-        "foeStep() 的回傳值",
-        "snd(…) 呼叫"
+        "foeStep() 的回傳值"
       ],
       "availability": "既有檔案；保留原路徑",
       "bytes": 4747,
@@ -2789,11 +2790,14 @@
         "EVPOOL[79].c[0].ng.hs",
         "EVPOOL[79].c[1].ng.hs",
         "HAZ.1[0].hs",
+        "HAZ.1[1].audio",
         "HAZ.1[1].hs",
         "HAZ.1[2].hs",
+        "HAZ.2[0].audio",
         "HAZ.2[0].hs",
         "HAZ.2[1].hs",
         "HAZ.2[2].hs",
+        "HAZ.2[3].audio",
         "HAZ.2[3].hs"
       ],
       "availability": "既有檔案；保留原路徑",
@@ -2921,7 +2925,9 @@
         "N.A2.c[0].ng.audio",
         "N.A2.c[2].ng.audio",
         "N.A2.c[3].ok.audio",
-        "HAZ.1[2].audio"
+        "HAZ.1[2].audio",
+        "HAZ.1[3].audio",
+        "HAZ.2[2].audio"
       ],
       "availability": "既有檔案；保留原路徑",
       "bytes": 11234,
@@ -14475,6 +14481,16 @@
       "where": [
         "snd(…) 呼叫",
         "sfx(…) 呼叫",
+        "HAZ.1[0].okA",
+        "HAZ.1[1].okA",
+        "HAZ.1[2].okA",
+        "HAZ.1[3].okA",
+        "HAZ.1[4].okA",
+        "HAZ.2[0].okA",
+        "HAZ.2[2].okA",
+        "HAZ.2[3].okA",
+        "HAZ.2[4].audio",
+        "HAZ.2[4].okA",
         "備援：crossbowshot、bowdraw、mthrow、spit"
       ]
     },
@@ -14641,7 +14657,7 @@
       "k": "farshotsglass",
       "kind": "組合槍聲",
       "cat": "",
-      "desc": "組合：遠處 2～4 槍＋近處玻璃碎",
+      "desc": "組合：遠處三槍（開頭安靜、第一槍更遠、後兩槍帶輕回聲）＋近處玻璃碎",
       "fall": null,
       "where": [
         "N.B1w.c[0].ng.hz.audio",

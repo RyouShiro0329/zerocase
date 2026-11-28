@@ -35,14 +35,14 @@ const DESC={
  ok:'合成：檢定成功',crit:'合成：大成功',ng:'合成：檢定失敗',fumble:'合成：大失敗',miss:'合成：攻擊落空',whoosh:'合成：揮空、閃開的風聲',groan:'合成：低沉的呻吟',hurt:'合成：一般受傷聲（劇情扣血的預設）',
  craft:'合成：動手做東西',dry:'合成：喀一聲（空槍、換彈的備援）',eat:'合成：吃東西',gulp:'合成：喝水',ext:'合成：滅火器噴出',zap:'合成：觸電',level:'合成：升級',
  // 組合槍聲（v0.67.0，用現有槍聲排成短連射）
- farshot1:'組合：遠處一槍',farshots:'組合：遠處 2～4 槍',farshots2:'組合：遠處兩槍',farshotsglass:'組合：遠處 2～4 槍＋近處玻璃碎',farshots2glass:'組合：遠處兩槍＋近處玻璃碎',
+ farshot1:'組合：遠處一槍',farshots:'組合：遠處 2～4 槍',farshots2:'組合：遠處兩槍',farshotsglass:'組合：遠處三槍（開頭安靜、第一槍更遠、後兩槍帶輕回聲）＋近處玻璃碎',farshots2glass:'組合：遠處兩槍＋近處玻璃碎',
  farshots2glassfar:'組合：遠處兩槍＋遠處玻璃碎',streetshots3glassfar:'組合：街上三槍＋遠處玻璃碎',shot1:'組合：近處一槍',shotsglass:'組合：近處 3～4 槍＋玻璃碎',farmp5:'組合：遠處衝鋒槍',farrifle:'組合：遠處獵槍',
  // 弓箭（sfx 裡特別處理）
  bowhit:'弓：拉弓＋命中',bowmiss:'弓：拉弓、沒中',arrowhit:'弓箭攻擊命中',arrowmiss:'弓箭攻擊沒中',xbowhit:'十字弓攻擊命中',xbowmiss:'十字弓攻擊沒中'};
 const SPECIAL=['bowhit','bowmiss','arrowhit','arrowmiss','xbowhit','xbowmiss'];
 // 人工觀察：瀏覽器測試（tests/browser-audio.cjs、tests/qte-browser.cjs）量到的、交接文件記的。只列，不改。
 const MANUAL=[
- ['頭尾空白','開頭空白超過 0.3 秒：revolverCock 約 0.63 秒、firealarm 約 1.0 秒、woodknock 檔案開頭約 0.85 秒靜音（v0.71.2 起播放時從 0.85 秒處開始，不改檔案；瀏覽器實測曾記約 0.56 秒，v0.67.1）、glassbreak 檔案開頭約 0.27 秒靜音（v0.71.2 起播放時從 0.265 秒處開始，對齊碎裂起音；shotCue 組合槍聲仍走 cueAt，不套用）；結尾空白超過 0.5 秒：zipper、revolverCock、revolver、mp5、firealarm（瀏覽器實測，v0.67.1）。交接文件另記：無線電台詞每句開頭約 0.6 秒安靜、piercehit 尾端 0.47 秒'],
+ ['頭尾空白','開頭空白超過 0.3 秒：revolverCock 約 0.63 秒、firealarm 約 1.0 秒、woodknock 檔案開頭約 0.85 秒靜音（v0.71.2 起播放時從 0.85 秒處開始，不改檔案；瀏覽器實測曾記約 0.56 秒，v0.67.1）、glassbreak 檔案開頭約 0.27 秒靜音（v0.71.2 起播放時從 0.265 秒處開始，對齊碎裂起音；play()／sfx() 與 cueAt／shotCue 的玻璃一併套用）；結尾空白超過 0.5 秒：zipper、revolverCock、revolver、mp5、firealarm（瀏覽器實測，v0.67.1）。交接文件另記：無線電台詞每句開頭約 0.6 秒安靜、piercehit 尾端 0.47 秒'],
  ['發電機淡入','genstart 前 1 秒低於 −50 dBFS（淡入），按下去一秒後才聽得到'],
  ['同一下播兩次','戰鬥 QTE（撲倒、飛撲）躲開時，QTE 本身播一次閃開聲（whoosh），qteHit 又播一次，兩聲疊在一起（瀏覽器實測）'],
  ['待主人試聽','合成音「失敗、大失敗、落空」（ng、fumble、miss）與強光照射用 click：交接文件記「等主人試聽再調」'],

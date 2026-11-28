@@ -1145,7 +1145,7 @@ const AFF={
 const MOVES={
  // v0.20.0 三陣營設計包 v1.0.0：d＝原始傷害、h＝總命中（沒寫就用本體）、inf＝固定感染、cd＝冷卻回合、qte＝預告後純反應 QTE（成功 0 傷害，失敗直接受傷）
  infected:[{n:'撲咬',dt:'pierce',w:5,d:5,h:4,inf:3,hs:'bite'},{n:'亂抓',dt:'slash',w:3,d:4,h:4,inf:2,hs:'claw',t:'牠的指甲抓過皮膚，留下幾道火辣辣的傷口。'},{n:'抓住',dt:'blunt',save:{st:'STR',dc:12},w:2,d:1,h:4,inf:0,cd:3,hs:'claw',grab:1,t:'牠一把抓住手臂，指頭陷進肉裡，怎麼甩都甩不掉。'},{n:'撲倒',dt:'blunt',save:{st:'STR',dc:12},qguard:'block',w:2,d:8,inf:5,cd:3,hs:'thud',qte:1,unbal:1,cue:'弓起背，喉嚨裡一聲低吼，猛然撲了上來——',qw:['閃避','後退','側身','站穩'],t:'牠整個撲了上來，把人壓倒在地上亂咬。'}],
- incubator:[{n:'丟擲囊泡',dt:'blunt',exposure:1,qguard:'cover',w:4,d:2,inf:4,humus:2,hs:'splat',ws:'squish',tele:1,qte:1,rng:1,qw:['閃避','側身','低頭','閃避'],warn:'從背上扯下一顆鼓脹的囊泡，高高舉起，對準',t:'囊泡砸在身上破開，黏稠的腐殖物糊了一片，又熱又癢。'},{n:'噴吐',dt:null,exposure:1,w:2,d:2,inf:4,cd:4,hs:'splat',ws:'squish',tele:1,qte:1,all:1,rng:1,qw:['閃避','後退','低頭','遮臉'],warn:'的肚子一陣一陣鼓起來，嘴巴慢慢張大，對著',t:'一大口黃綠色的液體噴了出來。'},{n:'推撞',dt:'blunt',exposure:1,w:3,d:1,h:3,inf:2,near:1,hs:'squish',t:'牠用整個身體撞過來，濕黏的皮膚貼在臉上。'}],
+ incubator:[{n:'丟擲囊泡',dt:'blunt',exposure:1,qguard:'cover',w:4,d:2,inf:4,humus:2,hs:'splat',pre:'spit',ws:'squish',tele:1,qte:1,rng:1,qw:['閃避','側身','低頭','閃避'],warn:'從背上扯下一顆鼓脹的囊泡，高高舉起，對準',t:'囊泡砸在身上破開，黏稠的腐殖物糊了一片，又熱又癢。'},{n:'噴吐',dt:null,exposure:1,w:2,d:2,inf:4,cd:4,hs:'splat',pre:'spit',ws:'squish',tele:1,qte:1,all:1,rng:1,qw:['閃避','後退','低頭','遮臉'],warn:'的肚子一陣一陣鼓起來，嘴巴慢慢張大，對著',t:'一大口黃綠色的液體噴了出來。'},{n:'推撞',dt:'blunt',exposure:1,w:3,d:1,h:3,inf:2,near:1,hs:'squish',t:'牠用整個身體撞過來，濕黏的皮膚貼在臉上。'}],
  devourer:[{n:'揮擊',dt:'blunt',w:4,d:4,h:4,inf:2,hs:'smash',t:'那隻腫大的手臂橫掃過來，砸在肋骨上。'},{n:'震盪重擊',dt:'blunt',save:{st:'CON',dc:14},qguard:'block',w:2,d:7,inf:2,cd:3,hs:'smash',tele:1,qte:1,stun:1,qw:['閃避','後退','側身','閃避'],warn:'把那隻腫大的手臂往後拉，整個身體跟著擰過去，對準',t:'整隻手臂砸下來，人被打得撞上牆，眼前一黑。'},{n:'吞咬',dt:'pierce',w:2,d:4,h:3,inf:5,cd:3,hs:'bite',heal:2,healMax:4,t:'牠一把抓住，把人往嘴邊拉，咬下一塊肉。'}],
  cutter:[{n:'刺擊',dt:'pierce',w:4,d:4,h:5,hs:'knife',t:'獵刀從下往上捅過來。'},{n:'劃開',dt:'slash',w:3,d:3,h:5,hs:'knife',bleed:.7,t:'刀鋒一掠而過，傷口過了一秒才開始冒血。'},{n:'割喉',dt:'slash',qguard:'block',w:2,d:8,cd:4,hs:'knife',tele:1,qte:1,need:'bleed',pref:'bleed',after:'open',qw:['後仰','格開','閃避','後退'],warn:'盯著那道還在流血的傷口，刀子反手握著，慢慢貼近',t:'他貼上來，刀子往脖子上抹。'}],
  // v0.25.0：pounce 飛撲（當下 QTE、不蓄力）；sweep 橫斬（兩人以上）；need2 雙響要兩發；lit 縱火客的瓶子；tmax 目標上限
@@ -6506,7 +6506,7 @@ const SFX_TYPES={
 const SFX_CATEGORY_GAIN={ui:.56,movement:.65,foley:.78,combat:.92,system:.8,environment:.6};
 // 解碼峰值接近滿刻度的素材另外衰減；實際聽感仍待手機／耳機驗收。
 const SFX_TRIM={crossbowshot:.85,piercehit:.8,bowdraw:.85,bowimpact:.8,rain_indoor_loop:.8,rain_outdoor_loop:.8,thunder_distant_01:.45,thunder_distant_02:.45,beretta:.72,revolver:.72,m500:.80,fal:.65,mp5:.65,rifle:.7,shotgun:.65,headshot:.4,dryfire:.55,glassbreak:.65,woodknock:.55,woodimpact:.45,firealarm:.28,genstart:.5,genloop:.3,glassstep:.7,waterpipe:.35,pumpmix:.45,pumpstop:.45,radiostatic:.5,radio02:1,radio23:1,radio24:1};
-const SFX_OFFSET={woodknock:.85,glassbreak:.265};/* v0.71.2 播放時跳過檔案開頭靜音（秒），不改檔案；緩衝夠長才套用。glassbreak 可聽見的碎裂約在 0.265～0.271 秒，對齊起音；燈管／窗戶意外與其他走 play()／sfx() 的碎玻璃一併套用。組合槍聲 shotCue 走 cueAt，不經這個偏移。 */
+const SFX_OFFSET={woodknock:.85,glassbreak:.265};/* v0.71.2 播放時跳過檔案開頭靜音（秒），不改檔案；緩衝夠長才套用。glassbreak 可聽見的碎裂約在 0.265～0.271 秒，對齊起音；走 play()／sfx() 的碎玻璃，以及 cueAt／shotCue 組合槍聲裡的玻璃，一併套用。遠距 beretta 的槍聲偏移由 shotCue 另外傳入，不寫進這張表（避免近處 shot1／戰鬥槍聲一併提早）。 */
 const SFX_CATEGORY=Object.fromEntries(Object.entries(SFX_TYPES).flatMap(([cat,names])=>names.map(n=>[n,cat])));
 function sfxLevel(k,v){const raw=Number(v??1);return Math.max(0,Math.min(1.5,Number.isFinite(raw)?raw:1))*(SFX_CATEGORY_GAIN[SFX_CATEGORY[k]]??.85)*(SFX_TRIM[k]??1)}
 // Web Audio 合成聲原本忽略音量參數；僅在同步排程 SYN 期間設定縮放倍率。
@@ -6683,7 +6683,7 @@ const SCUE={
  farshot1:{gun:'beretta',n:[1,1],far:1},
  farshots:{gun:'beretta',n:[2,4],far:1},
  farshots2:{gun:'beretta',n:[2,2],far:1},
- farshotsglass:{gun:'beretta',n:[2,4],far:1,glass:'near'},
+ farshotsglass:{gun:'beretta',n:[3,3],far:1,glass:'near'},
  farshots2glass:{gun:'beretta',n:[2,2],far:1,glass:'near'},
  farshots2glassfar:{gun:'beretta',n:[2,2],far:1,glass:'far'},
  streetshots3glassfar:{gun:'beretta',n:[3,3],far:.5,glass:'far'},
@@ -6693,15 +6693,21 @@ const SCUE={
  farrifle:{gun:'rifle',n:[1,1],far:1,len:1.7}
 };
 const SCUE_FAR={1:{g:.38,lp:1500},.5:{g:.62,lp:2600}};
-function cueAt(n,vol,t,lp,len){if(document.hidden||!UI.snd)return 0;const a=audio();if(!a||a.state!=='running'||!BUF[n]){ZC_ASSET_LOADER.boost(n);return 0;}ZC_ASSET_LOADER.event('played',n);const s=a.createBufferSource();s.buffer=BUF[n];const g=a.createGain();g.gain.value=vol;
+function cueAt(n,vol,t,lp,len,off){if(document.hidden||!UI.snd)return 0;const a=audio();if(!a||a.state!=='running'||!BUF[n]){ZC_ASSET_LOADER.boost(n);return 0;}ZC_ASSET_LOADER.event('played',n);const s=a.createBufferSource();s.buffer=BUF[n];const g=a.createGain();g.gain.value=vol;
   if(lp){const f=a.createBiquadFilter();f.type='lowpass';f.frequency.value=lp;s.connect(f);f.connect(g)}else s.connect(g);
-  g.connect(SFX_MASTER||a.destination);trackSfx(s,g);const at=a.currentTime+t,dur=Math.min(len||BUF[n].duration,BUF[n].duration);
-  s.start(at);if(len&&len<BUF[n].duration){g.gain.setValueAtTime(vol,at+Math.max(0,dur-.12));g.gain.linearRampToValueAtTime(.0001,at+dur)}s.stop(at+dur);return dur}
+  g.connect(SFX_MASTER||a.destination);trackSfx(s,g);
+  let skip=Math.max(0,off!=null?off:(SFX_OFFSET[n]||0));if(skip&&skip>=BUF[n].duration-.05)skip=0;
+  const remain=Math.max(0,BUF[n].duration-skip),dur=Math.min(len||remain,remain),at=a.currentTime+t;
+  s.start(at,skip);if(len&&len<remain){const fade=Math.min(.25,Math.max(.08,dur*.2));g.gain.setValueAtTime(vol,at+Math.max(0,dur-fade));g.gain.linearRampToValueAtTime(.0001,at+dur)}s.stop(at+dur+.02);return dur}
 function shotCue(k,v=1){const C=SCUE[k];if(!C||!audio()||!BUF[C.gun]){if(C){ZC_ASSET_LOADER.boost(C.gun);ZC_ASSET_LOADER.event('quiet',k)}return 0;}const F=SCUE_FAR[C.far]||{g:1,lp:0};
-  const n=C.n[0]+Math.floor(Math.random()*(C.n[1]-C.n[0]+1));let t=0,last=0;
-  for(let i=0;i<n;i++){cueAt(C.gun,sfxLevel(C.gun,v)*F.g,t,F.lp,C.len||(n>1?.55:0));last=t;t+=.16+Math.random()*.2}
-  let end=last+Math.min(C.len||.55,BUF[C.gun].duration);
-  if(C.glass&&BUF.glassbreak){const gt=last+.14,far=C.glass==='far';const d=cueAt('glassbreak',sfxLevel('glassbreak',v)*(far?.42:1),gt,far?2200:0);end=Math.max(end,gt+d)}
+  const n=C.n[0]+Math.floor(Math.random()*(C.n[1]-C.n[0]+1));
+  const farB=C.far===1&&C.gun==='beretta';
+  if(!farB){let t=0,last=0;for(let i=0;i<n;i++){cueAt(C.gun,sfxLevel(C.gun,v)*F.g,t,F.lp,C.len||(n>1?.55:0));last=t;t+=.16+Math.random()*.2}let end=last+Math.min(C.len||.55,BUF[C.gun].duration);if(C.glass&&BUF.glassbreak){const gt=last+.14,far=C.glass==='far';const d=cueAt('glassbreak',sfxLevel('glassbreak',v)*(far?.42:1),gt,far?2200:0);end=Math.max(end,gt+d)}return Math.round(end*1000)}
+  /* v0.71.2 19b：遠距 beretta（窗戶意外 farshotsglass、故事窗 B1w／B2w 等）。開頭安靜 0.70 秒；第一槍更遠且不加回聲（0.24／1800）；後續槍間隔 0.70 秒，帶 55 ms 輕回聲（0.32／2200，回聲 0.42 倍／1400）；玻璃在最後一槍後 0.35 秒以近處音量接上（跳過 glassbreak 開頭靜音）。farshots2glassfar 的遠處玻璃、far:.5、近處槍、farmp5／farrifle 仍走上面舊路徑。不要把 0.213 寫進 SFX_OFFSET.beretta。 */
+  const gunOff=C.gunOff!=null?C.gunOff:.213,gap=C.gap!=null?C.gap:.70,jitter=C.gapJitter!=null?C.gapJitter:0,pre=C.pre!=null?C.pre:.70;
+  let t=pre,last=t,end=0;
+  for(let i=0;i<n;i++){const first=i===0,g=sfxLevel(C.gun,v)*(first?.24:.32),lp=first?1800:2200;const d=cueAt(C.gun,g,t,lp,C.len||0,gunOff);last=t;end=Math.max(end,t+d);if(!first){const ed=cueAt(C.gun,g*.42,t+.055,1400,C.len||0,gunOff);end=Math.max(end,t+.055+ed)}t+=gap+Math.random()*jitter}
+  if(C.glass&&BUF.glassbreak){const far=C.glass==='far';const gt=last+(C.glassDelay!=null?C.glassDelay:(far?.14:.35));const d=far?cueAt('glassbreak',sfxLevel('glassbreak',v)*.42,gt,2200):cueAt('glassbreak',sfxLevel('glassbreak',v),gt,0);end=Math.max(end,gt+d)}
   return Math.round(end*1000)}
 async function sfxW(k,v,max,ratio=1){const ms=sfx(k,v,max);if(ms)await wait(ms*ratio*Math.max(.4,UI.spd))}
 /* ================= 擲骰（本機演出） ================= */
@@ -9200,7 +9206,7 @@ const HAZ={
   {id:'cart',env:'cart',audio:'thud',okA:'whoosh',hs:'thud',t:'走廊另一端傳來撞擊聲。一名感染者撞上停在牆邊的推車，推車失去平衡，朝你的方向滑了過來——',w:['閃避','貼牆','站穩','後退'],hp:3,ok:'你貼著牆讓開。推車撞上牆角翻倒，車上的東西散了一地。撞到推車的那個身影晃了晃，拖著腳往另一頭走開了。',ng:'推車撞在腿上，你整個人被掀倒在地。'},
   {id:'floor',env:'floor',audio:'woodimpact',okA:'whoosh',hs:'thud',t:'腳下的地板突然往下一陷。泡了水的木板底下早就爛了——',w:['跳開','抓住','撐起','爬開'],hp:3,frac:.2,ok:'你在地板塌下去之前跳開了。洞底黑漆漆的，聽得到水聲。',ng:'一條腿陷了進去，斷掉的木板刮過小腿。'},
   {id:'vent',env:'vent',audio:'woodimpact',okA:'whoosh',hs:'claw',t:'牆上那個大型通風口的鐵網「哐」地被撞開。有東西順著風管爬了過來，一隻灰白的手伸出來，往你的脖子抓——',w:['後仰','格擋','推開','後退'],hp:2,inf:5,ok:'你往後一仰，指甲擦過下巴。那隻手在空中抓了幾下，縮了回去。',ng:'那隻手抓住了你的衣領，指甲陷進脖子。你用力掙脫，留下幾道血痕。'},
-  {id:'window',env:'window',audio:'glassbreak',okA:'whoosh',hs:'',t:'外面傳來幾聲槍響，旁邊的窗戶整片爆開——',w:['護臉','轉身','蹲下','後退'],hp:2,bleed:.6,ok:'你及時用手臂擋住臉。玻璃碎片打在袖子上，沙沙作響。',ng:'碎玻璃打在臉上和手上，到處都是細小的傷口。'}],
+  {id:'window',env:'window',audio:'farshotsglass',okA:'whoosh',hs:'',t:'外面傳來幾聲槍響，一發流彈打穿旁邊的窗戶，整片玻璃爆開——',w:['護臉','轉身','蹲下','後退'],hp:2,bleed:.6,ok:'你及時用手臂擋住臉。玻璃碎片打在袖子上，沙沙作響。',ng:'碎玻璃打在臉上和手上，到處都是細小的傷口。'}],
  2:[
   {id:'sign',env:'sign',audio:'thud',okA:'whoosh',hs:'thud',t:'頭頂傳來金屬斷裂的聲音。一塊招牌的固定架鏽斷了，招牌從三樓脫落，直直砸下來——',w:['閃避','撲倒','翻滾','起身'],hp:4,ok:'你往前一撲。招牌砸在背後，碎片彈到小腿上。',ng:'招牌的邊角擦過頭頂，你眼前一黑，跪倒在地上。'},
   {id:'truck',env:'truck',okA:'glassbreak',hs:'thud',t:'引擎的怒吼從轉角傳來。一台貨車失控衝上人行道，駕駛趴在方向盤上一動也不動——',w:['跳開','翻滾','爬開','起身'],hp:5,frac:.25,ok:'你往旁邊的公車候車亭一跳。貨車撞進路邊店面的玻璃門，警報器響個不停。',ng:'後照鏡掃過你的身體，你被撞飛出去，摔在柏油路上。',alarm:1},
